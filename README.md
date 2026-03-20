@@ -17,6 +17,14 @@ state, benchmark evidence, and restart-aware runtime support.
 The factory also intentionally keeps workflow testing small and high-signal
 rather than aiming for broad coverage.
 
+## Startup Targeting
+
+- stay at the factory root first
+- inspect `registry/` to identify likely candidate packs from machine-readable state
+- summarize the candidate packs and ask the operator which one to use before entering any pack
+- use `deployments/` only when the task explicitly concerns the current deployed target
+- do not infer a target pack from directory names alone
+
 ## Retirement-Aware Behavior
 
 - `registry/` is the source of truth for active and retired pack entries.
