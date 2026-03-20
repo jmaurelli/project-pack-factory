@@ -24,23 +24,41 @@
     },
     {
       "event_type": "retired",
+      "retired_at": "2026-03-20T00:00:00Z",
       "retired_pack_id": "ai-native-codex-build-pack",
       "retired_pack_kind": "build_pack",
-      "retired_at": "2026-03-20T00:00:00Z",
       "retirement_reason": "Stopped migration fixture retired under the PackFactory retire workflow.",
       "retirement_report_path": "eval/history/retire-ai-native-codex-build-pack-20260320t000000z/retirement-report.json",
       "status": "completed"
     },
     {
       "event_type": "retired",
+      "retired_at": "2026-03-20T00:00:00Z",
       "retired_pack_id": "agent-memory-first-build-pack",
       "retired_pack_kind": "build_pack",
-      "retired_at": "2026-03-20T00:00:00Z",
       "retirement_reason": "Experimental isolated memory build-pack superseded by runtime-integrated memory design.",
       "retirement_report_path": "eval/history/retire-agent-memory-first-build-pack-20260320t000000z/retirement-report.json",
+      "status": "completed"
+    },
+    {
+      "event_type": "retired",
+      "retired_at": "2026-03-20T21:26:27Z",
+      "retired_pack_id": "ai-native-codex-package-template",
+      "retired_pack_kind": "template_pack",
+      "retirement_reason": "Legacy imported template retired to reset Project Pack Factory to a clean factory-native baseline.",
+      "retirement_report_path": "eval/history/retire-ai-native-codex-package-template-20260320t212627z/retirement-report.json",
+      "status": "completed"
+    },
+    {
+      "event_type": "retired",
+      "retired_at": "2026-03-20T21:26:27Z",
+      "retired_pack_id": "agent-memory-first-template-pack",
+      "retired_pack_kind": "template_pack",
+      "retirement_reason": "Prototype memory-first template retired to reset Project Pack Factory to a clean factory-native baseline.",
+      "retirement_report_path": "eval/history/retire-agent-memory-first-template-pack-20260320t212627z/retirement-report.json",
       "status": "completed"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-20T11:14:57Z"
+  "updated_at": "2026-03-20T21:26:27Z"
 }

@@ -1,20 +1,20 @@
 {
-  "schema_version": "pack-retirement/v1",
+  "operator_notes": [
+    "Retired through the PackFactory retire workflow."
+  ],
   "pack_id": "ai-native-codex-package-template",
   "pack_kind": "template_pack",
-  "retirement_state": "active",
-  "retired_at": null,
-  "retired_by": null,
-  "retirement_reason": null,
-  "superseded_by_pack_id": null,
-  "retirement_report_path": null,
   "removed_deployment_pointer_paths": [],
   "retained_artifacts": {
     "eval_history": true,
-    "release_artifacts": false,
-    "lineage": false
+    "lineage": false,
+    "release_artifacts": false
   },
-  "operator_notes": [
-    "Active template source retained under the retirement contract."
-  ]
+  "retired_at": "2026-03-20T21:26:27Z",
+  "retired_by": "codex-orchestrator",
+  "retirement_reason": "Legacy imported template retired to reset Project Pack Factory to a clean factory-native baseline.",
+  "retirement_report_path": "eval/history/retire-ai-native-codex-package-template-20260320t212627z/retirement-report.json",
+  "retirement_state": "retired",
+  "schema_version": "pack-retirement/v1",
+  "superseded_by_pack_id": null
 }

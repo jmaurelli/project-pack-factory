@@ -1,0 +1,96 @@
+{
+  "actions": [
+    {
+      "action_id": "write_retirement_state",
+      "status": "completed",
+      "summary": "Recorded terminal retirement state.",
+      "target_path": "templates/agent-memory-first-template-pack/status/retirement.json"
+    },
+    {
+      "action_id": "update_lifecycle_state",
+      "status": "completed",
+      "summary": "Marked the pack retired.",
+      "target_path": "templates/agent-memory-first-template-pack/status/lifecycle.json"
+    },
+    {
+      "action_id": "update_readiness_state",
+      "status": "completed",
+      "summary": "Marked readiness retired.",
+      "target_path": "templates/agent-memory-first-template-pack/status/readiness.json"
+    },
+    {
+      "action_id": "update_deployment_state",
+      "status": "completed",
+      "summary": "Cleared the deployment surface.",
+      "target_path": "templates/agent-memory-first-template-pack/status/deployment.json"
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "summary": "Marked the registry entry inactive and retired.",
+      "target_path": "registry/templates.json"
+    },
+    {
+      "action_id": "append_promotion_log",
+      "status": "completed",
+      "summary": "Appended a retired event with evidence path.",
+      "target_path": "registry/promotion-log.json"
+    },
+    {
+      "action_id": "write_retirement_report",
+      "status": "completed",
+      "summary": "Recorded terminal retirement evidence.",
+      "target_path": "eval/history/retire-agent-memory-first-template-pack-20260320t212627z/retirement-report.json"
+    }
+  ],
+  "evidence_paths": [
+    "templates/agent-memory-first-template-pack/status/lifecycle.json",
+    "templates/agent-memory-first-template-pack/status/readiness.json",
+    "templates/agent-memory-first-template-pack/status/deployment.json",
+    "templates/agent-memory-first-template-pack/status/retirement.json",
+    "templates/agent-memory-first-template-pack/eval/latest/index.json"
+  ],
+  "generated_at": "2026-03-20T21:26:27Z",
+  "pack_id": "agent-memory-first-template-pack",
+  "pack_kind": "template_pack",
+  "pack_root": "templates/agent-memory-first-template-pack",
+  "post_retirement_state": {
+    "active_environment": "none",
+    "deployment_pointer_path": null,
+    "deployment_state": "not_deployed",
+    "lifecycle_stage": "retired",
+    "readiness_state": "retired",
+    "retirement_state": "retired"
+  },
+  "pre_retirement_state": {
+    "active_environment": "none",
+    "deployment_pointer_path": null,
+    "deployment_state": "not_deployed",
+    "lifecycle_stage": "maintained",
+    "readiness_state": "ready_for_review",
+    "retirement_state": "active"
+  },
+  "promotion_log_update": {
+    "event_type": "retired",
+    "promotion_log_path": "registry/promotion-log.json",
+    "retired_at": "2026-03-20T21:26:27Z",
+    "retired_pack_id": "agent-memory-first-template-pack",
+    "retired_pack_kind": "template_pack",
+    "retirement_report_path": "eval/history/retire-agent-memory-first-template-pack-20260320t212627z/retirement-report.json"
+  },
+  "registry_updates": [
+    {
+      "active": false,
+      "pack_id": "agent-memory-first-template-pack",
+      "pack_kind": "template_pack",
+      "registry_path": "registry/templates.json",
+      "retired_at": "2026-03-20T21:26:27Z",
+      "retirement_state": "retired"
+    }
+  ],
+  "retired_by": "codex-orchestrator",
+  "retirement_id": "retire-agent-memory-first-template-pack-20260320t212627z",
+  "retirement_reason": "Prototype memory-first template retired to reset Project Pack Factory to a clean factory-native baseline.",
+  "schema_version": "pack-retirement-report/v1",
+  "superseded_by_pack_id": null
+}

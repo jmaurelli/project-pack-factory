@@ -93,7 +93,7 @@ def isoformat_z(moment: datetime | None = None) -> str:
 
 def timestamp_token(moment: datetime | None = None) -> str:
     current = read_now() if moment is None else moment.astimezone(timezone.utc).replace(microsecond=0)
-    return current.strftime("%Y%m%dt%H%M%sz")
+    return current.strftime("%Y%m%d") + "t" + current.strftime("%H%M%S") + "z"
 
 
 def pack_root_for_kind(pack_kind: str, pack_id: str) -> Path:

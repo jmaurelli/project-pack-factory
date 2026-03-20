@@ -1,12 +1,12 @@
 {
-  "schema_version": "pack-lifecycle/v2",
+  "current_revision": "memory-first-rebuild-20260318t161907z",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "retired",
   "pack_id": "agent-memory-first-template-pack",
   "pack_kind": "template_pack",
-  "lifecycle_stage": "maintained",
-  "state_reason": "Fresh memory-first PackFactory-native template rebuild.",
-  "current_version": "0.1.0",
-  "current_revision": "memory-first-rebuild-20260318t161907z",
   "promotion_target": "none",
-  "updated_at": "2026-03-18T17:05:00Z",
-  "updated_by": "orchadmin"
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Prototype memory-first template retired to reset Project Pack Factory to a clean factory-native baseline.",
+  "updated_at": "2026-03-20T21:26:27Z",
+  "updated_by": "codex-orchestrator"
 }

@@ -1,13 +1,13 @@
 {
   "entries": [
     {
-      "active": true,
+      "active": false,
       "active_benchmark_ids": [
         "agent-memory-restart-small-001",
         "schema-validator-small-001"
       ],
       "latest_eval_index": "templates/ai-native-codex-package-template/eval/latest/index.json",
-      "lifecycle_stage": "maintained",
+      "lifecycle_stage": "retired",
       "notes": [
         "Canonical template source copied from the repo-local package."
       ],
@@ -15,17 +15,17 @@
       "pack_kind": "template_pack",
       "pack_root": "templates/ai-native-codex-package-template",
       "ready_for_deployment": false,
+      "retired_at": "2026-03-20T21:26:27Z",
       "retirement_file": "status/retirement.json",
-      "retirement_state": "active",
-      "retired_at": null
+      "retirement_state": "retired"
     },
     {
-      "active": true,
+      "active": false,
       "active_benchmark_ids": [
         "agent-memory-restart-small-001"
       ],
       "latest_eval_index": "templates/agent-memory-first-template-pack/eval/latest/index.json",
-      "lifecycle_stage": "maintained",
+      "lifecycle_stage": "retired",
       "notes": [
         "PackFactory-native memory-first template registered for agent traversal and restart-state testing."
       ],
@@ -33,11 +33,11 @@
       "pack_kind": "template_pack",
       "pack_root": "templates/agent-memory-first-template-pack",
       "ready_for_deployment": false,
+      "retired_at": "2026-03-20T21:26:27Z",
       "retirement_file": "status/retirement.json",
-      "retirement_state": "active",
-      "retired_at": null
+      "retirement_state": "retired"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-20T11:30:00Z"
+  "updated_at": "2026-03-20T21:26:27Z"
 }

@@ -205,6 +205,10 @@ The following technical specs define how that intent is implemented:
 - `PROJECT-PACK-FACTORY-RETIRE-WORKFLOW-TECH-SPEC.md`
 - `PROJECT-PACK-FACTORY-RUNTIME-AGENT-MEMORY-TECH-SPEC.md`
 
+The testing constraint for the current small-project operating model lives in:
+
+- `PROJECT-PACK-FACTORY-TESTING-POLICY.md`
+
 ## Current Strategic Thesis
 
 The factory is not only for tracking build artifacts.

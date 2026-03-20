@@ -1,38 +1,40 @@
 {
-  "schema_version": "pack-readiness/v2",
+  "blocking_issues": [
+    "Template packs are not deployable artifacts in the PackFactory model.",
+    "This template pack is retired and preserved as a historical fixture."
+  ],
+  "last_evaluated_at": "2026-03-20T21:26:27Z",
   "pack_id": "ai-native-codex-package-template",
   "pack_kind": "template_pack",
-  "readiness_state": "ready_for_review",
+  "readiness_state": "retired",
   "ready_for_deployment": false,
-  "last_evaluated_at": "2026-03-18T15:57:47Z",
-  "blocking_issues": [
-    "Template packs are not deployable artifacts in the PackFactory model."
-  ],
   "recommended_next_actions": [
     "Use this template as the canonical source for derived build packs.",
-    "Refresh benchmark evidence when the template behavior changes."
+    "Refresh benchmark evidence when the template behavior changes.",
+    "Consult the retirement report for terminal state details."
   ],
   "required_gates": [
     {
-      "gate_id": "agent_memory_restart_small_001",
-      "mandatory": true,
-      "status": "pass",
-      "summary": "Bounded repo-local benchmark for deterministic agent restart-state retrieval from structured local memory fixtures.",
-      "last_run_at": "2026-03-17T23:21:38Z",
       "evidence_paths": [
         "eval/history/local-template-pack-agent-memory-restart-20260317t232138z/agent-memory-scorecard.json",
         "eval/history/local-template-pack-agent-memory-restart-20260317t232138z/agent-memory-snapshot.json"
-      ]
-    },
-    {
-      "gate_id": "schema_validator_small_001",
+      ],
+      "gate_id": "agent_memory_restart_small_001",
+      "last_run_at": "2026-03-17T23:21:38Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Bounded schema-validator small benchmark declaration migrated from the compatibility benchmark suite.",
-      "last_run_at": "2026-03-17T23:11:20Z",
+      "summary": "Bounded repo-local benchmark for deterministic agent restart-state retrieval from structured local memory fixtures."
+    },
+    {
       "evidence_paths": [
         "eval/history/local-template-pack-schema-validator-20260317t231120z/summary-report.json"
-      ]
+      ],
+      "gate_id": "schema_validator_small_001",
+      "last_run_at": "2026-03-17T23:11:20Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Bounded schema-validator small benchmark declaration migrated from the compatibility benchmark suite."
     }
-  ]
+  ],
+  "schema_version": "pack-readiness/v2"
 }

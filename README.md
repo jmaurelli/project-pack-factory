@@ -8,10 +8,14 @@ promotion, and retirement-aware lifecycle management.
 The product-level definition of what this factory is for lives in:
 
 - `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-PRODUCT-REQUIREMENTS-DOCUMENT.md`
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TESTING-POLICY.md`
 
 At a high level, this factory exists to produce and manage agent-optimized
 software build-packs with deterministic traversal, machine-readable lifecycle
 state, benchmark evidence, and restart-aware runtime support.
+
+The factory also intentionally keeps workflow testing small and high-signal
+rather than aiming for broad coverage.
 
 ## Retirement-Aware Behavior
 

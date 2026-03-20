@@ -1,15 +1,17 @@
 {
   "blocking_issues": [
-    "Template packs are source-only and are not deployable artifacts."
+    "Template packs are source-only and are not deployable artifacts.",
+    "This template pack is retired and preserved as a historical fixture."
   ],
-  "last_evaluated_at": "2026-03-18T16:51:32Z",
+  "last_evaluated_at": "2026-03-20T21:26:27Z",
   "pack_id": "agent-memory-first-template-pack",
   "pack_kind": "template_pack",
-  "readiness_state": "ready_for_review",
+  "readiness_state": "retired",
   "ready_for_deployment": false,
   "recommended_next_actions": [
     "Use this template as the canonical source for derived build packs.",
-    "Refresh the benchmark baseline when memory retrieval behavior changes."
+    "Refresh the benchmark baseline when memory retrieval behavior changes.",
+    "Consult the retirement report for terminal state details."
   ],
   "required_gates": [
     {

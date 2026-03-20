@@ -1,12 +1,12 @@
 {
-  "schema_version": "pack-lifecycle/v2",
+  "current_revision": "27cfbec3b445a1544b7d564ff3369248df38b93c",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "retired",
   "pack_id": "ai-native-codex-package-template",
   "pack_kind": "template_pack",
-  "lifecycle_stage": "maintained",
-  "state_reason": "Canonical PackFactory template source.",
-  "current_version": "0.1.0",
-  "current_revision": "27cfbec3b445a1544b7d564ff3369248df38b93c",
   "promotion_target": "none",
-  "updated_at": "2026-03-18T15:57:47Z",
-  "updated_by": "temporary-import-script"
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Legacy imported template retired to reset Project Pack Factory to a clean factory-native baseline.",
+  "updated_at": "2026-03-20T21:26:27Z",
+  "updated_by": "codex-orchestrator"
 }
