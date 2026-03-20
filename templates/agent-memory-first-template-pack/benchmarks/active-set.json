@@ -1,0 +1,14 @@
+{
+  "schema_version": "pack-benchmark-active-set/v1",
+  "pack_id": "agent-memory-first-template-pack",
+  "pack_kind": "template_pack",
+  "default_benchmark_id": "agent-memory-restart-small-001",
+  "active_benchmarks": [
+    {
+      "benchmark_id": "agent-memory-restart-small-001",
+      "declaration_path": "benchmarks/declarations/agent-memory-restart-small-001.json",
+      "objective": "Deterministic restart-state retrieval from local agent memory with explicit goals, environment, history, and omitted-active visibility.",
+      "required_for_readiness": true
+    }
+  ]
+}

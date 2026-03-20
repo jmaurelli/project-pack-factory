@@ -1,0 +1,22 @@
+{
+  "schema_version": "pack-eval-index/v1",
+  "pack_id": "ai-native-codex-build-pack",
+  "pack_kind": "build_pack",
+  "updated_at": "2026-03-18T15:57:47Z",
+  "benchmark_results": [
+    {
+      "benchmark_id": "agent-memory-restart-small-001",
+      "status": "pass",
+      "latest_run_id": "local-template-pack-agent-memory-restart-20260317t232138z",
+      "run_artifact_path": "eval/history/local-template-pack-agent-memory-restart-20260317t232138z/run.json",
+      "summary_artifact_path": "eval/history/local-template-pack-agent-memory-restart-20260317t232138z/agent-memory-scorecard.json"
+    },
+    {
+      "benchmark_id": "schema-validator-small-001",
+      "status": "pass",
+      "latest_run_id": "local-template-pack-schema-validator-20260317t231120z",
+      "run_artifact_path": "eval/history/local-template-pack-schema-validator-20260317t231120z/run.json",
+      "summary_artifact_path": "eval/history/local-template-pack-schema-validator-20260317t231120z/summary-report.json"
+    }
+  ]
+}

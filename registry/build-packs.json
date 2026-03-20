@@ -1,0 +1,44 @@
+{
+  "entries": [
+    {
+      "active": false,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/ai-native-codex-build-pack/eval/latest/index.json",
+      "lifecycle_stage": "retired",
+      "notes": [
+        "Derived from the canonical template source for factory testing.",
+        "Retired as a PackFactory fixture; no active deployment pointer remains."
+      ],
+      "pack_id": "ai-native-codex-build-pack",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/ai-native-codex-build-pack",
+      "ready_for_deployment": false,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "retired",
+      "retired_at": "2026-03-20T00:00:00Z"
+    },
+    {
+      "active": false,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/agent-memory-first-build-pack/eval/latest/index.json",
+      "lifecycle_stage": "retired",
+      "notes": [
+        "Memory-first build pack validated locally and projected into testing.",
+        "Retired as a PackFactory fixture; no active deployment pointer remains."
+      ],
+      "pack_id": "agent-memory-first-build-pack",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/agent-memory-first-build-pack",
+      "ready_for_deployment": false,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "retired",
+      "retired_at": "2026-03-20T00:00:00Z"
+    }
+  ],
+  "schema_version": "project-pack-factory-registry/v1",
+  "updated_at": "2026-03-20T11:14:57Z"
+}

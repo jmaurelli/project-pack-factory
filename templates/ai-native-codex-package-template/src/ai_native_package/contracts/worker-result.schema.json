@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Worker Result Contract",
+  "description": "Canonical JSON Schema for delegated worker return payloads only. This contract intentionally excludes task-record, approval, validator, and runtime-gate fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "files_changed",
+    "behavioral_change",
+    "validation_results",
+    "task_local_risk"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "blocked",
+        "failed",
+        "scope_mismatch",
+        "partial"
+      ],
+      "description": "Canonical worker-result status only. This field must remain distinct from orchestrator task states and approval states."
+    },
+    "files_changed": {
+      "$ref": "#/$defs/path_array",
+      "description": "Ordered list of changed files within declared scope. Use an empty list when no file changes were made."
+    },
+    "behavioral_change": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Concise summary of the implemented behavior change, or an explicit statement that no behavior changed."
+    },
+    "validation_results": {
+      "type": "array",
+      "description": "Ordered structured validation command results. This field must not be replaced with a single loose transcript string.",
+      "items": {
+        "$ref": "#/$defs/validation_result"
+      }
+    },
+    "task_local_risk": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Concise residual task-local risk statement, or an explicit statement that no task-local risk remains."
+    },
+    "scope_mismatch": {
+      "$ref": "#/$defs/scope_mismatch",
+      "description": "Structured scope-expansion request present only when status is scope_mismatch."
+    },
+    "blocked_reason": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Blocking explanation present only when status is blocked."
+    },
+    "artifacts_updated": {
+      "$ref": "#/$defs/path_array",
+      "description": "Ordered list of generated or supporting artifacts updated by the task."
+    },
+    "notes_for_next_task": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Concise handoff note for the orchestrator or next delegated worker."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "blocked"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "blocked_reason"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "blocked_reason"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "scope_mismatch"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "scope_mismatch"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "scope_mismatch"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "path_array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "validation_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command",
+        "status",
+        "exit_code",
+        "summary",
+        "artifacts_produced"
+      ],
+      "properties": {
+        "command": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Validation command that was run or attempted."
+        },
+        "status": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Structured validation outcome for the command, distinct from the top-level worker-result status."
+        },
+        "exit_code": {
+          "type": "integer",
+          "description": "Process exit code produced by the validation command."
+        },
+        "summary": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Concise summary of the validation outcome."
+        },
+        "artifacts_produced": {
+          "$ref": "#/$defs/path_array",
+          "description": "Ordered list of validation artifacts produced by the command."
+        }
+      }
+    },
+    "scope_mismatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_file",
+        "why_needed",
+        "smallest_scope_expansion"
+      ],
+      "properties": {
+        "required_file": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Missing file or boundary required to complete the task."
+        },
+        "why_needed": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Why the out-of-scope file or boundary is required."
+        },
+        "smallest_scope_expansion": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Smallest possible scope expansion needed to complete the task."
+        }
+      }
+    }
+  }
+}

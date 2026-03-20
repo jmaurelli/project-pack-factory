@@ -1,0 +1,12 @@
+{
+  "schema_version": "pack-lifecycle/v2",
+  "pack_id": "ai-native-codex-build-pack",
+  "pack_kind": "build_pack",
+  "lifecycle_stage": "retired",
+  "state_reason": "Stopped migration fixture retired as a PackFactory validation case.",
+  "current_version": "0.1.0",
+  "current_revision": "factory-import-20260318t155747z",
+  "promotion_target": "none",
+  "updated_at": "2026-03-20T00:00:00Z",
+  "updated_by": "orchadmin"
+}

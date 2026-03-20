@@ -1,0 +1,11 @@
+{
+  "schema_version": "pack-local-run/v1",
+  "run_id": "agent-memory-first-template-pack-agent-memory-restart-20260318t163305z",
+  "pack_id": "agent-memory-first-template-pack",
+  "pack_kind": "template_pack",
+  "benchmark_id": "agent-memory-restart-small-001",
+  "benchmark_task_id": "task-agent-memory-restart-small-001",
+  "generated_at": "2026-03-18T16:33:05Z",
+  "target_project_root": "/home/orchadmin/project-pack-factory/templates/agent-memory-first-template-pack",
+  "terminal_benchmark_classification": "completed_within_envelope"
+}

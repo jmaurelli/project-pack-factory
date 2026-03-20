@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Posttask Decision Contract",
+  "description": "Canonical JSON Schema for persisted post-task gate decisions only. This contract defines a machine-readable gate-decision artifact for completion, blocking, retry, and escalation outcomes after a worker attempt. It intentionally excludes worker-result payload definitions, task-record payload definitions, approval-policy files, and runtime implementation logic.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "decision",
+    "resulting_task_state",
+    "worker_result_reference",
+    "worker_result_status",
+    "validator_results",
+    "persisted_artifacts"
+  ],
+  "properties": {
+    "task_id": {
+      "$ref": "#/$defs/task_id",
+      "description": "Stable task identifier for the evaluated worker attempt."
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "blocked",
+        "retry",
+        "escalate"
+      ],
+      "description": "Canonical post-task gate outcome only."
+    },
+    "resulting_task_state": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "blocked",
+        "retry_pending",
+        "escalated"
+      ],
+      "description": "Explicit orchestrator task state produced by the post-task decision contract."
+    },
+    "worker_result_reference": {
+      "$ref": "#/$defs/worker_result_reference",
+      "description": "Exact worker-result artifact evaluated by the post-task gate."
+    },
+    "worker_result_status": {
+      "$ref": "#/$defs/worker_result_status",
+      "description": "Status copied from the evaluated worker-result artifact for deterministic gating."
+    },
+    "validator_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/posttask_validator_result"
+      },
+      "description": "Structured validator and post-task evidence used to compute the post-task gate decision."
+    },
+    "persisted_artifacts": {
+      "$ref": "#/$defs/posttask_persisted_artifacts",
+      "description": "Persisted audit and replay references for the post-task decision artifact."
+    },
+    "blocking_reasons": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered non-empty blocking reasons present only when the decision is blocked."
+    },
+    "retry_reason": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Retry reason present only when the decision is retry."
+    },
+    "escalation_reason": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Escalation reason present only when the decision is escalate."
+    },
+    "emitted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp for when the post-task decision artifact was emitted."
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "validator_results": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "validation_stage": {
+                "const": "worker_result_contract"
+              }
+            },
+            "required": [
+              "validation_stage"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "complete"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "resulting_task_state": {
+            "const": "completed"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "blocked"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "resulting_task_state": {
+            "const": "blocked"
+          }
+        },
+        "required": [
+          "blocking_reasons"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "blocking_reasons"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "retry"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "resulting_task_state": {
+            "const": "retry_pending"
+          }
+        },
+        "required": [
+          "retry_reason"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "retry_reason"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "escalate"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "resulting_task_state": {
+            "const": "escalated"
+          }
+        },
+        "required": [
+          "escalation_reason"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "escalation_reason"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "non_empty_string_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*$",
+      "description": "Lexical task identifier used for deterministic task and artifact correlation."
+    },
+    "worker_result_status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "blocked",
+        "failed",
+        "scope_mismatch",
+        "partial"
+      ],
+      "description": "Canonical worker-result status copied from the evaluated worker-result artifact."
+    },
+    "artifact_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_role",
+        "reference",
+        "content_digest"
+      ],
+      "properties": {
+        "artifact_role": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Stable role label for the referenced artifact."
+        },
+        "reference": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Stable path, URI, or bundle-local identifier for the exact artifact."
+        },
+        "content_digest": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Stable content digest or equivalent immutable identity for replay."
+        }
+      }
+    },
+    "worker_result_reference": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/artifact_reference"
+        },
+        {
+          "properties": {
+            "artifact_role": {
+              "const": "worker_result"
+            }
+          }
+        }
+      ]
+    },
+    "validator_result_reference": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/artifact_reference"
+        },
+        {
+          "properties": {
+            "artifact_role": {
+              "const": "validator_result"
+            }
+          }
+        }
+      ]
+    },
+    "decision_artifact_reference": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/artifact_reference"
+        },
+        {
+          "properties": {
+            "artifact_role": {
+              "const": "posttask_decision"
+            }
+          }
+        }
+      ]
+    },
+    "posttask_validator_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validation_stage",
+        "validator_name",
+        "outcome",
+        "result_reference",
+        "summary"
+      ],
+      "properties": {
+        "validation_stage": {
+          "type": "string",
+          "enum": [
+            "worker_result_contract",
+            "task_scope",
+            "task_validation_command",
+            "generated_agent_readme"
+          ],
+          "description": "Post-task validation stage represented by this evidence item."
+        },
+        "validator_name": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Validator or validation-command identifier that produced the evidence."
+        },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "warn",
+            "fail",
+            "blocked"
+          ],
+          "description": "Structured outcome produced by the validator or validation command."
+        },
+        "result_reference": {
+          "$ref": "#/$defs/validator_result_reference",
+          "description": "Exact validator-result artifact used as post-task decision evidence."
+        },
+        "summary": {
+          "$ref": "#/$defs/non_empty_string",
+          "description": "Concise machine-readable summary of the validation outcome."
+        }
+      }
+    },
+    "posttask_persisted_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_artifact_reference",
+        "validator_result_references",
+        "evaluated_inputs"
+      ],
+      "properties": {
+        "decision_artifact_reference": {
+          "$ref": "#/$defs/decision_artifact_reference",
+          "description": "Reference for the persisted post-task decision artifact itself."
+        },
+        "validator_result_references": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/validator_result_reference"
+          },
+          "description": "Exact persisted validator-result artifacts used to derive the post-task decision."
+        },
+        "evaluated_inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/artifact_reference"
+          },
+          "description": "Stable references and digests for persisted inputs required to replay the post-task decision."
+        }
+      },
+      "allOf": [
+        {
+          "properties": {
+            "evaluated_inputs": {
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "artifact_role": {
+                    "const": "worker_result"
+                  }
+                },
+                "required": [
+                  "artifact_role"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "generated_at": "2026-03-17T23:21:38Z",
+  "measurements": [
+    {
+      "field_name": "all_checks_passed",
+      "json_pointer": "/all_checks_passed",
+      "source_artifact_id": "scorecard",
+      "value": true,
+      "value_type": "boolean"
+    },
+    {
+      "field_name": "attempted_commands",
+      "json_pointer": "/attempted_commands",
+      "source_artifact_id": "scorecard",
+      "value": [
+        "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+        "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+        "uv run python -m ai_native_package benchmark-agent-memory --output json"
+      ],
+      "value_type": "array"
+    },
+    {
+      "field_name": "benchmark_command_duration_ms",
+      "json_pointer": "/command_results/1/duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 611,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "benchmark_tests_duration_ms",
+      "json_pointer": "/command_results/0/duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 1466,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "composite_score",
+      "json_pointer": "/composite_score",
+      "source_artifact_id": "scorecard",
+      "value": 1.0,
+      "value_type": "number"
+    },
+    {
+      "field_name": "goal_statuses",
+      "json_pointer": "/goal_statuses",
+      "source_artifact_id": "scorecard",
+      "value": [
+        "in_progress",
+        "blocked",
+        "completed"
+      ],
+      "value_type": "array"
+    },
+    {
+      "field_name": "history_warning_count",
+      "json_pointer": "/history_warning_count",
+      "source_artifact_id": "scorecard",
+      "value": 2,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "next_action_count",
+      "json_pointer": "/next_action_count",
+      "source_artifact_id": "scorecard",
+      "value": 3,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "omitted_active_memory_ids",
+      "json_pointer": "/omitted_active_memory_ids",
+      "source_artifact_id": "scorecard",
+      "value": [
+        "normal-next-step"
+      ],
+      "value_type": "array"
+    },
+    {
+      "field_name": "passed_check_count",
+      "json_pointer": "/passed_check_count",
+      "source_artifact_id": "scorecard",
+      "value": 10,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "prioritized_memory_ids",
+      "json_pointer": "/prioritized_memory_ids",
+      "source_artifact_id": "scorecard",
+      "value": [
+        "critical-decision",
+        "high-blocker"
+      ],
+      "value_type": "array"
+    },
+    {
+      "field_name": "task_record_paths",
+      "json_pointer": "/task_record_paths",
+      "source_artifact_id": "scorecard",
+      "value": [
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-next-step.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-validation.yaml"
+      ],
+      "value_type": "array"
+    },
+    {
+      "field_name": "total_check_count",
+      "json_pointer": "/total_check_count",
+      "source_artifact_id": "scorecard",
+      "value": 10,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "total_duration_ms",
+      "json_pointer": "/total_duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 2077,
+      "value_type": "integer"
+    }
+  ],
+  "producer": "orchadmin-local-template-eval",
+  "run_id": "local-template-pack-agent-memory-restart-20260317t232138z",
+  "schema_version": "external-measurements/v1",
+  "source_artifacts": [
+    {
+      "artifact_id": "command_summary",
+      "path": "/home/orchadmin/ai-orchestrator-lab/orchestration/template-pack-eval/runs/local-template-pack-agent-memory-restart-20260317t232138z/command-summary.json"
+    },
+    {
+      "artifact_id": "scorecard",
+      "path": "/home/orchadmin/ai-orchestrator-lab/orchestration/template-pack-eval/runs/local-template-pack-agent-memory-restart-20260317t232138z/agent-memory-scorecard.json"
+    }
+  ]
+}

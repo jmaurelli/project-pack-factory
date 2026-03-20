@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task Goal Telemetry",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "command",
+    "task_id",
+    "task_name",
+    "generated_at",
+    "producer",
+    "operating_root",
+    "task_record_path",
+    "inputs",
+    "result",
+    "completed",
+    "continue_working",
+    "primary_goal_passed",
+    "command_results",
+    "errors",
+    "attempt_summary",
+    "run_correlation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "task-goal-telemetry/v1"
+    },
+    "command": {
+      "type": "string"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operating_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_record_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inputs": {
+      "type": "object"
+    },
+    "result": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "completed": {
+      "type": "boolean"
+    },
+    "continue_working": {
+      "type": "boolean"
+    },
+    "primary_goal_passed": {
+      "type": "boolean"
+    },
+    "command_results": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "attempt_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_correlation": {
+      "type": "object",
+      "required": [
+        "build_run_manifest_path",
+        "build_run_manifest_run_id",
+        "run_id"
+      ],
+      "properties": {
+        "build_run_manifest_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "build_run_manifest_run_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "run_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

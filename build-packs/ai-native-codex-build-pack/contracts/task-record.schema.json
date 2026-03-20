@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task Record Contract",
+  "description": "Canonical JSON Schema for task records only. This contract defines the authoritative machine-readable source for per-task orchestration metadata and canonical delegation-brief rendering inputs. It intentionally excludes delegation-brief payloads, worker-result payloads, approval-policy rules, validator outputs, and runtime-gate decision artifacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "task_name",
+    "operating_root",
+    "project_context_reference",
+    "objective",
+    "source_spec_reference",
+    "required_changes",
+    "acceptance_criteria",
+    "out_of_scope",
+    "local_evidence",
+    "task_boundary_rules",
+    "required_return_format",
+    "declared_order",
+    "files_in_scope",
+    "validation_commands",
+    "approval_requirement",
+    "approval_state"
+  ],
+  "properties": {
+    "task_id": {
+      "$ref": "#/$defs/task_id",
+      "description": "Stable lexical task identifier that remains unique within a task set and serves as the deterministic tie-break key after declared_order."
+    },
+    "task_name": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Short deterministic task label used as the canonical task name for delegation-brief rendering."
+    },
+    "operating_root": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Explicit operating root for the task record, even when other tasks share the same default root."
+    },
+    "project_context_reference": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered project-context references that remain authoritative task-record inputs for canonical delegation-brief rendering."
+    },
+    "objective": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Single task objective expressed as one authoritative string."
+    },
+    "source_spec_reference": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered source-spec references that define the task and feed canonical delegation-brief rendering."
+    },
+    "required_changes": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered required implementation changes for the task."
+    },
+    "acceptance_criteria": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered observable acceptance criteria for the task."
+    },
+    "out_of_scope": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered explicit boundaries that must remain outside this task record's scope."
+    },
+    "local_evidence": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered local evidence paths or facts that remain part of the authoritative task context."
+    },
+    "task_boundary_rules": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered task boundary rules, including stop conditions when completion would require broader package changes."
+    },
+    "required_return_format": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered return-format requirements. This field remains an authoritative task-record input and should explicitly reference the canonical worker-result schema rather than ad hoc prose."
+    },
+    "declared_order": {
+      "$ref": "#/$defs/non_negative_integer",
+      "description": "Deterministic rollout-order value for task selection. Stable fallback ordering across tasks is declared_order then task_id."
+    },
+    "files_in_scope": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered non-empty list of files that the task may edit."
+    },
+    "validation_commands": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered non-empty list of validation commands for the task. The first command is the primary goal gate for lightweight build loops. Remaining commands are broader validation steps."
+    },
+    "goal_validation": {
+      "$ref": "#/$defs/goal_validation",
+      "description": "Explicit lightweight goal-loop metadata for deterministic primary-goal and safety-check execution."
+    },
+    "approval_requirement": {
+      "$ref": "#/$defs/approval_requirement",
+      "description": "Authoritative per-task approval requirement declaration. This schema encodes only the value shape and does not define approval policy or runtime-gate behavior."
+    },
+    "approval_state": {
+      "$ref": "#/$defs/approval_state",
+      "description": "Authoritative machine-readable approval state carried by the task record. This schema encodes only the legal state values and does not define transitions or dispatchability."
+    },
+    "dependencies": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/task_id"
+      },
+      "description": "Optional ordered dependency task identifiers. Values are expected to resolve against valid task_id entries in the surrounding task set."
+    },
+    "dependency_unlock_score": {
+      "$ref": "#/$defs/non_negative_number",
+      "description": "Optional non-negative score used by higher-level ordering logic only when explicitly present."
+    },
+    "risk_reduction_score": {
+      "$ref": "#/$defs/non_negative_number",
+      "description": "Optional non-negative score used by higher-level ordering logic only when explicitly present."
+    },
+    "task_group": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Optional stable grouping label for related task records."
+    },
+    "notes": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Optional ordered task-record notes that remain scoped to task metadata rather than inferred elsewhere."
+    }
+  },
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "non_empty_string_array": {
+      "type": "array",
+      "$comment": "JSON arrays are ordered by definition; minItems preserves ordered non-empty lists for canonical task-record fields.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*$",
+      "description": "Lexical task identifier that supports stable references, deterministic ordering, and dependency links."
+    },
+    "non_negative_integer": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "non_negative_number": {
+      "type": "number",
+      "minimum": 0
+    },
+    "approval_requirement": {
+      "type": "string",
+      "enum": [
+        "approval_required",
+        "approval_not_required"
+      ],
+      "description": "Task-level approval requirement declaration only. This is not an approval-state transition model."
+    },
+    "approval_state": {
+      "type": "string",
+      "enum": [
+        "approval_required",
+        "approval_pending",
+        "approval_granted",
+        "approval_denied",
+        "approval_not_required"
+      ],
+      "description": "Pure value-shape contract for approval state carried by task metadata."
+    },
+    "goal_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_goal_command",
+        "safety_check_commands",
+        "completion_rule"
+      ],
+      "properties": {
+        "primary_goal_command": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "safety_check_commands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/non_empty_string"
+          }
+        },
+        "completion_rule": {
+          "type": "string",
+          "enum": [
+            "all_declared_commands_must_pass"
+          ]
+        }
+      }
+    }
+  }
+}

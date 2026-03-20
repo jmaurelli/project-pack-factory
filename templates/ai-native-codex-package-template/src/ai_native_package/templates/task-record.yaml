@@ -1,0 +1,41 @@
+task_id: P0.0
+task_name: replace-with-task-name
+operating_root: /absolute/path/to/package-or-repo-root
+project_context_reference:
+  - /absolute/path/to/project-context.md
+objective: replace-with-single-task-objective
+source_spec_reference:
+  - /absolute/path/to/source-spec.md
+required_changes:
+  - replace-with-required-change
+acceptance_criteria:
+  - replace-with-acceptance-criterion
+out_of_scope:
+  - replace-with-out-of-scope-item
+local_evidence:
+  - /absolute/path/to/local-evidence
+task_boundary_rules:
+  - stay inside the declared files_in_scope and stop if broader package changes are required
+required_return_format:
+  - return a machine-readable worker result object that matches the canonical worker-result schema
+  - "include required fields: status, files_changed, behavioral_change, validation_results, task_local_risk"
+  - "include optional fields only when applicable: scope_mismatch, blocked_reason, artifacts_updated, notes_for_next_task"
+declared_order: 0
+files_in_scope:
+  - /absolute/path/to/file-in-scope
+validation_commands:
+  - replace-with-primary-goal-gate-command
+  - replace-with-broader-validation-command-if-needed
+goal_validation:
+  primary_goal_command: replace-with-primary-goal-gate-command
+  safety_check_commands:
+    - replace-with-broader-validation-command-if-needed
+  completion_rule: all_declared_commands_must_pass
+approval_requirement: approval_not_required
+approval_state: approval_not_required
+dependencies: []
+dependency_unlock_score: 0
+risk_reduction_score: 0
+task_group: replace-with-task-group-if-applicable
+notes:
+  - keep iterating until the primary goal gate passes, then run the broader validation commands

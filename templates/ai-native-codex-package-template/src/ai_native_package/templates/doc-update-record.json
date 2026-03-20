@@ -1,0 +1,15 @@
+{
+  "schema_version": "doc-update-record/v1",
+  "change_summary": "Summarize the code change in one sentence.",
+  "documentation_impact": "required",
+  "changed_code_paths": [
+    "src/ai_native_package/example.py"
+  ],
+  "changed_doc_paths": [
+    "README.md"
+  ],
+  "rationale": "Explain why documentation was updated or why no documentation update was needed.",
+  "validation_commands": [
+    "make validate"
+  ]
+}

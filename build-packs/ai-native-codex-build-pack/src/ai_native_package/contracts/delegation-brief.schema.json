@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Delegation Brief Contract",
+  "description": "Canonical JSON Schema for the delegation brief only. This contract intentionally excludes task-record, worker-result, approval, and runtime-gate fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_name",
+    "operating_root",
+    "project_context_reference",
+    "source_spec_reference",
+    "objective",
+    "files_in_scope",
+    "required_changes",
+    "acceptance_criteria",
+    "validation_commands",
+    "out_of_scope",
+    "local_evidence",
+    "task_boundary_rules",
+    "required_return_format"
+  ],
+  "properties": {
+    "task_name": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Short deterministic task label."
+    },
+    "operating_root": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "Single operating root for the delegated task."
+    },
+    "project_context_reference": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered project-context references the worker should use."
+    },
+    "source_spec_reference": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered source-spec references that define the task."
+    },
+    "objective": {
+      "$ref": "#/$defs/non_empty_string",
+      "description": "One primary objective expressed as a single string."
+    },
+    "files_in_scope": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered non-empty list of files that the worker may edit."
+    },
+    "required_changes": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered required implementation changes."
+    },
+    "acceptance_criteria": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered observable acceptance criteria for the task."
+    },
+    "validation_commands": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered non-empty list of validation commands for the task."
+    },
+    "out_of_scope": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered explicit boundaries that must not be broadened."
+    },
+    "local_evidence": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered local evidence paths or facts the worker should not rediscover."
+    },
+    "task_boundary_rules": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered task boundary rules, including stop-on-scope-mismatch behavior."
+    },
+    "required_return_format": {
+      "$ref": "#/$defs/non_empty_string_array",
+      "description": "Ordered return-format requirements. Content should reference canonical worker-result fields rather than ad hoc prose."
+    }
+  },
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "non_empty_string_array": {
+      "type": "array",
+      "$comment": "JSON arrays are ordered by definition; minItems enforces non-empty ordered lists.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    }
+  }
+}

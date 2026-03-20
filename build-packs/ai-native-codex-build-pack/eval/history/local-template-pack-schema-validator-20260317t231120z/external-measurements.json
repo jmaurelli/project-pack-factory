@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-03-17T23:11:20Z",
+  "measurements": [
+    {
+      "field_name": "all_commands_passed",
+      "json_pointer": "/all_commands_passed",
+      "source_artifact_id": "command_summary",
+      "value": true,
+      "value_type": "boolean"
+    },
+    {
+      "field_name": "command_count",
+      "json_pointer": "/command_count",
+      "source_artifact_id": "command_summary",
+      "value": 5,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "failed_command_count",
+      "json_pointer": "/failed_command_count",
+      "source_artifact_id": "command_summary",
+      "value": 0,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "mypy_duration_ms",
+      "json_pointer": "/command_results/2/duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 276,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "passed_command_count",
+      "json_pointer": "/passed_command_count",
+      "source_artifact_id": "command_summary",
+      "value": 5,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "pytest_duration_ms",
+      "json_pointer": "/command_results/0/duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 2678,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "pytest_passed_count",
+      "json_pointer": "/pytest_passed_count",
+      "source_artifact_id": "command_summary",
+      "value": 62,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "ruff_duration_ms",
+      "json_pointer": "/command_results/1/duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 58,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "total_duration_ms",
+      "json_pointer": "/total_duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 3530,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "validate_doc_update_record_duration_ms",
+      "json_pointer": "/command_results/4/duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 262,
+      "value_type": "integer"
+    },
+    {
+      "field_name": "validate_project_pack_duration_ms",
+      "json_pointer": "/command_results/3/duration_ms",
+      "source_artifact_id": "command_summary",
+      "value": 256,
+      "value_type": "integer"
+    }
+  ],
+  "producer": "orchadmin-local-template-eval",
+  "run_id": "local-template-pack-schema-validator-20260317t231120z",
+  "schema_version": "external-measurements/v1",
+  "source_artifacts": [
+    {
+      "artifact_id": "command_summary",
+      "path": "/home/orchadmin/ai-orchestrator-lab/orchestration/template-pack-eval/runs/local-template-pack-schema-validator-20260317t231120z/command-summary.json"
+    }
+  ]
+}

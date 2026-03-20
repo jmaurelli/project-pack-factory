@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/promotion-report.schema.json",
+  "title": "Build Pack Promotion Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "promotion_id",
+    "generated_at",
+    "status",
+    "build_pack_id",
+    "build_pack_root",
+    "target_environment",
+    "release_id",
+    "release_path",
+    "promoted_by",
+    "promotion_reason",
+    "pre_promotion_state",
+    "post_promotion_state",
+    "registry_update",
+    "operation_log_update",
+    "actions",
+    "evidence_paths"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "build-pack-promotion-report/v1"
+    },
+    "promotion_id": {
+      "type": "string",
+      "pattern": "^promote-[a-z0-9][a-z0-9_-]*-(testing|staging|production)-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "reconciled",
+        "failed"
+      ]
+    },
+    "build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "build_pack_root": {
+      "type": "string",
+      "pattern": "^build-packs/[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_environment": {
+      "type": "string",
+      "enum": [
+        "testing",
+        "staging",
+        "production"
+      ]
+    },
+    "release_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "release_path": {
+      "type": "string",
+      "pattern": "^dist/releases/[^/]+$"
+    },
+    "promoted_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "promotion_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pre_promotion_state": {
+      "$ref": "#/$defs/state"
+    },
+    "post_promotion_state": {
+      "$ref": "#/$defs/state"
+    },
+    "registry_update": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "registry_path",
+            "pack_id",
+            "deployment_state",
+            "deployment_pointer"
+          ],
+          "properties": {
+            "registry_path": {
+              "const": "registry/build-packs.json"
+            },
+            "pack_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9_-]*$"
+            },
+            "deployment_state": {
+              "type": "string",
+              "enum": [
+                "testing",
+                "staging",
+                "production"
+              ]
+            },
+            "deployment_pointer": {
+              "type": "string",
+              "pattern": "^deployments/(testing|staging|production)/[a-z0-9][a-z0-9_-]*\\.json$"
+            }
+          }
+        }
+      ]
+    },
+    "operation_log_update": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "promotion_log_path",
+            "event_type",
+            "promotion_id",
+            "build_pack_id",
+            "target_environment",
+            "promotion_report_path"
+          ],
+          "properties": {
+            "promotion_log_path": {
+              "const": "registry/promotion-log.json"
+            },
+            "event_type": {
+              "const": "promoted"
+            },
+            "promotion_id": {
+              "type": "string",
+              "pattern": "^promote-[a-z0-9][a-z0-9_-]*-(testing|staging|production)-[0-9]{8}t[0-9]{6}z$"
+            },
+            "build_pack_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9_-]*$"
+            },
+            "target_environment": {
+              "type": "string",
+              "enum": [
+                "testing",
+                "staging",
+                "production"
+              ]
+            },
+            "promotion_report_path": {
+              "type": "string",
+              "pattern": "^eval/history/[^/]+/promotion-report\\.json$"
+            }
+          }
+        }
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/action"
+      }
+    },
+    "evidence_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_stage",
+        "deployment_state",
+        "active_environment",
+        "active_release_path",
+        "last_verified_at",
+        "deployment_pointer_path"
+      ],
+      "properties": {
+        "lifecycle_stage": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "testing",
+            "release_candidate",
+            "maintained",
+            "deprecated",
+            "retired"
+          ]
+        },
+        "deployment_state": {
+          "type": "string",
+          "enum": [
+            "not_deployed",
+            "testing",
+            "staging",
+            "production"
+          ]
+        },
+        "active_environment": {
+          "type": "string",
+          "enum": [
+            "none",
+            "testing",
+            "staging",
+            "production"
+          ]
+        },
+        "active_release_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^dist/releases/[^/]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "last_verified_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deployment_pointer_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^deployments/(testing|staging|production)/[a-z0-9][a-z0-9_-]*\\.json$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_id",
+        "status",
+        "target_path",
+        "summary"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "string",
+          "enum": [
+            "update_lifecycle_state",
+            "update_deployment_state",
+            "remove_stale_pointer",
+            "write_deployment_pointer",
+            "update_registry_entry",
+            "append_operation_log",
+            "write_promotion_report"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "skipped",
+            "reconciled",
+            "failed"
+          ]
+        },
+        "target_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

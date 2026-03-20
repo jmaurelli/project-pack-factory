@@ -1,0 +1,15 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "agent-memory-restart-small-001",
+      "latest_run_id": "agent-memory-first-build-pack-agent-memory-restart-20260318t165136z",
+      "run_artifact_path": "eval/history/agent-memory-first-build-pack-agent-memory-restart-20260318t165136z/run.json",
+      "status": "pass",
+      "summary_artifact_path": "eval/history/agent-memory-first-build-pack-agent-memory-restart-20260318t165136z/agent-memory-scorecard.json"
+    }
+  ],
+  "pack_id": "agent-memory-first-build-pack",
+  "pack_kind": "build_pack",
+  "schema_version": "pack-eval-index/v1",
+  "updated_at": "2026-03-18T16:51:36Z"
+}

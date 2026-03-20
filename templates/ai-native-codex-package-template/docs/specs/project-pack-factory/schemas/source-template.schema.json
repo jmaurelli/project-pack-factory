@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/source-template.schema.json",
+  "title": "Build Pack Source Template Lineage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "build_pack_id",
+    "source_template_id",
+    "source_template_version",
+    "source_template_revision",
+    "derivation_mode",
+    "sync_state",
+    "last_sync_at",
+    "last_sync_summary",
+    "inherited_entrypoints",
+    "inherited_contracts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "pack-lineage/v2"
+    },
+    "build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "source_template_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "source_template_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_template_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "derivation_mode": {
+      "type": "string",
+      "enum": [
+        "copied",
+        "generated",
+        "synced"
+      ]
+    },
+    "sync_state": {
+      "type": "string",
+      "enum": [
+        "current",
+        "diverged",
+        "unknown",
+        "not_applicable"
+      ]
+    },
+    "last_sync_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "last_sync_summary": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "inherited_entrypoints": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "inherited_contracts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "sync_state": {
+            "enum": [
+              "current",
+              "diverged",
+              "unknown"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "last_sync_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "sync_state": {
+            "const": "diverged"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "last_sync_summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "derivation_mode": {
+            "const": "synced"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "sync_state": {
+            "enum": [
+              "current",
+              "diverged",
+              "unknown"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

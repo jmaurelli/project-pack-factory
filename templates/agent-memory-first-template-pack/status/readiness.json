@@ -1,0 +1,48 @@
+{
+  "blocking_issues": [
+    "Template packs are source-only and are not deployable artifacts."
+  ],
+  "last_evaluated_at": "2026-03-18T16:51:32Z",
+  "pack_id": "agent-memory-first-template-pack",
+  "pack_kind": "template_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Use this template as the canonical source for derived build packs.",
+    "Refresh the benchmark baseline when memory retrieval behavior changes."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/agent-memory-first-template-pack-agent-memory-restart-20260318t165132z/command-summary.json"
+      ],
+      "gate_id": "validate_project_pack",
+      "last_run_at": "2026-03-18T16:51:32Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Fail-closed PackFactory structure and contract validation."
+    },
+    {
+      "evidence_paths": [
+        "eval/history/agent-memory-first-template-pack-agent-memory-restart-20260318t165132z/command-summary.json"
+      ],
+      "gate_id": "unit_tests",
+      "last_run_at": "2026-03-18T16:51:32Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Memory subsystem unit and CLI tests."
+    },
+    {
+      "evidence_paths": [
+        "eval/history/agent-memory-first-template-pack-agent-memory-restart-20260318t165132z/agent-memory-scorecard.json",
+        "eval/history/agent-memory-first-template-pack-agent-memory-restart-20260318t165132z/agent-memory-snapshot.json"
+      ],
+      "gate_id": "agent_memory_restart_small_001",
+      "last_run_at": "2026-03-18T16:51:32Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Deterministic restart-state retrieval benchmark."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

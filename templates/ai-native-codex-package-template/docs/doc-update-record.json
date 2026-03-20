@@ -1,0 +1,28 @@
+{
+  "change_summary": "Expanded the agent memory surface with a deterministic benchmark command and eval metadata so restart-state retrieval for goals, environment, and history can be measured directly.",
+  "code_paths": [
+    "src/ai_native_package/__init__.py",
+    "src/ai_native_package/agent_memory.py",
+    "src/ai_native_package/agent_memory_benchmark.py",
+    "src/ai_native_package/api.py",
+    "src/ai_native_package/cli.py",
+    "src/ai_native_package/constants.py",
+    "src/ai_native_package/contracts/agent-memory-reader.schema.json",
+    "src/ai_native_package/contracts/agent-memory.schema.json",
+    "tests/test_agent_memory.py",
+    "tests/test_agent_memory_benchmark.py",
+    "tests/test_agent_memory_benchmark_cli.py",
+    "tests/test_agent_memory_cli.py"
+  ],
+  "doc_paths": [
+    "AGENTS.md",
+    "README.md",
+    "src/ai_native_package/API.md",
+    "src/ai_native_package/USAGE.md"
+  ],
+  "doc_update_reason": "The package now exposes a deterministic agent-memory benchmark command in addition to the restart-state reader and writer, so the usage and API docs need to show how to measure restart retrieval quality instead of only describing the memory storage surface.",
+  "project_root": null,
+  "schema_version": "doc-update-record/v1",
+  "status": "updated",
+  "task_id": "task-agent-memory-template-001"
+}

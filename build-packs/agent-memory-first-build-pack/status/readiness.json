@@ -1,0 +1,47 @@
+{
+  "blocking_issues": [
+    "This build pack is retired and preserved as a historical fixture."
+  ],
+  "last_evaluated_at": "2026-03-20T00:00:00Z",
+  "pack_id": "agent-memory-first-build-pack",
+  "pack_kind": "build_pack",
+  "readiness_state": "retired",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Consult the retirement report for terminal state details."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/agent-memory-first-build-pack-agent-memory-restart-20260318t165136z/command-summary.json"
+      ],
+      "gate_id": "validate_project_pack",
+      "last_run_at": "2026-03-18T16:51:36Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Fail-closed PackFactory structure and contract validation."
+    },
+    {
+      "evidence_paths": [
+        "eval/history/agent-memory-first-build-pack-agent-memory-restart-20260318t165136z/command-summary.json"
+      ],
+      "gate_id": "unit_tests",
+      "last_run_at": "2026-03-18T16:51:36Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Memory subsystem unit and CLI tests."
+    },
+    {
+      "evidence_paths": [
+        "eval/history/agent-memory-first-build-pack-agent-memory-restart-20260318t165136z/agent-memory-scorecard.json",
+        "eval/history/agent-memory-first-build-pack-agent-memory-restart-20260318t165136z/agent-memory-snapshot.json"
+      ],
+      "gate_id": "agent_memory_restart_small_001",
+      "last_run_at": "2026-03-18T16:51:36Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Deterministic restart-state retrieval benchmark."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

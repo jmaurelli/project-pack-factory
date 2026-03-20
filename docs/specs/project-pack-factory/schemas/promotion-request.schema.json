@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/promotion-request.schema.json",
+  "title": "Build Pack Promotion Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "build_pack_id",
+    "target_environment",
+    "release_id",
+    "promoted_by",
+    "promotion_reason",
+    "verification_timestamp"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "build-pack-promotion-request/v1"
+    },
+    "build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_environment": {
+      "type": "string",
+      "enum": [
+        "testing",
+        "staging",
+        "production"
+      ]
+    },
+    "release_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "promoted_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "promotion_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verification_timestamp": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

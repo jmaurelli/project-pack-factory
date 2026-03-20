@@ -1,0 +1,98 @@
+{
+  "contract_version": "1.0.0",
+  "contract_type": "generated_agent_readme_structure",
+  "title": "Generated Agent README Contract",
+  "description": "Canonical machine-readable contract for generated agent-facing runtime README structure only. This contract does not define runtime rendering logic, validator behavior, or operator README requirements.",
+  "applies_to": {
+    "artifact_class": "generated_runtime_readme",
+    "audience": "agent",
+    "role": "agent_facing"
+  },
+  "does_not_apply_to": [
+    "operator_readme",
+    "upload_guide",
+    "handoff_runbook",
+    "human_tutorial"
+  ],
+  "scope": {
+    "includes": [
+      "canonical section identifiers",
+      "fixed section order",
+      "section-level intent for generated agent-facing READMEs"
+    ],
+    "excludes": [
+      "runtime rendering logic",
+      "validator implementation logic",
+      "operator action sequencing rules",
+      "upload checklist requirements"
+    ]
+  },
+  "role_boundaries": {
+    "agent_facing_only": true,
+    "operator_facing": false,
+    "forbidden_operator_content": [
+      "upload checklist requirements",
+      "operator action sequencing requirements"
+    ]
+  },
+  "determinism_rules": {
+    "fixed_section_order": true,
+    "all_canonical_sections_required": true,
+    "section_identifiers_are_case_sensitive": true,
+    "section_order_is_authoritative": true,
+    "structure_only_contract": true
+  },
+  "canonical_section_order": [
+    "mode",
+    "start_here",
+    "machine_readable_truth",
+    "read_order",
+    "primary_content_files",
+    "validation_status",
+    "warning_policy"
+  ],
+  "sections": [
+    {
+      "id": "mode",
+      "position": 1,
+      "required": true,
+      "intent": "State the generated README mode so the agent can orient to the current runtime context."
+    },
+    {
+      "id": "start_here",
+      "position": 2,
+      "required": true,
+      "intent": "Identify the first file or files the agent should open to begin reliable interpretation."
+    },
+    {
+      "id": "machine_readable_truth",
+      "position": 3,
+      "required": true,
+      "intent": "Point to the authoritative machine-readable files that govern structure, state, or interpretation."
+    },
+    {
+      "id": "read_order",
+      "position": 4,
+      "required": true,
+      "intent": "Declare the deterministic order in which the agent should read the relevant artifacts."
+    },
+    {
+      "id": "primary_content_files",
+      "position": 5,
+      "required": true,
+      "intent": "List the main content-bearing files that the agent should use after establishing the source of truth."
+    },
+    {
+      "id": "validation_status",
+      "position": 6,
+      "required": true,
+      "intent": "Summarize the current validation state in a concise agent-usable form."
+    },
+    {
+      "id": "warning_policy",
+      "position": 7,
+      "required": true,
+      "intent": "Explain how the agent should interpret warnings relevant to navigation, trust, or content use."
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ai-native-codex-package-template/agent-telemetry-reader.schema.json",
+  "title": "Agent Telemetry Reader Payload",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "reader",
+    "project_root",
+    "task_name_filter",
+    "recommended_read_order",
+    "task_record",
+    "latest_task_goal_telemetry",
+    "task_goal_telemetry_summary",
+    "latest_build_run_manifest",
+    "local_artifact_counts",
+    "status_summary",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "agent-telemetry-reader/v1"
+    },
+    "reader": {
+      "const": "agent-telemetry-reader"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^/"
+    },
+    "task_name_filter": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "recommended_read_order": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "task_record",
+          "latest_task_goal_telemetry",
+          "task_goal_telemetry_summary",
+          "latest_build_run_manifest"
+        ]
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "task_record": {
+      "type": "object",
+      "required": [
+        "path",
+        "present"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "present": {
+          "type": "boolean"
+        }
+      }
+    },
+    "latest_task_goal_telemetry": {
+      "$ref": "#/$defs/artifact_reference"
+    },
+    "task_goal_telemetry_summary": {
+      "$ref": "#/$defs/artifact_reference"
+    },
+    "latest_build_run_manifest": {
+      "$ref": "#/$defs/artifact_reference"
+    },
+    "local_artifact_counts": {
+      "type": "object",
+      "required": [
+        "task_goal_telemetry_count",
+        "build_run_manifest_count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "task_goal_telemetry_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "build_run_manifest_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "status_summary": {
+      "type": "object",
+      "required": [
+        "latest_result",
+        "latest_completed",
+        "latest_continue_working",
+        "latest_primary_goal_passed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "latest_result": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latest_completed": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "latest_continue_working": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "latest_primary_goal_passed": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "artifact_reference": {
+      "type": "object",
+      "required": [
+        "present",
+        "path",
+        "payload"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "present": {
+          "type": "boolean"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "payload": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

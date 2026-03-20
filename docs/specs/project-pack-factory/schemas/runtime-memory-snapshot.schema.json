@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/runtime-memory-snapshot.schema.json",
+  "title": "PackFactory Runtime Agent Memory Snapshot",
+  "description": "Compatibility mirror of the live agent-memory-reader/v1 payload used for restart-state handoff.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "reader",
+    "project_root",
+    "task_name_filter",
+    "retrieval_focus",
+    "local_artifact_counts",
+    "prioritized_memories",
+    "omitted_active_memories",
+    "restart_state",
+    "handoff_summary",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "agent-memory-reader/v1"
+    },
+    "reader": {
+      "const": "agent-memory-reader"
+    },
+    "project_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "task_name_filter": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "retrieval_focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active_status_first",
+        "importance_before_type",
+        "priority_memory_types",
+        "selected_limit"
+      ],
+      "properties": {
+        "active_status_first": {
+          "type": "boolean"
+        },
+        "importance_before_type": {
+          "type": "boolean"
+        },
+        "priority_memory_types": {
+          "$ref": "#/$defs/string_array"
+        },
+        "selected_limit": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "local_artifact_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "memory_count",
+        "active_count",
+        "resolved_count",
+        "archived_count"
+      ],
+      "properties": {
+        "memory_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "active_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resolved_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "archived_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "prioritized_memories": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "omitted_active_memories": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "restart_state": {
+      "type": "object"
+    },
+    "handoff_summary": {
+      "type": "object"
+    },
+    "notes": {
+      "$ref": "#/$defs/string_array"
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "benchmark-declaration/v1",
+  "benchmark_task_id": "task-schema-validator-small-001",
+  "benchmark_suite_id": "template-pack-eval-bounded-suite",
+  "benchmark_revision": "rev-benchmark-fixture-001",
+  "benchmark_category": "schema-validator",
+  "benchmark_size_class": "small",
+  "complexity_profile": "single-module-low",
+  "approval_profile": "approval_not_required",
+  "intended_pack_family": "template-pack",
+  "intended_languages": [
+    "python",
+    "typescript"
+  ],
+  "description": "Bounded schema-validator small benchmark declaration migrated from the compatibility benchmark suite.",
+  "target_project": {
+    "target_project_id": "ai-native-codex-package-template",
+    "target_locator": "repo-local",
+    "default_relative_root": "packages/ai-native-codex-package-template"
+  },
+  "manifest_defaults": {
+    "pack_family": "template-pack",
+    "pack_version": "0.0.0-benchmark",
+    "orchestration_core_version": "0.0.0-benchmark",
+    "terminal_benchmark_classification": "completed_within_envelope"
+  },
+  "tags": [
+    "fixture",
+    "schema-validator",
+    "small"
+  ],
+  "owners": [
+    "orchadmin"
+  ],
+  "status": "active"
+}

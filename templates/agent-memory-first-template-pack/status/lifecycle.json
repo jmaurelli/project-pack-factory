@@ -1,0 +1,12 @@
+{
+  "schema_version": "pack-lifecycle/v2",
+  "pack_id": "agent-memory-first-template-pack",
+  "pack_kind": "template_pack",
+  "lifecycle_stage": "maintained",
+  "state_reason": "Fresh memory-first PackFactory-native template rebuild.",
+  "current_version": "0.1.0",
+  "current_revision": "memory-first-rebuild-20260318t161907z",
+  "promotion_target": "none",
+  "updated_at": "2026-03-18T17:05:00Z",
+  "updated_by": "orchadmin"
+}

@@ -1,0 +1,872 @@
+{
+  "all_checks_passed": true,
+  "attempted_commands": [
+    "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+    "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+    "uv run python -m ai_native_package benchmark-agent-memory --output json"
+  ],
+  "benchmark_category": "restart-state-retrieval",
+  "benchmark_size_class": "small",
+  "benchmark_task_id": "task-agent-memory-restart-small-001",
+  "checks": [
+    {
+      "check_id": "critical_memory_selected_first",
+      "expected": [
+        "critical-decision"
+      ],
+      "observed": [
+        "critical-decision"
+      ],
+      "passed": true
+    },
+    {
+      "check_id": "prioritized_memories_stay_active",
+      "expected": [
+        "active",
+        "active"
+      ],
+      "observed": [
+        "active",
+        "active"
+      ],
+      "passed": true
+    },
+    {
+      "check_id": "omitted_active_memory_remains_visible",
+      "expected": [
+        "normal-next-step"
+      ],
+      "observed": [
+        "normal-next-step"
+      ],
+      "passed": true
+    },
+    {
+      "check_id": "goal_state_is_preserved",
+      "expected": [
+        "Restore agent restart context for the active package task."
+      ],
+      "observed": [
+        "Restore agent restart context for the active package task."
+      ],
+      "passed": true
+    },
+    {
+      "check_id": "goal_statuses_cover_active_and_resolved_progress",
+      "expected": [
+        "in_progress",
+        "blocked",
+        "completed"
+      ],
+      "observed": [
+        "in_progress",
+        "blocked",
+        "completed"
+      ],
+      "passed": true
+    },
+    {
+      "check_id": "environment_context_aggregates_all_task_records",
+      "expected": [
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-next-step.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-validation.yaml"
+      ],
+      "observed": [
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-next-step.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-validation.yaml"
+      ],
+      "passed": true
+    },
+    {
+      "check_id": "history_context_aggregates_attempts_outcomes_and_questions",
+      "expected": {
+        "attempted_commands": [
+          "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+          "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+          "uv run python -m ai_native_package benchmark-agent-memory --output json"
+        ],
+        "observed_outcomes": [
+          "reader output already included restart state",
+          "blocked on missing benchmark fixture verification",
+          "baseline restart benchmark passed"
+        ],
+        "open_questions": [
+          "Should the next agent widen the selected memory limit?",
+          "Should the next agent re-run the benchmark after changing retrieval order?"
+        ]
+      },
+      "observed": {
+        "attempted_commands": [
+          "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+          "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+          "uv run python -m ai_native_package benchmark-agent-memory --output json"
+        ],
+        "observed_outcomes": [
+          "reader output already included restart state",
+          "blocked on missing benchmark fixture verification",
+          "baseline restart benchmark passed"
+        ],
+        "open_questions": [
+          "Should the next agent widen the selected memory limit?",
+          "Should the next agent re-run the benchmark after changing retrieval order?"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "check_id": "next_actions_include_omitted_active_context",
+      "expected": [
+        "Read the active task record before editing code.",
+        "Inspect the blocked fixture branch before continuing.",
+        "Inspect the omitted active memory slice."
+      ],
+      "observed": [
+        "Read the active task record before editing code.",
+        "Inspect the blocked fixture branch before continuing.",
+        "Inspect the omitted active memory slice."
+      ],
+      "passed": true
+    },
+    {
+      "check_id": "history_warnings_capture_supersession_and_conflict",
+      "expected": [
+        "Memory `resolved-validation` supersedes `legacy-validation`.",
+        "Memory `resolved-validation` conflicts with legacy-restart-note."
+      ],
+      "observed": [
+        "Memory `resolved-validation` supersedes `legacy-validation`.",
+        "Memory `resolved-validation` conflicts with legacy-restart-note."
+      ],
+      "passed": true
+    },
+    {
+      "check_id": "environment_commands_keep_reader_visible",
+      "expected": "read-agent-memory",
+      "observed": [
+        "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+        "read-agent-memory",
+        "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+        "Inspect the omitted active memory slice.",
+        "uv run python -m ai_native_package benchmark-agent-memory --output json"
+      ],
+      "passed": true
+    }
+  ],
+  "composite_score": 1.0,
+  "file_focus": [
+    "src/ai_native_package/agent_memory.py",
+    "src/ai_native_package/cli.py",
+    "tests/test_agent_memory.py"
+  ],
+  "fixture_project_root": "/tmp/agent-memory-benchmark-rb7xrnci",
+  "generated_at": "2026-03-17T23:21:40Z",
+  "goal_statuses": [
+    "in_progress",
+    "blocked",
+    "completed"
+  ],
+  "history_warning_count": 2,
+  "next_action_count": 3,
+  "next_actions": [
+    "Read the active task record before editing code.",
+    "Inspect the blocked fixture branch before continuing.",
+    "Inspect the omitted active memory slice."
+  ],
+  "observed_outcomes": [
+    "reader output already included restart state",
+    "blocked on missing benchmark fixture verification",
+    "baseline restart benchmark passed"
+  ],
+  "omitted_active_memory_ids": [
+    "normal-next-step"
+  ],
+  "open_questions": [
+    "Should the next agent widen the selected memory limit?",
+    "Should the next agent re-run the benchmark after changing retrieval order?"
+  ],
+  "output_paths": {
+    "scorecard_path": null,
+    "snapshot_path": "/home/orchadmin/ai-orchestrator-lab/orchestration/template-pack-eval/runs/local-template-pack-agent-memory-restart-20260317t232138z/agent-memory-snapshot.json"
+  },
+  "passed_check_count": 10,
+  "prioritized_memory_ids": [
+    "critical-decision",
+    "high-blocker"
+  ],
+  "prioritized_statuses": [
+    "active",
+    "active"
+  ],
+  "project_context_references": [
+    "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md",
+    "/tmp/agent-memory-benchmark-rb7xrnci/project-context/omitted-project-context.md",
+    "/tmp/agent-memory-benchmark-rb7xrnci/project-context/validation-project-context.md"
+  ],
+  "schema_version": "agent-memory-benchmark/v1",
+  "selected_limit": 2,
+  "snapshot": {
+    "handoff_summary": {
+      "active_blockers": [
+        {
+          "details": [],
+          "environment_context": {
+            "build_run_manifest_path": null,
+            "delegation_brief_path": "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+            "operating_root": "/tmp/agent-memory-benchmark-rb7xrnci/workspace/blocked",
+            "project_context_references": [
+              "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md"
+            ],
+            "recommended_read_order": [
+              "goal_state",
+              "environment_context",
+              "history_context",
+              "details",
+              "next_actions"
+            ],
+            "relevant_commands": [
+              "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+              "read-agent-memory"
+            ],
+            "task_goal_telemetry_path": null,
+            "task_record_path": "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml"
+          },
+          "evidence_paths": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/evidence/blocker.txt"
+          ],
+          "file_paths": [
+            "src/ai_native_package/cli.py"
+          ],
+          "generated_at": "2026-03-17T00:00:02Z",
+          "goal_state": {
+            "blocked_by": [
+              "benchmark fixture verification is not recorded yet"
+            ],
+            "completion_signals": [],
+            "goal": "Restore agent restart context for the active package task.",
+            "goal_artifact_paths": [
+              "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml",
+              "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+              "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md",
+              "src/ai_native_package/cli.py",
+              "/tmp/agent-memory-benchmark-rb7xrnci/evidence/blocker.txt"
+            ],
+            "goal_status": "blocked",
+            "primary_validation_command": "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+            "recommended_next_command": "uv run python -m ai_native_package validate-project-pack --project-root . --output json"
+          },
+          "history_context": {
+            "attempted_commands": [
+              "uv run python -m ai_native_package validate-project-pack --project-root . --output json"
+            ],
+            "confidence": "high",
+            "conflicts_with": [],
+            "observed_outcomes": [
+              "blocked on missing benchmark fixture verification"
+            ],
+            "open_questions": [],
+            "supersedes_memory_id": null
+          },
+          "importance": "high",
+          "memory_id": "high-blocker",
+          "memory_type": "blocker",
+          "next_actions": [
+            "Inspect the blocked fixture branch before continuing."
+          ],
+          "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/high-blocker.json",
+          "status": "active",
+          "summary": "The blocked branch must stay visible so the next agent does not repeat setup work.",
+          "tags": [
+            "restart",
+            "blocker"
+          ],
+          "task_name": "agent-memory-restart-benchmark"
+        }
+      ],
+      "active_decisions": [
+        {
+          "details": [
+            "The current task record is already scoped for the restart path."
+          ],
+          "environment_context": {
+            "build_run_manifest_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-primary.json",
+            "delegation_brief_path": "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+            "operating_root": "/tmp/agent-memory-benchmark-rb7xrnci/workspace/core",
+            "project_context_references": [
+              "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md"
+            ],
+            "recommended_read_order": [
+              "goal_state",
+              "environment_context",
+              "history_context",
+              "details",
+              "next_actions"
+            ],
+            "relevant_commands": [
+              "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+              "read-agent-memory"
+            ],
+            "task_goal_telemetry_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-primary.json",
+            "task_record_path": "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml"
+          },
+          "evidence_paths": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/evidence/decision.txt"
+          ],
+          "file_paths": [
+            "src/ai_native_package/agent_memory.py"
+          ],
+          "generated_at": "2026-03-17T00:00:01Z",
+          "goal_state": {
+            "blocked_by": [],
+            "completion_signals": [
+              "critical decision captured"
+            ],
+            "goal": "Restore agent restart context for the active package task.",
+            "goal_artifact_paths": [
+              "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml",
+              "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+              "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md",
+              "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-primary.json",
+              "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-primary.json",
+              "src/ai_native_package/agent_memory.py",
+              "/tmp/agent-memory-benchmark-rb7xrnci/evidence/decision.txt"
+            ],
+            "goal_status": "in_progress",
+            "primary_validation_command": "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+            "recommended_next_command": "uv run python -m ai_native_package read-agent-memory --project-root . --output json"
+          },
+          "history_context": {
+            "attempted_commands": [
+              "uv run python -m ai_native_package read-agent-memory --project-root . --output json"
+            ],
+            "confidence": "high",
+            "conflicts_with": [],
+            "observed_outcomes": [
+              "reader output already included restart state"
+            ],
+            "open_questions": [
+              "Should the next agent widen the selected memory limit?"
+            ],
+            "supersedes_memory_id": null
+          },
+          "importance": "critical",
+          "memory_id": "critical-decision",
+          "memory_type": "decision",
+          "next_actions": [
+            "Read the active task record before editing code."
+          ],
+          "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/critical-decision.json",
+          "status": "active",
+          "summary": "Use the active task record and local telemetry before editing code.",
+          "tags": [
+            "restart",
+            "decision"
+          ],
+          "task_name": "agent-memory-restart-benchmark"
+        }
+      ],
+      "active_next_steps": [],
+      "compact_handoff": [
+        "Blocker: The blocked branch must stay visible so the next agent does not repeat setup work.",
+        "Next: Read the active task record before editing code.",
+        "Next: Inspect the blocked fixture branch before continuing.",
+        "Next: Inspect the omitted active memory slice.",
+        "Decision: Use the active task record and local telemetry before editing code.",
+        "Focus files: src/ai_native_package/agent_memory.py, src/ai_native_package/cli.py, tests/test_agent_memory.py"
+      ],
+      "file_focus": [
+        "src/ai_native_package/agent_memory.py",
+        "src/ai_native_package/cli.py",
+        "tests/test_agent_memory.py"
+      ],
+      "next_actions": [
+        {
+          "action": "Read the active task record before editing code.",
+          "evidence_paths": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/evidence/decision.txt"
+          ],
+          "file_paths": [
+            "src/ai_native_package/agent_memory.py"
+          ],
+          "memory_id": "critical-decision",
+          "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/critical-decision.json",
+          "task_name": "agent-memory-restart-benchmark"
+        },
+        {
+          "action": "Inspect the blocked fixture branch before continuing.",
+          "evidence_paths": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/evidence/blocker.txt"
+          ],
+          "file_paths": [
+            "src/ai_native_package/cli.py"
+          ],
+          "memory_id": "high-blocker",
+          "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/high-blocker.json",
+          "task_name": "agent-memory-restart-benchmark"
+        },
+        {
+          "action": "Inspect the omitted active memory slice.",
+          "evidence_paths": [],
+          "file_paths": [
+            "tests/test_agent_memory.py"
+          ],
+          "memory_id": "normal-next-step",
+          "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/normal-next-step.json",
+          "task_name": "agent-memory-restart-benchmark"
+        }
+      ],
+      "validation_learnings": [
+        {
+          "details": [],
+          "environment_context": {
+            "build_run_manifest_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-validation.json",
+            "delegation_brief_path": null,
+            "operating_root": "/tmp/agent-memory-benchmark-rb7xrnci/workspace/validated",
+            "project_context_references": [
+              "/tmp/agent-memory-benchmark-rb7xrnci/project-context/validation-project-context.md"
+            ],
+            "recommended_read_order": [
+              "goal_state",
+              "environment_context",
+              "history_context",
+              "details",
+              "next_actions"
+            ],
+            "relevant_commands": [
+              "uv run python -m ai_native_package benchmark-agent-memory --output json",
+              "read-agent-memory"
+            ],
+            "task_goal_telemetry_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-validation.json",
+            "task_record_path": "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-validation.yaml"
+          },
+          "evidence_paths": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/evidence/validation.txt"
+          ],
+          "file_paths": [
+            "tests/test_agent_memory_benchmark.py"
+          ],
+          "generated_at": "2026-03-17T00:00:04Z",
+          "goal_state": {
+            "blocked_by": [],
+            "completion_signals": [
+              "restart benchmark baseline passed"
+            ],
+            "goal": "Restore agent restart context for the active package task.",
+            "goal_artifact_paths": [
+              "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-validation.yaml",
+              "/tmp/agent-memory-benchmark-rb7xrnci/project-context/validation-project-context.md",
+              "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-validation.json",
+              "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-validation.json",
+              "tests/test_agent_memory_benchmark.py",
+              "/tmp/agent-memory-benchmark-rb7xrnci/evidence/validation.txt"
+            ],
+            "goal_status": "completed",
+            "primary_validation_command": "uv run python -m ai_native_package benchmark-agent-memory --output json",
+            "recommended_next_command": "uv run python -m ai_native_package benchmark-agent-memory --output json"
+          },
+          "history_context": {
+            "attempted_commands": [
+              "uv run python -m ai_native_package benchmark-agent-memory --output json"
+            ],
+            "confidence": "high",
+            "conflicts_with": [
+              "legacy-restart-note"
+            ],
+            "observed_outcomes": [
+              "baseline restart benchmark passed"
+            ],
+            "open_questions": [],
+            "supersedes_memory_id": "legacy-validation"
+          },
+          "importance": "normal",
+          "memory_id": "resolved-validation",
+          "memory_type": "validation",
+          "next_actions": [],
+          "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/resolved-validation.json",
+          "status": "resolved",
+          "summary": "The deterministic restart benchmark already passed once for this fixture.",
+          "tags": [
+            "restart",
+            "validation"
+          ],
+          "task_name": "agent-memory-restart-benchmark"
+        }
+      ]
+    },
+    "local_artifact_counts": {
+      "active_count": 3,
+      "archived_count": 0,
+      "memory_count": 4,
+      "resolved_count": 1
+    },
+    "notes": [
+      "Filtered agent memory to task `agent-memory-restart-benchmark`.",
+      "The snapshot prioritizes active blockers, next steps, and decisions before older context.",
+      "The selected memory slice is truncated. Inspect the omitted active memories before assuming the full history is represented.",
+      "Omitted active memories were summarized separately so the next agent can recover missing live context.",
+      "Use this memory snapshot as agent restart state for environment, history, and goals; it does not replace canonical task records or validation artifacts."
+    ],
+    "omitted_active_memories": [
+      {
+        "details": [],
+        "environment_context": {
+          "build_run_manifest_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-omitted.json",
+          "delegation_brief_path": "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+          "operating_root": "/tmp/agent-memory-benchmark-rb7xrnci/workspace/follow-up",
+          "project_context_references": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/project-context/omitted-project-context.md"
+          ],
+          "recommended_read_order": [
+            "goal_state",
+            "environment_context",
+            "history_context",
+            "details",
+            "next_actions"
+          ],
+          "relevant_commands": [
+            "Inspect the omitted active memory slice.",
+            "read-agent-memory"
+          ],
+          "task_goal_telemetry_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-omitted.json",
+          "task_record_path": "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-next-step.yaml"
+        },
+        "evidence_paths": [],
+        "file_paths": [
+          "tests/test_agent_memory.py"
+        ],
+        "generated_at": "2026-03-17T00:00:03Z",
+        "goal_state": {
+          "blocked_by": [],
+          "completion_signals": [],
+          "goal": "Restore agent restart context for the active package task.",
+          "goal_artifact_paths": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-next-step.yaml",
+            "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+            "/tmp/agent-memory-benchmark-rb7xrnci/project-context/omitted-project-context.md",
+            "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-omitted.json",
+            "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-omitted.json",
+            "tests/test_agent_memory.py"
+          ],
+          "goal_status": "in_progress",
+          "primary_validation_command": "Inspect the omitted active memory slice.",
+          "recommended_next_command": "Inspect the omitted active memory slice."
+        },
+        "history_context": {
+          "attempted_commands": [],
+          "confidence": "high",
+          "conflicts_with": [],
+          "observed_outcomes": [],
+          "open_questions": [
+            "Should the next agent re-run the benchmark after changing retrieval order?"
+          ],
+          "supersedes_memory_id": null
+        },
+        "importance": "normal",
+        "memory_id": "normal-next-step",
+        "memory_type": "next_step",
+        "next_actions": [
+          "Inspect the omitted active memory slice."
+        ],
+        "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/normal-next-step.json",
+        "status": "active",
+        "summary": "After the active slice is read, inspect the omitted active memory for environment drift.",
+        "tags": [
+          "restart",
+          "next-step"
+        ],
+        "task_name": "agent-memory-restart-benchmark"
+      }
+    ],
+    "prioritized_memories": [
+      {
+        "details": [
+          "The current task record is already scoped for the restart path."
+        ],
+        "environment_context": {
+          "build_run_manifest_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-primary.json",
+          "delegation_brief_path": "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+          "operating_root": "/tmp/agent-memory-benchmark-rb7xrnci/workspace/core",
+          "project_context_references": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md"
+          ],
+          "recommended_read_order": [
+            "goal_state",
+            "environment_context",
+            "history_context",
+            "details",
+            "next_actions"
+          ],
+          "relevant_commands": [
+            "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+            "read-agent-memory"
+          ],
+          "task_goal_telemetry_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-primary.json",
+          "task_record_path": "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml"
+        },
+        "evidence_paths": [
+          "/tmp/agent-memory-benchmark-rb7xrnci/evidence/decision.txt"
+        ],
+        "file_paths": [
+          "src/ai_native_package/agent_memory.py"
+        ],
+        "generated_at": "2026-03-17T00:00:01Z",
+        "goal_state": {
+          "blocked_by": [],
+          "completion_signals": [
+            "critical decision captured"
+          ],
+          "goal": "Restore agent restart context for the active package task.",
+          "goal_artifact_paths": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml",
+            "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+            "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md",
+            "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-primary.json",
+            "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-primary.json",
+            "src/ai_native_package/agent_memory.py",
+            "/tmp/agent-memory-benchmark-rb7xrnci/evidence/decision.txt"
+          ],
+          "goal_status": "in_progress",
+          "primary_validation_command": "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+          "recommended_next_command": "uv run python -m ai_native_package read-agent-memory --project-root . --output json"
+        },
+        "history_context": {
+          "attempted_commands": [
+            "uv run python -m ai_native_package read-agent-memory --project-root . --output json"
+          ],
+          "confidence": "high",
+          "conflicts_with": [],
+          "observed_outcomes": [
+            "reader output already included restart state"
+          ],
+          "open_questions": [
+            "Should the next agent widen the selected memory limit?"
+          ],
+          "supersedes_memory_id": null
+        },
+        "importance": "critical",
+        "memory_id": "critical-decision",
+        "memory_type": "decision",
+        "next_actions": [
+          "Read the active task record before editing code."
+        ],
+        "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/critical-decision.json",
+        "status": "active",
+        "summary": "Use the active task record and local telemetry before editing code.",
+        "tags": [
+          "restart",
+          "decision"
+        ],
+        "task_name": "agent-memory-restart-benchmark"
+      },
+      {
+        "details": [],
+        "environment_context": {
+          "build_run_manifest_path": null,
+          "delegation_brief_path": "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+          "operating_root": "/tmp/agent-memory-benchmark-rb7xrnci/workspace/blocked",
+          "project_context_references": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md"
+          ],
+          "recommended_read_order": [
+            "goal_state",
+            "environment_context",
+            "history_context",
+            "details",
+            "next_actions"
+          ],
+          "relevant_commands": [
+            "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+            "read-agent-memory"
+          ],
+          "task_goal_telemetry_path": null,
+          "task_record_path": "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml"
+        },
+        "evidence_paths": [
+          "/tmp/agent-memory-benchmark-rb7xrnci/evidence/blocker.txt"
+        ],
+        "file_paths": [
+          "src/ai_native_package/cli.py"
+        ],
+        "generated_at": "2026-03-17T00:00:02Z",
+        "goal_state": {
+          "blocked_by": [
+            "benchmark fixture verification is not recorded yet"
+          ],
+          "completion_signals": [],
+          "goal": "Restore agent restart context for the active package task.",
+          "goal_artifact_paths": [
+            "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml",
+            "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+            "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md",
+            "src/ai_native_package/cli.py",
+            "/tmp/agent-memory-benchmark-rb7xrnci/evidence/blocker.txt"
+          ],
+          "goal_status": "blocked",
+          "primary_validation_command": "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+          "recommended_next_command": "uv run python -m ai_native_package validate-project-pack --project-root . --output json"
+        },
+        "history_context": {
+          "attempted_commands": [
+            "uv run python -m ai_native_package validate-project-pack --project-root . --output json"
+          ],
+          "confidence": "high",
+          "conflicts_with": [],
+          "observed_outcomes": [
+            "blocked on missing benchmark fixture verification"
+          ],
+          "open_questions": [],
+          "supersedes_memory_id": null
+        },
+        "importance": "high",
+        "memory_id": "high-blocker",
+        "memory_type": "blocker",
+        "next_actions": [
+          "Inspect the blocked fixture branch before continuing."
+        ],
+        "source_path": "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/agent-memory/high-blocker.json",
+        "status": "active",
+        "summary": "The blocked branch must stay visible so the next agent does not repeat setup work.",
+        "tags": [
+          "restart",
+          "blocker"
+        ],
+        "task_name": "agent-memory-restart-benchmark"
+      }
+    ],
+    "project_root": "/tmp/agent-memory-benchmark-rb7xrnci",
+    "reader": "agent-memory-reader",
+    "restart_state": {
+      "blocked_by": [
+        "benchmark fixture verification is not recorded yet"
+      ],
+      "completion_signals": [
+        "critical decision captured",
+        "restart benchmark baseline passed"
+      ],
+      "environment_context": {
+        "build_run_manifest_paths": [
+          "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-primary.json",
+          "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-omitted.json",
+          "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-validation.json"
+        ],
+        "delegation_brief_paths": [
+          "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md"
+        ],
+        "operating_roots": [
+          "/tmp/agent-memory-benchmark-rb7xrnci/workspace/core",
+          "/tmp/agent-memory-benchmark-rb7xrnci/workspace/blocked",
+          "/tmp/agent-memory-benchmark-rb7xrnci/workspace/follow-up",
+          "/tmp/agent-memory-benchmark-rb7xrnci/workspace/validated"
+        ],
+        "project_context_references": [
+          "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md",
+          "/tmp/agent-memory-benchmark-rb7xrnci/project-context/omitted-project-context.md",
+          "/tmp/agent-memory-benchmark-rb7xrnci/project-context/validation-project-context.md"
+        ],
+        "recommended_read_order": [
+          "goal_state",
+          "environment_context",
+          "history_context",
+          "details",
+          "next_actions"
+        ],
+        "relevant_commands": [
+          "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+          "read-agent-memory",
+          "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+          "Inspect the omitted active memory slice.",
+          "uv run python -m ai_native_package benchmark-agent-memory --output json"
+        ],
+        "task_goal_telemetry_paths": [
+          "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-primary.json",
+          "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-omitted.json",
+          "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-validation.json"
+        ],
+        "task_record_paths": [
+          "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml",
+          "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml",
+          "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-next-step.yaml",
+          "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-validation.yaml"
+        ]
+      },
+      "goal_artifact_paths": [
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml",
+        "/tmp/agent-memory-benchmark-rb7xrnci/delegation-brief.md",
+        "/tmp/agent-memory-benchmark-rb7xrnci/project-context/active-project-context.md",
+        "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/task-goal-telemetry/restart-primary.json",
+        "/tmp/agent-memory-benchmark-rb7xrnci/.ai-native-codex-package-template/run-manifests/run-primary.json",
+        "src/ai_native_package/agent_memory.py",
+        "/tmp/agent-memory-benchmark-rb7xrnci/evidence/decision.txt",
+        "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml",
+        "src/ai_native_package/cli.py",
+        "/tmp/agent-memory-benchmark-rb7xrnci/evidence/blocker.txt"
+      ],
+      "goal_statuses": [
+        "in_progress",
+        "blocked",
+        "completed"
+      ],
+      "goals": [
+        "Restore agent restart context for the active package task."
+      ],
+      "history_context": {
+        "attempted_commands": [
+          "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+          "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+          "uv run python -m ai_native_package benchmark-agent-memory --output json"
+        ],
+        "observed_outcomes": [
+          "reader output already included restart state",
+          "blocked on missing benchmark fixture verification",
+          "baseline restart benchmark passed"
+        ],
+        "open_questions": [
+          "Should the next agent widen the selected memory limit?",
+          "Should the next agent re-run the benchmark after changing retrieval order?"
+        ]
+      },
+      "history_warnings": [
+        "Memory `resolved-validation` supersedes `legacy-validation`.",
+        "Memory `resolved-validation` conflicts with legacy-restart-note."
+      ],
+      "primary_validation_commands": [
+        "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+        "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+        "Inspect the omitted active memory slice.",
+        "uv run python -m ai_native_package benchmark-agent-memory --output json"
+      ],
+      "recommended_next_commands": [
+        "uv run python -m ai_native_package read-agent-memory --project-root . --output json",
+        "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+        "Inspect the omitted active memory slice.",
+        "uv run python -m ai_native_package benchmark-agent-memory --output json"
+      ]
+    },
+    "retrieval_focus": {
+      "active_status_first": true,
+      "importance_before_type": true,
+      "priority_memory_types": [
+        "blocker",
+        "next_step",
+        "decision",
+        "validation",
+        "lesson",
+        "context"
+      ],
+      "selected_limit": 2
+    },
+    "schema_version": "agent-memory-reader/v1",
+    "task_name_filter": "agent-memory-restart-benchmark"
+  },
+  "task_name_filter": "agent-memory-restart-benchmark",
+  "task_record_paths": [
+    "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-core.yaml",
+    "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-blocker.yaml",
+    "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-next-step.yaml",
+    "/tmp/agent-memory-benchmark-rb7xrnci/task-records/restart-validation.yaml"
+  ],
+  "total_check_count": 10
+}

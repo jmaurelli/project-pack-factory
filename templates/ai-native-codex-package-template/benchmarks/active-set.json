@@ -1,0 +1,20 @@
+{
+  "schema_version": "pack-benchmark-active-set/v1",
+  "pack_id": "ai-native-codex-package-template",
+  "pack_kind": "template_pack",
+  "default_benchmark_id": "agent-memory-restart-small-001",
+  "active_benchmarks": [
+    {
+      "benchmark_id": "agent-memory-restart-small-001",
+      "declaration_path": "benchmarks/declarations/agent-memory-restart-small-001.json",
+      "objective": "Bounded repo-local benchmark for deterministic agent restart-state retrieval from structured local memory fixtures.",
+      "required_for_readiness": true
+    },
+    {
+      "benchmark_id": "schema-validator-small-001",
+      "declaration_path": "benchmarks/declarations/schema-validator-small-001.json",
+      "objective": "Bounded schema-validator small benchmark declaration migrated from the compatibility benchmark suite.",
+      "required_for_readiness": true
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "pack-lifecycle/v2",
+  "pack_id": "agent-memory-first-build-pack",
+  "pack_kind": "build_pack",
+  "lifecycle_stage": "retired",
+  "state_reason": "Isolated subsystem experiment retired as a PackFactory validation fixture.",
+  "current_version": "0.1.0",
+  "current_revision": "build-seed-20260318t163439z",
+  "promotion_target": "none",
+  "updated_at": "2026-03-20T00:00:00Z",
+  "updated_by": "orchadmin"
+}

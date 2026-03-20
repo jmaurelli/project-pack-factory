@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ai-native-codex-package-template/agent-memory.schema.json",
+  "title": "Agent Memory Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "producer",
+    "project_root",
+    "memory_id",
+    "task_name",
+    "memory_type",
+    "importance",
+    "status",
+    "summary",
+    "details",
+    "next_actions",
+    "tags",
+    "file_paths",
+    "evidence_paths",
+    "goal_state",
+    "environment_context",
+    "history_context"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "agent-memory/v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "producer": {
+      "const": "ai-native-codex-package-template"
+    },
+    "project_root": {
+      "$ref": "#/$defs/absolute_path"
+    },
+    "memory_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "task_name": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/identifier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "memory_type": {
+      "type": "string",
+      "enum": [
+        "blocker",
+        "next_step",
+        "decision",
+        "validation",
+        "lesson",
+        "context"
+      ]
+    },
+    "importance": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "critical"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "resolved",
+        "archived"
+      ]
+    },
+    "summary": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "details": {
+      "$ref": "#/$defs/string_array"
+    },
+    "next_actions": {
+      "$ref": "#/$defs/string_array"
+    },
+    "tags": {
+      "$ref": "#/$defs/string_array"
+    },
+    "file_paths": {
+      "$ref": "#/$defs/string_array"
+    },
+    "evidence_paths": {
+      "$ref": "#/$defs/string_array"
+    },
+    "goal_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "goal",
+        "goal_status",
+        "completion_signals",
+        "primary_validation_command",
+        "recommended_next_command",
+        "blocked_by",
+        "goal_artifact_paths"
+      ],
+      "properties": {
+        "goal": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "goal_status": {
+          "type": "string",
+          "enum": [
+            "in_progress",
+            "blocked",
+            "completed",
+            "superseded"
+          ]
+        },
+        "completion_signals": {
+          "$ref": "#/$defs/string_array"
+        },
+        "primary_validation_command": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recommended_next_command": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "blocked_by": {
+          "$ref": "#/$defs/string_array"
+        },
+        "goal_artifact_paths": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    },
+    "environment_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operating_root",
+        "task_record_path",
+        "delegation_brief_path",
+        "build_run_manifest_path",
+        "task_goal_telemetry_path",
+        "project_context_references",
+        "relevant_commands",
+        "recommended_read_order"
+      ],
+      "properties": {
+        "operating_root": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "task_record_path": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "delegation_brief_path": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "build_run_manifest_path": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "task_goal_telemetry_path": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "project_context_references": {
+          "$ref": "#/$defs/string_array"
+        },
+        "relevant_commands": {
+          "$ref": "#/$defs/string_array"
+        },
+        "recommended_read_order": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    },
+    "history_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supersedes_memory_id",
+        "conflicts_with",
+        "attempted_commands",
+        "observed_outcomes",
+        "open_questions",
+        "confidence"
+      ],
+      "properties": {
+        "supersedes_memory_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "conflicts_with": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "attempted_commands": {
+          "$ref": "#/$defs/string_array"
+        },
+        "observed_outcomes": {
+          "$ref": "#/$defs/string_array"
+        },
+        "open_questions": {
+          "$ref": "#/$defs/string_array"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "string_array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "absolute_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^/"
+    },
+    "nullable_absolute_path": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/absolute_path"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^/]+$"
+    }
+  }
+}

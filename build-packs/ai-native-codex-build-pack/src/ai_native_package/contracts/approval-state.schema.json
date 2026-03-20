@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Approval State Contract",
+  "description": "Canonical JSON Schema for approval-state values only. This contract is a pure value-shape definition for approval_state fields carried by task metadata and runtime decisions. It intentionally excludes approval transitions, dispatchability rules, approval policy files, worker-result payloads, task-record payloads, and runtime implementation behavior.",
+  "type": "string",
+  "enum": [
+    "approval_required",
+    "approval_pending",
+    "approval_granted",
+    "approval_denied",
+    "approval_not_required"
+  ]
+}

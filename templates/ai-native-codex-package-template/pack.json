@@ -1,0 +1,54 @@
+{
+  "schema_version": "pack-manifest/v2",
+  "pack_id": "ai-native-codex-package-template",
+  "pack_kind": "template_pack",
+  "display_name": "AI-Native Codex Package Template",
+  "owning_team": "orchadmin",
+  "runtime": "python",
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "entrypoints": {
+    "cli_command": "uv run python -m ai_native_package --help",
+    "validation_command": "uv run python -m ai_native_package validate-project-pack --project-root . --output json",
+    "benchmark_command": "uv run python -m ai_native_package benchmark-agent-memory --output json"
+  },
+  "directory_contract": {
+    "docs_dir": "docs",
+    "prompts_dir": "prompts",
+    "contracts_dir": "contracts",
+    "source_dir": "src",
+    "tests_dir": "tests",
+    "benchmarks_dir": "benchmarks",
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "eval_dir": "eval",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "eval_history_dir": "eval/history",
+    "status_dir": "status",
+    "lifecycle_file": "status/lifecycle.json",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "deployment_file": "status/deployment.json",
+    "lineage_dir": null,
+    "lineage_file": null,
+    "dist_dir": "dist",
+    "candidate_release_dir": null,
+    "immutable_release_dir": null,
+    "template_export_dir": "dist/exports",
+    "local_state_dir": ".pack-state"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "This is the canonical template source copied from the repo-local pack."
+  ]
+}

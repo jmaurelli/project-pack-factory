@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/runtime-memory-benchmark-report.schema.json",
+  "title": "PackFactory Runtime Agent Memory Benchmark Report",
+  "description": "Compatibility mirror of the live agent-memory-benchmark/v1 scorecard artifact used by PackFactory readiness evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "benchmark_task_id",
+    "benchmark_category",
+    "benchmark_size_class",
+    "generated_at",
+    "all_checks_passed",
+    "checks",
+    "composite_score",
+    "passed_check_count",
+    "prioritized_memory_ids",
+    "omitted_active_memory_ids",
+    "selected_limit",
+    "output_paths",
+    "snapshot"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "agent-memory-benchmark/v1"
+    },
+    "benchmark_task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "benchmark_category": {
+      "type": "string",
+      "minLength": 1
+    },
+    "benchmark_size_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "all_checks_passed": {
+      "type": "boolean"
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_id",
+          "passed",
+          "expected",
+          "observed"
+        ],
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "expected": {},
+          "observed": {}
+        }
+      }
+    },
+    "composite_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "passed_check_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "prioritized_memory_ids": {
+      "$ref": "#/$defs/string_array"
+    },
+    "omitted_active_memory_ids": {
+      "$ref": "#/$defs/string_array"
+    },
+    "selected_limit": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "output_paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scorecard_path",
+        "snapshot_path"
+      ],
+      "properties": {
+        "scorecard_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^/"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "snapshot_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^/"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

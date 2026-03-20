@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/pack.schema.json",
+  "title": "Project Pack Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pack_id",
+    "pack_kind",
+    "display_name",
+    "owning_team",
+    "runtime",
+    "bootstrap_read_order",
+    "post_bootstrap_read_order",
+    "entrypoints",
+    "directory_contract",
+    "identity_source",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "pack-manifest/v2"
+    },
+    "pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "pack_kind": {
+      "type": "string",
+      "enum": [
+        "template_pack",
+        "build_pack"
+      ]
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owning_team": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime": {
+      "type": "string",
+      "enum": [
+        "python",
+        "typescript",
+        "mixed"
+      ]
+    },
+    "bootstrap_read_order": {
+      "type": "array",
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "const": "AGENTS.md"
+        },
+        {
+          "const": "project-context.md"
+        },
+        {
+          "const": "pack.json"
+        }
+      ],
+      "items": false
+    },
+    "post_bootstrap_read_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "entrypoints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cli_command",
+        "validation_command",
+        "benchmark_command"
+      ],
+      "properties": {
+        "cli_command": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validation_command": {
+          "type": "string",
+          "minLength": 1
+        },
+        "benchmark_command": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "directory_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "docs_dir",
+        "prompts_dir",
+        "contracts_dir",
+        "source_dir",
+        "tests_dir",
+        "benchmarks_dir",
+        "benchmark_active_set_file",
+        "eval_dir",
+        "eval_latest_index_file",
+        "eval_history_dir",
+        "status_dir",
+        "lifecycle_file",
+        "readiness_file",
+        "deployment_file",
+        "lineage_dir",
+        "lineage_file",
+        "dist_dir",
+        "candidate_release_dir",
+        "immutable_release_dir",
+        "template_export_dir",
+        "local_state_dir"
+      ],
+      "properties": {
+        "docs_dir": {
+          "type": "string",
+          "const": "docs"
+        },
+        "prompts_dir": {
+          "type": "string",
+          "const": "prompts"
+        },
+        "contracts_dir": {
+          "type": "string",
+          "const": "contracts"
+        },
+        "source_dir": {
+          "type": "string",
+          "const": "src"
+        },
+        "tests_dir": {
+          "type": "string",
+          "const": "tests"
+        },
+        "benchmarks_dir": {
+          "type": "string",
+          "const": "benchmarks"
+        },
+        "benchmark_active_set_file": {
+          "type": "string",
+          "const": "benchmarks/active-set.json"
+        },
+        "eval_dir": {
+          "type": "string",
+          "const": "eval"
+        },
+        "eval_latest_index_file": {
+          "type": "string",
+          "const": "eval/latest/index.json"
+        },
+        "eval_history_dir": {
+          "type": "string",
+          "const": "eval/history"
+        },
+        "status_dir": {
+          "type": "string",
+          "const": "status"
+        },
+        "lifecycle_file": {
+          "type": "string",
+          "const": "status/lifecycle.json"
+        },
+        "readiness_file": {
+          "type": "string",
+          "const": "status/readiness.json"
+        },
+        "deployment_file": {
+          "type": "string",
+          "const": "status/deployment.json"
+        },
+        "lineage_dir": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "lineage"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lineage_file": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "lineage/source-template.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dist_dir": {
+          "type": "string",
+          "const": "dist"
+        },
+        "candidate_release_dir": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "dist/candidates"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "immutable_release_dir": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "dist/releases"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "template_export_dir": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "dist/exports"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "local_state_dir": {
+          "type": "string",
+          "const": ".pack-state"
+        }
+      }
+    },
+    "identity_source": {
+      "type": "string",
+      "const": "pack.json"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pack_kind": {
+            "const": "template_pack"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "post_bootstrap_read_order": {
+            "type": "array",
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "const": "status/lifecycle.json"
+              },
+              {
+                "const": "status/readiness.json"
+              },
+              {
+                "const": "benchmarks/active-set.json"
+              },
+              {
+                "const": "eval/latest/index.json"
+              }
+            ],
+            "items": false
+          },
+          "directory_contract": {
+            "properties": {
+              "lineage_dir": {
+                "type": "null"
+              },
+              "lineage_file": {
+                "type": "null"
+              },
+              "candidate_release_dir": {
+                "type": "null"
+              },
+              "immutable_release_dir": {
+                "type": "null"
+              },
+              "template_export_dir": {
+                "const": "dist/exports"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pack_kind": {
+            "const": "build_pack"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "post_bootstrap_read_order": {
+            "type": "array",
+            "minItems": 6,
+            "prefixItems": [
+              {
+                "const": "status/lifecycle.json"
+              },
+              {
+                "const": "status/readiness.json"
+              },
+              {
+                "const": "status/deployment.json"
+              },
+              {
+                "const": "lineage/source-template.json"
+              },
+              {
+                "const": "benchmarks/active-set.json"
+              },
+              {
+                "const": "eval/latest/index.json"
+              }
+            ],
+            "items": false
+          },
+          "directory_contract": {
+            "properties": {
+              "lineage_dir": {
+                "const": "lineage"
+              },
+              "lineage_file": {
+                "const": "lineage/source-template.json"
+              },
+              "candidate_release_dir": {
+                "const": "dist/candidates"
+              },
+              "immutable_release_dir": {
+                "const": "dist/releases"
+              },
+              "template_export_dir": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

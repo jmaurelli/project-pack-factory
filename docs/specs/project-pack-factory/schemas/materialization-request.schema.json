@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/materialization-request.schema.json",
+  "title": "Build Pack Materialization Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_template_id",
+    "target_build_pack_id",
+    "target_display_name",
+    "target_version",
+    "target_revision",
+    "materialized_by",
+    "materialization_reason",
+    "copy_mode",
+    "include_benchmark_declarations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "build-pack-materialization-request/v1"
+    },
+    "source_template_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "materialized_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "materialization_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "copy_mode": {
+      "type": "string",
+      "const": "copy_pack_root"
+    },
+    "include_benchmark_declarations": {
+      "type": "boolean"
+    }
+  }
+}

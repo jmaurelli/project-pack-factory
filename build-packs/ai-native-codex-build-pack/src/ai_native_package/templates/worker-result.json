@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "files_changed": [],
+  "behavioral_change": "replace-with-behavior-change-summary",
+  "validation_results": [
+    {
+      "command": "replace-with-validation-command",
+      "status": "not_run",
+      "exit_code": 0,
+      "summary": "replace-with-validation-summary",
+      "artifacts_produced": []
+    }
+  ],
+  "task_local_risk": "replace-with-residual-task-local-risk-or-no-task-local-risk-remains",
+  "artifacts_updated": [],
+  "notes_for_next_task": "replace-with-concise-handoff-note-or-remove-if-not-needed"
+}

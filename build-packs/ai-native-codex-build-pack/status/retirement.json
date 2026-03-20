@@ -1,0 +1,22 @@
+{
+  "schema_version": "pack-retirement/v1",
+  "pack_id": "ai-native-codex-build-pack",
+  "pack_kind": "build_pack",
+  "retirement_state": "retired",
+  "retired_at": "2026-03-20T00:00:00Z",
+  "retired_by": "orchadmin",
+  "retirement_reason": "Stopped migration fixture retired as a PackFactory validation case.",
+  "superseded_by_pack_id": null,
+  "retirement_report_path": "eval/history/retire-ai-native-codex-build-pack-20260320t000000z/retirement-report.json",
+  "removed_deployment_pointer_paths": [
+    "deployments/testing/ai-native-codex-build-pack.json"
+  ],
+  "retained_artifacts": {
+    "eval_history": true,
+    "release_artifacts": true,
+    "lineage": true
+  },
+  "operator_notes": [
+    "Preserved as a PackFactory retirement fixture."
+  ]
+}

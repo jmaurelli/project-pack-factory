@@ -1,0 +1,46 @@
+{
+  "events": [
+    {
+      "event_type": "seeded",
+      "notes": [
+        "Temporary importer materialized the PackFactory scaffold from the repo-local pack.",
+        "Benchmark evidence was copied into pack-local eval/history surfaces."
+      ],
+      "promotion_id": "seed-20260318t155747z",
+      "source_template_id": "ai-native-codex-package-template",
+      "status": "completed",
+      "target_build_pack_id": "ai-native-codex-build-pack"
+    },
+    {
+      "event_type": "seeded",
+      "notes": [
+        "Build pack was copied from the canonical memory-first template.",
+        "The derived build pack passed local validation, tests, ruff, mypy, and the restart-state benchmark."
+      ],
+      "promotion_id": "seed-20260318t163439z",
+      "source_template_id": "agent-memory-first-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "agent-memory-first-build-pack"
+    },
+    {
+      "event_type": "retired",
+      "retired_pack_id": "ai-native-codex-build-pack",
+      "retired_pack_kind": "build_pack",
+      "retired_at": "2026-03-20T00:00:00Z",
+      "retirement_reason": "Stopped migration fixture retired under the PackFactory retire workflow.",
+      "retirement_report_path": "eval/history/retire-ai-native-codex-build-pack-20260320t000000z/retirement-report.json",
+      "status": "completed"
+    },
+    {
+      "event_type": "retired",
+      "retired_pack_id": "agent-memory-first-build-pack",
+      "retired_pack_kind": "build_pack",
+      "retired_at": "2026-03-20T00:00:00Z",
+      "retirement_reason": "Experimental isolated memory build-pack superseded by runtime-integrated memory design.",
+      "retirement_report_path": "eval/history/retire-agent-memory-first-build-pack-20260320t000000z/retirement-report.json",
+      "status": "completed"
+    }
+  ],
+  "schema_version": "project-pack-factory-promotion-log/v1",
+  "updated_at": "2026-03-20T11:14:57Z"
+}

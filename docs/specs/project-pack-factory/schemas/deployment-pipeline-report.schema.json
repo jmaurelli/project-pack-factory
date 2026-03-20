@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/deployment-pipeline-report.schema.json",
+  "title": "Deployment Pipeline Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pipeline_id",
+    "generated_at",
+    "build_pack_id",
+    "build_pack_root",
+    "target_environment",
+    "release_id",
+    "cloud_adapter_id",
+    "invoked_by",
+    "commit_promotion_on_success",
+    "final_status",
+    "operation_log_update",
+    "stage_results",
+    "adapter_result",
+    "evidence_paths"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "deployment-pipeline-report/v1"
+    },
+    "pipeline_id": {
+      "type": "string",
+      "pattern": "^pipeline-[a-z0-9][a-z0-9_-]*-(testing|staging|production)-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "build_pack_root": {
+      "type": "string",
+      "pattern": "^build-packs/[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_environment": {
+      "type": "string",
+      "enum": [
+        "testing",
+        "staging",
+        "production"
+      ]
+    },
+    "release_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cloud_adapter_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "invoked_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "commit_promotion_on_success": {
+      "type": "boolean"
+    },
+    "final_status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed",
+        "reconciled"
+      ]
+    },
+    "operation_log_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "promotion_log_path",
+        "event_type",
+        "pipeline_id",
+        "build_pack_id",
+        "pipeline_report_path"
+      ],
+      "properties": {
+        "promotion_log_path": {
+          "const": "registry/promotion-log.json"
+        },
+        "event_type": {
+          "const": "pipeline_executed"
+        },
+        "pipeline_id": {
+          "type": "string",
+          "pattern": "^pipeline-[a-z0-9][a-z0-9_-]*-(testing|staging|production)-[0-9]{8}t[0-9]{6}z$"
+        },
+        "build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "pipeline_report_path": {
+          "type": "string",
+          "pattern": "^eval/history/[^/]+/pipeline-report\\.json$"
+        }
+      }
+    },
+    "stage_results": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/validate_factory_stage"
+        },
+        {
+          "$ref": "#/$defs/validate_build_pack_stage"
+        },
+        {
+          "$ref": "#/$defs/run_required_benchmarks_stage"
+        },
+        {
+          "$ref": "#/$defs/package_release_stage"
+        },
+        {
+          "$ref": "#/$defs/deploy_release_stage"
+        },
+        {
+          "$ref": "#/$defs/verify_deployment_stage"
+        },
+        {
+          "$ref": "#/$defs/finalize_promotion_stage"
+        }
+      ],
+      "items": false
+    },
+    "adapter_result": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "adapter_id",
+            "provider",
+            "deployment_handle",
+            "deployment_url",
+            "status",
+            "artifacts",
+            "logs"
+          ],
+          "properties": {
+            "adapter_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "deployment_handle": {
+              "type": "string",
+              "minLength": 1
+            },
+            "deployment_url": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "completed",
+                "failed",
+                "reconciled"
+              ]
+            },
+            "artifacts": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "logs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "evidence_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "stage_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "failed",
+            "reconciled",
+            "skipped"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "validate_factory_stage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/stage"
+        },
+        {
+          "properties": {
+            "stage_id": {
+              "const": "validate_factory_state"
+            }
+          }
+        }
+      ]
+    },
+    "validate_build_pack_stage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/stage"
+        },
+        {
+          "properties": {
+            "stage_id": {
+              "const": "validate_build_pack"
+            }
+          }
+        }
+      ]
+    },
+    "run_required_benchmarks_stage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/stage"
+        },
+        {
+          "properties": {
+            "stage_id": {
+              "const": "run_required_benchmarks"
+            }
+          }
+        }
+      ]
+    },
+    "package_release_stage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/stage"
+        },
+        {
+          "properties": {
+            "stage_id": {
+              "const": "package_release"
+            }
+          }
+        }
+      ]
+    },
+    "deploy_release_stage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/stage"
+        },
+        {
+          "properties": {
+            "stage_id": {
+              "const": "deploy_release"
+            }
+          }
+        }
+      ]
+    },
+    "verify_deployment_stage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/stage"
+        },
+        {
+          "properties": {
+            "stage_id": {
+              "const": "verify_deployment"
+            }
+          }
+        }
+      ]
+    },
+    "finalize_promotion_stage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/stage"
+        },
+        {
+          "properties": {
+            "stage_id": {
+              "const": "finalize_promotion"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

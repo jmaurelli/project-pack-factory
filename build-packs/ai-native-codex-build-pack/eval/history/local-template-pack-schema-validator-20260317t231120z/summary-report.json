@@ -1,0 +1,24 @@
+{
+  "approval_profile": "approval_not_required",
+  "benchmark_category": "schema-validator",
+  "benchmark_revision": "rev-benchmark-fixture-001",
+  "benchmark_size_class": "small",
+  "benchmark_suite_id": "template-pack-eval-bounded-suite",
+  "benchmark_task_id": "task-schema-validator-small-001",
+  "complexity_profile": "single-module-low",
+  "generated_at": "2026-03-17T23:11:20Z",
+  "metrics": {
+    "blocked_rate": 0.0,
+    "duration_ms": 3530,
+    "escalation_rate": 0.0,
+    "evidence_completeness_rate": 1.0,
+    "retry_rate": 0.0,
+    "scope_mismatch_rate": 0.0,
+    "success_rate": 1.0
+  },
+  "orchestration_core_version": "1fd19f7d5bb8c35491545b702d243bfd7d9aeae9",
+  "pack_family": "template-pack",
+  "pack_language": "python",
+  "run_id": "local-template-pack-schema-validator-20260317t231120z",
+  "terminal_benchmark_classification": "completed_within_envelope"
+}

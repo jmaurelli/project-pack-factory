@@ -1,0 +1,323 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/retirement-report.schema.json",
+  "title": "Project Pack Retirement Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "retirement_id",
+    "generated_at",
+    "pack_id",
+    "pack_kind",
+    "pack_root",
+    "retired_by",
+    "retirement_reason",
+    "superseded_by_pack_id",
+    "pre_retirement_state",
+    "post_retirement_state",
+    "registry_updates",
+    "promotion_log_update",
+    "actions",
+    "evidence_paths"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "pack-retirement-report/v1"
+    },
+    "retirement_id": {
+      "type": "string",
+      "pattern": "^retire-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "pack_kind": {
+      "type": "string",
+      "enum": [
+        "template_pack",
+        "build_pack"
+      ]
+    },
+    "pack_root": {
+      "type": "string",
+      "pattern": "^(templates|build-packs)/[a-z0-9][a-z0-9_-]*$"
+    },
+    "retired_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retirement_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "superseded_by_pack_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "pre_retirement_state": {
+      "$ref": "#/$defs/state_snapshot"
+    },
+    "post_retirement_state": {
+      "$ref": "#/$defs/state_snapshot"
+    },
+    "registry_updates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/registry_update"
+      }
+    },
+    "promotion_log_update": {
+      "$ref": "#/$defs/promotion_log_update"
+    },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/action"
+      }
+    },
+    "evidence_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "state_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_stage",
+        "readiness_state",
+        "deployment_state",
+        "active_environment",
+        "deployment_pointer_path"
+      ],
+      "properties": {
+        "lifecycle_stage": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "testing",
+            "release_candidate",
+            "maintained",
+            "deprecated",
+            "retired"
+          ]
+        },
+        "readiness_state": {
+          "type": "string",
+          "enum": [
+            "blocked",
+            "in_progress",
+            "ready_for_review",
+            "ready_for_deploy",
+            "deployed",
+            "retired"
+          ]
+        },
+        "deployment_state": {
+          "type": "string",
+          "enum": [
+            "not_deployed",
+            "testing",
+            "staging",
+            "production"
+          ]
+        },
+        "active_environment": {
+          "type": "string",
+          "enum": [
+            "none",
+            "testing",
+            "staging",
+            "production"
+          ]
+        },
+        "deployment_pointer_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retirement_state": {
+          "enum": [
+            "active",
+            "retired"
+          ]
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_id",
+        "status",
+        "target_path",
+        "summary"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "string",
+          "enum": [
+            "write_retirement_state",
+            "update_lifecycle_state",
+            "update_readiness_state",
+            "update_deployment_state",
+            "remove_deployment_pointer",
+            "update_registry_entry",
+            "append_promotion_log",
+            "write_retirement_report"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "skipped",
+            "failed",
+            "reconciled"
+          ]
+        },
+        "target_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "registry_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registry_path",
+        "pack_id",
+        "pack_kind",
+        "retirement_state",
+        "active",
+        "retired_at"
+      ],
+      "properties": {
+        "registry_path": {
+          "type": "string",
+          "pattern": "^registry/(templates|build-packs)\\.json$"
+        },
+        "pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "pack_kind": {
+          "type": "string",
+          "enum": [
+            "template_pack",
+            "build_pack"
+          ]
+        },
+        "retirement_state": {
+          "const": "retired"
+        },
+        "active": {
+          "const": false
+        },
+        "retired_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "promotion_log_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "promotion_log_path",
+        "event_type",
+        "retired_pack_id",
+        "retired_pack_kind",
+        "retirement_report_path",
+        "retired_at"
+      ],
+      "properties": {
+        "promotion_log_path": {
+          "type": "string",
+          "const": "registry/promotion-log.json"
+        },
+        "event_type": {
+          "const": "retired"
+        },
+        "retired_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "retired_pack_kind": {
+          "type": "string",
+          "enum": [
+            "template_pack",
+            "build_pack"
+          ]
+        },
+        "retirement_report_path": {
+          "type": "string",
+          "pattern": "^eval/history/[^/]+/retirement-report\\.json$"
+        },
+        "retired_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "post_retirement_state": {
+          "properties": {
+            "lifecycle_stage": {
+              "const": "retired"
+            },
+            "readiness_state": {
+              "const": "retired"
+            },
+            "deployment_state": {
+              "const": "not_deployed"
+            },
+            "active_environment": {
+              "const": "none"
+            },
+            "deployment_pointer_path": {
+              "type": "null"
+            },
+            "retirement_state": {
+              "const": "retired"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "schema_version": "project-pack-contract/v1",
+  "determinism": {
+    "required_runtime_inputs": [
+      "project_root",
+      "artifacts_dir"
+    ],
+    "deferred_runtime_inputs": [
+      "project_root"
+    ]
+  },
+  "required_docs": {
+    "mandatory_files": [
+      "AGENTS.md",
+      "docs/benchmark-first-task.md"
+    ],
+    "optional_files": [
+      "README.md",
+      "project-context.md"
+    ],
+    "required_headings": {
+      "AGENTS.md": [
+        "Purpose",
+        "Working Rules",
+        "Done Criteria"
+      ],
+      "README.md": [
+        "Read First",
+        "Validation Surface",
+        "Deployment Root"
+      ],
+      "project-context.md": [
+        "Mission",
+        "Package Standards",
+        "Success Criteria For Small Benchmark Tasks"
+      ]
+    }
+  },
+  "documentation_style": {
+    "required_terms": [
+      "deterministic",
+      "benchmark",
+      "plain language"
+    ],
+    "forbidden_terms": [
+      "lorem ipsum",
+      "synergy",
+      "seamless"
+    ],
+    "required_tone_markers": [
+      "thin CLI",
+      "minimal"
+    ],
+    "required_explanatory_headings": {
+      "README.md": [
+        "Key Terms",
+        "Why This Matters"
+      ],
+      "project-context.md": [
+        "What This Means"
+      ]
+    },
+    "required_term_definitions": {
+      "README.md": [
+        "Artifact",
+        "Contract",
+        "Validator",
+        "Schema"
+      ]
+    },
+    "applies_to_optional_files": [
+      "README.md",
+      "project-context.md"
+    ]
+  },
+  "testing_policy": {
+    "required_dev_tools": [
+      "pytest",
+      "ruff",
+      "mypy"
+    ],
+    "required_policy_markers": [
+      "test-first for new behavior when feasible",
+      "minimal, high-signal tests"
+    ],
+    "tdd_preference": "preferred_for_new_behavior"
+  },
+  "goal_loop_policy": {
+    "required_policy_markers": [
+      "goal contract",
+      "primary goal gate",
+      "keep iterating if it fails",
+      "stop only when the declared validation path passes"
+    ],
+    "task_record_template_path": "src/ai_native_package/templates/task-record.yaml",
+    "task_record_schema_path": "src/ai_native_package/contracts/task-record.schema.json",
+    "required_cli_commands": [
+      "validate-task-goal",
+      "run-task-goal-loop"
+    ]
+  },
+  "doc_update_policy": {
+    "record_path": "docs/doc-update-record.json",
+    "schema_path": "src/ai_native_package/contracts/doc-update-record.schema.json",
+    "required_for_code_paths": [
+      "src/ai_native_package/cli.py",
+      "src/ai_native_package/api.py",
+      "src/ai_native_package/__init__.py"
+    ]
+  },
+  "framework_profiles": {
+    "catalog_path": "src/ai_native_package/contracts/framework-profiles.json",
+    "required_profile_docs": [
+      "docs/framework-profiles/python-cli-click.md"
+    ]
+  },
+  "framework_policy": {
+    "approved_python_cli_dependencies": [
+      "click"
+    ],
+    "disallowed_python_cli_dependencies": [
+      "fastapi",
+      "django",
+      "flask"
+    ]
+  }
+}

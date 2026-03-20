@@ -1,0 +1,36 @@
+{
+  "schema_version": "benchmark-declaration/v1",
+  "benchmark_task_id": "task-agent-memory-restart-small-001",
+  "benchmark_suite_id": "template-pack-eval-bounded-suite",
+  "benchmark_revision": "rev-agent-memory-restart-small-001",
+  "benchmark_category": "restart-state-retrieval",
+  "benchmark_size_class": "small",
+  "complexity_profile": "single-package-low",
+  "approval_profile": "approval_not_required",
+  "intended_pack_family": "template-pack",
+  "intended_languages": [
+    "python"
+  ],
+  "description": "Bounded repo-local benchmark for deterministic agent restart-state retrieval from structured local memory fixtures.",
+  "target_project": {
+    "target_project_id": "ai-native-codex-package-template",
+    "target_locator": "repo-local",
+    "default_relative_root": "packages/ai-native-codex-package-template"
+  },
+  "manifest_defaults": {
+    "pack_family": "template-pack",
+    "pack_version": "0.1.0",
+    "orchestration_core_version": "1fd19f7",
+    "terminal_benchmark_classification": "completed_within_envelope"
+  },
+  "tags": [
+    "agent-memory",
+    "restart-state",
+    "small",
+    "repo-local"
+  ],
+  "owners": [
+    "orchadmin"
+  ],
+  "status": "active"
+}

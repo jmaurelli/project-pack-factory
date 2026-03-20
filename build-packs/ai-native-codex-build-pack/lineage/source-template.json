@@ -1,0 +1,21 @@
+{
+  "schema_version": "pack-lineage/v2",
+  "build_pack_id": "ai-native-codex-build-pack",
+  "source_template_id": "ai-native-codex-package-template",
+  "source_template_version": "0.1.0",
+  "source_template_revision": "27cfbec3b445a1544b7d564ff3369248df38b93c",
+  "derivation_mode": "synced",
+  "sync_state": "current",
+  "last_sync_at": "2026-03-18T15:57:47Z",
+  "last_sync_summary": "Build pack seeded from the canonical template source.",
+  "inherited_entrypoints": [
+    "cli_command",
+    "validation_command",
+    "benchmark_command"
+  ],
+  "inherited_contracts": [
+    "project-pack",
+    "doc-update-record",
+    "task-record"
+  ]
+}

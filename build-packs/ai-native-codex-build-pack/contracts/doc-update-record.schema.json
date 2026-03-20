@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Doc Update Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "change_summary",
+    "code_paths",
+    "doc_paths",
+    "doc_update_reason",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "doc-update-record/v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_root": {
+      "type": ["string", "null"]
+    },
+    "change_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "code_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "doc_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "doc_update_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["updated", "not_required"]
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

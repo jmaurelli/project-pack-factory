@@ -1,0 +1,106 @@
+{
+  "schema_version": "local-template-pack-command-summary/v1",
+  "run_id": "local-template-pack-schema-validator-20260317t231120z",
+  "target_project_id": "ai-native-codex-package-template",
+  "target_project_root": "/home/orchadmin/ai-orchestrator-lab/packages/ai-native-codex-package-template",
+  "generated_at": "2026-03-17T23:11:20Z",
+  "benchmark_task_id": "task-schema-validator-small-001",
+  "all_commands_passed": true,
+  "command_count": 5,
+  "passed_command_count": 5,
+  "failed_command_count": 0,
+  "total_duration_ms": 3530,
+  "pytest_passed_count": 62,
+  "command_results": [
+    {
+      "name": "pytest",
+      "argv": [
+        "uv",
+        "run",
+        "--extra",
+        "dev",
+        "pytest",
+        "-q"
+      ],
+      "returncode": 0,
+      "duration_ms": 2678,
+      "stdout": "..............................................................           [100%]\n62 passed in 2.30s\n",
+      "stderr": "",
+      "passed": true,
+      "pytest_passed_count": 62
+    },
+    {
+      "name": "ruff",
+      "argv": [
+        "uv",
+        "run",
+        "--extra",
+        "dev",
+        "ruff",
+        "check",
+        "."
+      ],
+      "returncode": 0,
+      "duration_ms": 58,
+      "stdout": "All checks passed!\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "mypy",
+      "argv": [
+        "uv",
+        "run",
+        "--extra",
+        "dev",
+        "mypy",
+        "src"
+      ],
+      "returncode": 0,
+      "duration_ms": 276,
+      "stdout": "Success: no issues found in 39 source files\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "validate_project_pack",
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "-m",
+        "ai_native_package",
+        "validate-project-pack",
+        "--project-root",
+        ".",
+        "--output",
+        "json"
+      ],
+      "returncode": 0,
+      "duration_ms": 256,
+      "stdout": "{\n  \"errors\": [],\n  \"inputs\": {\n    \"contract\": \"/home/orchadmin/ai-orchestrator-lab/packages/ai-native-codex-package-template/src/ai_native_package/contracts/project-pack.contract.json\",\n    \"project_root\": \"/home/orchadmin/ai-orchestrator-lab/packages/ai-native-codex-package-template\"\n  },\n  \"result\": \"pass\",\n  \"summary\": \"Project-pack contract checks passed.\",\n  \"validator\": \"validate-project-pack\"\n}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "name": "validate_doc_update_record",
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "-m",
+        "ai_native_package",
+        "validate-doc-update-record",
+        "--project-root",
+        ".",
+        "--output",
+        "json"
+      ],
+      "returncode": 0,
+      "duration_ms": 262,
+      "stdout": "{\n  \"errors\": [],\n  \"inputs\": {\n    \"project_root\": \"/home/orchadmin/ai-orchestrator-lab/packages/ai-native-codex-package-template\",\n    \"record\": \"/home/orchadmin/ai-orchestrator-lab/packages/ai-native-codex-package-template/docs/doc-update-record.json\",\n    \"schema\": \"/home/orchadmin/ai-orchestrator-lab/packages/ai-native-codex-package-template/src/ai_native_package/contracts/doc-update-record.schema.json\"\n  },\n  \"result\": \"pass\",\n  \"summary\": \"Doc update record validation passed.\",\n  \"validator\": \"validate-doc-update-record\"\n}\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

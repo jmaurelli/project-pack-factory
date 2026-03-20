@@ -1,0 +1,15 @@
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.dist/
+build/
+dist/
+
+# Local validation and editor noise
+.coverage
+htmlcov/
+.DS_Store

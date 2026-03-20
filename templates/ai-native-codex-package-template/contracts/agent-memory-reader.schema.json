@@ -1,0 +1,582 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ai-native-codex-package-template/agent-memory-reader.schema.json",
+  "title": "Agent Memory Reader Payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "reader",
+    "project_root",
+    "task_name_filter",
+    "retrieval_focus",
+    "local_artifact_counts",
+    "prioritized_memories",
+    "omitted_active_memories",
+    "restart_state",
+    "handoff_summary",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "agent-memory-reader/v1"
+    },
+    "reader": {
+      "const": "agent-memory-reader"
+    },
+    "project_root": {
+      "$ref": "#/$defs/absolute_path"
+    },
+    "task_name_filter": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "retrieval_focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active_status_first",
+        "importance_before_type",
+        "priority_memory_types",
+        "selected_limit"
+      ],
+      "properties": {
+        "active_status_first": {
+          "type": "boolean"
+        },
+        "importance_before_type": {
+          "type": "boolean"
+        },
+        "priority_memory_types": {
+          "$ref": "#/$defs/string_array"
+        },
+        "selected_limit": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "local_artifact_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "memory_count",
+        "active_count",
+        "resolved_count",
+        "archived_count"
+      ],
+      "properties": {
+        "memory_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "active_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resolved_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "archived_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "prioritized_memories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/memory_card"
+      }
+    },
+    "omitted_active_memories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/memory_card"
+      }
+    },
+    "restart_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "goals",
+        "goal_statuses",
+        "completion_signals",
+        "primary_validation_commands",
+        "recommended_next_commands",
+        "blocked_by",
+        "goal_artifact_paths",
+        "environment_context",
+        "history_context",
+        "history_warnings"
+      ],
+      "properties": {
+        "goals": {
+          "$ref": "#/$defs/string_array"
+        },
+        "goal_statuses": {
+          "$ref": "#/$defs/string_array"
+        },
+        "completion_signals": {
+          "$ref": "#/$defs/string_array"
+        },
+        "primary_validation_commands": {
+          "$ref": "#/$defs/string_array"
+        },
+        "recommended_next_commands": {
+          "$ref": "#/$defs/string_array"
+        },
+        "blocked_by": {
+          "$ref": "#/$defs/string_array"
+        },
+        "goal_artifact_paths": {
+          "$ref": "#/$defs/string_array"
+        },
+        "environment_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operating_roots",
+            "task_record_paths",
+            "delegation_brief_paths",
+            "project_context_references",
+            "build_run_manifest_paths",
+            "task_goal_telemetry_paths",
+            "relevant_commands",
+            "recommended_read_order"
+          ],
+          "properties": {
+            "operating_roots": {
+              "$ref": "#/$defs/string_array"
+            },
+            "task_record_paths": {
+              "$ref": "#/$defs/string_array"
+            },
+            "delegation_brief_paths": {
+              "$ref": "#/$defs/string_array"
+            },
+            "project_context_references": {
+              "$ref": "#/$defs/string_array"
+            },
+            "build_run_manifest_paths": {
+              "$ref": "#/$defs/string_array"
+            },
+            "task_goal_telemetry_paths": {
+              "$ref": "#/$defs/string_array"
+            },
+            "relevant_commands": {
+              "$ref": "#/$defs/string_array"
+            },
+            "recommended_read_order": {
+              "$ref": "#/$defs/string_array"
+            }
+          }
+        },
+        "history_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "attempted_commands",
+            "observed_outcomes",
+            "open_questions"
+          ],
+          "properties": {
+            "attempted_commands": {
+              "$ref": "#/$defs/string_array"
+            },
+            "observed_outcomes": {
+              "$ref": "#/$defs/string_array"
+            },
+            "open_questions": {
+              "$ref": "#/$defs/string_array"
+            }
+          }
+        },
+        "history_warnings": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    },
+    "handoff_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active_blockers",
+        "active_next_steps",
+        "next_actions",
+        "active_decisions",
+        "validation_learnings",
+        "file_focus",
+        "compact_handoff"
+      ],
+      "properties": {
+        "active_blockers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/memory_card"
+          }
+        },
+        "active_next_steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/memory_card"
+          }
+        },
+        "next_actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/action_item"
+          }
+        },
+        "active_decisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/memory_card"
+          }
+        },
+        "validation_learnings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/memory_card"
+          }
+        },
+        "file_focus": {
+          "$ref": "#/$defs/string_array"
+        },
+        "compact_handoff": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    },
+    "notes": {
+      "$ref": "#/$defs/string_array"
+    }
+  },
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "string_array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "absolute_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^/"
+    },
+    "nullable_absolute_path": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/absolute_path"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^/]+$"
+    },
+    "goal_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "goal",
+        "goal_status",
+        "completion_signals",
+        "primary_validation_command",
+        "recommended_next_command",
+        "blocked_by",
+        "goal_artifact_paths"
+      ],
+      "properties": {
+        "goal": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "goal_status": {
+          "type": "string",
+          "enum": [
+            "in_progress",
+            "blocked",
+            "completed",
+            "superseded"
+          ]
+        },
+        "completion_signals": {
+          "$ref": "#/$defs/string_array"
+        },
+        "primary_validation_command": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recommended_next_command": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "blocked_by": {
+          "$ref": "#/$defs/string_array"
+        },
+        "goal_artifact_paths": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    },
+    "environment_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operating_root",
+        "task_record_path",
+        "delegation_brief_path",
+        "project_context_references",
+        "build_run_manifest_path",
+        "task_goal_telemetry_path",
+        "relevant_commands",
+        "recommended_read_order"
+      ],
+      "properties": {
+        "operating_root": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "task_record_path": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "delegation_brief_path": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "project_context_references": {
+          "$ref": "#/$defs/string_array"
+        },
+        "build_run_manifest_path": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "task_goal_telemetry_path": {
+          "$ref": "#/$defs/nullable_absolute_path"
+        },
+        "relevant_commands": {
+          "$ref": "#/$defs/string_array"
+        },
+        "recommended_read_order": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    },
+    "history_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supersedes_memory_id",
+        "conflicts_with",
+        "attempted_commands",
+        "observed_outcomes",
+        "open_questions",
+        "confidence"
+      ],
+      "properties": {
+        "supersedes_memory_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "conflicts_with": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "attempted_commands": {
+          "$ref": "#/$defs/string_array"
+        },
+        "observed_outcomes": {
+          "$ref": "#/$defs/string_array"
+        },
+        "open_questions": {
+          "$ref": "#/$defs/string_array"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        }
+      }
+    },
+    "memory_card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "memory_id",
+        "task_name",
+        "memory_type",
+        "importance",
+        "status",
+        "summary",
+        "details",
+        "next_actions",
+        "tags",
+        "file_paths",
+        "evidence_paths",
+        "generated_at",
+        "goal_state",
+        "environment_context",
+        "history_context",
+        "source_path"
+      ],
+      "properties": {
+        "memory_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "task_name": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "memory_type": {
+          "type": "string",
+          "enum": [
+            "blocker",
+            "next_step",
+            "decision",
+            "validation",
+            "lesson",
+            "context"
+          ]
+        },
+        "importance": {
+          "type": "string",
+          "enum": [
+            "low",
+            "normal",
+            "high",
+            "critical"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "resolved",
+            "archived"
+          ]
+        },
+        "summary": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "details": {
+          "$ref": "#/$defs/string_array"
+        },
+        "next_actions": {
+          "$ref": "#/$defs/string_array"
+        },
+        "tags": {
+          "$ref": "#/$defs/string_array"
+        },
+        "file_paths": {
+          "$ref": "#/$defs/string_array"
+        },
+        "evidence_paths": {
+          "$ref": "#/$defs/string_array"
+        },
+        "generated_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+        },
+        "goal_state": {
+          "$ref": "#/$defs/goal_state"
+        },
+        "environment_context": {
+          "$ref": "#/$defs/environment_context"
+        },
+        "history_context": {
+          "$ref": "#/$defs/history_context"
+        },
+        "source_path": {
+          "$ref": "#/$defs/absolute_path"
+        }
+      }
+    },
+    "action_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "memory_id",
+        "task_name",
+        "source_path",
+        "file_paths",
+        "evidence_paths"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "memory_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "task_name": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_path": {
+          "$ref": "#/$defs/absolute_path"
+        },
+        "file_paths": {
+          "$ref": "#/$defs/string_array"
+        },
+        "evidence_paths": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "run_id": "agent-memory-first-template-pack-agent-memory-restart-20260318t163122z",
+  "success_rate": 1.0,
+  "blocked_rate": 0.0,
+  "retry_rate": 0.0,
+  "escalation_rate": 0.0,
+  "scope_mismatch_rate": 0.0,
+  "evidence_completeness_rate": 1.0,
+  "duration_ms": 5635,
+  "terminal_benchmark_classification": "completed_within_envelope",
+  "composite_score": 1.0
+}

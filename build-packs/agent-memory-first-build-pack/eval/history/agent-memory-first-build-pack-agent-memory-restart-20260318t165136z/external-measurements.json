@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-03-18T16:51:36Z",
+  "measurements": {
+    "benchmark_composite_score": 1.0,
+    "benchmark_ms": 497,
+    "mypy_ms": 256,
+    "ruff_ms": 52,
+    "unit_tests_ms": 2421,
+    "validate_project_pack_ms": 408
+  },
+  "pack_id": "agent-memory-first-build-pack",
+  "pack_kind": "build_pack",
+  "run_id": "agent-memory-first-build-pack-agent-memory-restart-20260318t165136z",
+  "schema_version": "pack-external-measurements/v1"
+}

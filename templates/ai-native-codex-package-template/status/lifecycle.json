@@ -1,0 +1,12 @@
+{
+  "schema_version": "pack-lifecycle/v2",
+  "pack_id": "ai-native-codex-package-template",
+  "pack_kind": "template_pack",
+  "lifecycle_stage": "maintained",
+  "state_reason": "Canonical PackFactory template source.",
+  "current_version": "0.1.0",
+  "current_revision": "27cfbec3b445a1544b7d564ff3369248df38b93c",
+  "promotion_target": "none",
+  "updated_at": "2026-03-18T15:57:47Z",
+  "updated_by": "temporary-import-script"
+}

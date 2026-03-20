@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/lifecycle.schema.json",
+  "title": "Project Pack Lifecycle State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pack_id",
+    "pack_kind",
+    "lifecycle_stage",
+    "state_reason",
+    "current_version",
+    "current_revision",
+    "promotion_target",
+    "updated_at",
+    "updated_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "pack-lifecycle/v2"
+    },
+    "pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "pack_kind": {
+      "type": "string",
+      "enum": [
+        "template_pack",
+        "build_pack"
+      ]
+    },
+    "lifecycle_stage": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "testing",
+        "release_candidate",
+        "maintained",
+        "deprecated",
+        "retired"
+      ]
+    },
+    "state_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "promotion_target": {
+      "type": "string",
+      "enum": [
+        "none",
+        "testing",
+        "staging",
+        "production"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_by": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lifecycle_stage": {
+            "const": "draft"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "promotion_target": {
+            "enum": [
+              "none",
+              "testing"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle_stage": {
+            "const": "testing"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "promotion_target": {
+            "enum": [
+              "none",
+              "testing",
+              "staging"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle_stage": {
+            "const": "release_candidate"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "promotion_target": {
+            "enum": [
+              "staging",
+              "production"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle_stage": {
+            "const": "maintained"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "promotion_target": {
+            "enum": [
+              "none",
+              "production"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle_stage": {
+            "const": "retired"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "promotion_target": {
+            "const": "none"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle_stage": {
+            "const": "deprecated"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "promotion_target": {
+            "const": "none"
+          }
+        }
+      }
+    }
+  ]
+}

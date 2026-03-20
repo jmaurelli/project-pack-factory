@@ -1,0 +1,24 @@
+{
+  "schema_version": "framework-profiles/v1",
+  "default_profile": "python-cli-click",
+  "profiles": [
+    {
+      "profile_id": "python-cli-click",
+      "status": "approved",
+      "language": "python",
+      "framework": "click",
+      "project_shape": "cli",
+      "doc_path": "docs/framework-profiles/python-cli-click.md",
+      "summary": "Default profile for a small deterministic Python CLI built with click."
+    },
+    {
+      "profile_id": "python-api-fastapi",
+      "status": "reference_only",
+      "language": "python",
+      "framework": "fastapi",
+      "project_shape": "api",
+      "doc_path": "docs/framework-profiles/python-api-fastapi.md",
+      "summary": "Reference profile for future API-oriented packs. Not approved in this pack baseline."
+    }
+  ]
+}

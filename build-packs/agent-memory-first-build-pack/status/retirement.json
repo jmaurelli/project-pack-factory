@@ -1,0 +1,22 @@
+{
+  "schema_version": "pack-retirement/v1",
+  "pack_id": "agent-memory-first-build-pack",
+  "pack_kind": "build_pack",
+  "retirement_state": "retired",
+  "retired_at": "2026-03-20T00:00:00Z",
+  "retired_by": "orchadmin",
+  "retirement_reason": "Isolated subsystem experiment retired as a PackFactory validation fixture.",
+  "superseded_by_pack_id": null,
+  "retirement_report_path": "eval/history/retire-agent-memory-first-build-pack-20260320t000000z/retirement-report.json",
+  "removed_deployment_pointer_paths": [
+    "deployments/testing/agent-memory-first-build-pack.json"
+  ],
+  "retained_artifacts": {
+    "eval_history": true,
+    "release_artifacts": true,
+    "lineage": true
+  },
+  "operator_notes": [
+    "Preserved as a PackFactory retirement fixture."
+  ]
+}

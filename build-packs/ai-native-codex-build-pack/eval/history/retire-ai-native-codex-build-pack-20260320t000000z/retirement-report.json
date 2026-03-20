@@ -1,0 +1,102 @@
+{
+  "schema_version": "pack-retirement-report/v1",
+  "retirement_id": "retire-ai-native-codex-build-pack-20260320t000000z",
+  "generated_at": "2026-03-20T00:00:00Z",
+  "pack_id": "ai-native-codex-build-pack",
+  "pack_kind": "build_pack",
+  "pack_root": "build-packs/ai-native-codex-build-pack",
+  "retired_by": "orchadmin",
+  "retirement_reason": "Stopped migration fixture retired as a PackFactory validation case.",
+  "superseded_by_pack_id": null,
+  "pre_retirement_state": {
+    "lifecycle_stage": "testing",
+    "readiness_state": "in_progress",
+    "deployment_state": "testing",
+    "active_environment": "testing",
+    "deployment_pointer_path": "deployments/testing/ai-native-codex-build-pack.json",
+    "retirement_state": "active"
+  },
+  "post_retirement_state": {
+    "lifecycle_stage": "retired",
+    "readiness_state": "retired",
+    "deployment_state": "not_deployed",
+    "active_environment": "none",
+    "deployment_pointer_path": null,
+    "retirement_state": "retired"
+  },
+  "registry_updates": [
+    {
+      "registry_path": "registry/build-packs.json",
+      "pack_id": "ai-native-codex-build-pack",
+      "pack_kind": "build_pack",
+      "retirement_state": "retired",
+      "active": false,
+      "retired_at": "2026-03-20T00:00:00Z"
+    }
+  ],
+  "promotion_log_update": {
+    "promotion_log_path": "registry/promotion-log.json",
+    "event_type": "retired",
+    "retired_pack_id": "ai-native-codex-build-pack",
+    "retired_pack_kind": "build_pack",
+    "retirement_report_path": "eval/history/retire-ai-native-codex-build-pack-20260320t000000z/retirement-report.json",
+    "retired_at": "2026-03-20T00:00:00Z"
+  },
+  "actions": [
+    {
+      "action_id": "write_retirement_state",
+      "status": "completed",
+      "target_path": "build-packs/ai-native-codex-build-pack/status/retirement.json",
+      "summary": "Recorded terminal retirement state."
+    },
+    {
+      "action_id": "update_lifecycle_state",
+      "status": "completed",
+      "target_path": "build-packs/ai-native-codex-build-pack/status/lifecycle.json",
+      "summary": "Marked the build pack retired."
+    },
+    {
+      "action_id": "update_readiness_state",
+      "status": "completed",
+      "target_path": "build-packs/ai-native-codex-build-pack/status/readiness.json",
+      "summary": "Marked readiness retired."
+    },
+    {
+      "action_id": "update_deployment_state",
+      "status": "completed",
+      "target_path": "build-packs/ai-native-codex-build-pack/status/deployment.json",
+      "summary": "Cleared deployment surface."
+    },
+    {
+      "action_id": "remove_deployment_pointer",
+      "status": "completed",
+      "target_path": "deployments/testing/ai-native-codex-build-pack.json",
+      "summary": "Removed active testing deployment pointer."
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "target_path": "registry/build-packs.json",
+      "summary": "Marked the build-pack registry entry inactive and retired."
+    },
+    {
+      "action_id": "append_promotion_log",
+      "status": "completed",
+      "target_path": "registry/promotion-log.json",
+      "summary": "Appended a retired event with evidence path."
+    },
+    {
+      "action_id": "write_retirement_report",
+      "status": "completed",
+      "target_path": "eval/history/retire-ai-native-codex-build-pack-20260320t000000z/retirement-report.json",
+      "summary": "Recorded terminal retirement evidence."
+    }
+  ],
+  "evidence_paths": [
+    "build-packs/ai-native-codex-build-pack/status/lifecycle.json",
+    "build-packs/ai-native-codex-build-pack/status/readiness.json",
+    "build-packs/ai-native-codex-build-pack/status/deployment.json",
+    "build-packs/ai-native-codex-build-pack/status/retirement.json",
+    "build-packs/ai-native-codex-build-pack/eval/latest/index.json"
+  ]
+}

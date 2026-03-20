@@ -1,0 +1,24 @@
+{
+  "run_id": "local-template-pack-schema-validator-20260317t231120z",
+  "benchmark_suite_id": "template-pack-eval-bounded-suite",
+  "benchmark_revision": "rev-benchmark-fixture-001",
+  "benchmark_task_id": "task-schema-validator-small-001",
+  "benchmark_category": "schema-validator",
+  "benchmark_size_class": "small",
+  "complexity_profile": "single-module-low",
+  "approval_profile": "approval_not_required",
+  "control_root": "/home/orchadmin/ai-orchestrator-lab",
+  "target_project_root": "/home/orchadmin/ai-orchestrator-lab/packages/ai-native-codex-package-template",
+  "target_project_id": "ai-native-codex-package-template",
+  "artifact_roots": [
+    "/home/orchadmin/ai-orchestrator-lab/orchestration/template-pack-eval/runs/local-template-pack-schema-validator-20260317t231120z"
+  ],
+  "allowed_write_roots": [
+    "/home/orchadmin/ai-orchestrator-lab/orchestration/template-pack-eval/runs"
+  ],
+  "pack_family": "template-pack",
+  "pack_language": "python",
+  "pack_version": "1fd19f7d5bb8c35491545b702d243bfd7d9aeae9",
+  "orchestration_core_version": "1fd19f7d5bb8c35491545b702d243bfd7d9aeae9",
+  "terminal_benchmark_classification": "completed_within_envelope"
+}

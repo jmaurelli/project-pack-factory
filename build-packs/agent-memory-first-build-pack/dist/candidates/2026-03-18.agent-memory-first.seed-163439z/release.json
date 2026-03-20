@@ -1,0 +1,9 @@
+{
+  "release_id": "2026-03-18.agent-memory-first.seed-163439z",
+  "pack_id": "agent-memory-first-build-pack",
+  "pack_kind": "build_pack",
+  "source_template_id": "agent-memory-first-template-pack",
+  "source_template_revision": "memory-first-rebuild-20260318t161907z",
+  "created_at": "2026-03-18T16:34:39Z",
+  "stage": "candidate"
+}

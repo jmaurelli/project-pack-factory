@@ -1,0 +1,78 @@
+{
+  "policy_version": "1.0.0",
+  "policy_type": "approval_dispatchability",
+  "title": "Approval Policy",
+  "description": "Canonical machine-readable policy for approval-state transitions and autonomous dispatchability only. This policy does not redefine approval-state value shape, task-record payloads, validator implementations, or runtime orchestration code.",
+  "scope": {
+    "includes": [
+      "approval-state transition policy",
+      "approval-state dispatchability policy",
+      "non-dispatchable blocking outcome"
+    ],
+    "excludes": [
+      "approval-state value-shape definitions",
+      "task-record payload definitions",
+      "validator implementation logic",
+      "runtime orchestration code"
+    ]
+  },
+  "determinism_rules": {
+    "state_identifiers_are_case_sensitive": true,
+    "unknown_states_are_non_compliant": true,
+    "dispatchability_is_resolved_from_exact_state_match": true,
+    "allowed_transitions_are_exhaustive": true
+  },
+  "initial_state_by_approval_requirement": [
+    {
+      "approval_requirement": "approval_required",
+      "initial_approval_state": "approval_required"
+    },
+    {
+      "approval_requirement": "approval_not_required",
+      "initial_approval_state": "approval_not_required"
+    }
+  ],
+  "non_dispatchable_outcome": "blocked",
+  "state_policies": [
+    {
+      "approval_state": "approval_required",
+      "dispatchable": false,
+      "autonomous_continuation": "blocked",
+      "predispatch_outcome": "blocked",
+      "allowed_next_states": [
+        "approval_pending"
+      ]
+    },
+    {
+      "approval_state": "approval_pending",
+      "dispatchable": false,
+      "autonomous_continuation": "blocked",
+      "predispatch_outcome": "blocked",
+      "allowed_next_states": [
+        "approval_granted",
+        "approval_denied"
+      ]
+    },
+    {
+      "approval_state": "approval_granted",
+      "dispatchable": true,
+      "autonomous_continuation": "allowed",
+      "predispatch_outcome": "dispatch",
+      "allowed_next_states": []
+    },
+    {
+      "approval_state": "approval_denied",
+      "dispatchable": false,
+      "autonomous_continuation": "blocked",
+      "predispatch_outcome": "blocked",
+      "allowed_next_states": []
+    },
+    {
+      "approval_state": "approval_not_required",
+      "dispatchable": true,
+      "autonomous_continuation": "allowed",
+      "predispatch_outcome": "dispatch",
+      "allowed_next_states": []
+    }
+  ]
+}

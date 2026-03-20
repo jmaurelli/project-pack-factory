@@ -1,0 +1,18 @@
+{
+  "schema_version": "pack-deployment/v2",
+  "pack_id": "agent-memory-first-template-pack",
+  "pack_kind": "template_pack",
+  "deployment_state": "not_deployed",
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
+  "deployment_pointer_path": null,
+  "deployment_transaction_id": null,
+  "projection_state": "not_required",
+  "last_promoted_at": null,
+  "last_verified_at": null,
+  "last_rollback": null,
+  "deployment_notes": [
+    "Template packs remain source-only and are never deployed directly."
+  ]
+}

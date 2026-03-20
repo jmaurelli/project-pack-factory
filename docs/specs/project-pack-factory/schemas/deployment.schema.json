@@ -1,0 +1,402 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/deployment.schema.json",
+  "title": "Project Pack Deployment State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pack_id",
+    "pack_kind",
+    "deployment_state",
+    "active_environment",
+    "active_release_id",
+    "active_release_path",
+    "deployment_pointer_path",
+    "deployment_transaction_id",
+    "projection_state",
+    "last_promoted_at",
+    "last_verified_at",
+    "last_rollback",
+    "deployment_notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "pack-deployment/v2"
+    },
+    "pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "pack_kind": {
+      "type": "string",
+      "enum": [
+        "template_pack",
+        "build_pack"
+      ]
+    },
+    "deployment_state": {
+      "type": "string",
+      "enum": [
+        "not_deployed",
+        "testing",
+        "staging",
+        "production"
+      ]
+    },
+    "active_environment": {
+      "type": "string",
+      "enum": [
+        "none",
+        "testing",
+        "staging",
+        "production"
+      ]
+    },
+    "active_release_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "active_release_path": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^dist/releases/[^/]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "deployment_pointer_path": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^deployments/(testing|staging|production)/[a-z0-9][a-z0-9_-]*\\.json$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "deployment_transaction_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "projection_state": {
+      "type": "string",
+      "enum": [
+        "not_required",
+        "pending",
+        "projected",
+        "drifted"
+      ]
+    },
+    "last_promoted_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "last_verified_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "last_rollback": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/rollback"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "deployment_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rolled_back_from_release_id",
+        "rolled_back_to_release_id",
+        "rolled_back_at",
+        "rollback_reason"
+      ],
+      "properties": {
+        "rolled_back_from_release_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rolled_back_to_release_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rolled_back_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rollback_reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pack_kind": {
+            "const": "template_pack"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "deployment_state": {
+            "const": "not_deployed"
+          },
+          "active_environment": {
+            "const": "none"
+          },
+          "active_release_id": {
+            "type": "null"
+          },
+          "active_release_path": {
+            "type": "null"
+          },
+          "deployment_pointer_path": {
+            "type": "null"
+          },
+          "deployment_transaction_id": {
+            "type": "null"
+          },
+          "projection_state": {
+            "const": "not_required"
+          },
+          "last_promoted_at": {
+            "type": "null"
+          },
+          "last_verified_at": {
+            "type": "null"
+          },
+          "last_rollback": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "deployment_state": {
+            "const": "not_deployed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "active_environment": {
+            "const": "none"
+          },
+          "active_release_id": {
+            "type": "null"
+          },
+          "active_release_path": {
+            "type": "null"
+          },
+          "deployment_pointer_path": {
+            "type": "null"
+          },
+          "deployment_transaction_id": {
+            "type": "null"
+          },
+          "projection_state": {
+            "const": "not_required"
+          },
+          "last_promoted_at": {
+            "type": "null"
+          },
+          "last_verified_at": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "deployment_state": {
+            "const": "testing"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "pack_kind": {
+            "const": "build_pack"
+          },
+          "active_environment": {
+            "const": "testing"
+          },
+          "active_release_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "active_release_path": {
+            "type": "string",
+            "pattern": "^dist/releases/[^/]+$"
+          },
+          "deployment_pointer_path": {
+            "type": "string",
+            "pattern": "^deployments/testing/[a-z0-9][a-z0-9_-]*\\.json$"
+          },
+          "deployment_transaction_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projection_state": {
+            "enum": [
+              "pending",
+              "projected",
+              "drifted"
+            ]
+          },
+          "last_promoted_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "deployment_state": {
+            "const": "staging"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "pack_kind": {
+            "const": "build_pack"
+          },
+          "active_environment": {
+            "const": "staging"
+          },
+          "active_release_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "active_release_path": {
+            "type": "string",
+            "pattern": "^dist/releases/[^/]+$"
+          },
+          "deployment_pointer_path": {
+            "type": "string",
+            "pattern": "^deployments/staging/[a-z0-9][a-z0-9_-]*\\.json$"
+          },
+          "deployment_transaction_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projection_state": {
+            "enum": [
+              "pending",
+              "projected",
+              "drifted"
+            ]
+          },
+          "last_promoted_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "deployment_state": {
+            "const": "production"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "pack_kind": {
+            "const": "build_pack"
+          },
+          "active_environment": {
+            "const": "production"
+          },
+          "active_release_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "active_release_path": {
+            "type": "string",
+            "pattern": "^dist/releases/[^/]+$"
+          },
+          "deployment_pointer_path": {
+            "type": "string",
+            "pattern": "^deployments/production/[a-z0-9][a-z0-9_-]*\\.json$"
+          },
+          "deployment_transaction_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projection_state": {
+            "enum": [
+              "pending",
+              "projected",
+              "drifted"
+            ]
+          },
+          "last_promoted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_verified_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  ]
+}

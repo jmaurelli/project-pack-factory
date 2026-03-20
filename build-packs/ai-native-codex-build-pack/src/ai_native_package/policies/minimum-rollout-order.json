@@ -1,0 +1,80 @@
+{
+  "policy_version": "1.0.0",
+  "policy_type": "minimum_rollout_order",
+  "title": "Minimum Rollout Order Policy",
+  "description": "Canonical machine-readable minimum rollout order for orchestration modernization enforcement assets only. This policy does not define validator implementations, runtime orchestration code, or contract schemas.",
+  "scope": {
+    "includes": [
+      "ordered rollout steps",
+      "validator sequencing",
+      "pre-dispatch blocking gate sequencing"
+    ],
+    "excludes": [
+      "validator implementation logic",
+      "runtime orchestration code",
+      "contract schema definitions"
+    ]
+  },
+  "determinism_rules": {
+    "sequence_numbers_are_authoritative": true,
+    "steps_must_be_applied_in_ascending_sequence": true,
+    "later_steps_must_not_precede_earlier_steps": true,
+    "pre_dispatch_blocking_must_use_explicit_validator_or_dispatchability_outcomes": true
+  },
+  "ordered_steps": [
+    {
+      "sequence": 1,
+      "step_id": "validate-task-brief",
+      "step_type": "validator",
+      "enforcement_point": "pre_dispatch"
+    },
+    {
+      "sequence": 2,
+      "step_id": "validate-task-order-and-approval",
+      "step_type": "validator",
+      "enforcement_point": "pre_dispatch"
+    },
+    {
+      "sequence": 3,
+      "step_id": "pre-dispatch-blocking",
+      "step_type": "gate",
+      "enforcement_point": "pre_dispatch",
+      "depends_on": [
+        "validate-task-brief",
+        "validate-task-order-and-approval"
+      ],
+      "block_on": [
+        {
+          "validator": "validate-task-brief",
+          "result": "fail"
+        },
+        {
+          "validator": "validate-task-order-and-approval",
+          "result": "fail"
+        },
+        {
+          "validator": "validate-task-order-and-approval",
+          "dispatchable": false,
+          "approval_states": [
+            "approval_required",
+            "approval_pending",
+            "approval_denied"
+          ]
+        }
+      ],
+      "gate_outcome": "blocked"
+    },
+    {
+      "sequence": 4,
+      "step_id": "validate-task-scope",
+      "step_type": "validator",
+      "enforcement_point": "post_execution"
+    },
+    {
+      "sequence": 5,
+      "step_id": "validate-generated-agent-readme",
+      "step_type": "validator",
+      "enforcement_point": "post_execution_when_relevant"
+    }
+  ]
+}

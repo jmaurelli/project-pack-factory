@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/materialization-report.schema.json",
+  "title": "Build Pack Materialization Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "materialization_id",
+    "generated_at",
+    "source_template_id",
+    "target_build_pack_id",
+    "source_template_root",
+    "target_build_pack_root",
+    "materialized_by",
+    "target_version",
+    "target_revision",
+    "copy_summary",
+    "lineage_path",
+    "registry_update",
+    "operation_log_update",
+    "actions",
+    "evidence_paths"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "build-pack-materialization-report/v1"
+    },
+    "materialization_id": {
+      "type": "string",
+      "pattern": "^materialize-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_template_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "source_template_root": {
+      "type": "string",
+      "pattern": "^templates/[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_build_pack_root": {
+      "type": "string",
+      "pattern": "^build-packs/[a-z0-9][a-z0-9_-]*$"
+    },
+    "materialized_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "copy_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "copied_paths",
+        "skipped_paths"
+      ],
+      "properties": {
+        "copied_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "skipped_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "lineage_path": {
+      "type": "string",
+      "pattern": "^build-packs/[a-z0-9][a-z0-9_-]*/lineage/source-template\\.json$"
+    },
+    "registry_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registry_path",
+        "pack_id",
+        "lifecycle_stage",
+        "retirement_state",
+        "deployment_state"
+      ],
+      "properties": {
+        "registry_path": {
+          "const": "registry/build-packs.json"
+        },
+        "pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "lifecycle_stage": {
+          "const": "testing"
+        },
+        "retirement_state": {
+          "const": "active"
+        },
+        "deployment_state": {
+          "const": "not_deployed"
+        }
+      }
+    },
+    "operation_log_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "promotion_log_path",
+        "event_type",
+        "materialization_id",
+        "target_build_pack_id",
+        "materialization_report_path"
+      ],
+      "properties": {
+        "promotion_log_path": {
+          "const": "registry/promotion-log.json"
+        },
+        "event_type": {
+          "const": "materialized"
+        },
+        "materialization_id": {
+          "type": "string",
+          "pattern": "^materialize-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+        },
+        "target_build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "materialization_report_path": {
+          "type": "string",
+          "pattern": "^eval/history/[^/]+/materialization-report\\.json$"
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action_id",
+          "status",
+          "target_path",
+          "summary"
+        ],
+        "properties": {
+          "action_id": {
+            "type": "string",
+            "enum": [
+              "copy_template_content",
+              "write_build_pack_manifest",
+              "write_lineage",
+              "write_status_files",
+              "update_registry_entry",
+              "append_operation_log",
+              "write_materialization_report"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "failed"
+            ]
+          },
+          "target_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "evidence_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
