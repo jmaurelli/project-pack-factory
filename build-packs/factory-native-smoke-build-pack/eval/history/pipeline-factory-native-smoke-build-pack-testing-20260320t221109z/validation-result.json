@@ -1,0 +1,6 @@
+{
+  "command": "PYTHONPATH=src python3 -m factory_smoke_pack validate-project-pack --project-root . --output json",
+  "returncode": 0,
+  "stderr": "",
+  "stdout": "{\n  \"status\": \"pass\",\n  \"project_root\": \"/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack\",\n  \"pack_id\": \"factory-native-smoke-build-pack\",\n  \"pack_kind\": \"build_pack\",\n  \"checked_paths\": [\n    \".pack-state\",\n    \"AGENTS.md\",\n    \"benchmarks\",\n    \"benchmarks/active-set.json\",\n    \"contracts\",\n    \"dist\",\n    \"dist/candidates\",\n    \"dist/releases\",\n    \"docs\",\n    \"eval\",\n    \"eval/history\",\n    \"eval/latest/index.json\",\n    \"lineage\",\n    \"lineage/source-template.json\",\n    \"pack.json\",\n    \"project-context.md\",\n    \"prompts\",\n    \"src\",\n    \"status\",\n    \"status/deployment.json\",\n    \"status/lifecycle.json\",\n    \"status/readiness.json\",\n    \"status/retirement.json\",\n    \"tests\"\n  ],\n  \"missing_paths\": []\n}\n"
+}

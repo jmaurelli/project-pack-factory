@@ -1,0 +1,20 @@
+{
+  "schema_version": "pack-retirement/v1",
+  "pack_id": "factory-native-smoke-template-pack",
+  "pack_kind": "template_pack",
+  "retirement_state": "active",
+  "retired_at": null,
+  "retired_by": null,
+  "retirement_reason": null,
+  "superseded_by_pack_id": null,
+  "retirement_report_path": null,
+  "removed_deployment_pointer_paths": [],
+  "retained_artifacts": {
+    "eval_history": true,
+    "release_artifacts": false,
+    "lineage": false
+  },
+  "operator_notes": [
+    "Fresh active smoke template for factory-native testing."
+  ]
+}

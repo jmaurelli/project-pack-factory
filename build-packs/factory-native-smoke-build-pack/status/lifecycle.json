@@ -1,0 +1,12 @@
+{
+  "current_revision": "factory-native-live-test",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "factory-native-smoke-build-pack",
+  "pack_kind": "build_pack",
+  "promotion_target": "staging",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Finalized by pipeline pipeline-factory-native-smoke-build-pack-testing-20260320t221109z",
+  "updated_at": "2026-03-20T22:11:10Z",
+  "updated_by": "codex"
+}

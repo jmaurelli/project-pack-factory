@@ -1,0 +1,86 @@
+{
+  "actions": [
+    {
+      "action_id": "update_lifecycle_state",
+      "status": "completed",
+      "summary": "Updated lifecycle stage and next promotion target.",
+      "target_path": "build-packs/factory-native-smoke-build-pack/status/lifecycle.json"
+    },
+    {
+      "action_id": "update_deployment_state",
+      "status": "completed",
+      "summary": "Updated active deployment state for the target environment.",
+      "target_path": "build-packs/factory-native-smoke-build-pack/status/deployment.json"
+    },
+    {
+      "action_id": "write_deployment_pointer",
+      "status": "completed",
+      "summary": "Wrote the active environment deployment pointer.",
+      "target_path": "deployments/testing/factory-native-smoke-build-pack.json"
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "summary": "Updated the build-pack registry entry for the promoted release.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "append_operation_log",
+      "status": "completed",
+      "summary": "Appended the promotion event to the factory operation log.",
+      "target_path": "registry/promotion-log.json"
+    },
+    {
+      "action_id": "write_promotion_report",
+      "status": "completed",
+      "summary": "Wrote the terminal promotion evidence report.",
+      "target_path": "build-packs/factory-native-smoke-build-pack/eval/history/promote-factory-native-smoke-build-pack-testing-20260320t221110z/promotion-report.json"
+    }
+  ],
+  "build_pack_id": "factory-native-smoke-build-pack",
+  "build_pack_root": "build-packs/factory-native-smoke-build-pack",
+  "evidence_paths": [
+    "build-packs/factory-native-smoke-build-pack/eval/history/promote-factory-native-smoke-build-pack-testing-20260320t221110z/promotion-report.json",
+    "deployments/testing/factory-native-smoke-build-pack.json",
+    "build-packs/factory-native-smoke-build-pack/status/deployment.json"
+  ],
+  "generated_at": "2026-03-20T22:11:10Z",
+  "operation_log_update": {
+    "build_pack_id": "factory-native-smoke-build-pack",
+    "event_type": "promoted",
+    "promotion_id": "promote-factory-native-smoke-build-pack-testing-20260320t221110z",
+    "promotion_log_path": "registry/promotion-log.json",
+    "promotion_report_path": "eval/history/promote-factory-native-smoke-build-pack-testing-20260320t221110z/promotion-report.json",
+    "target_environment": "testing"
+  },
+  "post_promotion_state": {
+    "active_environment": "testing",
+    "active_release_path": "dist/releases/factory-smoke-r1",
+    "deployment_pointer_path": "deployments/testing/factory-native-smoke-build-pack.json",
+    "deployment_state": "testing",
+    "last_verified_at": "2026-03-20T22:11:09Z",
+    "lifecycle_stage": "testing"
+  },
+  "pre_promotion_state": {
+    "active_environment": "none",
+    "active_release_path": null,
+    "deployment_pointer_path": null,
+    "deployment_state": "not_deployed",
+    "last_verified_at": null,
+    "lifecycle_stage": "testing"
+  },
+  "promoted_by": "codex",
+  "promotion_id": "promote-factory-native-smoke-build-pack-testing-20260320t221110z",
+  "promotion_reason": "Finalized by pipeline pipeline-factory-native-smoke-build-pack-testing-20260320t221109z",
+  "registry_update": {
+    "deployment_pointer": "deployments/testing/factory-native-smoke-build-pack.json",
+    "deployment_state": "testing",
+    "pack_id": "factory-native-smoke-build-pack",
+    "registry_path": "registry/build-packs.json"
+  },
+  "release_id": "factory-smoke-r1",
+  "release_path": "dist/releases/factory-smoke-r1",
+  "schema_version": "build-pack-promotion-report/v1",
+  "status": "completed",
+  "target_environment": "testing"
+}

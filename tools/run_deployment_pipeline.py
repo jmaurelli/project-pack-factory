@@ -100,6 +100,10 @@ def _write_stage_evidence(path: Path, payload: dict[str, Any]) -> str:
     return str(path)
 
 
+def _pack_relative_path(pack_root: Path, path: Path) -> str:
+    return str(path.relative_to(pack_root))
+
+
 def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
     pack_id = str(request["build_pack_id"])
     target_environment = str(request["target_environment"])
@@ -214,12 +218,13 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
         )
         evidence_paths.append(relative_path(factory_root, Path(benchmark_evidence)))
         eval_latest = _load_object(pack_root / "eval/latest/index.json")
+        benchmark_pack_relative = _pack_relative_path(pack_root, Path(benchmark_evidence))
         for result in eval_latest.get("benchmark_results", []):
             if isinstance(result, dict):
                 result["status"] = "pass"
                 result["latest_run_id"] = pipeline_id
-                result["run_artifact_path"] = relative_path(factory_root, Path(benchmark_evidence))
-                result["summary_artifact_path"] = relative_path(factory_root, Path(benchmark_evidence))
+                result["run_artifact_path"] = benchmark_pack_relative
+                result["summary_artifact_path"] = benchmark_pack_relative
         eval_latest["updated_at"] = generated_at
         write_json(pack_root / "eval/latest/index.json", eval_latest)
 
@@ -231,7 +236,7 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
             if isinstance(gate, dict) and gate.get("mandatory") is True:
                 gate["status"] = "pass"
                 gate["last_run_at"] = generated_at
-                gate["evidence_paths"] = [relative_path(factory_root, Path(benchmark_evidence))]
+                gate["evidence_paths"] = [benchmark_pack_relative]
         write_json(pack_root / "status/readiness.json", readiness)
         complete(
             "run_required_benchmarks",

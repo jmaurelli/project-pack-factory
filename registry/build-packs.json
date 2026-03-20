@@ -15,9 +15,9 @@
       "pack_kind": "build_pack",
       "pack_root": "build-packs/ai-native-codex-build-pack",
       "ready_for_deployment": false,
+      "retired_at": "2026-03-20T00:00:00Z",
       "retirement_file": "status/retirement.json",
-      "retirement_state": "retired",
-      "retired_at": "2026-03-20T00:00:00Z"
+      "retirement_state": "retired"
     },
     {
       "active": false,
@@ -34,11 +34,30 @@
       "pack_kind": "build_pack",
       "pack_root": "build-packs/agent-memory-first-build-pack",
       "ready_for_deployment": false,
+      "retired_at": "2026-03-20T00:00:00Z",
       "retirement_file": "status/retirement.json",
-      "retirement_state": "retired",
-      "retired_at": "2026-03-20T00:00:00Z"
+      "retirement_state": "retired"
+    },
+    {
+      "active": true,
+      "active_release_id": "factory-smoke-r1",
+      "deployment_pointer": "deployments/testing/factory-native-smoke-build-pack.json",
+      "deployment_state": "testing",
+      "latest_eval_index": "build-packs/factory-native-smoke-build-pack/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `factory-native-smoke-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-factory-native-smoke-build-pack-20260320t221047z"
+      ],
+      "pack_id": "factory-native-smoke-build-pack",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/factory-native-smoke-build-pack",
+      "ready_for_deployment": true,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-20T11:14:57Z"
+  "updated_at": "2026-03-20T22:11:10Z"
 }

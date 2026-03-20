@@ -57,8 +57,31 @@
       "retirement_reason": "Prototype memory-first template retired to reset Project Pack Factory to a clean factory-native baseline.",
       "retirement_report_path": "eval/history/retire-agent-memory-first-template-pack-20260320t212627z/retirement-report.json",
       "status": "completed"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-factory-native-smoke-build-pack-20260320t221047z",
+      "materialization_report_path": "eval/history/materialize-factory-native-smoke-build-pack-20260320t221047z/materialization-report.json",
+      "source_template_id": "factory-native-smoke-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "factory-native-smoke-build-pack"
+    },
+    {
+      "build_pack_id": "factory-native-smoke-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-factory-native-smoke-build-pack-testing-20260320t221110z",
+      "promotion_report_path": "eval/history/promote-factory-native-smoke-build-pack-testing-20260320t221110z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "testing"
+    },
+    {
+      "build_pack_id": "factory-native-smoke-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-factory-native-smoke-build-pack-testing-20260320t221109z",
+      "pipeline_report_path": "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/pipeline-report.json",
+      "status": "completed"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-20T21:26:27Z"
+  "updated_at": "2026-03-20T22:11:09Z"
 }

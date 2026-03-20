@@ -1,0 +1,97 @@
+{
+  "actions": [
+    {
+      "action_id": "copy_template_content",
+      "status": "completed",
+      "summary": "Copied bounded template content into the new build pack.",
+      "target_path": "build-packs/factory-native-smoke-build-pack"
+    },
+    {
+      "action_id": "write_build_pack_manifest",
+      "status": "completed",
+      "summary": "Wrote the schema-valid build-pack manifest.",
+      "target_path": "build-packs/factory-native-smoke-build-pack/pack.json"
+    },
+    {
+      "action_id": "write_lineage",
+      "status": "completed",
+      "summary": "Recorded template lineage and inherited contract metadata.",
+      "target_path": "build-packs/factory-native-smoke-build-pack/lineage/source-template.json"
+    },
+    {
+      "action_id": "write_status_files",
+      "status": "completed",
+      "summary": "Wrote initial lifecycle, readiness, retirement, and deployment state.",
+      "target_path": "build-packs/factory-native-smoke-build-pack/status"
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "summary": "Registered the materialized build pack as active and not deployed.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "append_operation_log",
+      "status": "completed",
+      "summary": "Appended a materialized event for later agents.",
+      "target_path": "registry/promotion-log.json"
+    },
+    {
+      "action_id": "write_materialization_report",
+      "status": "completed",
+      "summary": "Wrote the terminal materialization evidence report.",
+      "target_path": "build-packs/factory-native-smoke-build-pack/eval/history/materialize-factory-native-smoke-build-pack-20260320t221047z/materialization-report.json"
+    }
+  ],
+  "copy_summary": {
+    "copied_paths": [
+      "AGENTS.md",
+      "project-context.md",
+      "docs",
+      "prompts",
+      "contracts",
+      "src",
+      "tests",
+      "benchmarks",
+      "pyproject.toml",
+      "README.md",
+      ".gitignore"
+    ],
+    "skipped_paths": [
+      ".pack-state",
+      "dist",
+      "eval",
+      "status"
+    ]
+  },
+  "evidence_paths": [
+    "build-packs/factory-native-smoke-build-pack/eval/history/materialize-factory-native-smoke-build-pack-20260320t221047z/materialization-report.json",
+    "build-packs/factory-native-smoke-build-pack/eval/latest/index.json",
+    "build-packs/factory-native-smoke-build-pack/lineage/source-template.json"
+  ],
+  "generated_at": "2026-03-20T22:10:47Z",
+  "lineage_path": "build-packs/factory-native-smoke-build-pack/lineage/source-template.json",
+  "materialization_id": "materialize-factory-native-smoke-build-pack-20260320t221047z",
+  "materialized_by": "codex",
+  "operation_log_update": {
+    "event_type": "materialized",
+    "materialization_id": "materialize-factory-native-smoke-build-pack-20260320t221047z",
+    "materialization_report_path": "eval/history/materialize-factory-native-smoke-build-pack-20260320t221047z/materialization-report.json",
+    "promotion_log_path": "registry/promotion-log.json",
+    "target_build_pack_id": "factory-native-smoke-build-pack"
+  },
+  "registry_update": {
+    "deployment_state": "not_deployed",
+    "lifecycle_stage": "testing",
+    "pack_id": "factory-native-smoke-build-pack",
+    "registry_path": "registry/build-packs.json",
+    "retirement_state": "active"
+  },
+  "schema_version": "build-pack-materialization-report/v1",
+  "source_template_id": "factory-native-smoke-template-pack",
+  "source_template_root": "templates/factory-native-smoke-template-pack",
+  "target_build_pack_id": "factory-native-smoke-build-pack",
+  "target_build_pack_root": "build-packs/factory-native-smoke-build-pack",
+  "target_revision": "factory-native-live-test",
+  "target_version": "0.1.0"
+}

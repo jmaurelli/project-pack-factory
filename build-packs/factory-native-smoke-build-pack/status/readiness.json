@@ -1,0 +1,35 @@
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-20T22:11:09Z",
+  "pack_id": "factory-native-smoke-build-pack",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_deploy",
+  "ready_for_deployment": true,
+  "recommended_next_actions": [
+    "Run build-pack validation before promoting this pack.",
+    "Execute the inherited benchmark set to establish readiness evidence."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/benchmark-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-20T22:11:09Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation has not been executed yet."
+    },
+    {
+      "evidence_paths": [
+        "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/benchmark-result.json"
+      ],
+      "gate_id": "factory_smoke_small_001",
+      "last_run_at": "2026-03-20T22:11:09Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Minimal end-to-end PackFactory smoke benchmark for live workflow testing."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

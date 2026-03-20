@@ -1,0 +1,12 @@
+{
+  "schema_version": "pack-lifecycle/v2",
+  "pack_id": "factory-native-smoke-template-pack",
+  "pack_kind": "template_pack",
+  "lifecycle_stage": "maintained",
+  "state_reason": "Fresh small active template for first factory-native workflow testing.",
+  "current_version": "0.1.0",
+  "current_revision": "factory-native-smoke-template-20260320t221000z",
+  "promotion_target": "none",
+  "updated_at": "2026-03-20T22:10:00Z",
+  "updated_by": "codex"
+}

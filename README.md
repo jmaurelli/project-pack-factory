@@ -36,3 +36,4 @@ rather than aiming for broad coverage.
 
 - `python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
+- `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`

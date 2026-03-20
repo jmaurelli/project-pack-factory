@@ -1,0 +1,34 @@
+{
+  "schema_version": "pack-readiness/v2",
+  "pack_id": "factory-native-smoke-template-pack",
+  "pack_kind": "template_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "last_evaluated_at": "2026-03-20T22:10:00Z",
+  "blocking_issues": [
+    "Template packs are source-only and are not deployable artifacts.",
+    "First live benchmark baseline has not been recorded yet."
+  ],
+  "recommended_next_actions": [
+    "Materialize a build pack from this template for the first live factory-native test.",
+    "Run the smoke benchmark to record the first baseline."
+  ],
+  "required_gates": [
+    {
+      "gate_id": "validate_project_pack",
+      "mandatory": true,
+      "status": "not_run",
+      "summary": "Basic PackFactory structure and contract validation.",
+      "last_run_at": null,
+      "evidence_paths": []
+    },
+    {
+      "gate_id": "factory_smoke_small_001",
+      "mandatory": true,
+      "status": "not_run",
+      "summary": "Small workflow smoke benchmark for live PackFactory testing.",
+      "last_run_at": null,
+      "evidence_paths": []
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "directory_contract": {
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "benchmarks_dir": "benchmarks",
+    "candidate_release_dir": "dist/candidates",
+    "contracts_dir": "contracts",
+    "deployment_file": "status/deployment.json",
+    "dist_dir": "dist",
+    "docs_dir": "docs",
+    "eval_dir": "eval",
+    "eval_history_dir": "eval/history",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "immutable_release_dir": "dist/releases",
+    "lifecycle_file": "status/lifecycle.json",
+    "lineage_dir": "lineage",
+    "lineage_file": "lineage/source-template.json",
+    "local_state_dir": ".pack-state",
+    "prompts_dir": "prompts",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "source_dir": "src",
+    "status_dir": "status",
+    "template_export_dir": null,
+    "tests_dir": "tests"
+  },
+  "display_name": "Factory Native Smoke Build Pack",
+  "entrypoints": {
+    "benchmark_command": "PYTHONPATH=src python3 -m factory_smoke_pack benchmark-smoke --output json",
+    "cli_command": "PYTHONPATH=src python3 -m factory_smoke_pack --help",
+    "validation_command": "PYTHONPATH=src python3 -m factory_smoke_pack validate-project-pack --project-root . --output json"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "Materialized from template `factory-native-smoke-template-pack`.",
+    "materialization_id=materialize-factory-native-smoke-build-pack-20260320t221047z"
+  ],
+  "owning_team": "orchadmin",
+  "pack_id": "factory-native-smoke-build-pack",
+  "pack_kind": "build_pack",
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "lineage/source-template.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "runtime": "python",
+  "schema_version": "pack-manifest/v2"
+}
