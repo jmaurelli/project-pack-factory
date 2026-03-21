@@ -40,9 +40,9 @@
     },
     {
       "active": true,
-      "active_release_id": "factory-smoke-r1",
-      "deployment_pointer": "deployments/testing/factory-native-smoke-build-pack.json",
-      "deployment_state": "testing",
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
       "latest_eval_index": "build-packs/factory-native-smoke-build-pack/eval/latest/index.json",
       "lifecycle_stage": "testing",
       "notes": [
@@ -56,8 +56,27 @@
       "retired_at": null,
       "retirement_file": "status/retirement.json",
       "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": "json-health-checker-r1",
+      "deployment_pointer": "deployments/testing/json-health-checker-build-pack.json",
+      "deployment_state": "testing",
+      "latest_eval_index": "build-packs/json-health-checker-build-pack/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-build-pack-20260321t023708z"
+      ],
+      "pack_id": "json-health-checker-build-pack",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-build-pack",
+      "ready_for_deployment": true,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-20T22:11:10Z"
+  "updated_at": "2026-03-21T09:46:22Z"
 }

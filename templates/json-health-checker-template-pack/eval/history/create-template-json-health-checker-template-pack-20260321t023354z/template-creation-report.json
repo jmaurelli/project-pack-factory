@@ -1,0 +1,33 @@
+{
+  "artifact_paths": {
+    "creation_report": "templates/json-health-checker-template-pack/eval/history/create-template-json-health-checker-template-pack-20260321t023354z/template-creation-report.json",
+    "lifecycle_file": "templates/json-health-checker-template-pack/status/lifecycle.json",
+    "pack_manifest": "templates/json-health-checker-template-pack/pack.json",
+    "readiness_file": "templates/json-health-checker-template-pack/status/readiness.json",
+    "template_root": "templates/json-health-checker-template-pack"
+  },
+  "created_at": "2026-03-21T02:33:54Z",
+  "created_by": "orchadmin",
+  "creation_id": "create-template-json-health-checker-template-pack-20260321t023354z",
+  "factory_mutations": {
+    "operation_log_updated": true,
+    "post_write_factory_validation": "pass",
+    "registry_updated": true
+  },
+  "next_recommended_actions": [
+    "Inspect the new template pack.",
+    "Run validate-project-pack inside the new template.",
+    "Run the initial smoke benchmark when ready."
+  ],
+  "planning_summary": {
+    "delivery_shape": "script",
+    "initial_benchmark_intent": "Run a small deterministic JSON health-check smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration.",
+    "new_template_rationale": "The active smoke template should stay a neutral factory workflow baseline, while this new template gives us a more task-shaped quick test pack for JSON input validation.",
+    "project_goal": "Create a tiny PackFactory-native template for validating a JSON file against a required field set and reporting pass or fail clearly.",
+    "reuse_active_template": false
+  },
+  "scaffold_strategy": "minimal_python_text_pack",
+  "schema_version": "template-creation-report/v1",
+  "status": "created",
+  "template_pack_id": "json-health-checker-template-pack"
+}

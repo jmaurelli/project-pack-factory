@@ -12,8 +12,10 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from factory_ops import (
+    EnvironmentAssignment,
     PROMOTION_LOG_PATH,
     REGISTRY_BUILD_PATH,
+    discover_environment_assignment,
     discover_pack,
     isoformat_z,
     load_json,
@@ -132,6 +134,89 @@ def _deployment_pointer(
     }
 
 
+def _evict_prior_assignment(
+    *,
+    factory_root: Path,
+    assignment: EnvironmentAssignment,
+    registry: dict[str, Any],
+) -> tuple[dict[str, Any], list[dict[str, Any]], list[str]]:
+    actions: list[dict[str, Any]] = []
+    evidence_paths: list[str] = []
+
+    removed_pointer = remove_file(assignment.pointer_path)
+    if not removed_pointer:
+        raise ValueError(
+            f"inconsistent current assignee state for {assignment.environment}: "
+            f"expected pointer at {assignment.pointer_relative_path}"
+        )
+    actions.append(
+        {
+            "action_id": "evict_prior_assignee",
+            "status": "completed",
+            "target_path": assignment.pointer_relative_path,
+            "summary": (
+                f"Evicted prior assignee {assignment.pack_id} from "
+                f"{assignment.environment} before promotion."
+            ),
+        }
+    )
+    evidence_paths.append(assignment.pointer_relative_path)
+
+    prior_deployment = dict(assignment.deployment_payload)
+    prior_deployment["deployment_state"] = "not_deployed"
+    prior_deployment["active_environment"] = "none"
+    prior_deployment["active_release_id"] = None
+    prior_deployment["active_release_path"] = None
+    prior_deployment["deployment_pointer_path"] = None
+    prior_deployment["deployment_transaction_id"] = None
+    prior_deployment["projection_state"] = "not_required"
+    prior_deployment["last_promoted_at"] = None
+    prior_deployment["last_verified_at"] = None
+    write_json(assignment.deployment_path, prior_deployment)
+    actions.append(
+        {
+            "action_id": "clear_prior_deployment_state",
+            "status": "completed",
+            "target_path": f"build-packs/{assignment.pack_id}/status/deployment.json",
+            "summary": "Cleared the prior assignee's canonical deployment state.",
+        }
+    )
+    evidence_paths.append(f"build-packs/{assignment.pack_id}/status/deployment.json")
+
+    entries = registry.get("entries", [])
+    if not isinstance(entries, list):
+        raise ValueError(f"{factory_root / REGISTRY_BUILD_PATH}: entries must be an array")
+    prior_registry_entry = dict(entries[assignment.registry_index])
+    prior_registry_entry["deployment_state"] = "not_deployed"
+    prior_registry_entry["deployment_pointer"] = None
+    prior_registry_entry["active_release_id"] = None
+    entries[assignment.registry_index] = prior_registry_entry
+    actions.append(
+        {
+            "action_id": "clear_prior_registry_assignment",
+            "status": "completed",
+            "target_path": "registry/build-packs.json",
+            "summary": "Cleared the prior assignee's registry deployment fields.",
+        }
+    )
+
+    return (
+        {
+            "pack_id": assignment.pack_id,
+            "environment": assignment.environment,
+            "removed_pointer_path": assignment.pointer_relative_path,
+            "cleared_deployment_file": f"build-packs/{assignment.pack_id}/status/deployment.json",
+            "cleared_registry_fields": [
+                "deployment_state",
+                "deployment_pointer",
+                "active_release_id",
+            ],
+        },
+        actions,
+        evidence_paths,
+    )
+
+
 def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
     pack_id = str(request["build_pack_id"])
     target_environment = str(request["target_environment"])
@@ -175,6 +260,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
     current_env = str(deployment["active_environment"])
     current_release_id = deployment.get("active_release_id")
     pre_state = _state_snapshot(lifecycle, deployment)
+    current_assignee = discover_environment_assignment(factory_root, target_environment)
     if current_env == target_environment and current_release_id == release_id:
         expected_release_path = f"dist/releases/{release_id}"
         if deployment.get("deployment_state") != target_environment:
@@ -296,6 +382,28 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         deployment["last_verified_at"] = verification_timestamp
     deployment["deployment_notes"] = [f"Promoted to {target_environment} by PackFactory."]
 
+    registry_path = factory_root / REGISTRY_BUILD_PATH
+    registry = _load_object(registry_path)
+    entries = registry.get("entries", [])
+    if not isinstance(entries, list):
+        raise ValueError(f"{registry_path}: entries must be an array")
+    evicted_prior_assignment: dict[str, Any] | None = None
+    eviction_actions: list[dict[str, Any]] = []
+    eviction_evidence_paths: list[str] = []
+    if current_assignee is not None and current_assignee.pack_id != pack_id:
+        (
+            evicted_prior_assignment,
+            eviction_actions,
+            eviction_evidence_paths,
+        ) = _evict_prior_assignment(
+            factory_root=factory_root,
+            assignment=current_assignee,
+            registry=registry,
+        )
+
+    write_json(lifecycle_path, lifecycle)
+    write_json(deployment_path, deployment)
+
     pointer_payload = _deployment_pointer(
         pack_id=pack_id,
         release_id=release_id,
@@ -305,14 +413,6 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         generated_at=generated_at,
     )
     write_json(pointer_path, pointer_payload)
-    write_json(lifecycle_path, lifecycle)
-    write_json(deployment_path, deployment)
-
-    registry_path = factory_root / REGISTRY_BUILD_PATH
-    registry = _load_object(registry_path)
-    entries = registry.get("entries", [])
-    if not isinstance(entries, list):
-        raise ValueError(f"{registry_path}: entries must be an array")
     entries[location.registry_index] = {
         **dict(entries[location.registry_index]),
         "active": True,
@@ -386,6 +486,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
                 "target_path": f"build-packs/{pack_id}/status/deployment.json",
                 "summary": "Updated active deployment state for the target environment.",
             },
+            *eviction_actions,
             *stale_actions,
             {
                 "action_id": "write_deployment_pointer",
@@ -414,10 +515,13 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         ],
         "evidence_paths": [
             f"build-packs/{pack_id}/{report_relative}",
+            *eviction_evidence_paths,
             pointer_relative,
             f"build-packs/{pack_id}/status/deployment.json",
         ],
     }
+    if evicted_prior_assignment is not None:
+        report["evicted_prior_assignment"] = evicted_prior_assignment
     write_json(pack_root / report_relative, report)
     return {
         "status": "completed",

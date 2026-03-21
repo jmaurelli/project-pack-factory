@@ -81,6 +81,59 @@
     "post_promotion_state": {
       "$ref": "#/$defs/state"
     },
+    "evicted_prior_assignment": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pack_id",
+            "environment",
+            "removed_pointer_path",
+            "cleared_deployment_file",
+            "cleared_registry_fields"
+          ],
+          "properties": {
+            "pack_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9_-]*$"
+            },
+            "environment": {
+              "type": "string",
+              "enum": [
+                "testing",
+                "staging",
+                "production"
+              ]
+            },
+            "removed_pointer_path": {
+              "type": "string",
+              "pattern": "^deployments/(testing|staging|production)/[a-z0-9][a-z0-9_-]*\\.json$"
+            },
+            "cleared_deployment_file": {
+              "type": "string",
+              "pattern": "^build-packs/[a-z0-9][a-z0-9_-]*/status/deployment\\.json$"
+            },
+            "cleared_registry_fields": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "deployment_state",
+                  "deployment_pointer",
+                  "active_release_id"
+                ]
+              },
+              "uniqueItems": true
+            }
+          }
+        }
+      ]
+    },
     "registry_update": {
       "anyOf": [
         {
@@ -274,6 +327,9 @@
           "enum": [
             "update_lifecycle_state",
             "update_deployment_state",
+            "evict_prior_assignee",
+            "clear_prior_deployment_state",
+            "clear_prior_registry_assignment",
             "remove_stale_pointer",
             "write_deployment_pointer",
             "update_registry_entry",

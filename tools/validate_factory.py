@@ -107,6 +107,189 @@ def _state_snapshot(pack_root: Path) -> tuple[dict[str, Any], dict[str, Any], di
     return lifecycle, readiness, deployment, retirement
 
 
+def _relative_path(factory_root: Path, path: Path) -> str:
+    return path.relative_to(factory_root).as_posix()
+
+
+def _iter_build_pack_roots(factory_root: Path) -> list[Path]:
+    return [pack_root for pack_root in _iter_pack_roots(factory_root) if pack_root.parent.name == "build-packs"]
+
+
+def _build_registry_environment_claims(build_registry: dict[str, dict[str, Any]]) -> dict[str, set[str]]:
+    claims = {environment: set() for environment in DEPLOYMENT_ENVIRONMENTS}
+    for pack_id, entry in build_registry.items():
+        for environment in DEPLOYMENT_ENVIRONMENTS:
+            expected_pointer = f"deployments/{environment}/{pack_id}.json"
+            if entry.get("deployment_state") == environment or entry.get("deployment_pointer") == expected_pointer:
+                claims[environment].add(pack_id)
+    return claims
+
+
+def _build_pack_environment_claims(build_pack_roots: dict[str, Path]) -> dict[str, set[str]]:
+    claims = {environment: set() for environment in DEPLOYMENT_ENVIRONMENTS}
+    for pack_id, pack_root in build_pack_roots.items():
+        deployment = _load_object(pack_root / "status/deployment.json")
+        for environment in DEPLOYMENT_ENVIRONMENTS:
+            expected_pointer = f"deployments/{environment}/{pack_id}.json"
+            if (
+                deployment.get("deployment_state") == environment
+                or deployment.get("active_environment") == environment
+                or deployment.get("deployment_pointer_path") == expected_pointer
+            ):
+                claims[environment].add(pack_id)
+    return claims
+
+
+def _validate_environment_assignments(
+    factory_root: Path,
+    build_registry: dict[str, dict[str, Any]],
+    promotion_log: dict[str, Any],
+    errors: list[str],
+) -> None:
+    schema_root = factory_root / "docs/specs/project-pack-factory/schemas"
+    pointer_schema = schema_root / "deployment-pointer.schema.json"
+    promotion_report_schema = schema_root / "promotion-report.schema.json"
+    build_pack_roots = {pack_root.name: pack_root for pack_root in _iter_build_pack_roots(factory_root)}
+    registry_claims = _build_registry_environment_claims(build_registry)
+    pack_claims = _build_pack_environment_claims(build_pack_roots)
+    promotion_events = promotion_log.get("events", [])
+    if not isinstance(promotion_events, list):
+        promotion_events = []
+
+    for environment in DEPLOYMENT_ENVIRONMENTS:
+        deployment_dir = factory_root / "deployments" / environment
+        pointers = sorted(deployment_dir.glob("*.json")) if deployment_dir.exists() else []
+        pointer_names = ", ".join(pointer.name for pointer in pointers)
+
+        if len(pointers) > 1:
+            errors.append(
+                f"{deployment_dir}: environment `{environment}` has multiple active deployment pointers: {pointer_names}"
+            )
+
+        if not pointers:
+            if registry_claims[environment]:
+                claimed_pack_ids = ", ".join(sorted(registry_claims[environment]))
+                errors.append(
+                    f"{factory_root / 'registry/build-packs.json'}: environment `{environment}` has no deployment pointer but registry claims `{claimed_pack_ids}`"
+                )
+            if pack_claims[environment]:
+                claimed_pack_ids = ", ".join(sorted(pack_claims[environment]))
+                errors.append(
+                    f"{deployment_dir}: environment `{environment}` has no deployment pointer but pack-local deployment files claim `{claimed_pack_ids}`"
+                )
+            continue
+
+        for pointer in pointers:
+            errors.extend(validate_json_document(pointer, pointer_schema))
+
+        pointer_path = pointers[0]
+        pointer = _load_object(pointer_path)
+        pointer_relative = _relative_path(factory_root, pointer_path)
+        pack_id = pointer.get("pack_id")
+        if not isinstance(pack_id, str):
+            errors.append(f"{pointer_path}: pack_id must be a string")
+            continue
+
+        expected_claims = {pack_id}
+        if registry_claims[environment] != expected_claims:
+            claimed_pack_ids = ", ".join(sorted(registry_claims[environment])) or "none"
+            errors.append(
+                f"{factory_root / 'registry/build-packs.json'}: environment `{environment}` registry claims must resolve to `{pack_id}`, found `{claimed_pack_ids}`"
+            )
+        if pack_claims[environment] != expected_claims:
+            claimed_pack_ids = ", ".join(sorted(pack_claims[environment])) or "none"
+            errors.append(
+                f"{factory_root / 'build-packs'}: environment `{environment}` pack-local claims must resolve to `{pack_id}`, found `{claimed_pack_ids}`"
+            )
+
+        registry_entry = build_registry.get(pack_id)
+        if registry_entry is None:
+            errors.append(f"{factory_root / 'registry/build-packs.json'}: active pointer references unknown build pack `{pack_id}`")
+            continue
+        if registry_entry.get("active") is not True:
+            errors.append(f"{factory_root / 'registry/build-packs.json'}: active pointer pack `{pack_id}` must set active=true")
+        if registry_entry.get("retirement_state") != "active":
+            errors.append(f"{factory_root / 'registry/build-packs.json'}: active pointer pack `{pack_id}` must set retirement_state=active")
+
+        pack_root = build_pack_roots.get(pack_id)
+        if pack_root is None:
+            errors.append(f"{factory_root / 'build-packs'}: active pointer references missing pack directory for `{pack_id}`")
+            continue
+
+        expected_pack_root = f"build-packs/{pack_id}"
+        if pointer.get("environment") != environment:
+            errors.append(f"{pointer_path}: environment must equal `{environment}`")
+        if pointer.get("pack_root") != expected_pack_root:
+            errors.append(f"{pointer_path}: pack_root must equal `{expected_pack_root}`")
+
+        source_deployment_file = pointer.get("source_deployment_file")
+        expected_source_deployment_file = f"{expected_pack_root}/status/deployment.json"
+        if source_deployment_file != expected_source_deployment_file:
+            errors.append(f"{pointer_path}: source_deployment_file must equal `{expected_source_deployment_file}`")
+        elif not (factory_root / expected_source_deployment_file).exists():
+            errors.append(f"{factory_root / expected_source_deployment_file}: source_deployment_file referenced by pointer is missing")
+
+        deployment = _load_object(pack_root / "status/deployment.json")
+        if deployment.get("deployment_state") != environment:
+            errors.append(f"{pack_root / 'status/deployment.json'}: active pointer pack must set deployment_state={environment}")
+        if deployment.get("active_environment") != environment:
+            errors.append(f"{pack_root / 'status/deployment.json'}: active pointer pack must set active_environment={environment}")
+        if deployment.get("deployment_pointer_path") != pointer_relative:
+            errors.append(f"{pack_root / 'status/deployment.json'}: deployment_pointer_path must equal `{pointer_relative}`")
+        if deployment.get("active_release_id") != pointer.get("active_release_id"):
+            errors.append(f"{pack_root / 'status/deployment.json'}: active_release_id must match `{pointer_relative}`")
+        if deployment.get("active_release_path") != pointer.get("active_release_path"):
+            errors.append(f"{pack_root / 'status/deployment.json'}: active_release_path must match `{pointer_relative}`")
+
+        if registry_entry.get("deployment_state") != environment:
+            errors.append(f"{factory_root / 'registry/build-packs.json'}: `{pack_id}` deployment_state must equal `{environment}`")
+        if registry_entry.get("deployment_pointer") != pointer_relative:
+            errors.append(f"{factory_root / 'registry/build-packs.json'}: `{pack_id}` deployment_pointer must equal `{pointer_relative}`")
+        if registry_entry.get("active_release_id") != pointer.get("active_release_id"):
+            errors.append(f"{factory_root / 'registry/build-packs.json'}: `{pack_id}` active_release_id must match `{pointer_relative}`")
+
+        report_relative = pointer.get("promotion_evidence_ref")
+        if not isinstance(report_relative, str):
+            errors.append(f"{pointer_path}: promotion_evidence_ref must be a string")
+            continue
+
+        report_path = pack_root / report_relative
+        if not report_path.exists():
+            errors.append(f"{report_path}: promotion report referenced by active pointer is missing")
+        else:
+            errors.extend(validate_json_document(report_path, promotion_report_schema))
+            report = _load_object(report_path)
+            if report.get("build_pack_id") != pack_id:
+                errors.append(f"{report_path}: build_pack_id must match `{pack_id}`")
+            if report.get("target_environment") != environment:
+                errors.append(f"{report_path}: target_environment must equal `{environment}`")
+            if report.get("release_id") != pointer.get("active_release_id"):
+                errors.append(f"{report_path}: release_id must match `{pointer_relative}`")
+            if report.get("promotion_id") != pointer.get("deployment_transaction_id"):
+                errors.append(f"{report_path}: promotion_id must match `{pointer_relative}`")
+            post_state = report.get("post_promotion_state", {})
+            if post_state.get("active_environment") != environment:
+                errors.append(f"{report_path}: post_promotion_state.active_environment must equal `{environment}`")
+            if post_state.get("active_release_path") != pointer.get("active_release_path"):
+                errors.append(f"{report_path}: post_promotion_state.active_release_path must match `{pointer_relative}`")
+            if post_state.get("deployment_pointer_path") != pointer_relative:
+                errors.append(f"{report_path}: post_promotion_state.deployment_pointer_path must equal `{pointer_relative}`")
+
+        matching_events = [
+            event
+            for event in promotion_events
+            if isinstance(event, dict)
+            and event.get("event_type") == "promoted"
+            and event.get("build_pack_id") == pack_id
+            and event.get("target_environment") == environment
+            and event.get("promotion_report_path") == report_relative
+        ]
+        if not matching_events:
+            errors.append(
+                f"{factory_root / 'registry/promotion-log.json'}: active pointer `{pointer_relative}` is missing a matching promoted event"
+            )
+
+
 def _check_active_registry(entry: dict[str, Any], registry_path: Path, errors: list[str]) -> None:
     if entry.get("active") is not True:
         errors.append(f"{registry_path}: active pack `{entry.get('pack_id')}` must set active=true")
@@ -369,6 +552,7 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
         _validate_pack_state(factory_root, pack_root, registry_templates, registry_builds, promotion_log, errors)
 
     _validate_template_creation_events(factory_root, registry_templates, promotion_log, errors)
+    _validate_environment_assignments(factory_root, registry_builds, promotion_log, errors)
 
     known_pack_ids = {pack_root.name for pack_root in _iter_pack_roots(factory_root)}
     for registry_path, registry_map in (
@@ -379,14 +563,10 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
             if pack_id not in known_pack_ids:
                 errors.append(f"{registry_path}: registry entry `{pack_id}` does not have a matching pack directory")
 
-    pointer_schema = schema_root / "deployment-pointer.schema.json"
     for environment in DEPLOYMENT_ENVIRONMENTS:
         deployment_dir = factory_root / "deployments" / environment
         if not deployment_dir.exists():
             errors.append(f"{deployment_dir}: deployment directory is missing")
-            continue
-        for pointer in sorted(deployment_dir.glob("*.json")):
-            errors.extend(validate_json_document(pointer, pointer_schema))
 
     return {
         "factory_root": str(factory_root),

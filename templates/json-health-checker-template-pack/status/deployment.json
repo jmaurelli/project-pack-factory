@@ -1,0 +1,18 @@
+{
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
+  "deployment_notes": [
+    "Template packs are source-only and are not directly deployable."
+  ],
+  "deployment_pointer_path": null,
+  "deployment_state": "not_deployed",
+  "deployment_transaction_id": null,
+  "last_promoted_at": null,
+  "last_rollback": null,
+  "last_verified_at": null,
+  "pack_id": "json-health-checker-template-pack",
+  "pack_kind": "template_pack",
+  "projection_state": "not_required",
+  "schema_version": "pack-deployment/v2"
+}

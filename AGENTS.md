@@ -23,9 +23,10 @@ Treat that request as a concierge startup prompt:
   build-pack is currently assigned to an environment
 - summarize what this repo is in plain language
 - summarize where work currently stands
-- name the active template packs and active build-packs
-- give each active pack a very short operator-friendly phrase plus its current
-  role, stage, or environment assignment
+- identify active, recently completed, and retired packs from current factory
+  state
+- give each relevant pack a very short operator-friendly phrase plus its
+  current role, stage, recent outcome, or environment assignment
 - summarize recent relevant factory work using PackFactory verbs like
   `retired`, `materialized`, `promoted`, and `pipeline_executed`
 - include a short retirement summary when retired packs help explain the
@@ -33,10 +34,11 @@ Treat that request as a concierge startup prompt:
 - if recent repo-level tooling or doc work matters to the current task, check
   the latest git commits and mention the concrete date
 - offer a short list of practical next-step options at the administrator level,
-  such as starting a new project planning session, continuing the active
-  testing build, reviewing recent results before making a decision, choosing
-  between a small script/component or a larger project, or retiring
-  historical work that should stay frozen
+  based on the discovered pack state, such as reviewing candidate packs,
+  continuing active testing work, creating a template through the supported
+  planning/creation workflow, materializing a build-pack, promoting a ready
+  build-pack, reviewing deployment assignments, or retiring historical work
+  that should stay frozen
 - end by asking what the operator wants to do next
 
 Keep the reply project-oriented and human-facing. Do not default to an
@@ -48,7 +50,7 @@ internal “key points I’m carrying forward” style.
 2. `README.md`
 3. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-PRODUCT-REQUIREMENTS-DOCUMENT.md` when the task needs product intent or scope
 4. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TESTING-POLICY.md` when the task changes workflow tests
-5. `registry/templates.json` and `registry/build-packs.json` to identify candidate packs from machine-readable state
+5. `registry/templates.json`, `registry/build-packs.json`, and recent relevant entries in `registry/promotion-log.json` to identify candidate packs and recent workflow state from machine-readable sources
 6. `deployments/` only when the task explicitly concerns the small JSON records that show which build-pack is currently assigned to an environment like `testing`, `staging`, or `production`
 7. after the operator confirms the intended pack, that pack's `AGENTS.md`
 8. after the operator confirms the intended pack, that pack's `project-context.md`

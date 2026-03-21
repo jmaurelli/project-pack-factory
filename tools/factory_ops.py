@@ -41,6 +41,23 @@ class PackLocation:
     manifest: dict[str, Any]
 
 
+@dataclass(frozen=True)
+class EnvironmentAssignment:
+    environment: str
+    pack_id: str
+    pointer_path: Path
+    pointer_relative_path: str
+    pointer_payload: dict[str, Any]
+    deployment_path: Path
+    deployment_payload: dict[str, Any]
+    registry_index: int
+    registry_entry: dict[str, Any]
+    promotion_event: dict[str, Any]
+    promotion_report_path: Path
+    promotion_report_relative_path: str
+    promotion_report: dict[str, Any]
+
+
 def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -174,6 +191,8 @@ def discover_pack(factory_root: Path, pack_id: str) -> PackLocation:
         registry_index=registry_index,
         manifest=manifest_dict,
     )
+
+
 def schema_dir(factory_root: Path) -> Path:
     return factory_root / FACTORY_SCHEMA_DIRNAME
 
@@ -270,6 +289,256 @@ def scan_deployment_pointer_paths(factory_root: Path, pack_id: str) -> list[Path
         if pointer.exists():
             matches.append(pointer)
     return matches
+
+
+def _load_object(path: Path) -> dict[str, Any]:
+    payload = load_json(path)
+    if not isinstance(payload, dict):
+        raise ValueError(f"{path}: JSON document must contain an object")
+    return cast(dict[str, Any], payload)
+
+
+def _canonical_pointer_relative_path(environment: str, pack_id: str) -> str:
+    return f"deployments/{environment}/{pack_id}.json"
+
+
+def _find_matching_promotion_event(
+    promotion_log: dict[str, Any],
+    *,
+    promotion_id: str,
+    pack_id: str,
+    environment: str,
+    report_relative_path: str,
+) -> dict[str, Any]:
+    events = promotion_log.get("events", [])
+    if not isinstance(events, list):
+        raise ValueError(f"{PROMOTION_LOG_PATH}: events must be an array")
+    matches = [
+        event
+        for event in events
+        if isinstance(event, dict)
+        and event.get("event_type") == "promoted"
+        and event.get("promotion_id") == promotion_id
+        and event.get("build_pack_id") == pack_id
+        and event.get("target_environment") == environment
+        and event.get("promotion_report_path") == report_relative_path
+    ]
+    if len(matches) != 1:
+        raise ValueError(
+            f"canonical promotion evidence is inconsistent for {environment}: "
+            f"expected exactly one matching promoted event for {pack_id}"
+        )
+    return cast(dict[str, Any], matches[0])
+
+
+def _validate_pointer_assignment(
+    factory_root: Path,
+    environment: str,
+    pointer_path: Path,
+) -> EnvironmentAssignment:
+    pointer_relative_path = relative_path(factory_root, pointer_path)
+    pointer_payload = _load_object(pointer_path)
+    pack_id = maybe_string(pointer_payload.get("pack_id"))
+    if not pack_id:
+        raise ValueError(f"{pointer_relative_path}: pack_id is required")
+    if pointer_payload.get("environment") != environment:
+        raise ValueError(
+            f"{pointer_relative_path}: pointer environment does not match target environment {environment}"
+        )
+    expected_pointer_relative_path = _canonical_pointer_relative_path(environment, pack_id)
+    if pointer_relative_path != expected_pointer_relative_path:
+        raise ValueError(
+            f"{pointer_relative_path}: pointer path does not match canonical environment assignment"
+        )
+
+    location = discover_pack(factory_root, pack_id)
+    if location.pack_kind != "build_pack":
+        raise ValueError(f"{pack_id} is not a build_pack")
+
+    deployment_relative_path = f"build-packs/{pack_id}/status/deployment.json"
+    if pointer_payload.get("source_deployment_file") != deployment_relative_path:
+        raise ValueError(
+            f"{pointer_relative_path}: source_deployment_file does not match canonical deployment path"
+        )
+    deployment_path = location.pack_root / "status/deployment.json"
+    deployment_payload = _load_object(deployment_path)
+    if deployment_payload.get("deployment_state") != environment:
+        raise ValueError(
+            f"{relative_path(factory_root, deployment_path)}: deployment_state does not match {environment}"
+        )
+    if deployment_payload.get("active_environment") != environment:
+        raise ValueError(
+            f"{relative_path(factory_root, deployment_path)}: active_environment does not match {environment}"
+        )
+    if deployment_payload.get("deployment_pointer_path") != pointer_relative_path:
+        raise ValueError(
+            f"{relative_path(factory_root, deployment_path)}: deployment_pointer_path does not match {pointer_relative_path}"
+        )
+    if deployment_payload.get("active_release_id") != pointer_payload.get("active_release_id"):
+        raise ValueError(
+            f"{relative_path(factory_root, deployment_path)}: active_release_id does not match deployment pointer"
+        )
+
+    registry = _load_object(factory_root / REGISTRY_BUILD_PATH)
+    entries = registry.get("entries", [])
+    if not isinstance(entries, list):
+        raise ValueError(f"{REGISTRY_BUILD_PATH}: entries must be an array")
+    registry_index = location.registry_index
+    registry_entry = dict(entries[registry_index])
+    if registry_entry.get("deployment_state") != environment:
+        raise ValueError(f"{REGISTRY_BUILD_PATH}: {pack_id} deployment_state does not match {environment}")
+    if registry_entry.get("deployment_pointer") != pointer_relative_path:
+        raise ValueError(f"{REGISTRY_BUILD_PATH}: {pack_id} deployment_pointer does not match {pointer_relative_path}")
+    if registry_entry.get("active_release_id") != pointer_payload.get("active_release_id"):
+        raise ValueError(f"{REGISTRY_BUILD_PATH}: {pack_id} active_release_id does not match deployment pointer")
+
+    promotion_id = maybe_string(pointer_payload.get("deployment_transaction_id"))
+    report_relative_path = maybe_string(pointer_payload.get("promotion_evidence_ref"))
+    if not promotion_id or not report_relative_path:
+        raise ValueError(f"{pointer_relative_path}: promotion evidence references are incomplete")
+    promotion_log = _load_object(factory_root / PROMOTION_LOG_PATH)
+    promotion_event = _find_matching_promotion_event(
+        promotion_log,
+        promotion_id=promotion_id,
+        pack_id=pack_id,
+        environment=environment,
+        report_relative_path=report_relative_path,
+    )
+    promotion_report_path = location.pack_root / report_relative_path
+    if not promotion_report_path.exists():
+        raise ValueError(
+            f"{pointer_relative_path}: promotion report is missing at {relative_path(factory_root, promotion_report_path)}"
+        )
+    promotion_report = _load_object(promotion_report_path)
+    if promotion_report.get("promotion_id") != promotion_id:
+        raise ValueError(f"{relative_path(factory_root, promotion_report_path)}: promotion_id does not match pointer")
+    if promotion_report.get("build_pack_id") != pack_id:
+        raise ValueError(f"{relative_path(factory_root, promotion_report_path)}: build_pack_id does not match pointer")
+    if promotion_report.get("target_environment") != environment:
+        raise ValueError(
+            f"{relative_path(factory_root, promotion_report_path)}: target_environment does not match pointer"
+        )
+    if promotion_report.get("release_id") != pointer_payload.get("active_release_id"):
+        raise ValueError(f"{relative_path(factory_root, promotion_report_path)}: release_id does not match pointer")
+    post_state = promotion_report.get("post_promotion_state")
+    if not isinstance(post_state, dict):
+        raise ValueError(
+            f"{relative_path(factory_root, promotion_report_path)}: post_promotion_state must be an object"
+        )
+    if post_state.get("deployment_pointer_path") != pointer_relative_path:
+        raise ValueError(
+            f"{relative_path(factory_root, promotion_report_path)}: post_promotion_state.deployment_pointer_path does not match pointer"
+        )
+
+    return EnvironmentAssignment(
+        environment=environment,
+        pack_id=pack_id,
+        pointer_path=pointer_path,
+        pointer_relative_path=pointer_relative_path,
+        pointer_payload=pointer_payload,
+        deployment_path=deployment_path,
+        deployment_payload=deployment_payload,
+        registry_index=registry_index,
+        registry_entry=registry_entry,
+        promotion_event=promotion_event,
+        promotion_report_path=promotion_report_path,
+        promotion_report_relative_path=report_relative_path,
+        promotion_report=promotion_report,
+    )
+
+
+def discover_environment_assignment(factory_root: Path, environment: str) -> EnvironmentAssignment | None:
+    deployment_dir = factory_root / "deployments" / environment
+    pointer_paths = sorted(deployment_dir.glob("*.json")) if deployment_dir.exists() else []
+    registry = _load_object(factory_root / REGISTRY_BUILD_PATH)
+    entries = registry.get("entries", [])
+    if not isinstance(entries, list):
+        raise ValueError(f"{REGISTRY_BUILD_PATH}: entries must be an array")
+
+    if len(pointer_paths) > 1:
+        raise ValueError(
+            f"inconsistent current assignee state for {environment}: multiple deployment pointers exist"
+        )
+    if len(pointer_paths) == 1:
+        assignment = _validate_pointer_assignment(factory_root, environment, pointer_paths[0])
+        registry_claims: list[str] = []
+        pack_claims: list[str] = []
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            if entry.get("pack_kind") != "build_pack":
+                continue
+            pack_id = maybe_string(entry.get("pack_id"))
+            if not pack_id or pack_id == assignment.pack_id:
+                continue
+            expected_pointer_relative_path = _canonical_pointer_relative_path(environment, pack_id)
+            if (
+                entry.get("deployment_state") == environment
+                or entry.get("deployment_pointer") == expected_pointer_relative_path
+            ):
+                registry_claims.append(pack_id)
+
+            deployment_path = factory_root / "build-packs" / pack_id / "status/deployment.json"
+            if not deployment_path.exists():
+                continue
+            deployment_payload = _load_object(deployment_path)
+            if (
+                deployment_payload.get("deployment_state") == environment
+                or deployment_payload.get("active_environment") == environment
+                or deployment_payload.get("deployment_pointer_path") == expected_pointer_relative_path
+            ):
+                pack_claims.append(pack_id)
+        if registry_claims or pack_claims:
+            problems: list[str] = []
+            if registry_claims:
+                problems.append(f"registry claims: {', '.join(sorted(set(registry_claims)))}")
+            if pack_claims:
+                problems.append(f"pack-local claims: {', '.join(sorted(set(pack_claims)))}")
+            raise ValueError(
+                f"inconsistent current assignee state for {environment}: "
+                f"{assignment.pack_id} owns the deployment pointer but other packs also claim the environment; "
+                + "; ".join(problems)
+            )
+        return assignment
+
+    registry_claims: list[str] = []
+    pack_claims: list[str] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        if entry.get("pack_kind") != "build_pack":
+            continue
+        pack_id = maybe_string(entry.get("pack_id"))
+        if not pack_id:
+            continue
+        expected_pointer_relative_path = _canonical_pointer_relative_path(environment, pack_id)
+        if entry.get("deployment_state") == environment or entry.get("deployment_pointer") == expected_pointer_relative_path:
+            registry_claims.append(pack_id)
+
+        pack_root = factory_root / "build-packs" / pack_id
+        deployment_path = pack_root / "status/deployment.json"
+        if not deployment_path.exists():
+            continue
+        deployment_payload = _load_object(deployment_path)
+        if (
+            deployment_payload.get("deployment_state") == environment
+            or deployment_payload.get("active_environment") == environment
+            or deployment_payload.get("deployment_pointer_path") == expected_pointer_relative_path
+        ):
+            pack_claims.append(pack_id)
+
+    if registry_claims or pack_claims:
+        problems: list[str] = []
+        if registry_claims:
+            problems.append(f"registry claims: {', '.join(sorted(set(registry_claims)))}")
+        if pack_claims:
+            problems.append(f"pack-local claims: {', '.join(sorted(set(pack_claims)))}")
+        raise ValueError(
+            f"inconsistent current assignee state for {environment}: no deployment pointer exists but "
+            + "; ".join(problems)
+        )
+
+    return None
 
 
 def maybe_string(value: Any) -> str | None:

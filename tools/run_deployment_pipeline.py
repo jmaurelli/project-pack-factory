@@ -139,11 +139,16 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
     adapter_result: dict[str, Any] | None = None
     evidence_paths: list[str] = [f"build-packs/{pack_id}/{report_relative}"]
     promotion_result: dict[str, Any] | None = None
+    canonical_state_changed = False
+    canonical_assignment_status = "unchanged"
     pipeline_dir = pack_root / "eval/history" / pipeline_id
     pipeline_dir.mkdir(parents=True, exist_ok=True)
 
     def complete(stage_id: str, summary: str) -> None:
         stage_results.append({"stage_id": stage_id, "status": "completed", "summary": summary})
+
+    def reconcile(stage_id: str, summary: str) -> None:
+        stage_results.append({"stage_id": stage_id, "status": "reconciled", "summary": summary})
 
     def fail(stage_id: str, summary: str) -> None:
         nonlocal final_status
@@ -305,7 +310,13 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
             }
             promotion_result = promote_build_pack(factory_root, promotion_request)
             evidence_paths.append(relative_path(factory_root, Path(promotion_result["promotion_report_path"])))
-            complete("finalize_promotion", "Committed promotion through the promotion workflow.")
+            canonical_assignment_status = "committed"
+            if promotion_result["status"] == "reconciled":
+                final_status = "reconciled"
+                reconcile("finalize_promotion", "Promotion state was already current and was reconciled.")
+            else:
+                canonical_state_changed = True
+                complete("finalize_promotion", "Committed promotion through the promotion workflow.")
         else:
             complete("finalize_promotion", "Promotion commit was intentionally deferred by request.")
     except RuntimeError:
@@ -335,6 +346,8 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
         "invoked_by": invoked_by,
         "commit_promotion_on_success": commit_promotion,
         "final_status": final_status,
+        "canonical_state_changed": canonical_state_changed,
+        "canonical_assignment_status": canonical_assignment_status,
         "operation_log_update": operation_log_update,
         "stage_results": stage_results,
         "adapter_result": adapter_result,

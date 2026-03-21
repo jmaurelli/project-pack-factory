@@ -1,18 +1,18 @@
 {
-  "active_environment": "testing",
-  "active_release_id": "factory-smoke-r1",
-  "active_release_path": "dist/releases/factory-smoke-r1",
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
   "deployment_notes": [
-    "Promoted to testing by PackFactory."
+    "Testing assignment cleared during environment reconciliation."
   ],
-  "deployment_pointer_path": "deployments/testing/factory-native-smoke-build-pack.json",
-  "deployment_state": "testing",
-  "deployment_transaction_id": "promote-factory-native-smoke-build-pack-testing-20260320t221110z",
-  "last_promoted_at": "2026-03-20T22:11:10Z",
+  "deployment_pointer_path": null,
+  "deployment_state": "not_deployed",
+  "deployment_transaction_id": null,
+  "last_promoted_at": null,
   "last_rollback": null,
-  "last_verified_at": "2026-03-20T22:11:09Z",
+  "last_verified_at": null,
   "pack_id": "factory-native-smoke-build-pack",
   "pack_kind": "build_pack",
-  "projection_state": "projected",
+  "projection_state": "not_required",
   "schema_version": "pack-deployment/v2"
 }

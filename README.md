@@ -19,9 +19,10 @@ When an operator asks to `load AGENTS.md`, the expected response should:
   summaries or directory listings
 - consult `deployments/` only when the startup brief needs to explain which
   build-pack is currently assigned to an environment
-- name the active template packs and active build-packs
-- give each active pack a short human-friendly phrase plus its current role,
-  stage, or environment assignment
+- identify active, recently completed, and retired packs from current factory
+  state
+- give each relevant pack a short human-friendly phrase plus its current role,
+  stage, recent outcome, or environment assignment
 - summarize recent relevant work using PackFactory workflow verbs such as
   `retired`, `materialized`, `promoted`, and `pipeline_executed`
 - include a short retirement summary when it helps explain why only certain
@@ -29,10 +30,11 @@ When an operator asks to `load AGENTS.md`, the expected response should:
 - if recent repo-level tooling or doc work matters, also check the latest git
   commits and mention the concrete date
 - offer a few practical next-step options at the administrator level, such as
-  starting a new project planning session, continuing the active testing
-  build, reviewing recent results before deciding, choosing between a small
-  script/component and a larger project, or freezing older work through
-  retirement
+  reviewing candidate packs, continuing active testing work, creating a
+  template through the supported planning/creation workflow, materializing a
+  build-pack, promoting a ready build-pack, reviewing deployment assignments,
+  or freezing older work through retirement, based on the packs the agent just
+  discovered
 
 The startup response should feel like a project concierge briefing, not a file
 acknowledgment.
@@ -67,7 +69,7 @@ rather than aiming for broad coverage.
 - If an environment has no build-pack record yet, that just means nothing is assigned there right now.
 - Retired build packs are removed from this area.
 - `registry/promotion-log.json` preserves retired events as historical evidence, even for fixtures that are no longer deployment candidates.
-- The initial retired build-pack fixtures are `ai-native-codex-build-pack` and `agent-memory-first-build-pack`.
+- Use current registry state to determine which packs are active, recently completed, or retired rather than relying on hardcoded examples in startup guidance.
 
 ## Operator Tools
 

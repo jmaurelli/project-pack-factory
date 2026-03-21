@@ -1,0 +1,12 @@
+{
+  "current_revision": "r1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "json-health-checker-build-pack",
+  "pack_kind": "build_pack",
+  "promotion_target": "staging",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Promote the newly validated JSON health checker build-pack into testing as the active quick-test workflow candidate.",
+  "updated_at": "2026-03-21T02:39:48Z",
+  "updated_by": "orchadmin"
+}

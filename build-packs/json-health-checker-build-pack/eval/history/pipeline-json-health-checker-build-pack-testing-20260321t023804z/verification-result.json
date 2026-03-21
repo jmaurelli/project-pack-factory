@@ -1,0 +1,7 @@
+{
+  "commands": [
+    "tmpfile=$(mktemp) && printf '{\"id\": 1, \"status\": \"ok\"}\\n' > \"$tmpfile\" && PYTHONPATH=src python3 -m json_health_checker_template_pack check-json --input \"$tmpfile\" --require id --require status --output json"
+  ],
+  "failures": [],
+  "status": "passed"
+}

@@ -16,6 +16,8 @@
     "invoked_by",
     "commit_promotion_on_success",
     "final_status",
+    "canonical_state_changed",
+    "canonical_assignment_status",
     "operation_log_update",
     "stage_results",
     "adapter_result",
@@ -70,6 +72,16 @@
         "completed",
         "failed",
         "reconciled"
+      ]
+    },
+    "canonical_state_changed": {
+      "type": "boolean"
+    },
+    "canonical_assignment_status": {
+      "type": "string",
+      "enum": [
+        "unchanged",
+        "committed"
       ]
     },
     "operation_log_update": {
