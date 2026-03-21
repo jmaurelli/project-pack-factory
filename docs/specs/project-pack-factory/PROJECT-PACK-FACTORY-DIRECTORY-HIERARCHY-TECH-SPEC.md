@@ -253,6 +253,27 @@ after the state surface has been loaded.
 - derived environment index for fast reverse lookup
 - never overrides `status/deployment.json`
 
+The tracked state boundary must also stay explicit for fresh agents.
+
+Tracked PackFactory control-plane state is the canonical source for factory
+identity, readiness, deployment, lineage, benchmark, and historical-evidence
+questions:
+
+- `templates/`
+- `build-packs/`
+- `deployments/`
+- `registry/`
+- pack-local `eval/` artifacts that are referenced by canonical state surfaces
+
+`.pack-state/` remains local mutable runtime state. Agents may read it for
+restart help, including `.pack-state/agent-memory/`, but must not treat it as
+authoritative for readiness, promotion, deployment, lineage, or benchmark
+conclusions unless the relevant fact is promoted into the tracked surfaces
+above.
+
+Ad hoc operator inputs, such as `requests/`, plus caches and interpreter
+byproducts, are local scratch rather than canonical factory truth.
+
 Directory placement alone must never be treated as truth.
 
 ## Cross-File Invariants
