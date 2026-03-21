@@ -36,6 +36,17 @@ Covered areas:
 - build-pack promotion
 - CI and deployment orchestration
 
+This `12`-test cap applies only to those three workflow areas.
+
+## Template Creation Budget
+
+The template planning and creation workflow has a separate small budget:
+
+- `4` tests maximum
+
+If that budget needs to grow, replace a weaker creation test rather than
+adding a fifth.
+
 Recommended allocation:
 
 - materialization: `4`
@@ -104,6 +115,7 @@ If it does not clearly protect one of those, it should not be added.
 
 This policy constrains implementation of:
 
+- `PROJECT-PACK-FACTORY-TEMPLATE-PLANNING-AND-CREATION-TECH-SPEC.md`
 - `PROJECT-PACK-FACTORY-BUILD-PACK-MATERIALIZATION-TECH-SPEC.md`
 - `PROJECT-PACK-FACTORY-BUILD-PACK-PROMOTION-WORKFLOW-TECH-SPEC.md`
 - `PROJECT-PACK-FACTORY-CI-CLOUD-DEPLOYMENT-ORCHESTRATION-TECH-SPEC.md`

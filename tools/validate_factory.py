@@ -272,6 +272,88 @@ def _validate_pack_state(
                 errors.append(f"{pointer_path}: retired build pack must not keep active deployment pointers")
 
 
+def _validate_template_creation_events(
+    factory_root: Path,
+    templates_registry: dict[str, dict[str, Any]],
+    promotion_log: dict[str, Any],
+    errors: list[str],
+) -> None:
+    schema_root = factory_root / "docs/specs/project-pack-factory/schemas"
+    events = promotion_log.get("events", [])
+    if not isinstance(events, list):
+        errors.append(f"{factory_root / 'registry/promotion-log.json'}: events must be an array")
+        return
+
+    for event in events:
+        if not isinstance(event, dict) or event.get("event_type") != "template_created":
+            continue
+        template_pack_id = event.get("template_pack_id")
+        creation_id = event.get("creation_id")
+        report_relative = event.get("template_creation_report_path")
+        if not isinstance(template_pack_id, str):
+            errors.append(f"{factory_root / 'registry/promotion-log.json'}: template_created event must include template_pack_id")
+            continue
+        if not isinstance(creation_id, str):
+            errors.append(f"{factory_root / 'registry/promotion-log.json'}: template_created event for `{template_pack_id}` must include creation_id")
+            continue
+        if not isinstance(report_relative, str):
+            errors.append(f"{factory_root / 'registry/promotion-log.json'}: template_created event for `{template_pack_id}` must include template_creation_report_path")
+            continue
+
+        entry = templates_registry.get(template_pack_id)
+        if entry is None:
+            errors.append(f"{factory_root / 'registry/promotion-log.json'}: template_created event references unknown template `{template_pack_id}`")
+            continue
+        pack_root_relative = entry.get("pack_root")
+        if not isinstance(pack_root_relative, str):
+            errors.append(f"{factory_root / 'registry/templates.json'}: template `{template_pack_id}` is missing pack_root")
+            continue
+        report_path = factory_root / pack_root_relative / report_relative
+        if not report_path.exists():
+            errors.append(f"{report_path}: template creation report referenced by promotion log is missing")
+            continue
+
+        errors.extend(
+            validate_json_document(
+                report_path,
+                schema_root / "template-creation-report.schema.json",
+            )
+        )
+        report = _load_object(report_path)
+        if report.get("creation_id") != creation_id:
+            errors.append(f"{report_path}: creation_id does not match registry/promotion-log.json")
+        if report.get("template_pack_id") != template_pack_id:
+            errors.append(f"{report_path}: template_pack_id does not match registry/promotion-log.json")
+        artifact_paths = report.get("artifact_paths", {})
+        if artifact_paths.get("template_root") != pack_root_relative:
+            errors.append(f"{report_path}: artifact_paths.template_root must equal `{pack_root_relative}`")
+        expected_report_artifact = f"{pack_root_relative}/{report_relative}"
+        if artifact_paths.get("creation_report") != expected_report_artifact:
+            errors.append(f"{report_path}: artifact_paths.creation_report must equal `{expected_report_artifact}`")
+        if entry.get("lifecycle_stage") != "maintained":
+            errors.append(f"{factory_root / 'registry/templates.json'}: created template `{template_pack_id}` must set lifecycle_stage=maintained")
+        if entry.get("ready_for_deployment") is not False:
+            errors.append(f"{factory_root / 'registry/templates.json'}: created template `{template_pack_id}` must set ready_for_deployment=false")
+        active_set = _load_object(factory_root / pack_root_relative / "benchmarks/active-set.json")
+        active_benchmark_ids = [
+            benchmark.get("benchmark_id")
+            for benchmark in active_set.get("active_benchmarks", [])
+            if isinstance(benchmark, dict)
+        ]
+        if entry.get("active_benchmark_ids") != active_benchmark_ids:
+            errors.append(f"{factory_root / 'registry/templates.json'}: created template `{template_pack_id}` active_benchmark_ids must match benchmarks/active-set.json")
+        notes = entry.get("notes")
+        if not isinstance(notes, list) or not any(isinstance(note, str) and creation_id in note for note in notes):
+            errors.append(f"{factory_root / 'registry/templates.json'}: created template `{template_pack_id}` notes must include the creation_id")
+        factory_mutations = report.get("factory_mutations", {})
+        if factory_mutations.get("registry_updated") is not True:
+            errors.append(f"{report_path}: factory_mutations.registry_updated must be true")
+        if factory_mutations.get("operation_log_updated") is not True:
+            errors.append(f"{report_path}: factory_mutations.operation_log_updated must be true")
+        if event.get("status") == "completed" and factory_mutations.get("post_write_factory_validation") != "pass":
+            errors.append(f"{report_path}: factory_mutations.post_write_factory_validation must be pass for completed template_created events")
+
+
 def validate_factory(factory_root: Path) -> dict[str, Any]:
     errors: list[str] = []
     schema_root = factory_root / "docs/specs/project-pack-factory/schemas"
@@ -285,6 +367,8 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
 
     for pack_root in _iter_pack_roots(factory_root):
         _validate_pack_state(factory_root, pack_root, registry_templates, registry_builds, promotion_log, errors)
+
+    _validate_template_creation_events(factory_root, registry_templates, promotion_log, errors)
 
     known_pack_ids = {pack_root.name for pack_root in _iter_pack_roots(factory_root)}
     for registry_path, registry_map in (

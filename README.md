@@ -3,6 +3,40 @@
 Agent-optimized PackFactory instance for template-pack testing, build-pack
 promotion, and retirement-aware lifecycle management.
 
+In plain language: this repo is the factory we use to plan and manage reusable
+project-pack templates, turn approved templates into testable/deployable
+build-packs, and track what is currently active, under test, retired, or
+assigned to an environment.
+
+## Operator Startup
+
+When an operator asks to `load AGENTS.md`, the expected response should:
+
+- explain the repo in plain language
+- summarize the current live state from `registry/`, `deployments/`, and recent
+  relevant activity
+- treat `registry/*.json` as source of truth for live pack state, not prose
+  summaries or directory listings
+- consult `deployments/` only when the startup brief needs to explain which
+  build-pack is currently assigned to an environment
+- name the active template packs and active build-packs
+- give each active pack a short human-friendly phrase plus its current role,
+  stage, or environment assignment
+- summarize recent relevant work using PackFactory workflow verbs such as
+  `retired`, `materialized`, `promoted`, and `pipeline_executed`
+- include a short retirement summary when it helps explain why only certain
+  packs are currently active
+- if recent repo-level tooling or doc work matters, also check the latest git
+  commits and mention the concrete date
+- offer a few practical next-step options at the administrator level, such as
+  starting a new project planning session, continuing the active testing
+  build, reviewing recent results before deciding, choosing between a small
+  script/component and a larger project, or freezing older work through
+  retirement
+
+The startup response should feel like a project concierge briefing, not a file
+acknowledgment.
+
 ## Product Intent
 
 The product-level definition of what this factory is for lives in:
@@ -38,5 +72,9 @@ rather than aiming for broad coverage.
 ## Operator Tools
 
 - `python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory`
+- `python3 tools/create_template_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+- `python3 tools/materialize_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+- `python3 tools/promote_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+- `python3 tools/run_deployment_pipeline.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
 - `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`

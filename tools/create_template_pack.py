@@ -1,0 +1,890 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import keyword
+import sys
+from pathlib import Path
+from typing import Any
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from factory_ops import (
+    PROMOTION_LOG_PATH,
+    REGISTRY_TEMPLATE_PATH,
+    isoformat_z,
+    load_json,
+    read_now,
+    relative_path,
+    resolve_factory_root,
+    schema_path,
+    timestamp_token,
+    validate_json_document,
+    write_json,
+)
+from validate_factory import validate_factory
+
+
+def _load_object(path: Path) -> dict[str, Any]:
+    payload = load_json(path)
+    if not isinstance(payload, dict):
+        raise ValueError(f"{path}: JSON document must contain an object")
+    return payload
+
+
+def _load_request(request_path: Path, factory_root: Path) -> dict[str, Any]:
+    errors = validate_json_document(
+        request_path,
+        schema_path(factory_root, "template-creation-request.schema.json"),
+    )
+    if errors:
+        raise ValueError("; ".join(errors))
+    return _load_object(request_path)
+
+
+def _module_name(template_pack_id: str) -> str:
+    candidate = template_pack_id.replace("-", "_")
+    if not candidate.isidentifier() or keyword.iskeyword(candidate):
+        candidate = f"pack_{candidate}"
+    if not candidate.isidentifier() or keyword.iskeyword(candidate):
+        raise ValueError(f"could not derive a valid Python module name from `{template_pack_id}`")
+    return candidate
+
+
+def _gate_id(benchmark_id: str) -> str:
+    return benchmark_id.replace("-", "_")
+
+
+def _write_text(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content, encoding="utf-8")
+
+
+def _directory_contract() -> dict[str, Any]:
+    return {
+        "docs_dir": "docs",
+        "prompts_dir": "prompts",
+        "contracts_dir": "contracts",
+        "source_dir": "src",
+        "tests_dir": "tests",
+        "benchmarks_dir": "benchmarks",
+        "benchmark_active_set_file": "benchmarks/active-set.json",
+        "eval_dir": "eval",
+        "eval_latest_index_file": "eval/latest/index.json",
+        "eval_history_dir": "eval/history",
+        "status_dir": "status",
+        "lifecycle_file": "status/lifecycle.json",
+        "readiness_file": "status/readiness.json",
+        "retirement_file": "status/retirement.json",
+        "deployment_file": "status/deployment.json",
+        "lineage_dir": None,
+        "lineage_file": None,
+        "dist_dir": "dist",
+        "candidate_release_dir": None,
+        "immutable_release_dir": None,
+        "template_export_dir": "dist/exports",
+        "local_state_dir": ".pack-state",
+    }
+
+
+def _pack_manifest(
+    *,
+    template_pack_id: str,
+    display_name: str,
+    owning_team: str,
+    module_name: str,
+    creation_id: str,
+    project_goal: str,
+) -> dict[str, Any]:
+    return {
+        "schema_version": "pack-manifest/v2",
+        "pack_id": template_pack_id,
+        "pack_kind": "template_pack",
+        "display_name": display_name,
+        "owning_team": owning_team,
+        "runtime": "python",
+        "bootstrap_read_order": [
+            "AGENTS.md",
+            "project-context.md",
+            "pack.json",
+        ],
+        "post_bootstrap_read_order": [
+            "status/lifecycle.json",
+            "status/readiness.json",
+            "status/retirement.json",
+            "status/deployment.json",
+            "benchmarks/active-set.json",
+            "eval/latest/index.json",
+        ],
+        "entrypoints": {
+            "cli_command": f"PYTHONPATH=src python3 -m {module_name} --help",
+            "validation_command": f"PYTHONPATH=src python3 -m {module_name} validate-project-pack --project-root . --output json",
+            "benchmark_command": f"PYTHONPATH=src python3 -m {module_name} benchmark-smoke --project-root . --output json",
+        },
+        "directory_contract": _directory_contract(),
+        "identity_source": "pack.json",
+        "notes": [
+            "Created through the PackFactory template creation workflow.",
+            f"creation_id={creation_id}",
+            f"project_goal={project_goal}",
+        ],
+    }
+
+
+def _lifecycle_state(
+    *,
+    template_pack_id: str,
+    creation_id: str,
+    created_at: str,
+    requested_by: str,
+    reason: str,
+) -> dict[str, Any]:
+    return {
+        "schema_version": "pack-lifecycle/v2",
+        "pack_id": template_pack_id,
+        "pack_kind": "template_pack",
+        "lifecycle_stage": "maintained",
+        "state_reason": reason,
+        "current_version": "0.1.0",
+        "current_revision": creation_id,
+        "promotion_target": "none",
+        "updated_at": created_at,
+        "updated_by": requested_by,
+    }
+
+
+def _readiness_state(
+    *,
+    template_pack_id: str,
+    created_at: str,
+    benchmark_id: str,
+    benchmark_objective: str,
+) -> dict[str, Any]:
+    return {
+        "schema_version": "pack-readiness/v2",
+        "pack_id": template_pack_id,
+        "pack_kind": "template_pack",
+        "readiness_state": "ready_for_review",
+        "ready_for_deployment": False,
+        "last_evaluated_at": created_at,
+        "blocking_issues": [
+            "Template packs are source-only and are not deployable artifacts.",
+            "Initial template benchmark baseline has not been recorded yet.",
+        ],
+        "recommended_next_actions": [
+            "Validate the new template pack.",
+            "Run the initial smoke benchmark to record the first baseline.",
+            "Materialize a build pack when the template is ready for downstream testing.",
+        ],
+        "required_gates": [
+            {
+                "gate_id": "validate_project_pack",
+                "mandatory": True,
+                "status": "not_run",
+                "summary": "Basic PackFactory structure and contract validation.",
+                "last_run_at": None,
+                "evidence_paths": [],
+            },
+            {
+                "gate_id": _gate_id(benchmark_id),
+                "mandatory": True,
+                "status": "not_run",
+                "summary": benchmark_objective,
+                "last_run_at": None,
+                "evidence_paths": [],
+            },
+        ],
+    }
+
+
+def _deployment_state(template_pack_id: str) -> dict[str, Any]:
+    return {
+        "schema_version": "pack-deployment/v2",
+        "pack_id": template_pack_id,
+        "pack_kind": "template_pack",
+        "deployment_state": "not_deployed",
+        "active_environment": "none",
+        "active_release_id": None,
+        "active_release_path": None,
+        "deployment_pointer_path": None,
+        "deployment_transaction_id": None,
+        "projection_state": "not_required",
+        "last_promoted_at": None,
+        "last_rollback": None,
+        "last_verified_at": None,
+        "deployment_notes": [
+            "Template packs are source-only and are not directly deployable.",
+        ],
+    }
+
+
+def _retirement_state(template_pack_id: str) -> dict[str, Any]:
+    return {
+        "schema_version": "pack-retirement/v1",
+        "pack_id": template_pack_id,
+        "pack_kind": "template_pack",
+        "retirement_state": "active",
+        "retired_at": None,
+        "retired_by": None,
+        "retirement_reason": None,
+        "superseded_by_pack_id": None,
+        "retirement_report_path": None,
+        "removed_deployment_pointer_paths": [],
+        "retained_artifacts": {
+            "eval_history": True,
+            "release_artifacts": False,
+            "lineage": False,
+        },
+        "operator_notes": [
+            "Created through the PackFactory template creation workflow.",
+        ],
+    }
+
+
+def _active_set(template_pack_id: str, benchmark_id: str, objective: str) -> dict[str, Any]:
+    return {
+        "schema_version": "pack-benchmark-active-set/v1",
+        "pack_id": template_pack_id,
+        "pack_kind": "template_pack",
+        "default_benchmark_id": benchmark_id,
+        "active_benchmarks": [
+            {
+                "benchmark_id": benchmark_id,
+                "declaration_path": f"benchmarks/declarations/{benchmark_id}.json",
+                "objective": objective,
+                "required_for_readiness": True,
+            }
+        ],
+    }
+
+
+def _eval_latest(template_pack_id: str, benchmark_id: str) -> dict[str, Any]:
+    return {
+        "schema_version": "pack-eval-index/v1",
+        "pack_id": template_pack_id,
+        "pack_kind": "template_pack",
+        "updated_at": isoformat_z(),
+        "benchmark_results": [
+            {
+                "benchmark_id": benchmark_id,
+                "status": "not_run",
+                "latest_run_id": f"{template_pack_id}-bootstrap",
+                "run_artifact_path": "eval/history/bootstrap/not-run.json",
+                "summary_artifact_path": "eval/history/bootstrap/not-run.json",
+            }
+        ],
+    }
+
+
+def _benchmark_declaration(
+    *,
+    template_pack_id: str,
+    benchmark_id: str,
+    creation_id: str,
+    description: str,
+) -> dict[str, Any]:
+    benchmark_task_id = f"task-{benchmark_id}"
+    return {
+        "schema_version": "benchmark-declaration/v1",
+        "benchmark_task_id": benchmark_task_id,
+        "benchmark_suite_id": "packfactory-template-creation-suite",
+        "benchmark_revision": f"rev-{benchmark_id}",
+        "benchmark_category": "workflow-smoke",
+        "benchmark_size_class": "small",
+        "complexity_profile": "single-package-low",
+        "approval_profile": "approval_not_required",
+        "intended_pack_family": "template-pack",
+        "intended_languages": ["python"],
+        "description": description,
+        "target_project": {
+            "target_project_id": template_pack_id,
+            "target_locator": "repo-local",
+            "default_relative_root": f"templates/{template_pack_id}",
+        },
+        "manifest_defaults": {
+            "pack_family": "template-pack",
+            "pack_version": "0.1.0",
+            "orchestration_core_version": creation_id,
+            "terminal_benchmark_classification": "completed_within_envelope",
+        },
+        "tags": [
+            "factory-native",
+            "template-pack",
+            "small",
+            "created",
+        ],
+        "owners": ["orchadmin"],
+        "status": "active",
+    }
+
+
+def _pack_agents(display_name: str) -> str:
+    return f"""# {display_name}
+
+This is a PackFactory-native template created through the template creation workflow.
+
+## Bootstrap Order
+
+1. `AGENTS.md`
+2. `project-context.md`
+3. `pack.json`
+4. `status/lifecycle.json`
+5. `status/readiness.json`
+6. `status/retirement.json`
+7. `status/deployment.json`
+8. `benchmarks/active-set.json`
+9. `eval/latest/index.json`
+
+## Working Rules
+
+- Treat this pack as an active source template.
+- Use `validate-project-pack` before trusting local state.
+- Use `benchmark-smoke` as the smallest bounded benchmark for this template.
+- Keep this template easy for a fresh agent to inspect and adapt.
+- Treat this template as source-only. It is not directly deployable.
+"""
+
+
+def _project_context(module_name: str, benchmark_id: str, project_goal: str) -> str:
+    return f"""# Project Context
+
+This template was created to support the following project goal:
+
+- {project_goal}
+
+## Priority
+
+1. Keep the template valid for PackFactory traversal and later materialization.
+2. Keep validation and benchmark commands small and deterministic.
+3. Keep the pack easy for a fresh agent to inspect.
+
+## Primary Runtime Surfaces
+
+- `src/{module_name}/cli.py`
+- `src/{module_name}/validate_project_pack.py`
+- `src/{module_name}/benchmark_smoke.py`
+- `benchmarks/active-set.json`
+- `benchmarks/declarations/{benchmark_id}.json`
+- `eval/latest/index.json`
+
+## Local State
+
+- local scratch state: `.pack-state/`
+"""
+
+
+def _pack_readme(display_name: str, template_pack_id: str, module_name: str) -> str:
+    return f"""# {display_name}
+
+PackFactory-native template pack `{template_pack_id}`.
+
+## Commands
+
+```bash
+PYTHONPATH=src python3 -m {module_name} --help
+PYTHONPATH=src python3 -m {module_name} validate-project-pack --project-root . --output json
+PYTHONPATH=src python3 -m {module_name} benchmark-smoke --project-root . --output json
+```
+"""
+
+
+def _contracts_readme() -> str:
+    return """# Contracts
+
+This template keeps pack-level contracts in machine-readable PackFactory state files.
+Add project-specific contracts here only when the template needs them.
+"""
+
+
+def _docs_specs_readme() -> str:
+    return """# Specs
+
+Add template-specific technical notes or implementation specs here when the template grows beyond the starter scaffold.
+"""
+
+
+def _prompts_readme() -> str:
+    return """# Prompts
+
+Store template-local prompts or operator guidance here when the pack needs them.
+"""
+
+
+def _tests_readme() -> str:
+    return """# Tests
+
+Keep tests small, deterministic, and focused on the few behaviors that materially protect this template.
+"""
+
+
+def _gitignore() -> str:
+    return """__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+*.egg-info/
+"""
+
+
+def _pyproject(template_pack_id: str, display_name: str, module_name: str) -> str:
+    escaped_display = display_name.replace('"', '\\"')
+    return f"""[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{template_pack_id}"
+version = "0.1.0"
+description = "{escaped_display}"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+{template_pack_id} = "{module_name}.cli:main"
+
+[tool.setuptools]
+package-dir = {{"" = "src"}}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["{module_name}*"]
+"""
+
+
+def _init_py() -> str:
+    return '__all__ = ["main"]\n'
+
+
+def _main_py(module_name: str) -> str:
+    return f"""from .cli import main
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+"""
+
+
+def _cli_py(module_name: str) -> str:
+    return f"""from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from .benchmark_smoke import benchmark_smoke
+from .validate_project_pack import validate_project_pack
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(prog="{module_name}")
+    subparsers = parser.add_subparsers(dest="command")
+
+    validate_parser = subparsers.add_parser("validate-project-pack")
+    validate_parser.add_argument("--project-root", default=".")
+    validate_parser.add_argument("--output", choices=("json",), default="json")
+
+    benchmark_parser = subparsers.add_parser("benchmark-smoke")
+    benchmark_parser.add_argument("--project-root", default=".")
+    benchmark_parser.add_argument("--output", choices=("json",), default="json")
+
+    args = parser.parse_args()
+    if args.command == "validate-project-pack":
+        result = validate_project_pack(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "benchmark-smoke":
+        result = benchmark_smoke(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    parser.print_help()
+    return 0
+"""
+
+
+def _validate_project_pack_py() -> str:
+    return """from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+
+def validate_project_pack(project_root: Path) -> dict[str, Any]:
+    manifest_path = project_root / "pack.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    required_paths = ["AGENTS.md", "project-context.md", "pack.json"]
+    required_paths.extend(manifest.get("post_bootstrap_read_order", []))
+
+    directory_contract = manifest.get("directory_contract", {})
+    if isinstance(directory_contract, dict):
+        required_paths.extend(
+            value
+            for value in directory_contract.values()
+            if isinstance(value, str)
+        )
+
+    missing = sorted(
+        relative_path
+        for relative_path in set(required_paths)
+        if not (project_root / relative_path).exists()
+    )
+    status = "pass" if not missing else "fail"
+    return {
+        "status": status,
+        "project_root": str(project_root),
+        "pack_id": manifest.get("pack_id"),
+        "pack_kind": manifest.get("pack_kind"),
+        "checked_paths": sorted(set(required_paths)),
+        "missing_paths": missing,
+    }
+"""
+
+
+def _benchmark_smoke_py(benchmark_id: str) -> str:
+    return f"""from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+
+def benchmark_smoke(project_root: Path) -> dict[str, Any]:
+    manifest_path = project_root / "pack.json"
+    readiness_path = project_root / "status/readiness.json"
+    benchmark_path = project_root / "benchmarks/active-set.json"
+
+    missing = [
+        str(path.relative_to(project_root))
+        for path in (manifest_path, readiness_path, benchmark_path)
+        if not path.exists()
+    ]
+
+    return {{
+        "status": "pass" if not missing else "fail",
+        "project_root": str(project_root),
+        "benchmark_id": "{benchmark_id}",
+        "checked_paths": [
+            "pack.json",
+            "status/readiness.json",
+            "benchmarks/active-set.json",
+        ],
+        "missing_paths": missing,
+    }}
+"""
+
+
+def _bootstrap_eval_placeholder(template_pack_id: str, benchmark_id: str) -> dict[str, Any]:
+    return {
+        "status": "not_run",
+        "pack_id": template_pack_id,
+        "benchmark_id": benchmark_id,
+        "summary": "Bootstrap placeholder created by the template creation workflow.",
+    }
+
+
+def _ensure_new_template_id(factory_root: Path, template_pack_id: str) -> None:
+    template_root = factory_root / "templates" / template_pack_id
+    if template_root.exists():
+        raise ValueError(f"template pack already exists: {template_pack_id}")
+    registry = _load_object(factory_root / REGISTRY_TEMPLATE_PATH)
+    entries = registry.get("entries", [])
+    if not isinstance(entries, list):
+        raise ValueError(f"{factory_root / REGISTRY_TEMPLATE_PATH}: entries must be an array")
+    if any(isinstance(entry, dict) and entry.get("pack_id") == template_pack_id for entry in entries):
+        raise ValueError(f"template pack already registered: {template_pack_id}")
+
+
+def _validate_request_semantics(request: dict[str, Any]) -> None:
+    if request.get("runtime") != "python":
+        raise ValueError("template creation currently supports runtime=python only")
+    if request.get("scaffold_strategy") != "minimal_python_text_pack":
+        raise ValueError("template creation currently supports scaffold_strategy=minimal_python_text_pack only")
+    planning = request.get("planning_summary")
+    if not isinstance(planning, dict):
+        raise ValueError("planning_summary must be an object")
+    if planning.get("reuse_active_template") is not False:
+        raise ValueError("planning decision must justify create_new_template; reuse_active_template must be false")
+    rationale = planning.get("new_template_rationale")
+    if not isinstance(rationale, str) or not rationale.strip():
+        raise ValueError("new_template_rationale is required when creating a new template")
+
+
+def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
+    _validate_request_semantics(request)
+
+    preflight = validate_factory(factory_root)
+    if not preflight["valid"]:
+        raise ValueError("; ".join(preflight["errors"]) or "factory preflight validation failed")
+
+    template_pack_id = str(request["template_pack_id"])
+    display_name = str(request["display_name"])
+    owning_team = str(request["owning_team"])
+    requested_by = str(request["requested_by"])
+    planning = dict(request["planning_summary"])
+    project_goal = str(planning["project_goal"])
+    benchmark_intent = str(planning["initial_benchmark_intent"])
+    reason = str(planning["new_template_rationale"])
+
+    _ensure_new_template_id(factory_root, template_pack_id)
+
+    module_name = _module_name(template_pack_id)
+    benchmark_id = f"{template_pack_id.replace('_', '-')}-smoke-small-001"
+
+    now = read_now()
+    created_at = isoformat_z(now)
+    creation_id = f"create-template-{template_pack_id}-{timestamp_token(now)}"
+    template_root = factory_root / "templates" / template_pack_id
+    template_root.mkdir(parents=True, exist_ok=False)
+    report_relative = Path("eval/history") / creation_id / "template-creation-report.json"
+    report_full_path = template_root / report_relative
+    registry_updated = False
+    operation_log_updated = False
+
+    try:
+        pack_root_relative = f"templates/{template_pack_id}"
+
+        _write_text(template_root / "AGENTS.md", _pack_agents(display_name))
+        _write_text(
+            template_root / "project-context.md",
+            _project_context(module_name, benchmark_id, project_goal),
+        )
+        _write_text(template_root / "README.md", _pack_readme(display_name, template_pack_id, module_name))
+        _write_text(template_root / "contracts/README.md", _contracts_readme())
+        _write_text(template_root / "docs/specs/README.md", _docs_specs_readme())
+        _write_text(template_root / "prompts/README.md", _prompts_readme())
+        _write_text(template_root / "tests/README.md", _tests_readme())
+        _write_text(template_root / ".gitignore", _gitignore())
+        _write_text(template_root / "pyproject.toml", _pyproject(template_pack_id, display_name, module_name))
+        _write_text(template_root / "src" / module_name / "__init__.py", _init_py())
+        _write_text(template_root / "src" / module_name / "__main__.py", _main_py(module_name))
+        _write_text(template_root / "src" / module_name / "cli.py", _cli_py(module_name))
+        _write_text(
+            template_root / "src" / module_name / "validate_project_pack.py",
+            _validate_project_pack_py(),
+        )
+        _write_text(
+            template_root / "src" / module_name / "benchmark_smoke.py",
+            _benchmark_smoke_py(benchmark_id),
+        )
+
+        write_json(
+            template_root / "pack.json",
+            _pack_manifest(
+                template_pack_id=template_pack_id,
+                display_name=display_name,
+                owning_team=owning_team,
+                module_name=module_name,
+                creation_id=creation_id,
+                project_goal=project_goal,
+            ),
+        )
+        write_json(
+            template_root / "status/lifecycle.json",
+            _lifecycle_state(
+                template_pack_id=template_pack_id,
+                creation_id=creation_id,
+                created_at=created_at,
+                requested_by=requested_by,
+                reason=reason,
+            ),
+        )
+        write_json(
+            template_root / "status/readiness.json",
+            _readiness_state(
+                template_pack_id=template_pack_id,
+                created_at=created_at,
+                benchmark_id=benchmark_id,
+                benchmark_objective=benchmark_intent,
+            ),
+        )
+        write_json(template_root / "status/deployment.json", _deployment_state(template_pack_id))
+        write_json(template_root / "status/retirement.json", _retirement_state(template_pack_id))
+        write_json(template_root / "benchmarks/active-set.json", _active_set(template_pack_id, benchmark_id, benchmark_intent))
+        write_json(template_root / "eval/latest/index.json", _eval_latest(template_pack_id, benchmark_id))
+        write_json(
+            template_root / "benchmarks/declarations" / f"{benchmark_id}.json",
+            _benchmark_declaration(
+                template_pack_id=template_pack_id,
+                benchmark_id=benchmark_id,
+                creation_id=creation_id,
+                description=benchmark_intent,
+            ),
+        )
+        write_json(
+            template_root / "eval/history/bootstrap/not-run.json",
+            _bootstrap_eval_placeholder(template_pack_id, benchmark_id),
+        )
+        _write_text(template_root / "dist/exports/.gitkeep", "")
+        _write_text(template_root / ".pack-state/.gitkeep", "")
+
+        registry_path = factory_root / REGISTRY_TEMPLATE_PATH
+        registry = _load_object(registry_path)
+        entries = registry.get("entries", [])
+        if not isinstance(entries, list):
+            raise ValueError(f"{registry_path}: entries must be an array")
+        entries.append(
+            {
+                "active": True,
+                "active_benchmark_ids": [benchmark_id],
+                "latest_eval_index": f"{pack_root_relative}/eval/latest/index.json",
+                "lifecycle_stage": "maintained",
+                "notes": [
+                    "Created through the PackFactory template creation workflow.",
+                    f"creation_id={creation_id}",
+                ],
+                "pack_id": template_pack_id,
+                "pack_kind": "template_pack",
+                "pack_root": pack_root_relative,
+                "ready_for_deployment": False,
+                "retired_at": None,
+                "retirement_file": "status/retirement.json",
+                "retirement_state": "active",
+            }
+        )
+        registry["updated_at"] = created_at
+        write_json(registry_path, registry)
+        registry_updated = True
+
+        promotion_log_path = factory_root / PROMOTION_LOG_PATH
+        promotion_log = _load_object(promotion_log_path)
+        events = promotion_log.setdefault("events", [])
+        if not isinstance(events, list):
+            raise ValueError(f"{promotion_log_path}: events must be an array")
+        events.append(
+            {
+                "event_type": "template_created",
+                "creation_id": creation_id,
+                "template_pack_id": template_pack_id,
+                "template_creation_report_path": str(report_relative),
+                "status": "completed",
+            }
+        )
+        promotion_log["updated_at"] = created_at
+        write_json(promotion_log_path, promotion_log)
+        operation_log_updated = True
+
+        report = {
+            "schema_version": "template-creation-report/v1",
+            "creation_id": creation_id,
+            "status": "created",
+            "template_pack_id": template_pack_id,
+            "created_at": created_at,
+            "created_by": requested_by,
+            "planning_summary": planning,
+            "scaffold_strategy": "minimal_python_text_pack",
+            "artifact_paths": {
+                "template_root": pack_root_relative,
+                "pack_manifest": f"{pack_root_relative}/pack.json",
+                "lifecycle_file": f"{pack_root_relative}/status/lifecycle.json",
+                "readiness_file": f"{pack_root_relative}/status/readiness.json",
+                "creation_report": f"{pack_root_relative}/{report_relative}",
+            },
+            "factory_mutations": {
+                "registry_updated": registry_updated,
+                "operation_log_updated": operation_log_updated,
+                "post_write_factory_validation": "pass",
+            },
+            "next_recommended_actions": [
+                "Inspect the new template pack.",
+                "Run validate-project-pack inside the new template.",
+                "Run the initial smoke benchmark when ready.",
+            ],
+        }
+        write_json(report_full_path, report)
+        report_errors = validate_json_document(
+            report_full_path,
+            schema_path(factory_root, "template-creation-report.schema.json"),
+        )
+        if report_errors:
+            raise ValueError("; ".join(report_errors))
+
+        validation_payload = validate_factory(factory_root)
+        validation_status = "pass" if validation_payload["valid"] else "fail"
+        report["factory_mutations"]["post_write_factory_validation"] = validation_status
+        if validation_status != "pass":
+            report["status"] = "failed"
+            for event in reversed(events):
+                if isinstance(event, dict) and event.get("creation_id") == creation_id:
+                    event["status"] = "failed"
+                    break
+            write_json(promotion_log_path, promotion_log)
+        write_json(report_full_path, report)
+        if validation_status != "pass":
+            message = "; ".join(validation_payload.get("errors", []))
+            raise ValueError(message or "post-write factory validation failed")
+    except Exception as exc:
+        if operation_log_updated:
+            try:
+                promotion_log_path = factory_root / PROMOTION_LOG_PATH
+                promotion_log = _load_object(promotion_log_path)
+                events = promotion_log.get("events", [])
+                if isinstance(events, list):
+                    for event in reversed(events):
+                        if isinstance(event, dict) and event.get("creation_id") == creation_id:
+                            event["status"] = "failed"
+                            break
+                    write_json(promotion_log_path, promotion_log)
+            except Exception:
+                pass
+        if report_full_path.exists():
+            try:
+                report = _load_object(report_full_path)
+                report["status"] = "failed"
+                factory_mutations = report.get("factory_mutations")
+                if isinstance(factory_mutations, dict) and factory_mutations.get("post_write_factory_validation") == "pass":
+                    factory_mutations["post_write_factory_validation"] = "fail"
+                write_json(report_full_path, report)
+            except Exception:
+                pass
+        write_json(
+            template_root / ".pack-state/failed-operations" / f"{creation_id}.json",
+            {
+                "creation_id": creation_id,
+                "created_at": created_at,
+                "template_pack_id": template_pack_id,
+                "status": "failed",
+                "error": str(exc),
+            },
+        )
+        raise
+
+    return {
+        "status": "created",
+        "creation_id": creation_id,
+        "template_pack_id": template_pack_id,
+        "template_pack_root": str(template_root),
+        "template_creation_report_path": str(report_full_path),
+    }
+
+
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Create a new template pack from the minimal PackFactory scaffold.")
+    parser.add_argument("--factory-root", required=True)
+    parser.add_argument("--request-file", required=True)
+    parser.add_argument("--output", choices=("json",), default="json")
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _parse_args(argv)
+    try:
+        factory_root = resolve_factory_root(args.factory_root)
+        request = _load_request(Path(args.request_file), factory_root)
+        payload = create_template_pack(factory_root, request)
+        print(json.dumps(payload, indent=2, sort_keys=True))
+        return 0
+    except Exception as exc:
+        print(json.dumps({"status": "failed", "error": str(exc)}, indent=2, sort_keys=True))
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

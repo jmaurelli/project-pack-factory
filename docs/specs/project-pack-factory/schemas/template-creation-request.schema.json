@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/template-creation-request.schema.json",
+  "title": "Project Pack Factory Template Creation Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "template_pack_id",
+    "display_name",
+    "owning_team",
+    "requested_by",
+    "runtime",
+    "scaffold_strategy",
+    "planning_summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "template-creation-request/v1"
+    },
+    "template_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owning_team": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scaffold_strategy": {
+      "type": "string",
+      "enum": [
+        "minimal_python_text_pack"
+      ]
+    },
+    "planning_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project_goal",
+        "delivery_shape",
+        "reuse_active_template",
+        "new_template_rationale",
+        "initial_benchmark_intent"
+      ],
+      "properties": {
+        "project_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "delivery_shape": {
+          "type": "string",
+          "enum": [
+            "script",
+            "component",
+            "application",
+            "library",
+            "other"
+          ]
+        },
+        "reuse_active_template": {
+          "type": "boolean"
+        },
+        "new_template_rationale": {
+          "type": "string"
+        },
+        "initial_benchmark_intent": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "reuse_active_template": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "new_template_rationale": {
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

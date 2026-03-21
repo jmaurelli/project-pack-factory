@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/template-creation-report.schema.json",
+  "title": "Project Pack Factory Template Creation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "creation_id",
+    "status",
+    "template_pack_id",
+    "created_at",
+    "created_by",
+    "planning_summary",
+    "scaffold_strategy",
+    "artifact_paths",
+    "factory_mutations",
+    "next_recommended_actions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "template-creation-report/v1"
+    },
+    "creation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "created",
+        "reconciled",
+        "failed"
+      ]
+    },
+    "template_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "planning_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project_goal",
+        "delivery_shape",
+        "reuse_active_template",
+        "new_template_rationale",
+        "initial_benchmark_intent"
+      ],
+      "properties": {
+        "project_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "delivery_shape": {
+          "type": "string",
+          "enum": [
+            "script",
+            "component",
+            "application",
+            "library",
+            "other"
+          ]
+        },
+        "reuse_active_template": {
+          "type": "boolean"
+        },
+        "new_template_rationale": {
+          "type": "string"
+        },
+        "initial_benchmark_intent": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "scaffold_strategy": {
+      "type": "string",
+      "enum": [
+        "minimal_python_text_pack"
+      ]
+    },
+    "artifact_paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "template_root",
+        "pack_manifest",
+        "lifecycle_file",
+        "readiness_file",
+        "creation_report"
+      ],
+      "properties": {
+        "template_root": {
+          "type": "string",
+          "pattern": "^templates/.+$"
+        },
+        "pack_manifest": {
+          "type": "string",
+          "pattern": "^templates/.+/pack\\.json$"
+        },
+        "lifecycle_file": {
+          "type": "string",
+          "pattern": "^templates/.+/status/lifecycle\\.json$"
+        },
+        "readiness_file": {
+          "type": "string",
+          "pattern": "^templates/.+/status/readiness\\.json$"
+        },
+        "creation_report": {
+          "type": "string",
+          "pattern": "^templates/.+/eval/history/.+/template-creation-report\\.json$"
+        }
+      }
+    },
+    "factory_mutations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registry_updated",
+        "operation_log_updated",
+        "post_write_factory_validation"
+      ],
+      "properties": {
+        "registry_updated": {
+          "type": "boolean"
+        },
+        "operation_log_updated": {
+          "type": "boolean"
+        },
+        "post_write_factory_validation": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        }
+      }
+    },
+    "next_recommended_actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

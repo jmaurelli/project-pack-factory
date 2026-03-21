@@ -18,6 +18,7 @@ and fail-closed promotion decisions.
 {
   "spec_id": "directory-hierarchy",
   "prerequisite_for": [
+    "template-pack-planning-and-creation",
     "build-pack-materialization",
     "build-pack-promotion",
     "ci-cloud-deployment-orchestration",
