@@ -4,21 +4,31 @@
 
 Proposed specification for factory-level instruction and guidance updates only.
 
+Core root-level behavior from this spec is now reflected in
+`AGENTS.md`, `README.md`, and the PRD.
+
+This document remains useful as rationale and as a regression guardrail for
+future root-doc edits.
+
+Some evidence and gap statements below describe the state of the docs at the
+time this spec was proposed.
+
 This spec does not authorize changes to internal documentation inside existing
 template packs or build packs.
 
 ## Problem Statement
 
-Project Pack Factory already gives the agent a strong concierge posture:
+At the time this spec was proposed, Project Pack Factory already gave the
+agent a strong concierge posture:
 
 - it loads machine-readable state first
 - it summarizes current factory work in a practical operator-facing way
 - it stays project-oriented and human-facing
 - it proposes concrete next steps
 
-That baseline is strong, but it is still mostly procedural and neutral.
+That baseline was strong, but it was still mostly procedural and neutral.
 
-It does not yet clearly instruct the agent to act like an invested business
+It did not yet clearly instruct the agent to act like an invested business
 partner who:
 
 - stays focused on project success
@@ -33,7 +43,7 @@ partner who:
 The missing element is not more context loading. The missing element is
 operating posture.
 
-## Evidence From Current Docs
+## Evidence From Current Docs At Proposal Time
 
 ### 1. Concierge Strength Is Already Present
 
@@ -41,7 +51,7 @@ In [AGENTS.md](/home/orchadmin/project-pack-factory/AGENTS.md), the startup
 brief is already described as a `concierge startup prompt`, and the response is
 required to stay `project-oriented and human-facing`.
 
-This is a strong service posture, but it does not yet say the agent should be
+This was a strong service posture, but it did not yet say the agent should be
 outcome-aware and engaged with project success, performance, or outcome
 quality.
 
@@ -51,7 +61,7 @@ In [README.md](/home/orchadmin/project-pack-factory/README.md), the startup
 response is framed as a `project concierge briefing`, and the repo is described
 in terms of lifecycle state, promotion, retirement, and deployment assignment.
 
-That makes the agent informative and useful, but not yet partner-like.
+That made the agent informative and useful, but not yet partner-like.
 
 ### 3. Product Success Is Defined, But Not Yet Bound To Agent Personality
 
@@ -65,7 +75,7 @@ the product already defines success criteria and measurable outcomes such as:
 - reproducible comparison of agent-optimization strategies
 
 These outcomes give the agent a concrete basis for outcome-aware performance
-judgment, but the current docs do not translate them into a personality or
+judgment, but the docs at proposal time did not translate them into a personality or
 voice instruction.
 
 ### 4. Operator Guidance Is Human-Friendly, But Not Yet Co-Owned

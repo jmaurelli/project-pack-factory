@@ -4,14 +4,31 @@
 
 Proposed specification for factory-level startup and orientation guidance.
 
+Core root-level behavior from this startup-boundary work is now reflected in
+`AGENTS.md` and `README.md`.
+
+Canonical shallow-startup behavior lives in
+`PROJECT-PACK-FACTORY-SHALLOW-STARTUP-AND-INITIALIZATION-SPEC.md`.
+
+This file should be treated as a boundary supplement rather than as a separate
+authoritative startup contract.
+
+This document is one of several related shallow-startup design notes and
+should be read as additive context rather than as a competing instruction
+layer.
+
+Some evidence and gap statements below describe the state of the docs at the
+time this spec was proposed.
+
 This spec is for `load AGENTS.md` and similar factory startup requests only.
 
 ## Problem Statement
 
-Project Pack Factory correctly instructs the agent to load machine-readable
-state before giving a live startup brief. That is the right foundation.
+At the time this spec was proposed, Project Pack Factory correctly instructed
+the agent to load machine-readable state before giving a live startup brief.
+That was the right foundation.
 
-The current problem is depth, not direction.
+The problem identified here was depth, not direction.
 
 At startup, the agent can drift from:
 
@@ -33,7 +50,7 @@ The desired behavior is a shallow, high-signal startup pass:
 - enough live state to summarize status accurately
 - not enough digging to become a deep research phase
 
-## Evidence From Current Docs
+## Evidence From Current Docs At Proposal Time
 
 ### 1. Startup Is Correctly Registry-First
 

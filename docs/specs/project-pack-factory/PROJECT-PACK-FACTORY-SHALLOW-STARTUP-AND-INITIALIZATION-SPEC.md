@@ -4,17 +4,31 @@
 
 Proposed specification for factory-level startup and initialization guidance.
 
+Core root-level behavior from this spec is now reflected in `AGENTS.md` and
+`README.md`.
+
+Canonical shallow-startup behavior lives in this spec.
+
+The other shallow-startup documents in this folder should be treated as
+companion notes or boundary supplements, not competing startup contracts.
+
+This document remains useful as rationale and as a regression guardrail for
+future root-doc edits.
+
+Some evidence and gap statements below describe the state of the docs at the
+time this spec was proposed.
+
 This spec is for root-level factory docs only. It does not authorize changes to
 internal documentation inside existing template packs or build packs.
 
 ## Problem Statement
 
-Project Pack Factory correctly tells the agent to load enough machine-readable
-state to provide a useful startup brief.
+At the time this spec was proposed, Project Pack Factory correctly told the
+agent to load enough machine-readable state to provide a useful startup brief.
 
 That is good and should be preserved.
 
-The current issue is depth, not direction.
+The issue identified here was depth, not direction.
 
 On `load AGENTS.md` and similar startup/orientation requests, the agent is
 loading valid context, but it is too easy for that startup pass to become a
@@ -46,7 +60,7 @@ The agent should still:
 
 But it should do that from a limited surface scan, not from early deep dives.
 
-## Evidence
+## Evidence At Proposal Time
 
 ### 1. Current Startup Guidance Is Rich But Not Bounded
 

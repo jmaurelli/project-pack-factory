@@ -4,6 +4,15 @@
 
 Proposed specification for instruction-document updates only.
 
+Core root-level behavior from this spec is now reflected in `AGENTS.md`,
+`README.md`, and `PROJECT-PACK-FACTORY-TESTING-POLICY.md`.
+
+This document remains useful as rationale and as a regression guardrail for
+future root-doc edits.
+
+Some evidence and gap statements below describe the state of the docs at the
+time this spec was proposed.
+
 This spec does not authorize implementation changes outside documentation.
 
 ## Problem Statement
@@ -172,7 +181,7 @@ Required replacement or annotation targets include:
 
 Add one short example pair:
 
-- `continue testing the JSON Health Checker build pack` means rerun the
+- `continue testing this build pack` means rerun the
   existing build-pack validation and benchmark surfaces
 - it does not mean add new unit tests unless explicitly asked
 

@@ -4,12 +4,29 @@
 
 Proposed specification for factory-level startup and orientation guidance only.
 
+Core root-level behavior from this shallow-startup line of work is now
+reflected in `AGENTS.md` and `README.md`.
+
+Canonical shallow-startup behavior lives in
+`PROJECT-PACK-FACTORY-SHALLOW-STARTUP-AND-INITIALIZATION-SPEC.md`.
+
+This file should be treated as a companion note rather than as a separate
+authoritative startup contract.
+
+This document is one of several related shallow-startup design notes and
+should be read as additive context rather than as a competing instruction
+layer.
+
+Some evidence and gap statements below describe the state of the docs at the
+time this spec was proposed.
+
 This spec does not authorize changes to internal documentation inside existing
 template packs or build packs.
 
 ## Problem Statement
 
-The current factory startup behavior gets the important part right:
+At the time this spec was proposed, the factory startup behavior got the
+important part right:
 
 - it loads machine-readable factory state
 - it gives the operator a project status and current-work summary
@@ -18,7 +35,7 @@ The current factory startup behavior gets the important part right:
 
 That is correct and should be preserved.
 
-The failure mode is depth, not direction.
+The failure mode identified here was depth, not direction.
 
 The agent can dig too deep too early during initialization because the current
 startup guidance says what the reply should contain, but it does not define a
