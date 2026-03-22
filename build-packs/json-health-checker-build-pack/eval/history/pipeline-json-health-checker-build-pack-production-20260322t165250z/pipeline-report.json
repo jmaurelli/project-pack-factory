@@ -1,0 +1,63 @@
+{
+  "adapter_result": null,
+  "build_pack_id": "json-health-checker-build-pack",
+  "build_pack_root": "build-packs/json-health-checker-build-pack",
+  "canonical_assignment_status": "unchanged",
+  "canonical_state_changed": false,
+  "cloud_adapter_id": "local-packfactory-adapter",
+  "commit_promotion_on_success": true,
+  "evidence_paths": [
+    "build-packs/json-health-checker-build-pack/eval/history/pipeline-json-health-checker-build-pack-production-20260322t165250z/pipeline-report.json"
+  ],
+  "final_status": "failed",
+  "generated_at": "2026-03-22T16:52:50Z",
+  "invoked_by": "orchadmin",
+  "operation_log_update": {
+    "build_pack_id": "json-health-checker-build-pack",
+    "event_type": "pipeline_executed",
+    "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t165250z",
+    "pipeline_report_path": "eval/history/pipeline-json-health-checker-build-pack-production-20260322t165250z/pipeline-report.json",
+    "promotion_log_path": "registry/promotion-log.json"
+  },
+  "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t165250z",
+  "release_id": "json-health-checker-r3",
+  "schema_version": "deployment-pipeline-report/v1",
+  "stage_results": [
+    {
+      "stage_id": "validate_factory_state",
+      "status": "failed",
+      "summary": "Factory validation failed."
+    },
+    {
+      "stage_id": "validate_build_pack",
+      "status": "skipped",
+      "summary": "Skipped after factory validation failure."
+    },
+    {
+      "stage_id": "run_required_benchmarks",
+      "status": "skipped",
+      "summary": "Skipped after factory validation failure."
+    },
+    {
+      "stage_id": "package_release",
+      "status": "skipped",
+      "summary": "Skipped after factory validation failure."
+    },
+    {
+      "stage_id": "deploy_release",
+      "status": "skipped",
+      "summary": "Skipped after factory validation failure."
+    },
+    {
+      "stage_id": "verify_deployment",
+      "status": "skipped",
+      "summary": "Skipped after factory validation failure."
+    },
+    {
+      "stage_id": "finalize_promotion",
+      "status": "skipped",
+      "summary": "Skipped after factory validation failure."
+    }
+  ],
+  "target_environment": "production"
+}

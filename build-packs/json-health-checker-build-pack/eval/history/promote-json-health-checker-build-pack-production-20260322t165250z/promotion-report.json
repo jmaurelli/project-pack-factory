@@ -1,0 +1,49 @@
+{
+  "actions": [
+    {
+      "action_id": "write_deployment_pointer",
+      "status": "reconciled",
+      "summary": "Revalidated the active deployment pointer for the current release.",
+      "target_path": "deployments/production/json-health-checker-build-pack.json"
+    },
+    {
+      "action_id": "write_promotion_report",
+      "status": "completed",
+      "summary": "Wrote a reconcile-mode promotion report.",
+      "target_path": "build-packs/json-health-checker-build-pack/eval/history/promote-json-health-checker-build-pack-production-20260322t165250z/promotion-report.json"
+    }
+  ],
+  "build_pack_id": "json-health-checker-build-pack",
+  "build_pack_root": "build-packs/json-health-checker-build-pack",
+  "evidence_paths": [
+    "build-packs/json-health-checker-build-pack/eval/history/promote-json-health-checker-build-pack-production-20260322t165250z/promotion-report.json",
+    "deployments/production/json-health-checker-build-pack.json"
+  ],
+  "generated_at": "2026-03-22T16:52:50Z",
+  "operation_log_update": null,
+  "post_promotion_state": {
+    "active_environment": "production",
+    "active_release_path": "dist/releases/json-health-checker-r3",
+    "deployment_pointer_path": "deployments/production/json-health-checker-build-pack.json",
+    "deployment_state": "production",
+    "last_verified_at": "2026-03-22T16:29:26Z",
+    "lifecycle_stage": "maintained"
+  },
+  "pre_promotion_state": {
+    "active_environment": "production",
+    "active_release_path": "dist/releases/json-health-checker-r3",
+    "deployment_pointer_path": "deployments/production/json-health-checker-build-pack.json",
+    "deployment_state": "production",
+    "last_verified_at": "2026-03-22T16:29:26Z",
+    "lifecycle_stage": "maintained"
+  },
+  "promoted_by": "orchadmin",
+  "promotion_id": "promote-json-health-checker-build-pack-production-20260322t165250z",
+  "promotion_reason": "Reconcile active production assignment for workflow evaluation",
+  "registry_update": null,
+  "release_id": "json-health-checker-r3",
+  "release_path": "dist/releases/json-health-checker-r3",
+  "schema_version": "build-pack-promotion-report/v1",
+  "status": "reconciled",
+  "target_environment": "production"
+}

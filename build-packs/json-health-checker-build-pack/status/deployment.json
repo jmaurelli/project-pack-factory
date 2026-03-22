@@ -10,7 +10,7 @@
   "deployment_transaction_id": "promote-json-health-checker-build-pack-production-20260322t162927z",
   "last_promoted_at": "2026-03-22T16:29:27Z",
   "last_rollback": null,
-  "last_verified_at": "2026-03-22T16:29:26Z",
+  "last_verified_at": "2026-03-22T17:09:39Z",
   "pack_id": "json-health-checker-build-pack",
   "pack_kind": "build_pack",
   "projection_state": "projected",
