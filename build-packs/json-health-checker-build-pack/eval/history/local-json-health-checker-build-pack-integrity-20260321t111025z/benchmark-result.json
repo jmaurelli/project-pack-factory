@@ -1,0 +1,17 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "json-health-checker-build-pack-smoke-small-001",
+      "status": "pass"
+    }
+  ],
+  "build_pack_id": "json-health-checker-build-pack",
+  "command": "PYTHONPATH=src python3 -m json_health_checker_template_pack benchmark-smoke --project-root . --output json",
+  "returncode": 0,
+  "stderr": "",
+  "status": "pass",
+  "stdout": "{\n  \"status\": \"pass\",\n  \"project_root\": \"/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack\",\n  \"benchmark_id\": \"json-health-checker-build-pack-smoke-small-001\",\n  \"checked_paths\": [\n    \"pack.json\",\n    \"status/readiness.json\",\n    \"benchmarks/declarations/json-health-checker-build-pack-smoke-small-001.json\"\n  ],\n  \"runtime_checks\": {\n    \"pass_case\": {\n      \"returncode\": 0,\n      \"status\": \"pass\",\n      \"missing_fields\": []\n    },\n    \"fail_closed_case\": {\n      \"returncode\": 1,\n      \"status\": \"fail\",\n      \"missing_fields\": [\n        \"status\"\n      ]\n    }\n  },\n  \"missing_paths\": []\n}\n",
+  "mandatory_gate_ids": [
+    "json_health_checker_build_pack_smoke_small_001"
+  ]
+}

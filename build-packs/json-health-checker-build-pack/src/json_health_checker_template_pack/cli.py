@@ -10,7 +10,7 @@ from .validate_project_pack import validate_project_pack
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(prog="json_health_checker_template_pack")
+    parser = argparse.ArgumentParser(prog="json-health-checker-build-pack")
     subparsers = parser.add_subparsers(dest="command")
 
     validate_parser = subparsers.add_parser("validate-project-pack")

@@ -1,14 +1,14 @@
 {
   "active_benchmarks": [
     {
-      "benchmark_id": "json-health-checker-template-pack-smoke-small-001",
-      "declaration_path": "benchmarks/declarations/json-health-checker-template-pack-smoke-small-001.json",
-      "objective": "Run a small deterministic JSON health-check smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration.",
+      "benchmark_id": "json-health-checker-build-pack-smoke-small-001",
+      "declaration_path": "benchmarks/declarations/json-health-checker-build-pack-smoke-small-001.json",
+      "objective": "Run a tiny deterministic CLI smoke path that proves one passing and one fail-closed JSON health-check result while keeping the build-pack benchmark declaration and readiness state traversable.",
       "required_for_readiness": true
     }
   ],
-  "default_benchmark_id": "json-health-checker-template-pack-smoke-small-001",
-  "pack_id": "json-health-checker-template-pack",
-  "pack_kind": "template_pack",
+  "default_benchmark_id": "json-health-checker-build-pack-smoke-small-001",
+  "pack_id": "json-health-checker-build-pack",
+  "pack_kind": "build_pack",
   "schema_version": "pack-benchmark-active-set/v1"
 }

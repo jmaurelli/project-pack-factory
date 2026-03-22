@@ -27,6 +27,8 @@ SCHEMA_BY_RELATIVE_PATH = {
 
 PACK_ROOTS = ("templates", "build-packs")
 DEPLOYMENT_ENVIRONMENTS = ("testing", "staging", "production")
+VALIDATION_GATE_ID = "validate_build_pack_contract"
+EVAL_LATEST_INDEX_PATH = "eval/latest/index.json"
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -73,8 +75,209 @@ def _validate_contract_paths(pack_root: Path, manifest: dict[str, Any], errors: 
         if value is None or not isinstance(value, str):
             continue
         target = pack_root / value
+        if key == "local_state_dir" and not target.exists():
+            continue
         if not target.exists():
             errors.append(f"{pack_root}: directory_contract.{key} points to missing path `{value}`")
+
+
+def _gate_id(benchmark_id: str) -> str:
+    return benchmark_id.replace("-", "_")
+
+
+def _parse_json_text(value: Any) -> dict[str, Any] | None:
+    if not isinstance(value, str):
+        return None
+    try:
+        payload = json.loads(value)
+    except json.JSONDecodeError:
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def _benchmark_results_from_artifact(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    stdout_payload = _parse_json_text(payload.get("stdout"))
+    results: list[dict[str, Any]] = []
+    if stdout_payload is not None:
+        stdout_results = stdout_payload.get("benchmark_results")
+        if isinstance(stdout_results, list):
+            results.extend(result for result in stdout_results if isinstance(result, dict))
+        elif isinstance(stdout_payload.get("benchmark_id"), str):
+            results.append(stdout_payload)
+        return results
+
+    benchmark_results = payload.get("benchmark_results")
+    if isinstance(benchmark_results, list):
+        results.extend(result for result in benchmark_results if isinstance(result, dict))
+    elif isinstance(payload.get("benchmark_id"), str):
+        results.append(payload)
+    return results
+
+
+def _load_object_if_present(path: Path, errors: list[str], *, label: str) -> dict[str, Any] | None:
+    if not path.exists():
+        errors.append(f"{path}: {label} is missing")
+        return None
+    try:
+        return _load_object(path)
+    except ValueError as exc:
+        errors.append(str(exc))
+        return None
+
+
+def _extract_benchmark_artifact_result(payload: dict[str, Any], benchmark_id: str) -> dict[str, Any] | None:
+    for result in _benchmark_results_from_artifact(payload):
+        if result.get("benchmark_id") == benchmark_id:
+            return result
+    return None
+
+
+def collect_build_pack_evidence_integrity_errors(pack_root: Path) -> list[str]:
+    readiness = _load_object(pack_root / "status/readiness.json")
+    errors: list[str] = []
+    _validate_build_pack_evidence_integrity(pack_root, readiness, errors)
+    return errors
+
+
+def _validate_build_pack_evidence_integrity(
+    pack_root: Path,
+    readiness: dict[str, Any],
+    errors: list[str],
+) -> None:
+    active_set = _load_object_if_present(
+        pack_root / "benchmarks/active-set.json",
+        errors,
+        label="benchmark active set required for evidence integrity validation",
+    )
+    eval_latest = _load_object_if_present(
+        pack_root / EVAL_LATEST_INDEX_PATH,
+        errors,
+        label="latest eval index required for evidence integrity validation",
+    )
+    if active_set is None or eval_latest is None:
+        return
+
+    active_benchmarks = active_set.get("active_benchmarks", [])
+    benchmark_id_by_gate_id = {
+        _gate_id(str(benchmark.get("benchmark_id"))): str(benchmark.get("benchmark_id"))
+        for benchmark in active_benchmarks
+        if isinstance(benchmark, dict) and isinstance(benchmark.get("benchmark_id"), str)
+    }
+
+    benchmark_results = eval_latest.get("benchmark_results", [])
+    result_by_benchmark_id = {
+        str(result.get("benchmark_id")): result
+        for result in benchmark_results
+        if isinstance(result, dict) and isinstance(result.get("benchmark_id"), str)
+    }
+
+    for result in benchmark_results:
+        if not isinstance(result, dict):
+            continue
+        benchmark_id = result.get("benchmark_id")
+        status = result.get("status")
+        latest_run_id = result.get("latest_run_id")
+        run_artifact_path = result.get("run_artifact_path")
+        summary_artifact_path = result.get("summary_artifact_path")
+        if not all(isinstance(value, str) for value in (benchmark_id, status, latest_run_id, run_artifact_path, summary_artifact_path)):
+            continue
+
+        run_path = pack_root / run_artifact_path
+        if not run_path.exists():
+            errors.append(f"{run_path}: benchmark run artifact referenced by eval/latest/index.json is missing")
+            continue
+
+        summary_path = pack_root / summary_artifact_path
+        if not summary_path.exists():
+            errors.append(f"{summary_path}: benchmark summary artifact referenced by eval/latest/index.json is missing")
+
+        if status == "not_run":
+            continue
+
+        expected_prefix = f"eval/history/{latest_run_id}/"
+        if not run_artifact_path.startswith(expected_prefix):
+            errors.append(
+                f"{pack_root / EVAL_LATEST_INDEX_PATH}: benchmark `{benchmark_id}` run_artifact_path must begin with `{expected_prefix}`"
+            )
+        if not (
+            summary_artifact_path.startswith(expected_prefix)
+            or summary_artifact_path.startswith("eval/latest/")
+        ):
+            errors.append(
+                f"{pack_root / EVAL_LATEST_INDEX_PATH}: benchmark `{benchmark_id}` summary_artifact_path must point at the same run or an eval/latest summary"
+            )
+
+        artifact = _load_object_if_present(
+            run_path,
+            errors,
+            label=f"benchmark run artifact for `{benchmark_id}`",
+        )
+        if artifact is None:
+            continue
+        artifact_result = _extract_benchmark_artifact_result(artifact, benchmark_id)
+        if artifact_result is None:
+            errors.append(
+                f"{run_path}: benchmark run artifact does not report benchmark_id `{benchmark_id}`"
+            )
+            continue
+        if artifact_result.get("status") != status:
+            errors.append(
+                f"{run_path}: benchmark `{benchmark_id}` status must match eval/latest/index.json"
+            )
+
+    for gate in readiness.get("required_gates", []):
+        if not isinstance(gate, dict):
+            continue
+        gate_id = gate.get("gate_id")
+        status = gate.get("status")
+        evidence_paths = gate.get("evidence_paths", [])
+        if not isinstance(gate_id, str) or not isinstance(status, str) or not isinstance(evidence_paths, list):
+            continue
+        if status == "not_run":
+            continue
+
+        if gate_id == VALIDATION_GATE_ID:
+            for evidence_path in evidence_paths:
+                if not isinstance(evidence_path, str):
+                    continue
+                if not evidence_path.endswith("validation-result.json"):
+                    errors.append(
+                        f"{pack_root / 'status/readiness.json'}: validation gate `{gate_id}` must point to validation-result.json evidence"
+                    )
+                    continue
+                evidence_file = pack_root / evidence_path
+                artifact = _load_object_if_present(
+                    evidence_file,
+                    errors,
+                    label=f"validation artifact for `{gate_id}`",
+                )
+                if artifact is None:
+                    continue
+                if artifact.get("build_pack_id") != pack_root.name:
+                    errors.append(f"{evidence_file}: build_pack_id must equal `{pack_root.name}`")
+                if artifact.get("gate_id") != gate_id:
+                    errors.append(f"{evidence_file}: gate_id must match `{gate_id}`")
+                if artifact.get("status") != status:
+                    errors.append(f"{evidence_file}: status must match readiness gate `{gate_id}`")
+            continue
+
+        benchmark_id = benchmark_id_by_gate_id.get(gate_id)
+        if benchmark_id is None:
+            continue
+        if evidence_paths != [EVAL_LATEST_INDEX_PATH]:
+            errors.append(
+                f"{pack_root / 'status/readiness.json'}: benchmark gate `{gate_id}` must point to `{EVAL_LATEST_INDEX_PATH}`"
+            )
+        result = result_by_benchmark_id.get(benchmark_id)
+        if result is None:
+            errors.append(
+                f"{pack_root / 'status/readiness.json'}: benchmark gate `{gate_id}` is missing matching eval/latest benchmark result `{benchmark_id}`"
+            )
+            continue
+        if status != "waived" and result.get("status") != status:
+            errors.append(
+                f"{pack_root / 'status/readiness.json'}: benchmark gate `{gate_id}` status must match eval/latest benchmark `{benchmark_id}`"
+            )
 
 
 def _validate_pack_documents(pack_root: Path, manifest: dict[str, Any], errors: list[str]) -> None:
@@ -365,6 +568,8 @@ def _validate_pack_state(
             errors.append(f"{pack_root / 'status/retirement.json'}: active pack must set retirement_report_path=null")
         if retirement.get("removed_deployment_pointer_paths") != []:
             errors.append(f"{pack_root / 'status/retirement.json'}: active pack must not list removed deployment pointers")
+        if pack_kind == "build_pack":
+            _validate_build_pack_evidence_integrity(pack_root, readiness, errors)
         _check_active_registry(entry, registry_path, errors)
         return
 

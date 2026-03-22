@@ -1,0 +1,13 @@
+[project]
+name = "project-pack-factory-root"
+version = "0.0.0"
+requires-python = ">=3.12"
+
+[dependency-groups]
+dev = [
+  "pytest>=9.0,<10",
+  "jsonschema>=4.25,<5",
+]
+
+[tool.uv]
+package = false

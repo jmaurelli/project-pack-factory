@@ -11,6 +11,9 @@ from materialize_build_pack import materialize_build_pack
 from factory_ops import load_json
 
 
+SOURCE_TEMPLATE_ID = "factory-native-smoke-template-pack"
+
+
 def _copy_factory(tmp_path: Path) -> Path:
     destination = tmp_path / "factory"
 
@@ -29,7 +32,7 @@ def _copy_factory(tmp_path: Path) -> Path:
 def _request(target_build_pack_id: str) -> dict[str, object]:
     return {
         "schema_version": "build-pack-materialization-request/v1",
-        "source_template_id": "agent-memory-first-template-pack",
+        "source_template_id": SOURCE_TEMPLATE_ID,
         "target_build_pack_id": target_build_pack_id,
         "target_display_name": "Slim Derived Build Pack",
         "target_version": "0.1.0",
@@ -64,7 +67,7 @@ def test_materialize_build_pack_rejects_existing_target_id(tmp_path: Path) -> No
     factory_root = _copy_factory(tmp_path)
 
     try:
-        materialize_build_pack(factory_root, _request("ai-native-codex-build-pack"))
+        materialize_build_pack(factory_root, _request("factory-native-smoke-build-pack"))
     except ValueError as exc:
         assert "already exists" in str(exc) or "already registered" in str(exc)
     else:
@@ -73,7 +76,7 @@ def test_materialize_build_pack_rejects_existing_target_id(tmp_path: Path) -> No
 
 def test_materialize_build_pack_does_not_copy_local_state_contents(tmp_path: Path) -> None:
     factory_root = _copy_factory(tmp_path)
-    source_local_state = factory_root / "templates/agent-memory-first-template-pack/.pack-state/agent-memory"
+    source_local_state = factory_root / f"templates/{SOURCE_TEMPLATE_ID}/.pack-state/runtime-scratch"
     source_local_state.mkdir(parents=True, exist_ok=True)
     sentinel = source_local_state / "sentinel.json"
     sentinel.write_text('{"ok": true}\n', encoding="utf-8")
@@ -82,7 +85,7 @@ def test_materialize_build_pack_does_not_copy_local_state_contents(tmp_path: Pat
 
     target_local_state = factory_root / "build-packs/state-clean-build-pack/.pack-state"
     assert target_local_state.exists()
-    assert not (target_local_state / "agent-memory/sentinel.json").exists()
+    assert not (target_local_state / "runtime-scratch/sentinel.json").exists()
 
 
 def test_materialize_build_pack_synthesizes_not_run_eval_and_required_gates(tmp_path: Path) -> None:
@@ -93,8 +96,16 @@ def test_materialize_build_pack_synthesizes_not_run_eval_and_required_gates(tmp_
     readiness = load_json(factory_root / "build-packs/gated-build-pack/status/readiness.json")
     gate_ids = {gate["gate_id"]: gate for gate in readiness["required_gates"]}
     assert gate_ids["validate_build_pack_contract"]["status"] == "not_run"
-    assert gate_ids["agent_memory_restart_small_001"]["status"] == "not_run"
+    non_validation_gates = [
+        gate for gate_id, gate in gate_ids.items() if gate_id != "validate_build_pack_contract"
+    ]
+    assert non_validation_gates
+    assert all(gate["status"] == "not_run" for gate in non_validation_gates)
 
     eval_latest = load_json(factory_root / "build-packs/gated-build-pack/eval/latest/index.json")
-    assert eval_latest["benchmark_results"][0]["status"] == "not_run"
-    assert eval_latest["benchmark_results"][0]["latest_run_id"].startswith("materialize-gated-build-pack-")
+    assert eval_latest["benchmark_results"]
+    assert all(result["status"] == "not_run" for result in eval_latest["benchmark_results"])
+    assert all(
+        result["latest_run_id"].startswith("materialize-gated-build-pack-")
+        for result in eval_latest["benchmark_results"]
+    )

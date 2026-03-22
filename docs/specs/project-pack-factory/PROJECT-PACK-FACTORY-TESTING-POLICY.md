@@ -24,6 +24,47 @@ The default rule is:
 - test the few behaviors that would materially break factory operation
 - do not test everything that can be tested
 
+## Interpretation Of Testing Requests
+
+Generic operator requests such as:
+
+- `test this`
+- `continue testing`
+- `run the tests`
+- `refresh evidence`
+
+mean: execute the relevant existing validation, benchmark, and workflow
+surfaces that already exist.
+
+Those requests do not implicitly authorize adding, modifying, or strengthening
+tests or benchmarks.
+
+When the operator asks for testing work, the agent should prefer:
+
+- existing validation commands first
+- existing pack benchmarks or workflow smoke checks second
+- broader deployment or pipeline execution only when deployment-linked evidence
+  or promotion readiness is the actual task
+
+If current coverage is weak, placeholder-only, or missing, that still does not
+authorize new test authoring. The agent should run the existing executable
+surfaces that do exist, report the gap, and recommend additions separately.
+
+## What Counts As A New Test
+
+For this policy, a new or modified test includes:
+
+- a new test file
+- a new test case added to an existing file
+- strengthening an existing test or benchmark with added cases, assertions, or
+  runtime checks
+- a new benchmark scenario beyond the current benchmark contract
+- a new benchmark declaration
+- an expanded matrix or broader fixture set
+- turning a placeholder such as `tests/README.md` into executable coverage
+
+Adding or changing any of the above requires explicit operator authorization.
+
 ## Hard Test Cap
 
 For the three factory workflow areas below, the total combined test budget is:
@@ -110,6 +151,9 @@ A new test is justified only if it protects:
 - a state mutation that later agents rely on
 
 If it does not clearly protect one of those, it should not be added.
+
+The test budgets in this policy constrain authorized additions. They do not
+turn generic testing requests into implicit approval to add or modify tests.
 
 ## Relationship To Other Specs
 

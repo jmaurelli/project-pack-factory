@@ -12,7 +12,7 @@
   "required_gates": [
     {
       "evidence_paths": [
-        "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/benchmark-result.json"
+        "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/validation-result.json"
       ],
       "gate_id": "validate_build_pack_contract",
       "last_run_at": "2026-03-20T22:11:09Z",
@@ -22,7 +22,7 @@
     },
     {
       "evidence_paths": [
-        "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/benchmark-result.json"
+        "eval/latest/index.json"
       ],
       "gate_id": "factory_smoke_small_001",
       "last_run_at": "2026-03-20T22:11:09Z",

@@ -29,6 +29,7 @@ from factory_ops import (
     validate_json_document,
     write_json,
 )
+from validate_factory import collect_build_pack_evidence_integrity_errors
 
 
 ALLOWED_TRANSITIONS = {
@@ -246,6 +247,9 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         raise ValueError("build pack is not ready for deployment")
     if not _all_mandatory_gates_pass(readiness):
         raise ValueError("mandatory readiness gates must pass before promotion")
+    evidence_errors = collect_build_pack_evidence_integrity_errors(pack_root)
+    if evidence_errors:
+        raise ValueError(f"readiness evidence integrity failed: {evidence_errors[0]}")
     _validate_eval_latest(pack_root, readiness)
 
     release_path = pack_root / "dist/releases" / release_id / "release.json"

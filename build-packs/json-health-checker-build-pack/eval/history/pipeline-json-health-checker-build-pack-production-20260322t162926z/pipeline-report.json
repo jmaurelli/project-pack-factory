@@ -1,0 +1,81 @@
+{
+  "adapter_result": {
+    "adapter_id": "local-packfactory-adapter",
+    "artifacts": [
+      "dist/releases/json-health-checker-r3/release.json"
+    ],
+    "deployment_handle": "json-health-checker-build-pack:json-health-checker-r3:production",
+    "deployment_url": "https://example.invalid/json-health-checker-build-pack/production/json-health-checker-r3",
+    "logs": [
+      "Pipeline deployed json-health-checker-build-pack to production."
+    ],
+    "provider": "local-packfactory-adapter",
+    "status": "completed"
+  },
+  "build_pack_id": "json-health-checker-build-pack",
+  "build_pack_root": "build-packs/json-health-checker-build-pack",
+  "canonical_assignment_status": "committed",
+  "canonical_state_changed": true,
+  "cloud_adapter_id": "local-packfactory-adapter",
+  "commit_promotion_on_success": true,
+  "evidence_paths": [
+    "build-packs/json-health-checker-build-pack/eval/history/pipeline-json-health-checker-build-pack-production-20260322t162926z/pipeline-report.json",
+    "build-packs/json-health-checker-build-pack/eval/history/pipeline-json-health-checker-build-pack-production-20260322t162926z/validation-result.json",
+    "build-packs/json-health-checker-build-pack/eval/history/pipeline-json-health-checker-build-pack-production-20260322t162926z/benchmark-result.json",
+    "build-packs/json-health-checker-build-pack/dist/candidates/json-health-checker-r3/release.json",
+    "build-packs/json-health-checker-build-pack/dist/releases/json-health-checker-r3/release.json",
+    "build-packs/json-health-checker-build-pack/eval/history/pipeline-json-health-checker-build-pack-production-20260322t162926z/verification-result.json",
+    "build-packs/json-health-checker-build-pack/eval/history/promote-json-health-checker-build-pack-production-20260322t162927z/promotion-report.json"
+  ],
+  "final_status": "completed",
+  "generated_at": "2026-03-22T16:29:26Z",
+  "invoked_by": "orchadmin",
+  "operation_log_update": {
+    "build_pack_id": "json-health-checker-build-pack",
+    "event_type": "pipeline_executed",
+    "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t162926z",
+    "pipeline_report_path": "eval/history/pipeline-json-health-checker-build-pack-production-20260322t162926z/pipeline-report.json",
+    "promotion_log_path": "registry/promotion-log.json"
+  },
+  "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t162926z",
+  "release_id": "json-health-checker-r3",
+  "schema_version": "deployment-pipeline-report/v1",
+  "stage_results": [
+    {
+      "stage_id": "validate_factory_state",
+      "status": "completed",
+      "summary": "Factory validation passed."
+    },
+    {
+      "stage_id": "validate_build_pack",
+      "status": "completed",
+      "summary": "Build-pack validation command passed."
+    },
+    {
+      "stage_id": "run_required_benchmarks",
+      "status": "completed",
+      "summary": "Executed benchmark command for 1 mandatory benchmark gates."
+    },
+    {
+      "stage_id": "package_release",
+      "status": "completed",
+      "summary": "Created candidate and release artifacts."
+    },
+    {
+      "stage_id": "deploy_release",
+      "status": "completed",
+      "summary": "Provider-neutral deployment adapter completed."
+    },
+    {
+      "stage_id": "verify_deployment",
+      "status": "completed",
+      "summary": "Post-deploy verification commands passed."
+    },
+    {
+      "stage_id": "finalize_promotion",
+      "status": "completed",
+      "summary": "Committed promotion through the promotion workflow."
+    }
+  ],
+  "target_environment": "production"
+}

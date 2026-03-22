@@ -1,3 +1,4 @@
 # Specs
 
-Add template-specific technical notes or implementation specs here when the template grows beyond the starter scaffold.
+Add build-pack-specific technical notes or implementation specs here when this
+pack grows beyond the starter scaffold.

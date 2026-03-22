@@ -59,11 +59,11 @@
     },
     {
       "active": true,
-      "active_release_id": "json-health-checker-r1",
-      "deployment_pointer": "deployments/testing/json-health-checker-build-pack.json",
-      "deployment_state": "testing",
+      "active_release_id": "json-health-checker-r3",
+      "deployment_pointer": "deployments/production/json-health-checker-build-pack.json",
+      "deployment_state": "production",
       "latest_eval_index": "build-packs/json-health-checker-build-pack/eval/latest/index.json",
-      "lifecycle_stage": "testing",
+      "lifecycle_stage": "maintained",
       "notes": [
         "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
         "materialization_id=materialize-json-health-checker-build-pack-20260321t023708z"
@@ -78,5 +78,5 @@
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-21T09:46:22Z"
+  "updated_at": "2026-03-22T16:29:27Z"
 }

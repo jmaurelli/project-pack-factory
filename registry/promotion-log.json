@@ -110,8 +110,38 @@
       "promotion_report_path": "eval/history/promote-json-health-checker-build-pack-testing-20260321t023948z/promotion-report.json",
       "status": "completed",
       "target_environment": "testing"
+    },
+    {
+      "build_pack_id": "json-health-checker-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-json-health-checker-build-pack-staging-20260322t162334z",
+      "promotion_report_path": "eval/history/promote-json-health-checker-build-pack-staging-20260322t162334z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "staging"
+    },
+    {
+      "build_pack_id": "json-health-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-json-health-checker-build-pack-staging-20260322t162332z",
+      "pipeline_report_path": "eval/history/pipeline-json-health-checker-build-pack-staging-20260322t162332z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "json-health-checker-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-json-health-checker-build-pack-production-20260322t162927z",
+      "promotion_report_path": "eval/history/promote-json-health-checker-build-pack-production-20260322t162927z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "production"
+    },
+    {
+      "build_pack_id": "json-health-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t162926z",
+      "pipeline_report_path": "eval/history/pipeline-json-health-checker-build-pack-production-20260322t162926z/pipeline-report.json",
+      "status": "completed"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-21T02:39:48Z"
+  "updated_at": "2026-03-22T16:29:26Z"
 }

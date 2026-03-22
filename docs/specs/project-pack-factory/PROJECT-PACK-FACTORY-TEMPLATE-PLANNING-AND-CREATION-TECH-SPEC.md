@@ -233,6 +233,10 @@ The created template must include:
 The scaffold may include a minimal benchmark command and CLI help surface, but
 must stay text-only and low-complexity.
 
+The presence of `tests/README.md` in the scaffold documents the testing area
+for the future template shape. It is not standing authorization for later
+agents to add tests during ordinary testing work without explicit approval.
+
 ## Files Synthesized
 
 The tool must synthesize complete schema-valid state files, including:
@@ -363,16 +367,25 @@ template` as an already-supported top-level action.
 Instead concierge replies should offer:
 
 - `start a new project planning session`
-- `continue the active testing build`
+- `rerun the existing checks for the active testing candidate`
 - `review recent results before deciding`
 - `retire historical work that should stay frozen`
 
 Only after the planning session identifies a justified need should the agent
 recommend the template-creation workflow defined here.
 
+For clarity, generic operator requests to `test` or `continue testing` a pack
+should be interpreted as rerunning the existing validation, benchmark, or
+workflow surfaces that already exist. Those requests do not authorize adding or
+strengthening tests.
+
 ## Minimal Test Posture
 
 Keep testing intentionally small.
+
+Generic testing requests in this workflow family mean rerunning the existing
+checks that already exist for the workflow. They do not authorize creating,
+expanding, or strengthening tests.
 
 For this workflow family, the recommended budget is:
 

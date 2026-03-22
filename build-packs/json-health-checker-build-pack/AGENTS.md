@@ -1,6 +1,8 @@
-# JSON Health Checker Template Pack
+# JSON Health Checker Build Pack
 
-This is a PackFactory-native template created through the template creation workflow.
+This is the PackFactory-native build pack materialized from
+`json-health-checker-template-pack` and currently used as a small testing
+candidate.
 
 ## Bootstrap Order
 
@@ -16,8 +18,9 @@ This is a PackFactory-native template created through the template creation work
 
 ## Working Rules
 
-- Treat this pack as an active source template.
+- Treat this pack as an active build pack, not a source template.
 - Use `validate-project-pack` before trusting local state.
-- Use `benchmark-smoke` as the smallest bounded benchmark for this template.
-- Keep this template easy for a fresh agent to inspect and adapt.
-- Treat this template as source-only. It is not directly deployable.
+- Use `benchmark-smoke` as the smallest bounded benchmark for this build pack.
+- Keep this build pack easy for a fresh agent to inspect, test, and promote.
+- Treat lineage in `lineage/source-template.json` as source history, not as the
+  current pack identity.

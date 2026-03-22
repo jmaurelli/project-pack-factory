@@ -37,6 +37,8 @@ STAGE_IDS = [
     "verify_deployment",
     "finalize_promotion",
 ]
+VALIDATION_GATE_ID = "validate_build_pack_contract"
+EVAL_LATEST_INDEX_PATH = "eval/latest/index.json"
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -44,6 +46,23 @@ def _load_object(path: Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise ValueError(f"{path}: JSON document must contain an object")
     return payload
+
+
+def _parse_json_text(value: str) -> dict[str, Any]:
+    payload = json.loads(value)
+    if not isinstance(payload, dict):
+        raise ValueError("benchmark command must emit a JSON object")
+    return payload
+
+
+def _benchmark_results_from_stdout(stdout: str) -> list[dict[str, Any]]:
+    payload = _parse_json_text(stdout)
+    benchmark_results = payload.get("benchmark_results")
+    if isinstance(benchmark_results, list):
+        return [result for result in benchmark_results if isinstance(result, dict)]
+    if isinstance(payload.get("benchmark_id"), str):
+        return [payload]
+    raise ValueError("benchmark command JSON output must include benchmark_id or benchmark_results")
 
 
 def _load_request(request_path: Path, factory_root: Path) -> dict[str, Any]:
@@ -191,6 +210,9 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
         validation_evidence = _write_stage_evidence(
             pipeline_dir / "validation-result.json",
             {
+                "build_pack_id": pack_id,
+                "gate_id": VALIDATION_GATE_ID,
+                "status": "pass",
                 "command": validation_command,
                 "returncode": validation_result.returncode,
                 "stdout": validation_result.stdout,
@@ -200,10 +222,15 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
         evidence_paths.append(relative_path(factory_root, Path(validation_evidence)))
         complete("validate_build_pack", "Build-pack validation command passed.")
 
-        mandatory_gate_ids = [
+        eval_latest = _load_object(pack_root / EVAL_LATEST_INDEX_PATH)
+        benchmark_gate_ids = [
             str(gate["gate_id"])
             for gate in readiness.get("required_gates", [])
-            if isinstance(gate, dict) and gate.get("mandatory") is True
+            if (
+                isinstance(gate, dict)
+                and gate.get("gate_id") != VALIDATION_GATE_ID
+                and gate.get("mandatory") is True
+            )
         ]
         benchmark_command = str(manifest["entrypoints"]["benchmark_command"])
         benchmark_result = _run_command(benchmark_command, pack_root)
@@ -211,18 +238,44 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
             fail("run_required_benchmarks", "Required benchmark command failed.")
             skip_remaining(3, "Skipped after benchmark failure.")
             raise RuntimeError("pipeline_failed")
+        expected_benchmark_ids = {
+            str(result.get("benchmark_id"))
+            for result in eval_latest.get("benchmark_results", [])
+            if isinstance(result, dict) and isinstance(result.get("benchmark_id"), str)
+        }
+        try:
+            benchmark_entries = _benchmark_results_from_stdout(benchmark_result.stdout)
+        except ValueError as exc:
+            fail("run_required_benchmarks", str(exc))
+            skip_remaining(3, "Skipped after benchmark evidence parsing failure.")
+            raise RuntimeError("pipeline_failed")
+        observed_benchmark_ids = {
+            str(result.get("benchmark_id"))
+            for result in benchmark_entries
+            if isinstance(result.get("benchmark_id"), str)
+        }
+        if observed_benchmark_ids != expected_benchmark_ids:
+            fail("run_required_benchmarks", "Benchmark command reported benchmark ids that do not match eval/latest.")
+            skip_remaining(3, "Skipped after benchmark identity mismatch.")
+            raise RuntimeError("pipeline_failed")
+        if any(result.get("status") != "pass" for result in benchmark_entries):
+            fail("run_required_benchmarks", "Required benchmark command did not report passing benchmark results.")
+            skip_remaining(3, "Skipped after benchmark failure.")
+            raise RuntimeError("pipeline_failed")
         benchmark_evidence = _write_stage_evidence(
             pipeline_dir / "benchmark-result.json",
             {
+                "build_pack_id": pack_id,
+                "status": "pass",
+                "benchmark_results": benchmark_entries,
                 "command": benchmark_command,
-                "mandatory_gate_ids": mandatory_gate_ids,
+                "mandatory_gate_ids": benchmark_gate_ids,
                 "returncode": benchmark_result.returncode,
                 "stdout": benchmark_result.stdout,
                 "stderr": benchmark_result.stderr,
             },
         )
         evidence_paths.append(relative_path(factory_root, Path(benchmark_evidence)))
-        eval_latest = _load_object(pack_root / "eval/latest/index.json")
         benchmark_pack_relative = _pack_relative_path(pack_root, Path(benchmark_evidence))
         for result in eval_latest.get("benchmark_results", []):
             if isinstance(result, dict):
@@ -231,21 +284,27 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
                 result["run_artifact_path"] = benchmark_pack_relative
                 result["summary_artifact_path"] = benchmark_pack_relative
         eval_latest["updated_at"] = generated_at
-        write_json(pack_root / "eval/latest/index.json", eval_latest)
+        write_json(pack_root / EVAL_LATEST_INDEX_PATH, eval_latest)
 
         readiness["last_evaluated_at"] = generated_at
         readiness["blocking_issues"] = []
         readiness["ready_for_deployment"] = True
         readiness["readiness_state"] = "ready_for_deploy"
         for gate in readiness.get("required_gates", []):
-            if isinstance(gate, dict) and gate.get("mandatory") is True:
+            if not isinstance(gate, dict):
+                continue
+            if gate.get("gate_id") == VALIDATION_GATE_ID:
                 gate["status"] = "pass"
                 gate["last_run_at"] = generated_at
-                gate["evidence_paths"] = [benchmark_pack_relative]
+                gate["evidence_paths"] = [_pack_relative_path(pack_root, Path(validation_evidence))]
+                continue
+            gate["status"] = "pass"
+            gate["last_run_at"] = generated_at
+            gate["evidence_paths"] = [EVAL_LATEST_INDEX_PATH]
         write_json(pack_root / "status/readiness.json", readiness)
         complete(
             "run_required_benchmarks",
-            f"Executed benchmark command for {len(mandatory_gate_ids)} mandatory gates.",
+            f"Executed benchmark command for {len(benchmark_gate_ids)} mandatory benchmark gates.",
         )
 
         release_state = "testing" if target_environment == "testing" else target_environment

@@ -3,14 +3,15 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "json-health-checker-template-pack"
+name = "json-health-checker-build-pack"
 version = "0.1.0"
-description = "JSON Health Checker Template Pack"
+description = "JSON Health Checker Build Pack"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
 
 [project.scripts]
+json-health-checker-build-pack = "json_health_checker_template_pack.cli:main"
 json-health-checker-template-pack = "json_health_checker_template_pack.cli:main"
 
 [tool.setuptools]

@@ -16,6 +16,91 @@ from validate_factory import validate_factory
 SOURCE_TEMPLATE_ID = "factory-native-smoke-template-pack"
 
 
+def _seed_integrity_evidence(pack_root: Path, *, run_id: str = "bootstrap") -> None:
+    generated_at = "2026-03-20T00:00:00Z"
+    readiness = load_json(pack_root / "status/readiness.json")
+    eval_latest = load_json(pack_root / "eval/latest/index.json")
+    benchmark_results = [
+        {
+            "benchmark_id": result["benchmark_id"],
+            "status": "pass",
+        }
+        for result in eval_latest.get("benchmark_results", [])
+        if isinstance(result, dict) and isinstance(result.get("benchmark_id"), str)
+    ]
+    run_dir = pack_root / "eval/history" / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    validation_relative = f"eval/history/{run_id}/validation-result.json"
+    benchmark_relative = f"eval/history/{run_id}/benchmark-result.json"
+    write_json(
+        pack_root / validation_relative,
+        {
+            "build_pack_id": pack_root.name,
+            "gate_id": "validate_build_pack_contract",
+            "status": "pass",
+            "command": "python3 -c \"print('ok')\"",
+            "returncode": 0,
+            "stdout": "ok\n",
+            "stderr": "",
+        },
+    )
+    write_json(
+        pack_root / benchmark_relative,
+        {
+            "build_pack_id": pack_root.name,
+            "status": "pass",
+            "benchmark_results": benchmark_results,
+            "command": "python3 -c \"print('bench')\"",
+            "mandatory_gate_ids": [
+                gate["gate_id"]
+                for gate in readiness.get("required_gates", [])
+                if isinstance(gate, dict)
+                and gate.get("mandatory") is True
+                and gate.get("gate_id") != "validate_build_pack_contract"
+            ],
+            "returncode": 0,
+            "stdout": "bench\n",
+            "stderr": "",
+        },
+    )
+
+    eval_latest["updated_at"] = generated_at
+    for result in eval_latest.get("benchmark_results", []):
+        if not isinstance(result, dict):
+            continue
+        result["status"] = "pass"
+        result["latest_run_id"] = run_id
+        result["run_artifact_path"] = benchmark_relative
+        result["summary_artifact_path"] = benchmark_relative
+    write_json(pack_root / "eval/latest/index.json", eval_latest)
+
+    readiness["readiness_state"] = "ready_for_deploy"
+    readiness["ready_for_deployment"] = True
+    readiness["last_evaluated_at"] = generated_at
+    readiness["blocking_issues"] = []
+    for gate in readiness.get("required_gates", []):
+        if not isinstance(gate, dict):
+            continue
+        gate["status"] = "pass"
+        gate["last_run_at"] = generated_at
+        if gate.get("gate_id") == "validate_build_pack_contract":
+            gate["evidence_paths"] = [validation_relative]
+        else:
+            gate["evidence_paths"] = ["eval/latest/index.json"]
+    write_json(pack_root / "status/readiness.json", readiness)
+
+
+def _normalize_active_build_pack_evidence(factory_root: Path) -> None:
+    build_packs_root = factory_root / "build-packs"
+    for pack_root in build_packs_root.iterdir():
+        if not pack_root.is_dir() or not (pack_root / "pack.json").exists():
+            continue
+        retirement = load_json(pack_root / "status/retirement.json")
+        if retirement.get("retirement_state") != "active":
+            continue
+        _seed_integrity_evidence(pack_root, run_id=f"bootstrap-{pack_root.name}")
+
+
 def _copy_factory(tmp_path: Path) -> Path:
     destination = tmp_path / "factory"
 
@@ -29,6 +114,7 @@ def _copy_factory(tmp_path: Path) -> Path:
 
     shutil.copytree(ROOT, destination, ignore=_ignore)
     _reset_canonical_assignments(destination)
+    _normalize_active_build_pack_evidence(destination)
     return destination
 
 
@@ -49,19 +135,7 @@ def _materialize(factory_root: Path, pack_id: str = "promo-pack") -> Path:
         },
     )
     pack_root = factory_root / "build-packs" / pack_id
-    readiness = load_json(pack_root / "status/readiness.json")
-    readiness["readiness_state"] = "ready_for_deploy"
-    readiness["ready_for_deployment"] = True
-    readiness["blocking_issues"] = []
-    for gate in readiness["required_gates"]:
-        gate["status"] = "pass"
-        gate["last_run_at"] = "2026-03-20T00:00:00Z"
-        gate["evidence_paths"] = ["eval/history/bootstrap/pass.json"]
-    write_json(pack_root / "status/readiness.json", readiness)
-    eval_latest = load_json(pack_root / "eval/latest/index.json")
-    for result in eval_latest["benchmark_results"]:
-        result["status"] = "pass"
-    write_json(pack_root / "eval/latest/index.json", eval_latest)
+    _seed_integrity_evidence(pack_root)
     release = {
         "schema_version": "pack-release/v1",
         "build_pack_id": pack_id,
@@ -138,7 +212,19 @@ def test_promote_build_pack_happy_path_writes_pointer_and_updates_registry(tmp_p
 
 def test_promote_build_pack_rejects_when_latest_eval_is_missing(tmp_path: Path) -> None:
     factory_root = _copy_factory(tmp_path)
-    _materialize(factory_root)
+    pack_root = _materialize(factory_root)
+    readiness = load_json(pack_root / "status/readiness.json")
+    validation_gate = next(gate for gate in readiness["required_gates"] if gate["gate_id"] == "validate_build_pack_contract")
+    validation_gate["evidence_paths"] = ["eval/history/bootstrap/benchmark-result.json"]
+    write_json(pack_root / "status/readiness.json", readiness)
+    try:
+        promote_build_pack(factory_root, _request("testing"))
+    except ValueError as exc:
+        assert "readiness evidence integrity failed" in str(exc)
+    else:
+        raise AssertionError("expected promotion to fail when readiness evidence is corrupted")
+
+    _seed_integrity_evidence(pack_root)
     (factory_root / "build-packs/promo-pack/eval/latest/index.json").unlink()
     try:
         promote_build_pack(factory_root, _request("testing"))
@@ -153,6 +239,7 @@ def test_promote_build_pack_eviction_clears_prior_environment_assignment(tmp_pat
     _reset_canonical_assignments(factory_root)
     _materialize(factory_root, "alpha-pack")
     _materialize(factory_root, "beta-pack")
+    shutil.rmtree(factory_root / "build-packs/alpha-pack/.pack-state", ignore_errors=True)
 
     promote_build_pack(factory_root, _request("testing", pack_id="alpha-pack"))
     result = promote_build_pack(factory_root, _request("testing", pack_id="beta-pack"))

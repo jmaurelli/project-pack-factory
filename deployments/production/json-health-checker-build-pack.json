@@ -1,0 +1,13 @@
+{
+  "active_release_id": "json-health-checker-r3",
+  "active_release_path": "dist/releases/json-health-checker-r3",
+  "deployment_transaction_id": "promote-json-health-checker-build-pack-production-20260322t162927z",
+  "environment": "production",
+  "pack_id": "json-health-checker-build-pack",
+  "pack_kind": "build_pack",
+  "pack_root": "build-packs/json-health-checker-build-pack",
+  "promotion_evidence_ref": "eval/history/promote-json-health-checker-build-pack-production-20260322t162927z/promotion-report.json",
+  "schema_version": "pack-deployment-pointer/v2",
+  "source_deployment_file": "build-packs/json-health-checker-build-pack/status/deployment.json",
+  "updated_at": "2026-03-22T16:29:27Z"
+}

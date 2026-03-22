@@ -1,12 +1,12 @@
 {
   "current_revision": "r1",
   "current_version": "0.1.0",
-  "lifecycle_stage": "testing",
+  "lifecycle_stage": "maintained",
   "pack_id": "json-health-checker-build-pack",
   "pack_kind": "build_pack",
-  "promotion_target": "staging",
+  "promotion_target": "none",
   "schema_version": "pack-lifecycle/v2",
-  "state_reason": "Promote the newly validated JSON health checker build-pack into testing as the active quick-test workflow candidate.",
-  "updated_at": "2026-03-21T02:39:48Z",
+  "state_reason": "Finalized by pipeline pipeline-json-health-checker-build-pack-production-20260322t162926z",
+  "updated_at": "2026-03-22T16:29:27Z",
   "updated_by": "orchadmin"
 }

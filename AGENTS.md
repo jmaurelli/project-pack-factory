@@ -35,10 +35,11 @@ Treat that request as a concierge startup prompt:
   the latest git commits and mention the concrete date
 - offer a short list of practical next-step options at the administrator level,
   based on the discovered pack state, such as reviewing candidate packs,
-  continuing active testing work, creating a template through the supported
-  planning/creation workflow, materializing a build-pack, promoting a ready
-  build-pack, reviewing deployment assignments, or retiring historical work
-  that should stay frozen
+  rerunning existing validation and benchmark checks for an active testing
+  candidate, creating a template through the supported planning/creation
+  workflow, materializing a build-pack, promoting a ready build-pack,
+  reviewing deployment assignments, or retiring historical work that should
+  stay frozen
 - end by asking what the operator wants to do next
 
 Keep the reply project-oriented and human-facing. Do not default to an
@@ -69,5 +70,9 @@ internal “key points I’m carrying forward” style.
 - only bypass confirmation when the operator has already named the pack explicitly
 - prefer `tools/validate_factory.py` for whole-factory validation and `tools/retire_pack.py` for lifecycle retirement mutations
 - keep workflow tests minimal and follow the hard cap in `PROJECT-PACK-FACTORY-TESTING-POLICY.md`
+- interpret generic requests such as `test this`, `continue testing`, `run the tests`, or `refresh evidence` as permission to run existing validation, benchmark, and workflow commands only
+- prefer the smallest existing bounded surface first: pack validation, then pack benchmark or workflow smoke checks, then broader deployment or pipeline commands only when deployment-linked evidence or promotion readiness is the task
+- do not create, expand, or strengthen tests or benchmarks without explicit operator approval
+- if existing coverage looks weak, placeholder-only, or missing, run the existing surfaces that do exist, report the gap, and recommend test additions separately rather than authoring them implicitly
 - do not present brand-new template creation as an already-implemented
   top-level action unless the current factory tooling actually supports it

@@ -1,16 +1,16 @@
 {
-  "active_environment": "testing",
-  "active_release_id": "json-health-checker-r1",
-  "active_release_path": "dist/releases/json-health-checker-r1",
+  "active_environment": "production",
+  "active_release_id": "json-health-checker-r3",
+  "active_release_path": "dist/releases/json-health-checker-r3",
   "deployment_notes": [
-    "Promoted to testing by PackFactory."
+    "Promoted to production by PackFactory."
   ],
-  "deployment_pointer_path": "deployments/testing/json-health-checker-build-pack.json",
-  "deployment_state": "testing",
-  "deployment_transaction_id": "promote-json-health-checker-build-pack-testing-20260321t023948z",
-  "last_promoted_at": "2026-03-21T02:39:48Z",
+  "deployment_pointer_path": "deployments/production/json-health-checker-build-pack.json",
+  "deployment_state": "production",
+  "deployment_transaction_id": "promote-json-health-checker-build-pack-production-20260322t162927z",
+  "last_promoted_at": "2026-03-22T16:29:27Z",
   "last_rollback": null,
-  "last_verified_at": "2026-03-21T02:38:04Z",
+  "last_verified_at": "2026-03-22T16:29:26Z",
   "pack_id": "json-health-checker-build-pack",
   "pack_kind": "build_pack",
   "projection_state": "projected",

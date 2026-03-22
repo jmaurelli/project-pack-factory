@@ -30,11 +30,11 @@ When an operator asks to `load AGENTS.md`, the expected response should:
 - if recent repo-level tooling or doc work matters, also check the latest git
   commits and mention the concrete date
 - offer a few practical next-step options at the administrator level, such as
-  reviewing candidate packs, continuing active testing work, creating a
-  template through the supported planning/creation workflow, materializing a
-  build-pack, promoting a ready build-pack, reviewing deployment assignments,
-  or freezing older work through retirement, based on the packs the agent just
-  discovered
+  reviewing candidate packs, rerunning existing validation and benchmark checks
+  for an active testing candidate, creating a template through the supported
+  planning/creation workflow, materializing a build-pack, promoting a ready
+  build-pack, reviewing deployment assignments, or freezing older work through
+  retirement, based on the packs the agent just discovered
 
 The startup response should feel like a project concierge briefing, not a file
 acknowledgment.
@@ -52,6 +52,28 @@ state, benchmark evidence, and restart-aware runtime support.
 
 The factory also intentionally keeps workflow testing small and high-signal
 rather than aiming for broad coverage.
+
+## Testing Intent
+
+When an operator asks to `test`, `continue testing`, `run the tests`, or
+`refresh evidence`, the default meaning is: run the relevant validation,
+benchmark, and workflow commands that already exist.
+
+By default, the agent should prefer:
+
+- existing validation commands first
+- existing pack benchmarks or workflow smoke checks second
+- broader deployment pipeline execution only when deployment-linked evidence or
+  promotion readiness is the actual goal
+
+Generic testing requests do not authorize creating, modifying, or
+strengthening tests or benchmarks.
+
+If current coverage is weak, placeholder-only, or missing, the agent should
+run the existing surfaces that do exist, report the gap clearly, and recommend
+test additions separately.
+
+Adding or changing tests must be explicitly requested.
 
 ## Startup Targeting
 

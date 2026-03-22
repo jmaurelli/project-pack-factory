@@ -1,0 +1,7 @@
+{
+  "commands": [
+    "PYTHONPATH=src python3 -m json_health_checker_template_pack validate-project-pack --project-root . --output json"
+  ],
+  "failures": [],
+  "status": "passed"
+}

@@ -1,0 +1,36 @@
+{
+  "approval_profile": "approval_not_required",
+  "benchmark_category": "workflow-smoke",
+  "benchmark_revision": "rev-json-health-checker-build-pack-smoke-small-001",
+  "benchmark_size_class": "small",
+  "benchmark_suite_id": "packfactory-build-pack-smoke-suite",
+  "benchmark_task_id": "task-json-health-checker-build-pack-smoke-small-001",
+  "complexity_profile": "single-package-low",
+  "description": "Run a tiny deterministic CLI smoke path that proves one passing and one fail-closed JSON health-check result while keeping the build-pack benchmark declaration and readiness state traversable.",
+  "intended_languages": [
+    "python"
+  ],
+  "intended_pack_family": "build-pack",
+  "manifest_defaults": {
+    "orchestration_core_version": "materialize-json-health-checker-build-pack-20260321t023708z",
+    "pack_family": "build-pack",
+    "pack_version": "0.1.0",
+    "terminal_benchmark_classification": "completed_within_envelope"
+  },
+  "owners": [
+    "orchadmin"
+  ],
+  "schema_version": "benchmark-declaration/v1",
+  "status": "active",
+  "tags": [
+    "factory-native",
+    "build-pack",
+    "small",
+    "materialized"
+  ],
+  "target_project": {
+    "default_relative_root": "build-packs/json-health-checker-build-pack",
+    "target_locator": "repo-local",
+    "target_project_id": "json-health-checker-build-pack"
+  }
+}

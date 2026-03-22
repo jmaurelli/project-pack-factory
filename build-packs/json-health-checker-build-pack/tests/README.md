@@ -1,3 +1,4 @@
 # Tests
 
-Keep tests small, deterministic, and focused on the few behaviors that materially protect this template.
+Keep tests small, deterministic, and focused on the few behaviors that
+materially protect this build pack.
