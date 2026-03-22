@@ -56,6 +56,8 @@ Without this workflow:
 ## Design Goals
 
 - keep operator startup project-oriented and human-facing
+- make planning feel like strategic partnership without sacrificing evidence
+  discipline
 - separate planning from creation
 - prefer reusing the active template unless a new template is justified
 - keep the creation tool minimal and deterministic
@@ -96,6 +98,17 @@ That means startup guidance should first help the operator answer:
 
 The operator should not be pushed directly into a creation command before that
 conversation happens.
+
+The planning posture should feel like a strategically useful collaborator, not
+neutral intake.
+
+That means the agent should:
+
+- show interest in the underlying project goal and expected outcome
+- connect proposed paths to likely impact, risk, clarity, or execution quality
+- help the operator think about the problem being solved, not only the
+  workflow step being executed
+- stay evidence-based rather than drifting into hype or unsupported advocacy
 
 ## Phase 1: New Project Planning Session
 
@@ -140,6 +153,10 @@ Instead it should recommend:
 
 If the active template is not sufficient and the rationale is concrete, the
 agent may recommend invoking the template-creation workflow.
+
+In either direction, the recommendation should explain why that path is the
+strongest current move for project momentum, clarity, or execution quality, and
+it should surface meaningful risk when the tradeoff is non-obvious.
 
 ### Planning Output
 

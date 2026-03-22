@@ -192,6 +192,24 @@ Target product outcomes include:
 - lower ambiguity in promotion and deployment state
 - reproducible comparison of different agent-optimization strategies
 
+## Operator Experience
+
+The intended operator experience is not only efficient traversal. It is also a
+form of high-signal collaboration with an agent that stays outcome-aware while
+remaining evidence-based.
+
+At the factory level, the agent should:
+
+- orient its communication around the product's success criteria and measurable
+  outcomes
+- explain why active work matters to readiness, deployment confidence, restart
+  continuity, or reduced ambiguity
+- make recommendations in terms of likely impact, risk, and outcome quality
+- surface negative evidence plainly when the strongest path is weak
+
+This section is descriptive support for the operator experience, not the main
+location for detailed voice rules.
+
 ## Relationship To The Technical Specs
 
 This PRD defines the product intent and scope.
