@@ -182,12 +182,23 @@ def test_run_deployment_pipeline_happy_path_with_commit_promotes_build_pack(tmp_
     factory_root = _copy_factory(tmp_path)
     _prepare_build_pack(factory_root)
 
-    result = run_deployment_pipeline(factory_root, _request(commit=True))
+    first_result = run_deployment_pipeline(factory_root, _request(commit=True))
 
-    assert result["status"] == "completed"
+    assert first_result["status"] == "completed"
     assert (factory_root / "deployments/testing/pipeline-pack.json").exists()
     deployment = load_json(factory_root / "build-packs/pipeline-pack/status/deployment.json")
     assert deployment["deployment_state"] == "testing"
+
+    release_path = factory_root / "build-packs/pipeline-pack/dist/releases/pipe-r1/release.json"
+    candidate_path = factory_root / "build-packs/pipeline-pack/dist/candidates/pipe-r1/release.json"
+    release_snapshot = release_path.read_bytes()
+    candidate_snapshot = candidate_path.read_bytes()
+
+    second_result = run_deployment_pipeline(factory_root, _request(commit=True))
+
+    assert second_result["status"] == "reconciled"
+    assert release_path.read_bytes() == release_snapshot
+    assert candidate_path.read_bytes() == candidate_snapshot
 
 
 def test_run_deployment_pipeline_fails_on_validation_command_and_skips_later_stages(tmp_path: Path) -> None:

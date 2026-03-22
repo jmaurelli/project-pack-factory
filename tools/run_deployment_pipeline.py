@@ -123,6 +123,33 @@ def _pack_relative_path(pack_root: Path, path: Path) -> str:
     return str(path.relative_to(pack_root))
 
 
+def _release_reconcile_state(
+    *,
+    deployment: dict[str, Any],
+    target_environment: str,
+    release_id: str,
+    release_path: Path,
+) -> tuple[bool, str | None]:
+    active_environment = deployment.get("active_environment")
+    active_release_id = deployment.get("active_release_id")
+    active_release_path = deployment.get("active_release_path")
+    expected_release_path = f"dist/releases/{release_id}"
+
+    if active_environment != target_environment or active_release_id != release_id:
+        return False, None
+    if active_release_path != expected_release_path:
+        return (
+            False,
+            "Active deployment path does not match the canonical release path for reconcile reuse.",
+        )
+    if not release_path.exists():
+        return (
+            False,
+            "Active deployment references a release artifact that does not exist for reconcile reuse.",
+        )
+    return True, None
+
+
 def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
     pack_id = str(request["build_pack_id"])
     target_environment = str(request["target_environment"])
@@ -138,6 +165,7 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
     pack_root = location.pack_root
     manifest = _load_object(pack_root / "pack.json")
     readiness = _load_object(pack_root / "status/readiness.json")
+    deployment = _load_object(pack_root / "status/deployment.json")
     lineage = _load_object(pack_root / "lineage/source-template.json")
 
     now = read_now()
@@ -307,25 +335,49 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
             f"Executed benchmark command for {len(benchmark_gate_ids)} mandatory benchmark gates.",
         )
 
-        release_state = "testing" if target_environment == "testing" else target_environment
-        release_document = _package_release_document(
-            pack_id=pack_id,
-            release_id=release_id,
-            lineage=lineage,
-            built_at=generated_at,
-            release_state=release_state,
-        )
         candidate_path = pack_root / "dist/candidates" / release_id / "release.json"
         release_path = pack_root / "dist/releases" / release_id / "release.json"
-        write_json(candidate_path, release_document)
-        write_json(release_path, release_document)
+        reuse_release_artifacts, release_reconcile_error = _release_reconcile_state(
+            deployment=deployment,
+            target_environment=target_environment,
+            release_id=release_id,
+            release_path=release_path,
+        )
+        if release_reconcile_error is not None:
+            fail("package_release", release_reconcile_error)
+            skip_remaining(4, "Skipped after release reconcile validation failure.")
+            raise RuntimeError("pipeline_failed")
+        if reuse_release_artifacts:
+            release_document = _load_object(release_path)
+            if not candidate_path.exists():
+                write_json(candidate_path, release_document)
+                reconcile(
+                    "package_release",
+                    "Reused the immutable release artifact and projected a missing candidate artifact from it.",
+                )
+            else:
+                reconcile(
+                    "package_release",
+                    "Reused existing candidate and release artifacts without mutating release contents.",
+                )
+        else:
+            release_state = "testing" if target_environment == "testing" else target_environment
+            release_document = _package_release_document(
+                pack_id=pack_id,
+                release_id=release_id,
+                lineage=lineage,
+                built_at=generated_at,
+                release_state=release_state,
+            )
+            write_json(candidate_path, release_document)
+            write_json(release_path, release_document)
+            complete("package_release", "Created candidate and release artifacts.")
         evidence_paths.extend(
             [
                 f"build-packs/{pack_id}/dist/candidates/{release_id}/release.json",
                 f"build-packs/{pack_id}/dist/releases/{release_id}/release.json",
             ]
         )
-        complete("package_release", "Created candidate and release artifacts.")
 
         adapter_result = {
             "adapter_id": cloud_adapter_id,
