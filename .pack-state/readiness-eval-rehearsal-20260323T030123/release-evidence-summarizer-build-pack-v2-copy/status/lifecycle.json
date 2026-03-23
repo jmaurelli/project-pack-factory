@@ -1,0 +1,12 @@
+{
+  "current_revision": "agentic-memory-loop-seed",
+  "current_version": "0.2.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "release-evidence-summarizer-build-pack-v2",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create a freshly materialized successor with canonical autonomous handoff surfaces for the agentic memory loop.",
+  "updated_at": "2026-03-23T02:13:54Z",
+  "updated_by": "orchadmin"
+}

@@ -1,0 +1,65 @@
+{
+  "artifacts": {
+    "factory_validation_command": "/usr/bin/python3 /home/orchadmin/project-pack-factory/tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+    "loop_events_path": "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v2/.pack-state/autonomy-runs/autonomy-run-rehearsal-20260323t1/loop-events.jsonl",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v2/.pack-state/autonomy-runs/autonomy-run-rehearsal-20260323t1/run-summary.json"
+  },
+  "baseline_snapshot": {
+    "active_task_id": "run_build_pack_validation",
+    "eval_result_statuses": {
+      "release-evidence-summarizer-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "release_evidence_summarizer_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "not_run"
+    },
+    "next_recommended_task_id": "run_build_pack_validation",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false
+  },
+  "completed_task_ids": [],
+  "ended_at": "2026-03-23T02:36:56Z",
+  "escalation_count": 0,
+  "failed_command_count": 0,
+  "final_snapshot": {
+    "active_task_id": "run_build_pack_validation",
+    "eval_result_statuses": {
+      "release-evidence-summarizer-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "release_evidence_summarizer_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "not_run"
+    },
+    "next_recommended_task_id": "run_build_pack_validation",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false
+  },
+  "highest_risk_observation": "Highest risk: the run did not convert missing validation or benchmark evidence into recorded evidence.",
+  "metrics": {
+    "benchmark_evidence_gain": false,
+    "canonical_state_integrity": {
+      "command": "/usr/bin/python3 /home/orchadmin/project-pack-factory/tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+      "error_count": 0,
+      "status": "pass",
+      "valid": true
+    },
+    "iterations_to_first_evidence": null,
+    "iterations_to_readiness_change": null,
+    "readiness_change_summary": {
+      "deployability_changed": false,
+      "gates_advanced_count": 0,
+      "state_advanced": false
+    },
+    "task_completion_rate": 0.0,
+    "validation_evidence_gain": false
+  },
+  "operator_summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v2/.pack-state/autonomy-runs/autonomy-run-rehearsal-20260323t1/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json.",
+  "pack_id": "release-evidence-summarizer-build-pack-v2",
+  "recommended_next_action": "Recommended next action: continue with canonical next task `run_build_pack_validation` from status/work-state.json and use this summary as local measurement evidence only.",
+  "resume_count": 1,
+  "run_id": "autonomy-run-rehearsal-20260323t1",
+  "schema_version": "autonomy-run-summary/v1",
+  "started_at": "2026-03-23T02:36:54Z",
+  "step_count": 2,
+  "stop_reason": "task_selected"
+}

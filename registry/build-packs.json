@@ -78,9 +78,9 @@
     },
     {
       "active": true,
-      "active_release_id": "config-drift-checker-r3",
-      "deployment_pointer": "deployments/production/config-drift-checker-build-pack.json",
-      "deployment_state": "production",
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
       "latest_eval_index": "build-packs/config-drift-checker-build-pack/eval/latest/index.json",
       "lifecycle_stage": "maintained",
       "notes": [
@@ -132,8 +132,46 @@
       "retired_at": null,
       "retirement_file": "status/retirement.json",
       "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/release-evidence-summarizer-build-pack-v2/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `release-evidence-summarizer-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-release-evidence-summarizer-build-pack-v2-20260323t021354z"
+      ],
+      "pack_id": "release-evidence-summarizer-build-pack-v2",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/release-evidence-summarizer-build-pack-v2",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": "release-evidence-summarizer-v3-r1",
+      "deployment_pointer": "deployments/production/release-evidence-summarizer-build-pack-v3.json",
+      "deployment_state": "production",
+      "latest_eval_index": "build-packs/release-evidence-summarizer-build-pack-v3/eval/latest/index.json",
+      "lifecycle_stage": "maintained",
+      "notes": [
+        "Derived from template `release-evidence-summarizer-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-release-evidence-summarizer-build-pack-v3-20260323t030610z"
+      ],
+      "pack_id": "release-evidence-summarizer-build-pack-v3",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/release-evidence-summarizer-build-pack-v3",
+      "ready_for_deployment": true,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-23T00:14:43Z"
+  "updated_at": "2026-03-23T10:47:40Z"
 }

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/external-runtime-evidence-import-request.schema.json",
+  "title": "External Runtime Evidence Import Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "build_pack_id",
+    "bundle_manifest_path",
+    "import_reason",
+    "imported_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "external-runtime-evidence-import-request/v1"
+    },
+    "build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "bundle_manifest_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "import_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "imported_by": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

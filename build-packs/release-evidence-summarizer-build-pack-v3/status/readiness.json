@@ -1,0 +1,35 @@
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-23T10:47:38Z",
+  "pack_id": "release-evidence-summarizer-build-pack-v3",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_deploy",
+  "ready_for_deployment": true,
+  "recommended_next_actions": [
+    "Start with the canonical validation task in tasks/active-backlog.json.",
+    "Run the inherited benchmark task after validation passes."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-23T10:47:38Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation has not been executed yet."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "release_evidence_summarizer_template_pack_smoke_small_001",
+      "last_run_at": "2026-03-23T10:47:38Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Run a deterministic release-evidence smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

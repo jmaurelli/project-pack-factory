@@ -1,0 +1,13 @@
+{
+  "active_release_id": "release-evidence-summarizer-v3-r1",
+  "active_release_path": "dist/releases/release-evidence-summarizer-v3-r1",
+  "deployment_transaction_id": "promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z",
+  "environment": "production",
+  "pack_id": "release-evidence-summarizer-build-pack-v3",
+  "pack_kind": "build_pack",
+  "pack_root": "build-packs/release-evidence-summarizer-build-pack-v3",
+  "promotion_evidence_ref": "eval/history/promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z/promotion-report.json",
+  "schema_version": "pack-deployment-pointer/v2",
+  "source_deployment_file": "build-packs/release-evidence-summarizer-build-pack-v3/status/deployment.json",
+  "updated_at": "2026-03-23T10:47:40Z"
+}

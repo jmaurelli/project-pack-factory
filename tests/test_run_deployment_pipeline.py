@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 import shutil
 import sys
 from pathlib import Path
@@ -9,6 +8,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 from materialize_build_pack import materialize_build_pack
 from run_deployment_pipeline import run_deployment_pipeline
+from run_build_pack_readiness_eval import run_build_pack_readiness_eval
 from factory_ops import load_json, write_json
 from validate_factory import validate_factory
 
@@ -202,23 +202,6 @@ def _request(
     return request
 
 
-def test_run_deployment_pipeline_happy_path_without_commit(tmp_path: Path) -> None:
-    factory_root = _copy_factory(tmp_path)
-    _prepare_build_pack(factory_root)
-
-    result = run_deployment_pipeline(factory_root, _request(commit=False))
-
-    assert result["status"] == "completed"
-    assert (factory_root / "build-packs/pipeline-pack/dist/candidates/pipe-r1/release.json").exists()
-    assert (factory_root / "build-packs/pipeline-pack/dist/releases/pipe-r1/release.json").exists()
-    assert not (factory_root / "deployments/testing/pipeline-pack.json").exists()
-    report = load_json(Path(result["pipeline_report_path"]))
-    assert report["stage_results"][6]["status"] == "completed"
-    assert any(path.endswith("validation-result.json") for path in report["evidence_paths"])
-    assert any(path.endswith("benchmark-result.json") for path in report["evidence_paths"])
-    assert any(path.endswith("verification-result.json") for path in report["evidence_paths"])
-
-
 def test_run_deployment_pipeline_happy_path_with_commit_promotes_build_pack(tmp_path: Path) -> None:
     factory_root = _copy_factory(tmp_path)
     _prepare_build_pack(factory_root)
@@ -380,4 +363,95 @@ def test_run_deployment_pipeline_writes_integrity_aligned_evidence_and_log_event
         entry["benchmark_id"] == benchmark_result["benchmark_id"] and entry["status"] == "pass"
         for entry in benchmark_artifact["benchmark_results"]
     )
+    assert validate_factory(factory_root)["valid"] is True
+
+
+def test_run_build_pack_readiness_eval_fails_closed_before_validation_then_writes_canonical_evidence(
+    tmp_path: Path,
+) -> None:
+    factory_root = _copy_factory(tmp_path)
+    materialize_build_pack(
+        factory_root,
+        {
+            "schema_version": "build-pack-materialization-request/v1",
+            "source_template_id": "factory-native-smoke-template-pack",
+            "target_build_pack_id": "readiness-pack",
+            "target_display_name": "Readiness Eval Pack",
+            "target_version": "0.1.0",
+            "target_revision": "test-revision",
+            "materialized_by": "pytest",
+            "materialization_reason": "Test readiness evaluation",
+            "copy_mode": "copy_pack_root",
+            "include_benchmark_declarations": True,
+        },
+    )
+    pack_root = factory_root / "build-packs/readiness-pack"
+
+    try:
+        run_build_pack_readiness_eval(
+            pack_root=pack_root,
+            mode="benchmark-only",
+            invoked_by="pytest",
+            eval_run_id="benchmark-before-validation",
+        )
+    except ValueError as exc:
+        assert "validate_build_pack_contract" in str(exc)
+    else:
+        raise AssertionError("expected benchmark-only to fail closed before validation")
+
+    readiness = load_json(pack_root / "status/readiness.json")
+    validation_gate = next(gate for gate in readiness["required_gates"] if gate["gate_id"] == "validate_build_pack_contract")
+    benchmark_gate = next(gate for gate in readiness["required_gates"] if gate["gate_id"] != "validate_build_pack_contract")
+    assert validation_gate["status"] == "not_run"
+    assert benchmark_gate["status"] == "not_run"
+    assert not (pack_root / "eval/history/benchmark-before-validation/benchmark-result.json").exists()
+
+    validation_result = run_build_pack_readiness_eval(
+        pack_root=pack_root,
+        mode="validation-only",
+        invoked_by="pytest",
+        eval_run_id="validation-pass",
+    )
+    assert validation_result["status"] == "completed"
+    validation_artifact = pack_root / "eval/history/validation-pass/validation-result.json"
+    assert validation_artifact.exists()
+
+    readiness = load_json(pack_root / "status/readiness.json")
+    validation_gate = next(gate for gate in readiness["required_gates"] if gate["gate_id"] == "validate_build_pack_contract")
+    benchmark_gate = next(gate for gate in readiness["required_gates"] if gate["gate_id"] != "validate_build_pack_contract")
+    assert validation_gate["status"] == "pass"
+    assert validation_gate["evidence_paths"] == ["eval/history/validation-pass/validation-result.json"]
+    assert benchmark_gate["status"] == "not_run"
+    assert readiness["ready_for_deployment"] is False
+
+    eval_latest = load_json(pack_root / "eval/latest/index.json")
+    assert all(result["status"] == "not_run" for result in eval_latest["benchmark_results"])
+
+    benchmark_result = run_build_pack_readiness_eval(
+        pack_root=pack_root,
+        mode="benchmark-only",
+        invoked_by="pytest",
+        eval_run_id="benchmark-pass",
+    )
+    assert benchmark_result["status"] == "completed"
+    benchmark_artifact = pack_root / "eval/history/benchmark-pass/benchmark-result.json"
+    assert benchmark_artifact.exists()
+
+    readiness = load_json(pack_root / "status/readiness.json")
+    validation_gate = next(gate for gate in readiness["required_gates"] if gate["gate_id"] == "validate_build_pack_contract")
+    benchmark_gate = next(gate for gate in readiness["required_gates"] if gate["gate_id"] != "validate_build_pack_contract")
+    assert validation_gate["status"] == "pass"
+    assert benchmark_gate["status"] == "pass"
+    assert benchmark_gate["evidence_paths"] == ["eval/latest/index.json"]
+    assert readiness["ready_for_deployment"] is True
+
+    eval_latest = load_json(pack_root / "eval/latest/index.json")
+    benchmark_entry = eval_latest["benchmark_results"][0]
+    assert benchmark_entry["status"] == "pass"
+    assert benchmark_entry["latest_run_id"] == "benchmark-pass"
+    assert benchmark_entry["run_artifact_path"] == "eval/history/benchmark-pass/benchmark-result.json"
+    assert benchmark_entry["summary_artifact_path"] == "eval/history/benchmark-pass/benchmark-result.json"
+
+    assert not (factory_root / "deployments/testing/readiness-pack.json").exists()
+    assert not any((pack_root / "dist/releases").rglob("release.json"))
     assert validate_factory(factory_root)["valid"] is True

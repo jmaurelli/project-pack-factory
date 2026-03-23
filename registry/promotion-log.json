@@ -325,8 +325,69 @@
       "pipeline_id": "pipeline-config-drift-checker-build-pack-production-20260323t001441z",
       "pipeline_report_path": "eval/history/pipeline-config-drift-checker-build-pack-production-20260323t001441z/pipeline-report.json",
       "status": "completed"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-release-evidence-summarizer-build-pack-v2-20260323t021354z",
+      "materialization_report_path": "eval/history/materialize-release-evidence-summarizer-build-pack-v2-20260323t021354z/materialization-report.json",
+      "source_template_id": "release-evidence-summarizer-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "release-evidence-summarizer-build-pack-v2"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-release-evidence-summarizer-build-pack-v3-20260323t030610z",
+      "materialization_report_path": "eval/history/materialize-release-evidence-summarizer-build-pack-v3-20260323t030610z/materialization-report.json",
+      "source_template_id": "release-evidence-summarizer-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "release-evidence-summarizer-build-pack-v3"
+    },
+    {
+      "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+      "event_type": "promoted",
+      "promotion_id": "promote-release-evidence-summarizer-build-pack-v3-testing-20260323t104153z",
+      "promotion_report_path": "eval/history/promote-release-evidence-summarizer-build-pack-v3-testing-20260323t104153z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "testing"
+    },
+    {
+      "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-release-evidence-summarizer-build-pack-v3-testing-20260323t104150z",
+      "pipeline_report_path": "eval/history/pipeline-release-evidence-summarizer-build-pack-v3-testing-20260323t104150z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+      "event_type": "promoted",
+      "promotion_id": "promote-release-evidence-summarizer-build-pack-v3-staging-20260323t104724z",
+      "promotion_report_path": "eval/history/promote-release-evidence-summarizer-build-pack-v3-staging-20260323t104724z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "staging"
+    },
+    {
+      "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-release-evidence-summarizer-build-pack-v3-staging-20260323t104722z",
+      "pipeline_report_path": "eval/history/pipeline-release-evidence-summarizer-build-pack-v3-staging-20260323t104722z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+      "event_type": "promoted",
+      "promotion_id": "promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z",
+      "promotion_report_path": "eval/history/promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "production"
+    },
+    {
+      "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z",
+      "pipeline_report_path": "eval/history/pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z/pipeline-report.json",
+      "status": "completed"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-23T00:14:41Z"
+  "updated_at": "2026-03-23T10:47:38Z"
 }

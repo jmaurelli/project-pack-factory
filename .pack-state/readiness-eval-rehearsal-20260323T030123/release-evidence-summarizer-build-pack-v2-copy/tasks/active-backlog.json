@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-03-23T02:13:54Z",
+  "objective_id": "release-evidence-summarizer-build-pack-v2_objective",
+  "pack_id": "release-evidence-summarizer-build-pack-v2",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The validation command exits successfully.",
+        "The validation gate records passing evidence in status/readiness.json."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "validate_build_pack_contract reaches pass state.",
+        "Validation evidence is recorded under eval/history and linked from status/readiness.json."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Validation reports schema or contract failures that the current task scope cannot resolve safely."
+      ],
+      "files_in_scope": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "release-evidence-summarizer-build-pack-v2_objective",
+      "status": "in_progress",
+      "summary": "Run the build-pack validation command and capture readiness evidence.",
+      "task_id": "run_build_pack_validation",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m release_evidence_summarizer_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The benchmark command exits successfully.",
+        "Inherited benchmark gates update from not_run to pass or waived."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The inherited benchmark command records results in eval/latest/index.json.",
+        "Required benchmark gates advance to pass or waived in status/readiness.json."
+      ],
+      "dependencies": [
+        "run_build_pack_validation"
+      ],
+      "escalation_conditions": [
+        "Benchmark output fails to update readiness or eval state through the existing bounded surfaces."
+      ],
+      "files_in_scope": [
+        "benchmarks/active-set.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "release-evidence-summarizer-build-pack-v2_objective",
+      "status": "pending",
+      "summary": "Run the inherited benchmark command after validation passes.",
+      "task_id": "run_inherited_benchmarks",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m release_evidence_summarizer_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    }
+  ]
+}

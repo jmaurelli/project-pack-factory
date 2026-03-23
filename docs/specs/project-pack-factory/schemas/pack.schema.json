@@ -91,6 +91,10 @@
         "benchmark_command": {
           "type": "string",
           "minLength": 1
+        },
+        "export_runtime_evidence_command": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },
@@ -268,6 +272,17 @@
             {
               "type": "string",
               "const": "dist/releases"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "runtime_evidence_export_dir": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "dist/exports/runtime-evidence"
             },
             {
               "type": "null"

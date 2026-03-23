@@ -1,0 +1,126 @@
+{
+  "actions": [
+    {
+      "action_id": "update_lifecycle_state",
+      "status": "completed",
+      "summary": "Updated lifecycle stage and next promotion target.",
+      "target_path": "build-packs/release-evidence-summarizer-build-pack-v3/status/lifecycle.json"
+    },
+    {
+      "action_id": "update_deployment_state",
+      "status": "completed",
+      "summary": "Updated active deployment state for the target environment.",
+      "target_path": "build-packs/release-evidence-summarizer-build-pack-v3/status/deployment.json"
+    },
+    {
+      "action_id": "evict_prior_assignee",
+      "status": "completed",
+      "summary": "Evicted prior assignee config-drift-checker-build-pack from production before promotion.",
+      "target_path": "deployments/production/config-drift-checker-build-pack.json"
+    },
+    {
+      "action_id": "clear_prior_deployment_state",
+      "status": "completed",
+      "summary": "Cleared the prior assignee's canonical deployment state.",
+      "target_path": "build-packs/config-drift-checker-build-pack/status/deployment.json"
+    },
+    {
+      "action_id": "clear_prior_registry_assignment",
+      "status": "completed",
+      "summary": "Cleared the prior assignee's registry deployment fields.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "remove_stale_pointer",
+      "status": "completed",
+      "summary": "Removed a stale environment deployment pointer.",
+      "target_path": "deployments/staging/release-evidence-summarizer-build-pack-v3.json"
+    },
+    {
+      "action_id": "write_deployment_pointer",
+      "status": "completed",
+      "summary": "Wrote the active environment deployment pointer.",
+      "target_path": "deployments/production/release-evidence-summarizer-build-pack-v3.json"
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "summary": "Updated the build-pack registry entry for the promoted release.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "append_operation_log",
+      "status": "completed",
+      "summary": "Appended the promotion event to the factory operation log.",
+      "target_path": "registry/promotion-log.json"
+    },
+    {
+      "action_id": "write_promotion_report",
+      "status": "completed",
+      "summary": "Wrote the terminal promotion evidence report.",
+      "target_path": "build-packs/release-evidence-summarizer-build-pack-v3/eval/history/promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z/promotion-report.json"
+    }
+  ],
+  "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+  "build_pack_root": "build-packs/release-evidence-summarizer-build-pack-v3",
+  "evicted_prior_assignment": {
+    "cleared_deployment_file": "build-packs/config-drift-checker-build-pack/status/deployment.json",
+    "cleared_registry_fields": [
+      "deployment_state",
+      "deployment_pointer",
+      "active_release_id"
+    ],
+    "environment": "production",
+    "pack_id": "config-drift-checker-build-pack",
+    "removed_pointer_path": "deployments/production/config-drift-checker-build-pack.json"
+  },
+  "evidence_paths": [
+    "build-packs/release-evidence-summarizer-build-pack-v3/eval/history/promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z/promotion-report.json",
+    "deployments/production/config-drift-checker-build-pack.json",
+    "build-packs/config-drift-checker-build-pack/status/deployment.json",
+    "deployments/production/release-evidence-summarizer-build-pack-v3.json",
+    "build-packs/release-evidence-summarizer-build-pack-v3/status/deployment.json"
+  ],
+  "generated_at": "2026-03-23T10:47:40Z",
+  "operation_log_update": {
+    "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+    "event_type": "promoted",
+    "promotion_id": "promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z",
+    "promotion_log_path": "registry/promotion-log.json",
+    "promotion_report_path": "eval/history/promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z/promotion-report.json",
+    "target_environment": "production"
+  },
+  "post_promotion_state": {
+    "active_environment": "production",
+    "active_release_path": "dist/releases/release-evidence-summarizer-v3-r1",
+    "deployment_pointer_path": "deployments/production/release-evidence-summarizer-build-pack-v3.json",
+    "deployment_state": "production",
+    "last_promoted_at": "2026-03-23T10:47:40Z",
+    "last_verified_at": "2026-03-23T10:47:38Z",
+    "lifecycle_stage": "maintained"
+  },
+  "pre_promotion_state": {
+    "active_environment": "staging",
+    "active_release_path": "dist/releases/release-evidence-summarizer-v3-r1",
+    "deployment_pointer_path": "deployments/staging/release-evidence-summarizer-build-pack-v3.json",
+    "deployment_state": "staging",
+    "last_promoted_at": "2026-03-23T10:47:24Z",
+    "last_verified_at": "2026-03-23T10:47:22Z",
+    "lifecycle_stage": "release_candidate"
+  },
+  "promoted_by": "codex",
+  "promotion_id": "promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z",
+  "promotion_reason": "Finalized by pipeline pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z",
+  "reconcile_refresh": null,
+  "registry_update": {
+    "deployment_pointer": "deployments/production/release-evidence-summarizer-build-pack-v3.json",
+    "deployment_state": "production",
+    "pack_id": "release-evidence-summarizer-build-pack-v3",
+    "registry_path": "registry/build-packs.json"
+  },
+  "release_id": "release-evidence-summarizer-v3-r1",
+  "release_path": "dist/releases/release-evidence-summarizer-v3-r1",
+  "schema_version": "build-pack-promotion-report/v1",
+  "status": "completed",
+  "target_environment": "production"
+}

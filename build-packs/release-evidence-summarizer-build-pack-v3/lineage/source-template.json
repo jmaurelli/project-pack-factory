@@ -1,0 +1,19 @@
+{
+  "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+  "derivation_mode": "copied",
+  "inherited_contracts": [
+    "README"
+  ],
+  "inherited_entrypoints": [
+    "benchmark_command",
+    "cli_command",
+    "validation_command"
+  ],
+  "last_sync_at": "2026-03-23T03:06:10Z",
+  "last_sync_summary": "materialization_id=materialize-release-evidence-summarizer-build-pack-v3-20260323t030610z",
+  "schema_version": "pack-lineage/v2",
+  "source_template_id": "release-evidence-summarizer-template-pack",
+  "source_template_revision": "create-template-release-evidence-summarizer-template-pack-20260322t202051z",
+  "source_template_version": "0.1.0",
+  "sync_state": "current"
+}

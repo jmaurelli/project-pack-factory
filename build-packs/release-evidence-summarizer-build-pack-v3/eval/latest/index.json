@@ -1,0 +1,15 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "release-evidence-summarizer-template-pack-smoke-small-001",
+      "latest_run_id": "pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z",
+      "run_artifact_path": "eval/history/pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z/benchmark-result.json",
+      "status": "pass",
+      "summary_artifact_path": "eval/history/pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z/benchmark-result.json"
+    }
+  ],
+  "pack_id": "release-evidence-summarizer-build-pack-v3",
+  "pack_kind": "build_pack",
+  "schema_version": "pack-eval-index/v1",
+  "updated_at": "2026-03-23T10:47:38Z"
+}

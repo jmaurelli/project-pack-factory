@@ -4,8 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
-import subprocess
 import sys
+import textwrap
 from pathlib import Path
 from typing import Any
 
@@ -124,8 +124,28 @@ def _objective_id(pack_id: str) -> str:
     return f"{pack_id}_objective"
 
 
-def _build_directory_contract() -> dict[str, Any]:
-    return {
+def _extract_project_goal(template_manifest: dict[str, Any], project_context_text: str) -> str | None:
+    notes = template_manifest.get("notes", [])
+    if isinstance(notes, list):
+        for note in notes:
+            if isinstance(note, str) and note.startswith("project_goal="):
+                goal = note.split("=", 1)[1].strip()
+                if goal:
+                    return goal
+
+    lines = project_context_text.splitlines()
+    for index, line in enumerate(lines):
+        if "project goal" not in line.lower():
+            continue
+        for candidate_line in lines[index + 1 :]:
+            candidate = candidate_line.strip()
+            if candidate.startswith("- "):
+                return candidate[2:].strip()
+    return None
+
+
+def _build_directory_contract(*, runtime_evidence_export_dir: str | None = None) -> dict[str, Any]:
+    contract = {
         "docs_dir": "docs",
         "prompts_dir": "prompts",
         "contracts_dir": "contracts",
@@ -153,6 +173,263 @@ def _build_directory_contract() -> dict[str, Any]:
         "template_export_dir": None,
         "local_state_dir": ".pack-state",
     }
+    if runtime_evidence_export_dir is not None:
+        contract["runtime_evidence_export_dir"] = runtime_evidence_export_dir
+    return contract
+
+
+def _runtime_evidence_export_helper_source() -> str:
+    return textwrap.dedent(
+        """
+        #!/usr/bin/env python3
+        from __future__ import annotations
+
+        import argparse
+        import hashlib
+        import json
+        import shutil
+        import sys
+        from datetime import datetime, timezone
+        from pathlib import Path
+        from typing import Any
+
+
+        ALLOWED_RUN_ROOT = Path(".pack-state") / "autonomy-runs"
+        EXPORT_ROOT = Path("dist") / "exports" / "runtime-evidence"
+        RUN_SUMMARY_NAME = "run-summary.json"
+        LOOP_EVENTS_NAME = "loop-events.jsonl"
+        SUPPLEMENTARY_MEMORY_ROOT = Path(".pack-state") / "agent-memory"
+
+
+        def _load_json(path: Path) -> dict[str, Any]:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            if not isinstance(payload, dict):
+                raise ValueError(f"{path}: JSON document must contain an object")
+            return payload
+
+
+        def _dump_json(path: Path, payload: dict[str, Any]) -> None:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(f"{json.dumps(payload, indent=2, sort_keys=True)}\\n", encoding="utf-8")
+
+
+        def _sha256(path: Path) -> str:
+            digest = hashlib.sha256()
+            with path.open("rb") as handle:
+                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                    digest.update(chunk)
+            return digest.hexdigest()
+
+
+        def _isoformat_z() -> str:
+            return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+        def _resolve_under(base: Path, candidate: str | Path) -> Path:
+            path = Path(candidate)
+            if path.is_absolute():
+                raise ValueError(f"{candidate}: absolute paths are not allowed")
+            resolved = (base / path).resolve()
+            try:
+                resolved.relative_to(base.resolve())
+            except ValueError as exc:
+                raise ValueError(f"{candidate}: path escapes the allowed base root") from exc
+            return resolved
+
+
+        def _media_type(path: Path) -> str:
+            suffix = path.suffix.lower()
+            if suffix == ".json":
+                return "application/json"
+            if suffix == ".jsonl":
+                return "application/jsonl"
+            return "text/plain; charset=utf-8"
+
+
+        def _select_run_files(pack_root: Path, run_id: str, include_logs: list[str]) -> tuple[Path, list[Path]]:
+            run_root = (pack_root / ALLOWED_RUN_ROOT / run_id).resolve()
+            if not run_root.exists():
+                raise ValueError(f"{run_root}: run directory does not exist")
+            try:
+                run_root.relative_to((pack_root / ALLOWED_RUN_ROOT).resolve())
+            except ValueError as exc:
+                raise ValueError("run directory must stay inside .pack-state/autonomy-runs") from exc
+
+            selected: list[Path] = []
+            summary_path = run_root / RUN_SUMMARY_NAME
+            if not summary_path.exists():
+                raise ValueError(f"{summary_path}: selected run is missing run-summary.json")
+            selected.append(summary_path)
+
+            loop_events_path = run_root / LOOP_EVENTS_NAME
+            if loop_events_path.exists():
+                selected.append(loop_events_path)
+
+            for include in include_logs:
+                include_path = _resolve_under(run_root, include)
+                if include_path.is_dir():
+                    raise ValueError(f"{include}: directory copies are not allowed")
+                if not include_path.exists():
+                    raise ValueError(f"{include}: included log does not exist")
+                selected.append(include_path)
+
+            return run_root, selected
+
+
+        def _validate_loop_events(path: Path, run_id: str) -> None:
+            for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+                if not line.strip():
+                    continue
+                payload = json.loads(line)
+                if not isinstance(payload, dict):
+                    raise ValueError(f"{path}:{line_number}: loop event must be a JSON object")
+                if payload.get("run_id") != run_id:
+                    raise ValueError(f"{path}:{line_number}: loop event run_id does not match selected run")
+
+
+        def _copy_selected_artifacts(
+            *,
+            pack_root: Path,
+            bundle_root: Path,
+            run_root: Path,
+            selected_files: list[Path],
+        ) -> list[dict[str, Any]]:
+            manifest: list[dict[str, Any]] = []
+            for source_path in sorted({path.resolve() for path in selected_files}):
+                if SUPPLEMENTARY_MEMORY_ROOT in source_path.parents:
+                    raise ValueError("runtime-memory artifacts are not exportable in v1")
+                try:
+                    source_path.relative_to(run_root)
+                except ValueError as exc:
+                    raise ValueError(f"{source_path}: v1 export allows only files under the selected run root") from exc
+
+                relative_source = source_path.relative_to(pack_root).as_posix()
+                relative_bundle = Path("artifacts") / Path(relative_source).relative_to(Path(".pack-state") / "autonomy-runs" / run_root.name)
+                target_path = bundle_root / relative_bundle
+                target_path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source_path, target_path)
+                manifest.append(
+                    {
+                        "bundle_path": relative_bundle.as_posix(),
+                        "source_pack_path": relative_source,
+                        "sha256": _sha256(target_path),
+                        "media_type": _media_type(source_path),
+                        "required": source_path.name == RUN_SUMMARY_NAME,
+                    }
+                )
+            return manifest
+
+
+        def main(argv: list[str] | None = None) -> int:
+            parser = argparse.ArgumentParser(description="Export bounded runtime evidence from a build pack.")
+            parser.add_argument("--pack-root", required=True)
+            parser.add_argument("--run-id", required=True)
+            parser.add_argument("--exported-by", required=True)
+            parser.add_argument("--output-dir", default=str(EXPORT_ROOT))
+            parser.add_argument("--output", choices=("json",), default="json")
+            parser.add_argument("--include-log", action="append", default=[])
+            args = parser.parse_args(argv)
+
+            pack_root = Path(args.pack_root).expanduser().resolve()
+            if not pack_root.is_absolute():
+                raise ValueError("--pack-root must resolve to an absolute path")
+            output_dir = Path(args.output_dir)
+            if output_dir.is_absolute():
+                raise ValueError("--output-dir must be a relative path")
+
+            pack_manifest = _load_json(pack_root / "pack.json")
+            if pack_manifest.get("pack_kind") != "build_pack":
+                raise ValueError("runtime evidence export only supports build packs")
+
+            run_root, selected_files = _select_run_files(pack_root, args.run_id, args.include_log)
+            run_summary = _load_json(run_root / RUN_SUMMARY_NAME)
+            if run_summary.get("pack_id") != pack_manifest.get("pack_id"):
+                raise ValueError("selected run pack_id does not match pack.json")
+            if run_summary.get("run_id") != args.run_id:
+                raise ValueError("selected run_id does not match run-summary.json")
+
+            export_id = f"external-runtime-evidence-{args.run_id}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+            bundle_root = (pack_root / output_dir / export_id).resolve()
+            try:
+                bundle_root.relative_to(pack_root)
+            except ValueError as exc:
+                raise ValueError("--output-dir must stay under the pack root") from exc
+            bundle_root.mkdir(parents=True, exist_ok=False)
+
+            artifact_manifest = _copy_selected_artifacts(
+                pack_root=pack_root,
+                bundle_root=bundle_root,
+                run_root=run_root,
+                selected_files=selected_files,
+            )
+            loop_events_path = run_root / LOOP_EVENTS_NAME
+            if loop_events_path.exists():
+                _validate_loop_events(loop_events_path, args.run_id)
+            final_snapshot = run_summary.get("final_snapshot", {})
+            if not isinstance(final_snapshot, dict):
+                final_snapshot = {}
+
+            control_plane_mutations = {
+                "readiness_updated": False,
+                "work_state_updated": False,
+                "eval_latest_updated": False,
+                "deployment_updated": False,
+                "registry_updated": False,
+                "release_artifacts_updated": False,
+            }
+            bundle = {
+                "schema_version": "external-runtime-evidence-bundle/v1",
+                "export_id": export_id,
+                "generated_at": _isoformat_z(),
+                "pack_id": pack_manifest.get("pack_id"),
+                "pack_kind": "build_pack",
+                "run_id": args.run_id,
+                "exported_by": args.exported_by,
+                "bundle_root": str(bundle_root.relative_to(pack_root)),
+                "source_runtime_roots": [str(run_root.relative_to(pack_root))],
+                "authority_class": "supplementary_runtime_evidence",
+                "control_plane_mutations": control_plane_mutations,
+                "artifact_manifest": artifact_manifest,
+                "summary": {
+                    "stop_reason": run_summary.get("stop_reason"),
+                    "started_at": run_summary.get("started_at"),
+                    "ended_at": run_summary.get("ended_at"),
+                    "resume_count": run_summary.get("resume_count"),
+                    "escalation_count": run_summary.get("escalation_count"),
+                    "task_completion_rate": run_summary.get("metrics", {}).get("task_completion_rate") if isinstance(run_summary.get("metrics"), dict) else None,
+                    "readiness_state_in_selected_run": final_snapshot.get("readiness_state"),
+                    "ready_for_deployment_in_selected_run": final_snapshot.get("ready_for_deployment"),
+                },
+            }
+            _dump_json(bundle_root / "bundle.json", bundle)
+
+            result = {
+                "status": "completed",
+                "generated_at": bundle["generated_at"],
+                "export_id": export_id,
+                "bundle_root": str(bundle_root.relative_to(pack_root)),
+                "copied_artifact_paths": [entry["bundle_path"] for entry in artifact_manifest],
+            }
+            if args.output == "json":
+                print(json.dumps(result, indent=2, sort_keys=True))
+            return 0
+
+
+        if __name__ == "__main__":
+            raise SystemExit(main())
+        """
+    ).lstrip()
+
+
+def _runtime_evidence_export_command() -> str:
+    return (
+        "python3 src/pack_export_runtime_evidence.py "
+        "--pack-root . "
+        "--run-id <run-id> "
+        "--exported-by <actor> "
+        "--output-dir dist/exports/runtime-evidence "
+        "--output json"
+    )
 
 
 def _copy_template_content(template_root: Path, target_root: Path) -> tuple[list[str], list[str]]:
@@ -186,6 +463,12 @@ def _synthesize_build_pack(
     template_readiness = _load_object(template_root / "status/readiness.json")
     template_active_set = _load_object(template_root / "benchmarks/active-set.json")
     project_context_text = _load_text(template_root / "project-context.md")
+    runtime = str(template_manifest["runtime"])
+    template_entrypoints = dict(template_manifest["entrypoints"])
+    runtime_evidence_export_dir = None
+    if runtime == "python":
+        template_entrypoints["export_runtime_evidence_command"] = _runtime_evidence_export_command()
+        runtime_evidence_export_dir = "dist/exports/runtime-evidence"
 
     pack_id = str(request["target_build_pack_id"])
     display_name = str(request["target_display_name"])
@@ -194,6 +477,7 @@ def _synthesize_build_pack(
     materialized_by = str(request["materialized_by"])
     reason = str(request["materialization_reason"])
     source_template_id = str(request["source_template_id"])
+    project_goal = _extract_project_goal(template_manifest, project_context_text)
 
     pack_manifest = {
         "schema_version": "pack-manifest/v2",
@@ -215,8 +499,10 @@ def _synthesize_build_pack(
             "benchmarks/active-set.json",
             "eval/latest/index.json",
         ],
-        "entrypoints": template_manifest["entrypoints"],
-        "directory_contract": _build_directory_contract(),
+        "entrypoints": template_entrypoints,
+        "directory_contract": _build_directory_contract(
+            runtime_evidence_export_dir=runtime_evidence_export_dir,
+        ),
         "identity_source": "pack.json",
         "notes": [
             f"Materialized from template `{source_template_id}`.",
@@ -226,7 +512,7 @@ def _synthesize_build_pack(
 
     objective_id = _objective_id(pack_id)
     objective_summary = _project_context_summary(
-        project_context_text,
+        project_goal or project_context_text,
         f"Advance `{pack_id}` from materialized build-pack state to validated, benchmarked, deployment-ready state.",
     )
 
@@ -372,7 +658,9 @@ def _synthesize_build_pack(
     project_objective = {
         "schema_version": "project-objective/v1",
         "pack_id": pack_id,
-        "pack_kind": "build_pack",
+        "source_template_id": source_template_id,
+        "materialization_id": materialization_id,
+        "generated_at": generated_at,
         "objective_id": objective_id,
         "objective_summary": objective_summary,
         "problem_statement": project_context_text,
@@ -394,11 +682,13 @@ def _synthesize_build_pack(
                 "metric_id": "validation_gate_status",
                 "summary": "Validation gate reaches a passing state.",
                 "target": "validate_build_pack_contract=pass",
+                "evidence_hint": "status/readiness.json and eval/latest/index.json",
             },
             {
                 "metric_id": "benchmark_completion",
                 "summary": "All inherited readiness benchmarks complete successfully.",
                 "target": "required inherited benchmark gates=pass or waived",
+                "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
             },
         ],
         "non_goals": [
@@ -420,19 +710,21 @@ def _synthesize_build_pack(
     task_backlog = {
         "schema_version": "task-backlog/v1",
         "pack_id": pack_id,
-        "pack_kind": "build_pack",
         "objective_id": objective_id,
+        "generated_at": generated_at,
         "tasks": [
             {
                 "task_id": validation_task_id,
-                "summary": "Run the build-pack validation command and capture readiness evidence.",
+                "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
                 "status": "in_progress",
                 "objective_link": objective_id,
                 "acceptance_criteria": [
-                    "The validation command exits successfully.",
+                    "The validation readiness-evaluation workflow exits successfully.",
                     "The validation gate records passing evidence in status/readiness.json.",
                 ],
-                "validation_commands": [str(template_manifest["entrypoints"]["validation_command"])],
+                "validation_commands": [
+                    "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+                ],
                 "files_in_scope": [
                     "pack.json",
                     "status/readiness.json",
@@ -445,19 +737,21 @@ def _synthesize_build_pack(
                 ],
                 "completion_signals": [
                     "validate_build_pack_contract reaches pass state.",
-                    "Validation evidence is recorded under eval/history and linked from status/readiness.json.",
+                    "Validation evaluation evidence is recorded under eval/history and linked from status/readiness.json.",
                 ],
             },
             {
                 "task_id": benchmark_task_id,
-                "summary": "Run the inherited benchmark command after validation passes.",
+                "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
                 "status": "pending",
                 "objective_link": objective_id,
                 "acceptance_criteria": [
-                    "The benchmark command exits successfully.",
+                    "The benchmark readiness-evaluation workflow exits successfully.",
                     "Inherited benchmark gates update from not_run to pass or waived.",
                 ],
-                "validation_commands": [str(template_manifest["entrypoints"]["benchmark_command"])],
+                "validation_commands": [
+                    "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+                ],
                 "files_in_scope": [
                     "benchmarks/active-set.json",
                     "status/readiness.json",
@@ -469,16 +763,16 @@ def _synthesize_build_pack(
                     "Benchmark output fails to update readiness or eval state through the existing bounded surfaces.",
                 ],
                 "completion_signals": [
-                    "The inherited benchmark command records results in eval/latest/index.json.",
+                    "Benchmark evaluation evidence records results in eval/latest/index.json.",
                     "Required benchmark gates advance to pass or waived in status/readiness.json.",
                 ],
             },
         ],
     }
     work_state = {
-        "schema_version": "pack-work-state/v1",
+        "schema_version": "work-state/v1",
         "pack_id": pack_id,
-        "pack_kind": "build_pack",
+        "objective_id": objective_id,
         "autonomy_state": "actively_building",
         "active_task_id": validation_task_id,
         "next_recommended_task_id": validation_task_id,
@@ -511,6 +805,12 @@ def _synthesize_build_pack(
         "task_backlog": task_backlog,
         "work_state": work_state,
     }
+
+
+def _write_runtime_evidence_export_helper(target_root: Path) -> None:
+    helper_path = target_root / "src/pack_export_runtime_evidence.py"
+    helper_path.parent.mkdir(parents=True, exist_ok=True)
+    helper_path.write_text(_runtime_evidence_export_helper_source(), encoding="utf-8")
 
 
 def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
@@ -580,6 +880,10 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         write_json(target_root / "tasks/active-backlog.json", state["task_backlog"])
         write_json(target_root / "lineage/source-template.json", state["lineage"])
         write_json(target_root / "eval/latest/index.json", state["eval_latest"])
+        runtime_is_python = state["pack_manifest"]["runtime"] == "python"
+        if runtime_is_python:
+            (target_root / "dist/exports/runtime-evidence").mkdir(parents=True, exist_ok=True)
+            _write_runtime_evidence_export_helper(target_root)
 
         registry_entry = {
             "active": True,
@@ -666,6 +970,18 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                     "target_path": f"{pack_root_relative}/status",
                     "summary": "Wrote initial lifecycle, readiness, retirement, deployment, and work-state files.",
                 },
+                *(
+                    [
+                        {
+                            "action_id": "seed_runtime_evidence_export_helper",
+                            "status": "completed",
+                            "target_path": f"{pack_root_relative}/src/pack_export_runtime_evidence.py",
+                            "summary": "Seeded the standalone runtime evidence export helper for Python build packs.",
+                        }
+                    ]
+                    if runtime_is_python
+                    else []
+                ),
                 {
                     "action_id": "update_registry_entry",
                     "status": "completed",
@@ -689,6 +1005,11 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                 f"{pack_root_relative}/{report_relative}",
                 f"{pack_root_relative}/eval/latest/index.json",
                 f"{pack_root_relative}/lineage/source-template.json",
+                *(
+                    [f"{pack_root_relative}/src/pack_export_runtime_evidence.py"]
+                    if runtime_is_python
+                    else []
+                ),
             ],
         }
 

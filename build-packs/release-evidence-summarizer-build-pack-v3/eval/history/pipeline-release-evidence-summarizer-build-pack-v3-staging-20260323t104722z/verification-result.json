@@ -1,0 +1,7 @@
+{
+  "commands": [
+    "python3 -c \"print('verify')\""
+  ],
+  "failures": [],
+  "status": "passed"
+}

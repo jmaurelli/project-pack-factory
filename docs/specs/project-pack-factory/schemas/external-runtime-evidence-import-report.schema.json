@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/external-runtime-evidence-import-report.schema.json",
+  "title": "External Runtime Evidence Import Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "import_id",
+    "generated_at",
+    "status",
+    "build_pack_id",
+    "build_pack_root",
+    "bundle_manifest_path",
+    "import_reason",
+    "imported_by",
+    "hash_verification_status",
+    "copied_artifact_paths",
+    "warnings",
+    "control_plane_mutations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "external-runtime-evidence-import-report/v1"
+    },
+    "import_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed"
+      ]
+    },
+    "build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "build_pack_root": {
+      "type": "string",
+      "pattern": "^build-packs/[a-z0-9][a-z0-9_-]*$"
+    },
+    "bundle_manifest_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "import_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "imported_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hash_verification_status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "copied_artifact_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "control_plane_mutations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eval_history_written",
+        "readiness_updated",
+        "work_state_updated",
+        "eval_latest_updated",
+        "deployment_updated",
+        "registry_updated",
+        "release_artifacts_updated"
+      ],
+      "properties": {
+        "eval_history_written": {
+          "type": "boolean",
+          "const": true
+        },
+        "readiness_updated": {
+          "type": "boolean",
+          "const": false
+        },
+        "work_state_updated": {
+          "type": "boolean",
+          "const": false
+        },
+        "eval_latest_updated": {
+          "type": "boolean",
+          "const": false
+        },
+        "deployment_updated": {
+          "type": "boolean",
+          "const": false
+        },
+        "registry_updated": {
+          "type": "boolean",
+          "const": false
+        },
+        "release_artifacts_updated": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    }
+  }
+}

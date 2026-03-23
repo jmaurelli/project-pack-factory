@@ -1,0 +1,17 @@
+{
+  "artifact_paths": [
+    "src/",
+    "tests/",
+    "contracts/",
+    "docs/specs/",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "build_pack_id": "release-evidence-summarizer-build-pack-v3",
+  "built_at": "2026-03-23T10:47:38Z",
+  "release_id": "release-evidence-summarizer-v3-r1",
+  "release_state": "production",
+  "schema_version": "pack-release/v1",
+  "source_template_id": "release-evidence-summarizer-template-pack",
+  "source_template_revision": "create-template-release-evidence-summarizer-template-pack-20260322t202051z"
+}

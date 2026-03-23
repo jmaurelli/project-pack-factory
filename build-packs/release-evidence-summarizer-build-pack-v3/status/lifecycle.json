@@ -1,0 +1,12 @@
+{
+  "current_revision": "agentic-loop-post-fix",
+  "current_version": "0.3.0",
+  "lifecycle_stage": "maintained",
+  "pack_id": "release-evidence-summarizer-build-pack-v3",
+  "pack_kind": "build_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Finalized by pipeline pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z",
+  "updated_at": "2026-03-23T10:47:40Z",
+  "updated_by": "codex"
+}

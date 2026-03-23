@@ -67,11 +67,18 @@ def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: P
     assert contract["tasks_dir"] == "tasks"
     assert contract["task_backlog_file"] == "tasks/active-backlog.json"
     assert contract["work_state_file"] == "status/work-state.json"
+    assert contract["runtime_evidence_export_dir"] == "dist/exports/runtime-evidence"
+    assert manifest["entrypoints"]["export_runtime_evidence_command"] == (
+        "python3 src/pack_export_runtime_evidence.py "
+        "--pack-root . --run-id <run-id> --exported-by <actor> --output-dir dist/exports/runtime-evidence --output json"
+    )
     assert manifest["post_bootstrap_read_order"][5:8] == [
         "contracts/project-objective.json",
         "tasks/active-backlog.json",
         "status/work-state.json",
     ]
+    assert (target_root / "dist/exports/runtime-evidence").exists()
+    assert (target_root / "src/pack_export_runtime_evidence.py").exists()
 
     project_objective = load_json(target_root / "contracts/project-objective.json")
     assert project_objective["pack_id"] == "slim-build-pack"
@@ -80,6 +87,13 @@ def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: P
     task_backlog = load_json(target_root / "tasks/active-backlog.json")
     task_ids = [task["task_id"] for task in task_backlog["tasks"]]
     assert task_ids == ["run_build_pack_validation", "run_inherited_benchmarks"]
+    tasks_by_id = {task["task_id"]: task for task in task_backlog["tasks"]}
+    assert tasks_by_id["run_build_pack_validation"]["validation_commands"] == [
+        "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+    ]
+    assert tasks_by_id["run_inherited_benchmarks"]["validation_commands"] == [
+        "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+    ]
 
     work_state = load_json(target_root / "status/work-state.json")
     assert work_state["active_task_id"] == "run_build_pack_validation"

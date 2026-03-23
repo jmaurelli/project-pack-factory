@@ -1,18 +1,18 @@
 {
-  "active_environment": "production",
-  "active_release_id": "config-drift-checker-r3",
-  "active_release_path": "dist/releases/config-drift-checker-r3",
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
   "deployment_notes": [
     "Promoted to production by PackFactory."
   ],
-  "deployment_pointer_path": "deployments/production/config-drift-checker-build-pack.json",
-  "deployment_state": "production",
-  "deployment_transaction_id": "promote-config-drift-checker-build-pack-production-20260323t001443z",
-  "last_promoted_at": "2026-03-23T00:14:43Z",
+  "deployment_pointer_path": null,
+  "deployment_state": "not_deployed",
+  "deployment_transaction_id": null,
+  "last_promoted_at": null,
   "last_rollback": null,
-  "last_verified_at": "2026-03-23T00:14:41Z",
+  "last_verified_at": null,
   "pack_id": "config-drift-checker-build-pack",
   "pack_kind": "build_pack",
-  "projection_state": "projected",
+  "projection_state": "not_required",
   "schema_version": "pack-deployment/v2"
 }
