@@ -386,8 +386,64 @@
       "pipeline_id": "pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z",
       "pipeline_report_path": "eval/history/pipeline-release-evidence-summarizer-build-pack-v3-production-20260323t104738z/pipeline-report.json",
       "status": "completed"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-release-evidence-summarizer-build-pack-v4-20260323t150840z",
+      "materialization_report_path": "eval/history/materialize-release-evidence-summarizer-build-pack-v4-20260323t150840z/materialization-report.json",
+      "source_template_id": "release-evidence-summarizer-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "release-evidence-summarizer-build-pack-v4"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-live-roundtrip-build-pack-v1-20260323t180259z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-live-roundtrip-build-pack-v1-20260323t180259z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-live-roundtrip-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-memory-resume-build-pack-v1-20260323t181406z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-memory-resume-build-pack-v1-20260323t181406z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-memory-resume-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-memory-resume-build-pack-v2-20260323t181605z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-memory-resume-build-pack-v2-20260323t181605z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-memory-resume-build-pack-v2"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-resume-correctness-build-pack-v1-20260323t182006z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-resume-correctness-build-pack-v1-20260323t182006z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-resume-correctness-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-unified-memory-resume-build-pack-v1-20260323t182820z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-unified-memory-resume-build-pack-v1-20260323t182820z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-unified-memory-resume-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-resume-success-build-pack-v1-20260323t183155z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-resume-success-build-pack-v1-20260323t183155z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-resume-success-build-pack-v1"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-23T10:47:38Z"
+  "updated_at": "2026-03-23T18:31:55Z"
 }

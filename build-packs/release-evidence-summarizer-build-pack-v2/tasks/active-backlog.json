@@ -6,7 +6,7 @@
   "tasks": [
     {
       "acceptance_criteria": [
-        "The validation command exits successfully.",
+        "The validation readiness-evaluation workflow exits successfully.",
         "The validation gate records passing evidence in status/readiness.json."
       ],
       "blocked_by": [],
@@ -24,21 +24,21 @@
         "eval/latest/index.json"
       ],
       "objective_link": "release-evidence-summarizer-build-pack-v2_objective",
-      "status": "in_progress",
-      "summary": "Run the build-pack validation command and capture readiness evidence.",
+      "status": "completed",
+      "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
       "task_id": "run_build_pack_validation",
       "validation_commands": [
-        "PYTHONPATH=src python3 -m release_evidence_summarizer_template_pack validate-project-pack --project-root . --output json"
+        "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
       ]
     },
     {
       "acceptance_criteria": [
-        "The benchmark command exits successfully.",
+        "The benchmark readiness-evaluation workflow exits successfully.",
         "Inherited benchmark gates update from not_run to pass or waived."
       ],
       "blocked_by": [],
       "completion_signals": [
-        "The inherited benchmark command records results in eval/latest/index.json.",
+        "Benchmark evaluation evidence records results in eval/latest/index.json.",
         "Required benchmark gates advance to pass or waived in status/readiness.json."
       ],
       "dependencies": [
@@ -53,11 +53,11 @@
         "eval/latest/index.json"
       ],
       "objective_link": "release-evidence-summarizer-build-pack-v2_objective",
-      "status": "pending",
-      "summary": "Run the inherited benchmark command after validation passes.",
+      "status": "completed",
+      "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
       "task_id": "run_inherited_benchmarks",
       "validation_commands": [
-        "PYTHONPATH=src python3 -m release_evidence_summarizer_template_pack benchmark-smoke --project-root . --output json"
+        "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
       ]
     }
   ]

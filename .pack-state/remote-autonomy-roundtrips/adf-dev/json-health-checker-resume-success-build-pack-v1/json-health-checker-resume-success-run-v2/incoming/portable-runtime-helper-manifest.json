@@ -1,0 +1,62 @@
+{
+  "helper_entries": [
+    {
+      "relative_path": ".packfactory-runtime/tools/factory_ops.py",
+      "sha256": "b84e207292f89c494179c781aff2f7af3f4c2aee264bddaa04742ba8b4e6bca5",
+      "size_bytes": 16170
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+      "sha256": "89d7216125ba9b207ae2436fdb8396bbb7ae1f3c1329ae70e4dc2f6edee70372",
+      "size_bytes": 17585
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/record_autonomy_run.py",
+      "sha256": "b1ba28cae10847c6d8e9e92c365565e7edd18ffc7188e3242055fa96f138ac5b",
+      "size_bytes": 24969
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+      "sha256": "04d712f8830acb83ae57fb116ce7690d7b883f7de90662490d8a95f490c098e7",
+      "size_bytes": 1950
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/readiness.schema.json",
+      "sha256": "e5354daa75d7848833154e6b7350b6e26b1da2ba95280ba1ab98c0057bf2a250",
+      "size_bytes": 5761
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+      "sha256": "c51959a6e627c26eeeb49f690e329a1b61a667a575775a2a5d5594afaa21b206",
+      "size_bytes": 1801
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+      "sha256": "8c7427ea3199030ca8df7e6de55fbdbaa3ed5d9bc5251bad1d253a2247bc17a8",
+      "size_bytes": 4442
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+      "sha256": "52e084b1e0221a4bfae10d90e7b835301ef5eb0971d35a9616caa0088e329f4d",
+      "size_bytes": 7307
+    }
+  ],
+  "materialized_at": "2026-03-23T18:31:55Z",
+  "materialized_by": "codex",
+  "materializer_version": "materialize_build_pack.py/v1",
+  "portable_runtime_helper_set_version": "portable-build-pack-autonomy-runtime-helpers/v1",
+  "schema_version": "portable-runtime-helper-manifest/v1",
+  "schemas": [
+    ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+    ".packfactory-runtime/schemas/readiness.schema.json",
+    ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+    ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+    ".packfactory-runtime/schemas/autonomy-run-summary.schema.json"
+  ],
+  "seeded_by_materializer": true,
+  "tools": [
+    ".packfactory-runtime/tools/factory_ops.py",
+    ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+    ".packfactory-runtime/tools/record_autonomy_run.py"
+  ]
+}

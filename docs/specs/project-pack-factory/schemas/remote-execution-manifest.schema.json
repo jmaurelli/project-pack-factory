@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/remote-execution-manifest.schema.json",
+  "title": "Remote Execution Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_build_pack_id",
+    "run_id",
+    "request_sha256",
+    "target_manifest_sha256",
+    "remote_runner",
+    "prompt_sha256",
+    "prompt_artifact_path",
+    "bootstrap_mode",
+    "started_at",
+    "stopped_at",
+    "terminal_outcome",
+    "terminal_reason",
+    "export_status",
+    "export_command",
+    "export_bundle_path",
+    "export_completed_at",
+    "exported_run_id",
+    "export_error",
+    "control_plane_mutations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "remote-execution-manifest/v1"
+    },
+    "source_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "target_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "remote_runner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "prompt_artifact_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bootstrap_mode": {
+      "type": "string",
+      "const": "presence-check-only"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stopped_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "terminal_outcome": {
+      "type": "string",
+      "enum": [
+        "promotion_or_deployment_boundary",
+        "starter_backlog_completed",
+        "escalated",
+        "stopped",
+        "boundary_violation",
+        "export_failed"
+      ]
+    },
+    "terminal_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "export_status": {
+      "type": "string",
+      "enum": [
+        "not_attempted",
+        "succeeded",
+        "failed"
+      ]
+    },
+    "export_command": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "export_bundle_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "export_completed_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "exported_run_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "export_error": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "control_plane_mutations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registry_updated",
+        "deployment_updated",
+        "promotion_updated",
+        "readiness_updated",
+        "work_state_updated",
+        "eval_latest_updated",
+        "release_artifacts_updated"
+      ],
+      "properties": {
+        "registry_updated": {
+          "const": false
+        },
+        "deployment_updated": {
+          "const": false
+        },
+        "promotion_updated": {
+          "const": false
+        },
+        "readiness_updated": {
+          "const": false
+        },
+        "work_state_updated": {
+          "const": false
+        },
+        "eval_latest_updated": {
+          "const": false
+        },
+        "release_artifacts_updated": {
+          "const": false
+        }
+      }
+    }
+  }
+}

@@ -68,6 +68,9 @@ def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: P
     assert contract["task_backlog_file"] == "tasks/active-backlog.json"
     assert contract["work_state_file"] == "status/work-state.json"
     assert contract["runtime_evidence_export_dir"] == "dist/exports/runtime-evidence"
+    assert contract["portable_runtime_tools_dir"] == ".packfactory-runtime/tools"
+    assert contract["portable_runtime_schemas_dir"] == ".packfactory-runtime/schemas"
+    assert contract["portable_runtime_helper_manifest"] == ".packfactory-runtime/manifest.json"
     assert manifest["entrypoints"]["export_runtime_evidence_command"] == (
         "python3 src/pack_export_runtime_evidence.py "
         "--pack-root . --run-id <run-id> --exported-by <actor> --output-dir dist/exports/runtime-evidence --output json"
@@ -77,6 +80,10 @@ def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: P
         "tasks/active-backlog.json",
         "status/work-state.json",
     ]
+    agents_text = (target_root / "AGENTS.md").read_text(encoding="utf-8")
+    assert "build pack, not a source template" in agents_text
+    assert "pack.json.post_bootstrap_read_order" in agents_text
+    assert "export bounded runtime evidence when running externally" in agents_text
     assert (target_root / "dist/exports/runtime-evidence").exists()
     assert (target_root / "src/pack_export_runtime_evidence.py").exists()
 
@@ -89,11 +96,25 @@ def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: P
     assert task_ids == ["run_build_pack_validation", "run_inherited_benchmarks"]
     tasks_by_id = {task["task_id"]: task for task in task_backlog["tasks"]}
     assert tasks_by_id["run_build_pack_validation"]["validation_commands"] == [
-        "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
     ]
     assert tasks_by_id["run_inherited_benchmarks"]["validation_commands"] == [
-        "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
     ]
+    helper_manifest = load_json(target_root / ".packfactory-runtime/manifest.json")
+    assert helper_manifest["seeded_by_materializer"] is True
+    assert set(helper_manifest["tools"]) == {
+        ".packfactory-runtime/tools/factory_ops.py",
+        ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+        ".packfactory-runtime/tools/record_autonomy_run.py",
+    }
+    assert set(helper_manifest["schemas"]) >= {
+        ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+        ".packfactory-runtime/schemas/readiness.schema.json",
+        ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+        ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+        ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+    }
 
     work_state = load_json(target_root / "status/work-state.json")
     assert work_state["active_task_id"] == "run_build_pack_validation"

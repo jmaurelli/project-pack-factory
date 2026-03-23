@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "63acb2e885ab53103ff09bcde9d032fa58a4b2b2e7e99503e9fd1b2c0b82e65b",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-memory-resume-build-pack-v2/json-health-checker-memory-resume-run-v2/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "adea342b8f92a0b884df15904ad34f268c2a0ae2a47696c7771f52fd3c80adf3",
+  "portable_helper_manifest_sha256": "1768bed66975dbb6ba8067f6325d79501c90d02561858a8960f5233fcfc70d3c",
+  "pulled_at": "2026-03-23T18:16:12Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-memory-resume-build-pack-v2/json-health-checker-memory-resume-run-v2/incoming/bundle",
+  "pulled_bundle_sha256": "599634290ca390b732a7c030d4547b7ed49a277beae81aa90b3f377544b81a1c",
+  "remote_run_request_sha256": "f4b5dfdda32ce095313550271d80a664fdf16066efd127e9a0c16527369b9cf9",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-memory-resume-run-v2",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-memory-resume-build-pack-v2",
+  "target_manifest_sha256": "d19c9eb32a473b5a6fcfc1732762081022fc304bd4a30ce290ecddbf9e55bafd",
+  "wrapper_request_sha256": "64b2a193d4ff7588e97ee9793417992e3866250376c6786a590afc7ba72473dd"
+}

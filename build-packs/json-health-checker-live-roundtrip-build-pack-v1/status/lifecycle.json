@@ -1,0 +1,12 @@
+{
+  "current_revision": "live-roundtrip-v1",
+  "current_version": "0.1.1",
+  "lifecycle_stage": "testing",
+  "pack_id": "json-health-checker-live-roundtrip-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Live PackFactory end-to-end remote autonomy roundtrip proof.",
+  "updated_at": "2026-03-23T18:02:59Z",
+  "updated_by": "codex"
+}

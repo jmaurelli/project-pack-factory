@@ -1,0 +1,12 @@
+{
+  "current_revision": "unified-memory-resume-v1",
+  "current_version": "0.4.1",
+  "lifecycle_stage": "testing",
+  "pack_id": "json-health-checker-unified-memory-resume-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Live PackFactory unified successful-completion and resume-correctness proof.",
+  "updated_at": "2026-03-23T18:28:20Z",
+  "updated_by": "codex"
+}

@@ -217,6 +217,26 @@ literal ownership, financial stake, or fabricated emotion.
 8. after the operator confirms the intended pack, that pack's `project-context.md`
 9. after the operator confirms the intended pack, that pack's `pack.json`
 
+## Post-Confirmation Runtime Surfaces
+
+After the operator confirms the intended build-pack:
+
+- use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap
+  traversal list
+- use `pack.json.directory_contract` to resolve
+  `contracts/project-objective.json`, `tasks/active-backlog.json`, and
+  `status/work-state.json` when those files are declared
+- do not infer autonomy handoff files from directory contents alone
+- for eligible Python build-packs, inspect `pack.json.entrypoints` and
+  `pack.json.directory_contract` for
+  `export_runtime_evidence_command` and `runtime_evidence_export_dir` when the
+  task concerns exporting external runtime evidence
+- treat external runtime evidence import as a factory-level workflow through
+  `tools/import_external_runtime_evidence.py`, not as a pack-local runtime
+  command
+- treat exported bundles as supplementary runtime evidence only, and treat
+  imported bundles as audit-only preserved evidence under `eval/history/`
+
 ## Working Rules
 
 - treat `templates/` as canonical source templates
@@ -224,6 +244,9 @@ literal ownership, financial stake, or fabricated emotion.
 - treat `registry/` as the factory index for active and retired packs
 - treat `deployments/` as the environment assignment board, not as the deployed app contents or the full deployment workflow; retired build packs should not keep files there
 - do not auto-select a target pack from directory contents alone
+- after the operator confirms a build-pack target, keep `pack.json` as the
+  canonical traversal contract; use `AGENTS.md` for discoverability help, not
+  as a competing read-order authority
 - for startup/orientation requests, prefer a current-state summary over a file-centric acknowledgment
 - for startup/orientation requests, summarize recent work from `registry/promotion-log.json` first and use recent git commits only as a fallback for repo-level changes
 - inspect machine-readable state first, summarize likely candidate packs, and ask the operator to confirm the intended target before entering a pack
@@ -243,6 +266,8 @@ literal ownership, financial stake, or fabricated emotion.
 - when providing orientation or next-step guidance, include at least one explicit reason why the suggested direction matters to readiness, performance, ambiguity reduction, problem-solving value, or the project's next meaningful win
 - treat packs as both lifecycle artifacts and capability bets: connect active packs to user-facing or operator-facing problem categories when the evidence supports it
 - keep the broader worldview additive to the existing shallow-startup and pack-targeting rules; strategic commentary must not displace the immediate requested task
+- when the task concerns an externally running build-pack or exporting local runtime evidence, inspect `pack.json.entrypoints.export_runtime_evidence_command` and `pack.json.directory_contract.runtime_evidence_export_dir` for eligible build-packs
+- treat external runtime evidence import as a factory-level workflow via `tools/import_external_runtime_evidence.py`; do not treat it as a pack-local entrypoint
 - for outward-looking claims, prefer this evidence order: machine-readable pack state and notes, recorded workflow evidence, plain-language naming and repo docs, then cautious inference
 - if the evidence does not support a confident real-world claim, say the signal is still thin or not yet well-proven rather than manufacturing a cleaner story
 - separate `factory evidence` from `portfolio inference` when projecting outward from current packs

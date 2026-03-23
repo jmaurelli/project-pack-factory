@@ -1,0 +1,48 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "101d0d27a682d351e410483f07d3874da2d39ed2363b4feb0504ea099e691d73",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-memory-resume-run-v2/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "81922b9bad2b367965d50b2a50b5efb1860d5a20354381df902fef5450637ff4",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-memory-resume-run-v2/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-memory-resume-run-v2-20260323T181609Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-json-health-checker-memory-resume-run-v2-20260323T181609Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-23T18:16:09Z",
+  "pack_id": "json-health-checker-memory-resume-build-pack-v2",
+  "pack_kind": "build_pack",
+  "run_id": "json-health-checker-memory-resume-run-v2",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/json-health-checker-memory-resume-run-v2"
+  ],
+  "summary": {
+    "ended_at": "2026-03-23T18:16:09Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 2,
+    "started_at": "2026-03-23T18:16:09Z",
+    "stop_reason": "starter_backlog_completed",
+    "task_completion_rate": 1.0
+  }
+}

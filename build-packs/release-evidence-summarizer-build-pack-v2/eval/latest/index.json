@@ -2,14 +2,14 @@
   "benchmark_results": [
     {
       "benchmark_id": "release-evidence-summarizer-template-pack-smoke-small-001",
-      "latest_run_id": "materialize-release-evidence-summarizer-build-pack-v2-20260323t021354z",
-      "run_artifact_path": "eval/history/materialize-release-evidence-summarizer-build-pack-v2-20260323t021354z/materialization-report.json",
-      "status": "not_run",
-      "summary_artifact_path": "eval/history/materialize-release-evidence-summarizer-build-pack-v2-20260323t021354z/materialization-report.json"
+      "latest_run_id": "readiness-eval-release-evidence-summarizer-build-pack-v2-benchmark-20260323t145803z",
+      "run_artifact_path": "eval/history/readiness-eval-release-evidence-summarizer-build-pack-v2-benchmark-20260323t145803z/benchmark-result.json",
+      "status": "pass",
+      "summary_artifact_path": "eval/history/readiness-eval-release-evidence-summarizer-build-pack-v2-benchmark-20260323t145803z/benchmark-result.json"
     }
   ],
   "pack_id": "release-evidence-summarizer-build-pack-v2",
   "pack_kind": "build_pack",
   "schema_version": "pack-eval-index/v1",
-  "updated_at": "2026-03-23T02:13:54Z"
+  "updated_at": "2026-03-23T14:58:03Z"
 }

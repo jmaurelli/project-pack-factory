@@ -1,0 +1,9 @@
+{
+  "checkpoint_stage": "after_validation",
+  "memory_kind": "resume_seed",
+  "next_task": "run_inherited_benchmarks",
+  "recorded_at": "2026-03-23T18:20:07Z",
+  "validation_evidence_paths": [
+    "eval/history/json-health-checker-resume-correctness-run-v1-seed-validation/validation-result.json"
+  ]
+}

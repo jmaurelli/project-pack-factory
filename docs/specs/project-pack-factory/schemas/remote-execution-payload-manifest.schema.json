@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/remote-execution-payload-manifest.schema.json",
+  "title": "Remote Execution Payload Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "payload_policy_version",
+    "source_build_pack_id",
+    "source_build_pack_root",
+    "run_id",
+    "remote_target_label",
+    "remote_parent_dir",
+    "remote_pack_dir",
+    "remote_run_dir",
+    "remote_export_dir",
+    "remote_host",
+    "remote_user",
+    "request_sha256",
+    "staged_at",
+    "staged_by",
+    "transport_mode",
+    "excluded_paths",
+    "payload_entries",
+    "control_plane_mutations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "remote-execution-payload-manifest/v1"
+    },
+    "payload_policy_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "source_build_pack_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "remote_target_label": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "remote_parent_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_pack_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_run_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_export_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_host": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_user": {
+      "type": "string",
+      "minLength": 1
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "staged_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "staged_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "transport_mode": {
+      "type": "string",
+      "enum": [
+        "rsync",
+        "scp",
+        "local-copy"
+      ]
+    },
+    "excluded_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "payload_entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "relative_path",
+          "sha256",
+          "size_bytes"
+        ],
+        "properties": {
+          "relative_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "control_plane_mutations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registry_updated",
+        "deployment_updated",
+        "promotion_updated",
+        "readiness_updated",
+        "work_state_updated",
+        "eval_latest_updated",
+        "release_artifacts_updated"
+      ],
+      "properties": {
+        "registry_updated": {
+          "const": false
+        },
+        "deployment_updated": {
+          "const": false
+        },
+        "promotion_updated": {
+          "const": false
+        },
+        "readiness_updated": {
+          "const": false
+        },
+        "work_state_updated": {
+          "const": false
+        },
+        "eval_latest_updated": {
+          "const": false
+        },
+        "release_artifacts_updated": {
+          "const": false
+        }
+      }
+    }
+  }
+}

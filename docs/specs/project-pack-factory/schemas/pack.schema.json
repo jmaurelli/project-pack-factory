@@ -303,6 +303,39 @@
         "local_state_dir": {
           "type": "string",
           "const": ".pack-state"
+        },
+        "portable_runtime_tools_dir": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": ".packfactory-runtime/tools"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portable_runtime_schemas_dir": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": ".packfactory-runtime/schemas"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portable_runtime_helper_manifest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": ".packfactory-runtime/manifest.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       }
     },

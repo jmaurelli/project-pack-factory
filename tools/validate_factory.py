@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -11,7 +12,13 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from factory_ops import resolve_factory_root, validate_json_document, validate_schema_file, load_json
+from factory_ops import (
+    load_json,
+    path_is_relative_to,
+    resolve_factory_root,
+    validate_json_document,
+    validate_schema_file,
+)
 
 
 SCHEMA_BY_RELATIVE_PATH = {
@@ -30,6 +37,28 @@ AUTONOMY_SCHEMA_BY_CONTRACT_KEY = {
     "work_state_file": "work-state.schema.json",
 }
 AUTONOMY_CONTRACT_KEYS = tuple(AUTONOMY_SCHEMA_BY_CONTRACT_KEY.keys()) + ("tasks_dir",)
+PORTABLE_RUNTIME_HELPER_CONTRACT_KEYS = (
+    "portable_runtime_tools_dir",
+    "portable_runtime_schemas_dir",
+    "portable_runtime_helper_manifest",
+)
+PORTABLE_RUNTIME_HELPER_MANIFEST_SCHEMA = "portable-runtime-helper-manifest.schema.json"
+REQUIRED_PORTABLE_RUNTIME_TOOL_PATHS = {
+    ".packfactory-runtime/tools/factory_ops.py",
+    ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+    ".packfactory-runtime/tools/record_autonomy_run.py",
+}
+REQUIRED_PORTABLE_RUNTIME_SCHEMA_PATHS = {
+    ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+    ".packfactory-runtime/schemas/readiness.schema.json",
+    ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+    ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+    ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+}
+EXPECTED_PORTABLE_STARTER_COMMANDS = {
+    "run_build_pack_validation": "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop",
+    "run_inherited_benchmarks": "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop",
+}
 FINAL_TASK_STATUSES = {"completed", "escalated", "cancelled"}
 ACTIVE_AUTONOMY_STATES = {
     "actively_building",
@@ -306,6 +335,7 @@ def _validate_pack_documents(pack_root: Path, manifest: dict[str, Any], errors: 
         errors.extend(validate_json_document(document_path, schema_root / schema_name))
 
     _validate_autonomy_documents(pack_root, manifest, schema_root, errors)
+    _validate_portable_runtime_helpers(pack_root, manifest, schema_root, errors)
 
     retirement_state = _load_object(pack_root / "status/retirement.json")
     report_path = retirement_state.get("retirement_report_path")
@@ -420,6 +450,254 @@ def _validate_autonomy_documents(
         if active_task_id in blocked_task_ids:
             errors.append(
                 f"{pack_root / contract['work_state_file']}: blocked_task_ids must not include the active task"
+            )
+
+
+def _iter_files(root: Path) -> list[Path]:
+    if not root.exists():
+        return []
+    return sorted(path for path in root.rglob("*") if path.is_file())
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(8192), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _relative_paths(pack_root: Path, root: Path) -> list[str]:
+    return sorted(path.relative_to(pack_root).as_posix() for path in _iter_files(root))
+
+
+def _resolve_contract_path(pack_root: Path, relative_value: str) -> Path:
+    if Path(relative_value).is_absolute():
+        raise ValueError("directory_contract paths must be relative")
+    return (pack_root / relative_value).resolve()
+
+
+def _validate_portable_runtime_helpers(
+    pack_root: Path,
+    manifest: dict[str, Any],
+    schema_root: Path,
+    errors: list[str],
+) -> None:
+    contract = manifest.get("directory_contract")
+    if not isinstance(contract, dict):
+        return
+
+    portable_contract = {
+        key: contract.get(key)
+        for key in PORTABLE_RUNTIME_HELPER_CONTRACT_KEYS
+        if contract.get(key) is not None
+    }
+    if not portable_contract:
+        return
+
+    for key in PORTABLE_RUNTIME_HELPER_CONTRACT_KEYS:
+        value = contract.get(key)
+        if not isinstance(value, str):
+            errors.append(
+                f"{pack_root / 'pack.json'}: directory_contract.{key} must be a string when portable runtime helpers are declared"
+            )
+
+    tools_relative = contract.get("portable_runtime_tools_dir")
+    schemas_relative = contract.get("portable_runtime_schemas_dir")
+    manifest_relative = contract.get("portable_runtime_helper_manifest")
+    if not all(isinstance(value, str) for value in (tools_relative, schemas_relative, manifest_relative)):
+        return
+
+    try:
+        tools_dir = _resolve_contract_path(pack_root, tools_relative)
+        schemas_dir = _resolve_contract_path(pack_root, schemas_relative)
+        helper_manifest_path = _resolve_contract_path(pack_root, manifest_relative)
+    except ValueError as exc:
+        errors.append(f"{pack_root / 'pack.json'}: {exc}")
+        return
+    for resolved_path, key in (
+        (tools_dir, "portable_runtime_tools_dir"),
+        (schemas_dir, "portable_runtime_schemas_dir"),
+        (helper_manifest_path, "portable_runtime_helper_manifest"),
+    ):
+        if not path_is_relative_to(resolved_path, pack_root):
+            errors.append(f"{pack_root / 'pack.json'}: directory_contract.{key} must stay under the pack root")
+            return
+    if not (tools_dir.exists() and schemas_dir.exists() and helper_manifest_path.exists()):
+        return
+
+    errors.extend(
+        validate_json_document(
+            helper_manifest_path,
+            schema_root / PORTABLE_RUNTIME_HELPER_MANIFEST_SCHEMA,
+        )
+    )
+
+    helper_manifest = _load_object_if_present(
+        helper_manifest_path,
+        errors,
+        label="portable runtime helper manifest",
+    )
+    if helper_manifest is None:
+        return
+
+    declared_tools = helper_manifest.get("tools", [])
+    declared_schemas = helper_manifest.get("schemas", [])
+    helper_entries = helper_manifest.get("helper_entries", [])
+
+    actual_tools = _relative_paths(pack_root, tools_dir)
+    actual_schemas = _relative_paths(pack_root, schemas_dir)
+    actual_helper_files = sorted({*actual_tools, *actual_schemas})
+
+    if not isinstance(declared_tools, list) or not all(isinstance(path, str) for path in declared_tools):
+        errors.append(f"{helper_manifest_path}: tools must be an array of strings")
+        declared_tools = []
+    elif len(set(declared_tools)) != len(declared_tools):
+        errors.append(f"{helper_manifest_path}: tools must not contain duplicate paths")
+    if not isinstance(declared_schemas, list) or not all(isinstance(path, str) for path in declared_schemas):
+        errors.append(f"{helper_manifest_path}: schemas must be an array of strings")
+        declared_schemas = []
+    elif len(set(declared_schemas)) != len(declared_schemas):
+        errors.append(f"{helper_manifest_path}: schemas must not contain duplicate paths")
+    if not isinstance(helper_entries, list):
+        errors.append(f"{helper_manifest_path}: helper_entries must be an array")
+        helper_entries = []
+    elif len({entry.get('relative_path') for entry in helper_entries if isinstance(entry, dict)}) != len(helper_entries):
+        errors.append(f"{helper_manifest_path}: helper_entries must not contain duplicate relative_path values")
+
+    declared_tool_set = set(declared_tools)
+    actual_tool_set = set(actual_tools)
+    missing_tool_declarations = sorted(actual_tool_set - declared_tool_set)
+    stale_tool_declarations = sorted(declared_tool_set - actual_tool_set)
+    if missing_tool_declarations:
+        errors.append(
+            f"{helper_manifest_path}: tools must enumerate the actual helper files present in `{tools_relative}`; missing `{', '.join(missing_tool_declarations)}`"
+        )
+    if stale_tool_declarations:
+        errors.append(
+            f"{helper_manifest_path}: tools references missing helper files: {', '.join(stale_tool_declarations)}"
+        )
+
+    declared_schema_set = set(declared_schemas)
+    actual_schema_set = set(actual_schemas)
+    missing_schema_declarations = sorted(actual_schema_set - declared_schema_set)
+    stale_schema_declarations = sorted(declared_schema_set - actual_schema_set)
+    if missing_schema_declarations:
+        errors.append(
+            f"{helper_manifest_path}: schemas must enumerate the actual helper files present in `{schemas_relative}`; missing `{', '.join(missing_schema_declarations)}`"
+        )
+    if stale_schema_declarations:
+        errors.append(
+            f"{helper_manifest_path}: schemas references missing helper files: {', '.join(stale_schema_declarations)}"
+        )
+    missing_required_tools = sorted(REQUIRED_PORTABLE_RUNTIME_TOOL_PATHS - actual_tool_set)
+    if missing_required_tools:
+        errors.append(
+            f"{helper_manifest_path}: portable runtime helper tools are missing required files: {', '.join(missing_required_tools)}"
+        )
+    missing_required_schemas = sorted(REQUIRED_PORTABLE_RUNTIME_SCHEMA_PATHS - actual_schema_set)
+    if missing_required_schemas:
+        errors.append(
+            f"{helper_manifest_path}: portable runtime helper schemas are missing required files: {', '.join(missing_required_schemas)}"
+        )
+    for schema_relative in sorted(actual_schema_set):
+        errors.extend(validate_schema_file(pack_root / schema_relative))
+
+    declared_helper_entries: dict[str, dict[str, Any]] = {}
+    for entry in helper_entries:
+        if not isinstance(entry, dict):
+            errors.append(f"{helper_manifest_path}: helper_entries must contain objects")
+            continue
+        relative_path = entry.get("relative_path")
+        if not isinstance(relative_path, str):
+            errors.append(f"{helper_manifest_path}: helper_entries[].relative_path must be a string")
+            continue
+        entry_path = pack_root / relative_path
+        resolved_entry_path = entry_path.resolve()
+        if not path_is_relative_to(resolved_entry_path, pack_root):
+            errors.append(f"{helper_manifest_path}: helper_entries[].relative_path must stay under the pack root")
+            continue
+        if not entry_path.exists():
+            errors.append(f"{entry_path}: helper entry referenced by manifest is missing")
+            continue
+        if not (
+            path_is_relative_to(resolved_entry_path, tools_dir)
+            or path_is_relative_to(resolved_entry_path, schemas_dir)
+        ):
+            errors.append(
+                f"{helper_manifest_path}: helper_entries[].relative_path must reference the declared portable helper tool or schema directories"
+            )
+            continue
+        declared_helper_entries[relative_path] = entry
+
+    declared_helper_entry_paths = set(declared_helper_entries)
+    actual_helper_path_set = set(actual_helper_files)
+    missing_helper_entries = sorted(actual_helper_path_set - declared_helper_entry_paths)
+    stale_helper_entries = sorted(declared_helper_entry_paths - actual_helper_path_set)
+    if missing_helper_entries:
+        errors.append(
+            f"{helper_manifest_path}: helper_entries must enumerate the actual helper files present; missing `{', '.join(missing_helper_entries)}`"
+        )
+    if stale_helper_entries:
+        errors.append(
+            f"{helper_manifest_path}: helper_entries references missing helper files: {', '.join(stale_helper_entries)}"
+        )
+
+    for relative_path, entry in sorted(declared_helper_entries.items()):
+        entry_path = pack_root / relative_path
+        sha256 = entry.get("sha256")
+        size_bytes = entry.get("size_bytes")
+        if not isinstance(sha256, str) or not isinstance(size_bytes, int):
+            continue
+        actual_sha256 = _sha256_file(entry_path)
+        actual_size = entry_path.stat().st_size
+        if sha256 != actual_sha256:
+            errors.append(f"{entry_path}: helper entry sha256 must match the file contents")
+        if size_bytes != actual_size:
+            errors.append(f"{entry_path}: helper entry size_bytes must match the file size")
+
+    for helper_path in _iter_files(tools_dir):
+        try:
+            contents = helper_path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            errors.append(f"{helper_path}: portable helper files must be UTF-8 text")
+            continue
+        if "../../tools/" in contents:
+            errors.append(
+                f"{helper_path}: portable helper files must not contain factory-relative fallback references like `../../tools/`"
+            )
+
+    task_backlog_path = contract.get("task_backlog_file")
+    if not isinstance(task_backlog_path, str):
+        return
+    task_backlog = _load_object_if_present(
+        pack_root / task_backlog_path,
+        errors,
+        label="task backlog required for portable helper validation",
+    )
+    if task_backlog is None:
+        return
+    tasks = task_backlog.get("tasks", [])
+    if not isinstance(tasks, list):
+        return
+    for task in tasks:
+        if not isinstance(task, dict):
+            continue
+        task_id = task.get("task_id")
+        validation_commands = task.get("validation_commands", [])
+        if not isinstance(validation_commands, list):
+            errors.append(f"{pack_root / task_backlog_path}: validation_commands must be an array when portable helpers are declared")
+            continue
+        for command in validation_commands:
+            if isinstance(command, str) and "../../tools/" in command:
+                errors.append(
+                    f"{pack_root / task_backlog_path}: validation_commands must not retain factory-relative helper references like `../../tools/` when portable helpers are declared"
+                )
+                break
+        expected_command = EXPECTED_PORTABLE_STARTER_COMMANDS.get(task_id)
+        if expected_command is not None and validation_commands[:1] != [expected_command]:
+            errors.append(
+                f"{pack_root / task_backlog_path}: `{task_id}` must start with the canonical portable helper command"
             )
 
 

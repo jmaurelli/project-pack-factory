@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/portable-runtime-helper-manifest.schema.json",
+  "title": "Portable Runtime Helper Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "portable_runtime_helper_set_version",
+    "materialized_at",
+    "materialized_by",
+    "materializer_version",
+    "tools",
+    "schemas",
+    "helper_entries",
+    "seeded_by_materializer"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "portable-runtime-helper-manifest/v1"
+    },
+    "portable_runtime_helper_set_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "materialized_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "materialized_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "materializer_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tools": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "schemas": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "helper_entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "relative_path",
+          "sha256",
+          "size_bytes"
+        ],
+        "properties": {
+          "relative_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "seeded_by_materializer": {
+      "type": "boolean"
+    }
+  }
+}

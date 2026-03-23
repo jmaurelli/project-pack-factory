@@ -1,0 +1,26 @@
+{
+  "active_task_id": "run_build_pack_validation",
+  "autonomy_state": "actively_building",
+  "blocked_task_ids": [],
+  "completed_task_ids": [],
+  "escalation_state": "none",
+  "last_agent_action": "Materialized the build-pack and seeded objective, backlog, and work-state files.",
+  "last_outcome": "stopped",
+  "last_outcome_at": "2026-03-23T18:28:20Z",
+  "last_validation_results": [],
+  "next_recommended_task_id": "run_build_pack_validation",
+  "objective_id": "json-health-checker-unified-memory-resume-build-pack-v1_objective",
+  "pack_id": "json-health-checker-unified-memory-resume-build-pack-v1",
+  "pending_task_ids": [
+    "run_inherited_benchmarks"
+  ],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Run the validation task before attempting benchmark execution or deployment workflows."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}

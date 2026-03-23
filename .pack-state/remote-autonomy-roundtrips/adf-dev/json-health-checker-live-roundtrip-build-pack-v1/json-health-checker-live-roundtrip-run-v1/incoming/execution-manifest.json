@@ -1,0 +1,30 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-live-roundtrip-run-v1-20260323T180304Z",
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id json-health-checker-live-roundtrip-run-v1 --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": "2026-03-23T18:03:04Z",
+  "export_error": null,
+  "export_status": "succeeded",
+  "exported_run_id": "json-health-checker-live-roundtrip-run-v1",
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "aeaadb7137030c4690aae241d249d269630f17f19660852d93328870fcdf6bc4",
+  "remote_runner": "python3 - <<'PY'\nfrom __future__ import annotations\n\nimport json\nimport subprocess\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\ndef now() -> str:\n    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')\n\ndef run_step(mode: str, eval_run_id: str) -> dict[str, object]:\n    completed = subprocess.run(\n        [\n            'python3',\n            '.packfactory-runtime/tools/run_build_pack_readiness_eval.py',\n            '--pack-root',\n            '.',\n            '--mode',\n            mode,\n            '--invoked-by',\n            'remote-autonomy-loop',\n            '--eval-run-id',\n            eval_run_id,\n        ],\n        text=True,\n        capture_output=True,\n        check=False,\n    )\n    if completed.returncode != 0:\n        raise SystemExit(completed.stderr.strip() or completed.stdout.strip() or f'{mode} failed')\n    payload = json.loads(completed.stdout)\n    if payload.get('status') != 'completed':\n        raise SystemExit(json.dumps(payload, sort_keys=True))\n    return payload\n\nvalidation = run_step('validation-only', 'json-health-checker-live-roundtrip-run-v1-validation')\nbenchmark = run_step('benchmark-only', 'json-health-checker-live-roundtrip-run-v1-benchmark')\n\ntasks_path = Path('tasks/active-backlog.json')\ntasks_doc = json.loads(tasks_path.read_text(encoding='utf-8'))\ncompleted_ids: list[str] = []\nfor task in tasks_doc.get('tasks', []):\n    if not isinstance(task, dict):\n        continue\n    task_id = task.get('task_id')\n    if task_id in {'run_build_pack_validation', 'run_inherited_benchmarks'}:\n        task['status'] = 'completed'\n        completed_ids.append(str(task_id))\ntasks_path.write_text(json.dumps(tasks_doc, indent=2, sort_keys=True) + '\\n', encoding='utf-8')\n\nwork_state_path = Path('status/work-state.json')\nwork_state = json.loads(work_state_path.read_text(encoding='utf-8'))\ntimestamp = now()\nwork_state.update({\n    'autonomy_state': 'ready_for_deploy',\n    'active_task_id': None,\n    'next_recommended_task_id': None,\n    'pending_task_ids': [],\n    'blocked_task_ids': [],\n    'completed_task_ids': completed_ids,\n    'last_outcome': 'task_completed',\n    'last_outcome_at': timestamp,\n    'last_validation_results': [\n        {\n            'validation_id': 'run_build_pack_validation',\n            'status': 'pass',\n            'summary': 'Completed the bounded validation-only readiness step through the portable runtime helper.',\n            'evidence_paths': list(validation.get('evidence_paths', [])),\n            'recorded_at': validation.get('generated_at'),\n        },\n        {\n            'validation_id': 'run_inherited_benchmarks',\n            'status': 'pass',\n            'summary': 'Completed the bounded benchmark-only readiness step through the portable runtime helper.',\n            'evidence_paths': list(benchmark.get('evidence_paths', [])),\n            'recorded_at': benchmark.get('generated_at'),\n        },\n    ],\n    'last_agent_action': 'Completed the starter backlog through the portable runtime helper and stopped at the promotion or deployment boundary.',\n    'escalation_state': 'none',\n})\nwork_state_path.write_text(json.dumps(work_state, indent=2, sort_keys=True) + '\\n', encoding='utf-8')\n\nprint(json.dumps({\n    'status': 'completed',\n    'validation_eval_run_id': validation.get('eval_run_id'),\n    'benchmark_eval_run_id': benchmark.get('eval_run_id'),\n    'completed_task_ids': completed_ids,\n}, sort_keys=True))\nPY",
+  "request_sha256": "795d711b9f1a980fa58b33ca36965f7a0419c600383cc50659304f81a29854e9",
+  "run_id": "json-health-checker-live-roundtrip-run-v1",
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "json-health-checker-live-roundtrip-build-pack-v1",
+  "started_at": "2026-03-23T18:03:03Z",
+  "stopped_at": "2026-03-23T18:03:04Z",
+  "target_manifest_sha256": "31e5f2d65535c2eea33dee9b0d9c16cd674eca08d4b2efc65ca67ff37a630453",
+  "terminal_outcome": "promotion_or_deployment_boundary",
+  "terminal_reason": "starter_backlog_completed"
+}

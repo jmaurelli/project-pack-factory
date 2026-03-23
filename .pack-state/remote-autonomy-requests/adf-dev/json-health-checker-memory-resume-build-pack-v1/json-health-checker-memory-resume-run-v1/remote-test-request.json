@@ -1,0 +1,10 @@
+{
+  "import_bundle": true,
+  "import_reason": "Live PackFactory memory-use and resume roundtrip import.",
+  "imported_by": "codex",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-memory-resume-build-pack-v1/json-health-checker-memory-resume-run-v1/incoming",
+  "pull_bundle": true,
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-memory-resume-build-pack-v1/json-health-checker-memory-resume-run-v1/remote-run-request.json",
+  "schema_version": "remote-autonomy-test-request/v1",
+  "test_reason": "Live PackFactory end-to-end remote autonomy memory and resume workflow."
+}

@@ -170,8 +170,141 @@
       "retired_at": null,
       "retirement_file": "status/retirement.json",
       "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/release-evidence-summarizer-build-pack-v4/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `release-evidence-summarizer-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-release-evidence-summarizer-build-pack-v4-20260323t150840z"
+      ],
+      "pack_id": "release-evidence-summarizer-build-pack-v4",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/release-evidence-summarizer-build-pack-v4",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/json-health-checker-live-roundtrip-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-live-roundtrip-build-pack-v1-20260323t180259z"
+      ],
+      "pack_id": "json-health-checker-live-roundtrip-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-live-roundtrip-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/json-health-checker-memory-resume-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-memory-resume-build-pack-v1-20260323t181406z"
+      ],
+      "pack_id": "json-health-checker-memory-resume-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-memory-resume-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/json-health-checker-memory-resume-build-pack-v2/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-memory-resume-build-pack-v2-20260323t181605z"
+      ],
+      "pack_id": "json-health-checker-memory-resume-build-pack-v2",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-memory-resume-build-pack-v2",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/json-health-checker-resume-correctness-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-resume-correctness-build-pack-v1-20260323t182006z"
+      ],
+      "pack_id": "json-health-checker-resume-correctness-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-resume-correctness-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/json-health-checker-unified-memory-resume-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-unified-memory-resume-build-pack-v1-20260323t182820z"
+      ],
+      "pack_id": "json-health-checker-unified-memory-resume-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-unified-memory-resume-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/json-health-checker-resume-success-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-resume-success-build-pack-v1-20260323t183155z"
+      ],
+      "pack_id": "json-health-checker-resume-success-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-resume-success-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-23T10:47:40Z"
+  "updated_at": "2026-03-23T18:31:55Z"
 }

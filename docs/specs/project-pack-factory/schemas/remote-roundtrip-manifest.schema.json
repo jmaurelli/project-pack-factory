@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/remote-roundtrip-manifest.schema.json",
+  "title": "Remote Roundtrip Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "wrapper_request_sha256",
+    "remote_run_request_sha256",
+    "source_build_pack_id",
+    "run_id",
+    "remote_target_label",
+    "target_manifest_sha256",
+    "execution_manifest_sha256",
+    "portable_helper_manifest_sha256",
+    "pulled_bundle_path",
+    "pulled_bundle_sha256",
+    "pulled_at",
+    "generated_import_request_path",
+    "generated_import_request_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "remote-roundtrip-manifest/v1"
+    },
+    "wrapper_request_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "remote_run_request_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "remote_target_label": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "target_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "execution_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "portable_helper_manifest_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "pulled_bundle_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pulled_bundle_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "pulled_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "generated_import_request_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "generated_import_request_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

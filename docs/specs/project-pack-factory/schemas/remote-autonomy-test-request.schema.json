@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/remote-autonomy-test-request.schema.json",
+  "title": "Remote Autonomy Test Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "remote_run_request_path",
+    "local_bundle_staging_dir",
+    "pull_bundle",
+    "import_bundle",
+    "imported_by",
+    "import_reason",
+    "test_reason"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "remote-autonomy-test-request/v1"
+    },
+    "remote_run_request_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_bundle_staging_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pull_bundle": {
+      "type": "boolean"
+    },
+    "import_bundle": {
+      "type": "boolean"
+    },
+    "imported_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "import_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "test_reason": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

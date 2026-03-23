@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import sys
@@ -65,6 +66,25 @@ TRANSIENT_NAMES = {
     ".mypy_cache",
     ".venv",
 }
+
+PORTABLE_RUNTIME_ROOT = ".packfactory-runtime"
+PORTABLE_RUNTIME_TOOLS_DIR = f"{PORTABLE_RUNTIME_ROOT}/tools"
+PORTABLE_RUNTIME_SCHEMAS_DIR = f"{PORTABLE_RUNTIME_ROOT}/schemas"
+PORTABLE_RUNTIME_HELPER_MANIFEST = f"{PORTABLE_RUNTIME_ROOT}/manifest.json"
+PORTABLE_RUNTIME_HELPER_SET_VERSION = "portable-build-pack-autonomy-runtime-helpers/v1"
+PORTABLE_RUNTIME_MATERIALIZER_VERSION = "materialize_build_pack.py/v1"
+PORTABLE_RUNTIME_SCHEMA_FILENAMES = (
+    "portable-runtime-helper-manifest.schema.json",
+    "readiness.schema.json",
+    "eval-latest-index.schema.json",
+    "autonomy-loop-event.schema.json",
+    "autonomy-run-summary.schema.json",
+)
+PORTABLE_RUNTIME_TOOL_FILENAMES = (
+    "factory_ops.py",
+    "run_build_pack_readiness_eval.py",
+    "record_autonomy_run.py",
+)
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -144,7 +164,13 @@ def _extract_project_goal(template_manifest: dict[str, Any], project_context_tex
     return None
 
 
-def _build_directory_contract(*, runtime_evidence_export_dir: str | None = None) -> dict[str, Any]:
+def _build_directory_contract(
+    *,
+    runtime_evidence_export_dir: str | None = None,
+    portable_runtime_tools_dir: str | None = None,
+    portable_runtime_schemas_dir: str | None = None,
+    portable_runtime_helper_manifest: str | None = None,
+) -> dict[str, Any]:
     contract = {
         "docs_dir": "docs",
         "prompts_dir": "prompts",
@@ -172,6 +198,9 @@ def _build_directory_contract(*, runtime_evidence_export_dir: str | None = None)
         "immutable_release_dir": "dist/releases",
         "template_export_dir": None,
         "local_state_dir": ".pack-state",
+        "portable_runtime_tools_dir": portable_runtime_tools_dir,
+        "portable_runtime_schemas_dir": portable_runtime_schemas_dir,
+        "portable_runtime_helper_manifest": portable_runtime_helper_manifest,
     }
     if runtime_evidence_export_dir is not None:
         contract["runtime_evidence_export_dir"] = runtime_evidence_export_dir
@@ -432,6 +461,42 @@ def _runtime_evidence_export_command() -> str:
     )
 
 
+def _build_pack_agents_text(
+    *,
+    pack_id: str,
+    display_name: str,
+    source_template_id: str,
+    runtime_is_python: bool,
+) -> str:
+    lines = [
+        f"# {display_name} Build Pack Agent Context",
+        "",
+        "This directory is a PackFactory build pack, not a source template.",
+        "",
+        "Read `status/lifecycle.json`, `status/readiness.json`, and `status/deployment.json` first.",
+        "Then read `pack.json` and use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap traversal contract.",
+        "When `pack.json.directory_contract` declares `contracts/project-objective.json`, `tasks/active-backlog.json`, or `status/work-state.json`, read those files as canonical pack-local control-plane handoff files.",
+        "Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.",
+    ]
+    if runtime_is_python:
+        lines.extend(
+            [
+                "",
+                "This build pack can export bounded runtime evidence when running externally.",
+                "Use `pack.json.entrypoints.export_runtime_evidence_command` when that capability is present.",
+                "Export bundles remain supplementary runtime evidence only.",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            f"Derived from template `{source_template_id}`.",
+            f"Pack id: `{pack_id}`.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
 def _copy_template_content(template_root: Path, target_root: Path) -> tuple[list[str], list[str]]:
     copied_paths: list[str] = []
     skipped_paths: list[str] = sorted(SKIP_ROOT_NAMES | {"eval", "dist"})
@@ -466,7 +531,8 @@ def _synthesize_build_pack(
     runtime = str(template_manifest["runtime"])
     template_entrypoints = dict(template_manifest["entrypoints"])
     runtime_evidence_export_dir = None
-    if runtime == "python":
+    portability_enabled = runtime == "python"
+    if portability_enabled:
         template_entrypoints["export_runtime_evidence_command"] = _runtime_evidence_export_command()
         runtime_evidence_export_dir = "dist/exports/runtime-evidence"
 
@@ -502,6 +568,9 @@ def _synthesize_build_pack(
         "entrypoints": template_entrypoints,
         "directory_contract": _build_directory_contract(
             runtime_evidence_export_dir=runtime_evidence_export_dir,
+            portable_runtime_tools_dir=PORTABLE_RUNTIME_TOOLS_DIR if portability_enabled else None,
+            portable_runtime_schemas_dir=PORTABLE_RUNTIME_SCHEMAS_DIR if portability_enabled else None,
+            portable_runtime_helper_manifest=PORTABLE_RUNTIME_HELPER_MANIFEST if portability_enabled else None,
         ),
         "identity_source": "pack.json",
         "notes": [
@@ -723,7 +792,9 @@ def _synthesize_build_pack(
                     "The validation gate records passing evidence in status/readiness.json.",
                 ],
                 "validation_commands": [
-                    "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+                    _portable_runtime_command("validation-only")
+                    if portability_enabled
+                    else "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
                 ],
                 "files_in_scope": [
                     "pack.json",
@@ -750,7 +821,9 @@ def _synthesize_build_pack(
                     "Inherited benchmark gates update from not_run to pass or waived.",
                 ],
                 "validation_commands": [
-                    "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+                    _portable_runtime_command("benchmark-only")
+                    if portability_enabled
+                    else "python3 ../../tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
                 ],
                 "files_in_scope": [
                     "benchmarks/active-set.json",
@@ -813,9 +886,95 @@ def _write_runtime_evidence_export_helper(target_root: Path) -> None:
     helper_path.write_text(_runtime_evidence_export_helper_source(), encoding="utf-8")
 
 
+def _portable_runtime_helper_source_root() -> Path:
+    return SCRIPT_DIR / "portable_runtime_helpers"
+
+
+def _portable_runtime_schema_source_root(factory_root: Path) -> Path:
+    return factory_root / "docs/specs/project-pack-factory/schemas"
+
+
+def _portable_runtime_command(mode: str) -> str:
+    return (
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py "
+        f"--pack-root . --mode {mode} --invoked-by autonomous-loop"
+    )
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _seed_portable_runtime_helpers(
+    *,
+    factory_root: Path,
+    target_root: Path,
+    generated_at: str,
+    materialized_by: str,
+) -> dict[str, Any]:
+    helper_source_root = _portable_runtime_helper_source_root()
+    schema_source_root = _portable_runtime_schema_source_root(factory_root)
+    runtime_root = target_root / PORTABLE_RUNTIME_ROOT
+    tools_root = runtime_root / "tools"
+    schemas_root = runtime_root / "schemas"
+    tools_root.mkdir(parents=True, exist_ok=True)
+    schemas_root.mkdir(parents=True, exist_ok=True)
+
+    tool_paths: list[str] = []
+    schema_paths: list[str] = []
+    helper_entries: list[dict[str, Any]] = []
+
+    for filename in PORTABLE_RUNTIME_TOOL_FILENAMES:
+        source_path = helper_source_root / filename
+        target_path = tools_root / filename
+        shutil.copy2(source_path, target_path)
+        relative = relative_path(target_root, target_path)
+        tool_paths.append(relative)
+        helper_entries.append(
+            {
+                "relative_path": relative,
+                "sha256": _sha256(target_path),
+                "size_bytes": target_path.stat().st_size,
+            }
+        )
+
+    for filename in PORTABLE_RUNTIME_SCHEMA_FILENAMES:
+        source_path = schema_source_root / filename
+        target_path = schemas_root / filename
+        shutil.copy2(source_path, target_path)
+        relative = relative_path(target_root, target_path)
+        schema_paths.append(relative)
+        helper_entries.append(
+            {
+                "relative_path": relative,
+                "sha256": _sha256(target_path),
+                "size_bytes": target_path.stat().st_size,
+            }
+        )
+
+    manifest = {
+        "schema_version": "portable-runtime-helper-manifest/v1",
+        "portable_runtime_helper_set_version": PORTABLE_RUNTIME_HELPER_SET_VERSION,
+        "materialized_at": generated_at,
+        "materialized_by": materialized_by,
+        "materializer_version": PORTABLE_RUNTIME_MATERIALIZER_VERSION,
+        "tools": tool_paths,
+        "schemas": schema_paths,
+        "helper_entries": helper_entries,
+        "seeded_by_materializer": True,
+    }
+    write_json(runtime_root / "manifest.json", manifest)
+    return manifest
+
+
 def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
     source_template_id = str(request["source_template_id"])
     target_build_pack_id = str(request["target_build_pack_id"])
+    display_name = str(request["target_display_name"])
     materialized_by = str(request["materialized_by"])
     target_version = str(request["target_version"])
     target_revision = str(request["target_revision"])
@@ -881,9 +1040,25 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         write_json(target_root / "lineage/source-template.json", state["lineage"])
         write_json(target_root / "eval/latest/index.json", state["eval_latest"])
         runtime_is_python = state["pack_manifest"]["runtime"] == "python"
+        write_text_path = target_root / "AGENTS.md"
+        write_text_path.write_text(
+            _build_pack_agents_text(
+                pack_id=target_build_pack_id,
+                display_name=display_name,
+                source_template_id=source_template_id,
+                runtime_is_python=runtime_is_python,
+            ),
+            encoding="utf-8",
+        )
         if runtime_is_python:
             (target_root / "dist/exports/runtime-evidence").mkdir(parents=True, exist_ok=True)
             _write_runtime_evidence_export_helper(target_root)
+            _seed_portable_runtime_helpers(
+                factory_root=factory_root,
+                target_root=target_root,
+                generated_at=generated_at,
+                materialized_by=materialized_by,
+            )
 
         registry_entry = {
             "active": True,
@@ -970,6 +1145,12 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                     "target_path": f"{pack_root_relative}/status",
                     "summary": "Wrote initial lifecycle, readiness, retirement, deployment, and work-state files.",
                 },
+                {
+                    "action_id": "rewrite_build_pack_agents",
+                    "status": "completed",
+                    "target_path": f"{pack_root_relative}/AGENTS.md",
+                    "summary": "Rewrote the build-pack AGENTS file to match the derived build-pack runtime model.",
+                },
                 *(
                     [
                         {
@@ -977,6 +1158,12 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                             "status": "completed",
                             "target_path": f"{pack_root_relative}/src/pack_export_runtime_evidence.py",
                             "summary": "Seeded the standalone runtime evidence export helper for Python build packs.",
+                        },
+                        {
+                            "action_id": "seed_portable_runtime_helpers",
+                            "status": "completed",
+                            "target_path": f"{pack_root_relative}/{PORTABLE_RUNTIME_HELPER_MANIFEST}",
+                            "summary": "Seeded the bounded portable runtime helper bundle for autonomy-capable Python build packs.",
                         }
                     ]
                     if runtime_is_python
@@ -1005,8 +1192,12 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                 f"{pack_root_relative}/{report_relative}",
                 f"{pack_root_relative}/eval/latest/index.json",
                 f"{pack_root_relative}/lineage/source-template.json",
+                f"{pack_root_relative}/AGENTS.md",
                 *(
-                    [f"{pack_root_relative}/src/pack_export_runtime_evidence.py"]
+                    [
+                        f"{pack_root_relative}/src/pack_export_runtime_evidence.py",
+                        f"{pack_root_relative}/{PORTABLE_RUNTIME_HELPER_MANIFEST}",
+                    ]
                     if runtime_is_python
                     else []
                 ),

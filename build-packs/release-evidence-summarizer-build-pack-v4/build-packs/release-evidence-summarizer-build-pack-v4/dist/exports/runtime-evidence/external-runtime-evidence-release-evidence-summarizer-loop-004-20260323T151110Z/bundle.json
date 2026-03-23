@@ -1,0 +1,48 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "df99056f7b14c38830fdbb1e4c2c8f340c3ed4f973e590ca600faa6d9a5c09c0",
+      "source_pack_path": ".pack-state/autonomy-runs/release-evidence-summarizer-loop-004/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "ec90f0fa13827f561eaea001bf170da44320b2ad1d09da5af5ab628a2835d76e",
+      "source_pack_path": ".pack-state/autonomy-runs/release-evidence-summarizer-loop-004/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "build-packs/release-evidence-summarizer-build-pack-v4/dist/exports/runtime-evidence/external-runtime-evidence-release-evidence-summarizer-loop-004-20260323T151110Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-release-evidence-summarizer-loop-004-20260323T151110Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-23T15:11:10Z",
+  "pack_id": "release-evidence-summarizer-build-pack-v4",
+  "pack_kind": "build_pack",
+  "run_id": "release-evidence-summarizer-loop-004",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/release-evidence-summarizer-loop-004"
+  ],
+  "summary": {
+    "ended_at": "2026-03-23T15:11:01Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 2,
+    "started_at": "2026-03-23T15:09:17Z",
+    "stop_reason": "run_completed",
+    "task_completion_rate": 1.0
+  }
+}

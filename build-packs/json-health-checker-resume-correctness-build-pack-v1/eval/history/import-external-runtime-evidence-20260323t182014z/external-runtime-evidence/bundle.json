@@ -1,0 +1,48 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "4c339a6c68ff55eb9849741fad876adccecc7196c1db8a6f77092f962c405e1d",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-resume-correctness-run-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "846f3f63326328365f210b4f4988ea2392211762ed7b95da46dc8ff5ea4f3cd2",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-resume-correctness-run-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-resume-correctness-run-v1-20260323T182011Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-json-health-checker-resume-correctness-run-v1-20260323T182011Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-23T18:20:11Z",
+  "pack_id": "json-health-checker-resume-correctness-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "json-health-checker-resume-correctness-run-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/json-health-checker-resume-correctness-run-v1"
+  ],
+  "summary": {
+    "ended_at": "2026-03-23T18:20:11Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "in_progress",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 1,
+    "started_at": "2026-03-23T18:20:11Z",
+    "stop_reason": "runner_exited_nonzero_with_incomplete_pack_state",
+    "task_completion_rate": 0.5
+  }
+}

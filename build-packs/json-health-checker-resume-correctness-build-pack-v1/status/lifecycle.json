@@ -1,0 +1,12 @@
+{
+  "current_revision": "resume-correctness-v1",
+  "current_version": "0.3.1",
+  "lifecycle_stage": "testing",
+  "pack_id": "json-health-checker-resume-correctness-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Live PackFactory dedicated resume-correctness remote autonomy proof.",
+  "updated_at": "2026-03-23T18:20:06Z",
+  "updated_by": "codex"
+}

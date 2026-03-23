@@ -1,0 +1,12 @@
+{
+  "copy_mode": "copy_pack_root",
+  "include_benchmark_declarations": true,
+  "materialization_reason": "Live PackFactory successful completion plus resume-correctness remote autonomy proof.",
+  "materialized_by": "codex",
+  "schema_version": "build-pack-materialization-request/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "target_build_pack_id": "json-health-checker-resume-success-build-pack-v1",
+  "target_display_name": "JSON Health Checker Resume Success Build Pack V1",
+  "target_revision": "resume-success-v1",
+  "target_version": "0.2.4"
+}

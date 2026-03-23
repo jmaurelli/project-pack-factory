@@ -1,0 +1,15 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "json-health-checker-template-pack-smoke-small-001",
+      "latest_run_id": "materialize-json-health-checker-resume-correctness-build-pack-v1-20260323t182006z",
+      "run_artifact_path": "eval/history/materialize-json-health-checker-resume-correctness-build-pack-v1-20260323t182006z/materialization-report.json",
+      "status": "not_run",
+      "summary_artifact_path": "eval/history/materialize-json-health-checker-resume-correctness-build-pack-v1-20260323t182006z/materialization-report.json"
+    }
+  ],
+  "pack_id": "json-health-checker-resume-correctness-build-pack-v1",
+  "pack_kind": "build_pack",
+  "schema_version": "pack-eval-index/v1",
+  "updated_at": "2026-03-23T18:20:06Z"
+}

@@ -1,0 +1,12 @@
+{
+  "copy_mode": "copy_pack_root",
+  "include_benchmark_declarations": true,
+  "materialization_reason": "Live PackFactory memory-use and resume-behavior remote autonomy proof.",
+  "materialized_by": "codex",
+  "schema_version": "build-pack-materialization-request/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "target_build_pack_id": "json-health-checker-memory-resume-build-pack-v2",
+  "target_display_name": "JSON Health Checker Memory Resume Build Pack V2",
+  "target_revision": "memory-resume-v2",
+  "target_version": "0.2.2"
+}

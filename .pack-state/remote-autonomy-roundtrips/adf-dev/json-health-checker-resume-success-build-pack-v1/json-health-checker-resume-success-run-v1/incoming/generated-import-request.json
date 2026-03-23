@@ -1,0 +1,7 @@
+{
+  "build_pack_id": "json-health-checker-resume-success-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-resume-success-build-pack-v1/json-health-checker-resume-success-run-v1/incoming/bundle/bundle.json",
+  "import_reason": "Live PackFactory successful completion plus resume-correctness import.",
+  "imported_by": "codex",
+  "schema_version": "external-runtime-evidence-import-request/v1"
+}
