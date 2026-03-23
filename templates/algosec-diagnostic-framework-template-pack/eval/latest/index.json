@@ -1,0 +1,15 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "algosec-diagnostic-framework-template-pack-smoke-small-001",
+      "latest_run_id": "algosec-diagnostic-framework-template-pack-bootstrap",
+      "run_artifact_path": "eval/history/bootstrap/not-run.json",
+      "status": "not_run",
+      "summary_artifact_path": "eval/history/bootstrap/not-run.json"
+    }
+  ],
+  "pack_id": "algosec-diagnostic-framework-template-pack",
+  "pack_kind": "template_pack",
+  "schema_version": "pack-eval-index/v1",
+  "updated_at": "2026-03-23T21:43:00Z"
+}

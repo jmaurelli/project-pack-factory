@@ -1,0 +1,35 @@
+{
+  "active_task_id": null,
+  "autonomy_state": "awaiting_operator_review",
+  "blocked_task_ids": [],
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Implemented the first ADF slice locally: canonical JSON artifacts, safe runtime collection, support-baseline HTML rendering, and a meaningful smoke benchmark.",
+  "last_outcome": "first_adf_slice_completed",
+  "last_outcome_at": "2026-03-23T22:39:39Z",
+  "last_validation_results": [
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223939z/benchmark-result.json"
+  ],
+  "next_recommended_task_id": null,
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pending_task_ids": [],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Restage the build-pack to the saved AlgoSec lab target before the next remote Codex run.",
+    "Run the bounded support-baseline command on the lab appliance and review the generated JSON artifacts before expanding scope.",
+    "Keep machine-readable artifacts canonical and keep HTML as a thin render layer."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when the first ADF slice is complete and operator review is the next meaningful action.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-23T22:39:39Z",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_deploy",
+  "ready_for_deployment": true,
+  "recommended_next_actions": [
+    "Restage the build-pack to the saved AlgoSec lab target before the next remote Codex run.",
+    "Run the generate-support-baseline command on the AlgoSec lab appliance and review the resulting JSON and HTML artifacts.",
+    "Use the first lab baseline review to decide which AlgoSec services deserve deeper playbooks next."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-23T22:39:35Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation passed after the first ADF slice landed."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "algosec_diagnostic_framework_template_pack_smoke_small_001",
+      "last_run_at": "2026-03-23T22:39:39Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Prove the smallest end-to-end ADF path on one controlled lab-style fixture: bounded evidence in, canonical baseline and playbook JSON out, and a minimal HTML support view rendered without broad test expansion."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

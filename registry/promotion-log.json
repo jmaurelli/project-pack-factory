@@ -442,8 +442,23 @@
       "source_template_id": "json-health-checker-template-pack",
       "status": "completed",
       "target_build_pack_id": "json-health-checker-resume-success-build-pack-v1"
+    },
+    {
+      "creation_id": "create-template-algosec-diagnostic-framework-template-pack-20260323t214300z",
+      "event_type": "template_created",
+      "status": "completed",
+      "template_creation_report_path": "eval/history/create-template-algosec-diagnostic-framework-template-pack-20260323t214300z/template-creation-report.json",
+      "template_pack_id": "algosec-diagnostic-framework-template-pack"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z",
+      "materialization_report_path": "eval/history/materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z/materialization-report.json",
+      "source_template_id": "algosec-diagnostic-framework-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "algosec-diagnostic-framework-build-pack-v1"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-23T18:31:55Z"
+  "updated_at": "2026-03-23T22:02:54Z"
 }

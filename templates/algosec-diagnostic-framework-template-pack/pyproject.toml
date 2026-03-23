@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "algosec-diagnostic-framework-template-pack"
+version = "0.1.0"
+description = "AlgoSec Diagnostic Framework Template Pack"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+algosec-diagnostic-framework-template-pack = "algosec_diagnostic_framework_template_pack.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["algosec_diagnostic_framework_template_pack*"]

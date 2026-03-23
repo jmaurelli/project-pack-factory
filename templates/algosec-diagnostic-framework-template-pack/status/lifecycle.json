@@ -1,0 +1,12 @@
+{
+  "current_revision": "create-template-algosec-diagnostic-framework-template-pack-20260323t214300z",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "maintained",
+  "pack_id": "algosec-diagnostic-framework-template-pack",
+  "pack_kind": "template_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "The current active templates cover release summarization, JSON validation, config drift detection, API contract checks, and smoke scaffolding. None are centered on evidence-first runtime mapping of a multi-service appliance, support-playbook generation for lab-versus-customer comparison, or HTML rendering from machine-readable baseline artifacts, so this work needs a dedicated template.",
+  "updated_at": "2026-03-23T21:43:00Z",
+  "updated_by": "codex"
+}

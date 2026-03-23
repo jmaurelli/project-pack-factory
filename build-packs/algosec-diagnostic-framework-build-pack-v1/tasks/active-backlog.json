@@ -1,0 +1,98 @@
+{
+  "generated_at": "2026-03-23T22:39:39Z",
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The build-pack defines a canonical artifact model for runtime evidence, service inventory, and baseline output.",
+        "The first artifact model clearly separates observed facts, inference, and unknowns."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The CLI and source layout expose named surfaces for the first ADF artifact set.",
+        "The pack-local objective, backlog, and work-state files all point at the same first implementation slice."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The artifact model cannot stay small enough for the MVP without reopening product scope.",
+        "The required output set starts to imply broad test or fixture expansion."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Define the first bounded ADF artifact model for runtime evidence, service inventory, and baseline output.",
+      "task_id": "define_adf_artifact_model",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack can collect a safe first-pass AlgoSec runtime snapshot from the lab appliance.",
+        "The first collection path stays read-only and bounded to support-relevant evidence classes."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A runtime collection command exists for the first ADF slice.",
+        "The collection output includes service inventory and core platform checkpoints."
+      ],
+      "dependencies": [
+        "define_adf_artifact_model"
+      ],
+      "escalation_conditions": [
+        "The target appliance requires risky write actions or unsupported privilege changes to gather the first evidence set.",
+        "The first-pass evidence set expands beyond the MVP boundary of useful support diagnostics."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack",
+        "src/pack_export_runtime_evidence.py"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Implement the first safe runtime evidence collection path for the controlled AlgoSec lab appliance.",
+      "task_id": "implement_safe_runtime_collection",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack renders machine-readable baseline artifacts into a simple support-facing HTML view.",
+        "The HTML output remains a render of canonical JSON artifacts rather than a separate source of truth."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The first HTML-ready baseline output exists for the AlgoSec lab path.",
+        "Support-facing output is generated from the same artifact model used for machine-readable evidence."
+      ],
+      "dependencies": [
+        "define_adf_artifact_model",
+        "implement_safe_runtime_collection"
+      ],
+      "escalation_conditions": [
+        "The HTML layer starts to dominate the scope instead of remaining a thin render of machine-readable output.",
+        "The support-facing output requires broad UX work beyond a simple MVP render."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Generate the first HTML-ready support output from canonical ADF baseline artifacts.",
+      "task_id": "render_baseline_outputs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ADF Support Baseline</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f1e8;
+      --card: #fffdfa;
+      --ink: #1f2a2e;
+      --accent: #2b6f77;
+      --rule: #d7cdbd;
+    }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(180deg, #e8efe7 0%, var(--bg) 100%);
+      color: var(--ink);
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+    section {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 16px;
+      box-shadow: 0 8px 24px rgba(31, 42, 46, 0.08);
+    }
+    h1, h2 {
+      margin: 0 0 12px;
+    }
+    .meta {
+      color: #526267;
+      margin-top: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 8px;
+      border-top: 1px solid var(--rule);
+    }
+    th {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>AlgoSec Support Baseline</h1>
+      <p class="meta">Target: algosec-lab | Host: orch-lab-01 | Generated: 2026-03-23T22:52:07Z</p>
+      <p>JSON remains the source of truth. This page is a support-facing render for live comparison during remote customer sessions.</p>
+    </section>
+    <section>
+      <h2>Observed Runtime Identity</h2>
+      <p>Platform: Linux-6.8.0-106-generic-x86_64-with-glibc2.39</p>
+      <p>Kernel: 6.8.0-106-generic</p>
+      <p>OS: Ubuntu 24.04.4 LTS</p>
+      <p>Services observed: 223 | Critical services: 0 | Product services: 0 | Listening endpoints: 4</p>
+    </section>
+    <section>
+      <h2>Priority Services</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Role Hint</th>
+            <th>Tier</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody><tr><td>cron.service</td><td>application or support service</td><td>supporting</td><td>7</td></tr><tr><td>multipathd.service</td><td>application or support service</td><td>supporting</td><td>7</td></tr><tr><td>systemd-journald.service</td><td>application or support service</td><td>supporting</td><td>7</td></tr><tr><td>systemd-udevd.service</td><td>application or support service</td><td>supporting</td><td>7</td></tr><tr><td>unattended-upgrades.service</td><td>application or support service</td><td>supporting</td><td>7</td></tr></tbody>
+      </table>
+    </section>
+    <section>
+      <h2>Comparison Checkpoints</h2>
+      <ul><li><strong>Compare appliance identity first</strong>: Confirm the customer host, Rocky 8 baseline, and build markers line up with the trusted lab appliance before deeper diagnosis.</li><li><strong>Compare critical service state</strong>: Verify that the critical services below appear active in the customer environment and match the expected enabled state.</li><li><strong>Compare routed product endpoints</strong>: Use Apache proxy config and local port mappings to confirm the expected AlgoSec routes still point at the right local services.</li><li><strong>Compare visible listeners</strong>: Use the listening-port count and service listener hints as a quick baseline for what should be reachable or bound on the appliance.</li></ul>
+    </section>
+    <section>
+      <h2>Safe First Response</h2>
+      <ul><li>Confirm the customer appliance hostname, OS family, and any visible build markers against the lab baseline.</li><li>Check whether the top AlgoSec services are active and enabled in the customer environment.</li><li>Compare Apache-routed endpoints and local listener ports before moving into deeper service-specific diagnosis.</li><li>Use the recorded config and log checkpoints for the top services before inferring broader platform issues.</li></ul>
+    </section>
+    <section>
+      <h2>Unknowns</h2>
+      <ul><li>Only first-pass config and log checkpoints are collected in this slice.</li><li>Dependency mapping between AlgoSec services is not yet collected directly.</li></ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{
+  "completion_definition": [
+    "The first ADF implementation slice produces bounded machine-readable artifacts for runtime evidence, service inventory, and support-facing baseline output.",
+    "The build-pack remains validation-clean and benchmark-clean after the first ADF slice lands.",
+    "The next remote Codex run can work from canonical pack-local tasks rather than starter scaffold tasks."
+  ],
+  "generated_at": "2026-03-23T22:02:54Z",
+  "intended_inputs": [
+    "Pack-local source code and configuration under the materialized build-pack.",
+    "The controlled AlgoSec lab appliance on Rocky Linux 8 reached through the saved remote target request.",
+    "Current readiness, eval, objective, backlog, and work-state files for this build-pack."
+  ],
+  "intended_outputs": [
+    "A bounded ADF evidence-collection surface for the AlgoSec lab appliance.",
+    "Canonical machine-readable artifacts for runtime evidence, service inventory, and baseline output.",
+    "A simple HTML-ready support view generated from the machine-readable artifacts."
+  ],
+  "materialization_id": "materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z",
+  "metrics": [
+    {
+      "evidence_hint": "status/readiness.json and eval/latest/index.json",
+      "metric_id": "validation_gate_status",
+      "summary": "Validation gate stays in a passing state while ADF work begins.",
+      "target": "validate_build_pack_contract=pass"
+    },
+    {
+      "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
+      "metric_id": "benchmark_completion",
+      "summary": "The inherited smoke benchmark stays passing while the first ADF slice is added.",
+      "target": "required inherited benchmark gates=pass or waived"
+    },
+    {
+      "evidence_hint": "Generated ADF runtime artifacts under the pack-local output surface.",
+      "metric_id": "baseline_artifact_generation",
+      "summary": "The first ADF slice emits machine-readable baseline artifacts from bounded runtime evidence.",
+      "target": "runtime evidence JSON, service inventory JSON, and baseline summary JSON exist and are internally consistent"
+    }
+  ],
+  "non_goals": [
+    "Changing deployment state outside the existing PackFactory workflows.",
+    "Creating new tests or benchmarks without explicit operator approval.",
+    "Trying to fully document every AlgoSec service at equal depth in the first slice.",
+    "Treating HTML as the source of truth instead of a render of machine-readable artifacts."
+  ],
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "objective_summary": "Implement the first ADF runtime-baseline slice for the controlled AlgoSec lab appliance: bounded runtime evidence collection, canonical service inventory artifacts, and simple HTML-ready support output.",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "problem_statement": "# Project Context\n\n## Project Goal\n\nDeploy Codex into a controlled AlgoSec Security Management Suite lab appliance\non Rocky Linux 8, collect bounded runtime evidence, generate a trustworthy\nmachine-readable baseline and support comparison playbooks, and render a simple\nHTML view for remote support sessions.\n\n## Primary User\n\nSupport engineers working live with customers over screen share or remote\nsession.\n\n## V1 Scope\n\n- One controlled AlgoSec lab appliance on Rocky Linux 8.\n- Machine-readable runtime evidence as the canonical source of truth.\n- A complete service inventory with deeper playbooks for the highest-value\n  service paths first.\n- Simple HTML output for human use during support sessions.\n- AI inference as a secondary layer over collected evidence, not the primary\n  product output.\n\n## V1 Non-Goals\n\n- Full coverage of every service at equal depth.\n- Direct automation inside customer environments.\n- Broad test expansion or large fixture matrices.\n- A polished portal or generalized reverse-engineering platform.\n\n## Success Criteria\n\n- The output gives support engineers a trusted lab baseline they can compare\n  against a customer environment.\n- The baseline clearly separates observed facts, inference, and unknowns.\n- The first playbooks help narrow likely issue areas during live support.\n- HTML output is useful during a remote support session without becoming the\n  source of truth.\n\n## Working Priorities\n\n1. Collect trustworthy runtime evidence.\n2. Turn that evidence into support-ready comparison playbooks.\n3. Keep the scope small enough to stay manageable.\n4. Keep testing minimal and high-signal.",
+  "promotion_readiness_requirements": [
+    "Build-pack validation must pass with recorded evidence.",
+    "Inherited required benchmark gates must pass or be waived.",
+    "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+    "ADF artifact-generation work must be complete enough for operator review before any promotion decision."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "algosec-diagnostic-framework-template-pack",
+  "success_criteria": [
+    "The build-pack validation command completes successfully and records passing evidence.",
+    "The inherited benchmark command completes successfully and updates readiness evidence.",
+    "The build-pack exposes a first bounded collection path for AlgoSec lab runtime evidence.",
+    "The resulting artifacts separate observed runtime facts from inference and unknowns."
+  ]
+}
