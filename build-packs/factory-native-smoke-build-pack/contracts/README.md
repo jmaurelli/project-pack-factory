@@ -1,3 +1,3 @@
 # Contracts
 
-Contract surfaces are intentionally minimal for this smoke template.
+Contract surfaces are intentionally minimal for this smoke build pack.

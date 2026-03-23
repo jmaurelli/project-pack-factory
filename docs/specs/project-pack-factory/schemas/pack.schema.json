@@ -134,6 +134,17 @@
           "type": "string",
           "const": "contracts"
         },
+        "project_objective_file": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "contracts/project-objective.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "source_dir": {
           "type": "string",
           "const": "src"
@@ -141,6 +152,28 @@
         "tests_dir": {
           "type": "string",
           "const": "tests"
+        },
+        "tasks_dir": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "tasks"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "task_backlog_file": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "tasks/active-backlog.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "benchmarks_dir": {
           "type": "string",
@@ -181,6 +214,17 @@
         "deployment_file": {
           "type": "string",
           "const": "status/deployment.json"
+        },
+        "work_state_file": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "status/work-state.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "lineage_dir": {
           "anyOf": [
@@ -296,6 +340,18 @@
           },
           "directory_contract": {
             "properties": {
+              "project_objective_file": {
+                "type": "null"
+              },
+              "tasks_dir": {
+                "type": "null"
+              },
+              "task_backlog_file": {
+                "type": "null"
+              },
+              "work_state_file": {
+                "type": "null"
+              },
               "lineage_dir": {
                 "type": "null"
               },
@@ -327,35 +383,88 @@
       "then": {
         "properties": {
           "post_bootstrap_read_order": {
-            "type": "array",
-            "minItems": 7,
-            "prefixItems": [
+            "anyOf": [
               {
-                "const": "status/lifecycle.json"
+                "type": "array",
+                "minItems": 7,
+                "prefixItems": [
+                  {
+                    "const": "status/lifecycle.json"
+                  },
+                  {
+                    "const": "status/readiness.json"
+                  },
+                  {
+                    "const": "status/retirement.json"
+                  },
+                  {
+                    "const": "status/deployment.json"
+                  },
+                  {
+                    "const": "lineage/source-template.json"
+                  },
+                  {
+                    "const": "benchmarks/active-set.json"
+                  },
+                  {
+                    "const": "eval/latest/index.json"
+                  }
+                ],
+                "items": false
               },
               {
-                "const": "status/readiness.json"
-              },
-              {
-                "const": "status/retirement.json"
-              },
-              {
-                "const": "status/deployment.json"
-              },
-              {
-                "const": "lineage/source-template.json"
-              },
-              {
-                "const": "benchmarks/active-set.json"
-              },
-              {
-                "const": "eval/latest/index.json"
+                "type": "array",
+                "minItems": 10,
+                "prefixItems": [
+                  {
+                    "const": "status/lifecycle.json"
+                  },
+                  {
+                    "const": "status/readiness.json"
+                  },
+                  {
+                    "const": "status/retirement.json"
+                  },
+                  {
+                    "const": "status/deployment.json"
+                  },
+                  {
+                    "const": "lineage/source-template.json"
+                  },
+                  {
+                    "const": "contracts/project-objective.json"
+                  },
+                  {
+                    "const": "tasks/active-backlog.json"
+                  },
+                  {
+                    "const": "status/work-state.json"
+                  },
+                  {
+                    "const": "benchmarks/active-set.json"
+                  },
+                  {
+                    "const": "eval/latest/index.json"
+                  }
+                ],
+                "items": false
               }
-            ],
-            "items": false
+            ]
           },
           "directory_contract": {
             "properties": {
+              "project_objective_file": {
+                "const": "contracts/project-objective.json"
+              },
+              "tasks_dir": {
+                "const": "tasks"
+              },
+              "task_backlog_file": {
+                "const": "tasks/active-backlog.json"
+              },
+              "work_state_file": {
+                "const": "status/work-state.json"
+              },
               "lineage_dir": {
                 "const": "lineage"
               },

@@ -1,0 +1,92 @@
+{
+  "actions": [
+    {
+      "action_id": "update_deployment_state",
+      "status": "completed",
+      "summary": "Refreshed the canonical deployment state for the active release.",
+      "target_path": "build-packs/config-drift-checker-build-pack/status/deployment.json"
+    },
+    {
+      "action_id": "write_deployment_pointer",
+      "status": "completed",
+      "summary": "Wrote a refreshed canonical deployment pointer.",
+      "target_path": "deployments/production/config-drift-checker-build-pack.json"
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "summary": "Refreshed the build-pack registry entry for the canonical promotion witness.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "append_operation_log",
+      "status": "completed",
+      "summary": "Appended the refreshed promotion event to the factory operation log.",
+      "target_path": "registry/promotion-log.json"
+    },
+    {
+      "action_id": "write_promotion_report",
+      "status": "completed",
+      "summary": "Wrote the refreshed canonical promotion evidence report.",
+      "target_path": "build-packs/config-drift-checker-build-pack/eval/history/promote-config-drift-checker-build-pack-production-20260323t001443z/promotion-report.json"
+    }
+  ],
+  "build_pack_id": "config-drift-checker-build-pack",
+  "build_pack_root": "build-packs/config-drift-checker-build-pack",
+  "evidence_paths": [
+    "build-packs/config-drift-checker-build-pack/eval/history/promote-config-drift-checker-build-pack-production-20260323t001443z/promotion-report.json",
+    "eval/history/promote-config-drift-checker-build-pack-production-20260322t222933z/promotion-report.json",
+    "deployments/production/config-drift-checker-build-pack.json",
+    "build-packs/config-drift-checker-build-pack/status/deployment.json"
+  ],
+  "generated_at": "2026-03-23T00:14:43Z",
+  "operation_log_update": {
+    "build_pack_id": "config-drift-checker-build-pack",
+    "event_type": "promoted",
+    "promotion_id": "promote-config-drift-checker-build-pack-production-20260323t001443z",
+    "promotion_log_path": "registry/promotion-log.json",
+    "promotion_report_path": "eval/history/promote-config-drift-checker-build-pack-production-20260323t001443z/promotion-report.json",
+    "target_environment": "production"
+  },
+  "post_promotion_state": {
+    "active_environment": "production",
+    "active_release_path": "dist/releases/config-drift-checker-r3",
+    "deployment_pointer_path": "deployments/production/config-drift-checker-build-pack.json",
+    "deployment_state": "production",
+    "last_promoted_at": "2026-03-23T00:14:43Z",
+    "last_verified_at": "2026-03-23T00:14:41Z",
+    "lifecycle_stage": "maintained"
+  },
+  "pre_promotion_state": {
+    "active_environment": "production",
+    "active_release_path": "dist/releases/config-drift-checker-r3",
+    "deployment_pointer_path": "deployments/production/config-drift-checker-build-pack.json",
+    "deployment_state": "production",
+    "last_promoted_at": "2026-03-22T22:29:33Z",
+    "last_verified_at": "2026-03-22T22:40:56Z",
+    "lifecycle_stage": "maintained"
+  },
+  "promoted_by": "codex",
+  "promotion_id": "promote-config-drift-checker-build-pack-production-20260323t001443z",
+  "promotion_reason": "Finalized by pipeline pipeline-config-drift-checker-build-pack-production-20260323t001441z",
+  "reconcile_refresh": {
+    "environment_unchanged": true,
+    "mode": "canonical_evidence_refresh",
+    "performed": true,
+    "release_id_unchanged": true,
+    "requested": true,
+    "source_promotion_id": "promote-config-drift-checker-build-pack-production-20260322t222933z",
+    "source_promotion_report_path": "eval/history/promote-config-drift-checker-build-pack-production-20260322t222933z/promotion-report.json"
+  },
+  "registry_update": {
+    "deployment_pointer": "deployments/production/config-drift-checker-build-pack.json",
+    "deployment_state": "production",
+    "pack_id": "config-drift-checker-build-pack",
+    "registry_path": "registry/build-packs.json"
+  },
+  "release_id": "config-drift-checker-r3",
+  "release_path": "dist/releases/config-drift-checker-r3",
+  "schema_version": "build-pack-promotion-report/v1",
+  "status": "completed",
+  "target_environment": "production"
+}

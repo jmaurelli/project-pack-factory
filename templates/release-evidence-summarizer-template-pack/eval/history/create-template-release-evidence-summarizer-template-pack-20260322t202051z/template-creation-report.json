@@ -1,0 +1,33 @@
+{
+  "artifact_paths": {
+    "creation_report": "templates/release-evidence-summarizer-template-pack/eval/history/create-template-release-evidence-summarizer-template-pack-20260322t202051z/template-creation-report.json",
+    "lifecycle_file": "templates/release-evidence-summarizer-template-pack/status/lifecycle.json",
+    "pack_manifest": "templates/release-evidence-summarizer-template-pack/pack.json",
+    "readiness_file": "templates/release-evidence-summarizer-template-pack/status/readiness.json",
+    "template_root": "templates/release-evidence-summarizer-template-pack"
+  },
+  "created_at": "2026-03-22T20:20:51Z",
+  "created_by": "orchadmin",
+  "creation_id": "create-template-release-evidence-summarizer-template-pack-20260322t202051z",
+  "factory_mutations": {
+    "operation_log_updated": true,
+    "post_write_factory_validation": "pass",
+    "registry_updated": true
+  },
+  "next_recommended_actions": [
+    "Inspect the new template pack.",
+    "Run validate-project-pack inside the new template.",
+    "Run the initial smoke benchmark when ready."
+  ],
+  "planning_summary": {
+    "delivery_shape": "script",
+    "initial_benchmark_intent": "Run a deterministic release-evidence smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal.",
+    "new_template_rationale": "The existing active templates cover smoke checks and narrow JSON inspection, but neither focuses on operator-facing release evidence. This new template grows the factory toward a practical delivery support tool while staying close to the repo's existing workflow artifacts.",
+    "project_goal": "Create a small PackFactory-native template for summarizing validation, benchmark, promotion, and pipeline evidence into a short release-readiness brief.",
+    "reuse_active_template": false
+  },
+  "scaffold_strategy": "minimal_python_text_pack",
+  "schema_version": "template-creation-report/v1",
+  "status": "created",
+  "template_pack_id": "release-evidence-summarizer-template-pack"
+}

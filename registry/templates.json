@@ -73,8 +73,65 @@
       "retired_at": null,
       "retirement_file": "status/retirement.json",
       "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_benchmark_ids": [
+        "config-drift-checker-template-pack-smoke-small-001"
+      ],
+      "latest_eval_index": "templates/config-drift-checker-template-pack/eval/latest/index.json",
+      "lifecycle_stage": "maintained",
+      "notes": [
+        "Created through the PackFactory template creation workflow.",
+        "creation_id=create-template-config-drift-checker-template-pack-20260322t202017z"
+      ],
+      "pack_id": "config-drift-checker-template-pack",
+      "pack_kind": "template_pack",
+      "pack_root": "templates/config-drift-checker-template-pack",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_benchmark_ids": [
+        "release-evidence-summarizer-template-pack-smoke-small-001"
+      ],
+      "latest_eval_index": "templates/release-evidence-summarizer-template-pack/eval/latest/index.json",
+      "lifecycle_stage": "maintained",
+      "notes": [
+        "Created through the PackFactory template creation workflow.",
+        "creation_id=create-template-release-evidence-summarizer-template-pack-20260322t202051z"
+      ],
+      "pack_id": "release-evidence-summarizer-template-pack",
+      "pack_kind": "template_pack",
+      "pack_root": "templates/release-evidence-summarizer-template-pack",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_benchmark_ids": [
+        "api-contract-sentinel-template-pack-smoke-small-001"
+      ],
+      "latest_eval_index": "templates/api-contract-sentinel-template-pack/eval/latest/index.json",
+      "lifecycle_stage": "maintained",
+      "notes": [
+        "Created through the PackFactory template creation workflow.",
+        "creation_id=create-template-api-contract-sentinel-template-pack-20260322t202125z"
+      ],
+      "pack_id": "api-contract-sentinel-template-pack",
+      "pack_kind": "template_pack",
+      "pack_root": "templates/api-contract-sentinel-template-pack",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-21T02:33:54Z"
+  "updated_at": "2026-03-22T20:21:25Z"
 }

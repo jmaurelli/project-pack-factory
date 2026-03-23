@@ -1,0 +1,17 @@
+{
+  "artifact_paths": [
+    "src/",
+    "tests/",
+    "contracts/",
+    "docs/specs/",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "build_pack_id": "config-drift-checker-build-pack",
+  "built_at": "2026-03-22T22:28:40Z",
+  "release_id": "config-drift-checker-r1",
+  "release_state": "testing",
+  "schema_version": "pack-release/v1",
+  "source_template_id": "config-drift-checker-template-pack",
+  "source_template_revision": "create-template-config-drift-checker-template-pack-20260322t202017z"
+}

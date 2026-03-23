@@ -1,3 +1,3 @@
 # Tests
 
-This template keeps dedicated tests intentionally minimal.
+This build pack keeps dedicated tests intentionally minimal.

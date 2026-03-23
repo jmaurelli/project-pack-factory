@@ -1,0 +1,7 @@
+{
+  "commands": [
+    "PYTHONPATH=src python3 -m config_drift_checker_build_pack benchmark-smoke --project-root . --output json >/dev/null"
+  ],
+  "failures": [],
+  "status": "passed"
+}

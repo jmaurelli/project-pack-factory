@@ -1,0 +1,56 @@
+{
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "directory_contract": {
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "benchmarks_dir": "benchmarks",
+    "candidate_release_dir": null,
+    "contracts_dir": "contracts",
+    "deployment_file": "status/deployment.json",
+    "dist_dir": "dist",
+    "docs_dir": "docs",
+    "eval_dir": "eval",
+    "eval_history_dir": "eval/history",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "immutable_release_dir": null,
+    "lifecycle_file": "status/lifecycle.json",
+    "lineage_dir": null,
+    "lineage_file": null,
+    "local_state_dir": ".pack-state",
+    "prompts_dir": "prompts",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "source_dir": "src",
+    "status_dir": "status",
+    "template_export_dir": "dist/exports",
+    "tests_dir": "tests"
+  },
+  "display_name": "Config Drift Checker Template Pack",
+  "entrypoints": {
+    "benchmark_command": "PYTHONPATH=src python3 -m config_drift_checker_template_pack benchmark-smoke --project-root . --output json",
+    "cli_command": "PYTHONPATH=src python3 -m config_drift_checker_template_pack --help",
+    "validation_command": "PYTHONPATH=src python3 -m config_drift_checker_template_pack validate-project-pack --project-root . --output json"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "Created through the PackFactory template creation workflow.",
+    "creation_id=create-template-config-drift-checker-template-pack-20260322t202017z",
+    "project_goal=Create a small PackFactory-native template for detecting configuration drift between a current JSON or YAML file and a declared baseline before promotion."
+  ],
+  "owning_team": "orchadmin",
+  "pack_id": "config-drift-checker-template-pack",
+  "pack_kind": "template_pack",
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "runtime": "python",
+  "schema_version": "pack-manifest/v2"
+}

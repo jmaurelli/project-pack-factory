@@ -1,6 +1,6 @@
 {
   "blocking_issues": [],
-  "last_evaluated_at": "2026-03-22T16:29:26Z",
+  "last_evaluated_at": "2026-03-22T19:27:44Z",
   "pack_id": "json-health-checker-build-pack",
   "pack_kind": "build_pack",
   "readiness_state": "ready_for_deploy",
@@ -12,10 +12,10 @@
   "required_gates": [
     {
       "evidence_paths": [
-        "eval/history/pipeline-json-health-checker-build-pack-production-20260322t162926z/validation-result.json"
+        "eval/history/pipeline-json-health-checker-build-pack-production-20260322t192744z/validation-result.json"
       ],
       "gate_id": "validate_build_pack_contract",
-      "last_run_at": "2026-03-22T16:29:26Z",
+      "last_run_at": "2026-03-22T19:27:44Z",
       "mandatory": true,
       "status": "pass",
       "summary": "Validated the build-pack contract with local scratch state treated as optional when absent."
@@ -25,7 +25,7 @@
         "eval/latest/index.json"
       ],
       "gate_id": "json_health_checker_build_pack_smoke_small_001",
-      "last_run_at": "2026-03-22T16:29:26Z",
+      "last_run_at": "2026-03-22T19:27:44Z",
       "mandatory": true,
       "status": "pass",
       "summary": "Ran the published CLI smoke path with one passing JSON check and one fail-closed missing-field check."

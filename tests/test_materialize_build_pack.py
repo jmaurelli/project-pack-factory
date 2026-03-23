@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import shutil
 import sys
 from pathlib import Path
@@ -9,6 +10,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 from materialize_build_pack import materialize_build_pack
 from factory_ops import load_json
+from validate_factory import validate_factory
 
 
 SOURCE_TEMPLATE_ID = "factory-native-smoke-template-pack"
@@ -58,6 +60,31 @@ def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: P
     registry = load_json(factory_root / "registry/build-packs.json")
     entries = registry["entries"]
     assert any(entry["pack_id"] == "slim-build-pack" and entry["active"] is True for entry in entries)
+
+    manifest = load_json(target_root / "pack.json")
+    contract = manifest["directory_contract"]
+    assert contract["project_objective_file"] == "contracts/project-objective.json"
+    assert contract["tasks_dir"] == "tasks"
+    assert contract["task_backlog_file"] == "tasks/active-backlog.json"
+    assert contract["work_state_file"] == "status/work-state.json"
+    assert manifest["post_bootstrap_read_order"][5:8] == [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+    ]
+
+    project_objective = load_json(target_root / "contracts/project-objective.json")
+    assert project_objective["pack_id"] == "slim-build-pack"
+    assert project_objective["objective_id"] == "slim-build-pack_objective"
+
+    task_backlog = load_json(target_root / "tasks/active-backlog.json")
+    task_ids = [task["task_id"] for task in task_backlog["tasks"]]
+    assert task_ids == ["run_build_pack_validation", "run_inherited_benchmarks"]
+
+    work_state = load_json(target_root / "status/work-state.json")
+    assert work_state["active_task_id"] == "run_build_pack_validation"
+    assert work_state["next_recommended_task_id"] == "run_build_pack_validation"
+    assert work_state["pending_task_ids"] == ["run_inherited_benchmarks"]
 
     promotion_log = load_json(factory_root / "registry/promotion-log.json")
     assert any(event.get("event_type") == "materialized" and event.get("target_build_pack_id") == "slim-build-pack" for event in promotion_log["events"])
@@ -109,3 +136,19 @@ def test_materialize_build_pack_synthesizes_not_run_eval_and_required_gates(tmp_
         result["latest_run_id"].startswith("materialize-gated-build-pack-")
         for result in eval_latest["benchmark_results"]
     )
+
+
+def test_validate_factory_rejects_invalid_autonomy_task_reference(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+
+    materialize_build_pack(factory_root, _request("autonomy-check-build-pack"))
+
+    work_state_path = factory_root / "build-packs/autonomy-check-build-pack/status/work-state.json"
+    work_state = load_json(work_state_path)
+    work_state["next_recommended_task_id"] = "missing-task"
+    work_state_path.write_text(f"{json.dumps(work_state, indent=2)}\n", encoding="utf-8")
+
+    result = validate_factory(factory_root)
+
+    assert result["valid"] is False
+    assert any("next_recommended_task_id must reference a real task" in error for error in result["errors"])

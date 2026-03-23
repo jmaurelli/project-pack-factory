@@ -1,0 +1,33 @@
+{
+  "artifact_paths": {
+    "creation_report": "templates/api-contract-sentinel-template-pack/eval/history/create-template-api-contract-sentinel-template-pack-20260322t202125z/template-creation-report.json",
+    "lifecycle_file": "templates/api-contract-sentinel-template-pack/status/lifecycle.json",
+    "pack_manifest": "templates/api-contract-sentinel-template-pack/pack.json",
+    "readiness_file": "templates/api-contract-sentinel-template-pack/status/readiness.json",
+    "template_root": "templates/api-contract-sentinel-template-pack"
+  },
+  "created_at": "2026-03-22T20:21:25Z",
+  "created_by": "orchadmin",
+  "creation_id": "create-template-api-contract-sentinel-template-pack-20260322t202125z",
+  "factory_mutations": {
+    "operation_log_updated": true,
+    "post_write_factory_validation": "pass",
+    "registry_updated": true
+  },
+  "next_recommended_actions": [
+    "Inspect the new template pack.",
+    "Run validate-project-pack inside the new template.",
+    "Run the initial smoke benchmark when ready."
+  ],
+  "planning_summary": {
+    "delivery_shape": "script",
+    "initial_benchmark_intent": "Run a deterministic API-contract smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal.",
+    "new_template_rationale": "The current active line shows structured-data utility value, but it does not yet move into API contract safety. This new template extends the same small-pack pattern toward a more customer-facing validation problem without leaving the factory's lightweight workflow model.",
+    "project_goal": "Create a small PackFactory-native template for checking API request and response payloads against expected schema contracts and reporting contract breaks clearly.",
+    "reuse_active_template": false
+  },
+  "scaffold_strategy": "minimal_python_text_pack",
+  "schema_version": "template-creation-report/v1",
+  "status": "created",
+  "template_pack_id": "api-contract-sentinel-template-pack"
+}

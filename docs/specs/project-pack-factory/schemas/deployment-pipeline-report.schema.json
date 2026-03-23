@@ -81,7 +81,8 @@
       "type": "string",
       "enum": [
         "unchanged",
-        "committed"
+        "committed",
+        "refreshed"
       ]
     },
     "operation_log_update": {

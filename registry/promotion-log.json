@@ -147,8 +147,186 @@
       "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t165250z",
       "pipeline_report_path": "eval/history/pipeline-json-health-checker-build-pack-production-20260322t165250z/pipeline-report.json",
       "status": "failed"
+    },
+    {
+      "build_pack_id": "json-health-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t180512z",
+      "pipeline_report_path": "eval/history/pipeline-json-health-checker-build-pack-production-20260322t180512z/pipeline-report.json",
+      "status": "reconciled"
+    },
+    {
+      "build_pack_id": "json-health-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t181431z",
+      "pipeline_report_path": "eval/history/pipeline-json-health-checker-build-pack-production-20260322t181431z/pipeline-report.json",
+      "status": "reconciled"
+    },
+    {
+      "build_pack_id": "json-health-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-json-health-checker-build-pack-production-20260322t192744z",
+      "pipeline_report_path": "eval/history/pipeline-json-health-checker-build-pack-production-20260322t192744z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "factory-native-smoke-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-factory-native-smoke-build-pack-testing-20260322t200346z",
+      "promotion_report_path": "eval/history/promote-factory-native-smoke-build-pack-testing-20260322t200346z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "testing"
+    },
+    {
+      "build_pack_id": "factory-native-smoke-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-factory-native-smoke-build-pack-testing-20260322t200345z",
+      "pipeline_report_path": "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260322t200345z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "factory-native-smoke-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-factory-native-smoke-build-pack-staging-20260322t200413z",
+      "promotion_report_path": "eval/history/promote-factory-native-smoke-build-pack-staging-20260322t200413z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "staging"
+    },
+    {
+      "build_pack_id": "factory-native-smoke-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-factory-native-smoke-build-pack-staging-20260322t200411z",
+      "pipeline_report_path": "eval/history/pipeline-factory-native-smoke-build-pack-staging-20260322t200411z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "factory-native-smoke-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-factory-native-smoke-build-pack-production-20260322t200428z",
+      "promotion_report_path": "eval/history/promote-factory-native-smoke-build-pack-production-20260322t200428z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "production"
+    },
+    {
+      "build_pack_id": "factory-native-smoke-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-factory-native-smoke-build-pack-production-20260322t200427z",
+      "pipeline_report_path": "eval/history/pipeline-factory-native-smoke-build-pack-production-20260322t200427z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "creation_id": "create-template-config-drift-checker-template-pack-20260322t202017z",
+      "event_type": "template_created",
+      "status": "completed",
+      "template_creation_report_path": "eval/history/create-template-config-drift-checker-template-pack-20260322t202017z/template-creation-report.json",
+      "template_pack_id": "config-drift-checker-template-pack"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-config-drift-checker-build-pack-20260322t202023z",
+      "materialization_report_path": "eval/history/materialize-config-drift-checker-build-pack-20260322t202023z/materialization-report.json",
+      "source_template_id": "config-drift-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "config-drift-checker-build-pack"
+    },
+    {
+      "creation_id": "create-template-release-evidence-summarizer-template-pack-20260322t202051z",
+      "event_type": "template_created",
+      "status": "completed",
+      "template_creation_report_path": "eval/history/create-template-release-evidence-summarizer-template-pack-20260322t202051z/template-creation-report.json",
+      "template_pack_id": "release-evidence-summarizer-template-pack"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-release-evidence-summarizer-build-pack-20260322t202055z",
+      "materialization_report_path": "eval/history/materialize-release-evidence-summarizer-build-pack-20260322t202055z/materialization-report.json",
+      "source_template_id": "release-evidence-summarizer-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "release-evidence-summarizer-build-pack"
+    },
+    {
+      "creation_id": "create-template-api-contract-sentinel-template-pack-20260322t202125z",
+      "event_type": "template_created",
+      "status": "completed",
+      "template_creation_report_path": "eval/history/create-template-api-contract-sentinel-template-pack-20260322t202125z/template-creation-report.json",
+      "template_pack_id": "api-contract-sentinel-template-pack"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-api-contract-sentinel-build-pack-20260322t202130z",
+      "materialization_report_path": "eval/history/materialize-api-contract-sentinel-build-pack-20260322t202130z/materialization-report.json",
+      "source_template_id": "api-contract-sentinel-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "api-contract-sentinel-build-pack"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-config-drift-checker-build-pack-testing-20260322t222843z",
+      "promotion_report_path": "eval/history/promote-config-drift-checker-build-pack-testing-20260322t222843z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "testing"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-config-drift-checker-build-pack-testing-20260322t222840z",
+      "pipeline_report_path": "eval/history/pipeline-config-drift-checker-build-pack-testing-20260322t222840z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-config-drift-checker-build-pack-staging-20260322t222919z",
+      "promotion_report_path": "eval/history/promote-config-drift-checker-build-pack-staging-20260322t222919z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "staging"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-config-drift-checker-build-pack-staging-20260322t222917z",
+      "pipeline_report_path": "eval/history/pipeline-config-drift-checker-build-pack-staging-20260322t222917z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-config-drift-checker-build-pack-production-20260322t222933z",
+      "promotion_report_path": "eval/history/promote-config-drift-checker-build-pack-production-20260322t222933z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "production"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-config-drift-checker-build-pack-production-20260322t222930z",
+      "pipeline_report_path": "eval/history/pipeline-config-drift-checker-build-pack-production-20260322t222930z/pipeline-report.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-config-drift-checker-build-pack-production-20260322t224056z",
+      "pipeline_report_path": "eval/history/pipeline-config-drift-checker-build-pack-production-20260322t224056z/pipeline-report.json",
+      "status": "reconciled"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "promoted",
+      "promotion_id": "promote-config-drift-checker-build-pack-production-20260323t001443z",
+      "promotion_report_path": "eval/history/promote-config-drift-checker-build-pack-production-20260323t001443z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "production"
+    },
+    {
+      "build_pack_id": "config-drift-checker-build-pack",
+      "event_type": "pipeline_executed",
+      "pipeline_id": "pipeline-config-drift-checker-build-pack-production-20260323t001441z",
+      "pipeline_report_path": "eval/history/pipeline-config-drift-checker-build-pack-production-20260323t001441z/pipeline-report.json",
+      "status": "completed"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-22T16:52:50Z"
+  "updated_at": "2026-03-23T00:14:41Z"
 }

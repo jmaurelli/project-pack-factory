@@ -1,0 +1,35 @@
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-23T00:14:41Z",
+  "pack_id": "config-drift-checker-build-pack",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_deploy",
+  "ready_for_deployment": true,
+  "recommended_next_actions": [
+    "Run build-pack validation before promoting this pack.",
+    "Execute the config-drift smoke benchmark to establish readiness evidence."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/pipeline-config-drift-checker-build-pack-production-20260323t001441z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-23T00:14:41Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Validated the build-pack contract in the current workspace."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "config_drift_checker_build_pack_smoke_small_001",
+      "last_run_at": "2026-03-23T00:14:41Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Run a deterministic config-drift smoke path that proves pass, review-required, and blocking outcomes through the build-pack CLI."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

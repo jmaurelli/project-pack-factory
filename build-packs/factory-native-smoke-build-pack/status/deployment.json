@@ -3,7 +3,7 @@
   "active_release_id": null,
   "active_release_path": null,
   "deployment_notes": [
-    "Testing assignment cleared during environment reconciliation."
+    "Promoted to production by PackFactory."
   ],
   "deployment_pointer_path": null,
   "deployment_state": "not_deployed",

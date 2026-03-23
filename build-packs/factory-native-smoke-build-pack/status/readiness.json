@@ -1,34 +1,34 @@
 {
   "blocking_issues": [],
-  "last_evaluated_at": "2026-03-20T22:11:09Z",
+  "last_evaluated_at": "2026-03-22T20:04:27Z",
   "pack_id": "factory-native-smoke-build-pack",
   "pack_kind": "build_pack",
   "readiness_state": "ready_for_deploy",
   "ready_for_deployment": true,
   "recommended_next_actions": [
-    "Run build-pack validation before promoting this pack.",
-    "Execute the inherited benchmark set to establish readiness evidence."
+    "Review the refreshed local readiness evidence before the next promotion decision.",
+    "Run a deployment pipeline when you need environment-linked evidence refreshed for the next assignment."
   ],
   "required_gates": [
     {
       "evidence_paths": [
-        "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/validation-result.json"
+        "eval/history/pipeline-factory-native-smoke-build-pack-production-20260322t200427z/validation-result.json"
       ],
       "gate_id": "validate_build_pack_contract",
-      "last_run_at": "2026-03-20T22:11:09Z",
+      "last_run_at": "2026-03-22T20:04:27Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Build-pack contract validation has not been executed yet."
+      "summary": "Validated the build-pack contract in the current workspace."
     },
     {
       "evidence_paths": [
         "eval/latest/index.json"
       ],
       "gate_id": "factory_smoke_small_001",
-      "last_run_at": "2026-03-20T22:11:09Z",
+      "last_run_at": "2026-03-22T20:04:27Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Minimal end-to-end PackFactory smoke benchmark for live workflow testing."
+      "summary": "Ran the published smoke benchmark for the current build-pack workspace."
     }
   ],
   "schema_version": "pack-readiness/v2"

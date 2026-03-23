@@ -1,0 +1,19 @@
+{
+  "build_pack_id": "api-contract-sentinel-build-pack",
+  "derivation_mode": "copied",
+  "inherited_contracts": [
+    "README"
+  ],
+  "inherited_entrypoints": [
+    "benchmark_command",
+    "cli_command",
+    "validation_command"
+  ],
+  "last_sync_at": "2026-03-22T20:21:30Z",
+  "last_sync_summary": "materialization_id=materialize-api-contract-sentinel-build-pack-20260322t202130z",
+  "schema_version": "pack-lineage/v2",
+  "source_template_id": "api-contract-sentinel-template-pack",
+  "source_template_revision": "create-template-api-contract-sentinel-template-pack-20260322t202125z",
+  "source_template_version": "0.1.0",
+  "sync_state": "current"
+}

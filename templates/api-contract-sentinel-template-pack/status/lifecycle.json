@@ -1,0 +1,12 @@
+{
+  "current_revision": "create-template-api-contract-sentinel-template-pack-20260322t202125z",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "maintained",
+  "pack_id": "api-contract-sentinel-template-pack",
+  "pack_kind": "template_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "The current active line shows structured-data utility value, but it does not yet move into API contract safety. This new template extends the same small-pack pattern toward a more customer-facing validation problem without leaving the factory's lightweight workflow model.",
+  "updated_at": "2026-03-22T20:21:25Z",
+  "updated_by": "orchadmin"
+}

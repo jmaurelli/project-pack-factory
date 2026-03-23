@@ -41,6 +41,10 @@
       "type": "string",
       "minLength": 1
     },
+    "refresh_canonical_evidence": {
+      "type": "boolean",
+      "default": false
+    },
     "verification_timestamp": {
       "anyOf": [
         {

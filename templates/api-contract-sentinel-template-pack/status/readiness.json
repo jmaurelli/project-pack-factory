@@ -1,0 +1,35 @@
+{
+  "blocking_issues": [
+    "Template packs are source-only and are not deployable artifacts.",
+    "Initial template benchmark baseline has not been recorded yet."
+  ],
+  "last_evaluated_at": "2026-03-22T20:21:25Z",
+  "pack_id": "api-contract-sentinel-template-pack",
+  "pack_kind": "template_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Validate the new template pack.",
+    "Run the initial smoke benchmark to record the first baseline.",
+    "Materialize a build pack when the template is ready for downstream testing."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [],
+      "gate_id": "validate_project_pack",
+      "last_run_at": null,
+      "mandatory": true,
+      "status": "not_run",
+      "summary": "Basic PackFactory structure and contract validation."
+    },
+    {
+      "evidence_paths": [],
+      "gate_id": "api_contract_sentinel_template_pack_smoke_small_001",
+      "last_run_at": null,
+      "mandatory": true,
+      "status": "not_run",
+      "summary": "Run a deterministic API-contract smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

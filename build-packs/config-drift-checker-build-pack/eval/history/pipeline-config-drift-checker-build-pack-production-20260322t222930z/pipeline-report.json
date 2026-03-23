@@ -1,0 +1,81 @@
+{
+  "adapter_result": {
+    "adapter_id": "local-config-drift-adapter",
+    "artifacts": [
+      "dist/releases/config-drift-checker-r3/release.json"
+    ],
+    "deployment_handle": "config-drift-checker-build-pack:config-drift-checker-r3:production",
+    "deployment_url": "https://example.invalid/config-drift-checker-build-pack/production/config-drift-checker-r3",
+    "logs": [
+      "Pipeline deployed config-drift-checker-build-pack to production."
+    ],
+    "provider": "local-config-drift-adapter",
+    "status": "completed"
+  },
+  "build_pack_id": "config-drift-checker-build-pack",
+  "build_pack_root": "build-packs/config-drift-checker-build-pack",
+  "canonical_assignment_status": "committed",
+  "canonical_state_changed": true,
+  "cloud_adapter_id": "local-config-drift-adapter",
+  "commit_promotion_on_success": true,
+  "evidence_paths": [
+    "build-packs/config-drift-checker-build-pack/eval/history/pipeline-config-drift-checker-build-pack-production-20260322t222930z/pipeline-report.json",
+    "build-packs/config-drift-checker-build-pack/eval/history/pipeline-config-drift-checker-build-pack-production-20260322t222930z/validation-result.json",
+    "build-packs/config-drift-checker-build-pack/eval/history/pipeline-config-drift-checker-build-pack-production-20260322t222930z/benchmark-result.json",
+    "build-packs/config-drift-checker-build-pack/dist/candidates/config-drift-checker-r3/release.json",
+    "build-packs/config-drift-checker-build-pack/dist/releases/config-drift-checker-r3/release.json",
+    "build-packs/config-drift-checker-build-pack/eval/history/pipeline-config-drift-checker-build-pack-production-20260322t222930z/verification-result.json",
+    "build-packs/config-drift-checker-build-pack/eval/history/promote-config-drift-checker-build-pack-production-20260322t222933z/promotion-report.json"
+  ],
+  "final_status": "completed",
+  "generated_at": "2026-03-22T22:29:30Z",
+  "invoked_by": "codex",
+  "operation_log_update": {
+    "build_pack_id": "config-drift-checker-build-pack",
+    "event_type": "pipeline_executed",
+    "pipeline_id": "pipeline-config-drift-checker-build-pack-production-20260322t222930z",
+    "pipeline_report_path": "eval/history/pipeline-config-drift-checker-build-pack-production-20260322t222930z/pipeline-report.json",
+    "promotion_log_path": "registry/promotion-log.json"
+  },
+  "pipeline_id": "pipeline-config-drift-checker-build-pack-production-20260322t222930z",
+  "release_id": "config-drift-checker-r3",
+  "schema_version": "deployment-pipeline-report/v1",
+  "stage_results": [
+    {
+      "stage_id": "validate_factory_state",
+      "status": "completed",
+      "summary": "Factory validation passed."
+    },
+    {
+      "stage_id": "validate_build_pack",
+      "status": "completed",
+      "summary": "Build-pack validation command passed."
+    },
+    {
+      "stage_id": "run_required_benchmarks",
+      "status": "completed",
+      "summary": "Executed benchmark command for 1 mandatory benchmark gates."
+    },
+    {
+      "stage_id": "package_release",
+      "status": "completed",
+      "summary": "Created candidate and release artifacts."
+    },
+    {
+      "stage_id": "deploy_release",
+      "status": "completed",
+      "summary": "Provider-neutral deployment adapter completed."
+    },
+    {
+      "stage_id": "verify_deployment",
+      "status": "completed",
+      "summary": "Post-deploy verification commands passed."
+    },
+    {
+      "stage_id": "finalize_promotion",
+      "status": "completed",
+      "summary": "Committed promotion through the promotion workflow."
+    }
+  ],
+  "target_environment": "production"
+}

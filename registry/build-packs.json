@@ -44,7 +44,7 @@
       "deployment_pointer": null,
       "deployment_state": "not_deployed",
       "latest_eval_index": "build-packs/factory-native-smoke-build-pack/eval/latest/index.json",
-      "lifecycle_stage": "testing",
+      "lifecycle_stage": "maintained",
       "notes": [
         "Derived from template `factory-native-smoke-template-pack` via PackFactory materialization.",
         "materialization_id=materialize-factory-native-smoke-build-pack-20260320t221047z"
@@ -59,9 +59,9 @@
     },
     {
       "active": true,
-      "active_release_id": "json-health-checker-r3",
-      "deployment_pointer": "deployments/production/json-health-checker-build-pack.json",
-      "deployment_state": "production",
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
       "latest_eval_index": "build-packs/json-health-checker-build-pack/eval/latest/index.json",
       "lifecycle_stage": "maintained",
       "notes": [
@@ -75,8 +75,65 @@
       "retired_at": null,
       "retirement_file": "status/retirement.json",
       "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": "config-drift-checker-r3",
+      "deployment_pointer": "deployments/production/config-drift-checker-build-pack.json",
+      "deployment_state": "production",
+      "latest_eval_index": "build-packs/config-drift-checker-build-pack/eval/latest/index.json",
+      "lifecycle_stage": "maintained",
+      "notes": [
+        "Derived from template `config-drift-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-config-drift-checker-build-pack-20260322t202023z"
+      ],
+      "pack_id": "config-drift-checker-build-pack",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/config-drift-checker-build-pack",
+      "ready_for_deployment": true,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/release-evidence-summarizer-build-pack/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `release-evidence-summarizer-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-release-evidence-summarizer-build-pack-20260322t202055z"
+      ],
+      "pack_id": "release-evidence-summarizer-build-pack",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/release-evidence-summarizer-build-pack",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/api-contract-sentinel-build-pack/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `api-contract-sentinel-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-api-contract-sentinel-build-pack-20260322t202130z"
+      ],
+      "pack_id": "api-contract-sentinel-build-pack",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/api-contract-sentinel-build-pack",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-22T16:29:27Z"
+  "updated_at": "2026-03-23T00:14:43Z"
 }

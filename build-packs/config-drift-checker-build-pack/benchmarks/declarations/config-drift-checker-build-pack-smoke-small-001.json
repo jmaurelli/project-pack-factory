@@ -1,0 +1,37 @@
+{
+  "schema_version": "benchmark-declaration/v1",
+  "benchmark_task_id": "task-config-drift-checker-build-pack-smoke-small-001",
+  "benchmark_suite_id": "packfactory-config-drift-checker-build-pack-suite",
+  "benchmark_revision": "rev-config-drift-checker-build-pack-smoke-small-001",
+  "benchmark_category": "workflow-smoke",
+  "benchmark_size_class": "small",
+  "complexity_profile": "single-package-low",
+  "approval_profile": "approval_not_required",
+  "intended_pack_family": "build-pack",
+  "intended_languages": [
+    "python"
+  ],
+  "description": "Run a deterministic config-drift CLI smoke path that proves one pass case, one review-required drift case, and one fail-closed blocking case.",
+  "target_project": {
+    "target_project_id": "config-drift-checker-build-pack",
+    "target_locator": "repo-local",
+    "default_relative_root": "build-packs/config-drift-checker-build-pack"
+  },
+  "manifest_defaults": {
+    "pack_family": "build-pack",
+    "pack_version": "0.1.0",
+    "orchestration_core_version": "materialize-config-drift-checker-build-pack-20260322t202023z",
+    "terminal_benchmark_classification": "completed_within_envelope"
+  },
+  "tags": [
+    "factory-native",
+    "smoke",
+    "build-pack",
+    "materialized",
+    "small"
+  ],
+  "owners": [
+    "orchadmin"
+  ],
+  "status": "active"
+}

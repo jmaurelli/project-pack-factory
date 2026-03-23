@@ -157,6 +157,7 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
     cloud_adapter_id = str(request["cloud_adapter_id"])
     invoked_by = str(request["invoked_by"])
     commit_promotion = bool(request["commit_promotion_on_success"])
+    refresh_canonical_evidence = bool(request.get("refresh_canonical_evidence_on_reconcile")) and commit_promotion
     verification_commands = [str(command) for command in request.get("verification_commands", [])]
 
     location = discover_pack(factory_root, pack_id)
@@ -419,15 +420,22 @@ def run_deployment_pipeline(factory_root: Path, request: dict[str, Any]) -> dict
                 "promotion_reason": f"Finalized by pipeline {pipeline_id}",
                 "verification_timestamp": generated_at,
             }
+            if refresh_canonical_evidence:
+                promotion_request["refresh_canonical_evidence"] = True
             promotion_result = promote_build_pack(factory_root, promotion_request)
             evidence_paths.append(relative_path(factory_root, Path(promotion_result["promotion_report_path"])))
-            canonical_assignment_status = "committed"
-            if promotion_result["status"] == "reconciled":
+            promotion_status = promotion_result["status"]
+            if promotion_status == "reconciled":
                 final_status = "reconciled"
+                canonical_assignment_status = "unchanged"
                 reconcile("finalize_promotion", "Promotion state was already current and was reconciled.")
             else:
+                canonical_assignment_status = "refreshed" if refresh_canonical_evidence else "committed"
                 canonical_state_changed = True
-                complete("finalize_promotion", "Committed promotion through the promotion workflow.")
+                if refresh_canonical_evidence:
+                    complete("finalize_promotion", "Refreshed canonical promotion evidence through the promotion workflow.")
+                else:
+                    complete("finalize_promotion", "Committed promotion through the promotion workflow.")
         else:
             complete("finalize_promotion", "Promotion commit was intentionally deferred by request.")
     except RuntimeError:

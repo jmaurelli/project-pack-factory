@@ -1,0 +1,19 @@
+{
+  "build_pack_id": "config-drift-checker-build-pack",
+  "derivation_mode": "copied",
+  "inherited_contracts": [
+    "README"
+  ],
+  "inherited_entrypoints": [
+    "benchmark_command",
+    "cli_command",
+    "validation_command"
+  ],
+  "last_sync_at": "2026-03-22T20:20:23Z",
+  "last_sync_summary": "materialization_id=materialize-config-drift-checker-build-pack-20260322t202023z",
+  "schema_version": "pack-lineage/v2",
+  "source_template_id": "config-drift-checker-template-pack",
+  "source_template_revision": "create-template-config-drift-checker-template-pack-20260322t202017z",
+  "source_template_version": "0.1.0",
+  "sync_state": "current"
+}

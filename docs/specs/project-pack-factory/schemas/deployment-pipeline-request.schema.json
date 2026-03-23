@@ -48,6 +48,10 @@
     "commit_promotion_on_success": {
       "type": "boolean"
     },
+    "refresh_canonical_evidence_on_reconcile": {
+      "type": "boolean",
+      "description": "If true, request a canonical evidence refresh when the pipeline finalizes a same-release reconcile promotion."
+    },
     "validation_command_ref": {
       "type": "string",
       "const": "pack.json.entrypoints.validation_command"

@@ -1,0 +1,19 @@
+{
+  "scenario_id": "config-drift-checker-build-pack-no-drift",
+  "description": "Baseline and candidate are equivalent after normalization.",
+  "baseline": {
+    "service": {
+      "name": "config-drift-checker",
+      "retries": 2,
+      "timeout_seconds": 30
+    }
+  },
+  "candidate": {
+    "service": {
+      "timeout_seconds": 30,
+      "retries": 2,
+      "name": "config-drift-checker"
+    }
+  },
+  "expected_status": "pass"
+}

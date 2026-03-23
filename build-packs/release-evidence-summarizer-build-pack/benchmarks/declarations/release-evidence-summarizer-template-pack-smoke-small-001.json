@@ -1,0 +1,36 @@
+{
+  "approval_profile": "approval_not_required",
+  "benchmark_category": "workflow-smoke",
+  "benchmark_revision": "rev-release-evidence-summarizer-template-pack-smoke-small-001",
+  "benchmark_size_class": "small",
+  "benchmark_suite_id": "packfactory-template-creation-suite",
+  "benchmark_task_id": "task-release-evidence-summarizer-template-pack-smoke-small-001",
+  "complexity_profile": "single-package-low",
+  "description": "Run a deterministic release-evidence smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal.",
+  "intended_languages": [
+    "python"
+  ],
+  "intended_pack_family": "template-pack",
+  "manifest_defaults": {
+    "orchestration_core_version": "create-template-release-evidence-summarizer-template-pack-20260322t202051z",
+    "pack_family": "template-pack",
+    "pack_version": "0.1.0",
+    "terminal_benchmark_classification": "completed_within_envelope"
+  },
+  "owners": [
+    "orchadmin"
+  ],
+  "schema_version": "benchmark-declaration/v1",
+  "status": "active",
+  "tags": [
+    "factory-native",
+    "template-pack",
+    "small",
+    "created"
+  ],
+  "target_project": {
+    "default_relative_root": "templates/release-evidence-summarizer-template-pack",
+    "target_locator": "repo-local",
+    "target_project_id": "release-evidence-summarizer-template-pack"
+  }
+}

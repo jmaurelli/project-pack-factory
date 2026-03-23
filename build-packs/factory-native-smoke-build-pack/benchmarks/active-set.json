@@ -1,13 +1,13 @@
 {
   "schema_version": "pack-benchmark-active-set/v1",
-  "pack_id": "factory-native-smoke-template-pack",
-  "pack_kind": "template_pack",
+  "pack_id": "factory-native-smoke-build-pack",
+  "pack_kind": "build_pack",
   "default_benchmark_id": "factory-smoke-small-001",
   "active_benchmarks": [
     {
       "benchmark_id": "factory-smoke-small-001",
       "declaration_path": "benchmarks/declarations/factory-smoke-small-001.json",
-      "objective": "Minimal end-to-end PackFactory smoke benchmark for live workflow testing.",
+      "objective": "Minimal end-to-end PackFactory smoke benchmark for live build-pack workflow testing.",
       "required_for_readiness": true
     }
   ]

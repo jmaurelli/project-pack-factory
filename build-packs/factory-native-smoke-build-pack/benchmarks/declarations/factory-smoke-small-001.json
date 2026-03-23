@@ -7,26 +7,27 @@
   "benchmark_size_class": "small",
   "complexity_profile": "single-package-low",
   "approval_profile": "approval_not_required",
-  "intended_pack_family": "template-pack",
+  "intended_pack_family": "build-pack",
   "intended_languages": [
     "python"
   ],
-  "description": "Fresh minimal smoke benchmark declaration for the factory-native testing template.",
+  "description": "Fresh minimal smoke benchmark declaration for the factory-native testing build pack.",
   "target_project": {
-    "target_project_id": "factory-native-smoke-template-pack",
+    "target_project_id": "factory-native-smoke-build-pack",
     "target_locator": "repo-local",
-    "default_relative_root": "templates/factory-native-smoke-template-pack"
+    "default_relative_root": "build-packs/factory-native-smoke-build-pack"
   },
   "manifest_defaults": {
-    "pack_family": "template-pack",
+    "pack_family": "build-pack",
     "pack_version": "0.1.0",
-    "orchestration_core_version": "factory-native-smoke-template-20260320t221000z",
+    "orchestration_core_version": "materialize-factory-native-smoke-build-pack-20260320t221047z",
     "terminal_benchmark_classification": "completed_within_envelope"
   },
   "tags": [
     "factory-native",
     "smoke",
-    "template-pack",
+    "build-pack",
+    "materialized",
     "small"
   ],
   "owners": [

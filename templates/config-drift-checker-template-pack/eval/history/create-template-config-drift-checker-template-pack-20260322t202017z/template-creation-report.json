@@ -1,0 +1,33 @@
+{
+  "artifact_paths": {
+    "creation_report": "templates/config-drift-checker-template-pack/eval/history/create-template-config-drift-checker-template-pack-20260322t202017z/template-creation-report.json",
+    "lifecycle_file": "templates/config-drift-checker-template-pack/status/lifecycle.json",
+    "pack_manifest": "templates/config-drift-checker-template-pack/pack.json",
+    "readiness_file": "templates/config-drift-checker-template-pack/status/readiness.json",
+    "template_root": "templates/config-drift-checker-template-pack"
+  },
+  "created_at": "2026-03-22T20:20:17Z",
+  "created_by": "orchadmin",
+  "creation_id": "create-template-config-drift-checker-template-pack-20260322t202017z",
+  "factory_mutations": {
+    "operation_log_updated": true,
+    "post_write_factory_validation": "pass",
+    "registry_updated": true
+  },
+  "next_recommended_actions": [
+    "Inspect the new template pack.",
+    "Run validate-project-pack inside the new template.",
+    "Run the initial smoke benchmark when ready."
+  ],
+  "planning_summary": {
+    "delivery_shape": "script",
+    "initial_benchmark_intent": "Run a deterministic config-drift smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal.",
+    "new_template_rationale": "The active smoke template should remain a neutral workflow baseline, and the JSON health checker stays a narrow schema-style utility. This new template expands the factory into a practical release-safety problem without leaving the current structured-data capability zone.",
+    "project_goal": "Create a small PackFactory-native template for detecting configuration drift between a current JSON or YAML file and a declared baseline before promotion.",
+    "reuse_active_template": false
+  },
+  "scaffold_strategy": "minimal_python_text_pack",
+  "schema_version": "template-creation-report/v1",
+  "status": "created",
+  "template_pack_id": "config-drift-checker-template-pack"
+}

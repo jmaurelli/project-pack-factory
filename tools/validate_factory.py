@@ -24,6 +24,20 @@ SCHEMA_BY_RELATIVE_PATH = {
     "benchmarks/active-set.json": "benchmark-active-set.schema.json",
     "eval/latest/index.json": "eval-latest-index.schema.json",
 }
+AUTONOMY_SCHEMA_BY_CONTRACT_KEY = {
+    "project_objective_file": "project-objective.schema.json",
+    "task_backlog_file": "task-backlog.schema.json",
+    "work_state_file": "work-state.schema.json",
+}
+AUTONOMY_CONTRACT_KEYS = tuple(AUTONOMY_SCHEMA_BY_CONTRACT_KEY.keys()) + ("tasks_dir",)
+FINAL_TASK_STATUSES = {"completed", "escalated", "cancelled"}
+ACTIVE_AUTONOMY_STATES = {
+    "actively_building",
+    "blocked",
+    "awaiting_operator",
+    "ready_for_review",
+    "ready_for_deploy",
+}
 
 PACK_ROOTS = ("templates", "build-packs")
 DEPLOYMENT_ENVIRONMENTS = ("testing", "staging", "production")
@@ -291,6 +305,8 @@ def _validate_pack_documents(pack_root: Path, manifest: dict[str, Any], errors: 
             continue
         errors.extend(validate_json_document(document_path, schema_root / schema_name))
 
+    _validate_autonomy_documents(pack_root, manifest, schema_root, errors)
+
     retirement_state = _load_object(pack_root / "status/retirement.json")
     report_path = retirement_state.get("retirement_report_path")
     if isinstance(report_path, str):
@@ -300,6 +316,111 @@ def _validate_pack_documents(pack_root: Path, manifest: dict[str, Any], errors: 
                 schema_root / "retirement-report.schema.json",
             )
         )
+
+
+def _autonomy_contract(contract: dict[str, Any]) -> dict[str, str] | None:
+    present_values = {
+        key: value
+        for key, value in ((key, contract.get(key)) for key in AUTONOMY_CONTRACT_KEYS)
+        if value is not None
+    }
+    if not present_values:
+        return None
+    return {
+        key: value
+        for key, value in present_values.items()
+        if isinstance(value, str)
+    }
+
+
+def _validate_autonomy_documents(
+    pack_root: Path,
+    manifest: dict[str, Any],
+    schema_root: Path,
+    errors: list[str],
+) -> None:
+    contract = manifest.get("directory_contract")
+    if not isinstance(contract, dict):
+        return
+
+    autonomy_contract = _autonomy_contract(contract)
+    if autonomy_contract is None:
+        return
+
+    for key in AUTONOMY_CONTRACT_KEYS:
+        value = contract.get(key)
+        if not isinstance(value, str):
+            errors.append(
+                f"{pack_root / 'pack.json'}: directory_contract.{key} must be a string when autonomy handoff files are declared"
+            )
+
+    task_backlog: dict[str, Any] | None = None
+    work_state: dict[str, Any] | None = None
+    for key, schema_name in AUTONOMY_SCHEMA_BY_CONTRACT_KEY.items():
+        relative_path = contract.get(key)
+        if not isinstance(relative_path, str):
+            continue
+        document_path = pack_root / relative_path
+        if not document_path.exists():
+            continue
+        errors.extend(validate_json_document(document_path, schema_root / schema_name))
+        document = _load_object(document_path)
+        if key == "task_backlog_file":
+            task_backlog = document
+        elif key == "work_state_file":
+            work_state = document
+
+    if task_backlog is None or work_state is None:
+        return
+
+    tasks = task_backlog.get("tasks", [])
+    if not isinstance(tasks, list):
+        return
+    task_by_id = {
+        str(task.get("task_id")): task
+        for task in tasks
+        if isinstance(task, dict) and isinstance(task.get("task_id"), str)
+    }
+
+    active_task_id = work_state.get("active_task_id")
+    autonomy_state = work_state.get("autonomy_state")
+    if autonomy_state in ACTIVE_AUTONOMY_STATES:
+        if not isinstance(active_task_id, str) or active_task_id not in task_by_id:
+            errors.append(
+                f"{pack_root / contract['work_state_file']}: active_task_id must reference a real task when autonomy_state is active"
+            )
+
+    next_task_id = work_state.get("next_recommended_task_id")
+    if isinstance(next_task_id, str):
+        next_task = task_by_id.get(next_task_id)
+        if next_task is None:
+            errors.append(
+                f"{pack_root / contract['work_state_file']}: next_recommended_task_id must reference a real task"
+            )
+        else:
+            next_status = next_task.get("status")
+            if next_status in FINAL_TASK_STATUSES:
+                errors.append(
+                    f"{pack_root / contract['work_state_file']}: next_recommended_task_id must reference a non-final task"
+                )
+            if next_status == "blocked" or next_task_id in set(work_state.get("blocked_task_ids", [])):
+                errors.append(
+                    f"{pack_root / contract['work_state_file']}: next_recommended_task_id must not reference a blocked task"
+                )
+
+    blocked_task_ids = work_state.get("blocked_task_ids", [])
+    if not isinstance(blocked_task_ids, list):
+        return
+    if isinstance(active_task_id, str):
+        active_task = task_by_id.get(active_task_id)
+        if active_task is not None and active_task.get("status") == "blocked":
+            errors.append(
+                f"{pack_root / contract['work_state_file']}: blocked tasks must not also be marked as active"
+            )
+        if active_task_id in blocked_task_ids:
+            errors.append(
+                f"{pack_root / contract['work_state_file']}: blocked_task_ids must not include the active task"
+            )
 
 
 def _state_snapshot(pack_root: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:

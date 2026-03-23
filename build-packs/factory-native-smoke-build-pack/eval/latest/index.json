@@ -2,14 +2,14 @@
   "benchmark_results": [
     {
       "benchmark_id": "factory-smoke-small-001",
-      "latest_run_id": "pipeline-factory-native-smoke-build-pack-testing-20260320t221109z",
-      "run_artifact_path": "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/benchmark-result.json",
+      "latest_run_id": "pipeline-factory-native-smoke-build-pack-production-20260322t200427z",
+      "run_artifact_path": "eval/history/pipeline-factory-native-smoke-build-pack-production-20260322t200427z/benchmark-result.json",
       "status": "pass",
-      "summary_artifact_path": "eval/history/pipeline-factory-native-smoke-build-pack-testing-20260320t221109z/benchmark-result.json"
+      "summary_artifact_path": "eval/history/pipeline-factory-native-smoke-build-pack-production-20260322t200427z/benchmark-result.json"
     }
   ],
   "pack_id": "factory-native-smoke-build-pack",
   "pack_kind": "build_pack",
   "schema_version": "pack-eval-index/v1",
-  "updated_at": "2026-03-20T22:11:09Z"
+  "updated_at": "2026-03-22T20:04:27Z"
 }

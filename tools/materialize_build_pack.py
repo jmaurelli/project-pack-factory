@@ -107,13 +107,33 @@ def _gate_id(benchmark_id: str) -> str:
     return benchmark_id.replace("-", "_")
 
 
+def _load_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8").strip()
+
+
+def _project_context_summary(project_context_text: str, fallback: str) -> str:
+    for line in project_context_text.splitlines():
+        candidate = line.strip()
+        if not candidate or candidate.startswith("#"):
+            continue
+        return candidate
+    return fallback
+
+
+def _objective_id(pack_id: str) -> str:
+    return f"{pack_id}_objective"
+
+
 def _build_directory_contract() -> dict[str, Any]:
     return {
         "docs_dir": "docs",
         "prompts_dir": "prompts",
         "contracts_dir": "contracts",
+        "project_objective_file": "contracts/project-objective.json",
         "source_dir": "src",
         "tests_dir": "tests",
+        "tasks_dir": "tasks",
+        "task_backlog_file": "tasks/active-backlog.json",
         "benchmarks_dir": "benchmarks",
         "benchmark_active_set_file": "benchmarks/active-set.json",
         "eval_dir": "eval",
@@ -124,6 +144,7 @@ def _build_directory_contract() -> dict[str, Any]:
         "readiness_file": "status/readiness.json",
         "retirement_file": "status/retirement.json",
         "deployment_file": "status/deployment.json",
+        "work_state_file": "status/work-state.json",
         "lineage_dir": "lineage",
         "lineage_file": "lineage/source-template.json",
         "dist_dir": "dist",
@@ -164,6 +185,7 @@ def _synthesize_build_pack(
     template_lifecycle = _load_object(template_root / "status/lifecycle.json")
     template_readiness = _load_object(template_root / "status/readiness.json")
     template_active_set = _load_object(template_root / "benchmarks/active-set.json")
+    project_context_text = _load_text(template_root / "project-context.md")
 
     pack_id = str(request["target_build_pack_id"])
     display_name = str(request["target_display_name"])
@@ -187,6 +209,9 @@ def _synthesize_build_pack(
             "status/retirement.json",
             "status/deployment.json",
             "lineage/source-template.json",
+            "contracts/project-objective.json",
+            "tasks/active-backlog.json",
+            "status/work-state.json",
             "benchmarks/active-set.json",
             "eval/latest/index.json",
         ],
@@ -198,6 +223,12 @@ def _synthesize_build_pack(
             f"materialization_id={materialization_id}",
         ],
     }
+
+    objective_id = _objective_id(pack_id)
+    objective_summary = _project_context_summary(
+        project_context_text,
+        f"Advance `{pack_id}` from materialized build-pack state to validated, benchmarked, deployment-ready state.",
+    )
 
     benchmarks = template_active_set.get("active_benchmarks", [])
     if not isinstance(benchmarks, list):
@@ -263,8 +294,8 @@ def _synthesize_build_pack(
             "This build pack has been materialized but has not been evaluated yet."
         ],
         "recommended_next_actions": [
-            "Run build-pack validation before promoting this pack.",
-            "Execute the inherited benchmark set to establish readiness evidence.",
+            "Start with the canonical validation task in tasks/active-backlog.json.",
+            "Run the inherited benchmark task after validation passes.",
         ],
         "required_gates": required_gates,
     }
@@ -338,6 +369,136 @@ def _synthesize_build_pack(
             }
         ],
     }
+    project_objective = {
+        "schema_version": "project-objective/v1",
+        "pack_id": pack_id,
+        "pack_kind": "build_pack",
+        "objective_id": objective_id,
+        "objective_summary": objective_summary,
+        "problem_statement": project_context_text,
+        "intended_inputs": [
+            "Pack-local source code and configuration under the materialized build-pack.",
+            "Validation and benchmark commands declared in pack.json entrypoints.",
+            "Current readiness, eval, and benchmark state for this build-pack.",
+        ],
+        "intended_outputs": [
+            "A schema-valid build-pack with current validation and benchmark evidence.",
+            "Updated readiness and eval state that supports promotion decisions.",
+        ],
+        "success_criteria": [
+            "The build-pack validation command completes successfully and records passing evidence.",
+            "The inherited benchmark command completes successfully and updates readiness evidence.",
+        ],
+        "metrics": [
+            {
+                "metric_id": "validation_gate_status",
+                "summary": "Validation gate reaches a passing state.",
+                "target": "validate_build_pack_contract=pass",
+            },
+            {
+                "metric_id": "benchmark_completion",
+                "summary": "All inherited readiness benchmarks complete successfully.",
+                "target": "required inherited benchmark gates=pass or waived",
+            },
+        ],
+        "non_goals": [
+            "Changing deployment state outside the existing PackFactory workflows.",
+            "Creating new tests or benchmarks without explicit operator approval.",
+        ],
+        "completion_definition": [
+            "All starter tasks in tasks/active-backlog.json are completed or explicitly resolved through existing workflows.",
+            "The build-pack is ready for review, ready for deploy, or awaiting the next PackFactory workflow step.",
+        ],
+        "promotion_readiness_requirements": [
+            "Build-pack validation must pass with recorded evidence.",
+            "Inherited required benchmark gates must pass or be waived.",
+            "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+        ],
+    }
+    validation_task_id = "run_build_pack_validation"
+    benchmark_task_id = "run_inherited_benchmarks"
+    task_backlog = {
+        "schema_version": "task-backlog/v1",
+        "pack_id": pack_id,
+        "pack_kind": "build_pack",
+        "objective_id": objective_id,
+        "tasks": [
+            {
+                "task_id": validation_task_id,
+                "summary": "Run the build-pack validation command and capture readiness evidence.",
+                "status": "in_progress",
+                "objective_link": objective_id,
+                "acceptance_criteria": [
+                    "The validation command exits successfully.",
+                    "The validation gate records passing evidence in status/readiness.json.",
+                ],
+                "validation_commands": [str(template_manifest["entrypoints"]["validation_command"])],
+                "files_in_scope": [
+                    "pack.json",
+                    "status/readiness.json",
+                    "eval/latest/index.json",
+                ],
+                "dependencies": [],
+                "blocked_by": [],
+                "escalation_conditions": [
+                    "Validation reports schema or contract failures that the current task scope cannot resolve safely.",
+                ],
+                "completion_signals": [
+                    "validate_build_pack_contract reaches pass state.",
+                    "Validation evidence is recorded under eval/history and linked from status/readiness.json.",
+                ],
+            },
+            {
+                "task_id": benchmark_task_id,
+                "summary": "Run the inherited benchmark command after validation passes.",
+                "status": "pending",
+                "objective_link": objective_id,
+                "acceptance_criteria": [
+                    "The benchmark command exits successfully.",
+                    "Inherited benchmark gates update from not_run to pass or waived.",
+                ],
+                "validation_commands": [str(template_manifest["entrypoints"]["benchmark_command"])],
+                "files_in_scope": [
+                    "benchmarks/active-set.json",
+                    "status/readiness.json",
+                    "eval/latest/index.json",
+                ],
+                "dependencies": [validation_task_id],
+                "blocked_by": [],
+                "escalation_conditions": [
+                    "Benchmark output fails to update readiness or eval state through the existing bounded surfaces.",
+                ],
+                "completion_signals": [
+                    "The inherited benchmark command records results in eval/latest/index.json.",
+                    "Required benchmark gates advance to pass or waived in status/readiness.json.",
+                ],
+            },
+        ],
+    }
+    work_state = {
+        "schema_version": "pack-work-state/v1",
+        "pack_id": pack_id,
+        "pack_kind": "build_pack",
+        "autonomy_state": "actively_building",
+        "active_task_id": validation_task_id,
+        "next_recommended_task_id": validation_task_id,
+        "pending_task_ids": [benchmark_task_id],
+        "blocked_task_ids": [],
+        "completed_task_ids": [],
+        "last_outcome": "stopped",
+        "last_outcome_at": generated_at,
+        "last_validation_results": [],
+        "last_agent_action": "Materialized the build-pack and seeded objective, backlog, and work-state files.",
+        "resume_instructions": [
+            "Read the objective, backlog, and work-state files before editing code.",
+            "Run the validation task before attempting benchmark execution or deployment workflows.",
+        ],
+        "stop_conditions": [
+            "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+            "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly.",
+        ],
+        "escalation_state": "none",
+    }
     return {
         "pack_manifest": pack_manifest,
         "lifecycle": lifecycle,
@@ -346,6 +507,9 @@ def _synthesize_build_pack(
         "deployment": deployment,
         "lineage": lineage,
         "eval_latest": eval_latest,
+        "project_objective": project_objective,
+        "task_backlog": task_backlog,
+        "work_state": work_state,
     }
 
 
@@ -386,6 +550,7 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         copied_paths, skipped_paths = _copy_template_content(source.pack_root, target_root)
         for relative_dir in (
             "status",
+            "tasks",
             "lineage",
             "eval/latest",
             "eval/history",
@@ -410,6 +575,9 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         write_json(target_root / "status/readiness.json", state["readiness"])
         write_json(target_root / "status/retirement.json", state["retirement"])
         write_json(target_root / "status/deployment.json", state["deployment"])
+        write_json(target_root / "status/work-state.json", state["work_state"])
+        write_json(target_root / "contracts/project-objective.json", state["project_objective"])
+        write_json(target_root / "tasks/active-backlog.json", state["task_backlog"])
         write_json(target_root / "lineage/source-template.json", state["lineage"])
         write_json(target_root / "eval/latest/index.json", state["eval_latest"])
 
@@ -496,7 +664,7 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                     "action_id": "write_status_files",
                     "status": "completed",
                     "target_path": f"{pack_root_relative}/status",
-                    "summary": "Wrote initial lifecycle, readiness, retirement, and deployment state.",
+                    "summary": "Wrote initial lifecycle, readiness, retirement, deployment, and work-state files.",
                 },
                 {
                     "action_id": "update_registry_entry",

@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -67,6 +68,7 @@ def _state_snapshot(lifecycle: dict[str, Any], deployment: dict[str, Any]) -> di
         "deployment_state": deployment["deployment_state"],
         "active_environment": deployment["active_environment"],
         "active_release_path": deployment["active_release_path"],
+        "last_promoted_at": deployment["last_promoted_at"],
         "last_verified_at": deployment["last_verified_at"],
         "deployment_pointer_path": deployment["deployment_pointer_path"],
     }
@@ -137,6 +139,67 @@ def _deployment_pointer(
 
 def _pointer_core(payload: dict[str, Any]) -> dict[str, Any]:
     return {key: value for key, value in payload.items() if key != "updated_at"}
+
+
+def _refresh_metadata(
+    *,
+    requested: bool,
+    performed: bool,
+    mode: str,
+    source_promotion_id: str,
+    source_promotion_report_path: str,
+) -> dict[str, Any]:
+    return {
+        "requested": requested,
+        "performed": performed,
+        "mode": mode,
+        "environment_unchanged": True,
+        "release_id_unchanged": True,
+        "source_promotion_id": source_promotion_id,
+        "source_promotion_report_path": source_promotion_report_path,
+    }
+
+
+def _refresh_report_is_current(report: dict[str, Any]) -> bool:
+    refresh = report.get("reconcile_refresh")
+    if not isinstance(refresh, dict):
+        return False
+    return (
+        refresh.get("requested") is True
+        and refresh.get("performed") is True
+        and refresh.get("mode") == "canonical_evidence_refresh"
+    )
+
+
+def _reserve_promotion_identity(
+    *,
+    factory_root: Path,
+    pack_root: Path,
+    pack_id: str,
+    target_environment: str,
+    moment: datetime,
+) -> tuple[str, str, str]:
+    current = moment.astimezone().replace(microsecond=0)
+    promotion_log_path = factory_root / PROMOTION_LOG_PATH
+    existing_promotion_ids: set[str] = set()
+    if promotion_log_path.exists():
+        promotion_log = _load_object(promotion_log_path)
+        events = promotion_log.get("events", [])
+        if not isinstance(events, list):
+            raise ValueError(f"{promotion_log_path}: events must be an array")
+        for event in events:
+            if isinstance(event, dict):
+                promotion_id = event.get("promotion_id")
+                if isinstance(promotion_id, str):
+                    existing_promotion_ids.add(promotion_id)
+    while True:
+        generated_at = isoformat_z(current)
+        promotion_id = f"promote-{pack_id}-{target_environment}-{timestamp_token(current)}"
+        report_relative = f"eval/history/{promotion_id}/promotion-report.json"
+        if promotion_id in existing_promotion_ids or (pack_root / report_relative).exists():
+            current += timedelta(seconds=1)
+            continue
+        return generated_at, promotion_id, report_relative
 
 
 def _find_canonical_promoted_event(
@@ -260,6 +323,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
     release_id = str(request["release_id"])
     promoted_by = str(request["promoted_by"])
     promotion_reason = str(request["promotion_reason"])
+    refresh_requested = bool(request.get("refresh_canonical_evidence", False))
     verification_timestamp = request.get("verification_timestamp")
 
     location = discover_pack(factory_root, pack_id)
@@ -300,6 +364,8 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
     current_env = str(deployment["active_environment"])
     current_release_id = deployment.get("active_release_id")
     pre_state = _state_snapshot(lifecycle, deployment)
+    if refresh_requested and not (current_env == target_environment and current_release_id == release_id):
+        raise ValueError("canonical evidence refresh requires an already-active same-release assignment")
     if current_env == target_environment and current_release_id == release_id:
         expected_release_path = f"dist/releases/{release_id}"
         pointer_relative = f"deployments/{target_environment}/{pack_id}.json"
@@ -311,10 +377,13 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
             raise ValueError("cannot reconcile drifted deployment_pointer_path")
         if lifecycle.get("lifecycle_stage") != LIFECYCLE_BY_ENV[target_environment][0]:
             raise ValueError("cannot reconcile drifted lifecycle stage")
-        now = read_now()
-        generated_at = isoformat_z(now)
-        promotion_id = f"promote-{pack_id}-{target_environment}-{timestamp_token(now)}"
-        report_relative = f"eval/history/{promotion_id}/promotion-report.json"
+        generated_at, promotion_id, report_relative = _reserve_promotion_identity(
+            factory_root=factory_root,
+            pack_root=pack_root,
+            pack_id=pack_id,
+            target_environment=target_environment,
+            moment=read_now(),
+        )
         pointer_path = factory_root / pointer_relative
         environment_pointer_paths = sorted((factory_root / "deployments" / target_environment).glob("*.json"))
         if environment_pointer_paths != [pointer_path]:
@@ -374,6 +443,161 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
             )
         if canonical_post_state.get("active_release_path") != expected_release_path:
             raise ValueError(f"{canonical_report_path}: canonical promotion report active_release_path does not match request")
+        if refresh_requested:
+            if (
+                _refresh_report_is_current(canonical_report)
+                and deployment.get("deployment_transaction_id") == canonical_promotion_id
+                and pointer_payload.get("deployment_transaction_id") == canonical_promotion_id
+                and pointer_payload.get("promotion_evidence_ref") == canonical_report_relative
+            ):
+                return {
+                    "status": "reconciled",
+                    "promotion_id": canonical_promotion_id,
+                    "promotion_report_path": str(canonical_report_path),
+                }
+            generated_at, promotion_id, report_relative = _reserve_promotion_identity(
+                factory_root=factory_root,
+                pack_root=pack_root,
+                pack_id=pack_id,
+                target_environment=target_environment,
+                moment=read_now(),
+            )
+            pointer_payload = _deployment_pointer(
+                pack_id=pack_id,
+                release_id=release_id,
+                target_environment=target_environment,
+                promotion_id=promotion_id,
+                report_relative=report_relative,
+                generated_at=generated_at,
+            )
+            write_json(pointer_path, pointer_payload)
+            deployment_changed = False
+            if deployment.get("deployment_transaction_id") != promotion_id:
+                deployment["deployment_transaction_id"] = promotion_id
+                deployment_changed = True
+            if deployment.get("last_promoted_at") != generated_at:
+                deployment["last_promoted_at"] = generated_at
+                deployment_changed = True
+            if deployment.get("projection_state") != "projected":
+                deployment["projection_state"] = "projected"
+                deployment_changed = True
+            if verification_timestamp is not None and deployment.get("last_verified_at") != verification_timestamp:
+                deployment["last_verified_at"] = verification_timestamp
+                deployment_changed = True
+            if deployment_changed:
+                write_json(deployment_path, deployment)
+            registry_path = factory_root / REGISTRY_BUILD_PATH
+            registry = _load_object(registry_path)
+            entries = registry.get("entries", [])
+            if not isinstance(entries, list):
+                raise ValueError(f"{registry_path}: entries must be an array")
+            entries[location.registry_index] = {
+                **dict(entries[location.registry_index]),
+                "active": True,
+                "deployment_state": target_environment,
+                "deployment_pointer": pointer_relative,
+                "active_release_id": release_id,
+                "retirement_state": "active",
+            }
+            registry["updated_at"] = generated_at
+            write_json(registry_path, registry)
+            promotion_log_path = factory_root / PROMOTION_LOG_PATH
+            promotion_log = _load_object(promotion_log_path)
+            events = promotion_log.setdefault("events", [])
+            if not isinstance(events, list):
+                raise ValueError(f"{promotion_log_path}: events must be an array")
+            events.append(
+                {
+                    "event_type": "promoted",
+                    "promotion_id": promotion_id,
+                    "build_pack_id": pack_id,
+                    "target_environment": target_environment,
+                    "promotion_report_path": report_relative,
+                    "status": "completed",
+                }
+            )
+            promotion_log["updated_at"] = generated_at
+            write_json(promotion_log_path, promotion_log)
+            report = {
+                "schema_version": "build-pack-promotion-report/v1",
+                "promotion_id": promotion_id,
+                "generated_at": generated_at,
+                "status": "completed",
+                "build_pack_id": pack_id,
+                "build_pack_root": f"build-packs/{pack_id}",
+                "target_environment": target_environment,
+                "release_id": release_id,
+                "release_path": f"dist/releases/{release_id}",
+                "promoted_by": promoted_by,
+                "promotion_reason": promotion_reason,
+                "reconcile_refresh": _refresh_metadata(
+                    requested=True,
+                    performed=True,
+                    mode="canonical_evidence_refresh",
+                    source_promotion_id=canonical_promotion_id,
+                    source_promotion_report_path=canonical_report_relative,
+                ),
+                "pre_promotion_state": pre_state,
+                "post_promotion_state": _state_snapshot(lifecycle, deployment),
+                "registry_update": {
+                    "registry_path": "registry/build-packs.json",
+                    "pack_id": pack_id,
+                    "deployment_state": target_environment,
+                    "deployment_pointer": pointer_relative,
+                },
+                "operation_log_update": {
+                    "promotion_log_path": "registry/promotion-log.json",
+                    "event_type": "promoted",
+                    "promotion_id": promotion_id,
+                    "build_pack_id": pack_id,
+                    "target_environment": target_environment,
+                    "promotion_report_path": report_relative,
+                },
+                "actions": [
+                    {
+                        "action_id": "update_deployment_state",
+                        "status": "completed" if deployment_changed else "reconciled",
+                        "target_path": f"build-packs/{pack_id}/status/deployment.json",
+                        "summary": "Refreshed the canonical deployment state for the active release.",
+                    },
+                    {
+                        "action_id": "write_deployment_pointer",
+                        "status": "completed",
+                        "target_path": pointer_relative,
+                        "summary": "Wrote a refreshed canonical deployment pointer.",
+                    },
+                    {
+                        "action_id": "update_registry_entry",
+                        "status": "completed",
+                        "target_path": "registry/build-packs.json",
+                        "summary": "Refreshed the build-pack registry entry for the canonical promotion witness.",
+                    },
+                    {
+                        "action_id": "append_operation_log",
+                        "status": "completed",
+                        "target_path": "registry/promotion-log.json",
+                        "summary": "Appended the refreshed promotion event to the factory operation log.",
+                    },
+                    {
+                        "action_id": "write_promotion_report",
+                        "status": "completed",
+                        "target_path": f"build-packs/{pack_id}/{report_relative}",
+                        "summary": "Wrote the refreshed canonical promotion evidence report.",
+                    },
+                ],
+                "evidence_paths": [
+                    f"build-packs/{pack_id}/{report_relative}",
+                    canonical_report_relative,
+                    pointer_relative,
+                    f"build-packs/{pack_id}/status/deployment.json",
+                ],
+            }
+            write_json(pack_root / report_relative, report)
+            return {
+                "status": "completed",
+                "promotion_id": promotion_id,
+                "promotion_report_path": str(pack_root / report_relative),
+            }
         canonical_pointer = _deployment_pointer(
             pack_id=pack_id,
             release_id=release_id,
@@ -421,6 +645,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
             "release_path": f"dist/releases/{release_id}",
             "promoted_by": promoted_by,
             "promotion_reason": promotion_reason,
+            "reconcile_refresh": None,
             "pre_promotion_state": pre_state,
             "post_promotion_state": _state_snapshot(lifecycle, deployment),
             "registry_update": None,
@@ -472,10 +697,13 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
     if expected_environment != target_environment:
         raise ValueError(f"invalid promotion transition from {current_state} to {target_environment}")
 
-    now = read_now()
-    generated_at = isoformat_z(now)
-    promotion_id = f"promote-{pack_id}-{target_environment}-{timestamp_token(now)}"
-    report_relative = f"eval/history/{promotion_id}/promotion-report.json"
+    generated_at, promotion_id, report_relative = _reserve_promotion_identity(
+        factory_root=factory_root,
+        pack_root=pack_root,
+        pack_id=pack_id,
+        target_environment=target_environment,
+        moment=read_now(),
+    )
     pointer_relative = f"deployments/{target_environment}/{pack_id}.json"
     pointer_path = factory_root / pointer_relative
 
@@ -588,6 +816,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         "release_path": f"dist/releases/{release_id}",
         "promoted_by": promoted_by,
         "promotion_reason": promotion_reason,
+        "reconcile_refresh": None,
         "pre_promotion_state": pre_state,
         "post_promotion_state": post_state,
         "registry_update": {

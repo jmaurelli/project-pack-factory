@@ -1,0 +1,13 @@
+{
+  "active_release_id": "config-drift-checker-r3",
+  "active_release_path": "dist/releases/config-drift-checker-r3",
+  "deployment_transaction_id": "promote-config-drift-checker-build-pack-production-20260323t001443z",
+  "environment": "production",
+  "pack_id": "config-drift-checker-build-pack",
+  "pack_kind": "build_pack",
+  "pack_root": "build-packs/config-drift-checker-build-pack",
+  "promotion_evidence_ref": "eval/history/promote-config-drift-checker-build-pack-production-20260323t001443z/promotion-report.json",
+  "schema_version": "pack-deployment-pointer/v2",
+  "source_deployment_file": "build-packs/config-drift-checker-build-pack/status/deployment.json",
+  "updated_at": "2026-03-23T00:14:43Z"
+}

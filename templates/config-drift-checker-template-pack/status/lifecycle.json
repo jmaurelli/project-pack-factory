@@ -1,0 +1,12 @@
+{
+  "current_revision": "create-template-config-drift-checker-template-pack-20260322t202017z",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "maintained",
+  "pack_id": "config-drift-checker-template-pack",
+  "pack_kind": "template_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "The active smoke template should remain a neutral workflow baseline, and the JSON health checker stays a narrow schema-style utility. This new template expands the factory into a practical release-safety problem without leaving the current structured-data capability zone.",
+  "updated_at": "2026-03-22T20:20:17Z",
+  "updated_by": "orchadmin"
+}

@@ -1,0 +1,19 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "factory-smoke-small-001",
+      "project_root": "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack",
+      "status": "pass",
+      "summary": "Minimal smoke benchmark completed successfully."
+    }
+  ],
+  "build_pack_id": "factory-native-smoke-build-pack",
+  "command": "PYTHONPATH=src python3 -m factory_smoke_pack benchmark-smoke --output json",
+  "mandatory_gate_ids": [
+    "factory_smoke_small_001"
+  ],
+  "returncode": 0,
+  "status": "pass",
+  "stderr": "",
+  "stdout": "{\n  \"status\": \"pass\",\n  \"benchmark_id\": \"factory-smoke-small-001\",\n  \"project_root\": \"/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack\",\n  \"summary\": \"Minimal smoke benchmark completed successfully.\"\n}\n"
+}

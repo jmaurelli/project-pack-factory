@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "config-drift-checker-build-pack"
+version = "0.1.0"
+description = "Deterministic JSON/YAML configuration drift checker with machine-readable policy results."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["PyYAML>=6.0"]
+
+[project.scripts]
+check-drift = "config_drift_checker_build_pack.cli:main_check_drift"
+config-drift-checker-build-pack = "config_drift_checker_build_pack.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["config_drift_checker_build_pack*"]

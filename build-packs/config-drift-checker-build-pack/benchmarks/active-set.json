@@ -1,0 +1,14 @@
+{
+  "schema_version": "pack-benchmark-active-set/v1",
+  "pack_id": "config-drift-checker-build-pack",
+  "pack_kind": "build_pack",
+  "default_benchmark_id": "config-drift-checker-build-pack-smoke-small-001",
+  "active_benchmarks": [
+    {
+      "benchmark_id": "config-drift-checker-build-pack-smoke-small-001",
+      "declaration_path": "benchmarks/declarations/config-drift-checker-build-pack-smoke-small-001.json",
+      "objective": "Run a deterministic config-drift smoke path that proves one pass case, one review-required case, and one fail-closed blocking case through the build-pack CLI.",
+      "required_for_readiness": true
+    }
+  ]
+}

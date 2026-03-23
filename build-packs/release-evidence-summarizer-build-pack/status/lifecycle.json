@@ -1,0 +1,12 @@
+{
+  "current_revision": "r1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "release-evidence-summarizer-build-pack",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Materialize the release evidence summarizer template into a deployable build-pack so the factory can grow its operator-facing release support capability.",
+  "updated_at": "2026-03-22T20:20:55Z",
+  "updated_by": "codex"
+}

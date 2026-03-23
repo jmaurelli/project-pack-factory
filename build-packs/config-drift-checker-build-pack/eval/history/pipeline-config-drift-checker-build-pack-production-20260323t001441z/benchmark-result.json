@@ -1,0 +1,57 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "config-drift-checker-build-pack-smoke-small-001",
+      "checked_paths": [
+        "pack.json",
+        "status/readiness.json",
+        "benchmarks/declarations/config-drift-checker-build-pack-smoke-small-001.json",
+        "tests/fixtures/no-drift-sample.json"
+      ],
+      "missing_paths": [],
+      "project_root": "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack",
+      "runtime_checks": {
+        "blocking_case": {
+          "counts": {
+            "blocking": 1,
+            "informational": 0,
+            "total_findings": 1,
+            "warning": 0
+          },
+          "returncode": 1,
+          "status": "fail"
+        },
+        "pass_case": {
+          "counts": {
+            "blocking": 0,
+            "informational": 0,
+            "total_findings": 0,
+            "warning": 0
+          },
+          "returncode": 0,
+          "status": "pass"
+        },
+        "review_required_case": {
+          "counts": {
+            "blocking": 0,
+            "informational": 0,
+            "total_findings": 1,
+            "warning": 1
+          },
+          "returncode": 2,
+          "status": "review_required"
+        }
+      },
+      "status": "pass"
+    }
+  ],
+  "build_pack_id": "config-drift-checker-build-pack",
+  "command": "PYTHONPATH=src python3 -m config_drift_checker_build_pack benchmark-smoke --project-root . --output json",
+  "mandatory_gate_ids": [
+    "config_drift_checker_build_pack_smoke_small_001"
+  ],
+  "returncode": 0,
+  "status": "pass",
+  "stderr": "",
+  "stdout": "{\n  \"benchmark_id\": \"config-drift-checker-build-pack-smoke-small-001\",\n  \"checked_paths\": [\n    \"pack.json\",\n    \"status/readiness.json\",\n    \"benchmarks/declarations/config-drift-checker-build-pack-smoke-small-001.json\",\n    \"tests/fixtures/no-drift-sample.json\"\n  ],\n  \"missing_paths\": [],\n  \"project_root\": \"/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack\",\n  \"runtime_checks\": {\n    \"blocking_case\": {\n      \"counts\": {\n        \"blocking\": 1,\n        \"informational\": 0,\n        \"total_findings\": 1,\n        \"warning\": 0\n      },\n      \"returncode\": 1,\n      \"status\": \"fail\"\n    },\n    \"pass_case\": {\n      \"counts\": {\n        \"blocking\": 0,\n        \"informational\": 0,\n        \"total_findings\": 0,\n        \"warning\": 0\n      },\n      \"returncode\": 0,\n      \"status\": \"pass\"\n    },\n    \"review_required_case\": {\n      \"counts\": {\n        \"blocking\": 0,\n        \"informational\": 0,\n        \"total_findings\": 1,\n        \"warning\": 1\n      },\n      \"returncode\": 2,\n      \"status\": \"review_required\"\n    }\n  },\n  \"status\": \"pass\"\n}\n"
+}

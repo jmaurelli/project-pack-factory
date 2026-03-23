@@ -75,6 +75,55 @@
       "type": "string",
       "minLength": 1
     },
+    "reconcile_refresh": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requested",
+            "performed",
+            "mode",
+            "environment_unchanged",
+            "release_id_unchanged",
+            "source_promotion_id",
+            "source_promotion_report_path"
+          ],
+          "properties": {
+            "requested": {
+              "type": "boolean"
+            },
+            "performed": {
+              "type": "boolean"
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "canonical_evidence_refresh",
+                "already_current"
+              ]
+            },
+            "environment_unchanged": {
+              "type": "boolean"
+            },
+            "release_id_unchanged": {
+              "type": "boolean"
+            },
+            "source_promotion_id": {
+              "type": "string",
+              "pattern": "^promote-[a-z0-9][a-z0-9_-]*-(testing|staging|production)-[0-9]{8}t[0-9]{6}z$"
+            },
+            "source_promotion_report_path": {
+              "type": "string",
+              "pattern": "^eval/history/[^/]+/promotion-report\\.json$"
+            }
+          }
+        }
+      ]
+    },
     "pre_promotion_state": {
       "$ref": "#/$defs/state"
     },
@@ -282,6 +331,17 @@
             {
               "type": "string",
               "pattern": "^dist/releases/[^/]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "last_promoted_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
             },
             {
               "type": "null"

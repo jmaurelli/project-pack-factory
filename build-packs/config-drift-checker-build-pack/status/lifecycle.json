@@ -1,0 +1,12 @@
+{
+  "current_revision": "r1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "maintained",
+  "pack_id": "config-drift-checker-build-pack",
+  "pack_kind": "build_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Finalized by pipeline pipeline-config-drift-checker-build-pack-production-20260322t222930z",
+  "updated_at": "2026-03-22T22:29:33Z",
+  "updated_by": "codex"
+}

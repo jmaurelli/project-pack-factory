@@ -1,0 +1,17 @@
+{
+  "artifact_paths": [
+    "src/",
+    "tests/",
+    "contracts/",
+    "docs/specs/",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "build_pack_id": "factory-native-smoke-build-pack",
+  "built_at": "2026-03-22T20:03:45Z",
+  "release_id": "factory-smoke-r2",
+  "release_state": "testing",
+  "schema_version": "pack-release/v1",
+  "source_template_id": "factory-native-smoke-template-pack",
+  "source_template_revision": "factory-native-smoke-template-20260320t221000z"
+}

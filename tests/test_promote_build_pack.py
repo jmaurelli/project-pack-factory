@@ -151,7 +151,13 @@ def _materialize(factory_root: Path, pack_id: str = "promo-pack") -> Path:
     return pack_root
 
 
-def _request(env: str, release_id: str = "r1", pack_id: str = "promo-pack") -> dict[str, object]:
+def _request(
+    env: str,
+    release_id: str = "r1",
+    pack_id: str = "promo-pack",
+    *,
+    refresh_canonical_evidence: bool = False,
+) -> dict[str, object]:
     return {
         "schema_version": "build-pack-promotion-request/v1",
         "build_pack_id": pack_id,
@@ -159,8 +165,20 @@ def _request(env: str, release_id: str = "r1", pack_id: str = "promo-pack") -> d
         "release_id": release_id,
         "promoted_by": "pytest",
         "promotion_reason": f"Promote to {env}",
+        "refresh_canonical_evidence": refresh_canonical_evidence,
         "verification_timestamp": "2026-03-20T00:00:00Z",
     }
+
+
+def _promoted_events(factory_root: Path, pack_id: str = "promo-pack") -> list[dict[str, object]]:
+    promotion_log = load_json(factory_root / "registry/promotion-log.json")
+    return [
+        event
+        for event in promotion_log["events"]
+        if isinstance(event, dict)
+        and event.get("event_type") == "promoted"
+        and event.get("build_pack_id") == pack_id
+    ]
 
 
 def _reset_canonical_assignments(factory_root: Path) -> None:
@@ -208,6 +226,85 @@ def test_promote_build_pack_happy_path_writes_pointer_and_updates_registry(tmp_p
     assert deployment["deployment_state"] == "testing"
     registry = load_json(factory_root / "registry/build-packs.json")
     assert next(entry for entry in registry["entries"] if entry["pack_id"] == "promo-pack")["deployment_pointer"] == "deployments/testing/promo-pack.json"
+
+
+def test_promote_build_pack_same_release_without_refresh_preserves_plain_reconcile_behavior(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    _materialize(factory_root)
+
+    first_result = promote_build_pack(factory_root, _request("testing"))
+    first_promoted_events = _promoted_events(factory_root)
+
+    second_result = promote_build_pack(factory_root, _request("testing"))
+
+    assert first_result["status"] == "completed"
+    assert second_result["status"] == "reconciled"
+    assert second_result["promotion_id"] != first_result["promotion_id"]
+    assert _promoted_events(factory_root) == first_promoted_events
+
+
+def test_promote_build_pack_same_release_refresh_writes_new_canonical_promotion(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    _materialize(factory_root)
+
+    first_result = promote_build_pack(factory_root, _request("testing"))
+    first_deployment = load_json(factory_root / "build-packs/promo-pack/status/deployment.json")
+    first_promoted_events = _promoted_events(factory_root)
+
+    refresh_result = promote_build_pack(
+        factory_root,
+        _request("testing", refresh_canonical_evidence=True),
+    )
+
+    assert refresh_result["status"] == "completed"
+    assert refresh_result["promotion_id"] != first_result["promotion_id"]
+
+    deployment = load_json(factory_root / "build-packs/promo-pack/status/deployment.json")
+    pointer = load_json(factory_root / "deployments/testing/promo-pack.json")
+    promoted_events = _promoted_events(factory_root)
+    report = load_json(Path(refresh_result["promotion_report_path"]))
+
+    assert deployment["deployment_transaction_id"] == refresh_result["promotion_id"]
+    assert deployment["deployment_transaction_id"] != first_deployment["deployment_transaction_id"]
+    assert deployment["last_promoted_at"] != first_deployment["last_promoted_at"]
+    assert pointer["deployment_transaction_id"] == refresh_result["promotion_id"]
+    assert pointer["promotion_evidence_ref"] == f"eval/history/{refresh_result['promotion_id']}/promotion-report.json"
+    assert len(promoted_events) == len(first_promoted_events) + 1
+    assert promoted_events[-1]["promotion_id"] == refresh_result["promotion_id"]
+    assert report["status"] == "completed"
+    assert report["reconcile_refresh"]["requested"] is True
+    assert report["reconcile_refresh"]["performed"] is True
+    assert report["reconcile_refresh"]["mode"] == "canonical_evidence_refresh"
+    assert report["reconcile_refresh"]["source_promotion_id"] == first_result["promotion_id"]
+    assert validate_factory(factory_root)["valid"] is True
+
+
+def test_promote_build_pack_refresh_is_idempotent_when_already_current(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    _materialize(factory_root)
+
+    promote_build_pack(factory_root, _request("testing"))
+    refresh_result = promote_build_pack(factory_root, _request("testing", refresh_canonical_evidence=True))
+    promoted_events_before = _promoted_events(factory_root)
+
+    no_op_result = promote_build_pack(factory_root, _request("testing", refresh_canonical_evidence=True))
+
+    assert no_op_result["status"] == "reconciled"
+    assert no_op_result["promotion_id"] == refresh_result["promotion_id"]
+    assert no_op_result["promotion_report_path"] == refresh_result["promotion_report_path"]
+    assert _promoted_events(factory_root) == promoted_events_before
+
+
+def test_promote_build_pack_refresh_fails_closed_when_not_same_release(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    _materialize(factory_root)
+
+    try:
+        promote_build_pack(factory_root, _request("testing", refresh_canonical_evidence=True))
+    except ValueError as exc:
+        assert "already-active same-release assignment" in str(exc)
+    else:
+        raise AssertionError("expected refresh promotion to fail when the pack is not already active")
 
 
 def test_promote_build_pack_rejects_when_latest_eval_is_missing(tmp_path: Path) -> None:

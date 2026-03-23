@@ -1,0 +1,7 @@
+{
+  "commands": [
+    "tmpdir=$(mktemp -d) && printf '{\"service\": {\"timeout_seconds\": 30}}\\n' > \"$tmpdir/baseline.json\" && printf '{\"service\": {\"timeout_seconds\": 30}}\\n' > \"$tmpdir/candidate.json\" && PYTHONPATH=src python3 -m config_drift_checker_template_pack check-drift --baseline \"$tmpdir/baseline.json\" --candidate \"$tmpdir/candidate.json\" --output json >/dev/null && rc=$?; rm -rf \"$tmpdir\"; exit $rc"
+  ],
+  "failures": [],
+  "status": "passed"
+}

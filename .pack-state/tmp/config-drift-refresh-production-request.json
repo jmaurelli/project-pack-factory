@@ -1,0 +1,16 @@
+{
+  "schema_version": "deployment-pipeline-request/v1",
+  "build_pack_id": "config-drift-checker-build-pack",
+  "target_environment": "production",
+  "release_id": "config-drift-checker-r3",
+  "cloud_adapter_id": "local-test-adapter",
+  "invoked_by": "codex",
+  "commit_promotion_on_success": true,
+  "refresh_canonical_evidence_on_reconcile": true,
+  "validation_command_ref": "pack.json.entrypoints.validation_command",
+  "benchmark_source": "status/readiness.json.required_gates",
+  "verification_commands": [
+    "PYTHONPATH=src python3 -m config_drift_checker_build_pack benchmark-smoke --project-root . --output json >/dev/null"
+  ],
+  "secret_refs": []
+}

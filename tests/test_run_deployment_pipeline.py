@@ -98,6 +98,38 @@ def _normalize_active_build_pack_evidence(factory_root: Path) -> None:
         _seed_integrity_evidence(pack_root, run_id=f"bootstrap-{pack_root.name}")
 
 
+def _reset_canonical_assignments(factory_root: Path) -> None:
+    for environment in ("testing", "staging", "production"):
+        deployment_dir = factory_root / "deployments" / environment
+        for pointer in deployment_dir.glob("*.json"):
+            pointer.unlink()
+
+    registry = load_json(factory_root / "registry/build-packs.json")
+    for entry in registry["entries"]:
+        entry["deployment_state"] = "not_deployed"
+        entry["deployment_pointer"] = None
+        entry["active_release_id"] = None
+    write_json(factory_root / "registry/build-packs.json", registry)
+
+    for pack_root in (factory_root / "build-packs").iterdir():
+        if not pack_root.is_dir():
+            continue
+        deployment_path = pack_root / "status/deployment.json"
+        if not deployment_path.exists():
+            continue
+        deployment = load_json(deployment_path)
+        deployment["deployment_state"] = "not_deployed"
+        deployment["active_environment"] = "none"
+        deployment["active_release_id"] = None
+        deployment["active_release_path"] = None
+        deployment["deployment_pointer_path"] = None
+        deployment["deployment_transaction_id"] = None
+        deployment["projection_state"] = "not_required"
+        deployment["last_promoted_at"] = None
+        deployment["last_verified_at"] = None
+        write_json(deployment_path, deployment)
+
+
 def _copy_factory(tmp_path: Path) -> Path:
     destination = tmp_path / "factory"
 
@@ -110,6 +142,7 @@ def _copy_factory(tmp_path: Path) -> Path:
         }
 
     shutil.copytree(ROOT, destination, ignore=_ignore)
+    _reset_canonical_assignments(destination)
     _normalize_active_build_pack_evidence(destination)
     return destination
 
@@ -145,8 +178,13 @@ def _prepare_build_pack(factory_root: Path, *, validation_command: str = "python
     return pack_root
 
 
-def _request(*, commit: bool, verification_commands: list[str] | None = None) -> dict[str, object]:
-    return {
+def _request(
+    *,
+    commit: bool,
+    refresh_canonical_evidence_on_reconcile: bool = False,
+    verification_commands: list[str] | None = None,
+) -> dict[str, object]:
+    request = {
         "schema_version": "deployment-pipeline-request/v1",
         "build_pack_id": "pipeline-pack",
         "target_environment": "testing",
@@ -159,6 +197,9 @@ def _request(*, commit: bool, verification_commands: list[str] | None = None) ->
         "verification_commands": verification_commands or ["python3 -c \"print('verify')\""],
         "secret_refs": [],
     }
+    if refresh_canonical_evidence_on_reconcile:
+        request["refresh_canonical_evidence_on_reconcile"] = True
+    return request
 
 
 def test_run_deployment_pipeline_happy_path_without_commit(tmp_path: Path) -> None:
@@ -185,6 +226,9 @@ def test_run_deployment_pipeline_happy_path_with_commit_promotes_build_pack(tmp_
     first_result = run_deployment_pipeline(factory_root, _request(commit=True))
 
     assert first_result["status"] == "completed"
+    first_report = load_json(Path(first_result["pipeline_report_path"]))
+    assert first_report["canonical_assignment_status"] == "committed"
+    assert first_report["canonical_state_changed"] is True
     assert (factory_root / "deployments/testing/pipeline-pack.json").exists()
     deployment = load_json(factory_root / "build-packs/pipeline-pack/status/deployment.json")
     assert deployment["deployment_state"] == "testing"
@@ -197,8 +241,79 @@ def test_run_deployment_pipeline_happy_path_with_commit_promotes_build_pack(tmp_
     second_result = run_deployment_pipeline(factory_root, _request(commit=True))
 
     assert second_result["status"] == "reconciled"
+    second_report = load_json(Path(second_result["pipeline_report_path"]))
+    assert second_report["canonical_assignment_status"] == "unchanged"
+    assert second_report["canonical_state_changed"] is False
     assert release_path.read_bytes() == release_snapshot
     assert candidate_path.read_bytes() == candidate_snapshot
+
+
+def test_run_deployment_pipeline_refresh_commit_forwards_refresh_flag_and_marks_report(
+    tmp_path: Path, monkeypatch: object
+) -> None:
+    factory_root = _copy_factory(tmp_path)
+    _prepare_build_pack(factory_root)
+
+    run_deployment_pipeline(factory_root, _request(commit=True))
+
+    forwarded_requests: list[dict[str, object]] = []
+
+    def fake_promote_build_pack(fake_factory_root: Path, promotion_request: dict[str, object]) -> dict[str, str]:
+        forwarded_requests.append(promotion_request)
+        report_path = fake_factory_root / "build-packs/pipeline-pack/eval/history/fake-refresh/promotion-report.json"
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        write_json(
+            report_path,
+            {
+                "schema_version": "build-pack-promotion-report/v1",
+                "promotion_id": "promote-pipeline-pack-testing-20260322t000000z",
+                "generated_at": "2026-03-22T00:00:00Z",
+                "status": "completed",
+                "build_pack_id": "pipeline-pack",
+                "build_pack_root": "build-packs/pipeline-pack",
+                "target_environment": "testing",
+                "release_id": "pipe-r1",
+                "release_path": "dist/releases/pipe-r1",
+                "promoted_by": "pytest",
+                "promotion_reason": "Refreshed by test",
+                "pre_promotion_state": {
+                    "lifecycle_stage": "testing",
+                    "deployment_state": "testing",
+                    "active_environment": "testing",
+                    "active_release_path": "dist/releases/pipe-r1",
+                    "last_verified_at": "2026-03-22T00:00:00Z",
+                    "deployment_pointer_path": "deployments/testing/pipeline-pack.json",
+                },
+                "post_promotion_state": {
+                    "lifecycle_stage": "testing",
+                    "deployment_state": "testing",
+                    "active_environment": "testing",
+                    "active_release_path": "dist/releases/pipe-r1",
+                    "last_verified_at": "2026-03-22T00:00:00Z",
+                    "deployment_pointer_path": "deployments/testing/pipeline-pack.json",
+                },
+                "registry_update": None,
+                "operation_log_update": None,
+                "actions": [],
+                "evidence_paths": [],
+            },
+        )
+        return {"status": "completed", "promotion_report_path": str(report_path)}
+
+    monkeypatch.setattr("run_deployment_pipeline.promote_build_pack", fake_promote_build_pack)
+
+    result = run_deployment_pipeline(
+        factory_root,
+        _request(commit=True, refresh_canonical_evidence_on_reconcile=True),
+    )
+
+    assert result["status"] == "completed"
+    report = load_json(Path(result["pipeline_report_path"]))
+    assert report["canonical_state_changed"] is True
+    assert report["canonical_assignment_status"] == "refreshed"
+    assert report["final_status"] == "completed"
+    assert forwarded_requests
+    assert forwarded_requests[-1]["refresh_canonical_evidence"] is True
 
 
 def test_run_deployment_pipeline_fails_on_validation_command_and_skips_later_stages(tmp_path: Path) -> None:

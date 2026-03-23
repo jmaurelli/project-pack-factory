@@ -1,6 +1,7 @@
-# Factory Native Smoke Template Pack
+# Factory Native Smoke Build Pack
 
-This is the fresh minimal template for PackFactory workflow testing.
+This is the fresh minimal build pack materialized from
+`factory-native-smoke-template-pack` for PackFactory workflow testing.
 
 ## Bootstrap Order
 
@@ -16,8 +17,8 @@ This is the fresh minimal template for PackFactory workflow testing.
 
 ## Working Rules
 
-- Treat this pack as the active small testing template for live factory workflow checks.
+- Treat this pack as the active small testing build pack for live factory workflow checks.
 - Use `validate-project-pack` before trusting local state.
-- Use `benchmark-smoke` as the smallest bounded benchmark for pipeline smoke coverage.
-- Keep this pack intentionally tiny and easy for a fresh agent to inspect.
-- Treat this template as source-only. It is not directly deployable.
+- Use `benchmark-smoke` as the smallest bounded benchmark for build-pack smoke coverage.
+- Keep this build pack intentionally tiny and easy for a fresh agent to inspect.
+- Treat lineage in `lineage/source-template.json` as source history, not as the current pack identity.
