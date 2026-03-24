@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-23T23:58:57Z",
+  "generated_at": "2026-03-24T00:41:12Z",
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -101,7 +101,7 @@
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Core AFF and Microservice Platform playbooks reflect reviewed support phrasing and decision order.",
+        "FireFlow Backend and Microservice Platform playbooks reflect reviewed support phrasing and decision order.",
         "HTML and JSON outputs remain aligned after the language tuning pass."
       ],
       "dependencies": [
@@ -118,7 +118,7 @@
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "status": "pending",
-      "summary": "Tune high-value support playbooks into final operator language and decision flow.",
+      "summary": "Tune high-value support playbooks into final operator language and decision flow, starting with FireFlow Backend.",
       "task_id": "tune_operator_language_for_priority_domains",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",

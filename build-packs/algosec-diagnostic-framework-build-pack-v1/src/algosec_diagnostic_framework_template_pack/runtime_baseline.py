@@ -307,242 +307,390 @@ def build_support_baseline(
 def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     observed = support_baseline["observed"]
     runtime_identity = observed["runtime_identity"]
-    priority_rows = "".join(
+    flow_lookup = {flow["flow_id"]: flow for flow in support_baseline["diagnostic_flows"]}
+    symptoms_by_flow: dict[str, list[dict[str, str]]] = {}
+    for item in support_baseline["symptom_lookup"]:
+        symptoms_by_flow.setdefault(item["suggested_domain_id"], []).append(item)
+
+    quick_jump_items = "".join(
         (
-            "<tr>"
-            f"<td>{html.escape(service['service_name'])}</td>"
-            f"<td>{html.escape(service['role_hint'])}</td>"
-            f"<td>{html.escape(service['support_importance_tier'])}</td>"
-            f"<td>{service['support_importance_score']}</td>"
-            "</tr>"
-        )
-        for service in support_baseline["inferred"]["priority_services"]
-    )
-    checkpoint_items = "".join(
-        f"<li><strong>{html.escape(item['label'])}</strong>: {html.escape(item['details'])}</li>"
-        for item in support_baseline["comparison_checkpoints"]
-    )
-    unknown_items = "".join(
-        f"<li>{html.escape(item)}</li>"
-        for item in support_baseline["unknowns"]
-    )
-    response_steps = "".join(
-        f"<li>{html.escape(step)}</li>"
-        for step in support_baseline["first_response_steps"]
-    )
-    service_path_items = "".join(
-        (
-            "<li><strong>"
-            f"{html.escape(path['label'])}</strong>: "
-            f"{html.escape(path['summary'])}"
-            "</li>"
-        )
-        for path in support_baseline["service_paths"]
-    )
-    support_domain_items = "".join(
-        (
-            "<li><strong>"
-            f"{html.escape(domain['label'])}</strong>: "
-            f"{html.escape(domain['summary'])}"
-            + (
-                f"<br><span>Start here: {html.escape('; '.join(domain['first_checks']))}</span>"
-                if domain["first_checks"]
-                else ""
-            )
-            + "</li>"
-        )
-        for domain in support_baseline["support_domains"]
-    )
-    diagnostic_flow_items = "".join(
-        (
-            "<li><strong>"
-            f"{html.escape(flow['label'])}</strong>: "
-            f"{html.escape(flow['symptom_focus'])}"
-            + f"<br><span>Likely services: {html.escape(', '.join(flow['likely_failing_services']))}</span>"
-            + f"<br><span>Check next: {html.escape('; '.join(flow['check_sequence']))}</span>"
-            + f"<br><span>Collect next: {html.escape('; '.join(flow['evidence_to_collect_next']))}</span>"
-            + (
-                f"<br><span>If those pass: {html.escape(flow['next_dependency_focus'])}</span>"
-                if flow["next_dependency_focus"]
-                else ""
-            )
-            + "</li>"
-        )
-        for flow in support_baseline["diagnostic_flows"]
-    )
-    symptom_lookup_items = "".join(
-        (
-            "<li><strong>"
-            f"{html.escape(item['symptom_label'])}</strong>: "
-            f"{html.escape(item['suggested_domain_label'])}"
-            + f"<br><span>Use flow: {html.escape(item['suggested_flow_label'])}</span>"
-            + f"<br><span>Start with: {html.escape(item['first_action'])}</span>"
-            + "</li>"
-        )
-        for item in support_baseline["symptom_lookup"]
-    )
-    decision_playbook_items = "".join(
-        (
-            "<li><strong>"
-            f"{html.escape(playbook['label'])}</strong>"
-            + "<ol>"
-            + "".join(
-                (
-                    "<li>"
-                    f"{html.escape(step['step_label'])}: {html.escape(step['action'])}"
-                    + f"<br><span>If check passes: {html.escape(step['next_if_pass'])}</span>"
-                    + f"<br><span>If check fails, likely failure point: {html.escape(step['failure_point'])}</span>"
-                    + f"<br><span>Decision if check fails: {html.escape(step['decision_if_fail'])}</span>"
-                    + (
-                        f"<br><span>Collect if this step fails: {html.escape('; '.join(step['evidence_to_collect']))}</span>"
-                        if step["evidence_to_collect"]
-                        else ""
-                    )
-                    + (
-                        "<br><span>Run next:</span><ul>"
-                        + "".join(
-                            (
-                                "<li>"
-                                f"<strong>{html.escape(command['label'])}</strong>"
-                                f"<br><code>{html.escape(command['command'])}</code>"
-                                f"<br><span>Healthy means: {html.escape(command['expected_signal'])}</span>"
-                                f"<br><span>If not healthy: {html.escape(command['interpretation'])}</span>"
-                                "</li>"
-                            )
-                            for command in step["recommended_commands"]
-                        )
-                        + "</ul>"
-                        if step["recommended_commands"]
-                        else ""
-                    )
-                    + "</li>"
-                )
-                for step in playbook["steps"]
-            )
-            + "</ol></li>"
+            f'<a class="jump-card" href="#playbook-{html.escape(playbook["playbook_id"])}">'
+            f'<span class="jump-title">{html.escape(playbook["label"])}</span>'
+            f'<span class="jump-subtitle">{html.escape(playbook["steps"][0]["action"])}</span>'
+            "</a>"
         )
         for playbook in support_baseline["decision_playbooks"]
     )
+
+    symptom_lookup_items = "".join(
+        (
+            f'<a class="symptom-chip" href="#playbook-{html.escape(item["suggested_domain_id"])}">'
+            f'<strong>{html.escape(item["symptom_label"])}</strong>'
+            f'<span>{html.escape(item["suggested_domain_label"])}</span>'
+            "</a>"
+        )
+        for item in support_baseline["symptom_lookup"]
+    )
+
+    def render_command(command: dict[str, str]) -> str:
+        return (
+            '<div class="command-card">'
+            f'<div class="command-label">{html.escape(command["label"])}</div>'
+            f'<pre><code>{html.escape(command["command"])}</code></pre>'
+            f'<div class="signal ok"><strong>Healthy means:</strong> {html.escape(command["expected_signal"])}</div>'
+            f'<div class="signal warn"><strong>If not healthy:</strong> {html.escape(command["interpretation"])}</div>'
+            "</div>"
+        )
+
+    def render_step(step: dict[str, Any]) -> str:
+        evidence_block = (
+            '<div class="step-panel evidence"><strong>Collect if this step fails</strong><ul>'
+            + "".join(f"<li>{html.escape(item)}</li>" for item in step["evidence_to_collect"])
+            + "</ul></div>"
+            if step["evidence_to_collect"]
+            else ""
+        )
+        commands_block = (
+            '<div class="step-panel"><strong>Run these commands</strong>'
+            + "".join(render_command(command) for command in step["recommended_commands"])
+            + "</div>"
+            if step["recommended_commands"]
+            else ""
+        )
+        return (
+            '<article class="step-card">'
+            f'<div class="step-number">{html.escape(step["step_label"])}</div>'
+            f'<h4>{html.escape(step["action"])}</h4>'
+            '<div class="step-grid">'
+            f'<div class="step-panel pass"><strong>If healthy</strong><p>{html.escape(step["next_if_pass"])}</p></div>'
+            f'<div class="step-panel fail"><strong>Likely failure point</strong><p>{html.escape(step["failure_point"])}</p></div>'
+            f'<div class="step-panel next"><strong>Decision if this fails</strong><p>{html.escape(step["decision_if_fail"])}</p></div>'
+            "</div>"
+            + commands_block
+            + evidence_block
+            + "</article>"
+        )
+
+    def render_playbook(playbook: dict[str, Any]) -> str:
+        flow = flow_lookup.get(playbook["playbook_id"], {})
+        symptom_items = symptoms_by_flow.get(playbook["playbook_id"], [])
+        symptom_list = "".join(f"<li>{html.escape(item['symptom_label'])}</li>" for item in symptom_items)
+        first_command_preview = ""
+        for step in playbook["steps"]:
+            if step["recommended_commands"]:
+                first_command_preview = step["recommended_commands"][0]["command"]
+                break
+        quick_path = "".join(
+            f'<div class="path-node">{html.escape(step["step_label"])}<span>{html.escape(step["failure_point"])}</span></div>'
+            for step in playbook["steps"]
+        )
+        return (
+            f'<section class="playbook" id="playbook-{html.escape(playbook["playbook_id"])}">'
+            f'<div class="playbook-header"><div><h2>{html.escape(playbook["label"])}</h2>'
+            f'<p class="playbook-focus">{html.escape(playbook["symptom_focus"])}</p></div>'
+            f'<a class="top-link" href="#top">Back to top</a></div>'
+            + (
+                '<div class="playbook-meta"><div class="meta-card"><strong>Use this when</strong><ul>'
+                + symptom_list
+                + "</ul></div>"
+                if symptom_items
+                else '<div class="playbook-meta">'
+            )
+            + (
+                f'<div class="meta-card"><strong>Start with</strong><p>{html.escape(first_command_preview)}</p></div>'
+                if first_command_preview
+                else '<div class="meta-card"><strong>Start with</strong><p>Use the first explicit step below.</p></div>'
+            )
+            + (
+                f'<div class="meta-card"><strong>Next dependency path</strong><p>{html.escape(flow.get("next_dependency_focus", "Stay inside this playbook until a step fails or passes cleanly."))}</p></div>'
+                "</div>"
+            )
+            + '<div class="quick-path">'
+            + quick_path
+            + "</div>"
+            + "".join(render_step(step) for step in playbook["steps"])
+            + "</section>"
+        )
+
+    playbook_sections = "".join(render_playbook(playbook) for playbook in support_baseline["decision_playbooks"])
+    service_path_items = "".join(
+        (
+            '<article class="reference-card">'
+            f"<h4>{html.escape(path['label'])}</h4>"
+            f"<p>{html.escape(path['summary'])}</p>"
+            "</article>"
+        )
+        for path in support_baseline["service_paths"]
+    )
+    unknown_items = "".join(f"<li>{html.escape(item)}</li>" for item in support_baseline["unknowns"])
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ADF Support Baseline</title>
+  <title>AlgoSec Support Playbooks</title>
   <style>
     :root {{
       color-scheme: light;
-      --bg: #f5f1e8;
+      --bg: #f2eee5;
       --card: #fffdfa;
-      --ink: #1f2a2e;
-      --accent: #2b6f77;
-      --rule: #d7cdbd;
+      --ink: #13212a;
+      --accent: #0f6c7a;
+      --accent-soft: #d8eef0;
+      --rule: #d8ccbc;
+      --ok: #edf8ef;
+      --ok-ink: #1e6a33;
+      --warn: #fff0db;
+      --warn-ink: #8a4b00;
+      --fail: #fff1ef;
+      --fail-ink: #9d2d20;
+      --muted: #5d6970;
+      --code: #1f2933;
     }}
     body {{
       margin: 0;
       font-family: Georgia, "Times New Roman", serif;
-      background: linear-gradient(180deg, #e8efe7 0%, var(--bg) 100%);
+      background:
+        radial-gradient(circle at top right, #d8eef0 0, transparent 28%),
+        linear-gradient(180deg, #f6f1e8 0%, var(--bg) 100%);
       color: var(--ink);
     }}
     main {{
-      max-width: 960px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 32px 20px 48px;
+      padding: 24px 20px 56px;
     }}
     section {{
       background: var(--card);
       border: 1px solid var(--rule);
-      border-radius: 16px;
-      padding: 20px;
-      margin-top: 16px;
-      box-shadow: 0 8px 24px rgba(31, 42, 46, 0.08);
+      border-radius: 20px;
+      padding: 22px;
+      margin-top: 18px;
+      box-shadow: 0 16px 40px rgba(19, 33, 42, 0.08);
     }}
-    h1, h2 {{
+    h1, h2, h3, h4 {{
       margin: 0 0 12px;
     }}
+    h1 {{
+      font-size: 2.2rem;
+      line-height: 1.05;
+    }}
+    h2 {{
+      font-size: 1.6rem;
+    }}
     .meta {{
-      color: #526267;
+      color: var(--muted);
       margin-top: 8px;
     }}
-    table {{
-      width: 100%;
-      border-collapse: collapse;
+    .hero {{
+      display: grid;
+      gap: 18px;
     }}
-    th, td {{
-      text-align: left;
-      padding: 10px 8px;
-      border-top: 1px solid var(--rule);
+    .hero-grid,
+    .playbook-meta,
+    .step-grid,
+    .jump-grid,
+    .symptom-grid,
+    .reference-grid {{
+      display: grid;
+      gap: 14px;
     }}
-    th {{
+    .hero-grid,
+    .playbook-meta {{
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }}
+    .jump-grid {{
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }}
+    .symptom-grid {{
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }}
+    .reference-grid {{
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }}
+    .meta-card,
+    .jump-card,
+    .symptom-chip,
+    .reference-card,
+    .step-panel,
+    .command-card,
+    .path-node {{
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      background: #fff;
+      padding: 14px 16px;
+    }}
+    .jump-card,
+    .symptom-chip,
+    .top-link {{
+      text-decoration: none;
+      color: inherit;
+    }}
+    .jump-card {{
+      background: linear-gradient(180deg, #fffdfa 0%, #f4fbfb 100%);
+      display: block;
+      min-height: 84px;
+    }}
+    .jump-title {{
+      display: block;
+      font-weight: bold;
       color: var(--accent);
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }}
+    .jump-subtitle,
+    .playbook-focus,
+    .command-label,
+    .path-node span,
+    .symptom-chip span {{
+      color: var(--muted);
+    }}
+    .symptom-chip strong {{
+      display: block;
+      margin-bottom: 4px;
+    }}
+    .playbook-header {{
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 14px;
+    }}
+    .top-link {{
+      color: var(--accent);
+      font-weight: bold;
+      white-space: nowrap;
+    }}
+    .quick-path {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }}
+    .path-node {{
+      border-left: 5px solid var(--accent);
+      background: #f8fcfc;
+      font-weight: bold;
+    }}
+    .path-node span {{
+      display: block;
+      font-weight: normal;
+      margin-top: 6px;
+    }}
+    .step-card {{
+      border-top: 1px solid var(--rule);
+      padding-top: 18px;
+      margin-top: 18px;
+    }}
+    .step-number {{
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-weight: bold;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 10px;
+    }}
+    .step-grid {{
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin: 14px 0;
+    }}
+    .pass {{
+      background: var(--ok);
+      color: var(--ok-ink);
+    }}
+    .fail {{
+      background: var(--fail);
+      color: var(--fail-ink);
+    }}
+    .next,
+    .evidence {{
+      background: #f7f3ea;
+    }}
+    .command-card {{
+      margin-top: 12px;
+      background: #fbfcfe;
+    }}
+    pre {{
+      background: var(--code);
+      color: #f4f7fb;
+      padding: 12px 14px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }}
+    code {{
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.95rem;
+    }}
+    .signal {{
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 8px;
+    }}
+    .signal.ok {{
+      background: var(--ok);
+      color: var(--ok-ink);
+    }}
+    .signal.warn {{
+      background: var(--warn);
+      color: var(--warn-ink);
     }}
     ul {{
       margin: 0;
       padding-left: 20px;
     }}
+    p {{
+      line-height: 1.45;
+    }}
+    details {{
+      margin-top: 18px;
+    }}
+    summary {{
+      cursor: pointer;
+      font-weight: bold;
+      color: var(--accent);
+    }}
   </style>
 </head>
 <body>
-  <main>
-    <section>
-      <h1>AlgoSec Support Baseline</h1>
+  <main id="top">
+    <section class="hero">
+      <h1>AlgoSec Diagnostic Playbooks</h1>
       <p class="meta">Target: {html.escape(support_baseline['target']['target_label'])} | Host: {html.escape(support_baseline['target']['hostname'])} | Generated: {html.escape(support_baseline['generated_at'])}</p>
-      <p>JSON remains the source of truth. This page is a support-facing render for live comparison during remote customer sessions.</p>
+      <p>Use this page to get to the right playbook quickly, run the next command, validate the output, and isolate the likely failure point.</p>
+      <div class="hero-grid">
+        <div class="meta-card">
+          <strong>System baseline</strong>
+          <p>OS: {html.escape(runtime_identity.get('os_release', {}).get('PRETTY_NAME', 'unknown'))}</p>
+          <p>Kernel: {html.escape(runtime_identity.get('kernel_release', 'unknown'))}</p>
+        </div>
+        <div class="meta-card">
+          <strong>Runtime footprint</strong>
+          <p>Services observed: {observed['service_summary']['total_services']}</p>
+          <p>Product services: {observed['service_summary']['product_services']}</p>
+        </div>
+        <div class="meta-card">
+          <strong>Support focus</strong>
+          <p>Critical services: {observed['service_summary']['critical_services']}</p>
+          <p>Listening endpoints: {observed['listening_endpoint_count']}</p>
+        </div>
+      </div>
     </section>
     <section>
-      <h2>Observed Runtime Identity</h2>
-      <p>Platform: {html.escape(runtime_identity.get('platform', 'unknown'))}</p>
-      <p>Kernel: {html.escape(runtime_identity.get('kernel_release', 'unknown'))}</p>
-      <p>OS: {html.escape(runtime_identity.get('os_release', {}).get('PRETTY_NAME', 'unknown'))}</p>
-      <p>Services observed: {observed['service_summary']['total_services']} | Critical services: {observed['service_summary']['critical_services']} | Product services: {observed['service_summary']['product_services']} | Listening endpoints: {observed['listening_endpoint_count']}</p>
+      <h2>Jump To The Right Playbook</h2>
+      <div class="symptom-grid">{symptom_lookup_items}</div>
     </section>
     <section>
-      <h2>Priority Services</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Service</th>
-            <th>Role Hint</th>
-            <th>Tier</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>{priority_rows}</tbody>
-      </table>
+      <h2>Playbook Paths</h2>
+      <div class="jump-grid">{quick_jump_items}</div>
     </section>
+    {playbook_sections}
     <section>
-      <h2>Comparison Checkpoints</h2>
-      <ul>{checkpoint_items}</ul>
-    </section>
-    <section>
-      <h2>Safe First Response</h2>
-      <ul>{response_steps}</ul>
-    </section>
-    <section>
-      <h2>Service Paths</h2>
-      <ul>{service_path_items}</ul>
-    </section>
-    <section>
-      <h2>Support Domains</h2>
-      <ul>{support_domain_items}</ul>
-    </section>
-    <section>
-      <h2>Diagnostic Flows</h2>
-      <ul>{diagnostic_flow_items}</ul>
-    </section>
-    <section>
-      <h2>Symptom Lookup</h2>
-      <ul>{symptom_lookup_items}</ul>
-    </section>
-    <section>
-      <h2>Decision Playbooks</h2>
-      <ul>{decision_playbook_items}</ul>
-    </section>
-    <section>
-      <h2>Unknowns</h2>
-      <ul>{unknown_items}</ul>
+      <h2>Reference</h2>
+      <div class="reference-grid">{service_path_items}</div>
+      <details>
+        <summary>Known Unknowns</summary>
+        <ul>{unknown_items}</ul>
+      </details>
     </section>
   </main>
 </body>
@@ -1100,7 +1248,7 @@ def _build_support_domains(service_inventory: dict[str, Any], service_paths: lis
         },
         {
             "domain_id": "core-aff",
-            "label": "Core AFF",
+            "label": "FireFlow Backend",
             "summary": "",
             "service_paths": [],
             "supporting_services": [],
@@ -1193,7 +1341,7 @@ def _domain_first_checks(
     if domain_id == "core-aff":
         checks.append("Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.")
         if "postgresql.service" in supporting_services:
-            checks.append("Confirm postgresql.service is active before treating AFF symptoms as application-only.")
+            checks.append("Confirm postgresql.service is active before treating FireFlow symptoms as application-only.")
         return checks
 
     if domain_id == "microservice-platform":
@@ -1290,7 +1438,7 @@ def _build_diagnostic_flows(
 def _domain_symptom_focus(domain_id: str) -> str:
     return {
         "ui-and-proxy": "Use this when the customer cannot reach the UI, login path, or proxied product endpoints.",
-        "core-aff": "Use this when AFF or FireFlow actions fail, stall, or return backend-facing errors.",
+        "core-aff": "Use this when FireFlow actions fail, stall, or return backend-facing errors.",
         "microservice-platform": "Use this when product features fail behind the UI, especially path-specific ms-* behavior.",
         "messaging-and-data": "Use this when jobs back up, events do not move, or data-backed actions fail unexpectedly.",
     }.get(domain_id, "Use this when symptoms cluster around this domain.")
@@ -1347,7 +1495,7 @@ def _build_symptom_lookup(diagnostic_flows: list[dict[str, Any]]) -> list[dict[s
         ("ui-unreachable", "UI unreachable", "ui-and-proxy"),
         ("login-failing", "Login or auth failing", "ui-and-proxy"),
         ("fireflow-action-failing", "FireFlow action failing", "core-aff"),
-        ("aff-api-error", "AFF API error", "core-aff"),
+        ("fireflow-api-error", "FireFlow API error", "core-aff"),
         ("feature-failing-behind-ui", "Feature failing behind UI", "microservice-platform"),
         ("specific-ms-path-failing", "Specific microservice path failing", "microservice-platform"),
         ("job-stuck", "Job stuck or not progressing", "messaging-and-data"),
@@ -1387,9 +1535,9 @@ def _flow_evidence_to_collect_next(
         return evidence
 
     if domain_id == "core-aff":
-        evidence.append("Result of the failing FireFlow or AFF action, including the exact endpoint or screen.")
+        evidence.append("Result of the failing FireFlow action, including the exact endpoint or screen.")
         evidence.append("Visible status for aff-boot.service and postgresql.service.")
-        evidence.append("Any recent AFF-related lines from the customer-facing logs or service status output.")
+        evidence.append("Any recent FireFlow-related lines from the customer-facing logs or service status output.")
         return evidence
 
     if domain_id == "microservice-platform":
@@ -1698,23 +1846,23 @@ def _core_aff_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
         _playbook_step(
             step_id="core-aff-step-1",
             step_number=1,
-            action="Identify the failing FireFlow or AFF action and confirm that the symptom is tied to /FireFlow/api or /aff/api.",
+            action="Identify the failing FireFlow action and confirm that the symptom is tied to /FireFlow/api or /aff/api.",
             next_if_pass="Continue to aff-boot and route validation.",
             failure_point="Domain mismatch",
-            decision_if_fail="If the symptom is not tied to AFF or FireFlow, switch to a different domain playbook instead of staying here.",
+            decision_if_fail="If the symptom is not tied to FireFlow, switch to a different domain playbook instead of staying here.",
             evidence_to_collect=evidence[:1],
             recommended_commands=_command_bundle(
                 _config_command(
                     aff_config,
                     needle="1989",
-                    interpretation="Use the known proxy mapping to confirm the AFF path really terminates at the expected backend.",
+                    interpretation="Use the known proxy mapping to confirm the FireFlow path really terminates at the expected backend.",
                 ),
             ),
         ),
         _playbook_step(
             step_id="core-aff-step-2",
             step_number=2,
-            action="Confirm aff-boot.service is active and that the failing AFF route still proxies to localhost:1989.",
+            action="Confirm aff-boot.service is active and that the failing FireFlow route still proxies to localhost:1989.",
             next_if_pass="Continue to database validation.",
             failure_point="aff-boot.service or 1989 route",
             decision_if_fail="Treat aff-boot.service or the 1989 route as the current failure point.",
@@ -1722,32 +1870,32 @@ def _core_aff_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             recommended_commands=_command_bundle(
                 _service_status_command(
                     "aff-boot.service",
-                    interpretation="If aff-boot is not active, stop here and treat the AFF service itself as the failure point.",
+                    interpretation="If aff-boot is not active, stop here and treat the FireFlow service itself as the failure point.",
                 ),
                 _listener_command(
                     aff_ports or ["1989"],
-                    label="Check AFF listener",
-                    interpretation="If the AFF listener is missing, the backend route has nothing healthy to terminate to.",
+                    label="Check FireFlow listener",
+                    interpretation="If the FireFlow listener is missing, the backend route has nothing healthy to terminate to.",
                 ),
                 _config_command(
                     aff_config,
                     needle="1989",
-                    interpretation="If the proxy config no longer points to 1989, the request path may be broken even when the service is up.",
+                    interpretation="If the proxy config no longer points to 1989, the FireFlow request path may be broken even when the service is up.",
                 ),
             ),
         ),
         _playbook_step(
             step_id="core-aff-step-3",
             step_number=3,
-            action="Confirm postgresql.service is active and local database access is healthy before assuming an AFF-only fault.",
-            next_if_pass="Continue to AFF log review.",
+            action="Confirm postgresql.service is active and local database access is healthy before assuming a FireFlow-only fault.",
+            next_if_pass="Continue to FireFlow log review.",
             failure_point="postgresql.service",
             decision_if_fail="Treat postgresql.service as the current failure point for this customer issue.",
             evidence_to_collect=evidence[1:3],
             recommended_commands=_command_bundle(
                 _service_status_command(
                     "postgresql.service",
-                    interpretation="If the database is not active, AFF symptoms are likely downstream of data availability.",
+                    interpretation="If the database is not active, FireFlow symptoms are likely downstream of data availability.",
                 ),
                 _listener_command(
                     postgres_detail.get("listener_ports", ["5432"]),
@@ -1759,15 +1907,15 @@ def _core_aff_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
         _playbook_step(
             step_id="core-aff-step-4",
             step_number=4,
-            action="Collect the latest AFF-related error lines or status output and decide whether the failure stays in AFF logic or must move deeper into dependencies.",
-            next_if_pass=flow["next_dependency_focus"] or "Use the collected AFF evidence to choose the next app-specific check.",
-            failure_point="AFF runtime evidence incomplete",
+            action="Collect the latest FireFlow-related error lines or status output and decide whether the failure stays in FireFlow logic or must move deeper into dependencies.",
+            next_if_pass=flow["next_dependency_focus"] or "Use the collected FireFlow evidence to choose the next app-specific check.",
+            failure_point="FireFlow runtime evidence incomplete",
             decision_if_fail="If you cannot collect the logs, escalate with the route, service, and database checks already captured.",
             evidence_to_collect=evidence[1:3],
             recommended_commands=_command_bundle(
                 _journal_command(
                     "aff-boot.service",
-                    interpretation="Look for permission errors, startup failures, or dependency errors that explain why AFF is unhealthy.",
+                    interpretation="Look for permission errors, startup failures, or dependency errors that explain why FireFlow is unhealthy.",
                 ),
             ),
         ),
