@@ -2,7 +2,7 @@
   "artifact_refs": {
     "runtime_evidence": "runtime-evidence.json"
   },
-  "generated_at": "2026-03-23T23:48:19Z",
+  "generated_at": "2026-03-24T00:00:31Z",
   "schema_version": "adf-service-inventory/v1",
   "services": [
     {
@@ -4575,11 +4575,12 @@
         "reasoning": [
           "service is active",
           "service is running",
+          "service has visible TCP listeners",
           "service has product-specific config or route checkpoints"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 6,
-        "support_importance_tier": "supporting"
+        "support_importance_score": 8,
+        "support_importance_tier": "critical"
       },
       "observed": {
         "active_state": "active",
@@ -4597,11 +4598,20 @@
         ],
         "description": "OpenBSD Secure Shell server",
         "evidence_refs": [
+          "listening_tcp_ports",
           "systemd_unit_files",
           "systemd_units"
         ],
         "http_routes": [],
-        "listeners": [],
+        "listeners": [
+          {
+            "local_address": "0.0.0.0:18081",
+            "local_host": "0.0.0.0",
+            "pid": "289035",
+            "port": "18081",
+            "process_name": "ssh"
+          }
+        ],
         "load_state": "loaded",
         "log_refs": [],
         "process_matches": [],
@@ -8962,12 +8972,12 @@
     }
   ],
   "summary": {
-    "critical_services": 0,
+    "critical_services": 1,
     "product_dependencies": 0,
     "product_services": 0,
     "reference_services": 173,
     "services_with_http_routes": 0,
-    "supporting_services": 50,
+    "supporting_services": 49,
     "total_services": 223
   },
   "target": {

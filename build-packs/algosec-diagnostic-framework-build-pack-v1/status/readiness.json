@@ -1,14 +1,14 @@
 {
   "blocking_issues": [],
-  "last_evaluated_at": "2026-03-23T22:39:39Z",
+  "last_evaluated_at": "2026-03-23T23:58:57Z",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "pack_kind": "build_pack",
-  "readiness_state": "ready_for_deploy",
-  "ready_for_deployment": true,
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
   "recommended_next_actions": [
-    "Restage the build-pack to the saved AlgoSec lab target before the next remote Codex run.",
-    "Run the generate-support-baseline command on the AlgoSec lab appliance and review the resulting JSON and HTML artifacts.",
-    "Use the first lab baseline review to decide which AlgoSec services deserve deeper playbooks next."
+    "Review the target-generated HTML and JSON playbooks with operator language in mind, starting with Core AFF and Microservice Platform.",
+    "Expand service-specific command coverage and failure interpretation for the highest-value AlgoSec services and dependencies.",
+    "Deepen dependency-aware playbooks while keeping testing minimal and keeping commands read-only."
   ],
   "required_gates": [
     {
@@ -19,7 +19,7 @@
       "last_run_at": "2026-03-23T22:39:35Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Build-pack contract validation passed after the first ADF slice landed."
+      "summary": "Build-pack contract validation passed for the current operator-reviewable ADF slice."
     },
     {
       "evidence_paths": [
@@ -29,7 +29,7 @@
       "last_run_at": "2026-03-23T22:39:39Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Prove the smallest end-to-end ADF path on one controlled lab-style fixture: bounded evidence in, canonical baseline and playbook JSON out, and a minimal HTML support view rendered without broad test expansion."
+      "summary": "The existing smoke benchmark still passes while the operator-reviewable target-backed playbook slice is in progress."
     }
   ],
   "schema_version": "pack-readiness/v2"

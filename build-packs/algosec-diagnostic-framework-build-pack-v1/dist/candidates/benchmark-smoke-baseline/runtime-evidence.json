@@ -23,7 +23,7 @@
       ],
       "command_id": "systemd_units",
       "exit_code": 0,
-      "observed_at": "2026-03-23T23:48:18Z",
+      "observed_at": "2026-03-24T00:00:30Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -202,7 +202,7 @@
       ],
       "command_id": "systemd_unit_files",
       "exit_code": 0,
-      "observed_at": "2026-03-23T23:48:18Z",
+      "observed_at": "2026-03-24T00:00:30Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -456,16 +456,17 @@
       ],
       "command_id": "listening_tcp_ports",
       "exit_code": 0,
-      "observed_at": "2026-03-23T23:48:18Z",
+      "observed_at": "2026-03-24T00:00:31Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
-      "stdout_line_count": 4,
+      "stdout_line_count": 5,
       "stdout_preview": [
-        "LISTEN 0      4096   127.0.0.53%lo:53 0.0.0.0:*",
-        "LISTEN 0      4096      127.0.0.54:53 0.0.0.0:*",
-        "LISTEN 0      4096         0.0.0.0:22 0.0.0.0:*",
-        "LISTEN 0      4096            [::]:22    [::]:*"
+        "LISTEN 0      4096   127.0.0.53%lo:53    0.0.0.0:*                                ",
+        "LISTEN 0      4096      127.0.0.54:53    0.0.0.0:*                                ",
+        "LISTEN 0      4096         0.0.0.0:22    0.0.0.0:*                                ",
+        "LISTEN 0      128          0.0.0.0:18081 0.0.0.0:* users:((\"ssh\",pid=289035,fd=4))",
+        "LISTEN 0      4096            [::]:22       [::]:*                                "
       ]
     },
     {
@@ -476,11 +477,11 @@
       ],
       "command_id": "process_inventory",
       "exit_code": 0,
-      "observed_at": "2026-03-23T23:48:18Z",
+      "observed_at": "2026-03-24T00:00:31Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
-      "stdout_line_count": 262,
+      "stdout_line_count": 265,
       "stdout_preview": [
         "      1       0 root     systemd         /sbin/init",
         "      2       0 root     kthreadd        [kthreadd]",
@@ -685,7 +686,7 @@
       ]
     }
   ],
-  "generated_at": "2026-03-23T23:48:18Z",
+  "generated_at": "2026-03-24T00:00:31Z",
   "observation_boundaries": {
     "inferred": [
       "Support-priority hints and service roles are derived from command output heuristics in the build-pack."

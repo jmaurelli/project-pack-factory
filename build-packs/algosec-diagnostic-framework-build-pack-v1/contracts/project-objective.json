@@ -1,8 +1,8 @@
 {
   "completion_definition": [
-    "The first ADF implementation slice produces bounded machine-readable artifacts for runtime evidence, service inventory, and support-facing baseline output.",
-    "The build-pack remains validation-clean and benchmark-clean after the first ADF slice lands.",
-    "The next remote Codex run can work from canonical pack-local tasks rather than starter scaffold tasks."
+    "The ADF build-pack produces bounded machine-readable artifacts for runtime evidence, service inventory, and support-facing baseline output from the real AlgoSec lab appliance.",
+    "The generated JSON and HTML outputs expose diagnostic flows, decision playbooks, and read-only command bundles that a support engineer can review and use during a live session.",
+    "The next implementation cycle is focused on tuning support language, deepening service-specific command coverage, and extending dependency-aware playbooks without expanding the testing surface."
   ],
   "generated_at": "2026-03-23T22:02:54Z",
   "intended_inputs": [
@@ -12,8 +12,8 @@
   ],
   "intended_outputs": [
     "A bounded ADF evidence-collection surface for the AlgoSec lab appliance.",
-    "Canonical machine-readable artifacts for runtime evidence, service inventory, and baseline output.",
-    "A simple HTML-ready support view generated from the machine-readable artifacts."
+    "Canonical machine-readable artifacts for runtime evidence, service inventory, diagnostic flows, and decision playbooks.",
+    "A support-facing HTML view generated from the machine-readable artifacts and reviewable over the saved lab-target path."
   ],
   "materialization_id": "materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z",
   "metrics": [
@@ -32,8 +32,14 @@
     {
       "evidence_hint": "Generated ADF runtime artifacts under the pack-local output surface.",
       "metric_id": "baseline_artifact_generation",
-      "summary": "The first ADF slice emits machine-readable baseline artifacts from bounded runtime evidence.",
-      "target": "runtime evidence JSON, service inventory JSON, and baseline summary JSON exist and are internally consistent"
+      "summary": "ADF emits machine-readable baseline artifacts from bounded runtime evidence and keeps JSON as the source of truth.",
+      "target": "runtime evidence JSON, service inventory JSON, support baseline JSON, and support baseline HTML exist and are internally consistent"
+    },
+    {
+      "evidence_hint": "Target-generated support artifacts under dist/candidates/algosec-lab-baseline and the remote target note files.",
+      "metric_id": "target_backed_playbook_reviewability",
+      "summary": "The real lab appliance produces support playbooks with decision steps and command bundles that are ready for operator review.",
+      "target": "real target-generated support baseline includes support domains, symptom lookup, decision playbooks, and recommended_commands"
     }
   ],
   "non_goals": [
@@ -43,14 +49,15 @@
     "Treating HTML as the source of truth instead of a render of machine-readable artifacts."
   ],
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
-  "objective_summary": "Implement the first ADF runtime-baseline slice for the controlled AlgoSec lab appliance: bounded runtime evidence collection, canonical service inventory artifacts, and simple HTML-ready support output.",
+  "objective_summary": "Stabilize the first operator-reviewable ADF runtime for the controlled AlgoSec lab appliance: target-backed runtime mapping, support-ready decision playbooks, and command-driven HTML output that can be tuned for real support use.",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "problem_statement": "# Project Context\n\n## Project Goal\n\nDeploy Codex into a controlled AlgoSec Security Management Suite lab appliance\non Rocky Linux 8, collect bounded runtime evidence, generate a trustworthy\nmachine-readable baseline and support comparison playbooks, and render a simple\nHTML view for remote support sessions.\n\n## Primary User\n\nSupport engineers working live with customers over screen share or remote\nsession.\n\n## V1 Scope\n\n- One controlled AlgoSec lab appliance on Rocky Linux 8.\n- Machine-readable runtime evidence as the canonical source of truth.\n- A complete service inventory with deeper playbooks for the highest-value\n  service paths first.\n- Simple HTML output for human use during support sessions.\n- AI inference as a secondary layer over collected evidence, not the primary\n  product output.\n\n## V1 Non-Goals\n\n- Full coverage of every service at equal depth.\n- Direct automation inside customer environments.\n- Broad test expansion or large fixture matrices.\n- A polished portal or generalized reverse-engineering platform.\n\n## Success Criteria\n\n- The output gives support engineers a trusted lab baseline they can compare\n  against a customer environment.\n- The baseline clearly separates observed facts, inference, and unknowns.\n- The first playbooks help narrow likely issue areas during live support.\n- HTML output is useful during a remote support session without becoming the\n  source of truth.\n\n## Working Priorities\n\n1. Collect trustworthy runtime evidence.\n2. Turn that evidence into support-ready comparison playbooks.\n3. Keep the scope small enough to stay manageable.\n4. Keep testing minimal and high-signal.",
   "promotion_readiness_requirements": [
     "Build-pack validation must pass with recorded evidence.",
     "Inherited required benchmark gates must pass or be waived.",
     "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
-    "ADF artifact-generation work must be complete enough for operator review before any promotion decision."
+    "ADF artifact-generation work must be complete enough for operator review before any promotion decision.",
+    "The next cycle should tighten support language and deepen service-specific diagnostic coverage before any promotion discussion."
   ],
   "schema_version": "project-objective/v1",
   "source_template_id": "algosec-diagnostic-framework-template-pack",
@@ -58,6 +65,7 @@
     "The build-pack validation command completes successfully and records passing evidence.",
     "The inherited benchmark command completes successfully and updates readiness evidence.",
     "The build-pack exposes a first bounded collection path for AlgoSec lab runtime evidence.",
-    "The resulting artifacts separate observed runtime facts from inference and unknowns."
+    "The resulting artifacts separate observed runtime facts from inference and unknowns.",
+    "The real lab appliance generates decision playbooks and command bundles that are strong enough for operator review and iterative tuning."
   ]
 }
