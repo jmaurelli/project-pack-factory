@@ -2,10 +2,12 @@
   "completion_definition": [
     "The ADF build-pack produces bounded machine-readable artifacts for runtime evidence, service inventory, and support-facing baseline output from the real AlgoSec lab appliance.",
     "The generated JSON and HTML outputs expose diagnostic flows, decision playbooks, and read-only command bundles that a support engineer can review and use during a live session.",
-    "The current HTML output now behaves like a live diagnostic webpage rather than a static artifact.",
-    "The next implementation cycle is focused on tuning support language, deepening service-specific command coverage, and extending dependency-aware playbooks without expanding the testing surface."
+    "The current HTML output now behaves like a live diagnostic webpage rather than a static artifact, and the Appliance UI is down playbook is now SSH-first, CLI-oriented, and organized around a four-step Linux-first flow.",
+    "The current operator-reviewed frame keeps a single Step focus panel, a vertical dependency path at the top of the playbook, command-first step bodies, copy buttons for commands, and no redundant evidence or decision panels.",
+    "The current command cards now use Why this check matters plus Known-good example instead of repeating output-pattern guidance in two places.",
+    "The next implementation cycle is focused on carrying the current Step focus, Why this check matters, and Known-good example pattern into FireFlow Backend and the other priority playbooks without expanding the testing surface."
   ],
-  "generated_at": "2026-03-23T22:02:54Z",
+  "generated_at": "2026-03-24T04:00:17Z",
   "intended_inputs": [
     "Pack-local source code and configuration under the materialized build-pack.",
     "The controlled AlgoSec lab appliance on Rocky Linux 8 reached through the saved remote target request.",
@@ -46,8 +48,8 @@
     {
       "evidence_hint": "Forwarded live review URL and target-generated support-baseline.html under the lab artifact path.",
       "metric_id": "live_webpage_reviewability",
-      "summary": "The current slice is reviewable as a live diagnostic webpage with symptom navigation and step-card workflow.",
-      "target": "target-generated HTML exposes jump navigation, FireFlow Backend wording, and enterprise-style step cards"
+      "summary": "The current slice is reviewable as a live diagnostic webpage with symptom navigation and a cleaner step-focused workflow.",
+      "target": "target-generated HTML exposes jump navigation, a vertical dependency path, Step focus panels, copy buttons, and a Linux-first Appliance UI is down runbook"
     }
   ],
   "non_goals": [
@@ -57,15 +59,15 @@
     "Treating HTML as the source of truth instead of a render of machine-readable artifacts."
   ],
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
-  "objective_summary": "Stabilize the first operator-reviewable ADF runtime for the controlled AlgoSec lab appliance: target-backed runtime mapping, support-ready decision playbooks, and a live diagnostic webpage that can be tuned for real support use.",
+  "objective_summary": "Stabilize the first operator-reviewable ADF runtime for the controlled AlgoSec lab appliance: target-backed runtime mapping, support-ready diagnostic playbooks, and a live diagnostic webpage written for junior support engineers in plain language.",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
-  "problem_statement": "# Project Context\n\n## Project Goal\n\nDeploy Codex into a controlled AlgoSec Security Management Suite lab appliance\non Rocky Linux 8, collect bounded runtime evidence, generate a trustworthy\nmachine-readable baseline and support comparison playbooks, and render a simple\nHTML view for remote support sessions.\n\n## Primary User\n\nSupport engineers working live with customers over screen share or remote\nsession.\n\n## V1 Scope\n\n- One controlled AlgoSec lab appliance on Rocky Linux 8.\n- Machine-readable runtime evidence as the canonical source of truth.\n- A complete service inventory with deeper playbooks for the highest-value\n  service paths first.\n- Simple HTML output for human use during support sessions.\n- AI inference as a secondary layer over collected evidence, not the primary\n  product output.\n\n## V1 Non-Goals\n\n- Full coverage of every service at equal depth.\n- Direct automation inside customer environments.\n- Broad test expansion or large fixture matrices.\n- A polished portal or generalized reverse-engineering platform.\n\n## Success Criteria\n\n- The output gives support engineers a trusted lab baseline they can compare\n  against a customer environment.\n- The baseline clearly separates observed facts, inference, and unknowns.\n- The first playbooks help narrow likely issue areas during live support.\n- HTML output is useful during a remote support session without becoming the\n  source of truth.\n\n## Working Priorities\n\n1. Collect trustworthy runtime evidence.\n2. Turn that evidence into support-ready comparison playbooks.\n3. Keep the scope small enough to stay manageable.\n4. Keep testing minimal and high-signal.",
+  "problem_statement": "# Project Context\n\n## Project Goal\n\nDeploy Codex into a controlled AlgoSec Security Management Suite lab appliance\non Rocky Linux 8, collect bounded runtime evidence, generate a trustworthy\nmachine-readable baseline and support comparison playbooks, and render a simple\nHTML view for remote support sessions.\n\n## Primary User\n\nSupport engineers working live with customers over screen share or remote\nsession, mostly at a junior level.\n\nThe playbooks should assume:\n\n- the engineer can use basic Linux and network commands\n- the engineer follows explicit step-by-step instructions well\n- the engineer may not know deeper Linux internals\n- English may be the engineer's second language\n- the wording should stay plain, short, and direct\n\n## V1 Scope\n\n- One controlled AlgoSec lab appliance on Rocky Linux 8.\n- Machine-readable runtime evidence as the canonical source of truth.\n- A complete service inventory with deeper playbooks for the highest-value\n  service paths first.\n- Simple HTML output for human use during support sessions.\n- AI inference as a secondary layer over collected evidence, not the primary\n  product output.\n\n## V1 Non-Goals\n\n- Full coverage of every service at equal depth.\n- Direct automation inside customer environments.\n- Broad test expansion or large fixture matrices.\n- A polished portal or generalized reverse-engineering platform.\n\n## Success Criteria\n\n- The output gives support engineers a trusted baseline and clear diagnostic\n  steps they can use in a customer environment.\n- The baseline clearly separates observed facts, inference, and unknowns.\n- The first playbooks help narrow likely issue areas during live support.\n- HTML output is useful during a remote support session without becoming the\n  source of truth.\n\n## Working Priorities\n\n1. Collect trustworthy runtime evidence.\n2. Turn that evidence into simple support playbooks written in plain language.\n3. Keep the scope small enough to stay manageable.\n4. Keep testing minimal and high-signal.",
   "promotion_readiness_requirements": [
     "Build-pack validation must pass with recorded evidence.",
     "Inherited required benchmark gates must pass or be waived.",
     "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
     "ADF artifact-generation work must be complete enough for operator review before any promotion decision.",
-    "The next cycle should tighten support language and deepen service-specific diagnostic coverage before any promotion discussion."
+    "The next cycle should extend the current SSH-first CLI runbook pattern from Appliance UI is down into the other priority playbooks before any promotion discussion."
   ],
   "schema_version": "project-objective/v1",
   "source_template_id": "algosec-diagnostic-framework-template-pack",
@@ -74,7 +76,9 @@
     "The inherited benchmark command completes successfully and updates readiness evidence.",
     "The build-pack exposes a first bounded collection path for AlgoSec lab runtime evidence.",
     "The resulting artifacts separate observed runtime facts from inference and unknowns.",
-    "The real lab appliance generates decision playbooks and command bundles that are strong enough for operator review and iterative tuning.",
-    "The live reviewable webpage is strong enough to use as a proof-of-concept with support engineers."
+    "The real lab appliance generates diagnostic playbooks and command bundles that are strong enough for operator review and iterative tuning.",
+    "At least one priority playbook shows engineers what healthy CLI output looks like with explicit keywords and short terminal examples.",
+    "The live reviewable webpage is strong enough to use as a proof-of-concept with support engineers.",
+    "The Appliance UI is down playbook uses the current Step focus plus Run structure with a Linux-first four-step flow, a vertical dependency path, copy buttons, and Why this check matters knowledge blocks."
   ]
 }

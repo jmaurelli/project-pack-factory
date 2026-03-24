@@ -312,77 +312,151 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     for item in support_baseline["symptom_lookup"]:
         symptoms_by_flow.setdefault(item["suggested_domain_id"], []).append(item)
 
-    quick_jump_items = "".join(
-        (
-            f'<a class="jump-card" href="#playbook-{html.escape(playbook["playbook_id"])}">'
-            f'<span class="jump-title">{html.escape(playbook["label"])}</span>'
-            f'<span class="jump-subtitle">{html.escape(playbook["steps"][0]["action"])}</span>'
-            "</a>"
-        )
-        for playbook in support_baseline["decision_playbooks"]
-    )
+    def nav_keywords(flow_id: str, symptom_label: str) -> list[str]:
+        if flow_id == "ui-and-proxy":
+            return ["UI down", "login", "httpd", "80/443", "keycloak", "metro"]
+        if flow_id == "core-aff":
+            return ["FireFlow", "/FireFlow/api", "1989", "aff-boot", "postgres"]
+        if flow_id == "microservice-platform":
+            return ["feature fails", "ms-*", "routes", "ms-configuration"]
+        if flow_id == "messaging-and-data":
+            return ["job stuck", "queue", "activemq", "61616", "postgres"]
+        return [symptom_label]
 
     symptom_lookup_items = "".join(
         (
             f'<a class="symptom-chip" href="#playbook-{html.escape(item["suggested_domain_id"])}">'
-            f'<strong>{html.escape(item["symptom_label"])}</strong>'
-            f'<span>{html.escape(item["suggested_domain_label"])}</span>'
+            f'<strong class="symptom-title">{html.escape(item["symptom_label"])}</strong>'
+            f'<span class="symptom-path">Open: {html.escape(item["suggested_domain_label"])}</span>'
+            f'<span class="symptom-start">Start here: {html.escape(item["first_action"])}</span>'
+            '<span class="symptom-tags">'
+            + "".join(
+                f'<span class="symptom-tag">{html.escape(keyword)}</span>'
+                for keyword in nav_keywords(item["suggested_domain_id"], item["symptom_label"])
+            )
+            + "</span>"
             "</a>"
         )
         for item in support_baseline["symptom_lookup"]
     )
 
-    def render_command(command: dict[str, str]) -> str:
+    def command_knowledge(command: dict[str, Any]) -> list[str]:
+        raw = command["command"]
+        label = command["label"]
+        if raw.startswith("systemctl status "):
+            return [
+                "This command asks systemd whether the service is known and running right now.",
+                "`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.",
+                "`Main PID` means systemd still sees a live main process for the service.",
+            ]
+        if raw.startswith("ss -lntp"):
+            return [
+                "This command shows whether Linux is listening on the expected port.",
+                "`LISTEN` means a process has opened the port and is waiting for connections.",
+                "If the port is missing, the service may be down, starting slowly, or bound to the wrong place.",
+            ]
+        if raw == "df -h":
+            return [
+                "This checks human-readable disk usage for the main filesystems.",
+                "Focus on `Use%` and `Avail`, especially for `/` and `/data`.",
+                "If disk is full, services can fail to write logs, temp files, or runtime data.",
+            ]
+        if raw == "df -ih":
+            return [
+                "This checks inode usage, which is different from normal disk space.",
+                "A filesystem can still have free space but fail because it has no free inodes left.",
+                "Focus on `IUse%` and whether `IFree` is close to zero.",
+            ]
+        if raw == "free -h":
+            return [
+                "This is the quick memory check for the host.",
+                "Focus on `available` memory and whether swap is starting to grow heavily.",
+                "Low available memory can slow down or crash Java services before the whole server looks down.",
+            ]
+        if raw.startswith("journalctl -k --since"):
+            return [
+                "This checks the Linux kernel log for memory-pressure kills.",
+                "OOM means Out Of Memory. Linux may kill a process to protect the server.",
+                "If you see OOM or `Killed process` lines, memory pressure is likely part of the failure.",
+            ]
+        if raw.startswith("journalctl -u "):
+            return [
+                "Recent service logs are often the fastest way to find the real failure clue.",
+                "Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.",
+                "Use this after the status check when the service looks up but still behaves badly.",
+            ]
+        if label.lower().startswith("check config mapping"):
+            return [
+                "This checks whether the expected mapping still exists in the service config.",
+                "Use it to confirm the route, port, or target value is still what the application expects.",
+            ]
+        return [
+            "This command gives a focused check for the current step.",
+            "Use the healthy example below as the main output reference for what good looks like.",
+        ]
+
+    def render_command(command: dict[str, Any]) -> str:
+        escaped_command = html.escape(command["command"], quote=True)
+        knowledge_block = (
+            '<div class="signal tip"><strong>Why this check matters</strong>'
+            '<ul class="knowledge-list">'
+            + "".join(f"<li>{html.escape(item)}</li>" for item in command_knowledge(command))
+            + "</ul></div>"
+        )
+        example_block = (
+            '<div class="signal example"><strong>Known-good example</strong>'
+            f'<pre class="example-output"><code>{html.escape(command["example_output"])}</code></pre></div>'
+            if command.get("example_output")
+            else ""
+        )
         return (
             '<div class="command-card">'
-            f'<div class="command-label">{html.escape(command["label"])}</div>'
-            f'<pre><code>{html.escape(command["command"])}</code></pre>'
-            f'<div class="signal ok"><strong>Healthy means:</strong> {html.escape(command["expected_signal"])}</div>'
-            f'<div class="signal warn"><strong>If not healthy:</strong> {html.escape(command["interpretation"])}</div>'
-            "</div>"
+            + '<div class="command-header">'
+            + f'<div class="command-label">{html.escape(command["label"])}</div>'
+            + (
+                '<button class="copy-button" type="button" '
+                f'data-command="{escaped_command}" '
+                'aria-label="Copy command">'
+                'Copy'
+                '</button>'
+            )
+            + "</div>"
+            + f'<pre><code>{html.escape(command["command"])}</code></pre>'
+            + f'<div class="signal ok"><strong>Healthy means:</strong> {html.escape(command["expected_signal"])}</div>'
+            + knowledge_block
+            + example_block
+            + "</div>"
         )
 
     def render_step(step: dict[str, Any]) -> str:
-        evidence_block = (
-            '<div class="step-panel evidence"><strong>Collect if this step fails</strong><ul>'
-            + "".join(f"<li>{html.escape(item)}</li>" for item in step["evidence_to_collect"])
-            + "</ul></div>"
-            if step["evidence_to_collect"]
-            else ""
+        intro_block = (
+            f'<div class="step-panel why"><strong>Step focus</strong><p>{html.escape(step["action"])}</p></div>'
         )
         commands_block = (
-            '<div class="step-panel"><strong>Run these commands</strong>'
+            '<div class="step-panel"><strong>Run</strong>'
             + "".join(render_command(command) for command in step["recommended_commands"])
             + "</div>"
             if step["recommended_commands"]
             else ""
         )
         return (
-            '<article class="step-card">'
+            f'<article class="step-card" id="{html.escape(step["step_id"])}">'
             f'<div class="step-number">{html.escape(step["step_label"])}</div>'
-            f'<h4>{html.escape(step["action"])}</h4>'
-            '<div class="step-grid">'
-            f'<div class="step-panel pass"><strong>If healthy</strong><p>{html.escape(step["next_if_pass"])}</p></div>'
-            f'<div class="step-panel fail"><strong>Likely failure point</strong><p>{html.escape(step["failure_point"])}</p></div>'
-            f'<div class="step-panel next"><strong>Decision if this fails</strong><p>{html.escape(step["decision_if_fail"])}</p></div>'
-            "</div>"
+            + intro_block
             + commands_block
-            + evidence_block
             + "</article>"
         )
 
     def render_playbook(playbook: dict[str, Any]) -> str:
-        flow = flow_lookup.get(playbook["playbook_id"], {})
-        symptom_items = symptoms_by_flow.get(playbook["playbook_id"], [])
-        symptom_list = "".join(f"<li>{html.escape(item['symptom_label'])}</li>" for item in symptom_items)
-        first_command_preview = ""
-        for step in playbook["steps"]:
-            if step["recommended_commands"]:
-                first_command_preview = step["recommended_commands"][0]["command"]
-                break
-        quick_path = "".join(
-            f'<div class="path-node">{html.escape(step["step_label"])}<span>{html.escape(step["failure_point"])}</span></div>'
-            for step in playbook["steps"]
+        dependency_path = "".join(
+            (
+                f'<a class="dependency-node" href="#{html.escape(item["step_id"])}">'
+                f'<span class="dependency-step">{html.escape(item["step_label"])}</span>'
+                f'<strong>{html.escape(item["label"])}</strong>'
+                f'<span>{html.escape(item["details"])}</span>'
+                "</a>"
+            )
+            for item in playbook.get("dependency_path", [])
         )
         return (
             f'<section class="playbook" id="playbook-{html.escape(playbook["playbook_id"])}">'
@@ -390,24 +464,12 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
             f'<p class="playbook-focus">{html.escape(playbook["symptom_focus"])}</p></div>'
             f'<a class="top-link" href="#top">Back to top</a></div>'
             + (
-                '<div class="playbook-meta"><div class="meta-card"><strong>Use this when</strong><ul>'
-                + symptom_list
-                + "</ul></div>"
-                if symptom_items
-                else '<div class="playbook-meta">'
+                '<div class="dependency-map"><div class="dependency-title">Dependency path</div><div class="dependency-steps">'
+                + dependency_path
+                + "</div></div>"
+                if dependency_path
+                else ""
             )
-            + (
-                f'<div class="meta-card"><strong>Start with</strong><p>{html.escape(first_command_preview)}</p></div>'
-                if first_command_preview
-                else '<div class="meta-card"><strong>Start with</strong><p>Use the first explicit step below.</p></div>'
-            )
-            + (
-                f'<div class="meta-card"><strong>Next dependency path</strong><p>{html.escape(flow.get("next_dependency_focus", "Stay inside this playbook until a step fails or passes cleanly."))}</p></div>'
-                "</div>"
-            )
-            + '<div class="quick-path">'
-            + quick_path
-            + "</div>"
             + "".join(render_step(step) for step in playbook["steps"])
             + "</section>"
         )
@@ -543,9 +605,41 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     .symptom-chip span {{
       color: var(--muted);
     }}
+    .symptom-chip {{
+      display: block;
+      background: linear-gradient(180deg, #fffdfa 0%, #f4fbfb 100%);
+      min-height: 126px;
+    }}
     .symptom-chip strong {{
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+    }}
+    .symptom-title {{
+      color: var(--accent);
+    }}
+    .symptom-path,
+    .symptom-start {{
+      display: block;
+      margin-bottom: 8px;
+    }}
+    .symptom-start {{
+      color: var(--ink);
+      font-weight: 600;
+    }}
+    .symptom-tags {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }}
+    .symptom-tag {{
+      display: inline-block;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.9rem;
     }}
     .playbook-header {{
       display: flex;
@@ -554,26 +648,65 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       align-items: start;
       margin-bottom: 14px;
     }}
+    .dependency-map {{
+      display: grid;
+      gap: 10px;
+      margin: 10px 0 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f7fbfb 0%, #eef6f7 100%);
+      border: 1px solid #cfe1e4;
+    }}
+    .dependency-title {{
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }}
+    .dependency-steps {{
+      display: grid;
+      gap: 10px;
+    }}
+    .dependency-node {{
+      display: grid;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid #d7e6e8;
+      position: relative;
+      color: inherit;
+      text-decoration: none;
+    }}
+    .dependency-node:not(:last-child)::after {{
+      content: "↓";
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      transform: translateX(-50%);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+    }}
+    .dependency-step {{
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }}
+    .dependency-node strong {{
+      font-size: 1rem;
+    }}
+    .dependency-node span:last-child {{
+      color: var(--muted);
+      font-size: 0.95rem;
+    }}
     .top-link {{
       color: var(--accent);
       font-weight: bold;
       white-space: nowrap;
-    }}
-    .quick-path {{
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      margin: 18px 0;
-    }}
-    .path-node {{
-      border-left: 5px solid var(--accent);
-      background: #f8fcfc;
-      font-weight: bold;
-    }}
-    .path-node span {{
-      display: block;
-      font-weight: normal;
-      margin-top: 6px;
     }}
     .step-card {{
       border-top: 1px solid var(--rule);
@@ -605,9 +738,47 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     .evidence {{
       background: #f7f3ea;
     }}
+    .why {{
+      background: #eef6f1;
+      color: #214a33;
+      margin-bottom: 12px;
+    }}
     .command-card {{
       margin-top: 12px;
       background: #fbfcfe;
+    }}
+    .command-header {{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }}
+    .copy-button {{
+      border: 1px solid var(--rule);
+      background: #fffdfa;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+    }}
+    .copy-button:hover {{
+      background: var(--accent-soft);
+      border-color: #b7dadd;
+    }}
+    .copy-button.copied {{
+      background: var(--ok);
+      color: var(--ok-ink);
+      border-color: #b9dfc2;
+    }}
+    .knowledge-list {{
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }}
+    .knowledge-list li {{
+      margin: 6px 0;
+      line-height: 1.4;
     }}
     pre {{
       background: var(--code);
@@ -630,9 +801,21 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       background: var(--ok);
       color: var(--ok-ink);
     }}
+    .signal.tip {{
+      background: var(--accent-soft);
+      color: #184c55;
+    }}
+    .signal.example {{
+      background: #eef4fb;
+      color: #1a3550;
+    }}
     .signal.warn {{
       background: var(--warn);
       color: var(--warn-ink);
+    }}
+    .example-output {{
+      margin-top: 10px;
+      background: #101820;
     }}
     ul {{
       margin: 0;
@@ -677,11 +860,8 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     </section>
     <section>
       <h2>Jump To The Right Playbook</h2>
+      <p class="step-order-note">Scan the symptom, read the start clue, and open the playbook that best matches what the customer is reporting.</p>
       <div class="symptom-grid">{symptom_lookup_items}</div>
-    </section>
-    <section>
-      <h2>Playbook Paths</h2>
-      <div class="jump-grid">{quick_jump_items}</div>
     </section>
     {playbook_sections}
     <section>
@@ -693,6 +873,45 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       </details>
     </section>
   </main>
+  <script>
+    (function () {{
+      async function copyCommand(text) {{
+        if (navigator.clipboard && navigator.clipboard.writeText) {{
+          await navigator.clipboard.writeText(text);
+          return;
+        }}
+        const fallback = document.createElement('textarea');
+        fallback.value = text;
+        fallback.setAttribute('readonly', '');
+        fallback.style.position = 'absolute';
+        fallback.style.left = '-9999px';
+        document.body.appendChild(fallback);
+        fallback.select();
+        document.execCommand('copy');
+        document.body.removeChild(fallback);
+      }}
+
+      document.querySelectorAll('.copy-button').forEach((button) => {{
+        const defaultLabel = button.textContent;
+        button.addEventListener('click', async () => {{
+          try {{
+            await copyCommand(button.dataset.command || '');
+            button.textContent = 'Copied';
+            button.classList.add('copied');
+            setTimeout(() => {{
+              button.textContent = defaultLabel;
+              button.classList.remove('copied');
+            }}, 1400);
+          }} catch (error) {{
+            button.textContent = 'Copy failed';
+            setTimeout(() => {{
+              button.textContent = defaultLabel;
+            }}, 1400);
+          }}
+        }});
+      }});
+    }})();
+  </script>
 </body>
 </html>"""
 
@@ -1241,7 +1460,7 @@ def _build_support_domains(service_inventory: dict[str, Any], service_paths: lis
     domains = [
         {
             "domain_id": "ui-and-proxy",
-            "label": "UI and Proxy",
+            "label": "Appliance UI is down",
             "summary": "",
             "service_paths": [],
             "supporting_services": [],
@@ -1281,6 +1500,11 @@ def _build_support_domains(service_inventory: dict[str, Any], service_paths: lis
             continue
         domain_id = _domain_for_service(service_name)
         domain_index[domain_id]["supporting_services"].append(service_name)
+
+    # The appliance UI path is anchored in Apache and Keycloak, but it also
+    # depends on the legacy Metro/API chain behind the login flow.
+    if "ms-metro.service" in service_index:
+        domain_index["ui-and-proxy"]["supporting_services"].append("ms-metro.service")
 
     finalized = []
     for domain in domains:
@@ -1334,8 +1558,12 @@ def _domain_first_checks(
     checks: list[str] = []
     if domain_id == "ui-and-proxy":
         checks.append("Confirm httpd.service is active and ports 80 and 443 are listening.")
+        checks.append("Check disk space, inode usage, and memory pressure before going deeper.")
         if "keycloak.service" in supporting_services:
-            checks.append("Confirm keycloak.service is active and the /keycloak/ proxy path still points to localhost:8443.")
+            checks.append("Confirm keycloak.service is active and listener 8443 is present.")
+        if "ms-metro.service" in supporting_services:
+            checks.append("Confirm ms-metro.service is active and listener 8080 is present.")
+        checks.append("Review recent httpd, keycloak, and ms-metro logs for startup, heap, disk, or permission errors.")
         return checks
 
     if domain_id == "core-aff":
@@ -1437,11 +1665,11 @@ def _build_diagnostic_flows(
 
 def _domain_symptom_focus(domain_id: str) -> str:
     return {
-        "ui-and-proxy": "Use this when the customer cannot reach the UI, login path, or proxied product endpoints.",
-        "core-aff": "Use this when FireFlow actions fail, stall, or return backend-facing errors.",
-        "microservice-platform": "Use this when product features fail behind the UI, especially path-specific ms-* behavior.",
-        "messaging-and-data": "Use this when jobs back up, events do not move, or data-backed actions fail unexpectedly.",
-    }.get(domain_id, "Use this when symptoms cluster around this domain.")
+        "ui-and-proxy": "Use this when the customer UI is down and the engineer is checking the appliance from SSH.",
+        "core-aff": "Use this when a FireFlow action fails or FireFlow returns an error.",
+        "microservice-platform": "Use this when one product feature fails after login and the UI itself is still up.",
+        "messaging-and-data": "Use this when jobs stop, queues back up, or data actions fail.",
+    }.get(domain_id, "Use this when the problem matches this area.")
 
 
 def _supporting_service_details(
@@ -1492,8 +1720,8 @@ def _domain_supporting_evidence(
 def _build_symptom_lookup(diagnostic_flows: list[dict[str, Any]]) -> list[dict[str, str]]:
     flow_index = {flow["flow_id"]: flow for flow in diagnostic_flows}
     symptom_map = [
-        ("ui-unreachable", "UI unreachable", "ui-and-proxy"),
-        ("login-failing", "Login or auth failing", "ui-and-proxy"),
+        ("appliance-ui-down", "Appliance UI is down", "ui-and-proxy"),
+        ("appliance-login-not-loading", "Appliance login page not loading", "ui-and-proxy"),
         ("fireflow-action-failing", "FireFlow action failing", "core-aff"),
         ("fireflow-api-error", "FireFlow API error", "core-aff"),
         ("feature-failing-behind-ui", "Feature failing behind UI", "microservice-platform"),
@@ -1529,9 +1757,10 @@ def _flow_evidence_to_collect_next(
 ) -> list[str]:
     evidence: list[str] = []
     if domain_id == "ui-and-proxy":
-        evidence.append("Customer browser error or screenshot for the failing UI or login path.")
-        evidence.append("Visible status of httpd.service and the current 80/443 listener state.")
-        evidence.append("Any visible keycloak or proxy error shown in the session.")
+        evidence.append("Output of systemctl status for httpd.service, keycloak.service, and ms-metro.service.")
+        evidence.append("Listener output for ports 80, 443, 8443, and 8080 from ss -lntp.")
+        evidence.append("Disk, inode, memory, and OOM checks from df -h, df -ih, free -h, and journalctl -k.")
+        evidence.append("Recent journalctl output for httpd.service, keycloak.service, and ms-metro.service.")
         return evidence
 
     if domain_id == "core-aff":
@@ -1578,10 +1807,42 @@ def _build_decision_playbooks(diagnostic_flows: list[dict[str, Any]]) -> list[di
                 "symptom_focus": flow["symptom_focus"],
                 "decision_rule": decision_rule,
                 "likely_failing_services": flow["likely_failing_services"],
+                "dependency_path": _playbook_dependency_path(flow["flow_id"]),
                 "steps": steps,
             }
         )
     return playbooks
+
+
+def _playbook_dependency_path(flow_id: str) -> list[dict[str, str]]:
+    if flow_id == "ui-and-proxy":
+        return [
+            {
+                "step_label": "Step 1",
+                "step_id": "ui-and-proxy-step-1",
+                "label": "Apache edge",
+                "details": "Start here. Confirm httpd.service is active and ports 80 and 443 are listening before checking anything deeper.",
+            },
+            {
+                "step_label": "Step 2",
+                "step_id": "ui-and-proxy-step-2",
+                "label": "Host health",
+                "details": "If Apache is up, check disk space, inode usage, available memory, and recent OOM pressure on the host.",
+            },
+            {
+                "step_label": "Step 3",
+                "step_id": "ui-and-proxy-step-3",
+                "label": "UI services",
+                "details": "Then check the main UI services: keycloak.service on 8443 and ms-metro.service on 8080.",
+            },
+            {
+                "step_label": "Step 4",
+                "step_id": "ui-and-proxy-step-4",
+                "label": "Logs",
+                "details": "If the services are up, check httpd, keycloak, and ms-metro logs to find the real clue.",
+            },
+        ]
+    return []
 
 
 def _playbook_step(
@@ -1589,6 +1850,7 @@ def _playbook_step(
     step_id: str,
     step_number: int,
     action: str,
+    why_this_matters: str | None = None,
     next_if_pass: str,
     failure_point: str,
     decision_if_fail: str,
@@ -1599,6 +1861,7 @@ def _playbook_step(
         "step_id": step_id,
         "step_label": f"Step {step_number}",
         "action": action,
+        "why_this_matters": why_this_matters or "",
         "next_if_pass": next_if_pass,
         "failure_point": failure_point,
         "decision_if_fail": decision_if_fail,
@@ -1616,12 +1879,16 @@ def _command_entry(
     command: str,
     expected_signal: str,
     interpretation: str,
-) -> dict[str, str]:
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     return {
         "label": label,
         "command": command,
         "expected_signal": expected_signal,
         "interpretation": interpretation,
+        "healthy_markers": healthy_markers or [],
+        "example_output": example_output or "",
     }
 
 
@@ -1652,12 +1919,20 @@ def _flow_path_checkpoint(flow: dict[str, Any], service_name: str) -> dict[str, 
     return None
 
 
-def _service_status_command(service_name: str, *, interpretation: str) -> dict[str, str]:
+def _service_status_command(
+    service_name: str,
+    *,
+    interpretation: str,
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     return _command_entry(
         label=f"Check {service_name} status",
         command=f"systemctl status {shlex.quote(service_name)} --no-pager",
         expected_signal="Unit is loaded and active (running).",
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
     )
 
 
@@ -1666,7 +1941,9 @@ def _listener_command(
     *,
     interpretation: str,
     label: str = "Check listener state",
-) -> dict[str, str] | None:
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any] | None:
     normalized = [port for port in ports if port]
     if not normalized:
         return None
@@ -1682,6 +1959,8 @@ def _listener_command(
         command=f"ss -lntp | grep -E '{pattern}'",
         expected_signal=f"A listening socket is present for {port_label}.",
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
     )
 
 
@@ -1691,7 +1970,9 @@ def _config_command(
     needle: str | None,
     interpretation: str,
     label: str = "Check config mapping",
-) -> dict[str, str]:
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     quoted_path = shlex.quote(config_path)
     if needle:
         command = f"grep -n {shlex.quote(needle)} {quoted_path}"
@@ -1704,20 +1985,53 @@ def _config_command(
         command=command,
         expected_signal=expected_signal,
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
     )
 
 
-def _journal_command(service_name: str, *, interpretation: str) -> dict[str, str]:
+def _journal_command(
+    service_name: str,
+    *,
+    interpretation: str,
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     return _command_entry(
         label=f"Review {service_name} logs",
         command=f"journalctl -u {shlex.quote(service_name)} -n 50 --no-pager",
         expected_signal="Recent lines show healthy startup or a clear error signature to classify.",
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
     )
 
 
-def _command_bundle(*commands: dict[str, str] | None) -> list[dict[str, str]]:
+def _curl_head_command(
+    *,
+    label: str,
+    url: str,
+    expected_signal: str,
+    interpretation: str,
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
+    return _command_entry(
+        label=label,
+        command=f"curl -k -I --max-time 5 {shlex.quote(url)}",
+        expected_signal=expected_signal,
+        interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
+    )
+
+
+def _command_bundle(*commands: dict[str, Any] | None) -> list[dict[str, Any]]:
     return [command for command in commands if command]
+
+
+def _example_output(*lines: str) -> str:
+    return "\n".join(lines)
 
 
 def _decision_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
@@ -1759,77 +2073,210 @@ def _decision_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
     evidence = flow["evidence_to_collect_next"]
-    httpd_detail = _flow_service_detail(flow, "httpd.service")
     keycloak_detail = _flow_service_detail(flow, "keycloak.service")
+    metro_detail = _flow_service_detail(flow, "ms-metro.service")
     return [
         _playbook_step(
             step_id="ui-and-proxy-step-1",
             step_number=1,
-            action="Confirm the customer symptom is truly a UI, login, or proxy-path failure and not a deeper feature-specific issue behind a healthy UI.",
-            next_if_pass="Continue to edge-service validation.",
-            failure_point="Domain mismatch",
-            decision_if_fail="If the UI is reachable and only one feature fails behind it, switch to the Microservice Platform playbook.",
-            evidence_to_collect=evidence[:1],
-            recommended_commands=[],
-        ),
-        _playbook_step(
-            step_id="ui-and-proxy-step-2",
-            step_number=2,
-            action="Confirm httpd.service is active and that ports 80 and 443 are listening in the customer environment.",
-            next_if_pass="Continue to auth and proxy-path validation.",
+            action="Check Apache first. Confirm httpd.service is running and ports 80 and 443 are open.",
+            why_this_matters="Apache is the front door for the UI. If Apache is down, the UI cannot load.",
+            next_if_pass="If httpd is running and both ports are open, go to the next step.",
             failure_point="httpd.service or edge listener state",
-            decision_if_fail="Treat httpd.service or the edge listener state as the current failure point.",
+            decision_if_fail="Stop here and treat httpd.service or the 80/443 listener layer as the current failure point.",
             evidence_to_collect=evidence[:2],
             recommended_commands=_command_bundle(
                 _service_status_command(
                     "httpd.service",
                     interpretation="If this is not active, treat the edge service itself as the failure point before going deeper.",
+                    healthy_markers=[
+                        "Loaded: loaded",
+                        "Active: active (running)",
+                        "Main PID:",
+                        "/usr/sbin/httpd",
+                    ],
+                    example_output=_example_output(
+                        "● httpd.service - The Apache HTTP Server",
+                        "   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)",
+                        "   Active: active (running) since Sat 2026-03-07 13:37:12 EST; 2 weeks 2 days ago",
+                        " Main PID: 1018 (/usr/sbin/httpd)",
+                    ),
                 ),
                 _listener_command(
                     ["80", "443"],
                     label="Check edge listeners",
                     interpretation="If 80/443 are missing, the UI path is failing at the listener or bind layer.",
+                    healthy_markers=["LISTEN", ":80", ":443", "httpd"],
+                    example_output=_example_output(
+                        'LISTEN 0 511 0.0.0.0:443 0.0.0.0:* users:(("/usr/sbin/httpd",pid=1018,fd=4),...)',
+                        'LISTEN 0 511 0.0.0.0:80  0.0.0.0:* users:(("/usr/sbin/httpd",pid=1018,fd=3),...)',
+                    ),
+                ),
+            ),
+        ),
+        _playbook_step(
+            step_id="ui-and-proxy-step-2",
+            step_number=2,
+            action="Check system pressure. Confirm the server still has free disk, free inodes, and available memory.",
+            why_this_matters="Disk full, inode full, or OOM pressure are common Linux failure points and are more common than Apache rewrite problems.",
+            next_if_pass="If disk, inode, and memory checks look healthy, go to the service checks.",
+            failure_point="Disk, inode, or memory pressure on the host",
+            decision_if_fail="Stop here and treat host pressure as the current failure point.",
+            evidence_to_collect=evidence[:2],
+            recommended_commands=_command_bundle(
+                _command_entry(
+                    label="Check disk usage",
+                    command="df -h",
+                    expected_signal="Main filesystems still have free space and are not close to 100% use.",
+                    interpretation="If /, /boot, or /data is full or nearly full, services may stop writing logs, temp files, or data.",
+                    healthy_markers=[
+                        "Use% below 100%",
+                        "Avail is not 0",
+                        "/ and /data still have free space",
+                    ],
+                    example_output=_example_output(
+                        "Filesystem           Size  Used Avail Use% Mounted on",
+                        "/dev/mapper/rl-root   60G   16G   45G  27% /",
+                        "/dev/mapper/rl-data  238G   21G  218G   9% /data",
+                    ),
+                ),
+                _command_entry(
+                    label="Check inode usage",
+                    command="df -ih",
+                    expected_signal="Main filesystems still have free inodes and are not close to 100% inode use.",
+                    interpretation="If inode use is high, services can fail even when normal disk space still looks free.",
+                    healthy_markers=[
+                        "IUse% below 100%",
+                        "IFree is not 0",
+                        "/ and /data still have free inodes",
+                    ],
+                    example_output=_example_output(
+                        "Filesystem          Inodes IUsed IFree IUse% Mounted on",
+                        "/dev/mapper/rl-root    30M  343K   30M    2% /",
+                        "/dev/mapper/rl-data   119M   21K  119M    1% /data",
+                    ),
+                ),
+                _command_entry(
+                    label="Check memory pressure",
+                    command="free -h",
+                    expected_signal="The host still has available memory and is not fully relying on swap.",
+                    interpretation="If available memory is very low or swap is heavily used, Java services may slow down, hang, or crash.",
+                    healthy_markers=[
+                        "available memory is present",
+                        "swap is not exhausted",
+                        "Mem and Swap are shown in GiB",
+                    ],
+                    example_output=_example_output(
+                        "              total        used        free      shared  buff/cache   available",
+                        "Mem:           32Gi        13Gi       8.6Gi       2.4Gi         9Gi        15Gi",
+                        "Swap:          24Gi          0B        24Gi",
+                    ),
+                ),
+                _command_entry(
+                    label="Check for recent OOM pressure",
+                    command="journalctl -k --since '-7 days' --no-pager | grep -i -E 'out of memory|oom|killed process' | tail -n 20",
+                    expected_signal="No recent OOM lines are returned.",
+                    interpretation="If OOM lines appear, the host has been killing or starving processes under memory pressure.",
+                    healthy_markers=[
+                        "No output is normal",
+                        "No 'Out of memory' lines",
+                        "No 'Killed process' lines",
+                    ],
+                    example_output=_example_output(
+                        "No output",
+                    ),
                 ),
             ),
         ),
         _playbook_step(
             step_id="ui-and-proxy-step-3",
             step_number=3,
-            action="If the symptom includes login or auth failure, confirm keycloak.service is active and /keycloak/ still targets localhost:8443.",
-            next_if_pass="Continue to visible browser or proxy error review.",
-            failure_point="keycloak.service or /keycloak/ proxy path",
-            decision_if_fail="Treat keycloak.service or the /keycloak/ proxy path as the current failure point.",
-            evidence_to_collect=evidence[1:3],
+            action="Check the main UI services. Confirm keycloak.service and ms-metro.service are running and ports 8443 and 8080 are open.",
+            why_this_matters="After Apache and host health, the next common failure is that a key Java service is down or not listening.",
+            next_if_pass="If the services and listeners look healthy, go to the log checks.",
+            failure_point="keycloak.service, ms-metro.service, or their listener ports",
+            decision_if_fail="Stop here and treat the missing service or listener as the current failure point.",
+            evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
                 _service_status_command(
                     "keycloak.service",
-                    interpretation="If keycloak is not active, the auth path is failing before the application layer.",
+                    interpretation="If Keycloak is not running, the login path is failing before the UI can finish loading.",
+                    healthy_markers=[
+                        "Loaded: loaded",
+                        "Active: active (running)",
+                        "Main PID:",
+                        "algosec_keycloak_start.sh",
+                    ],
+                    example_output=_example_output(
+                        "● keycloak.service - The authentication and authorization server",
+                        "   Loaded: loaded (/usr/lib/systemd/system/keycloak.service; enabled; vendor preset: disabled)",
+                        "   Active: active (running) since Sat 2026-03-07 13:38:32 EST; 2 weeks 2 days ago",
+                        " Main PID: 3758 (algosec_keycloa)",
+                    ),
                 ),
                 _listener_command(
                     keycloak_detail.get("listener_ports", ["8443"]),
-                    label="Check keycloak listener",
-                    interpretation="If the auth listener is missing, focus on keycloak startup or local bind issues.",
+                    label="Check Keycloak listener",
+                    interpretation="If port 8443 is missing, focus on Keycloak startup or bind problems.",
+                    healthy_markers=["LISTEN", ":8443", "java"],
+                    example_output=_example_output(
+                        'LISTEN 0 16384 0.0.0.0:8443 0.0.0.0:* users:(("java",pid=5129,fd=363))',
+                    ),
                 ),
-                _command_entry(
-                    label="Check keycloak proxy mapping",
-                    command="grep -R -n '/keycloak\\|8443' /etc/httpd/conf.d",
-                    expected_signal="A /keycloak proxy rule points at the expected local auth target.",
-                    interpretation="If the proxy mapping is missing or wrong, the login path may be routed incorrectly.",
+                _service_status_command(
+                    "ms-metro.service",
+                    interpretation="If Metro is not running, the UI may open only partly or fail after the first page.",
+                    healthy_markers=[
+                        "Loaded: loaded",
+                        "Active: active (running)",
+                        "Main PID:",
+                        "java",
+                    ],
+                    example_output=_example_output(
+                        "● ms-metro.service - ms-metro Application Container",
+                        "   Loaded: loaded (/etc/systemd/system/ms-metro.service; disabled; vendor preset: disabled)",
+                        "   Active: active (running) since Sat 2026-03-07 13:39:32 EST; 2 weeks 2 days ago",
+                        " Main PID: 6012 (java)",
+                    ),
+                ),
+                _listener_command(
+                    metro_detail.get("listener_ports", ["8080"]),
+                    label="Check Metro listener",
+                    interpretation="If port 8080 is missing, the UI backend route has no working target.",
+                    healthy_markers=["LISTEN", ":8080", "java"],
+                    example_output=_example_output(
+                        'LISTEN 0 100 0.0.0.0:8080 0.0.0.0:* users:(("java",pid=6012,fd=44))',
+                    ),
                 ),
             ),
         ),
         _playbook_step(
             step_id="ui-and-proxy-step-4",
             step_number=4,
-            action="Use the browser error or visible proxy failure detail to decide whether the issue remains at the edge or should move to a deeper feature-domain playbook.",
-            next_if_pass="Move to the deeper domain that matches the failing feature if the edge checks all passed.",
-            failure_point="Edge evidence incomplete",
-            decision_if_fail="If browser or proxy evidence cannot be collected, escalate with the edge and auth checks already captured.",
-            evidence_to_collect=evidence[:3],
+            action="Check the logs. Look for disk, memory, startup, or Java errors in httpd, keycloak, and ms-metro.",
+            why_this_matters="Logs often show disk problems, heap problems, startup failures, and Java stack clues faster than config review.",
+            next_if_pass="If the logs do not show the issue clearly, move to a narrower service or escalation workflow.",
+            failure_point="Recent service errors in httpd, keycloak, or ms-metro logs",
+            decision_if_fail="Stop here and treat the service with the clear error as the current failure point.",
+            evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
-                _journal_command(
-                    "httpd.service",
-                    interpretation="Use recent edge-service log lines to decide whether the failure is proxy, auth, or downstream application behavior.",
+                _command_entry(
+                    label="Review recent httpd logs",
+                    command="journalctl -u httpd.service -n 50 --no-pager",
+                    expected_signal="No obvious disk, permission, startup, or crash errors appear in recent lines.",
+                    interpretation="If recent httpd lines show errors, stay on Apache and follow that clue first.",
+                ),
+                _command_entry(
+                    label="Review recent Keycloak logs",
+                    command="journalctl -u keycloak.service -n 50 --no-pager",
+                    expected_signal="No obvious startup, auth, memory, or crash errors appear in recent lines.",
+                    interpretation="If recent Keycloak lines show errors, stay on Keycloak and follow that clue first.",
+                ),
+                _command_entry(
+                    label="Review recent Metro logs",
+                    command="journalctl -u ms-metro.service -n 50 --no-pager",
+                    expected_signal="No obvious Java heap, startup, disk, or application crash errors appear in recent lines.",
+                    interpretation="If recent Metro lines show errors, stay on Metro and follow that clue first.",
                 ),
             ),
         ),
