@@ -10,9 +10,9 @@
     "render_baseline_outputs"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Refined the target-generated Appliance UI is down playbook into the current SSH-first Linux-first four-step runbook with Step focus framing, clickable dependency path, copy buttons, and Why this check matters knowledge blocks, then refreshed the live review URL.",
-  "last_outcome": "ui_playbook_knowledge_and_copy_review_ready",
-  "last_outcome_at": "2026-03-24T04:00:17Z",
+  "last_agent_action": "Refined the target-generated Appliance UI is down playbook into the current SSH-first Linux-first four-step runbook with collapsible Step focus framing, a clickable dependency path that opens matching steps, copy buttons, and Why this check matters knowledge blocks, then refreshed the live review URL.",
+  "last_outcome": "ui_playbook_collapsed_step_review_ready",
+  "last_outcome_at": "2026-03-24T04:13:57Z",
   "last_validation_results": [
     "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json",
     "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223939z/benchmark-result.json"
@@ -28,7 +28,7 @@
   "resume_instructions": [
     "Read the objective, backlog, and work-state files before editing code.",
     "Start the next cycle by reviewing the live target-generated webpage and using the Appliance UI is down playbook as the current reference pattern.",
-    "Carry the current Step focus, Why this check matters, Known-good example, clickable dependency path, and copy-button structure into FireFlow Backend next, then into the other priority playbooks.",
+    "Carry the current collapsible Step focus, Why this check matters, Known-good example, clickable dependency path, and copy-button structure into FireFlow Backend next, then into the other priority playbooks.",
     "Restage the build-pack to the saved AlgoSec lab target before the next remote Codex run that changes playbook logic.",
     "Keep machine-readable artifacts canonical, keep HTML as a thin render layer, and keep new commands read-only.",
     "Keep rare path and config checks deferred unless a playbook truly needs them.",

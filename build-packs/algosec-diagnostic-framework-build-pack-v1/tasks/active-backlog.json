@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-24T04:00:17Z",
+  "generated_at": "2026-03-24T04:13:57Z",
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -103,7 +103,7 @@
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Appliance UI is down reflects the reviewed SSH-first four-step Linux-first flow with the current Step focus frame, clickable dependency path, copy controls, and knowledge-oriented command cards, and FireFlow Backend follows next.",
+        "Appliance UI is down reflects the reviewed SSH-first four-step Linux-first flow with the current collapsible Step focus frame, clickable dependency path, copy controls, and knowledge-oriented command cards, and FireFlow Backend follows next.",
         "HTML and JSON outputs remain aligned after the language tuning pass."
       ],
       "dependencies": [
@@ -120,7 +120,7 @@
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "status": "pending",
-      "summary": "Continue tuning high-value support playbooks into final SSH-first operator language and decision flow, carrying the current Appliance UI is down Step focus, knowledge-block, and copy-control pattern into FireFlow Backend next.",
+      "summary": "Continue tuning high-value support playbooks into final SSH-first operator language and decision flow, carrying the current Appliance UI is down collapsible Step focus, knowledge-block, dependency-path, and copy-control pattern into FireFlow Backend next.",
       "task_id": "tune_operator_language_for_priority_domains",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",

@@ -1,12 +1,12 @@
 {
   "blocking_issues": [],
-  "last_evaluated_at": "2026-03-24T04:00:17Z",
+  "last_evaluated_at": "2026-03-24T04:13:57Z",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "pack_kind": "build_pack",
   "readiness_state": "ready_for_review",
   "ready_for_deployment": false,
   "recommended_next_actions": [
-    "Review the live target-generated diagnostic webpage with the current SSH-first Appliance UI is down Step focus playbook as the reference slice, then tune FireFlow Backend next.",
+    "Review the live target-generated diagnostic webpage with the current SSH-first Appliance UI is down collapsible Step focus playbook as the reference slice, then tune FireFlow Backend next.",
     "Expand service-specific command coverage, operator knowledge blocks, and known-good terminal examples for the highest-value AlgoSec services and dependencies.",
     "Deepen dependency-aware playbooks while keeping testing minimal, keeping commands read-only, and deferring rare path or config checks."
   ],
@@ -16,20 +16,20 @@
         "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json"
       ],
       "gate_id": "validate_build_pack_contract",
-      "last_run_at": "2026-03-24T04:00:17Z",
+      "last_run_at": "2026-03-24T04:13:57Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Build-pack contract validation passed after the current Step focus, knowledge-block, and copy-control Appliance UI is down playbook update."
+      "summary": "Build-pack contract validation passed after the current collapsible Step focus, knowledge-block, dependency-path, and copy-control Appliance UI is down playbook update."
     },
     {
       "evidence_paths": [
         "eval/latest/index.json"
       ],
       "gate_id": "algosec_diagnostic_framework_template_pack_smoke_small_001",
-      "last_run_at": "2026-03-24T04:00:17Z",
+      "last_run_at": "2026-03-24T04:13:57Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "The existing smoke benchmark still passes after the Step focus layout, copy-button controls, and knowledge-oriented CLI playbook updates."
+      "summary": "The existing smoke benchmark still passes after the collapsible Step focus layout, dependency-path navigation, copy-button controls, and knowledge-oriented CLI playbook updates."
     }
   ],
   "schema_version": "pack-readiness/v2"

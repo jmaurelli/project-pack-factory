@@ -440,11 +440,15 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
             else ""
         )
         return (
-            f'<article class="step-card" id="{html.escape(step["step_id"])}">'
+            f'<details class="step-card" id="{html.escape(step["step_id"])}">'
+            '<summary class="step-summary">'
             f'<div class="step-number">{html.escape(step["step_label"])}</div>'
             + intro_block
+            + "</summary>"
+            + '<div class="step-body">'
             + commands_block
-            + "</article>"
+            + "</div>"
+            + "</details>"
         )
 
     def render_playbook(playbook: dict[str, Any]) -> str:
@@ -713,6 +717,30 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       padding-top: 18px;
       margin-top: 18px;
     }}
+    .step-summary {{
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      list-style: none;
+    }}
+    .step-summary::-webkit-details-marker {{
+      display: none;
+    }}
+    .step-summary::marker {{
+      display: none;
+    }}
+    .step-summary::after {{
+      content: "Expand";
+      margin-left: auto;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+      padding-top: 6px;
+    }}
+    .step-card[open] > .step-summary::after {{
+      content: "Collapse";
+    }}
     .step-number {{
       display: inline-block;
       background: var(--accent);
@@ -720,7 +748,8 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       font-weight: bold;
       border-radius: 999px;
       padding: 4px 10px;
-      margin-bottom: 10px;
+      margin-top: 4px;
+      flex: 0 0 auto;
     }}
     .step-grid {{
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -741,7 +770,11 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     .why {{
       background: #eef6f1;
       color: #214a33;
-      margin-bottom: 12px;
+      margin-bottom: 0;
+      flex: 1 1 auto;
+    }}
+    .step-body {{
+      margin-top: 12px;
     }}
     .command-card {{
       margin-top: 12px;
@@ -910,6 +943,24 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
           }}
         }});
       }});
+
+      function openHashTarget() {{
+        const rawHash = window.location.hash;
+        if (!rawHash || rawHash.length < 2) {{
+          return;
+        }}
+        const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));
+        if (!target) {{
+          return;
+        }}
+        const step = target.matches('details.step-card') ? target : target.closest('details.step-card');
+        if (step) {{
+          step.open = true;
+        }}
+      }}
+
+      window.addEventListener('hashchange', openHashTarget);
+      openHashTarget();
     }})();
   </script>
 </body>

@@ -23,7 +23,7 @@
       ],
       "command_id": "systemd_units",
       "exit_code": 0,
-      "observed_at": "2026-03-24T04:01:16Z",
+      "observed_at": "2026-03-24T04:15:12Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -202,7 +202,7 @@
       ],
       "command_id": "systemd_unit_files",
       "exit_code": 0,
-      "observed_at": "2026-03-24T04:01:16Z",
+      "observed_at": "2026-03-24T04:15:12Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -456,7 +456,7 @@
       ],
       "command_id": "listening_tcp_ports",
       "exit_code": 0,
-      "observed_at": "2026-03-24T04:01:17Z",
+      "observed_at": "2026-03-24T04:15:13Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -477,11 +477,11 @@
       ],
       "command_id": "process_inventory",
       "exit_code": 0,
-      "observed_at": "2026-03-24T04:01:17Z",
+      "observed_at": "2026-03-24T04:15:13Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
-      "stdout_line_count": 258,
+      "stdout_line_count": 259,
       "stdout_preview": [
         "      1       0 root     systemd         /sbin/init",
         "      2       0 root     kthreadd        [kthreadd]",
@@ -686,7 +686,7 @@
       ]
     }
   ],
-  "generated_at": "2026-03-24T04:01:17Z",
+  "generated_at": "2026-03-24T04:15:13Z",
   "observation_boundaries": {
     "inferred": [
       "Support-priority hints and service roles are derived from command output heuristics in the build-pack."

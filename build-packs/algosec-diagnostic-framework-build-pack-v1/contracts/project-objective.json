@@ -3,11 +3,11 @@
     "The ADF build-pack produces bounded machine-readable artifacts for runtime evidence, service inventory, and support-facing baseline output from the real AlgoSec lab appliance.",
     "The generated JSON and HTML outputs expose diagnostic flows, decision playbooks, and read-only command bundles that a support engineer can review and use during a live session.",
     "The current HTML output now behaves like a live diagnostic webpage rather than a static artifact, and the Appliance UI is down playbook is now SSH-first, CLI-oriented, and organized around a four-step Linux-first flow.",
-    "The current operator-reviewed frame keeps a single Step focus panel, a vertical dependency path at the top of the playbook, command-first step bodies, copy buttons for commands, and no redundant evidence or decision panels.",
+    "The current operator-reviewed frame keeps a single collapsible Step focus panel, a vertical dependency path at the top of the playbook, command-first step bodies, copy buttons for commands, and no redundant evidence or decision panels.",
     "The current command cards now use Why this check matters plus Known-good example instead of repeating output-pattern guidance in two places.",
     "The next implementation cycle is focused on carrying the current Step focus, Why this check matters, and Known-good example pattern into FireFlow Backend and the other priority playbooks without expanding the testing surface."
   ],
-  "generated_at": "2026-03-24T04:00:17Z",
+  "generated_at": "2026-03-24T04:13:57Z",
   "intended_inputs": [
     "Pack-local source code and configuration under the materialized build-pack.",
     "The controlled AlgoSec lab appliance on Rocky Linux 8 reached through the saved remote target request.",
@@ -79,6 +79,6 @@
     "The real lab appliance generates diagnostic playbooks and command bundles that are strong enough for operator review and iterative tuning.",
     "At least one priority playbook shows engineers what healthy CLI output looks like with explicit keywords and short terminal examples.",
     "The live reviewable webpage is strong enough to use as a proof-of-concept with support engineers.",
-    "The Appliance UI is down playbook uses the current Step focus plus Run structure with a Linux-first four-step flow, a vertical dependency path, copy buttons, and Why this check matters knowledge blocks."
+    "The Appliance UI is down playbook uses the current Step focus plus Run structure with a Linux-first four-step flow, a vertical clickable dependency path, default-collapsed step cards, copy buttons, and Why this check matters knowledge blocks."
   ]
 }
