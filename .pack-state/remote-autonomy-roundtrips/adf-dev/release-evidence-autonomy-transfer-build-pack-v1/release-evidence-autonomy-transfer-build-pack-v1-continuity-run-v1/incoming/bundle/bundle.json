@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "91a93f04d67d9a034c977a7e3b0298807a0cf1a39d16fed0e856127cdba816eb",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "060b6d08eca61bb6f85b8466f6a0ba569b11afcd5d942edee611bb648056987d",
+      "source_pack_path": ".pack-state/autonomy-runs/release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "feef2cb2c311801e5a568188e745fd6a1a4a577e1f566a1b09cf3bc4b50c1fb8",
+      "source_pack_path": ".pack-state/autonomy-runs/release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1-20260325T231556Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1-20260325T231556Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T23:15:56Z",
+  "pack_id": "release-evidence-autonomy-transfer-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T23:15:56Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 1,
+    "started_at": "2026-03-25T23:15:55Z",
+    "stop_reason": "starter_backlog_completed",
+    "task_completion_rate": 1.0
+  }
+}

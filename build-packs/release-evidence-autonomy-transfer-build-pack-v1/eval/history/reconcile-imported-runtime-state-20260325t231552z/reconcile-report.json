@@ -1,0 +1,64 @@
+{
+  "after_summary": {
+    "active_task_id": null,
+    "completed_task_ids": [
+      "run_build_pack_validation",
+      "run_inherited_benchmarks"
+    ],
+    "eval_result_statuses": {
+      "release-evidence-summarizer-template-pack-smoke-small-001": "pass"
+    },
+    "gate_statuses": {
+      "release_evidence_summarizer_template_pack_smoke_small_001": "pass",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": null,
+    "readiness_state": "ready_for_deploy",
+    "ready_for_deployment": true,
+    "task_statuses": {
+      "run_build_pack_validation": "completed",
+      "run_inherited_benchmarks": "completed"
+    }
+  },
+  "before_summary": {
+    "active_task_id": "run_inherited_benchmarks",
+    "completed_task_ids": [
+      "run_build_pack_validation"
+    ],
+    "eval_result_statuses": {
+      "release-evidence-summarizer-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "release_evidence_summarizer_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "run_inherited_benchmarks",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false,
+    "task_statuses": {
+      "run_build_pack_validation": "completed",
+      "run_inherited_benchmarks": "in_progress"
+    }
+  },
+  "build_pack_id": "release-evidence-autonomy-transfer-build-pack-v1",
+  "build_pack_root": "build-packs/release-evidence-autonomy-transfer-build-pack-v1",
+  "control_plane_mutations": {
+    "eval_history_written": true,
+    "eval_latest_updated": true,
+    "memory_pointer_updated": true,
+    "readiness_updated": true,
+    "task_backlog_updated": true,
+    "work_state_updated": true
+  },
+  "generated_at": "2026-03-25T23:15:52Z",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/release-evidence-autonomy-transfer-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t231552z/import-report.json",
+  "memory_pointer_status": "activated",
+  "reconcile_id": "reconcile-imported-runtime-state-20260325t231552z",
+  "reconcile_reason": "Adopt the successful remote active-task continuity result into local canonical state.",
+  "reconciled_by": "codex",
+  "schema_version": "imported-runtime-state-reconcile-report/v1",
+  "source_import_id": "import-external-runtime-evidence-20260325t231552z",
+  "source_run_id": "release-evidence-autonomy-transfer-build-pack-v1-active-task-continuity-run-v1",
+  "source_run_summary_path": "eval/history/import-external-runtime-evidence-20260325t231552z/external-runtime-evidence/artifacts/run-summary.json",
+  "status": "completed"
+}

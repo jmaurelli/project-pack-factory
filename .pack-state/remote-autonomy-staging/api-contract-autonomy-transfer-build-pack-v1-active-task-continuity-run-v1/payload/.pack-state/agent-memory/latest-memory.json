@@ -1,0 +1,14 @@
+{
+  "pack_id": "api-contract-autonomy-transfer-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T23:15:45Z",
+  "selected_memory_id": "autonomy-feedback-api-contract-autonomy-transfer-build-pack-v1-mid-backlog-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-api-contract-autonomy-transfer-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "selected_memory_sha256": "37a6949fe893bceca89c61af6859d8fbb54f0f4460ae89f5c90383b38338c106",
+  "selected_run_id": "api-contract-autonomy-transfer-build-pack-v1-mid-backlog-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-api-contract-autonomy-transfer-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-25T23:15:45Z"
+}

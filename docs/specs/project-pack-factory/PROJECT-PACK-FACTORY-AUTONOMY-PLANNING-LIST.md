@@ -44,6 +44,14 @@ PackFactory autonomy can now:
   stronger and the justification can be recorded
 - use broader operator support through canonical hint guidance that can both
   prefer and avoid tasks before semantic tie-breaking runs
+- apply a proven operator-hint conflict ladder of priority, avoid, prefer,
+  semantic alignment, then fail-closed review
+- support bounded hint lifetime through `remaining_applications`
+- audit and prune exhausted operator hints cleanly
+- surface operator-hint status directly in `status/readiness.json`
+- inherit pack-local startup guidance that surfaces hint status early
+- require PackFactory-local remote-session tooling and evidence flows at the
+  factory root and in newly materialized build-pack startup guidance
 
 Recent proof points:
 
@@ -52,6 +60,14 @@ Recent proof points:
 - `json-health-checker-one-pass-promotion-proof-build-pack-v1`
 - `json-health-checker-autonomy-to-promotion-build-pack-v1`
 - `json-health-checker-operator-avoid-branch-build-pack-v2`
+- `json-health-checker-operator-hint-conflict-build-pack-v1`
+- `json-health-checker-ordered-hint-lifecycle-build-pack-v1`
+- `json-health-checker-hint-audit-cleanup-build-pack-v3`
+- `json-health-checker-hint-status-surfacing-build-pack-v2`
+- `json-health-checker-hint-briefing-build-pack-v1`
+- `json-health-checker-startup-compliance-build-pack-v1`
+- `json-health-checker-startup-compliance-rehearsal-build-pack-v1`
+- `config-drift-autonomy-transfer-build-pack-v1`
 
 ## Current Limits
 
@@ -67,6 +83,70 @@ Recent proof points:
   still not proven.
 - Testing-time remote connectivity and delayed-import recovery are proven;
   permanent factory-to-pack connectivity is not assumed.
+
+## Next Frontier
+
+- [x] Startup-compliance rehearsal workflow.
+  Scope: add and prove a reusable factory workflow that materializes a fresh
+  build-pack, verifies inherited startup-compliance markers, and runs the
+  managed PackFactory remote-session path end to end.
+  Why it matters: this turns the startup-compliance baseline into a repeatable
+  proof surface instead of relying on static doc inspection alone.
+
+- [x] Capability-surface proving-ground expansion.
+  Scope: choose a new proving-ground build-pack or template beyond the current
+  JSON health checker line and use the autonomy baseline to improve a fresh
+  capability surface.
+  Why it matters: this checks whether the factory-default memory, feedback,
+  and startup baseline transfers cleanly outside the current proving ground.
+
+- [x] Root startup-experience re-brief.
+  Scope: run a fresh factory-root `load AGENTS.md` style briefing against the
+  updated memory and compliance baseline, then capture any remaining operator
+  or agent friction that shows up during real startup.
+  Why it matters: the startup experience is the main entry point for the next
+  agent, so it should be re-tested after the recent autonomy and compliance
+  changes.
+
+## Frontier Wave 2
+
+- [x] Autonomy quality scoring.
+  Scope: define and implement a reusable factory scoring surface for autonomy
+  quality, including handoff quality, replay avoided, branch-choice quality,
+  block quality, and recovery quality across existing autonomy artifacts.
+  Why it matters: the factory can now prove that autonomy loops complete, but
+  it still needs a bounded way to measure how well they complete.
+  Success signal: `tools/score_autonomy_quality.py` produces schema-valid
+  score reports from rehearsal artifacts, and at least one startup-compliance
+  proof plus one cross-template proof have recorded scores.
+
+- [x] Factory-root startup benchmark.
+  Scope: define and implement a repeatable benchmark for the `load AGENTS.md`
+  style startup experience so PackFactory can score source selection, priority
+  ordering, memory usage, and startup compliance behavior.
+  Why it matters: startup is the main entry point for the next agent, and it
+  should be benchmarked as a first-class autonomy surface instead of judged
+  informally.
+  Success signal: `tools/run_factory_root_startup_benchmark.py` produces a
+  schema-valid benchmark report, source trace, and startup brief under
+  `.pack-state/startup-benchmarks/`.
+
+- [x] Cross-template transfer matrix.
+  Scope: run a small matrix of autonomy transfer proofs across multiple active
+  template lines beyond JSON health checking and capture where the baseline
+  transfers cleanly versus where template-specific gaps remain.
+  Why it matters: one successful transfer is encouraging, but a small matrix is
+  the stronger proof that the PackFactory default autonomy baseline is truly
+  general.
+  Success signal: `tools/run_cross_template_transfer_matrix.py` records at
+  least a three-row matrix with successful proofs beyond JSON health checking.
+
+- [ ] Promotion-time autonomy quality gating.
+  Scope: decide whether promotion should stay compatible-evidence-based only
+  or begin consuming bounded autonomy-quality scores as an additional gate or
+  advisory signal.
+  Why it matters: the factory can now score autonomy quality, so the next
+  question is how much of that score should affect real promotion decisions.
 
 ## Quick Wins
 
@@ -235,12 +315,41 @@ Recent proof points:
   agent effectiveness without jumping prematurely to open-ended semantic
   judgment.
 
-- [ ] Operator-hint conflict and precedence policy.
+- [x] Operator-hint conflict and precedence policy.
   Scope: define how PackFactory should behave when explicit priority metadata,
   multiple operator hints, avoid-task hints, and bounded semantic signals point
   in different directions.
   Why it matters: richer operator support only helps if the chooser stays
   deterministic, explainable, and easy to recover when guidance conflicts.
+
+### Operator-Hint Conflict Policy Plan
+
+Use this precedence ladder for the current implementation pass:
+
+1. explicit `selection_priority`
+2. active operator `avoid_task_ids` within the tied top-priority set
+3. active operator `preferred_task_ids` within the remaining tied set
+4. bounded semantic alignment
+5. fail-closed operator review
+
+Safety rules for this pass:
+
+- `avoid_task_ids` must never eliminate all remaining top candidates; if they
+  would, ignore that narrowing and record that the avoid guidance could not be
+  applied safely
+- operator hints are processed in stable canonical list order from
+  `status/work-state.json.branch_selection_hints`
+- inactive hints are ignored entirely
+- applied and ignored hint effects should be visible in `branch-selection.json`
+
+Proof plan for this pass:
+
+- create a proving-ground pack with three tied post-validation branches
+- add one hint that prefers branch alpha
+- add one later hint that avoids branch alpha
+- make branch beta the stronger semantic fit than branch gamma
+- confirm the chooser filters alpha, cannot apply the alpha preference after
+  that filter, then selects beta through bounded semantic alignment
 
 - [x] Richer operator-support proving-ground exercise.
   Scope: create a fresh proving-ground pack that uses more than one operator
@@ -248,6 +357,62 @@ Recent proof points:
   records a clean branch-decision artifact.
   Why it matters: this turns the chosen direction into promotion-grade evidence
   instead of leaving it as a design preference.
+
+- [x] Ordered-preference and hint-lifecycle follow-up.
+  Scope: extend the operator-hint surface with stronger ordered preferences or
+  bounded lifetimes so operators can steer a short stretch of autonomy work
+  without leaving old guidance behind indefinitely.
+  Why it matters: broader operator support is now proven for prefer, avoid,
+  and conflict resolution, so the next gain is making that guidance more
+  expressive while keeping the chooser explainable.
+
+- [x] Operator-hint audit and cleanup follow-up.
+  Scope: surface active, consumed, and exhausted operator hints more clearly in
+  operator-facing status and branch-decision artifacts so stale guidance is
+  easy to spot and clear.
+  Why it matters: hint lifecycles are now proven, so the next win is making
+  those lifecycle changes easier to see and trust during long-running autonomy.
+
+- [x] Operator-hint status surfacing follow-up.
+  Scope: carry hint-audit status forward into operator-facing summaries or
+  readiness-style status so active, exhausted, and recently consumed hints are
+  visible without rerunning a forensic read of work-state plus run artifacts.
+  Why it matters: audit and cleanup are now proven, so the next gain is making
+  hint state easier to notice during normal PackFactory operation.
+
+- [x] Pack-local operator-hint briefing follow-up.
+  Scope: teach pack-level startup and continuation briefings to surface
+  readiness `operator_hint_status` when it exists so the next agent sees hint
+  state during normal pack entry, not only by opening JSON directly.
+  Why it matters: hint status is now present in readiness, so the next win is
+  making that status show up naturally in agent briefings and operator-facing
+  pack summaries.
+
+- [x] PackFactory instruction and startup compliance review.
+  Scope: review the factory instruction set, startup surfaces, and initial
+  `load AGENTS.md` behavior so agents reliably recognize that PackFactory local
+  tooling must be used for remote Codex session management instead of ad hoc
+  SSH prompts or plain stdout/stderr logging patterns.
+  Why it matters: if that rule is not obvious at startup, an agent can drift
+  into unmanaged remote-session behavior and bypass the PackFactory evidence,
+  memory, and audit loops we are explicitly building.
+
+- [x] Instruction-surface drift follow-up.
+  Scope: keep the root tool inventories, state brief, operations note, and
+  inherited build-pack startup guidance synchronized as autonomy tooling
+  changes so the next agent does not see stale commands or an older autonomy
+  baseline.
+  Why it matters: the startup compliance review found real drift between the
+  operations note, tool lists, and autonomy state summaries, which can hide
+  supported workflows and weaken the PackFactory-default path.
+
+- [x] Source-template tracking for startup compliance guidance.
+  Scope: mirror the PackFactory remote-session compliance baseline into the
+  JSON health checker source template so template-local startup context points
+  at the same managed remote-session and evidence-flow expectations as the
+  root and generated build-pack guidance.
+  Why it matters: the startup-compliance improvement promotion is still marked
+  pending at the source-template surface.
 
 ## Suggested Order
 
@@ -270,6 +435,19 @@ Recent proof points:
 17. Broader operator-support expansion
 18. Operator-hint conflict and precedence policy
 19. Richer operator-support proving-ground exercise
+20. Ordered-preference and hint-lifecycle follow-up
+21. Operator-hint audit and cleanup follow-up
+22. Operator-hint status surfacing follow-up
+23. Pack-local operator-hint briefing follow-up
+24. PackFactory instruction and startup compliance review
+25. Instruction-surface drift follow-up
+26. Source-template tracking for startup compliance guidance
+27. Startup-compliance rehearsal workflow
+28. Capability-surface proving-ground expansion
+29. Root startup-experience re-brief
+30. Autonomy quality scoring
+31. Factory-root startup benchmark
+32. Cross-template transfer matrix
 
 ## Working Notes
 
@@ -284,6 +462,9 @@ Recent proof points:
   not just local success.
 - When possible, turn executive-summary memory items into structured fields and
   planning-backed evidence instead of relying on prose-only handoff notes.
+- When instruction drift shows up in real use, add the fix to startup-facing
+  surfaces first so `load AGENTS.md` catches it early instead of depending on
+  later correction.
 
 ## Progress Notes
 
@@ -309,6 +490,76 @@ Recent proof points:
   proving an avoid-style operator hint can filter out one tied branch, record
   the filtered task in `branch-selection.json`, and still complete the remote
   continuity loop to `ready_for_deploy`.
+- Completed on 2026-03-25: the operator-hint conflict and precedence policy is
+  now proven with
+  `json-health-checker-operator-hint-conflict-build-pack-v1`, confirming the
+  current ladder of `selection_priority` -> active `avoid_task_ids` in
+  canonical hint order -> active `preferred_task_ids` in canonical hint order
+  -> bounded semantic alignment -> fail-closed operator review. In that proof,
+  an avoid hint filtered out the preferred reporting branch, semantic
+  alignment selected the stronger schema-validation branch, and the pack still
+  completed the remote continuity loop to `ready_for_deploy`.
+- Completed on 2026-03-25: ordered preferences and bounded hint lifecycles are
+  now proven with
+  `json-health-checker-ordered-hint-lifecycle-build-pack-v1`, confirming that
+  a one-shot operator hint can rank preferred tasks in order, select the first
+  surviving candidate, deactivate itself after first use with
+  `remaining_applications=0`, and leave a later tied branch to bounded
+  semantic alignment without stale operator steering.
+- Completed on 2026-03-25: operator-hint audit and cleanup are now proven with
+  `json-health-checker-hint-audit-cleanup-build-pack-v3`, confirming that an
+  exhausted one-shot hint can be surfaced as a cleanup candidate through
+  `tools/audit_branch_selection_hints.py`, then pruned cleanly from canonical
+  `status/work-state.json.branch_selection_hints` without disturbing the
+  completed pack state.
+- Completed on 2026-03-25: operator-hint status surfacing is now proven with
+  `json-health-checker-hint-status-surfacing-build-pack-v2`, confirming that
+  `status/readiness.json.operator_hint_status` can carry current hint counts,
+  recent consumed and deactivated hint ids, and the latest hint-audit report
+  path after cleanup without requiring a separate forensic pass through
+  work-state plus autonomy-run artifacts.
+- Completed on 2026-03-25: pack-local operator-hint briefing is now inherited
+  by fresh build-packs through `tools/materialize_build_pack.py`, and the
+  generated `build-packs/json-health-checker-hint-briefing-build-pack-v1/AGENTS.md`
+  now explicitly tells the next agent to surface
+  `status/readiness.json.operator_hint_status` during pack startup and
+  continuation briefings before going deeper.
+- Completed on 2026-03-25: the PackFactory instruction and startup compliance
+  review tightened `AGENTS.md`, `README.md`,
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`,
+  and generated build-pack `AGENTS.md` inheritance so remote Codex session
+  work now points clearly to PackFactory-local tooling and treats raw
+  stdout/stderr as supplementary debugging rather than canonical evidence.
+  The fresh proof pack
+  `json-health-checker-startup-compliance-build-pack-v1` confirmed those
+  inherited rules show up in newly materialized build-pack startup guidance.
+- Completed on 2026-03-25: instruction-surface drift is now checked by
+  `tools/validate_factory.py`, which validates root tool-inventory sync,
+  startup-compliance markers, the autonomy state brief, the planning list, and
+  inherited build-pack guidance markers in `tools/materialize_build_pack.py`.
+- Completed on 2026-03-25: the JSON health checker source template now tracks
+  the startup-compliance baseline through
+  `templates/json-health-checker-template-pack/AGENTS.md`,
+  `templates/json-health-checker-template-pack/project-context.md`, and
+  `templates/json-health-checker-template-pack/pack.json`, so template-local
+  entry now points agents back to the same managed remote-session and
+  factory-only runtime-evidence import rules used at the root and in
+  generated build-packs.
+- Completed on 2026-03-25: the new
+  `tools/run_startup_compliance_rehearsal.py` workflow proved the startup and
+  remote-session compliance baseline end to end with
+  `json-health-checker-startup-compliance-rehearsal-build-pack-v1`, verifying
+  root markers, template markers, inherited build-pack startup guidance, and
+  the managed PackFactory remote-session path on `adf-dev`.
+- Completed on 2026-03-25: autonomy baseline transfer beyond the JSON health
+  checker line is now proven with
+  `config-drift-autonomy-transfer-build-pack-v1`, which completed the full
+  PackFactory multi-hop autonomy rehearsal and reached
+  `ready_for_deploy` on `adf-dev`.
+- Completed on 2026-03-25: a fresh root startup re-brief now has clearer
+  priority structure because it can rely on the autonomy state brief, root
+  memory, startup-compliance guidance, and the instruction-surface drift
+  validator together instead of reconstructing those pieces ad hoc.
 - Completed on 2026-03-25: factory-root autonomy tooling discoverability via
   `AGENTS.md`, `README.md`, and
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`.

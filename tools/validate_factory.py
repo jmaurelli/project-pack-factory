@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -70,6 +71,13 @@ DEPLOYMENT_ENVIRONMENTS = ("testing", "staging", "production")
 VALIDATION_GATE_ID = "validate_build_pack_contract"
 EVAL_LATEST_INDEX_PATH = "eval/latest/index.json"
 FACTORY_MEMORY_POINTER_PATH = Path(".pack-state/agent-memory/latest-memory.json")
+AGENTS_PATH = Path("AGENTS.md")
+README_PATH = Path("README.md")
+AUTONOMY_OPS_NOTE_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md")
+AUTONOMY_STATE_BRIEF_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md")
+AUTONOMY_PLANNING_LIST_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md")
+MATERIALIZE_BUILD_PACK_TOOL_PATH = Path("tools/materialize_build_pack.py")
+TOOL_COMMAND_PATTERN = re.compile(r"`python3 tools/([^`\s]+\.py)\b")
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -164,6 +172,92 @@ def _load_object_if_present(path: Path, errors: list[str], *, label: str) -> dic
     except ValueError as exc:
         errors.append(str(exc))
         return None
+
+
+def _load_text_if_present(path: Path, errors: list[str], *, label: str) -> str | None:
+    if not path.exists():
+        errors.append(f"{path}: {label} is missing")
+        return None
+    return path.read_text(encoding="utf-8")
+
+
+def _extract_tool_script_names(text: str) -> set[str]:
+    return {match.group(1) for match in TOOL_COMMAND_PATTERN.finditer(text)}
+
+
+def _validate_instruction_surface_sync(factory_root: Path, errors: list[str]) -> None:
+    agents_text = _load_text_if_present(factory_root / AGENTS_PATH, errors, label="root instruction surface")
+    readme_text = _load_text_if_present(factory_root / README_PATH, errors, label="root overview surface")
+    ops_note_text = _load_text_if_present(factory_root / AUTONOMY_OPS_NOTE_PATH, errors, label="autonomy operations note")
+    state_brief_text = _load_text_if_present(factory_root / AUTONOMY_STATE_BRIEF_PATH, errors, label="autonomy state brief")
+    planning_list_text = _load_text_if_present(factory_root / AUTONOMY_PLANNING_LIST_PATH, errors, label="autonomy planning list")
+    materializer_text = _load_text_if_present(factory_root / MATERIALIZE_BUILD_PACK_TOOL_PATH, errors, label="build-pack materializer")
+    if any(text is None for text in (agents_text, readme_text, ops_note_text, state_brief_text, planning_list_text, materializer_text)):
+        return
+
+    assert agents_text is not None
+    assert readme_text is not None
+    assert ops_note_text is not None
+    assert state_brief_text is not None
+    assert planning_list_text is not None
+    assert materializer_text is not None
+
+    ops_tool_scripts = _extract_tool_script_names(ops_note_text)
+    for relative_path, text in ((AGENTS_PATH, agents_text), (README_PATH, readme_text)):
+        root_scripts = _extract_tool_script_names(text)
+        missing_scripts = sorted(ops_tool_scripts - root_scripts)
+        if missing_scripts:
+            errors.append(
+                f"{factory_root / relative_path}: operator tool inventory is missing autonomy workflow commands present in the operations note: {', '.join(missing_scripts)}"
+            )
+
+    required_markers_by_path: dict[Path, tuple[str, ...]] = {
+        AGENTS_PATH: (
+            "PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+            "remote Codex session management",
+            "raw stdout/stderr",
+        ),
+        README_PATH: (
+            "PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+            "Remote Session Compliance",
+            "raw stdout/stderr",
+        ),
+        AUTONOMY_OPS_NOTE_PATH: (
+            "Remote Session Compliance",
+            "tools/import_external_runtime_evidence.py",
+            "raw stdout/stderr",
+        ),
+        AUTONOMY_STATE_BRIEF_PATH: (
+            "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+            "config-drift-autonomy-transfer-build-pack-v1",
+            "managed PackFactory remote-session path",
+        ),
+        AUTONOMY_PLANNING_LIST_PATH: (
+            "Instruction-surface drift follow-up",
+            "json-health-checker-startup-compliance-build-pack-v1",
+            "[x] PackFactory instruction and startup compliance review.",
+        ),
+        MATERIALIZE_BUILD_PACK_TOOL_PATH: (
+            "status/readiness.json.operator_hint_status",
+            "status/work-state.json.branch_selection_hints",
+            "remote Codex session management",
+            "tools/import_external_runtime_evidence.py",
+            "raw remote stdout/stderr",
+        ),
+    }
+    loaded_text_by_path = {
+        AGENTS_PATH: agents_text,
+        README_PATH: readme_text,
+        AUTONOMY_OPS_NOTE_PATH: ops_note_text,
+        AUTONOMY_STATE_BRIEF_PATH: state_brief_text,
+        AUTONOMY_PLANNING_LIST_PATH: planning_list_text,
+        MATERIALIZE_BUILD_PACK_TOOL_PATH: materializer_text,
+    }
+    for relative_path, markers in required_markers_by_path.items():
+        text = loaded_text_by_path[relative_path]
+        for marker in markers:
+            if marker not in text:
+                errors.append(f"{factory_root / relative_path}: instruction-surface drift detected; missing marker `{marker}`")
 
 
 def _extract_benchmark_artifact_result(payload: dict[str, Any], benchmark_id: str) -> dict[str, Any] | None:
@@ -1217,6 +1311,7 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
     _validate_template_creation_events(factory_root, registry_templates, promotion_log, errors)
     _validate_environment_assignments(factory_root, registry_builds, promotion_log, errors)
     _validate_factory_root_autonomy_memory(factory_root, errors)
+    _validate_instruction_surface_sync(factory_root, errors)
 
     known_pack_ids = {pack_root.name for pack_root in _iter_pack_roots(factory_root)}
     for registry_path, registry_map in (

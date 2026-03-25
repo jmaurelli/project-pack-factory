@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-hint-status-surfacing-build-pack-v2",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T22:10:59Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v2-ordered-hint-continuity-v5",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v2-ordered-hint-continuity-v5.json",
+  "selected_memory_sha256": "5a9c0f6721487fd312ea716917199b37661170ab0bb58ef5c3f9e007235b31df",
+  "selected_run_id": "json-health-checker-hint-status-surfacing-build-pack-v2-ordered-hint-continuity-v5",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v2-ordered-hint-continuity-v5.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-25T22:10:59Z"
+}

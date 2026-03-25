@@ -31,6 +31,18 @@ Treat the factory-level autonomy baseline as canonical for inherited default
 behavior. Use this template only for template-specific source guidance and
 runtime shape.
 
+For remote Codex session management and external runtime-evidence handling,
+follow the factory-root control plane rather than inventing template-local
+remote workflows:
+
+- use PackFactory-local remote-session, continuity, rehearsal, export, pull,
+  and import workflows from the factory root when an official workflow exists
+- do not improvise ad hoc `ssh` prompts, handcrafted remote-session runners,
+  or raw stdout/stderr logging loops as substitutes for PackFactory evidence
+- treat external runtime-evidence import as factory-only through
+  `tools/import_external_runtime_evidence.py` or a higher-level PackFactory
+  workflow that wraps that import
+
 ## Working Rules
 
 - Treat this pack as an active source template.

@@ -1,0 +1,14 @@
+{
+  "active_benchmarks": [
+    {
+      "benchmark_id": "api-contract-sentinel-template-pack-smoke-small-001",
+      "declaration_path": "benchmarks/declarations/api-contract-sentinel-template-pack-smoke-small-001.json",
+      "objective": "Run a deterministic API-contract smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal.",
+      "required_for_readiness": true
+    }
+  ],
+  "default_benchmark_id": "api-contract-sentinel-template-pack-smoke-small-001",
+  "pack_id": "api-contract-sentinel-template-pack",
+  "pack_kind": "template_pack",
+  "schema_version": "pack-benchmark-active-set/v1"
+}

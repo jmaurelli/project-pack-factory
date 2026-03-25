@@ -44,8 +44,9 @@ At the factory root, the main restart-memory path is:
 1. `AGENTS.md`
 2. `README.md`
 3. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
-4. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
-5. `.pack-state/agent-memory/latest-memory.json`
+4. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+5. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
+6. `.pack-state/agent-memory/latest-memory.json`
 
 The root memory is advisory restart context. Canonical truth still lives in
 the factory control-plane surfaces such as `registry/`, `deployments/`,
@@ -114,6 +115,13 @@ Important proof surfaces include:
 - bounded semantic branch choice
 - operator-hint branch choice
 - operator-avoid branch choice
+- operator-hint conflict precedence
+- ordered hint lifetime
+- hint audit and cleanup
+- readiness hint-status surfacing
+- inherited pack-local hint-status briefing
+- startup-compliance rehearsal
+- cross-template autonomy transfer on the config-drift line
 
 In plain language: the factory has now proven memory handoff, stop/restart,
 promotion-linked rehearsal, and bounded branch choice. It is no longer just a
@@ -146,23 +154,77 @@ promotion gates so the next pack starts from a stronger baseline.
 
 ## Current Best Next Frontier
 
-The next meaningful autonomy improvement is to define operator-hint conflict
-and precedence policy around the current broader operator-support surface.
+The next meaningful frontier is no longer basic loop survivability. It is the
+quality and generality of the autonomy baseline we already have.
 
 That follow-up is already tracked in:
 
 - `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
 
-The near-term direction is now clearer:
+The current proven operator-hint ladder is:
 
-- keep broader operator support ahead of more open-ended semantic choice
-- keep the current fail-closed and explainable branch-choice ladder intact
-- define how priority metadata, preferred-task hints, avoid-task hints, and
-  bounded semantic alignment should interact when they point in different
-  directions
+1. explicit `selection_priority`
+2. active operator `avoid_task_ids` within the tied top-priority set, in
+   canonical hint order
+3. active operator `preferred_task_ids` within the remaining tied set, in
+   canonical hint order
+4. bounded semantic alignment
+5. fail-closed operator review
 
-In plain language: the factory is not trying to become a free-form chooser by
-default right now. It can already let operators steer branch choice more
-cleanly with preferred and avoided tasks. The next gain is making those richer
-operator instructions resolve conflicts in a deterministic, easy-to-explain
-way.
+Hints can now also carry bounded lifetime state through
+`remaining_applications`, so one-shot steering can expire automatically after
+it has been used, exhausted hints can be audited and pruned cleanly, the
+current hint summary can be surfaced directly in readiness state, and fresh
+build-packs now inherit guidance to mention that status during pack entry.
+
+The latest proof line is now anchored by
+`json-health-checker-startup-compliance-rehearsal-build-pack-v1` plus
+`config-drift-autonomy-transfer-build-pack-v1`. The first proved the startup
+and remote-session compliance baseline end to end through the managed PackFactory remote-session path,
+and the second proved that the autonomy baseline transfers
+cleanly beyond the JSON health checker proving ground into the config-drift
+line. That instruction-surface baseline is also guarded by
+`tools/validate_factory.py`, so the root docs, state brief, planning list, and
+generated build-pack guidance do not have to stay in sync by memory alone.
+
+In plain language: the factory is still not trying to become a free-form
+chooser by default. It now has a proven, explainable policy for conflicting
+operator guidance, a proven way to expire one-shot operator steering, a proven
+way to audit and clean up exhausted hints, a proven way to surface hint status
+both in readiness state and in fresh pack entry guidance, and a proven
+startup-compliance rehearsal that uses the managed PackFactory remote-session
+path. It has also now shown that this autonomy baseline transfers cleanly to
+the config-drift line instead of staying trapped inside the JSON health
+checker proving ground.
+
+The three strong lanes from the last frontier wave are now in place:
+
+1. autonomy quality scoring
+2. a factory-root startup benchmark
+3. a cross-template transfer matrix
+
+The first quality-scoring surface is now live in
+`tools/score_autonomy_quality.py`. It writes schema-valid score reports under
+`.pack-state/autonomy-quality-scores/` from existing rehearsal artifacts
+instead of requiring a new autonomy loop. The first two proofs are:
+
+- the startup-compliance rehearsal for
+  `json-health-checker-startup-compliance-rehearsal-build-pack-v1`
+- the first cross-template transfer for
+  `config-drift-autonomy-transfer-build-pack-v1`
+
+Both currently score `strong`, which is useful as a baseline but also a sign
+that the next frontier is not raw survivability anymore. The next quality
+question is whether startup itself can be benchmarked directly and whether the
+same baseline holds across a broader template matrix.
+
+Those two follow-ups are now also proven:
+
+- `tools/run_factory_root_startup_benchmark.py` produced a `strong` root
+  startup benchmark with a source trace and generated startup brief.
+- `tools/run_cross_template_transfer_matrix.py` produced a three-row matrix
+  across config drift, release evidence, and API contract transfer proofs, all
+  of which reached `ready_for_deploy`.
+
+The next meaningful frontier is now narrower: decide how autonomy-quality
+scores should influence real promotion behavior, if at all.

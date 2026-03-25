@@ -1,0 +1,15 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "json-health-checker-template-pack-smoke-small-001",
+      "latest_run_id": "readiness-eval-json-health-checker-hint-status-surfacing-build-pack-v1-benchmark-20260325t221041z",
+      "run_artifact_path": "eval/history/readiness-eval-json-health-checker-hint-status-surfacing-build-pack-v1-benchmark-20260325t221041z/benchmark-result.json",
+      "status": "pass",
+      "summary_artifact_path": "eval/history/readiness-eval-json-health-checker-hint-status-surfacing-build-pack-v1-benchmark-20260325t221041z/benchmark-result.json"
+    }
+  ],
+  "pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+  "pack_kind": "build_pack",
+  "schema_version": "pack-eval-index/v1",
+  "updated_at": "2026-03-25T22:10:41Z"
+}

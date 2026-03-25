@@ -1,0 +1,63 @@
+{
+  "benchmark_id": "factory-root-startup-benchmark-20260325t231447z",
+  "generated_at": "2026-03-25T23:14:47Z",
+  "schema_version": "startup-benchmark-source-trace/v1",
+  "sources": [
+    {
+      "order": 1,
+      "path": "/home/orchadmin/project-pack-factory/AGENTS.md",
+      "purpose": "root startup instructions",
+      "relative_path": "AGENTS.md",
+      "status": "loaded"
+    },
+    {
+      "order": 2,
+      "path": "/home/orchadmin/project-pack-factory/README.md",
+      "purpose": "root operator tooling and startup guidance",
+      "relative_path": "README.md",
+      "status": "loaded"
+    },
+    {
+      "order": 3,
+      "path": "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+      "purpose": "factory autonomy workflow baseline",
+      "relative_path": "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+      "status": "loaded"
+    },
+    {
+      "order": 4,
+      "path": "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+      "purpose": "factory autonomy state baseline",
+      "relative_path": "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+      "status": "loaded"
+    },
+    {
+      "order": 5,
+      "path": "/home/orchadmin/project-pack-factory/registry/templates.json",
+      "purpose": "canonical template portfolio state",
+      "relative_path": "registry/templates.json",
+      "status": "loaded"
+    },
+    {
+      "order": 6,
+      "path": "/home/orchadmin/project-pack-factory/registry/build-packs.json",
+      "purpose": "canonical build-pack portfolio state",
+      "relative_path": "registry/build-packs.json",
+      "status": "loaded"
+    },
+    {
+      "order": 7,
+      "path": "/home/orchadmin/project-pack-factory/registry/promotion-log.json",
+      "purpose": "recent factory workflow motion",
+      "relative_path": "registry/promotion-log.json",
+      "status": "loaded"
+    },
+    {
+      "order": 8,
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/latest-memory.json",
+      "purpose": "factory restart memory pointer",
+      "relative_path": ".pack-state/agent-memory/latest-memory.json",
+      "status": "loaded"
+    }
+  ]
+}

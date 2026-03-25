@@ -1,0 +1,10 @@
+{
+  "import_bundle": true,
+  "import_reason": "Factory-default active-task continuity import from canonical mid-backlog state.",
+  "imported_by": "codex",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-operator-hint-conflict-build-pack-v1/json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v2/incoming",
+  "pull_bundle": true,
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-operator-hint-conflict-build-pack-v1/json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v2/remote-run-request.json",
+  "schema_version": "remote-autonomy-test-request/v1",
+  "test_reason": "PackFactory remote continuity run that resumes the canonical active task from feedback memory."
+}

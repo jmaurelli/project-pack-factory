@@ -167,6 +167,8 @@ is:
 - for factory-level autonomy/tooling continuation work,
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
 - for factory-level autonomy/tooling continuation work,
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+- for factory-level autonomy/tooling continuation work,
   `.pack-state/agent-memory/latest-memory.json` when it exists, then the
   selected memory artifact it references
 - `deployments/` only when environment assignment materially affects the brief
@@ -290,6 +292,20 @@ Example:
 - `registry/promotion-log.json` preserves retired events as historical evidence, even for fixtures that are no longer deployment candidates.
 - Use current registry state to determine which packs are active, recently completed, or retired rather than relying on hardcoded examples in startup guidance.
 
+## Remote Session Compliance
+
+- For remote Codex session management, use the PackFactory-local workflows from
+  the factory root.
+- Do not improvise ad hoc `ssh` prompts, handcrafted remote-session runners,
+  or raw stdout/stderr logging loops when an official PackFactory workflow
+  already exists.
+- Treat raw stdout/stderr from remote sessions as supplementary debugging only.
+- Canonical remote evidence should move through PackFactory request,
+  continuity, export, pull, and import workflows.
+- External runtime evidence import is factory-only through
+  `python3 tools/import_external_runtime_evidence.py ...` or a higher-level
+  PackFactory workflow that wraps it.
+
 ## Operator Tools
 
 - `python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory`
@@ -306,18 +322,33 @@ Example:
 - `python3 tools/run_semantic_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
 - `python3 tools/apply_branch_selection_hint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --hint-id <hint-id> --summary "<summary>" --preferred-task-id <task-id> --preferred-task-id <task-id> --output json`
 - `python3 tools/run_operator_hint_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_operator_avoid_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_operator_hint_conflict_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_ordered_hint_lifecycle_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --output json`
+- `python3 tools/audit_branch_selection_hints.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --cleanup-exhausted --output json`
+- `python3 tools/run_operator_hint_audit_cleanup_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --output json`
+- `python3 tools/run_operator_hint_status_surfacing_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --output json`
+- `python3 tools/run_startup_compliance_rehearsal.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>`
 - `python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json`
 - `python3 tools/record_autonomy_improvement_promotion.py --factory-root /home/orchadmin/project-pack-factory --improvement-id <id> --summary "<summary>" --source-build-pack-id <pack-id> --proof-path <path> --adopted-surface materializer_defaults --pending-surface source_template_tracking --output json`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
 - `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`
+- `python3 tools/score_autonomy_quality.py --factory-root /home/orchadmin/project-pack-factory --report-path <rehearsal-report.json> --output json`
+- `python3 tools/run_factory_root_startup_benchmark.py --factory-root /home/orchadmin/project-pack-factory --output json`
+- `python3 tools/run_cross_template_transfer_matrix.py --factory-root /home/orchadmin/project-pack-factory --entry <template-id::build-pack-id::/absolute/report/path> --entry <template-id::build-pack-id::/absolute/report/path> --output json`
 
 ## Factory Autonomy
 
 The factory-level autonomy operations note lives in:
 
 - `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+
+The concise factory-level autonomy state brief lives in:
+
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
 
 The factory-level restart memory pointer lives in:
 
@@ -354,6 +385,33 @@ canonical work-state includes preferred-task or avoid-task guidance, the
 factory honors that guidance before falling back to semantic tie-breaking, and
 it records the applied hint plus any filtered-out tasks in
 `branch-selection.json`.
+
+That operator guidance now has a proven conflict policy too: the current
+ladder is explicit priority first, then active avoid-task hints in canonical
+hint order, then active preferred-task hints in canonical hint order, then
+bounded semantic alignment, and finally fail-closed operator review if the tie
+still is not cleanly explainable.
+
+It now also supports bounded hint lifetime through
+`status/work-state.json.branch_selection_hints[].remaining_applications`. A
+one-shot hint can steer one branch decision, deactivate itself automatically,
+and then let later branch choices fall back to the usual bounded ladder
+instead of leaving stale operator guidance behind.
+
+It now also has a bounded hint audit and cleanup path. The factory can audit
+which hints are active, exhausted, or cleanup candidates, summarize recent
+consumed and deactivated hint evidence from branch-selection artifacts, and
+prune exhausted inactive hints from canonical work-state when you explicitly
+ask it to.
+
+It now also surfaces current operator-hint state in
+`status/readiness.json.operator_hint_status`, and fresh build-packs now
+inherit startup guidance to mention that hint-status summary before going
+deeper when it exists.
+
+For remote Codex session management, the PackFactory-local workflows above are
+the required control plane. Ad hoc `ssh` prompts or raw stdout/stderr logging
+are not equivalent PackFactory evidence.
 
 When a factory-root executive summary uses this memory, it should surface it as
 a short `Agent Memory` section after the canonical factory-state summary and

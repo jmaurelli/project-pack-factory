@@ -702,8 +702,112 @@
       "source_template_id": "json-health-checker-template-pack",
       "status": "completed",
       "target_build_pack_id": "json-health-checker-operator-avoid-branch-build-pack-v2"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-operator-hint-conflict-build-pack-v1-20260325t214302z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-operator-hint-conflict-build-pack-v1-20260325t214302z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-operator-hint-conflict-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-ordered-hint-lifecycle-build-pack-v1-20260325t215901z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-ordered-hint-lifecycle-build-pack-v1-20260325t215901z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-ordered-hint-lifecycle-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-hint-audit-cleanup-build-pack-v1-20260325t220438z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-hint-audit-cleanup-build-pack-v1-20260325t220438z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-hint-audit-cleanup-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-hint-audit-cleanup-build-pack-v2-20260325t220509z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-hint-audit-cleanup-build-pack-v2-20260325t220509z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-hint-audit-cleanup-build-pack-v2"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-hint-audit-cleanup-build-pack-v3-20260325t220525z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-hint-audit-cleanup-build-pack-v3-20260325t220525z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-hint-audit-cleanup-build-pack-v3"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-hint-status-surfacing-build-pack-v1-20260325t221040z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-hint-status-surfacing-build-pack-v1-20260325t221040z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-hint-status-surfacing-build-pack-v2-20260325t221058z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-hint-status-surfacing-build-pack-v2-20260325t221058z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v2"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-hint-briefing-build-pack-v1-20260325t221807z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-hint-briefing-build-pack-v1-20260325t221807z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-hint-briefing-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-startup-compliance-build-pack-v1-20260325t223042z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-startup-compliance-build-pack-v1-20260325t223042z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-startup-compliance-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-config-drift-autonomy-transfer-build-pack-v1-20260325t224550z",
+      "materialization_report_path": "eval/history/materialize-config-drift-autonomy-transfer-build-pack-v1-20260325t224550z/materialization-report.json",
+      "source_template_id": "config-drift-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "config-drift-autonomy-transfer-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-release-evidence-autonomy-transfer-build-pack-v1-20260325t231544z",
+      "materialization_report_path": "eval/history/materialize-release-evidence-autonomy-transfer-build-pack-v1-20260325t231544z/materialization-report.json",
+      "source_template_id": "release-evidence-summarizer-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "release-evidence-autonomy-transfer-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-api-contract-autonomy-transfer-build-pack-v1-20260325t231545z",
+      "materialization_report_path": "eval/history/materialize-api-contract-autonomy-transfer-build-pack-v1-20260325t231545z/materialization-report.json",
+      "source_template_id": "api-contract-sentinel-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "api-contract-autonomy-transfer-build-pack-v1"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-25T20:05:32Z"
+  "updated_at": "2026-03-25T23:15:45Z"
 }

@@ -1,0 +1,7 @@
+{
+  "build_pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-startup-compliance-rehearsal-build-pack-v1/json-health-checker-startup-compliance-rehearsal-build-pack-v1-continuity-run-v1/incoming/bundle/bundle.json",
+  "import_reason": "Factory-default feedback-memory continuity import from canonical ready-for-deploy state.",
+  "imported_by": "codex",
+  "schema_version": "external-runtime-evidence-import-request/v1"
+}

@@ -1,0 +1,18 @@
+{
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
+  "deployment_notes": [
+    "Newly materialized build pack; no active deployment candidate."
+  ],
+  "deployment_pointer_path": null,
+  "deployment_state": "not_deployed",
+  "deployment_transaction_id": null,
+  "last_promoted_at": null,
+  "last_rollback": null,
+  "last_verified_at": null,
+  "pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "pack_kind": "build_pack",
+  "projection_state": "not_required",
+  "schema_version": "pack-deployment/v2"
+}

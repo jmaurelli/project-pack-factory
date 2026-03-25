@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "6c070a328ff5d821e09e8847b81d8c808a331997daf2b90d1379bc05cb1d4201",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/config-drift-autonomy-transfer-build-pack-v1/config-drift-autonomy-transfer-build-pack-v1-active-task-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "af657282bca0a33475b1207f0f5ff65741b48dca00de75f27a1ba4f94a6252d9",
+  "portable_helper_manifest_sha256": "b5d8ca52f6a3a650bea941713708d41773b95713348e62fcfccd06fd8449a37a",
+  "pulled_at": "2026-03-25T22:45:58Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/config-drift-autonomy-transfer-build-pack-v1/config-drift-autonomy-transfer-build-pack-v1-active-task-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "7c02af90129693cfd2b6f2f0018519549540c340c9884405cc74e5cebea7372a",
+  "remote_run_request_sha256": "430d57f10627a4676f5d39108bd019dd0f9150cce51f204d4c1e2de63655d2df",
+  "remote_target_label": "adf-dev",
+  "run_id": "config-drift-autonomy-transfer-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "config-drift-autonomy-transfer-build-pack-v1",
+  "target_manifest_sha256": "cf5281a0f50a8c73f740d888a1e6b02c5caad7a17e22c0bd1867776e11dabc13",
+  "wrapper_request_sha256": "3733d0b99761ff6b72ac52d7a8b6f8e7cdae5bf26f4eae3afed85e81f2830a89"
+}

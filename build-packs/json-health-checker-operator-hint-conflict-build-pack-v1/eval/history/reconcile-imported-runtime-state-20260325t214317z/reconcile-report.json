@@ -1,0 +1,72 @@
+{
+  "after_summary": {
+    "active_task_id": "record_conflict_branch_alpha",
+    "completed_task_ids": [
+      "run_build_pack_validation",
+      "record_conflict_branch_beta",
+      "record_conflict_branch_gamma"
+    ],
+    "eval_result_statuses": {
+      "json-health-checker-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "json_health_checker_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "record_conflict_branch_alpha",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false,
+    "task_statuses": {
+      "record_conflict_branch_alpha": "in_progress",
+      "record_conflict_branch_beta": "completed",
+      "record_conflict_branch_gamma": "completed",
+      "run_build_pack_validation": "completed",
+      "run_inherited_benchmarks": "pending"
+    }
+  },
+  "before_summary": {
+    "active_task_id": "record_conflict_branch_gamma",
+    "completed_task_ids": [
+      "run_build_pack_validation",
+      "record_conflict_branch_beta"
+    ],
+    "eval_result_statuses": {
+      "json-health-checker-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "json_health_checker_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "record_conflict_branch_gamma",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false,
+    "task_statuses": {
+      "record_conflict_branch_alpha": "pending",
+      "record_conflict_branch_beta": "completed",
+      "record_conflict_branch_gamma": "in_progress",
+      "run_build_pack_validation": "completed",
+      "run_inherited_benchmarks": "pending"
+    }
+  },
+  "build_pack_id": "json-health-checker-operator-hint-conflict-build-pack-v1",
+  "build_pack_root": "build-packs/json-health-checker-operator-hint-conflict-build-pack-v1",
+  "control_plane_mutations": {
+    "eval_history_written": true,
+    "eval_latest_updated": true,
+    "memory_pointer_updated": true,
+    "readiness_updated": true,
+    "task_backlog_updated": true,
+    "work_state_updated": true
+  },
+  "generated_at": "2026-03-25T21:43:17Z",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-operator-hint-conflict-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t214317z/import-report.json",
+  "memory_pointer_status": "activated",
+  "reconcile_id": "reconcile-imported-runtime-state-20260325t214317z",
+  "reconcile_reason": "Adopt the successful remote operator-hint conflict continuity result for hop 2 into local canonical state.",
+  "reconciled_by": "codex",
+  "schema_version": "imported-runtime-state-reconcile-report/v1",
+  "source_import_id": "import-external-runtime-evidence-20260325t214317z",
+  "source_run_id": "json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v2",
+  "source_run_summary_path": "eval/history/import-external-runtime-evidence-20260325t214317z/external-runtime-evidence/artifacts/run-summary.json",
+  "status": "completed"
+}

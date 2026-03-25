@@ -32,6 +32,7 @@ def apply_branch_selection_hint(
     summary: str,
     preferred_task_ids: list[str],
     avoid_task_ids: list[str],
+    remaining_applications: int | None,
     active: bool,
 ) -> dict[str, Any]:
     target_pack = discover_pack(factory_root, build_pack_id)
@@ -55,16 +56,31 @@ def apply_branch_selection_hint(
     overlap = sorted(set(preferred_task_ids).intersection(avoid_task_ids))
     if overlap:
         raise ValueError(f"task ids cannot appear in both preferred and avoid lists: {', '.join(overlap)}")
+    if remaining_applications is not None and remaining_applications < 1:
+        raise ValueError("remaining_applications must be at least 1 when set explicitly")
 
     hints = work_state.get("branch_selection_hints", [])
     if not isinstance(hints, list):
         hints = []
+    existing_hint = next(
+        (
+            cast(dict[str, Any], hint)
+            for hint in hints
+            if isinstance(hint, dict) and hint.get("hint_id") == hint_id
+        ),
+        None,
+    )
     updated_hints = [hint for hint in hints if not (isinstance(hint, dict) and hint.get("hint_id") == hint_id)]
+    if remaining_applications is None and isinstance(existing_hint, dict):
+        prior_remaining = existing_hint.get("remaining_applications")
+        if isinstance(prior_remaining, int):
+            remaining_applications = prior_remaining
     updated_hints.append(
         {
             "hint_id": hint_id,
             "summary": summary,
             "active": active,
+            **({"remaining_applications": remaining_applications} if remaining_applications is not None else {}),
             **({"preferred_task_ids": preferred_task_ids} if preferred_task_ids else {}),
             **({"avoid_task_ids": avoid_task_ids} if avoid_task_ids else {}),
         }
@@ -81,6 +97,7 @@ def apply_branch_selection_hint(
         "hint_id": hint_id,
         "preferred_task_ids": preferred_task_ids,
         "avoid_task_ids": avoid_task_ids,
+        "remaining_applications": remaining_applications,
         "active": active,
         "hint_count": len(updated_hints),
     }
@@ -94,6 +111,7 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--summary", required=True)
     parser.add_argument("--preferred-task-id", dest="preferred_task_ids", action="append", default=[])
     parser.add_argument("--avoid-task-id", dest="avoid_task_ids", action="append", default=[])
+    parser.add_argument("--remaining-applications", type=int)
     parser.add_argument("--inactive", action="store_true")
     parser.add_argument("--output", choices=("json",), default="json")
     return parser.parse_args(argv)
@@ -108,6 +126,7 @@ def main(argv: list[str] | None = None) -> int:
         summary=args.summary,
         preferred_task_ids=args.preferred_task_ids,
         avoid_task_ids=args.avoid_task_ids,
+        remaining_applications=args.remaining_applications,
         active=not args.inactive,
     )
     print(json.dumps(result, indent=2, sort_keys=True))

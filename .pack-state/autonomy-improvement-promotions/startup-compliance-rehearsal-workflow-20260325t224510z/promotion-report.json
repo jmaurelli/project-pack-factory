@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-03-25T22:45:10Z",
+  "improvement_id": "startup-compliance-rehearsal-workflow",
+  "operator_summary": "Proved autonomy improvement `startup-compliance-rehearsal-workflow` from `json-health-checker-startup-compliance-rehearsal-build-pack-v1`. Adopted surfaces: factory_root_discoverability, factory_root_memory, materializer_defaults. Pending surfaces: none.",
+  "proof_paths": [
+    ".pack-state/startup-compliance-rehearsals/startup-compliance-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z/rehearsal-report.json",
+    "build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/AGENTS.md"
+  ],
+  "recorded_by": "codex",
+  "report_id": "startup-compliance-rehearsal-workflow-20260325t224510z",
+  "schema_version": "autonomy-improvement-promotion-report/v1",
+  "source_build_pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "summary": "Promote a reusable startup-compliance rehearsal workflow that verifies root, template, and generated build-pack compliance markers and proves the managed PackFactory remote-session path end to end.",
+  "surface_records": [
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether a fresh factory-root agent can discover the improvement without entering a pack."
+      ],
+      "surface_id": "factory_root_discoverability",
+      "target_paths": [
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md"
+      ]
+    },
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether the improvement is reflected in the factory's own restart-memory handoff."
+      ],
+      "surface_id": "factory_root_memory",
+      "target_paths": [
+        ".pack-state/agent-memory/latest-memory.json",
+        "tools/refresh_factory_autonomy_memory.py"
+      ]
+    },
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_default_for_new_build_packs",
+      "notes": [
+        "This is the main automatic inheritance path for future build-packs.",
+        "When an autonomy improvement lands here, newly materialized build-packs receive it by default."
+      ],
+      "surface_id": "materializer_defaults",
+      "target_paths": [
+        "tools/materialize_build_pack.py"
+      ]
+    }
+  ]
+}

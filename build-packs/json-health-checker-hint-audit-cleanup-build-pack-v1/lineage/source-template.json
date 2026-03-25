@@ -1,0 +1,19 @@
+{
+  "build_pack_id": "json-health-checker-hint-audit-cleanup-build-pack-v1",
+  "derivation_mode": "copied",
+  "inherited_contracts": [
+    "README"
+  ],
+  "inherited_entrypoints": [
+    "benchmark_command",
+    "cli_command",
+    "validation_command"
+  ],
+  "last_sync_at": "2026-03-25T22:04:38Z",
+  "last_sync_summary": "materialization_id=materialize-json-health-checker-hint-audit-cleanup-build-pack-v1-20260325t220438z",
+  "schema_version": "pack-lineage/v2",
+  "source_template_id": "json-health-checker-template-pack",
+  "source_template_revision": "create-template-json-health-checker-template-pack-20260321t023354z",
+  "source_template_version": "0.1.0",
+  "sync_state": "current"
+}

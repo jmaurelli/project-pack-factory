@@ -1,0 +1,12 @@
+{
+  "current_revision": "startup-compliance-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "json-health-checker-startup-compliance-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create a fresh proving-ground build-pack to verify inherited startup compliance guidance for remote session tooling and canonical evidence flow.",
+  "updated_at": "2026-03-25T22:30:42Z",
+  "updated_by": "codex"
+}

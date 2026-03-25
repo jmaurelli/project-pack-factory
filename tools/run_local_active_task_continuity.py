@@ -15,6 +15,7 @@ from factory_ops import discover_pack, isoformat_z, read_now, resolve_factory_ro
 from record_autonomy_run import append_event, finalize_run, start_run
 from refresh_local_feedback_memory_pointer import refresh_local_feedback_memory_pointer
 from run_local_mid_backlog_checkpoint import (
+    _apply_hint_lifecycle_updates,
     _eligible_next_tasks,
     _find_active_task,
     _load_matching_memory,
@@ -132,6 +133,7 @@ def run_local_active_task_continuity(
     branch_selection_notes: list[str] = []
     branch_selection_path: str | None = None
     next_active_task_id = None
+    branch_decision: dict[str, Any] | None = None
     if not bool(refreshed_readiness.get("ready_for_deployment")) and eligible_next_tasks:
         branch_decision = _resolve_next_task_decision(
             pack_root=pack_root,
@@ -257,6 +259,32 @@ def run_local_active_task_continuity(
     completed_task_ids = list(refreshed_work_state.get("completed_task_ids", []))
     if active_task_id not in completed_task_ids:
         completed_task_ids.append(active_task_id)
+    if branch_decision is not None and next_active_task_id is not None:
+        hint_lifecycle_result = _apply_hint_lifecycle_updates(
+            work_state=refreshed_work_state,
+            applied_hint_ids=cast(list[str], branch_decision.get("applied_hint_ids", [])),
+        )
+        branch_decision["consumed_hint_ids"] = hint_lifecycle_result["consumed_hint_ids"]
+        branch_decision["deactivated_hint_ids"] = hint_lifecycle_result["deactivated_hint_ids"]
+        branch_selection_path = _record_branch_decision(
+            pack_root=pack_root,
+            run_id=run_id,
+            decision=branch_decision,
+        )
+        consumed_hint_ids = cast(list[str], branch_decision.get("consumed_hint_ids", []))
+        if consumed_hint_ids:
+            branch_selection_notes.append(
+                "Consumed bounded operator hints during branch selection: "
+                + ", ".join(f"`{hint_id}`" for hint_id in consumed_hint_ids)
+                + "."
+            )
+        deactivated_hint_ids = cast(list[str], branch_decision.get("deactivated_hint_ids", []))
+        if deactivated_hint_ids:
+            branch_selection_notes.append(
+                "Deactivated exhausted operator hints after branch selection: "
+                + ", ".join(f"`{hint_id}`" for hint_id in deactivated_hint_ids)
+                + "."
+            )
     autonomy_state = "ready_for_deploy" if bool(refreshed_readiness.get("ready_for_deployment")) else "actively_building"
     refreshed_work_state.update(
         {

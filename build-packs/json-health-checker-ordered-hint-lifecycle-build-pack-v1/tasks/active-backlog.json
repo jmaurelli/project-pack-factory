@@ -1,0 +1,211 @@
+{
+  "generated_at": "2026-03-25T21:59:01Z",
+  "objective_id": "json-health-checker-ordered-hint-lifecycle-build-pack-v1_objective",
+  "pack_id": "json-health-checker-ordered-hint-lifecycle-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The validation readiness-evaluation workflow exits successfully.",
+        "The validation gate records passing evidence in status/readiness.json."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "validate_build_pack_contract reaches pass state.",
+        "Validation evaluation evidence is recorded under eval/history and linked from status/readiness.json."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Validation reports schema or contract failures that the current task scope cannot resolve safely."
+      ],
+      "files_in_scope": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "json-health-checker-ordered-hint-lifecycle-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
+      "task_id": "run_build_pack_validation",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The ordered hint lifecycle helper exits successfully for lane first-alpha.",
+        "A checkpoint artifact is written under eval/history."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "An ordered-hint-lifecycle-checkpoint-result.json artifact is recorded under eval/history for lane first-alpha.",
+        "Canonical work-state advances after the first-alpha checkpoint completes."
+      ],
+      "dependencies": [
+        "run_build_pack_validation"
+      ],
+      "escalation_conditions": [
+        "The helper cannot read canonical state or write bounded evidence under eval/history."
+      ],
+      "files_in_scope": [
+        "src/record_ordered_hint_lifecycle_progress.py",
+        "eval/history",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "json-health-checker-ordered-hint-lifecycle-build-pack-v1_objective",
+      "selection_signals": [
+        "operator",
+        "reporting",
+        "html",
+        "narrative"
+      ],
+      "status": "completed",
+      "summary": "Record operator-reporting refinement checkpoint evidence after validation passes.",
+      "task_id": "record_ordered_first_alpha",
+      "validation_commands": [
+        "python3 src/record_ordered_hint_lifecycle_progress.py --pack-root . --task-id record_ordered_first_alpha --lane first-alpha --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The ordered hint lifecycle helper exits successfully for lane first-beta.",
+        "A checkpoint artifact is written under eval/history."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "An ordered-hint-lifecycle-checkpoint-result.json artifact is recorded under eval/history for lane first-beta.",
+        "Canonical work-state advances after the first-beta checkpoint completes."
+      ],
+      "dependencies": [
+        "run_build_pack_validation"
+      ],
+      "escalation_conditions": [
+        "The helper cannot read canonical state or write bounded evidence under eval/history."
+      ],
+      "files_in_scope": [
+        "src/record_ordered_hint_lifecycle_progress.py",
+        "eval/history",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "json-health-checker-ordered-hint-lifecycle-build-pack-v1_objective",
+      "selection_signals": [
+        "schema",
+        "validation",
+        "json",
+        "integrity"
+      ],
+      "status": "completed",
+      "summary": "Record schema-validation refinement checkpoint evidence after validation passes.",
+      "task_id": "record_ordered_first_beta",
+      "validation_commands": [
+        "python3 src/record_ordered_hint_lifecycle_progress.py --pack-root . --task-id record_ordered_first_beta --lane first-beta --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The ordered hint lifecycle helper exits successfully for lane second-gamma.",
+        "A checkpoint artifact is written under eval/history."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "An ordered-hint-lifecycle-checkpoint-result.json artifact is recorded under eval/history for lane second-gamma.",
+        "Canonical work-state advances after the second-gamma checkpoint completes."
+      ],
+      "dependencies": [
+        "record_ordered_first_alpha",
+        "record_ordered_first_beta"
+      ],
+      "escalation_conditions": [
+        "The helper cannot read canonical state or write bounded evidence under eval/history."
+      ],
+      "files_in_scope": [
+        "src/record_ordered_hint_lifecycle_progress.py",
+        "eval/history",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "json-health-checker-ordered-hint-lifecycle-build-pack-v1_objective",
+      "selection_signals": [
+        "semantic",
+        "schema",
+        "validation",
+        "follow-up"
+      ],
+      "status": "completed",
+      "summary": "Record semantic follow-up checkpoint evidence after both first-branch tasks complete.",
+      "task_id": "record_ordered_second_gamma",
+      "validation_commands": [
+        "python3 src/record_ordered_hint_lifecycle_progress.py --pack-root . --task-id record_ordered_second_gamma --lane second-gamma --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The ordered hint lifecycle helper exits successfully for lane second-delta.",
+        "A checkpoint artifact is written under eval/history."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "An ordered-hint-lifecycle-checkpoint-result.json artifact is recorded under eval/history for lane second-delta.",
+        "Canonical work-state advances after the second-delta checkpoint completes."
+      ],
+      "dependencies": [
+        "record_ordered_first_alpha",
+        "record_ordered_first_beta"
+      ],
+      "escalation_conditions": [
+        "The helper cannot read canonical state or write bounded evidence under eval/history."
+      ],
+      "files_in_scope": [
+        "src/record_ordered_hint_lifecycle_progress.py",
+        "eval/history",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "json-health-checker-ordered-hint-lifecycle-build-pack-v1_objective",
+      "selection_signals": [
+        "auxiliary",
+        "inventory",
+        "follow-up",
+        "secondary"
+      ],
+      "status": "completed",
+      "summary": "Record auxiliary follow-up checkpoint evidence after both first-branch tasks complete.",
+      "task_id": "record_ordered_second_delta",
+      "validation_commands": [
+        "python3 src/record_ordered_hint_lifecycle_progress.py --pack-root . --task-id record_ordered_second_delta --lane second-delta --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The benchmark readiness-evaluation workflow exits successfully.",
+        "Inherited benchmark gates update from not_run to pass or waived."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Benchmark evaluation evidence records results in eval/latest/index.json.",
+        "Required benchmark gates advance to pass or waived in status/readiness.json."
+      ],
+      "dependencies": [
+        "record_ordered_second_gamma",
+        "record_ordered_second_delta"
+      ],
+      "escalation_conditions": [
+        "Benchmark output fails to update readiness or eval state through the existing bounded surfaces."
+      ],
+      "files_in_scope": [
+        "benchmarks/active-set.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "json-health-checker-ordered-hint-lifecycle-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
+      "task_id": "run_inherited_benchmarks",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+      ]
+    }
+  ]
+}

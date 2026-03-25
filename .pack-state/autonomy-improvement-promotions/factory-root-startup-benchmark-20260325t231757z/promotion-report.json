@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-03-25T23:17:57Z",
+  "improvement_id": "factory-root-startup-benchmark",
+  "operator_summary": "Proved autonomy improvement `factory-root-startup-benchmark` from `json-health-checker-startup-compliance-rehearsal-build-pack-v1`. Adopted surfaces: factory_root_discoverability, factory_root_memory. Pending surfaces: none.",
+  "proof_paths": [
+    ".pack-state/startup-benchmarks/factory-root-startup-benchmark-20260325t231514z/benchmark-report.json"
+  ],
+  "recorded_by": "codex",
+  "report_id": "factory-root-startup-benchmark-20260325t231757z",
+  "schema_version": "autonomy-improvement-promotion-report/v1",
+  "source_build_pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "source_template_id": null,
+  "summary": "Added a deterministic root startup benchmark with source trace, startup brief, and bounded quality scoring.",
+  "surface_records": [
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether a fresh factory-root agent can discover the improvement without entering a pack."
+      ],
+      "surface_id": "factory_root_discoverability",
+      "target_paths": [
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md"
+      ]
+    },
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether the improvement is reflected in the factory's own restart-memory handoff."
+      ],
+      "surface_id": "factory_root_memory",
+      "target_paths": [
+        ".pack-state/agent-memory/latest-memory.json",
+        "tools/refresh_factory_autonomy_memory.py"
+      ]
+    }
+  ]
+}

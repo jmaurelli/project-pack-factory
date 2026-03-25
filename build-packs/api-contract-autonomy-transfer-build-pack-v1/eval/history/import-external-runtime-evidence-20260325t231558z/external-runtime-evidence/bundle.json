@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "8debd0f4744ef39c23d6f2129fbb03defede2553bd2d15399ec8104d3b8039ed",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "783890459cdd0387b5d27850b9900d897a1b837f85477a2300efe1f05f31e08a",
+      "source_pack_path": ".pack-state/autonomy-runs/api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "24e25b4fd3033d989e99848f6c7d0ee9ff8f3ad55127778515b53d0ffd928311",
+      "source_pack_path": ".pack-state/autonomy-runs/api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1-20260325T231556Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1-20260325T231556Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T23:15:56Z",
+  "pack_id": "api-contract-autonomy-transfer-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T23:15:56Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 1,
+    "started_at": "2026-03-25T23:15:55Z",
+    "stop_reason": "starter_backlog_completed",
+    "task_completion_rate": 1.0
+  }
+}

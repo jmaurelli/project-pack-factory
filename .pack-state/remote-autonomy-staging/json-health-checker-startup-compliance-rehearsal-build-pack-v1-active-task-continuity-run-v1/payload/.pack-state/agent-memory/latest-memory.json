@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T22:44:07Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-startup-compliance-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-startup-compliance-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "selected_memory_sha256": "bf007fc6f7845f83399dd98a97a18420958cbb75262d1c6a9c95a0561287b863",
+  "selected_run_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-startup-compliance-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-25T22:44:07Z"
+}

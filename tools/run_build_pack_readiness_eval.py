@@ -87,6 +87,17 @@ def _benchmark_results_from_stdout(stdout: str) -> list[dict[str, Any]]:
     raise ValueError("benchmark command JSON output must include benchmark_id or benchmark_results")
 
 
+def _stable_unique(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for value in values:
+        if value in seen:
+            continue
+        seen.add(value)
+        ordered.append(value)
+    return ordered
+
+
 def _pack_relative_path(pack_root: Path, path: Path) -> str:
     return str(path.relative_to(pack_root))
 
@@ -166,6 +177,95 @@ def _mandatory_benchmark_gates(readiness: dict[str, Any]) -> list[dict[str, Any]
         and gate.get("gate_id") != VALIDATION_GATE_ID
         and gate.get("mandatory") is True
     ]
+
+
+def _hint_is_active(hint: dict[str, Any]) -> bool:
+    if hint.get("active") is False:
+        return False
+    remaining_applications = hint.get("remaining_applications")
+    return not (isinstance(remaining_applications, int) and remaining_applications <= 0)
+
+
+def _latest_hint_audit_report(pack_root: Path) -> str | None:
+    history_root = pack_root / "eval" / "history"
+    if not history_root.exists():
+        return None
+    candidates: list[tuple[str, Path]] = []
+    for report_path in history_root.glob("branch-selection-hint-audit-*/branch-selection-hint-audit-report.json"):
+        try:
+            payload = _load_object(report_path)
+        except Exception:
+            continue
+        generated_at = payload.get("generated_at")
+        if isinstance(generated_at, str):
+            candidates.append((generated_at, report_path))
+    if not candidates:
+        return None
+    candidates.sort(key=lambda item: item[0])
+    return _pack_relative_path(pack_root, candidates[-1][1])
+
+
+def _recent_branch_hint_activity(pack_root: Path) -> tuple[list[str], list[str]]:
+    autonomy_root = pack_root / ".pack-state" / "autonomy-runs"
+    if not autonomy_root.exists():
+        return [], []
+    candidates: list[tuple[str, dict[str, Any]]] = []
+    for branch_path in autonomy_root.glob("*/branch-selection.json"):
+        try:
+            payload = _load_object(branch_path)
+        except Exception:
+            continue
+        recorded_at = payload.get("recorded_at")
+        if not isinstance(recorded_at, str):
+            continue
+        candidates.append((recorded_at, payload))
+    candidates.sort(key=lambda item: item[0], reverse=True)
+    consumed: list[str] = []
+    deactivated: list[str] = []
+    for _, payload in candidates[:5]:
+        for hint_id in payload.get("consumed_hint_ids", []):
+            if isinstance(hint_id, str):
+                consumed.append(hint_id)
+        for hint_id in payload.get("deactivated_hint_ids", []):
+            if isinstance(hint_id, str):
+                deactivated.append(hint_id)
+    return _stable_unique(consumed), _stable_unique(deactivated)
+
+
+def _operator_hint_status(pack_root: Path) -> dict[str, Any]:
+    work_state = _load_object(pack_root / "status/work-state.json")
+    raw_hints = work_state.get("branch_selection_hints", [])
+    hints = [cast(dict[str, Any], hint) for hint in raw_hints if isinstance(hint, dict)]
+
+    active_hint_ids: list[str] = []
+    inactive_hint_ids: list[str] = []
+    exhausted_hint_ids: list[str] = []
+    cleanup_candidate_hint_ids: list[str] = []
+    for hint in hints:
+        hint_id = hint.get("hint_id")
+        if not isinstance(hint_id, str):
+            continue
+        remaining_applications = hint.get("remaining_applications")
+        if isinstance(remaining_applications, int) and remaining_applications <= 0:
+            exhausted_hint_ids.append(hint_id)
+        if _hint_is_active(hint):
+            active_hint_ids.append(hint_id)
+        else:
+            inactive_hint_ids.append(hint_id)
+        if hint.get("active") is False and isinstance(remaining_applications, int) and remaining_applications <= 0:
+            cleanup_candidate_hint_ids.append(hint_id)
+
+    recent_consumed_hint_ids, recent_deactivated_hint_ids = _recent_branch_hint_activity(pack_root)
+    return {
+        "hint_count": len(hints),
+        "active_hint_ids": _stable_unique(active_hint_ids),
+        "inactive_hint_ids": _stable_unique(inactive_hint_ids),
+        "exhausted_hint_ids": _stable_unique(exhausted_hint_ids),
+        "cleanup_candidate_hint_ids": _stable_unique(cleanup_candidate_hint_ids),
+        "recent_consumed_hint_ids": recent_consumed_hint_ids,
+        "recent_deactivated_hint_ids": recent_deactivated_hint_ids,
+        "latest_audit_report_path": _latest_hint_audit_report(pack_root),
+    }
 
 
 def _canonical_validation_evidence_path(pack_root: Path, gate: dict[str, Any]) -> Path:
@@ -272,6 +372,7 @@ def _run_validation_only(
     updated_readiness["ready_for_deployment"] = False
     if updated_readiness.get("readiness_state") == "ready_for_deploy":
         updated_readiness["readiness_state"] = "in_progress"
+    updated_readiness["operator_hint_status"] = _operator_hint_status(pack_root)
 
     _validate_payload(factory_root, "readiness.schema.json", updated_readiness, label="readiness")
     write_json(pack_root / READINESS_PATH, updated_readiness)
@@ -404,6 +505,7 @@ def _run_benchmark_only(
         updated_readiness["blocking_issues"] = []
     elif updated_readiness.get("readiness_state") == "ready_for_deploy":
         updated_readiness["readiness_state"] = "in_progress"
+    updated_readiness["operator_hint_status"] = _operator_hint_status(pack_root)
 
     _validate_payload(factory_root, "eval-latest-index.schema.json", updated_eval_latest, label="eval-latest-index")
     _validate_payload(factory_root, "readiness.schema.json", updated_readiness, label="readiness")

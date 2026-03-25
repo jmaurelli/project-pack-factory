@@ -1,0 +1,14 @@
+{
+  "pack_id": "config-drift-autonomy-transfer-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T22:46:02Z",
+  "selected_memory_id": "autonomy-feedback-config-drift-autonomy-transfer-build-pack-v1-continuity-run-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-config-drift-autonomy-transfer-build-pack-v1-continuity-run-v1.json",
+  "selected_memory_sha256": "9c4853c27a93bbea86b280a7038a935f51a8431c1079fae7c86865b949bb7ee5",
+  "selected_run_id": "config-drift-autonomy-transfer-build-pack-v1-continuity-run-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-config-drift-autonomy-transfer-build-pack-v1-continuity-run-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t224604z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t224604z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T22:46:04Z"
+}

@@ -329,13 +329,74 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
             }}
 
 
+        selection_rule = "lowest selection_priority first; then active operator avoid-task hints in canonical list order without eliminating all remaining top candidates; then active operator preferred-task hints in canonical list order; then bounded semantic alignment; remaining ties require operator disambiguation"
+
+
+        def stable_unique_task_ids(task_ids: list[str]) -> list[str]:
+            seen: set[str] = set()
+            ordered: list[str] = []
+            for task_id in task_ids:
+                if task_id in seen:
+                    continue
+                seen.add(task_id)
+                ordered.append(task_id)
+            return ordered
+
+
+        def hint_is_eligible(hint: dict[str, object]) -> bool:
+            if hint.get("active") is False:
+                return False
+            remaining_applications = hint.get("remaining_applications")
+            return not (isinstance(remaining_applications, int) and remaining_applications <= 0)
+
+
+        def apply_hint_lifecycle_updates(*, work_state: dict[str, object], applied_hint_ids: list[str]) -> dict[str, object]:
+            target_hint_ids = set(stable_unique_task_ids([hint_id for hint_id in applied_hint_ids if isinstance(hint_id, str)]))
+            if not target_hint_ids:
+                return {{
+                    "consumed_hint_ids": [],
+                    "deactivated_hint_ids": [],
+                }}
+            hints = work_state.get("branch_selection_hints", [])
+            if not isinstance(hints, list):
+                return {{
+                    "consumed_hint_ids": [],
+                    "deactivated_hint_ids": [],
+                }}
+
+            consumed_hint_ids: list[str] = []
+            deactivated_hint_ids: list[str] = []
+            for hint in hints:
+                if not isinstance(hint, dict):
+                    continue
+                hint_id = hint.get("hint_id")
+                if not isinstance(hint_id, str) or hint_id not in target_hint_ids:
+                    continue
+                remaining_applications = hint.get("remaining_applications")
+                if not isinstance(remaining_applications, int):
+                    continue
+                updated_remaining = max(0, remaining_applications - 1)
+                hint["remaining_applications"] = updated_remaining
+                consumed_hint_ids.append(hint_id)
+                if updated_remaining == 0:
+                    hint["active"] = False
+                    deactivated_hint_ids.append(hint_id)
+            return {{
+                "consumed_hint_ids": stable_unique_task_ids(consumed_hint_ids),
+                "deactivated_hint_ids": stable_unique_task_ids(deactivated_hint_ids),
+            }}
+
+
         def hint_preference_decision(*, top_candidates: list[dict[str, object]], branch_selection_hints: list[dict[str, object]]) -> dict[str, object] | None:
             remaining_candidates = list(top_candidates)
             applied_hint_ids: list[str] = []
             applied_hint_summaries: list[str] = []
             filtered_out_task_ids: list[str] = []
+            ignored_hint_ids: list[str] = []
+            ignored_hint_summaries: list[str] = []
+
             for hint in branch_selection_hints:
-                if hint.get("active") is False:
+                if not hint_is_eligible(hint):
                     continue
                 current_candidate_ids = {{str(item["task_id"]) for item in remaining_candidates}}
                 if not current_candidate_ids:
@@ -359,16 +420,31 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                             applied_hint_ids.append(hint_id)
                         if isinstance(summary, str) and summary:
                             applied_hint_summaries.append(summary)
-                        current_candidate_ids = {{str(item["task_id"]) for item in remaining_candidates}}
-                        if len(remaining_candidates) == 1:
-                            return {{
-                                "chosen_task_id": str(remaining_candidates[0]["task_id"]),
-                                "applied_hint_ids": applied_hint_ids,
-                                "hint_summary": " | ".join(applied_hint_summaries) if applied_hint_summaries else None,
-                                "filtered_out_task_ids": sorted(set(filtered_out_task_ids)),
-                                "post_hint_candidate_task_ids": [str(item["task_id"]) for item in remaining_candidates],
-                            }}
+                    elif removed:
+                        if isinstance(hint_id, str):
+                            ignored_hint_ids.append(hint_id)
+                        if isinstance(summary, str) and summary:
+                            ignored_hint_summaries.append(summary)
 
+            if len(remaining_candidates) == 1:
+                return {{
+                    "chosen_task_id": str(remaining_candidates[0]["task_id"]),
+                    "applied_hint_ids": applied_hint_ids,
+                    "hint_summary": " | ".join(applied_hint_summaries) if applied_hint_summaries else None,
+                    "filtered_out_task_ids": sorted(set(filtered_out_task_ids)),
+                    "post_hint_candidate_task_ids": [str(item["task_id"]) for item in remaining_candidates],
+                    "ignored_hint_ids": ignored_hint_ids,
+                    "ignored_hint_summary": " | ".join(ignored_hint_summaries) if ignored_hint_summaries else None,
+                }}
+
+            for hint in branch_selection_hints:
+                if not hint_is_eligible(hint):
+                    continue
+                current_candidate_ids = {{str(item["task_id"]) for item in remaining_candidates}}
+                if not current_candidate_ids:
+                    break
+                hint_id = hint.get("hint_id")
+                summary = hint.get("summary")
                 preferred_task_ids = hint.get("preferred_task_ids", [])
                 if not isinstance(preferred_task_ids, list):
                     continue
@@ -385,14 +461,18 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                     "hint_summary": " | ".join(applied_hint_summaries) if applied_hint_summaries else None,
                     "filtered_out_task_ids": sorted(set(filtered_out_task_ids)),
                     "post_hint_candidate_task_ids": [str(item["task_id"]) for item in remaining_candidates],
+                    "ignored_hint_ids": ignored_hint_ids,
+                    "ignored_hint_summary": " | ".join(ignored_hint_summaries) if ignored_hint_summaries else None,
                 }}
-            if applied_hint_ids:
+            if applied_hint_ids or ignored_hint_ids:
                 return {{
                     "chosen_task_id": None,
                     "applied_hint_ids": applied_hint_ids,
                     "hint_summary": " | ".join(applied_hint_summaries) if applied_hint_summaries else None,
                     "filtered_out_task_ids": sorted(set(filtered_out_task_ids)),
                     "post_hint_candidate_task_ids": [str(item["task_id"]) for item in remaining_candidates],
+                    "ignored_hint_ids": ignored_hint_ids,
+                    "ignored_hint_summary": " | ".join(ignored_hint_summaries) if ignored_hint_summaries else None,
                 }}
             return None
 
@@ -401,7 +481,7 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
             if not eligible:
                 return {{
                     "status": "no_candidate",
-                    "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                    "selection_rule": selection_rule,
                     "candidate_task_ids": [],
                     "top_candidate_task_ids": [],
                     "post_hint_candidate_task_ids": [],
@@ -413,6 +493,10 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                     "semantic_scores": [],
                     "applied_hint_ids": [],
                     "applied_hint_summary": None,
+                    "ignored_hint_ids": [],
+                    "ignored_hint_summary": None,
+                    "consumed_hint_ids": [],
+                    "deactivated_hint_ids": [],
                 }}
             top_rank = float(eligible[0]["priority_rank"])
             top_candidates = [item for item in eligible if float(item["priority_rank"]) == top_rank]
@@ -426,10 +510,14 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                 applied_hint_ids: list[str] = []
                 applied_hint_summary = None
                 filtered_out_task_ids: list[str] = []
+                ignored_hint_ids: list[str] = []
+                ignored_hint_summary = None
                 if hint_decision is not None:
                     applied_hint_ids = list(hint_decision.get("applied_hint_ids", []))
                     applied_hint_summary = hint_decision.get("hint_summary")
                     filtered_out_task_ids = list(hint_decision.get("filtered_out_task_ids", []))
+                    ignored_hint_ids = list(hint_decision.get("ignored_hint_ids", []))
+                    ignored_hint_summary = hint_decision.get("ignored_hint_summary")
                     post_hint_candidate_task_ids = list(hint_decision.get("post_hint_candidate_task_ids", []))
                     if post_hint_candidate_task_ids:
                         narrowed_candidates = [item for item in top_candidates if str(item["task_id"]) in set(post_hint_candidate_task_ids)]
@@ -438,7 +526,7 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                         selection_method = "operator_hint"
                         return {{
                             "status": "selected",
-                            "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                            "selection_rule": selection_rule,
                             "candidate_task_ids": [str(item["task_id"]) for item in eligible],
                             "top_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
                             "post_hint_candidate_task_ids": post_hint_candidate_task_ids,
@@ -450,6 +538,10 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                             "semantic_scores": [],
                             "applied_hint_ids": applied_hint_ids,
                             "applied_hint_summary": applied_hint_summary,
+                            "ignored_hint_ids": ignored_hint_ids,
+                            "ignored_hint_summary": ignored_hint_summary,
+                            "consumed_hint_ids": [],
+                            "deactivated_hint_ids": [],
                         }}
                 semantic_scores = [
                     task_semantic_score(
@@ -464,7 +556,7 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                     if best_score > 0 and len(best_candidates) == 1:
                         return {{
                             "status": "selected",
-                            "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                            "selection_rule": selection_rule,
                             "candidate_task_ids": [str(item["task_id"]) for item in eligible],
                             "top_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
                             "post_hint_candidate_task_ids": [str(item["task_id"]) for item in narrowed_candidates],
@@ -476,10 +568,14 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                             "semantic_scores": semantic_scores,
                             "applied_hint_ids": applied_hint_ids,
                             "applied_hint_summary": applied_hint_summary,
+                            "ignored_hint_ids": ignored_hint_ids,
+                            "ignored_hint_summary": ignored_hint_summary,
+                            "consumed_hint_ids": [],
+                            "deactivated_hint_ids": [],
                         }}
                 return {{
                     "status": "ambiguous",
-                    "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                    "selection_rule": selection_rule,
                     "candidate_task_ids": [str(item["task_id"]) for item in eligible],
                     "top_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
                     "post_hint_candidate_task_ids": [str(item["task_id"]) for item in narrowed_candidates],
@@ -491,10 +587,14 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                     "semantic_scores": semantic_scores,
                     "applied_hint_ids": applied_hint_ids,
                     "applied_hint_summary": applied_hint_summary,
+                    "ignored_hint_ids": ignored_hint_ids,
+                    "ignored_hint_summary": ignored_hint_summary,
+                    "consumed_hint_ids": [],
+                    "deactivated_hint_ids": [],
                 }}
             return {{
                 "status": "selected",
-                "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                "selection_rule": selection_rule,
                 "candidate_task_ids": [str(item["task_id"]) for item in eligible],
                 "top_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
                 "post_hint_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
@@ -506,6 +606,10 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                 "semantic_scores": [],
                 "applied_hint_ids": [],
                 "applied_hint_summary": None,
+                "ignored_hint_ids": [],
+                "ignored_hint_summary": None,
+                "consumed_hint_ids": [],
+                "deactivated_hint_ids": [],
             }}
 
 
@@ -625,10 +729,16 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                     "selection_method": branch_decision["selection_method"],
                     "candidate_task_ids": branch_decision["candidate_task_ids"],
                     "top_candidate_task_ids": branch_decision["top_candidate_task_ids"],
+                    "post_hint_candidate_task_ids": branch_decision["post_hint_candidate_task_ids"],
+                    "filtered_out_task_ids": branch_decision["filtered_out_task_ids"],
                     "chosen_task_id": branch_decision["chosen_task_id"],
                     "ambiguity_reason": branch_decision["ambiguity_reason"],
                     "applied_hint_ids": branch_decision["applied_hint_ids"],
                     "applied_hint_summary": branch_decision["applied_hint_summary"],
+                    "ignored_hint_ids": branch_decision["ignored_hint_ids"],
+                    "ignored_hint_summary": branch_decision["ignored_hint_summary"],
+                    "consumed_hint_ids": branch_decision["consumed_hint_ids"],
+                    "deactivated_hint_ids": branch_decision["deactivated_hint_ids"],
                     "semantic_context_sources": branch_decision["semantic_context_sources"],
                     "semantic_scores": branch_decision["semantic_scores"],
                 }}
@@ -738,6 +848,53 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
         completed_task_ids = list(refreshed_work_state.get("completed_task_ids", []))
         if EXPECTED_ACTIVE_TASK_ID not in completed_task_ids:
             completed_task_ids.append(EXPECTED_ACTIVE_TASK_ID)
+        if next_active_task_id is not None:
+            hint_lifecycle_result = apply_hint_lifecycle_updates(
+                work_state=refreshed_work_state,
+                applied_hint_ids=list(branch_decision.get("applied_hint_ids", [])),
+            )
+            branch_decision["consumed_hint_ids"] = hint_lifecycle_result["consumed_hint_ids"]
+            branch_decision["deactivated_hint_ids"] = hint_lifecycle_result["deactivated_hint_ids"]
+            if len(branch_decision["candidate_task_ids"]) > 1 or branch_decision["status"] == "ambiguous":
+                branch_selection_payload = {{
+                    "schema_version": "branch-selection-summary/v1",
+                    "run_id": RUN_ID,
+                    "recorded_at": now(),
+                    "status": branch_decision["status"],
+                    "selection_rule": branch_decision["selection_rule"],
+                    "selection_method": branch_decision["selection_method"],
+                    "candidate_task_ids": branch_decision["candidate_task_ids"],
+                    "top_candidate_task_ids": branch_decision["top_candidate_task_ids"],
+                    "post_hint_candidate_task_ids": branch_decision["post_hint_candidate_task_ids"],
+                    "filtered_out_task_ids": branch_decision["filtered_out_task_ids"],
+                    "chosen_task_id": branch_decision["chosen_task_id"],
+                    "ambiguity_reason": branch_decision["ambiguity_reason"],
+                    "applied_hint_ids": branch_decision["applied_hint_ids"],
+                    "applied_hint_summary": branch_decision["applied_hint_summary"],
+                    "ignored_hint_ids": branch_decision["ignored_hint_ids"],
+                    "ignored_hint_summary": branch_decision["ignored_hint_summary"],
+                    "consumed_hint_ids": branch_decision["consumed_hint_ids"],
+                    "deactivated_hint_ids": branch_decision["deactivated_hint_ids"],
+                    "semantic_context_sources": branch_decision["semantic_context_sources"],
+                    "semantic_scores": branch_decision["semantic_scores"],
+                }}
+                branch_selection_file = PACK_ROOT / ".pack-state" / "autonomy-runs" / RUN_ID / "branch-selection.json"
+                write_json(branch_selection_file, branch_selection_payload)
+                branch_selection_path = branch_selection_file.relative_to(PACK_ROOT).as_posix()
+            consumed_hint_ids = list(branch_decision.get("consumed_hint_ids", []))
+            if consumed_hint_ids:
+                branch_selection_notes.append(
+                    "Consumed bounded operator hints during branch selection: "
+                    + ", ".join(f"`{{hint_id}}`" for hint_id in consumed_hint_ids)
+                    + "."
+                )
+            deactivated_hint_ids = list(branch_decision.get("deactivated_hint_ids", []))
+            if deactivated_hint_ids:
+                branch_selection_notes.append(
+                    "Deactivated exhausted operator hints after branch selection: "
+                    + ", ".join(f"`{{hint_id}}`" for hint_id in deactivated_hint_ids)
+                    + "."
+                )
         autonomy_state = "ready_for_deploy" if bool(refreshed_readiness.get("ready_for_deployment")) else "actively_building"
         refreshed_work_state.update(
             {{

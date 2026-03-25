@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/startup-compliance-rehearsal-report.schema.json",
+  "title": "Startup Compliance Rehearsal Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "rehearsal_id",
+    "generated_at",
+    "status",
+    "source_template_id",
+    "target_build_pack_id",
+    "target_build_pack_root",
+    "remote_target_label",
+    "remote_host",
+    "remote_user",
+    "root_marker_checks",
+    "template_marker_checks",
+    "build_pack_marker_check",
+    "multi_hop_rehearsal_result",
+    "final_readiness",
+    "latest_memory"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "startup-compliance-rehearsal-report/v1"
+    },
+    "rehearsal_id": {
+      "type": "string",
+      "pattern": "^startup-compliance-rehearsal-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "const": "completed"
+    },
+    "source_template_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_build_pack_root": {
+      "type": "string",
+      "pattern": "^.*/build-packs/[a-z0-9][a-z0-9_-]*$"
+    },
+    "remote_target_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_host": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_user": {
+      "type": "string",
+      "minLength": 1
+    },
+    "root_marker_checks": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/marker_check"
+      }
+    },
+    "template_marker_checks": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/marker_check"
+      }
+    },
+    "build_pack_marker_check": {
+      "$ref": "#/$defs/marker_check"
+    },
+    "multi_hop_rehearsal_result": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "rehearsal_id",
+        "target_build_pack_id",
+        "final_ready_for_deployment"
+      ],
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "rehearsal_id": {
+          "type": "string",
+          "pattern": "^multi-hop-autonomy-rehearsal-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+        },
+        "target_build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "final_ready_for_deployment": {
+          "const": true
+        }
+      }
+    },
+    "final_readiness": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "latest_memory": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "marker_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "status",
+        "markers_checked",
+        "missing_markers"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "markers_checked": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "missing_markers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

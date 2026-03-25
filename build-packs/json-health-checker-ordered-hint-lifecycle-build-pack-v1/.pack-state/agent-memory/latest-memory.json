@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-ordered-hint-lifecycle-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T21:59:02Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-ordered-hint-lifecycle-build-pack-v1-ordered-hint-continuity-v5",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-ordered-hint-lifecycle-build-pack-v1-ordered-hint-continuity-v5.json",
+  "selected_memory_sha256": "9ec73ee1c4ec2bc7c2c13d40797e24a195f9d1056a15b46a10d45651f24a20e9",
+  "selected_run_id": "json-health-checker-ordered-hint-lifecycle-build-pack-v1-ordered-hint-continuity-v5",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-ordered-hint-lifecycle-build-pack-v1-ordered-hint-continuity-v5.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-25T21:59:02Z"
+}

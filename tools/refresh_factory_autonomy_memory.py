@@ -159,8 +159,8 @@ def _format_checklist_item(item: dict[str, Any]) -> str:
 
 def _default_recommended_next_steps() -> list[str]:
     return [
-        "Add a single autonomy-to-promotion factory workflow.",
-        "Improve autonomy block reporting.",
+        "Surface hint audit status directly in operator-facing summaries.",
+        "Keep the hint audit report available when stale operator guidance needs cleanup.",
         "Keep this root-level memory updated after major autonomy workflow or promotion changes.",
     ]
 
@@ -226,13 +226,15 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "refresh at the end of rehearsal. It can also stop honestly at ambiguous branch boundaries, honor "
             "explicit operator branch-selection hints, including preferred-task and avoid-task guidance, and use "
             "bounded semantic tie-breaking when objective, resume context, and task selection signals make one "
-            "candidate clearly stronger. The next highest-value work is to define conflict and precedence policy "
-            "for that broader operator-support surface while keeping the branch-choice ladder explainable."
+            "candidate clearly stronger. It now has a proven conflict ladder for that broader operator-support "
+            "surface plus bounded hint lifetime through `remaining_applications`, so the next highest-value "
+            "work is to surface hint audit state more directly in normal operator-facing summaries while keeping "
+            "the branch-choice ladder explainable."
         ),
         "current_focus": [
             "Keep factory-level autonomy discoverable from the root startup surfaces.",
             "Keep root-level restart memory current so the next agent can recover the current autonomy toolset quickly.",
-            "Define conflict and precedence policy for the broader operator-support surface without broadening into open-ended semantic choice by default.",
+            "Improve operator visibility around the richer operator-support surface without broadening into open-ended semantic choice by default.",
         ],
         "next_action_items": next_action_items,
         "pending_items": pending_items,
@@ -248,6 +250,9 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "Stop fail-closed when multiple next tasks remain ambiguous after priority and bounded semantic comparison.",
             "Honor explicit operator branch-selection hints from canonical work-state before falling back to semantic tie-breaking.",
             "Apply operator avoid-task guidance to narrow tied candidates before semantic tie-breaking runs.",
+            "Resolve conflicting operator hints deterministically with the current ladder of priority, avoid-task guidance, preferred-task guidance, bounded semantic alignment, and fail-closed operator review.",
+            "Consume one-shot operator hints through `remaining_applications` so bounded guidance can expire automatically after first use.",
+            "Audit active, exhausted, and cleanup-candidate hints through a bounded operator-facing report and prune exhausted inactive hints when requested.",
             "Use bounded semantic alignment to break a next-task tie when the project objective, resume instructions, and task selection signals make one candidate clearly stronger.",
         ],
         "known_limits": known_limits or [
@@ -270,6 +275,10 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "python3 tools/run_semantic_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
             "python3 tools/run_operator_hint_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
             "python3 tools/run_operator_avoid_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+            "python3 tools/run_operator_hint_conflict_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+            "python3 tools/run_ordered_hint_lifecycle_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --output json",
+            "python3 tools/audit_branch_selection_hints.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --cleanup-exhausted --output json",
+            "python3 tools/run_operator_hint_audit_cleanup_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --output json",
             "python3 tools/promote_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json",
             "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json",
         ],
@@ -295,7 +304,7 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "The strongest current proof path is the JSON health checker proving-ground line, especially the promotion-gate pack promoted into testing on 2026-03-25.",
             "Use the autonomy state brief when you need one stable repo-level snapshot of the current memory, restart, branch-choice, and proof baseline.",
             "Pending and overdue items are derived from the autonomy planning list so executive-summary memory stays tied to an explicit planning surface.",
-            "Priority-driven choice, explicit operator hint overrides, operator avoid-task guidance, and bounded semantic branch choice are now proven capabilities; the next planned expansion is conflict and precedence policy for that richer operator-support surface.",
+            "Priority-driven choice, explicit operator hint overrides, operator avoid-task guidance, bounded semantic branch choice, operator-hint conflict resolution, bounded hint lifetime through `remaining_applications`, and operator-hint audit plus cleanup are now proven capabilities; the next planned expansion is surfacing that hint status more directly in normal summaries.",
             "Refresh this memory after significant autonomy tooling, rehearsal, or promotion-gate changes so the next agent inherits current factory capabilities and limits.",
         ],
     }

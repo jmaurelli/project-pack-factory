@@ -1,0 +1,37 @@
+{
+  "active_task_id": "record_ordered_second_gamma",
+  "baseline_readiness_state": "in_progress",
+  "block_summary": null,
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "record_ordered_first_alpha",
+    "record_ordered_first_beta"
+  ],
+  "evidence_paths": [
+    "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-audit-cleanup-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2/loop-events.jsonl",
+    "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-audit-cleanup-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2/run-summary.json"
+  ],
+  "final_readiness_state": "in_progress",
+  "generated_at": "2026-03-25T22:04:38Z",
+  "handoff_summary": [
+    "Run `json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2` ended with stop reason `state_updated`.",
+    "Readiness moved from `in_progress` to `in_progress`; ready_for_deployment=False.",
+    "Completed tasks: run_build_pack_validation, record_ordered_first_alpha, record_ordered_first_beta.",
+    "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+    "Recommended next action: continue with canonical next task `record_ordered_second_gamma` from status/work-state.json and use this summary as local measurement evidence only."
+  ],
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+  "memory_id": "autonomy-feedback-json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2",
+  "next_recommended_task_id": "record_ordered_second_gamma",
+  "pack_id": "json-health-checker-hint-audit-cleanup-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: continue with canonical next task `record_ordered_second_gamma` from status/work-state.json and use this summary as local measurement evidence only.",
+  "run_id": "json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "factory_validation_command": null,
+    "loop_events_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-audit-cleanup-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2/loop-events.jsonl",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-audit-cleanup-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2/run-summary.json"
+  },
+  "summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-audit-cleanup-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json."
+}

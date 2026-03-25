@@ -232,11 +232,12 @@ literal ownership, financial stake, or fabricated emotion.
 4. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TESTING-POLICY.md` when the task changes workflow tests
 5. `registry/templates.json`, `registry/build-packs.json`, and recent relevant entries in `registry/promotion-log.json` to identify candidate packs and recent workflow state from machine-readable sources
 6. for factory-level autonomy/tooling continuation work, `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
-7. for factory-level autonomy/tooling continuation work, `.pack-state/agent-memory/latest-memory.json` when it exists, then the selected root memory artifact it references
-8. `deployments/` only when the task explicitly concerns the small JSON records that show which build-pack is currently assigned to an environment like `testing`, `staging`, or `production`
-9. after the operator confirms the intended pack, that pack's `AGENTS.md`
-10. after the operator confirms the intended pack, that pack's `project-context.md`
-11. after the operator confirms the intended pack, that pack's `pack.json`
+7. for factory-level autonomy/tooling continuation work, `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+8. for factory-level autonomy/tooling continuation work, `.pack-state/agent-memory/latest-memory.json` when it exists, then the selected root memory artifact it references
+9. `deployments/` only when the task explicitly concerns the small JSON records that show which build-pack is currently assigned to an environment like `testing`, `staging`, or `production`
+10. after the operator confirms the intended pack, that pack's `AGENTS.md`
+11. after the operator confirms the intended pack, that pack's `project-context.md`
+12. after the operator confirms the intended pack, that pack's `pack.json`
 
 ## Post-Confirmation Runtime Surfaces
 
@@ -255,6 +256,10 @@ After the operator confirms the intended build-pack:
 - treat external runtime evidence import as a factory-level workflow through
   `tools/import_external_runtime_evidence.py`, not as a pack-local runtime
   command
+- for remote Codex session management, use PackFactory-local request,
+  continuity, rehearsal, export, pull, and import workflows from the factory
+  root; do not improvise ad hoc `ssh` prompts, handcrafted remote runners, or
+  pack-local substitutes when an official PackFactory workflow exists
 - treat exported bundles as supplementary runtime evidence only, and treat
   imported bundles as audit-only preserved evidence under `eval/history/`
 
@@ -289,6 +294,13 @@ After the operator confirms the intended build-pack:
 - keep the broader worldview additive to the existing shallow-startup and pack-targeting rules; strategic commentary must not displace the immediate requested task
 - when the task concerns an externally running build-pack or exporting local runtime evidence, inspect `pack.json.entrypoints.export_runtime_evidence_command` and `pack.json.directory_contract.runtime_evidence_export_dir` for eligible build-packs
 - treat external runtime evidence import as a factory-level workflow via `tools/import_external_runtime_evidence.py`; do not treat it as a pack-local entrypoint
+- for remote Codex session management, use PackFactory-local tooling from the
+  factory root and the autonomy operations note; do not build ad hoc `ssh`
+  prompts, ad hoc remote-session wrappers, or raw terminal logging loops when
+  a PackFactory request/roundtrip workflow already exists
+- treat raw stdout/stderr from remote sessions as supplementary debugging only;
+  canonical remote evidence must flow through PackFactory request, staging,
+  execution, export, pull, and import surfaces
 - for outward-looking claims, prefer this evidence order: machine-readable pack state and notes, recorded workflow evidence, plain-language naming and repo docs, then cautious inference
 - if the evidence does not support a confident real-world claim, say the signal is still thin or not yet well-proven rather than manufacturing a cleaner story
 - separate `factory evidence` from `portfolio inference` when projecting outward from current packs
@@ -336,7 +348,9 @@ After the operator confirms the intended build-pack:
   `next_action_items`, `pending_items`, `overdue_items`, and `blockers`
   instead of inferring the same content from free-form notes
 - for factory-level autonomy work, prefer the current standard operations note
-  at `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+  at `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`,
+  the current state brief at
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`,
   and the active planning list at
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
   before reconstructing the workflow from scattered tool files
@@ -356,6 +370,18 @@ After the operator confirms the intended build-pack:
 - `python3 tools/run_autonomy_to_promotion_workflow.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --target-environment testing --output json`
 - `python3 tools/run_longer_backlog_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --extra-task-count 2 --output json`
 - `python3 tools/run_branching_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_degraded_connectivity_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_ambiguous_branch_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --output json`
+- `python3 tools/run_semantic_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/apply_branch_selection_hint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --hint-id <hint-id> --summary "<summary>" --preferred-task-id <task-id> --preferred-task-id <task-id> --output json`
+- `python3 tools/run_operator_hint_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_operator_avoid_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_operator_hint_conflict_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_ordered_hint_lifecycle_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --output json`
+- `python3 tools/audit_branch_selection_hints.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --cleanup-exhausted --output json`
+- `python3 tools/run_operator_hint_audit_cleanup_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --output json`
+- `python3 tools/run_operator_hint_status_surfacing_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --output json`
+- `python3 tools/run_startup_compliance_rehearsal.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>`
 - `python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
@@ -363,3 +389,30 @@ After the operator confirms the intended build-pack:
 - `python3 tools/record_autonomy_improvement_promotion.py --factory-root /home/orchadmin/project-pack-factory --improvement-id <id> --summary "<summary>" --source-build-pack-id <pack-id> --proof-path <path> --adopted-surface materializer_defaults --pending-surface source_template_tracking --output json`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
 - `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`
+- `python3 tools/score_autonomy_quality.py --factory-root /home/orchadmin/project-pack-factory --report-path <rehearsal-report.json> --output json`
+- `python3 tools/run_factory_root_startup_benchmark.py --factory-root /home/orchadmin/project-pack-factory --output json`
+- `python3 tools/run_cross_template_transfer_matrix.py --factory-root /home/orchadmin/project-pack-factory --entry <template-id::build-pack-id::/absolute/report/path> --entry <template-id::build-pack-id::/absolute/report/path> --output json`
+
+## Factory Autonomy
+
+The factory-level autonomy operations note lives in:
+
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+
+The concise factory-level autonomy state brief lives in:
+
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+
+The factory-level restart memory pointer lives in:
+
+- `.pack-state/agent-memory/latest-memory.json`
+
+That root memory is meant to help the next agent continue recent autonomy work
+without reconstructing the current tooling state from scratch. It is advisory
+restart context only. Registry, deployment, readiness, and promotion surfaces
+remain canonical.
+
+For remote Codex session management, the PackFactory-local workflows above are
+the required control plane. Do not replace them with ad hoc `ssh` prompts,
+manual remote-session wrappers, or raw stdout/stderr logging as if those were
+equivalent PackFactory evidence.

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/autonomy-quality-score-report.schema.json",
+  "title": "Autonomy Quality Score Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "score_id",
+    "generated_at",
+    "source_report_kind",
+    "source_report_path",
+    "target_build_pack_id",
+    "target_build_pack_root",
+    "overall_score",
+    "overall_rating",
+    "dimensions",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "autonomy-quality-score-report/v1"
+    },
+    "score_id": {
+      "type": "string",
+      "pattern": "^autonomy-quality-score-[a-z0-9_.-]+-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_report_kind": {
+      "type": "string",
+      "enum": [
+        "multi_hop_autonomy_rehearsal",
+        "startup_compliance_rehearsal"
+      ]
+    },
+    "source_report_path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "target_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_build_pack_root": {
+      "type": "string",
+      "pattern": "^.*/build-packs/[a-z0-9][a-z0-9_-]*$"
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "overall_rating": {
+      "type": "string",
+      "enum": [
+        "strong",
+        "good",
+        "mixed",
+        "weak"
+      ]
+    },
+    "dimensions": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/dimension"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "score",
+        "summary",
+        "evidence_paths",
+        "details"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "scored",
+            "not_applicable"
+          ]
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

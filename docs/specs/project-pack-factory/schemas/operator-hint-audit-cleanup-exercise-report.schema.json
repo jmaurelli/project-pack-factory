@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Operator Hint Audit Cleanup Exercise Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "exercise_id",
+    "generated_at",
+    "status",
+    "ordered_hint_lifecycle_result",
+    "pre_cleanup_audit_result",
+    "post_cleanup_audit_result",
+    "final_work_state"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "operator-hint-audit-cleanup-exercise-report/v1"
+    },
+    "exercise_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed"
+      ]
+    },
+    "ordered_hint_lifecycle_result": {
+      "type": "object"
+    },
+    "pre_cleanup_audit_result": {
+      "type": "object"
+    },
+    "post_cleanup_audit_result": {
+      "type": "object"
+    },
+    "final_work_state": {
+      "type": "object"
+    }
+  }
+}

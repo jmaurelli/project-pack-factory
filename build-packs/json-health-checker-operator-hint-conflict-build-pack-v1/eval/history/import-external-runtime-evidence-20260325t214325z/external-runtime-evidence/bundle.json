@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v3.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "3d8b06268e462c8400ad03a73dd0e21b60f5c7ba6c4bd33ff7328f2c49b14130",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v3.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "78740faf98c1230225a666b5d37e54e1be660d30fa8c83fdfe85699059c7e090",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v3/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "d9c7fa87a351c4fb6b33d0c464800750fab1130c1249d048711f14533cb9b43b",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v3/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v3-20260325T214323Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v3-20260325T214323Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T21:43:23Z",
+  "pack_id": "json-health-checker-operator-hint-conflict-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v3",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/json-health-checker-operator-hint-conflict-build-pack-v1-active-task-continuity-run-v3",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T21:43:22Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "in_progress",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 1,
+    "started_at": "2026-03-25T21:43:22Z",
+    "stop_reason": "starter_backlog_incomplete",
+    "task_completion_rate": 0.8
+  }
+}

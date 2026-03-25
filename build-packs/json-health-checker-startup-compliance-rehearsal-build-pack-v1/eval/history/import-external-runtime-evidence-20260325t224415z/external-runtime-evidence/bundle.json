@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "3a4705633fbb7dfd838829a293da69c6b760e7a2f0f90db4ada373db94a853af",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "4062eb1483ba6e57620d1f445527c97b2b2aeedff93d164e51934cb200e69051",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "cbcb5e3a0e4b2463595b51b384148192f28ba350f84dfee7e2eff6a6a312de95",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1-20260325T224412Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1-20260325T224412Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T22:44:12Z",
+  "pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T22:44:12Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 1,
+    "started_at": "2026-03-25T22:44:12Z",
+    "stop_reason": "starter_backlog_completed",
+    "task_completion_rate": 1.0
+  }
+}

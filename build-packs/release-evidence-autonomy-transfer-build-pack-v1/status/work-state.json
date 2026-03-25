@@ -1,0 +1,50 @@
+{
+  "active_task_id": null,
+  "autonomy_state": "ready_for_deploy",
+  "blocked_task_ids": [],
+  "branch_selection_hints": [],
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Reconciled local canonical state from imported external runtime evidence `import-external-runtime-evidence-20260325t231552z`.",
+  "last_outcome": "task_completed",
+  "last_outcome_at": "2026-03-25T23:15:52Z",
+  "last_validation_results": [
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260325t231552z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260325t231552z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-25T23:15:50Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "run_build_pack_validation"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260325t231552z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260325t231552z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-25T23:15:50Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "run_inherited_benchmarks"
+    }
+  ],
+  "next_recommended_task_id": null,
+  "objective_id": "release-evidence-autonomy-transfer-build-pack-v1_objective",
+  "pack_id": "release-evidence-autonomy-transfer-build-pack-v1",
+  "pending_task_ids": [],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Run the validation task before attempting benchmark execution or deployment workflows."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}

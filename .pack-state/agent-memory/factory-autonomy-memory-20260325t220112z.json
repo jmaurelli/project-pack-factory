@@ -1,0 +1,98 @@
+{
+  "blockers": [
+    "Autonomy is strongest in bounded PackFactory workflows, not broad unscripted project work.",
+    "Autonomy Exercises: Operator-hint audit and cleanup follow-up. Scope: surface active, consumed, and exhausted operator hints more clearly in operator-facing status and branch-decision artifacts so stale guidance is easy to spot and clear. Why it matters: hint lifecycles are now proven, so the next win is making those lifecycle changes easier to see and trust during long-running autonomy."
+  ],
+  "current_capabilities": [
+    "Materialize fresh proving-ground build-packs that inherit feedback-memory and autonomy guidance by default.",
+    "Run local mid-backlog checkpoints and activate pack-local latest-memory pointers.",
+    "Run remote active-task continuity and ready-boundary continuity against a remote target.",
+    "Import, compatibility-gate, and activate returned feedback memory automatically when it still matches canonical state.",
+    "Run a multi-hop autonomy rehearsal and use that rehearsal as real promotion evidence.",
+    "Promote a build-pack only when compatible autonomy rehearsal evidence still matches its current canonical state.",
+    "Stop fail-closed when multiple next tasks remain ambiguous after priority and bounded semantic comparison.",
+    "Honor explicit operator branch-selection hints from canonical work-state before falling back to semantic tie-breaking.",
+    "Apply operator avoid-task guidance to narrow tied candidates before semantic tie-breaking runs.",
+    "Resolve conflicting operator hints deterministically with the current ladder of priority, avoid-task guidance, preferred-task guidance, bounded semantic alignment, and fail-closed operator review.",
+    "Consume one-shot operator hints through `remaining_applications` so bounded guidance can expire automatically after first use.",
+    "Use bounded semantic alignment to break a next-task tie when the project objective, resume instructions, and task selection signals make one candidate clearly stronger."
+  ],
+  "current_focus": [
+    "Keep factory-level autonomy discoverable from the root startup surfaces.",
+    "Keep root-level restart memory current so the next agent can recover the current autonomy toolset quickly.",
+    "Improve operator visibility around the richer operator-support surface without broadening into open-ended semantic choice by default."
+  ],
+  "discovery_entrypoints": [
+    "AGENTS.md",
+    "README.md",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+    ".pack-state/agent-memory/latest-memory.json"
+  ],
+  "factory_root": "/home/orchadmin/project-pack-factory",
+  "generated_at": "2026-03-25T22:01:12Z",
+  "key_artifact_paths": [
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+    "AGENTS.md",
+    "README.md",
+    ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/rehearsal-report.json",
+    "eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+    "deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json"
+  ],
+  "known_limits": [
+    "Autonomy is strongest in bounded PackFactory workflows, not broad unscripted project work.",
+    "Imported memory is fail-closed by design, so progress can pause until reconcile happens.",
+    "The strongest current proof now covers a four-task linear starter backlog, deterministic branching with explicit `selection_priority`, and temporary degraded-connectivity recovery during testing. Ambiguous no-priority branch choice is now fail-closed, explicit operator hint overrides are proven, and bounded semantic tie-breaking is proven, but open-ended branch choice is still not proven.",
+    "Testing-time remote connectivity and delayed-import recovery are proven; permanent factory-to-pack connectivity is not assumed."
+  ],
+  "latest_autonomy_proof": "Latest autonomy proof includes a completed multi-hop rehearsal and a promotion-backed follow-through: .pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/rehearsal-report.json; eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json.",
+  "memory_id": "factory-autonomy-memory-20260325t220112z",
+  "next_action_items": [
+    "Autonomy Exercises: Operator-hint audit and cleanup follow-up. Scope: surface active, consumed, and exhausted operator hints more clearly in operator-facing status and branch-decision artifacts so stale guidance is easy to spot and clear. Why it matters: hint lifecycles are now proven, so the next win is making those lifecycle changes easier to see and trust during long-running autonomy."
+  ],
+  "notes": [
+    "This root memory is advisory restart context for the PackFactory repo itself; registry, deployment, readiness, and promotion surfaces remain canonical.",
+    "The strongest current proof path is the JSON health checker proving-ground line, especially the promotion-gate pack promoted into testing on 2026-03-25.",
+    "Use the autonomy state brief when you need one stable repo-level snapshot of the current memory, restart, branch-choice, and proof baseline.",
+    "Pending and overdue items are derived from the autonomy planning list so executive-summary memory stays tied to an explicit planning surface.",
+    "Priority-driven choice, explicit operator hint overrides, operator avoid-task guidance, bounded semantic branch choice, operator-hint conflict resolution, and bounded hint lifetime through `remaining_applications` are now proven capabilities; the next planned expansion is stronger audit visibility for active and exhausted hints.",
+    "Refresh this memory after significant autonomy tooling, rehearsal, or promotion-gate changes so the next agent inherits current factory capabilities and limits."
+  ],
+  "overdue_items": [],
+  "pending_items": [
+    "Autonomy Exercises: Operator-hint audit and cleanup follow-up. Scope: surface active, consumed, and exhausted operator hints more clearly in operator-facing status and branch-decision artifacts so stale guidance is easy to spot and clear. Why it matters: hint lifecycles are now proven, so the next win is making those lifecycle changes easier to see and trust during long-running autonomy."
+  ],
+  "producer": "codex",
+  "recommended_next_step": "Autonomy Exercises: Operator-hint audit and cleanup follow-up. Scope: surface active, consumed, and exhausted operator hints more clearly in operator-facing status and branch-decision artifacts so stale guidance is easy to spot and clear. Why it matters: hint lifecycles are now proven, so the next win is making those lifecycle changes easier to see and trust during long-running autonomy.",
+  "recommended_next_steps": [
+    "Autonomy Exercises: Operator-hint audit and cleanup follow-up. Scope: surface active, consumed, and exhausted operator hints more clearly in operator-facing status and branch-decision artifacts so stale guidance is easy to spot and clear. Why it matters: hint lifecycles are now proven, so the next win is making those lifecycle changes easier to see and trust during long-running autonomy.",
+    "Keep this root-level memory updated after major autonomy workflow or promotion changes."
+  ],
+  "relevant_commands": [
+    "python3 tools/run_multi_hop_autonomy_rehearsal.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>",
+    "python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/apply_branch_selection_hint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --hint-id <hint-id> --summary \"<summary>\" --preferred-task-id <task-id> --output json",
+    "python3 tools/run_semantic_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/run_operator_hint_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/run_operator_avoid_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/run_operator_hint_conflict_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/run_ordered_hint_lifecycle_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --output json",
+    "python3 tools/promote_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json",
+    "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json"
+  ],
+  "schema_version": "factory-autonomy-memory/v1",
+  "status_snapshot": {
+    "current_state_brief_path": "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+    "latest_promotion_report_path": "eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+    "latest_rehearsal_report_path": ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/rehearsal-report.json",
+    "latest_testing_pointer_path": "deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+    "operations_note_path": "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+    "planning_list_path": "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+  },
+  "summary": "PackFactory now has factory-default multi-hop autonomy rehearsal, root-level discoverability notes, promotion gating through compatible autonomy rehearsal evidence, and a built-in canonical readiness refresh at the end of rehearsal. It can also stop honestly at ambiguous branch boundaries, honor explicit operator branch-selection hints, including preferred-task and avoid-task guidance, and use bounded semantic tie-breaking when objective, resume context, and task selection signals make one candidate clearly stronger. It now has a proven conflict ladder for that broader operator-support surface plus bounded hint lifetime through `remaining_applications`, so the next highest-value work is to improve operator visibility for active, consumed, and exhausted hints while keeping the branch-choice ladder explainable."
+}

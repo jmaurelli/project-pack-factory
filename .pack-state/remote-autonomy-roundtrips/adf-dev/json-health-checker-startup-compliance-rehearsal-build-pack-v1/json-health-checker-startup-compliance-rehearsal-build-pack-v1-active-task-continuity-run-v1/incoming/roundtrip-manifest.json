@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "e2695d86773dbca9194097fd7726e632065bdf347da455d4bf50fd32e4f95b50",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-startup-compliance-rehearsal-build-pack-v1/json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "8c3d50e6959ed2e35ccfd9f81c399c4d4536ec3a85635bf0b3c3e91e5ac05b8f",
+  "portable_helper_manifest_sha256": "e6198b13f780d6165b371ca6c85170ac6e7837cc5e8cff8605e98934f7a5cac1",
+  "pulled_at": "2026-03-25T22:44:15Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-startup-compliance-rehearsal-build-pack-v1/json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "f71a310d693aa5012ef6708ab9958812144f748998d3a9a7d2908a4e43f3e481",
+  "remote_run_request_sha256": "0fc3cb8b7986c2f89c13aa1cedea7104650c189313df2a849c01ea316717e001",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "target_manifest_sha256": "4b928d9027576d2f49161993d45aaa5fdcf274bd080766ec895d8da48f3bf7d4",
+  "wrapper_request_sha256": "f26919a0563cb2bc7336454615a46d10ef63299bf54071a0becb6cd6605338c7"
+}

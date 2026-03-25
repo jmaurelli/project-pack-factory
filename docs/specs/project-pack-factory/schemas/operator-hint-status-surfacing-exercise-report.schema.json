@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Operator Hint Status Surfacing Exercise Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "exercise_id",
+    "generated_at",
+    "status",
+    "audit_cleanup_result",
+    "readiness_refresh_result",
+    "final_readiness"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "operator-hint-status-surfacing-exercise-report/v1"
+    },
+    "exercise_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed"
+      ]
+    },
+    "audit_cleanup_result": {
+      "type": "object"
+    },
+    "readiness_refresh_result": {
+      "type": "object"
+    },
+    "final_readiness": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,651 @@
+{
+  "continuation_results": [
+    {
+      "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "completed_task_id": "record_ordered_first_beta",
+      "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v1.json",
+      "next_active_task_id": "record_ordered_first_alpha",
+      "pointer_result": {
+        "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+        "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+        "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v1.json",
+        "selected_run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v1",
+        "status": "activated"
+      },
+      "ready_for_deployment": false,
+      "run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v1",
+      "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v1/run-summary.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "completed_task_id": "record_ordered_first_alpha",
+      "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v2.json",
+      "next_active_task_id": "record_ordered_second_gamma",
+      "pointer_result": {
+        "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+        "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+        "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v2.json",
+        "selected_run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v2",
+        "status": "activated"
+      },
+      "ready_for_deployment": false,
+      "run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v2",
+      "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v2/run-summary.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "completed_task_id": "record_ordered_second_gamma",
+      "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v3.json",
+      "next_active_task_id": "record_ordered_second_delta",
+      "pointer_result": {
+        "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+        "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+        "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v3.json",
+        "selected_run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v3",
+        "status": "activated"
+      },
+      "ready_for_deployment": false,
+      "run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v3",
+      "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v3/run-summary.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "completed_task_id": "record_ordered_second_delta",
+      "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v4.json",
+      "next_active_task_id": "run_inherited_benchmarks",
+      "pointer_result": {
+        "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+        "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+        "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v4.json",
+        "selected_run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v4",
+        "status": "activated"
+      },
+      "ready_for_deployment": false,
+      "run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v4",
+      "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v4/run-summary.json",
+      "status": "completed"
+    },
+    {
+      "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "completed_task_id": "run_inherited_benchmarks",
+      "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5.json",
+      "next_active_task_id": null,
+      "pointer_result": {
+        "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+        "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+        "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5.json",
+        "selected_run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5",
+        "status": "activated"
+      },
+      "ready_for_deployment": true,
+      "run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5",
+      "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5/run-summary.json",
+      "status": "completed"
+    }
+  ],
+  "exercise_id": "ordered-hint-lifecycle-exercise-json-health-checker-hint-status-surfacing-build-pack-v1-20260325t221040z",
+  "final_state": {
+    "latest_memory": {
+      "pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "schema_version": "autonomy-feedback-memory-pointer/v1",
+      "selected_generated_at": "2026-03-25T22:10:41Z",
+      "selected_memory_id": "autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5",
+      "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5.json",
+      "selected_memory_sha256": "01282f509bf165a7a9226fb72bc9c69019fff938a4f3ca636ccfb6bcee7eff99",
+      "selected_run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5",
+      "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v5.json",
+      "source_import_id": null,
+      "source_import_report_path": null,
+      "source_kind": "local_autonomy_run",
+      "updated_at": "2026-03-25T22:10:41Z"
+    },
+    "readiness": {
+      "blocking_issues": [],
+      "last_evaluated_at": "2026-03-25T22:10:41Z",
+      "pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "pack_kind": "build_pack",
+      "readiness_state": "ready_for_deploy",
+      "ready_for_deployment": true,
+      "recommended_next_actions": [
+        "Start with the canonical validation task in tasks/active-backlog.json.",
+        "Run the inherited benchmark task after validation passes."
+      ],
+      "required_gates": [
+        {
+          "evidence_paths": [
+            "eval/history/readiness-eval-json-health-checker-hint-status-surfacing-build-pack-v1-validation-20260325t221040z/validation-result.json"
+          ],
+          "gate_id": "validate_build_pack_contract",
+          "last_run_at": "2026-03-25T22:10:40Z",
+          "mandatory": true,
+          "status": "pass",
+          "summary": "Build-pack contract validation has not been executed yet."
+        },
+        {
+          "evidence_paths": [
+            "eval/latest/index.json"
+          ],
+          "gate_id": "json_health_checker_template_pack_smoke_small_001",
+          "last_run_at": "2026-03-25T22:10:41Z",
+          "mandatory": true,
+          "status": "pass",
+          "summary": "Run a small deterministic JSON health-check smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration."
+        }
+      ],
+      "schema_version": "pack-readiness/v2"
+    },
+    "task_backlog": {
+      "generated_at": "2026-03-25T22:10:40Z",
+      "objective_id": "json-health-checker-hint-status-surfacing-build-pack-v1_objective",
+      "pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "schema_version": "task-backlog/v1",
+      "tasks": [
+        {
+          "acceptance_criteria": [
+            "The validation readiness-evaluation workflow exits successfully.",
+            "The validation gate records passing evidence in status/readiness.json."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "validate_build_pack_contract reaches pass state.",
+            "Validation evaluation evidence is recorded under eval/history and linked from status/readiness.json."
+          ],
+          "dependencies": [],
+          "escalation_conditions": [
+            "Validation reports schema or contract failures that the current task scope cannot resolve safely."
+          ],
+          "files_in_scope": [
+            "pack.json",
+            "status/readiness.json",
+            "eval/latest/index.json"
+          ],
+          "objective_link": "json-health-checker-hint-status-surfacing-build-pack-v1_objective",
+          "status": "completed",
+          "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
+          "task_id": "run_build_pack_validation",
+          "validation_commands": [
+            "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+          ]
+        },
+        {
+          "acceptance_criteria": [
+            "The ordered hint lifecycle helper exits successfully for lane first-alpha.",
+            "A checkpoint artifact is written under eval/history."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "An ordered-hint-lifecycle-checkpoint-result.json artifact is recorded under eval/history for lane first-alpha.",
+            "Canonical work-state advances after the first-alpha checkpoint completes."
+          ],
+          "dependencies": [
+            "run_build_pack_validation"
+          ],
+          "escalation_conditions": [
+            "The helper cannot read canonical state or write bounded evidence under eval/history."
+          ],
+          "files_in_scope": [
+            "src/record_ordered_hint_lifecycle_progress.py",
+            "eval/history",
+            "status/work-state.json",
+            "status/readiness.json"
+          ],
+          "objective_link": "json-health-checker-hint-status-surfacing-build-pack-v1_objective",
+          "selection_signals": [
+            "operator",
+            "reporting",
+            "html",
+            "narrative"
+          ],
+          "status": "completed",
+          "summary": "Record operator-reporting refinement checkpoint evidence after validation passes.",
+          "task_id": "record_ordered_first_alpha",
+          "validation_commands": [
+            "python3 src/record_ordered_hint_lifecycle_progress.py --pack-root . --task-id record_ordered_first_alpha --lane first-alpha --output json"
+          ]
+        },
+        {
+          "acceptance_criteria": [
+            "The ordered hint lifecycle helper exits successfully for lane first-beta.",
+            "A checkpoint artifact is written under eval/history."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "An ordered-hint-lifecycle-checkpoint-result.json artifact is recorded under eval/history for lane first-beta.",
+            "Canonical work-state advances after the first-beta checkpoint completes."
+          ],
+          "dependencies": [
+            "run_build_pack_validation"
+          ],
+          "escalation_conditions": [
+            "The helper cannot read canonical state or write bounded evidence under eval/history."
+          ],
+          "files_in_scope": [
+            "src/record_ordered_hint_lifecycle_progress.py",
+            "eval/history",
+            "status/work-state.json",
+            "status/readiness.json"
+          ],
+          "objective_link": "json-health-checker-hint-status-surfacing-build-pack-v1_objective",
+          "selection_signals": [
+            "schema",
+            "validation",
+            "json",
+            "integrity"
+          ],
+          "status": "completed",
+          "summary": "Record schema-validation refinement checkpoint evidence after validation passes.",
+          "task_id": "record_ordered_first_beta",
+          "validation_commands": [
+            "python3 src/record_ordered_hint_lifecycle_progress.py --pack-root . --task-id record_ordered_first_beta --lane first-beta --output json"
+          ]
+        },
+        {
+          "acceptance_criteria": [
+            "The ordered hint lifecycle helper exits successfully for lane second-gamma.",
+            "A checkpoint artifact is written under eval/history."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "An ordered-hint-lifecycle-checkpoint-result.json artifact is recorded under eval/history for lane second-gamma.",
+            "Canonical work-state advances after the second-gamma checkpoint completes."
+          ],
+          "dependencies": [
+            "record_ordered_first_alpha",
+            "record_ordered_first_beta"
+          ],
+          "escalation_conditions": [
+            "The helper cannot read canonical state or write bounded evidence under eval/history."
+          ],
+          "files_in_scope": [
+            "src/record_ordered_hint_lifecycle_progress.py",
+            "eval/history",
+            "status/work-state.json",
+            "status/readiness.json"
+          ],
+          "objective_link": "json-health-checker-hint-status-surfacing-build-pack-v1_objective",
+          "selection_signals": [
+            "semantic",
+            "schema",
+            "validation",
+            "follow-up"
+          ],
+          "status": "completed",
+          "summary": "Record semantic follow-up checkpoint evidence after both first-branch tasks complete.",
+          "task_id": "record_ordered_second_gamma",
+          "validation_commands": [
+            "python3 src/record_ordered_hint_lifecycle_progress.py --pack-root . --task-id record_ordered_second_gamma --lane second-gamma --output json"
+          ]
+        },
+        {
+          "acceptance_criteria": [
+            "The ordered hint lifecycle helper exits successfully for lane second-delta.",
+            "A checkpoint artifact is written under eval/history."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "An ordered-hint-lifecycle-checkpoint-result.json artifact is recorded under eval/history for lane second-delta.",
+            "Canonical work-state advances after the second-delta checkpoint completes."
+          ],
+          "dependencies": [
+            "record_ordered_first_alpha",
+            "record_ordered_first_beta"
+          ],
+          "escalation_conditions": [
+            "The helper cannot read canonical state or write bounded evidence under eval/history."
+          ],
+          "files_in_scope": [
+            "src/record_ordered_hint_lifecycle_progress.py",
+            "eval/history",
+            "status/work-state.json",
+            "status/readiness.json"
+          ],
+          "objective_link": "json-health-checker-hint-status-surfacing-build-pack-v1_objective",
+          "selection_signals": [
+            "auxiliary",
+            "inventory",
+            "follow-up",
+            "secondary"
+          ],
+          "status": "completed",
+          "summary": "Record auxiliary follow-up checkpoint evidence after both first-branch tasks complete.",
+          "task_id": "record_ordered_second_delta",
+          "validation_commands": [
+            "python3 src/record_ordered_hint_lifecycle_progress.py --pack-root . --task-id record_ordered_second_delta --lane second-delta --output json"
+          ]
+        },
+        {
+          "acceptance_criteria": [
+            "The benchmark readiness-evaluation workflow exits successfully.",
+            "Inherited benchmark gates update from not_run to pass or waived."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "Benchmark evaluation evidence records results in eval/latest/index.json.",
+            "Required benchmark gates advance to pass or waived in status/readiness.json."
+          ],
+          "dependencies": [
+            "record_ordered_second_gamma",
+            "record_ordered_second_delta"
+          ],
+          "escalation_conditions": [
+            "Benchmark output fails to update readiness or eval state through the existing bounded surfaces."
+          ],
+          "files_in_scope": [
+            "benchmarks/active-set.json",
+            "status/readiness.json",
+            "eval/latest/index.json"
+          ],
+          "objective_link": "json-health-checker-hint-status-surfacing-build-pack-v1_objective",
+          "status": "completed",
+          "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
+          "task_id": "run_inherited_benchmarks",
+          "validation_commands": [
+            "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+          ]
+        }
+      ]
+    },
+    "work_state": {
+      "active_task_id": null,
+      "autonomy_state": "ready_for_deploy",
+      "blocked_task_ids": [],
+      "branch_selection_hints": [
+        {
+          "active": false,
+          "hint_id": "prefer_schema_then_reporting_once",
+          "preferred_task_ids": [
+            "record_ordered_first_beta",
+            "record_ordered_first_alpha"
+          ],
+          "remaining_applications": 0,
+          "summary": "Prefer schema refinement first, fall back to reporting refinement second, and only apply this guidance once."
+        }
+      ],
+      "completed_task_ids": [
+        "run_build_pack_validation",
+        "record_ordered_first_beta",
+        "record_ordered_first_alpha",
+        "record_ordered_second_gamma",
+        "record_ordered_second_delta",
+        "run_inherited_benchmarks"
+      ],
+      "escalation_state": "none",
+      "last_agent_action": "Completed `run_inherited_benchmarks` locally during disconnected continuity and advanced canonical state.",
+      "last_outcome": "task_completed",
+      "last_outcome_at": "2026-03-25T22:10:41Z",
+      "last_validation_results": [
+        {
+          "evidence_paths": [
+            "eval/history/readiness-eval-json-health-checker-hint-status-surfacing-build-pack-v1-validation-20260325t221040z/validation-result.json"
+          ],
+          "recorded_at": "2026-03-25T22:10:40Z",
+          "status": "pass",
+          "summary": "Completed `run_build_pack_validation` through the declared validation_commands during a local mid-backlog checkpoint.",
+          "validation_id": "run_build_pack_validation"
+        },
+        {
+          "evidence_paths": [
+            "eval/history/record_ordered_first_beta-20260325t221040z/ordered-hint-lifecycle-checkpoint-result.json"
+          ],
+          "recorded_at": "2026-03-25T22:10:40Z",
+          "status": "pass",
+          "summary": "Completed `record_ordered_first_beta` through the declared validation_commands during local active-task continuity.",
+          "validation_id": "record_ordered_first_beta"
+        },
+        {
+          "evidence_paths": [
+            "eval/history/record_ordered_first_alpha-20260325t221040z/ordered-hint-lifecycle-checkpoint-result.json"
+          ],
+          "recorded_at": "2026-03-25T22:10:40Z",
+          "status": "pass",
+          "summary": "Completed `record_ordered_first_alpha` through the declared validation_commands during local active-task continuity.",
+          "validation_id": "record_ordered_first_alpha"
+        },
+        {
+          "evidence_paths": [
+            "eval/history/record_ordered_second_gamma-20260325t221041z/ordered-hint-lifecycle-checkpoint-result.json"
+          ],
+          "recorded_at": "2026-03-25T22:10:41Z",
+          "status": "pass",
+          "summary": "Completed `record_ordered_second_gamma` through the declared validation_commands during local active-task continuity.",
+          "validation_id": "record_ordered_second_gamma"
+        },
+        {
+          "evidence_paths": [
+            "eval/history/record_ordered_second_delta-20260325t221041z/ordered-hint-lifecycle-checkpoint-result.json"
+          ],
+          "recorded_at": "2026-03-25T22:10:41Z",
+          "status": "pass",
+          "summary": "Completed `record_ordered_second_delta` through the declared validation_commands during local active-task continuity.",
+          "validation_id": "record_ordered_second_delta"
+        },
+        {
+          "evidence_paths": [
+            "eval/history/readiness-eval-json-health-checker-hint-status-surfacing-build-pack-v1-benchmark-20260325t221041z/benchmark-result.json"
+          ],
+          "recorded_at": "2026-03-25T22:10:41Z",
+          "status": "pass",
+          "summary": "Completed `run_inherited_benchmarks` through the declared validation_commands during local active-task continuity.",
+          "validation_id": "run_inherited_benchmarks"
+        }
+      ],
+      "next_recommended_task_id": null,
+      "objective_id": "json-health-checker-hint-status-surfacing-build-pack-v1_objective",
+      "pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "pending_task_ids": [],
+      "resume_instructions": [
+        "Read the objective, backlog, and work-state files before editing code.",
+        "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+        "Run the validation task before attempting benchmark execution or deployment workflows.",
+        "After the ordered one-shot hint is consumed, semantic follow-up is the stronger fit than auxiliary follow-up for the second tied branch."
+      ],
+      "schema_version": "work-state/v1",
+      "stop_conditions": [
+        "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+        "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+      ]
+    }
+  },
+  "first_branch_selection": {
+    "ambiguity_reason": null,
+    "applied_hint_ids": [
+      "prefer_schema_then_reporting_once"
+    ],
+    "applied_hint_summary": "Prefer schema refinement first, fall back to reporting refinement second, and only apply this guidance once.",
+    "candidate_task_ids": [
+      "record_ordered_first_alpha",
+      "record_ordered_first_beta"
+    ],
+    "chosen_task_id": "record_ordered_first_beta",
+    "consumed_hint_ids": [
+      "prefer_schema_then_reporting_once"
+    ],
+    "deactivated_hint_ids": [
+      "prefer_schema_then_reporting_once"
+    ],
+    "filtered_out_task_ids": [],
+    "ignored_hint_ids": [],
+    "ignored_hint_summary": null,
+    "post_hint_candidate_task_ids": [
+      "record_ordered_first_alpha",
+      "record_ordered_first_beta"
+    ],
+    "recorded_at": "2026-03-25T22:10:40Z",
+    "run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-checkpoint-v1",
+    "schema_version": "branch-selection-summary/v1",
+    "selection_method": "operator_hint",
+    "selection_rule": "lowest selection_priority first; then active operator avoid-task hints in canonical list order without eliminating all remaining top candidates; then active operator preferred-task hints in canonical list order; then bounded semantic alignment; remaining ties require operator disambiguation",
+    "semantic_context_sources": [
+      "project_objective",
+      "work_state_resume_instructions",
+      "work_state_branch_selection_hints"
+    ],
+    "semantic_scores": [],
+    "status": "selected",
+    "top_candidate_task_ids": [
+      "record_ordered_first_alpha",
+      "record_ordered_first_beta"
+    ]
+  },
+  "first_checkpoint_result": {
+    "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+    "completed_task_id": "run_build_pack_validation",
+    "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-checkpoint-v1.json",
+    "next_active_task_id": "record_ordered_first_beta",
+    "pointer_result": {
+      "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+      "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-checkpoint-v1.json",
+      "selected_run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-checkpoint-v1",
+      "status": "activated"
+    },
+    "run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-checkpoint-v1",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-checkpoint-v1/run-summary.json",
+    "status": "completed"
+  },
+  "generated_at": "2026-03-25T22:10:41Z",
+  "hint_application_result": {
+    "active": true,
+    "avoid_task_ids": [],
+    "build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+    "hint_count": 1,
+    "hint_id": "prefer_schema_then_reporting_once",
+    "preferred_task_ids": [
+      "record_ordered_first_beta",
+      "record_ordered_first_alpha"
+    ],
+    "remaining_applications": 1,
+    "status": "completed",
+    "work_state_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/status/work-state.json"
+  },
+  "materialization_result": {
+    "materialization_id": "materialize-json-health-checker-hint-status-surfacing-build-pack-v1-20260325t221040z",
+    "materialization_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/eval/history/materialize-json-health-checker-hint-status-surfacing-build-pack-v1-20260325t221040z/materialization-report.json",
+    "source_template_id": "json-health-checker-template-pack",
+    "status": "completed",
+    "target_build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+    "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1"
+  },
+  "ordered_hint_setup_result": {
+    "expected_first_choice_task_id": "record_ordered_first_beta",
+    "expected_second_semantic_choice_task_id": "record_ordered_second_gamma",
+    "first_branch_task_ids": [
+      "record_ordered_first_alpha",
+      "record_ordered_first_beta"
+    ],
+    "helper_script_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1/src/record_ordered_hint_lifecycle_progress.py",
+    "second_branch_task_ids": [
+      "record_ordered_second_gamma",
+      "record_ordered_second_delta"
+    ],
+    "status": "completed"
+  },
+  "post_first_hint_state": {
+    "active": false,
+    "hint_id": "prefer_schema_then_reporting_once",
+    "preferred_task_ids": [
+      "record_ordered_first_beta",
+      "record_ordered_first_alpha"
+    ],
+    "remaining_applications": 0,
+    "summary": "Prefer schema refinement first, fall back to reporting refinement second, and only apply this guidance once."
+  },
+  "schema_version": "ordered-hint-lifecycle-exercise-report/v1",
+  "semantic_branch_selection": {
+    "ambiguity_reason": null,
+    "applied_hint_ids": [],
+    "applied_hint_summary": null,
+    "candidate_task_ids": [
+      "record_ordered_second_gamma",
+      "record_ordered_second_delta"
+    ],
+    "chosen_task_id": "record_ordered_second_gamma",
+    "consumed_hint_ids": [],
+    "deactivated_hint_ids": [],
+    "filtered_out_task_ids": [],
+    "ignored_hint_ids": [],
+    "ignored_hint_summary": null,
+    "post_hint_candidate_task_ids": [
+      "record_ordered_second_gamma",
+      "record_ordered_second_delta"
+    ],
+    "recorded_at": "2026-03-25T22:10:40Z",
+    "run_id": "json-health-checker-hint-status-surfacing-build-pack-v1-ordered-hint-continuity-v2",
+    "schema_version": "branch-selection-summary/v1",
+    "selection_method": "semantic_alignment",
+    "selection_rule": "lowest selection_priority first; then active operator avoid-task hints in canonical list order without eliminating all remaining top candidates; then active operator preferred-task hints in canonical list order; then bounded semantic alignment; remaining ties require operator disambiguation",
+    "semantic_context_sources": [
+      "project_objective",
+      "work_state_resume_instructions",
+      "work_state_branch_selection_hints"
+    ],
+    "semantic_scores": [
+      {
+        "matched_signal_terms": [
+          "follow",
+          "schema",
+          "semantic",
+          "validation"
+        ],
+        "matched_terms": [
+          "branch",
+          "canonical",
+          "completes",
+          "eval",
+          "evidence",
+          "first",
+          "follow",
+          "hint",
+          "json",
+          "ordered",
+          "schema",
+          "second",
+          "semantic",
+          "state",
+          "successfully",
+          "validation",
+          "work"
+        ],
+        "semantic_score": 36,
+        "task_id": "record_ordered_second_gamma"
+      },
+      {
+        "matched_signal_terms": [
+          "auxiliary",
+          "follow"
+        ],
+        "matched_terms": [
+          "auxiliary",
+          "branch",
+          "canonical",
+          "completes",
+          "eval",
+          "evidence",
+          "first",
+          "follow",
+          "hint",
+          "json",
+          "ordered",
+          "second",
+          "state",
+          "successfully",
+          "work"
+        ],
+        "semantic_score": 30,
+        "task_id": "record_ordered_second_delta"
+      }
+    ],
+    "status": "selected",
+    "top_candidate_task_ids": [
+      "record_ordered_second_gamma",
+      "record_ordered_second_delta"
+    ]
+  },
+  "source_template_id": "json-health-checker-template-pack",
+  "status": "completed",
+  "target_build_pack_id": "json-health-checker-hint-status-surfacing-build-pack-v1",
+  "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-hint-status-surfacing-build-pack-v1"
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Branch Selection Hint Audit Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "build_pack_id",
+    "audited_by",
+    "status",
+    "work_state_path",
+    "cleanup_requested",
+    "hint_summary",
+    "recent_branch_evidence",
+    "cleanup_result"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "branch-selection-hint-audit-report/v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "build_pack_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audited_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed"
+      ]
+    },
+    "work_state_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cleanup_requested": {
+      "type": "boolean"
+    },
+    "hint_summary": {
+      "type": "object"
+    },
+    "recent_branch_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "cleanup_result": {
+      "type": "object"
+    }
+  }
+}

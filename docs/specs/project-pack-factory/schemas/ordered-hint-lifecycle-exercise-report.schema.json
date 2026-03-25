@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ordered Hint Lifecycle Exercise Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "exercise_id",
+    "generated_at",
+    "status",
+    "source_template_id",
+    "target_build_pack_id",
+    "target_build_pack_root",
+    "materialization_result",
+    "ordered_hint_setup_result",
+    "hint_application_result",
+    "first_checkpoint_result",
+    "first_branch_selection",
+    "post_first_hint_state",
+    "continuation_results",
+    "semantic_branch_selection",
+    "final_state"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ordered-hint-lifecycle-exercise-report/v1"
+    },
+    "exercise_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed"
+      ]
+    },
+    "source_template_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_build_pack_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_build_pack_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "materialization_result": {
+      "type": "object"
+    },
+    "ordered_hint_setup_result": {
+      "type": "object"
+    },
+    "hint_application_result": {
+      "type": "object"
+    },
+    "first_checkpoint_result": {
+      "type": "object"
+    },
+    "first_branch_selection": {
+      "type": "object"
+    },
+    "post_first_hint_state": {
+      "type": "object"
+    },
+    "continuation_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "semantic_branch_selection": {
+      "type": "object"
+    },
+    "final_state": {
+      "type": "object"
+    }
+  }
+}

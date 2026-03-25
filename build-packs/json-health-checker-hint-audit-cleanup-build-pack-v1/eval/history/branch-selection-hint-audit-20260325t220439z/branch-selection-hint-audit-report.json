@@ -1,0 +1,55 @@
+{
+  "audited_by": "codex",
+  "build_pack_id": "json-health-checker-hint-audit-cleanup-build-pack-v1",
+  "cleanup_requested": false,
+  "cleanup_result": {
+    "remaining_hint_count": 1,
+    "removed_hint_ids": []
+  },
+  "generated_at": "2026-03-25T22:04:39Z",
+  "hint_summary": {
+    "active_hint_ids": [],
+    "cleanup_candidate_hint_ids": [
+      "prefer_schema_then_reporting_once"
+    ],
+    "exhausted_hint_ids": [
+      "prefer_schema_then_reporting_once"
+    ],
+    "hint_count_before_cleanup": 1,
+    "inactive_hint_ids": [
+      "prefer_schema_then_reporting_once"
+    ],
+    "unknown_reference_details": []
+  },
+  "recent_branch_evidence": [
+    {
+      "applied_hint_ids": [],
+      "branch_selection_path": ".pack-state/autonomy-runs/json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2/branch-selection.json",
+      "chosen_task_id": "record_ordered_second_gamma",
+      "consumed_hint_ids": [],
+      "deactivated_hint_ids": [],
+      "recorded_at": "2026-03-25T22:04:38Z",
+      "run_id": "json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-continuity-v2",
+      "selection_method": "semantic_alignment"
+    },
+    {
+      "applied_hint_ids": [
+        "prefer_schema_then_reporting_once"
+      ],
+      "branch_selection_path": ".pack-state/autonomy-runs/json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-checkpoint-v1/branch-selection.json",
+      "chosen_task_id": "record_ordered_first_beta",
+      "consumed_hint_ids": [
+        "prefer_schema_then_reporting_once"
+      ],
+      "deactivated_hint_ids": [
+        "prefer_schema_then_reporting_once"
+      ],
+      "recorded_at": "2026-03-25T22:04:38Z",
+      "run_id": "json-health-checker-hint-audit-cleanup-build-pack-v1-ordered-hint-checkpoint-v1",
+      "selection_method": "operator_hint"
+    }
+  ],
+  "schema_version": "branch-selection-hint-audit-report/v1",
+  "status": "completed",
+  "work_state_path": "status/work-state.json"
+}

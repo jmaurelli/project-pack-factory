@@ -1,0 +1,97 @@
+{
+  "dimensions": {
+    "block_reporting_quality": {
+      "details": [
+        "block reason='memory_not_activated_due_to_canonical_mismatch'"
+      ],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224415z/external-runtime-evidence/artifacts/run-summary.json",
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224421z/external-runtime-evidence/artifacts/run-summary.json",
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224415z/import-report.json",
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224421z/import-report.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether fail-closed block cases carried structured operator-facing summaries and recovery guidance."
+    },
+    "branch_choice_quality": {
+      "details": [],
+      "evidence_paths": [],
+      "score": null,
+      "status": "not_applicable",
+      "summary": "No branch-selection artifacts were present for this rehearsal, so branch-choice quality was not scored."
+    },
+    "handoff_quality": {
+      "details": [
+        "active_task_remote: resume_correctness=1.0",
+        "active_task_remote: consistent_memory_use_rate=1.0",
+        "active_task_remote: stale_memory_rate=0.0",
+        "ready_boundary_remote: resume_correctness=1.0",
+        "ready_boundary_remote: consistent_memory_use_rate=1.0",
+        "ready_boundary_remote: stale_memory_rate=0.0"
+      ],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-startup-compliance-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1/run-summary.json",
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224415z/external-runtime-evidence/artifacts/run-summary.json",
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224421z/external-runtime-evidence/artifacts/run-summary.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores how consistently autonomy reused and trusted feedback memory across the checkpoint and remote continuity hops."
+    },
+    "outcome_quality": {
+      "details": [],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/.pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z/rehearsal-report.json",
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224415z/external-runtime-evidence/artifacts/run-summary.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether the autonomy path finished with the expected canonical deployment-ready outcome."
+    },
+    "recovery_quality": {
+      "details": [
+        "active import preserved fail-closed memory with block summary before reconcile"
+      ],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224415z/import-report.json",
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224421z/import-report.json",
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/reconcile-imported-runtime-state-20260325t224415z/reconcile-report.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores how well imported runtime evidence and memory were preserved, reconciled, and reactivated back into canonical local state."
+    },
+    "replay_avoidance_quality": {
+      "details": [],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224421z/external-runtime-evidence/artifacts/run-summary.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether the ready-boundary continuity hop stopped cleanly without replaying work or generating unnecessary evidence."
+    },
+    "startup_compliance_quality": {
+      "details": [
+        "passed_checks=7",
+        "total_checks=7"
+      ],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/.pack-state/startup-compliance-rehearsals/startup-compliance-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z/rehearsal-report.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether the root, template, and generated build-pack startup surfaces all carried the required compliance markers."
+    }
+  },
+  "findings": [],
+  "generated_at": "2026-03-25T23:06:34Z",
+  "overall_rating": "strong",
+  "overall_score": 100.0,
+  "schema_version": "autonomy-quality-score-report/v1",
+  "score_id": "autonomy-quality-score-startup-compliance-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z-20260325t230634z",
+  "source_report_kind": "startup_compliance_rehearsal",
+  "source_report_path": "/home/orchadmin/project-pack-factory/.pack-state/startup-compliance-rehearsals/startup-compliance-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z/rehearsal-report.json",
+  "target_build_pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1"
+}

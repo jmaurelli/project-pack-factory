@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/cross-template-transfer-matrix-report.schema.json",
+  "title": "Cross-Template Transfer Matrix Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "matrix_id",
+    "generated_at",
+    "row_count",
+    "completed_row_count",
+    "ready_row_count",
+    "overall_score",
+    "overall_rating",
+    "rows",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "cross-template-transfer-matrix-report/v1"
+    },
+    "matrix_id": {
+      "type": "string",
+      "pattern": "^cross-template-transfer-matrix-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "row_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "completed_row_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "ready_row_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "overall_rating": {
+      "type": "string",
+      "enum": [
+        "strong",
+        "good",
+        "mixed",
+        "weak"
+      ]
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/row"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_template_id",
+        "target_build_pack_id",
+        "report_path",
+        "status",
+        "final_readiness_state",
+        "final_ready_for_deployment",
+        "latest_memory_run_id",
+        "row_score",
+        "row_details"
+      ],
+      "properties": {
+        "source_template_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "target_build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "report_path": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "final_readiness_state": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "final_ready_for_deployment": {
+          "type": "boolean"
+        },
+        "latest_memory_run_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "row_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "row_details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

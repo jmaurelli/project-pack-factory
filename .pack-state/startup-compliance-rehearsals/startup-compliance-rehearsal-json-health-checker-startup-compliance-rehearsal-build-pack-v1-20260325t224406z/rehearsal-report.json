@@ -1,0 +1,156 @@
+{
+  "build_pack_marker_check": {
+    "markers_checked": [
+      "status/readiness.json.operator_hint_status",
+      "status/work-state.json.branch_selection_hints",
+      "remote Codex session management",
+      "tools/import_external_runtime_evidence.py",
+      "raw remote stdout/stderr"
+    ],
+    "missing_markers": [],
+    "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/AGENTS.md",
+    "status": "pass"
+  },
+  "final_readiness": {
+    "blocking_issues": [],
+    "last_evaluated_at": "2026-03-25T22:44:21Z",
+    "operator_hint_status": {
+      "active_hint_ids": [],
+      "cleanup_candidate_hint_ids": [],
+      "exhausted_hint_ids": [],
+      "hint_count": 0,
+      "inactive_hint_ids": [],
+      "latest_audit_report_path": null,
+      "recent_consumed_hint_ids": [],
+      "recent_deactivated_hint_ids": []
+    },
+    "pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+    "pack_kind": "build_pack",
+    "readiness_state": "ready_for_deploy",
+    "ready_for_deployment": true,
+    "recommended_next_actions": [
+      "Recommended next action: use the existing bounded promotion workflow if you want to move this build-pack toward deployment."
+    ],
+    "required_gates": [
+      {
+        "evidence_paths": [
+          "eval/history/multi-hop-autonomy-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z-validation-refresh/validation-result.json"
+        ],
+        "gate_id": "validate_build_pack_contract",
+        "last_run_at": "2026-03-25T22:44:21Z",
+        "mandatory": true,
+        "status": "pass",
+        "summary": "Build-pack contract validation has not been executed yet."
+      },
+      {
+        "evidence_paths": [
+          "eval/latest/index.json"
+        ],
+        "gate_id": "json_health_checker_template_pack_smoke_small_001",
+        "last_run_at": "2026-03-25T22:44:21Z",
+        "mandatory": true,
+        "status": "pass",
+        "summary": "Run a small deterministic JSON health-check smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration."
+      }
+    ],
+    "schema_version": "pack-readiness/v2"
+  },
+  "generated_at": "2026-03-25T22:44:21Z",
+  "latest_memory": {
+    "pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+    "schema_version": "autonomy-feedback-memory-pointer/v1",
+    "selected_generated_at": "2026-03-25T22:44:18Z",
+    "selected_memory_id": "autonomy-feedback-json-health-checker-startup-compliance-rehearsal-build-pack-v1-continuity-run-v1",
+    "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-startup-compliance-rehearsal-build-pack-v1-continuity-run-v1.json",
+    "selected_memory_sha256": "795064a77784575c5ebaae1b7ae32f35748ff8fe6b62357c66ab2c644f7158e5",
+    "selected_run_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1-continuity-run-v1",
+    "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-startup-compliance-rehearsal-build-pack-v1-continuity-run-v1.json",
+    "source_import_id": "import-external-runtime-evidence-20260325t224421z",
+    "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t224421z/import-report.json",
+    "source_kind": "imported_external_runtime_evidence",
+    "updated_at": "2026-03-25T22:44:21Z"
+  },
+  "multi_hop_rehearsal_result": {
+    "active_task_run_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1-active-task-continuity-run-v1",
+    "canonical_readiness_refresh_ready_for_deployment": true,
+    "final_readiness_state": "ready_for_deploy",
+    "final_ready_for_deployment": true,
+    "latest_memory_run_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1-continuity-run-v1",
+    "ready_boundary_run_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1-continuity-run-v1",
+    "rehearsal_id": "multi-hop-autonomy-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z",
+    "report_path": "/home/orchadmin/project-pack-factory/.pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z/rehearsal-report.json",
+    "status": "completed",
+    "target_build_pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+    "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1"
+  },
+  "rehearsal_id": "startup-compliance-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z",
+  "remote_host": "adf-dev",
+  "remote_target_label": "adf-dev",
+  "remote_user": "adf",
+  "root_marker_checks": {
+    "AGENTS.md": {
+      "markers_checked": [
+        "remote Codex session management",
+        "raw stdout/stderr",
+        "PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md"
+      ],
+      "missing_markers": [],
+      "path": "/home/orchadmin/project-pack-factory/AGENTS.md",
+      "status": "pass"
+    },
+    "README.md": {
+      "markers_checked": [
+        "Remote Session Compliance",
+        "raw stdout/stderr",
+        "tools/import_external_runtime_evidence.py"
+      ],
+      "missing_markers": [],
+      "path": "/home/orchadmin/project-pack-factory/README.md",
+      "status": "pass"
+    },
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md": {
+      "markers_checked": [
+        "Remote Session Compliance",
+        "pack-local remote-session path",
+        "raw stdout/stderr"
+      ],
+      "missing_markers": [],
+      "path": "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+      "status": "pass"
+    }
+  },
+  "schema_version": "startup-compliance-rehearsal-report/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "status": "completed",
+  "target_build_pack_id": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+  "template_marker_checks": {
+    "templates/json-health-checker-template-pack/AGENTS.md": {
+      "markers_checked": [
+        "remote Codex session management",
+        "tools/import_external_runtime_evidence.py"
+      ],
+      "missing_markers": [],
+      "path": "/home/orchadmin/project-pack-factory/templates/json-health-checker-template-pack/AGENTS.md",
+      "status": "pass"
+    },
+    "templates/json-health-checker-template-pack/pack.json": {
+      "markers_checked": [
+        "factory_startup_compliance",
+        "remote-session compliance"
+      ],
+      "missing_markers": [],
+      "path": "/home/orchadmin/project-pack-factory/templates/json-health-checker-template-pack/pack.json",
+      "status": "pass"
+    },
+    "templates/json-health-checker-template-pack/project-context.md": {
+      "markers_checked": [
+        "remote Codex session management",
+        "raw stdout/stderr"
+      ],
+      "missing_markers": [],
+      "path": "/home/orchadmin/project-pack-factory/templates/json-health-checker-template-pack/project-context.md",
+      "status": "pass"
+    }
+  }
+}

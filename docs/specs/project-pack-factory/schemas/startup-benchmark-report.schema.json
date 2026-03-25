@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/startup-benchmark-report.schema.json",
+  "title": "Startup Benchmark Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "benchmark_id",
+    "generated_at",
+    "startup_brief_path",
+    "source_trace_path",
+    "overall_score",
+    "overall_rating",
+    "dimensions",
+    "findings",
+    "high_priority_pack_ids",
+    "medium_priority_pack_ids",
+    "worth_watching_pack_ids",
+    "historical_baseline_pack_ids",
+    "deployment_checks",
+    "what_matters_most"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "startup-benchmark-report/v1"
+    },
+    "benchmark_id": {
+      "type": "string",
+      "pattern": "^factory-root-startup-benchmark-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "startup_brief_path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "source_trace_path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "overall_rating": {
+      "type": "string",
+      "enum": [
+        "strong",
+        "good",
+        "mixed",
+        "weak"
+      ]
+    },
+    "dimensions": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/dimension"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "high_priority_pack_ids": {
+      "$ref": "#/$defs/pack_id_array"
+    },
+    "medium_priority_pack_ids": {
+      "$ref": "#/$defs/pack_id_array"
+    },
+    "worth_watching_pack_ids": {
+      "$ref": "#/$defs/pack_id_array"
+    },
+    "historical_baseline_pack_ids": {
+      "$ref": "#/$defs/pack_id_array"
+    },
+    "deployment_checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/deployment_check"
+      }
+    },
+    "what_matters_most": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "score",
+        "summary",
+        "evidence_paths",
+        "details"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "scored",
+            "not_applicable"
+          ]
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "pack_id_array": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9_-]*$"
+      }
+    },
+    "deployment_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "environment",
+        "pack_id",
+        "pointer_path",
+        "pack_local_deployment_path",
+        "details"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "testing",
+            "staging",
+            "production"
+          ]
+        },
+        "pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "pointer_path": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "pack_local_deployment_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^/"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

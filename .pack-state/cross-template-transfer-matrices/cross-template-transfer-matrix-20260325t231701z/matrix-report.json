@@ -1,0 +1,46 @@
+{
+  "completed_row_count": 3,
+  "findings": [],
+  "generated_at": "2026-03-25T23:17:01Z",
+  "matrix_id": "cross-template-transfer-matrix-20260325t231701z",
+  "overall_rating": "strong",
+  "overall_score": 100.0,
+  "ready_row_count": 3,
+  "row_count": 3,
+  "rows": [
+    {
+      "final_readiness_state": "ready_for_deploy",
+      "final_ready_for_deployment": true,
+      "latest_memory_run_id": "config-drift-autonomy-transfer-build-pack-v1-continuity-run-v1",
+      "report_path": "/home/orchadmin/project-pack-factory/.pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-config-drift-autonomy-transfer-build-pack-v1-20260325t224550z/rehearsal-report.json",
+      "row_details": [],
+      "row_score": 100.0,
+      "source_template_id": "config-drift-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "config-drift-autonomy-transfer-build-pack-v1"
+    },
+    {
+      "final_readiness_state": "ready_for_deploy",
+      "final_ready_for_deployment": true,
+      "latest_memory_run_id": "release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1",
+      "report_path": "/home/orchadmin/project-pack-factory/.pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-release-evidence-autonomy-transfer-build-pack-v1-20260325t231544z/rehearsal-report.json",
+      "row_details": [],
+      "row_score": 100.0,
+      "source_template_id": "release-evidence-summarizer-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "release-evidence-autonomy-transfer-build-pack-v1"
+    },
+    {
+      "final_readiness_state": "ready_for_deploy",
+      "final_ready_for_deployment": true,
+      "latest_memory_run_id": "api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1",
+      "report_path": "/home/orchadmin/project-pack-factory/.pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-api-contract-autonomy-transfer-build-pack-v1-20260325t231545z/rehearsal-report.json",
+      "row_details": [],
+      "row_score": 100.0,
+      "source_template_id": "api-contract-sentinel-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "api-contract-autonomy-transfer-build-pack-v1"
+    }
+  ],
+  "schema_version": "cross-template-transfer-matrix-report/v1"
+}

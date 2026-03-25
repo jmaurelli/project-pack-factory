@@ -1,0 +1,14 @@
+{
+  "pack_id": "config-drift-autonomy-transfer-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T22:45:51Z",
+  "selected_memory_id": "autonomy-feedback-config-drift-autonomy-transfer-build-pack-v1-mid-backlog-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-config-drift-autonomy-transfer-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "selected_memory_sha256": "0413c01c391cfde1a3f000fe32eaee26522d01742d6443a55d463bc61b65de1c",
+  "selected_run_id": "config-drift-autonomy-transfer-build-pack-v1-mid-backlog-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-config-drift-autonomy-transfer-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-25T22:45:51Z"
+}

@@ -1,0 +1,12 @@
+{
+  "copy_mode": "copy_pack_root",
+  "include_benchmark_declarations": true,
+  "materialization_reason": "Create a fresh proving-ground build-pack for PackFactory ordered-preference and hint-lifecycle testing.",
+  "materialized_by": "codex",
+  "schema_version": "build-pack-materialization-request/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "target_build_pack_id": "json-health-checker-hint-audit-cleanup-build-pack-v1",
+  "target_display_name": "JSON Health Checker Hint Audit Cleanup Build Pack",
+  "target_revision": "operator-hint-audit-cleanup-v1",
+  "target_version": "0.1.0"
+}

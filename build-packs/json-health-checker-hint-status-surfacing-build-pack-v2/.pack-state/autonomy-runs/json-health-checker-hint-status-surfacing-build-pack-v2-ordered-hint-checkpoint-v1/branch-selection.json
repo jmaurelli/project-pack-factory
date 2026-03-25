@@ -1,0 +1,41 @@
+{
+  "ambiguity_reason": null,
+  "applied_hint_ids": [
+    "prefer_schema_then_reporting_once"
+  ],
+  "applied_hint_summary": "Prefer schema refinement first, fall back to reporting refinement second, and only apply this guidance once.",
+  "candidate_task_ids": [
+    "record_ordered_first_alpha",
+    "record_ordered_first_beta"
+  ],
+  "chosen_task_id": "record_ordered_first_beta",
+  "consumed_hint_ids": [
+    "prefer_schema_then_reporting_once"
+  ],
+  "deactivated_hint_ids": [
+    "prefer_schema_then_reporting_once"
+  ],
+  "filtered_out_task_ids": [],
+  "ignored_hint_ids": [],
+  "ignored_hint_summary": null,
+  "post_hint_candidate_task_ids": [
+    "record_ordered_first_alpha",
+    "record_ordered_first_beta"
+  ],
+  "recorded_at": "2026-03-25T22:10:58Z",
+  "run_id": "json-health-checker-hint-status-surfacing-build-pack-v2-ordered-hint-checkpoint-v1",
+  "schema_version": "branch-selection-summary/v1",
+  "selection_method": "operator_hint",
+  "selection_rule": "lowest selection_priority first; then active operator avoid-task hints in canonical list order without eliminating all remaining top candidates; then active operator preferred-task hints in canonical list order; then bounded semantic alignment; remaining ties require operator disambiguation",
+  "semantic_context_sources": [
+    "project_objective",
+    "work_state_resume_instructions",
+    "work_state_branch_selection_hints"
+  ],
+  "semantic_scores": [],
+  "status": "selected",
+  "top_candidate_task_ids": [
+    "record_ordered_first_alpha",
+    "record_ordered_first_beta"
+  ]
+}

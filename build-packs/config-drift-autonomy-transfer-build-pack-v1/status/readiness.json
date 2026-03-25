@@ -1,0 +1,44 @@
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-25T22:46:04Z",
+  "operator_hint_status": {
+    "active_hint_ids": [],
+    "cleanup_candidate_hint_ids": [],
+    "exhausted_hint_ids": [],
+    "hint_count": 0,
+    "inactive_hint_ids": [],
+    "latest_audit_report_path": null,
+    "recent_consumed_hint_ids": [],
+    "recent_deactivated_hint_ids": []
+  },
+  "pack_id": "config-drift-autonomy-transfer-build-pack-v1",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_deploy",
+  "ready_for_deployment": true,
+  "recommended_next_actions": [
+    "Recommended next action: use the existing bounded promotion workflow if you want to move this build-pack toward deployment."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/multi-hop-autonomy-rehearsal-config-drift-autonomy-transfer-build-pack-v1-20260325t224550z-validation-refresh/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-25T22:46:04Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation has not been executed yet."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "config_drift_checker_template_pack_smoke_small_001",
+      "last_run_at": "2026-03-25T22:46:04Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Run a deterministic config-drift smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

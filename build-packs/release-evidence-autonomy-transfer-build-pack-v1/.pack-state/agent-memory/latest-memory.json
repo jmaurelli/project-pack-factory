@@ -1,0 +1,14 @@
+{
+  "pack_id": "release-evidence-autonomy-transfer-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T23:15:56Z",
+  "selected_memory_id": "autonomy-feedback-release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1.json",
+  "selected_memory_sha256": "91a93f04d67d9a034c977a7e3b0298807a0cf1a39d16fed0e856127cdba816eb",
+  "selected_run_id": "release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t231558z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t231558z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T23:15:58Z"
+}

@@ -1,0 +1,90 @@
+{
+  "ambiguity_reason": null,
+  "applied_hint_ids": [],
+  "applied_hint_summary": null,
+  "candidate_task_ids": [
+    "record_ordered_second_gamma",
+    "record_ordered_second_delta"
+  ],
+  "chosen_task_id": "record_ordered_second_gamma",
+  "consumed_hint_ids": [],
+  "deactivated_hint_ids": [],
+  "filtered_out_task_ids": [],
+  "ignored_hint_ids": [],
+  "ignored_hint_summary": null,
+  "post_hint_candidate_task_ids": [
+    "record_ordered_second_gamma",
+    "record_ordered_second_delta"
+  ],
+  "recorded_at": "2026-03-25T22:05:25Z",
+  "run_id": "json-health-checker-hint-audit-cleanup-build-pack-v3-ordered-hint-continuity-v2",
+  "schema_version": "branch-selection-summary/v1",
+  "selection_method": "semantic_alignment",
+  "selection_rule": "lowest selection_priority first; then active operator avoid-task hints in canonical list order without eliminating all remaining top candidates; then active operator preferred-task hints in canonical list order; then bounded semantic alignment; remaining ties require operator disambiguation",
+  "semantic_context_sources": [
+    "project_objective",
+    "work_state_resume_instructions",
+    "work_state_branch_selection_hints"
+  ],
+  "semantic_scores": [
+    {
+      "matched_signal_terms": [
+        "follow",
+        "schema",
+        "semantic",
+        "validation"
+      ],
+      "matched_terms": [
+        "branch",
+        "canonical",
+        "completes",
+        "eval",
+        "evidence",
+        "first",
+        "follow",
+        "hint",
+        "json",
+        "ordered",
+        "schema",
+        "second",
+        "semantic",
+        "state",
+        "successfully",
+        "validation",
+        "work"
+      ],
+      "semantic_score": 36,
+      "task_id": "record_ordered_second_gamma"
+    },
+    {
+      "matched_signal_terms": [
+        "auxiliary",
+        "follow"
+      ],
+      "matched_terms": [
+        "auxiliary",
+        "branch",
+        "canonical",
+        "completes",
+        "eval",
+        "evidence",
+        "first",
+        "follow",
+        "hint",
+        "json",
+        "ordered",
+        "second",
+        "state",
+        "successfully",
+        "work"
+      ],
+      "semantic_score": 30,
+      "task_id": "record_ordered_second_delta"
+    }
+  ],
+  "status": "selected",
+  "top_candidate_task_ids": [
+    "record_ordered_second_gamma",
+    "record_ordered_second_delta"
+  ]
+}

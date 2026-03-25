@@ -168,6 +168,10 @@
         "active": {
           "type": "boolean"
         },
+        "remaining_applications": {
+          "type": "integer",
+          "minimum": 0
+        },
         "preferred_task_ids": {
           "$ref": "#/$defs/nonempty_task_id_array"
         },
