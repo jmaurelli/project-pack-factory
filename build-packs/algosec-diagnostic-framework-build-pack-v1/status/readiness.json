@@ -1,14 +1,20 @@
 {
   "blocking_issues": [],
-  "last_evaluated_at": "2026-03-24T04:13:57Z",
+  "last_evaluated_at": "2026-03-25T00:45:00Z",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "pack_kind": "build_pack",
   "readiness_state": "ready_for_review",
   "ready_for_deployment": false,
   "recommended_next_actions": [
-    "Review the live target-generated diagnostic webpage with the current SSH-first Appliance UI is down collapsible Step focus playbook as the reference slice, then tune FireFlow Backend next.",
-    "Expand service-specific command coverage, operator knowledge blocks, and known-good terminal examples for the highest-value AlgoSec services and dependencies.",
-    "Deepen dependency-aware playbooks while keeping testing minimal, keeping commands read-only, and deferring rare path or config checks."
+    "Keep Support Cockpit as the selected Starlight publishing direction now that the older legacy page structures have been cleaned out of the real review site.",
+    "Tune operator language for the highest-value real playbooks, starting with Appliance UI is down, so the cleaned Support Cockpit chassis becomes more useful to junior support engineers under live-call pressure.",
+    "Keep growing the collapsible Linux note pattern as an optional learning layer so engineers can pick up Linux concepts without slowing down the main troubleshooting flow.",
+    "Decide whether ADF should formally treat Linux troubleshooting as a project-wide foundation, not only as an agent-persona idea, so future playbooks and discovery logic stay aligned with the real operating context.",
+    "Keep the ADF agent-persona alignment idea as a planned follow-up so the remote Codex behavior can later be reviewed against ADF's Linux troubleshooting and diagnostic-authoring goals.",
+    "Use the recorded remote invocation notes on the next lab run so stale process cleanup, non-login shell launching, and result-file verification happen in a repeatable way.",
+    "Expand service-specific command coverage, Linux note blocks, and known working terminal examples for the highest-value AlgoSec services and dependencies once the Support Cockpit chassis is in place.",
+    "Deepen dependency-aware playbooks while keeping testing minimal, keeping commands read-only, and deferring rare path or config checks.",
+    "Keep the Rocky lab as the proving ground for publishing changes while preserving the option to move the rendered Starlight site to an Ubuntu host later."
   ],
   "required_gates": [
     {
@@ -16,21 +22,62 @@
         "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json"
       ],
       "gate_id": "validate_build_pack_contract",
-      "last_run_at": "2026-03-24T04:13:57Z",
+      "last_run_at": "2026-03-25T00:45:00Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Build-pack contract validation passed after the current collapsible Step focus, knowledge-block, dependency-path, and copy-control Appliance UI is down playbook update."
+      "summary": "Build-pack contract validation passed after the Support Cockpit direction and prototype-generator updates were added to the current ADF runtime."
     },
     {
       "evidence_paths": [
         "eval/latest/index.json"
       ],
       "gate_id": "algosec_diagnostic_framework_template_pack_smoke_small_001",
-      "last_run_at": "2026-03-24T04:13:57Z",
+      "last_run_at": "2026-03-25T00:45:00Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "The existing smoke benchmark still passes after the collapsible Step focus layout, dependency-path navigation, copy-button controls, and knowledge-oriented CLI playbook updates."
+      "summary": "The existing smoke benchmark still passes while the build-pack adds the Support Cockpit prototype direction and refreshed Starlight prototype generation path."
     }
   ],
-  "schema_version": "pack-readiness/v2"
+  "schema_version": "pack-readiness/v2",
+  "planning_items": [
+    {
+      "task_id": "consider_horizontal_dependency_path_in_center_pane",
+      "title": "Consider a horizontal dependency path in the center pane",
+      "status": "completed",
+      "priority": "medium",
+      "summary": "The dependency path now renders horizontally within the center pane so it uses width instead of pushing the stepwise details farther down the page.",
+      "why_it_matters": "This recovers vertical room for the detailed checks while preserving the path-map view at the top of the playbook.",
+      "notes": [
+        "Keep the dependency path inside the main center content area.",
+        "Preserve click-to-jump behavior to the matching step or checkpoint.",
+        "The horizontal strip is now live on the lab review page and remains a candidate for further tuning after operator review."
+      ]
+    },
+    {
+      "task_id": "enhance_linux_notes_as_optional_learning_layer",
+      "title": "Enhance Linux notes as an optional learning layer",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
+      "why_it_matters": "The current Linux notes are useful because they are optional. Engineers can skip them when they already know the concept, or open them when they need a quick explanation. This can build shared Linux troubleshooting language over time without turning the playbook into training material.",
+      "notes": [
+        "Keep Linux notes collapsible by default.",
+        "Prefer short plain-language explanations tied directly to the current check.",
+        "Use Linux notes to clarify terms like memory pressure, inode pressure, OOM, file locks, and similar concepts when they matter to triage."
+      ]
+    },
+    {
+      "task_id": "formalize_linux_foundation_as_adf_theme",
+      "title": "Formalize the Linux foundation as an ADF project theme",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
+      "why_it_matters": "ADF is already trending toward Linux-first diagnostics, Linux-standard language, and Linux note clarifications. Formalizing that foundation would help align playbooks, terminology, discovery logic, and future agent guidance around the real operating context engineers face during triage.",
+      "notes": [
+        "Consider whether this belongs in project context, operator language standards, and future agent guidance rather than only inside a persona note.",
+        "Preserve the distinction between troubleshooting the Linux host itself and troubleshooting the application stack that depends on Linux services, ports, filesystems, logs, and open source components.",
+        "Use this theme to guide future playbook structure, dependency mapping, and educational Linux notes without turning ADF into a generic Linux training product."
+      ]
+    }
+  ]
 }

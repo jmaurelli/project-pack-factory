@@ -1,9 +1,46 @@
 {
-  "generated_at": "2026-03-24T04:13:57Z",
+  "generated_at": "2026-03-25T00:45:00Z",
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "schema_version": "task-backlog/v1",
   "tasks": [
+    {
+      "acceptance_criteria": [
+        "Support Cockpit is documented as the selected prototype direction in pack-local state and specs.",
+        "The Starlight publishing path begins moving toward the Support Cockpit interaction model without changing the JSON-first artifact contract.",
+        "The next implementation cycle preserves the sticky quick-jump behavior, collapsible checkpoints, and command-first presentation."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Pack-local objective, backlog, work-state, and readiness files all reflect Support Cockpit as the chosen direction.",
+        "The remote Codex runtime is restaged with the updated build-pack state and given a concrete Support Cockpit implementation task.",
+        "Remote Codex invocation challenges and mitigations are documented in a pack-local note so the next implementation cycle starts from a cleaner launcher pattern."
+      ],
+      "dependencies": [
+        "prototype_starlight_publishing"
+      ],
+      "escalation_conditions": [
+        "The Support Cockpit direction starts to require account state, saved case state, or broader product platform work.",
+        "The next publishing iteration would replace the machine-readable baseline model instead of rendering it."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        "docs/specs/adf-support-cockpit-direction-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_prototypes.py"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Adopt Support Cockpit as the selected Starlight publishing direction and drive the next implementation cycle through that chassis.",
+      "task_id": "adopt_support_cockpit_direction",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
     {
       "acceptance_criteria": [
         "The build-pack defines a canonical artifact model for runtime evidence, service inventory, and baseline output.",
@@ -96,18 +133,52 @@
     },
     {
       "acceptance_criteria": [
+        "The build-pack can generate Astro Starlight site source from the canonical ADF baseline without replacing JSON as the source of truth.",
+        "The Rocky lab appliance can install and build the generated Astro Starlight site successfully with the system Node runtime.",
+        "The publishing direction stays portable so the long-term rendered site can later move to a separate Ubuntu host."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The build-pack exposes a generate-starlight-site command that writes package.json, Astro config, content collection files, markdown playbook pages, and renderer assets from support-baseline.json.",
+        "The lab appliance has a successful Astro Starlight build under the generated starlight-site artifact root."
+      ],
+      "dependencies": [
+        "render_baseline_outputs"
+      ],
+      "escalation_conditions": [
+        "The publishing layer starts to compete with the runtime evidence model instead of rendering it.",
+        "The Starlight path requires deep platform or hosting work before the support content is proven."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-artifact-model-v1.md",
+        "docs/specs/adf-publishing-direction-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Prototype Astro Starlight publishing from the canonical ADF baseline and verify the site can build on the Rocky lab appliance.",
+      "task_id": "prototype_starlight_publishing",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --artifact-root dist/candidates/benchmark-smoke-baseline --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
         "The top support domains use language and sequencing that match how junior support engineers actually diagnose customer issues from an SSH session.",
         "The highest-value decision playbooks are tuned for operator review without changing the canonical JSON-first model.",
-        "Priority playbooks use the current Step focus, Run, Why this check matters, and Known-good example pattern.",
+        "Priority playbooks use the current Check, Run, Verification, Linux note, and Known working example pattern.",
         "The wording stays plain, short, and easy to follow for engineers using English as a second language."
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Appliance UI is down reflects the reviewed SSH-first four-step Linux-first flow with the current collapsible Step focus frame, clickable dependency path, copy controls, and knowledge-oriented command cards, and FireFlow Backend follows next.",
+        "Appliance UI is down reflects the reviewed SSH-first four-step Linux-first flow inside the cleaned Support Cockpit chassis, and FireFlow Backend follows next.",
         "HTML and JSON outputs remain aligned after the language tuning pass."
       ],
       "dependencies": [
-        "render_baseline_outputs"
+        "adopt_support_cockpit_direction",
+        "render_baseline_outputs",
+        "prototype_starlight_publishing"
       ],
       "escalation_conditions": [
         "Requested wording changes imply a broader UX rewrite instead of playbook tuning.",
@@ -115,12 +186,14 @@
       ],
       "files_in_scope": [
         "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-language-standard-v1.md",
         "docs/specs/adf-artifact-model-v1.md",
         "status/work-state.json"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "pending",
-      "summary": "Continue tuning high-value support playbooks into final SSH-first operator language and decision flow, carrying the current Appliance UI is down collapsible Step focus, knowledge-block, dependency-path, and copy-control pattern into FireFlow Backend next.",
+      "status": "in_progress",
+      "summary": "Continue tuning high-value support playbooks into final SSH-first operator language and decision flow, using the Support Cockpit chassis as the next operator-facing container.",
       "task_id": "tune_operator_language_for_priority_domains",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
@@ -131,16 +204,18 @@
       "acceptance_criteria": [
         "Priority playbooks embed service-status, listener, config, and log commands for more AlgoSec services and dependencies.",
         "Each command remains read-only and includes a healthy signal plus failure interpretation.",
-        "Priority commands include short operator knowledge, copy controls, and known-good terminal examples where the target appliance can provide them.",
+        "Priority commands include short Linux note blocks, copy controls, and known working terminal examples where the target appliance can provide them.",
         "Rare path or config checks stay deferred unless a playbook truly needs them."
       ],
       "blocked_by": [],
       "completion_signals": [
         "The command bundles extend beyond the current top-path checks and cover more service-specific failure paths.",
-        "Service ports, config checkpoints, and known-good command output are surfaced more explicitly in the operator-facing output."
+        "Service ports, config checkpoints, and known working command output are surfaced more explicitly in the operator-facing output."
       ],
       "dependencies": [
-        "render_baseline_outputs"
+        "adopt_support_cockpit_direction",
+        "render_baseline_outputs",
+        "prototype_starlight_publishing"
       ],
       "escalation_conditions": [
         "The required command coverage implies broad appliance-specific scripting beyond the MVP boundary.",
@@ -162,6 +237,68 @@
     },
     {
       "acceptance_criteria": [
+        "The Support Cockpit page no longer wastes meaningful horizontal space with the current right-side `On this page` rail.",
+        "The center reading pane has more horizontal room for command-first playbook content.",
+        "Any replacement or repositioned page-map behavior still keeps navigation useful without crowding the main content."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The build-pack has an explicit layout task for the right-side page map instead of treating it as an informal review note.",
+        "The next UI pass can redraw, reduce, relocate, or suppress the `On this page` rail in a deliberate way."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "The right-rail change starts to require broader site-navigation redesign outside the current Support Cockpit scope.",
+        "The change would remove useful playbook navigation without a clear operator benefit."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Redraw the Support Cockpit right-side `On this page` rail so it takes less space and allows the main content pane to expand horizontally.",
+      "task_id": "refine_support_cockpit_right_rail_layout",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack explicitly tracks a future task to align the remote Codex persona and instructions with ADF's evolving role as a Linux troubleshooting specialist and diagnostic playbook author.",
+        "The task stays at planning level until the operator is ready to review pack-local agent guidance directly."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The persona-alignment idea is preserved as a real backlog item instead of only a conversational note.",
+        "A future cycle can review and revise the pack-local agent guidance with ADF-specific goals in mind."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "The persona change would conflict with PackFactory control-plane requirements or the pack-local traversal contract.",
+        "The task begins changing agent behavior broadly before the operator explicitly asks to review the pack-local agent guidance."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Review whether the ADF remote Codex persona and pack-local agent guidance should evolve toward a Linux troubleshooting expert and diagnostic playbook author profile.",
+      "task_id": "review_adf_agent_persona_alignment",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
         "The next playbook slice deepens dependency-aware checks for important AlgoSec paths without trying to cover every service equally.",
         "The build-pack preserves the current minimal-testing boundary while extending real operator value."
       ],
@@ -171,6 +308,7 @@
         "The next remote review can focus on specific unresolved service paths instead of the whole appliance."
       ],
       "dependencies": [
+        "adopt_support_cockpit_direction",
         "tune_operator_language_for_priority_domains",
         "expand_service_command_coverage"
       ],
@@ -190,6 +328,45 @@
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "task_id": "consider_horizontal_dependency_path_in_center_pane",
+      "title": "Consider a horizontal dependency path in the center pane",
+      "status": "completed",
+      "priority": "medium",
+      "summary": "The dependency path now renders horizontally within the center pane so it uses width instead of pushing the stepwise details farther down the page.",
+      "why_it_matters": "This recovers vertical room for the detailed checks while preserving the path-map view at the top of the playbook.",
+      "notes": [
+        "Keep the dependency path inside the main center content area.",
+        "Preserve click-to-jump behavior to the matching step or checkpoint.",
+        "The horizontal strip is now live on the lab review page and remains a candidate for further tuning after operator review."
+      ]
+    },
+    {
+      "task_id": "enhance_linux_notes_as_optional_learning_layer",
+      "title": "Enhance Linux notes as an optional learning layer",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
+      "why_it_matters": "The current Linux notes are useful because they are optional. Engineers can skip them when they already know the concept, or open them when they need a quick explanation. This can build shared Linux troubleshooting language over time without turning the playbook into training material.",
+      "notes": [
+        "Keep Linux notes collapsible by default.",
+        "Prefer short plain-language explanations tied directly to the current check.",
+        "Use Linux notes to clarify terms like memory pressure, inode pressure, OOM, file locks, and similar concepts when they matter to triage."
+      ]
+    },
+    {
+      "task_id": "formalize_linux_foundation_as_adf_theme",
+      "title": "Formalize the Linux foundation as an ADF project theme",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
+      "why_it_matters": "ADF is already trending toward Linux-first diagnostics, Linux-standard language, and Linux note clarifications. Formalizing that foundation would help align playbooks, terminology, discovery logic, and future agent guidance around the real operating context engineers face during triage.",
+      "notes": [
+        "Consider whether this belongs in project context, operator language standards, and future agent guidance rather than only inside a persona note.",
+        "Preserve the distinction between troubleshooting the Linux host itself and troubleshooting the application stack that depends on Linux services, ports, filesystems, logs, and open source components.",
+        "Use this theme to guide future playbook structure, dependency mapping, and educational Linux notes without turning ADF into a generic Linux training product."
       ]
     }
   ]

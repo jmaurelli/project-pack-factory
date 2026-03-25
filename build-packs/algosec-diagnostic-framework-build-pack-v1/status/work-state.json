@@ -1,18 +1,21 @@
 {
   "active_task_id": "tune_operator_language_for_priority_domains",
-  "autonomy_state": "awaiting_operator_review",
+  "autonomy_state": "ready_for_next_iteration",
   "blocked_task_ids": [],
   "completed_task_ids": [
     "run_build_pack_validation",
     "run_inherited_benchmarks",
     "define_adf_artifact_model",
     "implement_safe_runtime_collection",
-    "render_baseline_outputs"
+    "render_baseline_outputs",
+    "prototype_starlight_publishing",
+    "adopt_support_cockpit_direction",
+    "refine_support_cockpit_right_rail_layout"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Refined the target-generated Appliance UI is down playbook into the current SSH-first Linux-first four-step runbook with collapsible Step focus framing, a clickable dependency path that opens matching steps, copy buttons, and Why this check matters knowledge blocks, then refreshed the live review URL.",
-  "last_outcome": "ui_playbook_collapsed_step_review_ready",
-  "last_outcome_at": "2026-03-24T04:13:57Z",
+  "last_agent_action": "Pulled the finished remote horizontal dependency-path change back from the AlgoSec lab appliance after the remote Codex run preserved Support Cockpit, kept Quick jump sticky, removed the built-in right rail, and rebuilt the live review site on port 18082.",
+  "last_outcome": "horizontal_dependency_path_synced",
+  "last_outcome_at": "2026-03-25T09:58:00Z",
   "last_validation_results": [
     "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json",
     "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223939z/benchmark-result.json"
@@ -23,20 +26,74 @@
   "pending_task_ids": [
     "tune_operator_language_for_priority_domains",
     "expand_service_command_coverage",
-    "deepen_dependency_aware_playbooks"
+    "review_adf_agent_persona_alignment",
+    "deepen_dependency_aware_playbooks",
+    "enhance_linux_notes_as_optional_learning_layer",
+    "formalize_linux_foundation_as_adf_theme"
   ],
   "resume_instructions": [
     "Read the objective, backlog, and work-state files before editing code.",
-    "Start the next cycle by reviewing the live target-generated webpage and using the Appliance UI is down playbook as the current reference pattern.",
-    "Carry the current collapsible Step focus, Why this check matters, Known-good example, clickable dependency path, and copy-button structure into FireFlow Backend next, then into the other priority playbooks.",
+    "Start the next cycle from the selected Support Cockpit direction rather than the older reviewed webpage frame.",
+    "Preserve the sticky quick-jump behavior because that is the operator-confirmed reason Support Cockpit won the prototype comparison.",
+    "Use the cleaned Support Cockpit chassis as the next container for a real playbook iteration instead of reintroducing the older boxed legacy page structures.",
+    "The next active content task is tuning operator language for the highest-value real playbooks, starting with Appliance UI is down.",
+    "Use docs/specs/adf-language-standard-v1.md as the default wording contract for labels and step structure before making more playbook-specific text changes.",
+    "The built-in Starlight `On this page` rail is now removed from the playbook page so the center pane has more horizontal room for command-first content.",
+    "The dependency path is now horizontal inside the center pane and still supports click-to-jump into the matching checkpoint details below.",
+    "There is also a separate pending planning item to review whether the remote Codex persona and pack-local agent guidance should evolve toward an ADF-specific Linux troubleshooting and diagnostic-authoring profile.",
     "Restage the build-pack to the saved AlgoSec lab target before the next remote Codex run that changes playbook logic.",
+    "Read docs/specs/adf-remote-codex-invocation-notes-v1.md before the next remote Codex launch.",
+    "Use a small remote shell script plus env -i and /bin/bash --noprofile --norc for the outer appliance launcher instead of a long inline SSH command.",
+    "Clear stale matching codex exec processes before relaunching, and confirm both the result file and rebuilt starlight-site timestamps before assuming the remote run finished cleanly.",
     "Keep machine-readable artifacts canonical, keep HTML as a thin render layer, and keep new commands read-only.",
     "Keep rare path and config checks deferred unless a playbook truly needs them.",
-    "Use the saved lab target request and the current review URL http://10.167.2.152:18081/support-baseline.html as the baseline operator-review loop."
+    "Use the saved lab target request and the prototype comparison ports 18083, 18084, and 18085 as the last reviewed prototype surfaces.",
+    "Use the generated site roots under dist/prototypes/starlight and dist/candidates/algosec-lab-baseline/starlight-site when iterating on the Astro Starlight publisher."
   ],
   "schema_version": "work-state/v1",
   "stop_conditions": [
     "Stop when the current operator-review slice is captured cleanly and the next work items are recorded in pack-local state.",
     "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ],
+  "planning_items": [
+    {
+      "task_id": "consider_horizontal_dependency_path_in_center_pane",
+      "title": "Consider a horizontal dependency path in the center pane",
+      "status": "completed",
+      "priority": "medium",
+      "summary": "The dependency path now renders horizontally within the center pane so it uses width instead of pushing the stepwise details farther down the page.",
+      "why_it_matters": "This recovers vertical room for the detailed checks while preserving the path-map view at the top of the playbook.",
+      "notes": [
+        "Keep the dependency path inside the main center content area.",
+        "Preserve click-to-jump behavior to the matching step or checkpoint.",
+        "The horizontal strip is now live on the lab review page and remains a candidate for further tuning after operator review."
+      ]
+    },
+    {
+      "task_id": "enhance_linux_notes_as_optional_learning_layer",
+      "title": "Enhance Linux notes as an optional learning layer",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
+      "why_it_matters": "The current Linux notes are useful because they are optional. Engineers can skip them when they already know the concept, or open them when they need a quick explanation. This can build shared Linux troubleshooting language over time without turning the playbook into training material.",
+      "notes": [
+        "Keep Linux notes collapsible by default.",
+        "Prefer short plain-language explanations tied directly to the current check.",
+        "Use Linux notes to clarify terms like memory pressure, inode pressure, OOM, file locks, and similar concepts when they matter to triage."
+      ]
+    },
+    {
+      "task_id": "formalize_linux_foundation_as_adf_theme",
+      "title": "Formalize the Linux foundation as an ADF project theme",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
+      "why_it_matters": "ADF is already trending toward Linux-first diagnostics, Linux-standard language, and Linux note clarifications. Formalizing that foundation would help align playbooks, terminology, discovery logic, and future agent guidance around the real operating context engineers face during triage.",
+      "notes": [
+        "Consider whether this belongs in project context, operator language standards, and future agent guidance rather than only inside a persona note.",
+        "Preserve the distinction between troubleshooting the Linux host itself and troubleshooting the application stack that depends on Linux services, ports, filesystems, logs, and open source components.",
+        "Use this theme to guide future playbook structure, dependency mapping, and educational Linux notes without turning ADF into a generic Linux training product."
+      ]
+    }
   ]
 }

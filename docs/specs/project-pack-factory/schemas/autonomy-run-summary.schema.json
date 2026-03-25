@@ -108,6 +108,17 @@
           "type": "string",
           "minLength": 1
         },
+        "feedback_memory_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "factory_validation_command": {
           "anyOf": [
             {

@@ -19,6 +19,10 @@ The playbooks should assume:
 - the engineer may not know deeper Linux internals
 - English may be the engineer's second language
 - the wording should stay plain, short, and direct
+- Linux terms should stay consistent across playbooks so engineers learn and
+  reuse the same support language with customers
+- when a Linux term may be unfamiliar, the playbook should give a brief plain
+  explanation close to the command instead of assuming deep OS knowledge
 
 ## V1 Scope
 

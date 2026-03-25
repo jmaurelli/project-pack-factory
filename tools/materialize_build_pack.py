@@ -79,6 +79,7 @@ PORTABLE_RUNTIME_SCHEMA_FILENAMES = (
     "eval-latest-index.schema.json",
     "autonomy-loop-event.schema.json",
     "autonomy-run-summary.schema.json",
+    "autonomy-feedback-memory.schema.json",
 )
 PORTABLE_RUNTIME_TOOL_FILENAMES = (
     "factory_ops.py",
@@ -477,6 +478,7 @@ def _build_pack_agents_text(
         "Then read `pack.json` and use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap traversal contract.",
         "When `pack.json.directory_contract` declares `contracts/project-objective.json`, `tasks/active-backlog.json`, or `status/work-state.json`, read those files as canonical pack-local control-plane handoff files.",
         "Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.",
+        "When present, treat `.pack-state/agent-memory/*.json` as supplementary restart memory distilled from prior autonomy runs.",
     ]
     if runtime_is_python:
         lines.extend(
@@ -858,6 +860,7 @@ def _synthesize_build_pack(
         "last_agent_action": "Materialized the build-pack and seeded objective, backlog, and work-state files.",
         "resume_instructions": [
             "Read the objective, backlog, and work-state files before editing code.",
+            "Inspect `.pack-state/agent-memory/` for prior autonomy feedback memory when it exists.",
             "Run the validation task before attempting benchmark execution or deployment workflows.",
         ],
         "stop_conditions": [

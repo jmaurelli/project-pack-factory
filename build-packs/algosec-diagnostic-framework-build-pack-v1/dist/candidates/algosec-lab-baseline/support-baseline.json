@@ -1,0 +1,1505 @@
+{
+  "artifact_refs": {
+    "html_render": "support-baseline.html",
+    "runtime_evidence": "runtime-evidence.json",
+    "service_inventory": "service-inventory.json"
+  },
+  "comparison_checkpoints": [
+    {
+      "checkpoint_id": "compare-runtime-identity",
+      "details": "Confirm the customer host, Rocky 8 baseline, and build markers line up with the trusted lab appliance before deeper diagnosis.",
+      "label": "Compare appliance identity first"
+    },
+    {
+      "checkpoint_id": "compare-critical-services",
+      "details": "Verify that the critical services below appear active in the customer environment and match the expected enabled state.",
+      "label": "Compare critical service state"
+    },
+    {
+      "checkpoint_id": "compare-proxy-routes",
+      "details": "Use Apache proxy config and local port mappings to confirm the expected AlgoSec routes still point at the right local services.",
+      "label": "Compare routed product endpoints"
+    },
+    {
+      "checkpoint_id": "compare-listening-ports",
+      "details": "Use the listening-port count and service listener hints as a quick baseline for what should be reachable or bound on the appliance.",
+      "label": "Compare visible listeners"
+    }
+  ],
+  "decision_playbooks": [
+    {
+      "decision_rule": "If a step fails, stop the happy-path sequence, record that step as the current failure point, and collect the matching evidence before moving on.",
+      "dependency_path": [
+        {
+          "details": "Start here. Confirm httpd.service is active and ports 80 and 443 are listening before checking anything deeper.",
+          "label": "Apache edge",
+          "step_id": "ui-and-proxy-step-1",
+          "step_label": "Step 1"
+        },
+        {
+          "details": "If Apache is up, check disk space, inode usage, available memory, and recent OOM pressure on the host.",
+          "label": "Host health",
+          "step_id": "ui-and-proxy-step-2",
+          "step_label": "Step 2"
+        },
+        {
+          "details": "Then check the main UI services: keycloak.service on 8443 and ms-metro.service on 8080.",
+          "label": "UI services",
+          "step_id": "ui-and-proxy-step-3",
+          "step_label": "Step 3"
+        },
+        {
+          "details": "If the services are up, check httpd, keycloak, and ms-metro logs to find the real clue.",
+          "label": "Logs",
+          "step_id": "ui-and-proxy-step-4",
+          "step_label": "Step 4"
+        }
+      ],
+      "label": "Appliance UI is down",
+      "likely_failing_services": [
+        "httpd.service",
+        "keycloak.service",
+        "ms-metro.service"
+      ],
+      "playbook_id": "ui-and-proxy",
+      "steps": [
+        {
+          "action": "Check Apache first. Confirm httpd.service is running and ports 80 and 443 are open.",
+          "decision_if_fail": "Stop here and treat httpd.service or the 80/443 listener layer as the current failure point.",
+          "evidence_to_collect": [
+            "Output of systemctl status for httpd.service, keycloak.service, and ms-metro.service.",
+            "Listener output for ports 80, 443, 8443, and 8080 from ss -lntp."
+          ],
+          "failure_point": "httpd.service or edge listener state",
+          "if_fail": "Stop here and treat httpd.service or the 80/443 listener layer as the current failure point.",
+          "if_pass": "If httpd is running and both ports are open, go to the next step.",
+          "next_if_pass": "If httpd is running and both ports are open, go to the next step.",
+          "recommended_commands": [
+            {
+              "command": "systemctl status httpd.service --no-pager",
+              "example_output": "\u25cf httpd.service - The Apache HTTP Server\n   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)\n   Active: active (running) since Sat 2026-03-07 13:37:12 EST; 2 weeks 2 days ago\n Main PID: 1018 (/usr/sbin/httpd)",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [
+                "Loaded: loaded",
+                "Active: active (running)",
+                "Main PID:",
+                "/usr/sbin/httpd"
+              ],
+              "interpretation": "If this is not active, treat the edge service itself as the failure point before going deeper.",
+              "label": "Check httpd.service status"
+            },
+            {
+              "command": "ss -lntp | grep -E ':(80|443)\\b'",
+              "example_output": "LISTEN 0 511 0.0.0.0:443 0.0.0.0:* users:((\"/usr/sbin/httpd\",pid=1018,fd=4),...)\nLISTEN 0 511 0.0.0.0:80  0.0.0.0:* users:((\"/usr/sbin/httpd\",pid=1018,fd=3),...)",
+              "expected_signal": "A listening socket is present for 80, 443.",
+              "healthy_markers": [
+                "LISTEN",
+                ":80",
+                ":443",
+                "httpd"
+              ],
+              "interpretation": "If 80/443 are missing, the UI path is failing at the listener or bind layer.",
+              "label": "Check edge listeners"
+            }
+          ],
+          "step_id": "ui-and-proxy-step-1",
+          "step_label": "Step 1",
+          "why_this_matters": "Apache is the front door for the UI. If Apache is down, the UI cannot load."
+        },
+        {
+          "action": "Check system pressure. Confirm the server still has free disk, free inodes, and available memory.",
+          "decision_if_fail": "Stop here and treat host pressure as the current failure point.",
+          "evidence_to_collect": [
+            "Output of systemctl status for httpd.service, keycloak.service, and ms-metro.service.",
+            "Listener output for ports 80, 443, 8443, and 8080 from ss -lntp."
+          ],
+          "failure_point": "Disk, inode, or memory pressure on the host",
+          "if_fail": "Stop here and treat host pressure as the current failure point.",
+          "if_pass": "If disk, inode, and memory checks look healthy, go to the service checks.",
+          "next_if_pass": "If disk, inode, and memory checks look healthy, go to the service checks.",
+          "recommended_commands": [
+            {
+              "command": "df -h",
+              "example_output": "Filesystem           Size  Used Avail Use% Mounted on\n/dev/mapper/rl-root   60G   16G   45G  27% /\n/dev/mapper/rl-data  238G   21G  218G   9% /data",
+              "expected_signal": "Main filesystems still have free space and are not close to 100% use.",
+              "healthy_markers": [
+                "Use% below 100%",
+                "Avail is not 0",
+                "/ and /data still have free space"
+              ],
+              "interpretation": "If /, /boot, or /data is full or nearly full, services may stop writing logs, temp files, or data.",
+              "label": "Check disk usage"
+            },
+            {
+              "command": "df -ih",
+              "example_output": "Filesystem          Inodes IUsed IFree IUse% Mounted on\n/dev/mapper/rl-root    30M  343K   30M    2% /\n/dev/mapper/rl-data   119M   21K  119M    1% /data",
+              "expected_signal": "Main filesystems still have free inodes and are not close to 100% inode use.",
+              "healthy_markers": [
+                "IUse% below 100%",
+                "IFree is not 0",
+                "/ and /data still have free inodes"
+              ],
+              "interpretation": "If inode use is high, services can fail even when normal disk space still looks free.",
+              "label": "Check inode usage"
+            },
+            {
+              "command": "free -h",
+              "example_output": "              total        used        free      shared  buff/cache   available\nMem:           32Gi        13Gi       8.6Gi       2.4Gi         9Gi        15Gi\nSwap:          24Gi          0B        24Gi",
+              "expected_signal": "The host still has available memory and is not fully relying on swap.",
+              "healthy_markers": [
+                "available memory is present",
+                "swap is not exhausted",
+                "Mem and Swap are shown in GiB"
+              ],
+              "interpretation": "If available memory is very low or swap is heavily used, Java services may slow down, hang, or crash.",
+              "label": "Check memory pressure"
+            },
+            {
+              "command": "journalctl -k --since '-7 days' --no-pager | grep -i -E 'out of memory|oom|killed process' | tail -n 20",
+              "example_output": "No output",
+              "expected_signal": "No recent OOM lines are returned.",
+              "healthy_markers": [
+                "No output is normal",
+                "No 'Out of memory' lines",
+                "No 'Killed process' lines"
+              ],
+              "interpretation": "If OOM lines appear, the host has been killing or starving processes under memory pressure.",
+              "label": "Check for recent OOM pressure"
+            }
+          ],
+          "step_id": "ui-and-proxy-step-2",
+          "step_label": "Step 2",
+          "why_this_matters": "Disk full, inode full, or OOM pressure are common Linux failure points and are more common than Apache rewrite problems."
+        },
+        {
+          "action": "Check the main UI services. Confirm keycloak.service and ms-metro.service are running and ports 8443 and 8080 are open.",
+          "decision_if_fail": "Stop here and treat the missing service or listener as the current failure point.",
+          "evidence_to_collect": [
+            "Disk, inode, memory, and OOM checks from df -h, df -ih, free -h, and journalctl -k.",
+            "Recent journalctl output for httpd.service, keycloak.service, and ms-metro.service."
+          ],
+          "failure_point": "keycloak.service, ms-metro.service, or their listener ports",
+          "if_fail": "Stop here and treat the missing service or listener as the current failure point.",
+          "if_pass": "If the services and listeners look healthy, go to the log checks.",
+          "next_if_pass": "If the services and listeners look healthy, go to the log checks.",
+          "recommended_commands": [
+            {
+              "command": "systemctl status keycloak.service --no-pager",
+              "example_output": "\u25cf keycloak.service - The authentication and authorization server\n   Loaded: loaded (/usr/lib/systemd/system/keycloak.service; enabled; vendor preset: disabled)\n   Active: active (running) since Sat 2026-03-07 13:38:32 EST; 2 weeks 2 days ago\n Main PID: 3758 (algosec_keycloa)",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [
+                "Loaded: loaded",
+                "Active: active (running)",
+                "Main PID:",
+                "algosec_keycloak_start.sh"
+              ],
+              "interpretation": "If Keycloak is not running, the login path is failing before the UI can finish loading.",
+              "label": "Check keycloak.service status"
+            },
+            {
+              "command": "systemctl status ms-metro.service --no-pager",
+              "example_output": "\u25cf ms-metro.service - ms-metro Application Container\n   Loaded: loaded (/etc/systemd/system/ms-metro.service; disabled; vendor preset: disabled)\n   Active: active (running) since Sat 2026-03-07 13:39:32 EST; 2 weeks 2 days ago\n Main PID: 6012 (java)",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [
+                "Loaded: loaded",
+                "Active: active (running)",
+                "Main PID:",
+                "java"
+              ],
+              "interpretation": "If Metro is not running, the UI may open only partly or fail after the first page.",
+              "label": "Check ms-metro.service status"
+            }
+          ],
+          "step_id": "ui-and-proxy-step-3",
+          "step_label": "Step 3",
+          "why_this_matters": "After Apache and host health, the next common failure is that a key Java service is down or not listening."
+        },
+        {
+          "action": "Check the logs. Look for disk, memory, startup, or Java errors in httpd, keycloak, and ms-metro.",
+          "decision_if_fail": "Stop here and treat the service with the clear error as the current failure point.",
+          "evidence_to_collect": [
+            "Disk, inode, memory, and OOM checks from df -h, df -ih, free -h, and journalctl -k.",
+            "Recent journalctl output for httpd.service, keycloak.service, and ms-metro.service."
+          ],
+          "failure_point": "Recent service errors in httpd, keycloak, or ms-metro logs",
+          "if_fail": "Stop here and treat the service with the clear error as the current failure point.",
+          "if_pass": "If the logs do not show the issue clearly, move to a narrower service or escalation workflow.",
+          "next_if_pass": "If the logs do not show the issue clearly, move to a narrower service or escalation workflow.",
+          "recommended_commands": [
+            {
+              "command": "journalctl -u httpd.service -n 50 --no-pager",
+              "example_output": "",
+              "expected_signal": "No obvious disk, permission, startup, or crash errors appear in recent lines.",
+              "healthy_markers": [],
+              "interpretation": "If recent httpd lines show errors, stay on Apache and follow that clue first.",
+              "label": "Review recent httpd logs"
+            },
+            {
+              "command": "journalctl -u keycloak.service -n 50 --no-pager",
+              "example_output": "",
+              "expected_signal": "No obvious startup, auth, memory, or crash errors appear in recent lines.",
+              "healthy_markers": [],
+              "interpretation": "If recent Keycloak lines show errors, stay on Keycloak and follow that clue first.",
+              "label": "Review recent Keycloak logs"
+            },
+            {
+              "command": "journalctl -u ms-metro.service -n 50 --no-pager",
+              "example_output": "",
+              "expected_signal": "No obvious Java heap, startup, disk, or application crash errors appear in recent lines.",
+              "healthy_markers": [],
+              "interpretation": "If recent Metro lines show errors, stay on Metro and follow that clue first.",
+              "label": "Review recent Metro logs"
+            }
+          ],
+          "step_id": "ui-and-proxy-step-4",
+          "step_label": "Step 4",
+          "why_this_matters": "Logs often show disk problems, heap problems, startup failures, and Java stack clues faster than config review."
+        }
+      ],
+      "symptom_focus": "Use this when the customer UI is down and the engineer is checking the appliance from SSH."
+    },
+    {
+      "decision_rule": "If a step fails, stop the happy-path sequence, record that step as the current failure point, and collect the matching evidence before moving on.",
+      "dependency_path": [],
+      "label": "FireFlow Backend",
+      "likely_failing_services": [
+        "aff-boot.service"
+      ],
+      "playbook_id": "core-aff",
+      "steps": [
+        {
+          "action": "Identify the failing FireFlow action and confirm that the symptom is tied to /FireFlow/api or /aff/api.",
+          "decision_if_fail": "If the symptom is not tied to FireFlow, switch to a different domain playbook instead of staying here.",
+          "evidence_to_collect": [
+            "Result of the failing FireFlow action, including the exact endpoint or screen."
+          ],
+          "failure_point": "Domain mismatch",
+          "if_fail": "If the symptom is not tied to FireFlow, switch to a different domain playbook instead of staying here.",
+          "if_pass": "Continue to aff-boot and route validation.",
+          "next_if_pass": "Continue to aff-boot and route validation.",
+          "recommended_commands": [
+            {
+              "command": "grep -n 1989 /etc/httpd/conf.d/aff.conf",
+              "example_output": "",
+              "expected_signal": "The expected mapping token 1989 appears in /etc/httpd/conf.d/aff.conf.",
+              "healthy_markers": [],
+              "interpretation": "Use the known proxy mapping to confirm the FireFlow path really terminates at the expected backend.",
+              "label": "Check config mapping"
+            }
+          ],
+          "step_id": "core-aff-step-1",
+          "step_label": "Step 1",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Confirm aff-boot.service is active and that the failing FireFlow route still proxies to localhost:1989.",
+          "decision_if_fail": "Treat aff-boot.service or the 1989 route as the current failure point.",
+          "evidence_to_collect": [
+            "Result of the failing FireFlow action, including the exact endpoint or screen.",
+            "Visible status for aff-boot.service and postgresql.service."
+          ],
+          "failure_point": "aff-boot.service or 1989 route",
+          "if_fail": "Treat aff-boot.service or the 1989 route as the current failure point.",
+          "if_pass": "Continue to database validation.",
+          "next_if_pass": "Continue to database validation.",
+          "recommended_commands": [
+            {
+              "command": "systemctl status aff-boot.service --no-pager",
+              "example_output": "",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [],
+              "interpretation": "If aff-boot is not active, stop here and treat the FireFlow service itself as the failure point.",
+              "label": "Check aff-boot.service status"
+            },
+            {
+              "command": "ss -lntp | grep -E ':1989\\b'",
+              "example_output": "",
+              "expected_signal": "A listening socket is present for 1989.",
+              "healthy_markers": [],
+              "interpretation": "If the FireFlow listener is missing, the backend route has nothing healthy to terminate to.",
+              "label": "Check FireFlow listener"
+            },
+            {
+              "command": "grep -n 1989 /etc/httpd/conf.d/aff.conf",
+              "example_output": "",
+              "expected_signal": "The expected mapping token 1989 appears in /etc/httpd/conf.d/aff.conf.",
+              "healthy_markers": [],
+              "interpretation": "If the proxy config no longer points to 1989, the FireFlow request path may be broken even when the service is up.",
+              "label": "Check config mapping"
+            }
+          ],
+          "step_id": "core-aff-step-2",
+          "step_label": "Step 2",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Confirm postgresql.service is active and local database access is healthy before assuming a FireFlow-only fault.",
+          "decision_if_fail": "Treat postgresql.service as the current failure point for this customer issue.",
+          "evidence_to_collect": [
+            "Visible status for aff-boot.service and postgresql.service.",
+            "Any recent FireFlow-related lines from the customer-facing logs or service status output."
+          ],
+          "failure_point": "postgresql.service",
+          "if_fail": "Treat postgresql.service as the current failure point for this customer issue.",
+          "if_pass": "Continue to FireFlow log review.",
+          "next_if_pass": "Continue to FireFlow log review.",
+          "recommended_commands": [
+            {
+              "command": "systemctl status postgresql.service --no-pager",
+              "example_output": "",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [],
+              "interpretation": "If the database is not active, FireFlow symptoms are likely downstream of data availability.",
+              "label": "Check postgresql.service status"
+            }
+          ],
+          "step_id": "core-aff-step-3",
+          "step_label": "Step 3",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Collect the latest FireFlow-related error lines or status output and decide whether the failure stays in FireFlow logic or must move deeper into dependencies.",
+          "decision_if_fail": "If you cannot collect the logs, escalate with the route, service, and database checks already captured.",
+          "evidence_to_collect": [
+            "Visible status for aff-boot.service and postgresql.service.",
+            "Any recent FireFlow-related lines from the customer-facing logs or service status output."
+          ],
+          "failure_point": "FireFlow runtime evidence incomplete",
+          "if_fail": "If you cannot collect the logs, escalate with the route, service, and database checks already captured.",
+          "if_pass": "Inspect dependency services next: postgresql.service.",
+          "next_if_pass": "Inspect dependency services next: postgresql.service.",
+          "recommended_commands": [
+            {
+              "command": "journalctl -u aff-boot.service -n 50 --no-pager",
+              "example_output": "",
+              "expected_signal": "Recent lines show healthy startup or a clear error signature to classify.",
+              "healthy_markers": [],
+              "interpretation": "Look for permission errors, startup failures, or dependency errors that explain why FireFlow is unhealthy.",
+              "label": "Review aff-boot.service logs"
+            }
+          ],
+          "step_id": "core-aff-step-4",
+          "step_label": "Step 4",
+          "why_this_matters": ""
+        }
+      ],
+      "symptom_focus": "Use this when a FireFlow action fails or FireFlow returns an error."
+    },
+    {
+      "decision_rule": "If a step fails, stop the happy-path sequence, record that step as the current failure point, and collect the matching evidence before moving on.",
+      "dependency_path": [],
+      "label": "Microservice Platform",
+      "likely_failing_services": [
+        "ms-batch-application.service",
+        "ms-bflow.service",
+        "ms-cloudlicensing.service",
+        "ms-configuration.service"
+      ],
+      "playbook_id": "microservice-platform",
+      "steps": [
+        {
+          "action": "Identify the exact failing feature or ms-* path in the customer session so the diagnostic path stays anchored to one concrete product behavior.",
+          "decision_if_fail": "If the failing feature cannot be isolated, collect the customer symptom and stay at the domain level before picking a narrower path.",
+          "evidence_to_collect": [
+            "Status of the routed path /ms-batch-application/local, /ms-batch-application and whether it still maps to 8159.",
+            "Status of the routed path /BusinessFlow/local, /BusinessFlow and whether it still maps to 8081."
+          ],
+          "failure_point": "Feature path not isolated",
+          "if_fail": "If the failing feature cannot be isolated, collect the customer symptom and stay at the domain level before picking a narrower path.",
+          "if_pass": "Continue to wrapper and target-service validation.",
+          "next_if_pass": "Continue to wrapper and target-service validation.",
+          "recommended_commands": [],
+          "step_id": "microservice-platform-step-1",
+          "step_label": "Step 1",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Confirm algosec-ms.service completed successfully and that the likely target service set is healthy: ms-batch-application.service, ms-bflow.service, ms-cloudlicensing.service.",
+          "decision_if_fail": "Treat algosec-ms.service or the first failing ms-* service as the current failure point.",
+          "evidence_to_collect": [
+            "Status of the routed path /BusinessFlow/local, /BusinessFlow and whether it still maps to 8081.",
+            "Visible state of algosec-ms.service and ms-configuration.service."
+          ],
+          "failure_point": "algosec-ms.service or first failing ms-* service",
+          "if_fail": "Treat algosec-ms.service or the first failing ms-* service as the current failure point.",
+          "if_pass": "Continue to routed-path validation.",
+          "next_if_pass": "Continue to routed-path validation.",
+          "recommended_commands": [
+            {
+              "command": "systemctl status algosec-ms.service --no-pager",
+              "example_output": "",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [],
+              "interpretation": "If this wrapper is unhealthy, start at the shared microservice platform before chasing one feature path.",
+              "label": "Check algosec-ms.service status"
+            },
+            {
+              "command": "systemctl status ms-batch-application.service --no-pager",
+              "example_output": "",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [],
+              "interpretation": "If the target ms-* service is unhealthy, treat that service as the current failure point.",
+              "label": "Check ms-batch-application.service status"
+            }
+          ],
+          "step_id": "microservice-platform-step-2",
+          "step_label": "Step 2",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Confirm the customer-facing failing path still maps to the expected local target port for that microservice.",
+          "decision_if_fail": "Treat the routed path or local target port mapping as the current failure point.",
+          "evidence_to_collect": [
+            "Status of the routed path /ms-batch-application/local, /ms-batch-application and whether it still maps to 8159.",
+            "Status of the routed path /BusinessFlow/local, /BusinessFlow and whether it still maps to 8081."
+          ],
+          "failure_point": "Routed path or local target port mapping",
+          "if_fail": "Treat the routed path or local target port mapping as the current failure point.",
+          "if_pass": "Continue to shared-configuration validation.",
+          "next_if_pass": "Continue to shared-configuration validation.",
+          "recommended_commands": [
+            {
+              "command": "ss -lntp | grep -E ':8159\\b'",
+              "example_output": "",
+              "expected_signal": "A listening socket is present for 8159.",
+              "healthy_markers": [],
+              "interpretation": "If the target port is missing, the feature path may be failing before the request reaches the service.",
+              "label": "Check microservice listener"
+            },
+            {
+              "command": "grep -n 8159 /etc/httpd/conf.d/algosec-ms.ms-batch-application.conf",
+              "example_output": "",
+              "expected_signal": "The expected mapping token 8159 appears in /etc/httpd/conf.d/algosec-ms.ms-batch-application.conf.",
+              "healthy_markers": [],
+              "interpretation": "If the proxy mapping is wrong, the customer path may point to the wrong backend or no backend at all.",
+              "label": "Check config mapping"
+            }
+          ],
+          "step_id": "microservice-platform-step-3",
+          "step_label": "Step 3",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Confirm ms-configuration.service is healthy before assuming the issue is isolated to the single feature path.",
+          "decision_if_fail": "Treat ms-configuration.service as the current failure point because other microservices depend on it.",
+          "evidence_to_collect": [
+            "Visible state of algosec-ms.service and ms-configuration.service.",
+            "Any service status, console error, or log snippet for the failing ms-* feature path."
+          ],
+          "failure_point": "ms-configuration.service",
+          "if_fail": "Treat ms-configuration.service as the current failure point because other microservices depend on it.",
+          "if_pass": "Continue to dependency and error review.",
+          "next_if_pass": "Continue to dependency and error review.",
+          "recommended_commands": [
+            {
+              "command": "systemctl status ms-configuration.service --no-pager",
+              "example_output": "",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [],
+              "interpretation": "If configuration is unhealthy, many downstream ms-* services can fail together.",
+              "label": "Check ms-configuration.service status"
+            }
+          ],
+          "step_id": "microservice-platform-step-4",
+          "step_label": "Step 4",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Collect the relevant ms-* service status or error snippet and decide whether the issue stays in the target service or moves to shared dependencies like httpd.service.",
+          "decision_if_fail": "If the error evidence cannot be collected, escalate with the routed-path and service-state checks already captured.",
+          "evidence_to_collect": [
+            "Visible state of algosec-ms.service and ms-configuration.service.",
+            "Any service status, console error, or log snippet for the failing ms-* feature path."
+          ],
+          "failure_point": "Microservice runtime evidence incomplete",
+          "if_fail": "If the error evidence cannot be collected, escalate with the routed-path and service-state checks already captured.",
+          "if_pass": "Inspect dependency services next: httpd.service, ms-configuration.service.",
+          "next_if_pass": "Inspect dependency services next: httpd.service, ms-configuration.service.",
+          "recommended_commands": [
+            {
+              "command": "journalctl -u ms-batch-application.service -n 50 --no-pager",
+              "example_output": "",
+              "expected_signal": "Recent lines show healthy startup or a clear error signature to classify.",
+              "healthy_markers": [],
+              "interpretation": "Use recent log lines to separate local service failure, permission issues, and deeper shared dependency problems.",
+              "label": "Review ms-batch-application.service logs"
+            }
+          ],
+          "step_id": "microservice-platform-step-5",
+          "step_label": "Step 5",
+          "why_this_matters": ""
+        }
+      ],
+      "symptom_focus": "Use this when one product feature fails after login and the UI itself is still up."
+    },
+    {
+      "decision_rule": "If a step fails, stop the happy-path sequence, record that step as the current failure point, and collect the matching evidence before moving on.",
+      "dependency_path": [],
+      "label": "Messaging and Data",
+      "likely_failing_services": [
+        "activemq.service",
+        "postgresql.service"
+      ],
+      "playbook_id": "messaging-and-data",
+      "steps": [
+        {
+          "action": "Confirm the customer symptom is really a stuck job, stalled event, or data-backed action failure instead of a pure UI-path issue.",
+          "decision_if_fail": "If the symptom is UI-only, switch to UI and Proxy or Microservice Platform instead of staying here.",
+          "evidence_to_collect": [
+            "Visible status of activemq.service and whether listener 61616 is present."
+          ],
+          "failure_point": "Domain mismatch",
+          "if_fail": "If the symptom is UI-only, switch to UI and Proxy or Microservice Platform instead of staying here.",
+          "if_pass": "Continue to broker validation.",
+          "next_if_pass": "Continue to broker validation.",
+          "recommended_commands": [],
+          "step_id": "messaging-and-data-step-1",
+          "step_label": "Step 1",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Confirm activemq.service is active and listener 61616 is present before assuming the issue is only downstream data state.",
+          "decision_if_fail": "Treat activemq.service or the 61616 listener as the current failure point.",
+          "evidence_to_collect": [
+            "Visible status of activemq.service and whether listener 61616 is present.",
+            "Visible status of postgresql.service and any database connectivity error."
+          ],
+          "failure_point": "activemq.service or 61616 listener",
+          "if_fail": "Treat activemq.service or the 61616 listener as the current failure point.",
+          "if_pass": "Continue to database validation.",
+          "next_if_pass": "Continue to database validation.",
+          "recommended_commands": [
+            {
+              "command": "systemctl status activemq.service --no-pager",
+              "example_output": "",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [],
+              "interpretation": "If the broker is not active, stop here and treat messaging infrastructure as the likely failure point.",
+              "label": "Check activemq.service status"
+            },
+            {
+              "command": "ss -lntp | grep -E ':61616\\b'",
+              "example_output": "",
+              "expected_signal": "A listening socket is present for 61616.",
+              "healthy_markers": [],
+              "interpretation": "If 61616 is missing, queued work may fail before any feature-specific processing begins.",
+              "label": "Check broker listener"
+            }
+          ],
+          "step_id": "messaging-and-data-step-2",
+          "step_label": "Step 2",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Confirm postgresql.service is active and that the customer environment shows no obvious database connectivity or state error.",
+          "decision_if_fail": "Treat postgresql.service as the current failure point for this issue.",
+          "evidence_to_collect": [
+            "Visible status of postgresql.service and any database connectivity error.",
+            "Any stuck job, queue, or backlog indicator shown during the customer session."
+          ],
+          "failure_point": "postgresql.service",
+          "if_fail": "Treat postgresql.service as the current failure point for this issue.",
+          "if_pass": "Continue to backlog or queue-state review.",
+          "next_if_pass": "Continue to backlog or queue-state review.",
+          "recommended_commands": [
+            {
+              "command": "systemctl status postgresql.service --no-pager",
+              "example_output": "",
+              "expected_signal": "Unit is loaded and active (running).",
+              "healthy_markers": [],
+              "interpretation": "If the database is not active, treat data availability as the underlying failure point.",
+              "label": "Check postgresql.service status"
+            }
+          ],
+          "step_id": "messaging-and-data-step-3",
+          "step_label": "Step 3",
+          "why_this_matters": ""
+        },
+        {
+          "action": "Review the visible queue, backlog, or stuck-job signal and decide whether the problem stays in broker/data infrastructure or should move back to a feature-specific domain.",
+          "decision_if_fail": "If queue or backlog evidence cannot be gathered, escalate with the broker and database checks already captured.",
+          "evidence_to_collect": [
+            "Visible status of activemq.service and whether listener 61616 is present.",
+            "Visible status of postgresql.service and any database connectivity error.",
+            "Any stuck job, queue, or backlog indicator shown during the customer session."
+          ],
+          "failure_point": "Queue or backlog evidence incomplete",
+          "if_fail": "If queue or backlog evidence cannot be gathered, escalate with the broker and database checks already captured.",
+          "if_pass": "If infrastructure checks passed, move to the feature-specific domain that owns the stalled job or action.",
+          "next_if_pass": "If infrastructure checks passed, move to the feature-specific domain that owns the stalled job or action.",
+          "recommended_commands": [
+            {
+              "command": "journalctl -u activemq.service -n 50 --no-pager",
+              "example_output": "",
+              "expected_signal": "Recent lines show healthy startup or a clear error signature to classify.",
+              "healthy_markers": [],
+              "interpretation": "Use broker log lines to decide whether the queue layer is blocked, degraded, or forwarding the issue downstream.",
+              "label": "Review activemq.service logs"
+            },
+            {
+              "command": "journalctl -u postgresql.service -n 50 --no-pager",
+              "example_output": "",
+              "expected_signal": "Recent lines show healthy startup or a clear error signature to classify.",
+              "healthy_markers": [],
+              "interpretation": "Use database log lines to spot deeper availability or permission problems affecting queued work.",
+              "label": "Review postgresql.service logs"
+            }
+          ],
+          "step_id": "messaging-and-data-step-4",
+          "step_label": "Step 4",
+          "why_this_matters": ""
+        }
+      ],
+      "symptom_focus": "Use this when jobs stop, queues back up, or data actions fail."
+    }
+  ],
+  "diagnostic_flows": [
+    {
+      "check_sequence": [
+        "Confirm httpd.service is active and ports 80 and 443 are listening.",
+        "Check disk space, inode usage, and memory pressure before going deeper.",
+        "Confirm keycloak.service is active and listener 8443 is present.",
+        "Confirm ms-metro.service is active and listener 8080 is present.",
+        "Review recent httpd, keycloak, and ms-metro logs for startup, heap, disk, or permission errors."
+      ],
+      "evidence_to_collect_next": [
+        "Output of systemctl status for httpd.service, keycloak.service, and ms-metro.service.",
+        "Listener output for ports 80, 443, 8443, and 8080 from ss -lntp.",
+        "Disk, inode, memory, and OOM checks from df -h, df -ih, free -h, and journalctl -k.",
+        "Recent journalctl output for httpd.service, keycloak.service, and ms-metro.service."
+      ],
+      "flow_id": "ui-and-proxy",
+      "label": "Appliance UI is down",
+      "likely_failing_services": [
+        "httpd.service",
+        "keycloak.service",
+        "ms-metro.service"
+      ],
+      "next_dependency_focus": "",
+      "path_checkpoints": [],
+      "supporting_evidence": [
+        "httpd.service listener 443"
+      ],
+      "supporting_service_details": [
+        {
+          "config_refs": [],
+          "listener_ports": [
+            "443",
+            "80"
+          ],
+          "log_refs": [
+            "/var/log/httpd"
+          ],
+          "service_name": "httpd.service"
+        },
+        {
+          "config_refs": [
+            "/etc/httpd/conf.d/keycloak.conf",
+            "/usr/share/keycloak/keycloak_service.conf"
+          ],
+          "listener_ports": [],
+          "log_refs": [],
+          "service_name": "keycloak.service"
+        },
+        {
+          "config_refs": [
+            "/etc/httpd/conf.d/algosec-ms.ms-metro.conf",
+            "/etc/sysconfig/ms-metro"
+          ],
+          "listener_ports": [],
+          "log_refs": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "service_name": "ms-metro.service"
+        }
+      ],
+      "symptom_focus": "Use this when the customer UI is down and the engineer is checking the appliance from SSH."
+    },
+    {
+      "check_sequence": [
+        "Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.",
+        "Confirm postgresql.service is active before treating FireFlow symptoms as application-only.",
+        "Confirm route or local target 1989 for aff-boot.service."
+      ],
+      "evidence_to_collect_next": [
+        "Result of the failing FireFlow action, including the exact endpoint or screen.",
+        "Visible status for aff-boot.service and postgresql.service.",
+        "Any recent FireFlow-related lines from the customer-facing logs or service status output."
+      ],
+      "flow_id": "core-aff",
+      "label": "FireFlow Backend",
+      "likely_failing_services": [
+        "aff-boot.service"
+      ],
+      "next_dependency_focus": "Inspect dependency services next: postgresql.service.",
+      "path_checkpoints": [
+        {
+          "config_checkpoints": [
+            "/etc/httpd/conf.d/aff.conf"
+          ],
+          "entry_service": "aff-boot.service",
+          "label": "aff-boot.service",
+          "listener_ports": [
+            "1989"
+          ],
+          "log_checkpoints": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "path_id": "aff-boot",
+          "route_checkpoints": [
+            {
+              "config_path": "/etc/httpd/conf.d/aff.conf",
+              "locations": "/FireFlow/api, /aff/api",
+              "target_ports": "1989"
+            }
+          ]
+        }
+      ],
+      "supporting_evidence": [
+        "/data/log/algosec_hadr",
+        "/etc/httpd/conf.d/aff.conf",
+        "aff-boot.service listener 1989"
+      ],
+      "supporting_service_details": [
+        {
+          "config_refs": [
+            "/etc/httpd/conf.d/aff.conf"
+          ],
+          "listener_ports": [
+            "1989"
+          ],
+          "log_refs": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "service_name": "aff-boot.service"
+        },
+        {
+          "config_refs": [],
+          "listener_ports": [],
+          "log_refs": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "service_name": "algosec-dfs.service"
+        },
+        {
+          "config_refs": [
+            "/etc/systemd/system/postgresql-15.service.d"
+          ],
+          "listener_ports": [],
+          "log_refs": [
+            "/var/lib/pgsql/15/data"
+          ],
+          "service_name": "postgresql.service"
+        }
+      ],
+      "symptom_focus": "Use this when a FireFlow action fails or FireFlow returns an error."
+    },
+    {
+      "check_sequence": [
+        "Confirm algosec-ms.service completed successfully and the top ms-* services are active.",
+        "Compare the routed microservice paths first: ms-batch-application, ms-bflow, ms-cloudlicensing.",
+        "Check ms-configuration.service early because several other services depend on it.",
+        "Confirm route or local target 8159 for ms-batch-application.service.",
+        "Confirm route or local target 8081 for ms-bflow.service."
+      ],
+      "evidence_to_collect_next": [
+        "Status of the routed path /ms-batch-application/local, /ms-batch-application and whether it still maps to 8159.",
+        "Status of the routed path /BusinessFlow/local, /BusinessFlow and whether it still maps to 8081.",
+        "Visible state of algosec-ms.service and ms-configuration.service.",
+        "Any service status, console error, or log snippet for the failing ms-* feature path."
+      ],
+      "flow_id": "microservice-platform",
+      "label": "Microservice Platform",
+      "likely_failing_services": [
+        "ms-batch-application.service",
+        "ms-bflow.service",
+        "ms-cloudlicensing.service",
+        "ms-configuration.service"
+      ],
+      "next_dependency_focus": "Inspect dependency services next: httpd.service, ms-configuration.service.",
+      "path_checkpoints": [
+        {
+          "config_checkpoints": [
+            "/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf"
+          ],
+          "entry_service": "ms-batch-application.service",
+          "label": "ms-batch-application.service",
+          "listener_ports": [],
+          "log_checkpoints": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "path_id": "ms-batch-application",
+          "route_checkpoints": [
+            {
+              "config_path": "/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf",
+              "locations": "/ms-batch-application/local, /ms-batch-application",
+              "target_ports": "8159"
+            }
+          ]
+        },
+        {
+          "config_checkpoints": [
+            "/etc/httpd/conf.d/algosec-ms.ms-bflow.conf",
+            "/etc/sysconfig/ms-bflow"
+          ],
+          "entry_service": "ms-bflow.service",
+          "label": "ms-bflow.service",
+          "listener_ports": [],
+          "log_checkpoints": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "path_id": "ms-bflow",
+          "route_checkpoints": [
+            {
+              "config_path": "/etc/httpd/conf.d/algosec-ms.ms-bflow.conf",
+              "locations": "/BusinessFlow/local, /BusinessFlow",
+              "target_ports": "8081"
+            }
+          ]
+        },
+        {
+          "config_checkpoints": [
+            "/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf"
+          ],
+          "entry_service": "ms-cloudlicensing.service",
+          "label": "ms-cloudlicensing.service",
+          "listener_ports": [],
+          "log_checkpoints": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "path_id": "ms-cloudlicensing",
+          "route_checkpoints": [
+            {
+              "config_path": "/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf",
+              "locations": "",
+              "target_ports": "8086"
+            }
+          ]
+        }
+      ],
+      "supporting_evidence": [
+        "/data/log/algosec_hadr",
+        "/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf",
+        "/etc/httpd/conf.d/algosec-ms.ms-bflow.conf",
+        "/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf"
+      ],
+      "supporting_service_details": [
+        {
+          "config_refs": [],
+          "listener_ports": [],
+          "log_refs": [],
+          "service_name": "algobot-microsoft-teams.service"
+        },
+        {
+          "config_refs": [],
+          "listener_ports": [],
+          "log_refs": [],
+          "service_name": "algobot-slack.service"
+        },
+        {
+          "config_refs": [],
+          "listener_ports": [],
+          "log_refs": [],
+          "service_name": "algobot-webex-teams.service"
+        },
+        {
+          "config_refs": [],
+          "listener_ports": [],
+          "log_refs": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "service_name": "algosec-ms.service"
+        },
+        {
+          "config_refs": [],
+          "listener_ports": [],
+          "log_refs": [],
+          "service_name": "elastic-ssh-tunnel.service"
+        },
+        {
+          "config_refs": [],
+          "listener_ports": [
+            "443",
+            "80"
+          ],
+          "log_refs": [
+            "/var/log/httpd"
+          ],
+          "service_name": "httpd.service"
+        },
+        {
+          "config_refs": [
+            "/etc/httpd/conf.d/algosec-ms.ms-aad-azure-sensor.conf"
+          ],
+          "listener_ports": [],
+          "log_refs": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "service_name": "ms-aad-azure-sensor.service"
+        },
+        {
+          "config_refs": [
+            "/etc/httpd/conf.d/algosec-ms.ms-aad-log-sensor.conf"
+          ],
+          "listener_ports": [],
+          "log_refs": [
+            "/data/log/algosec_hadr",
+            "/home/afa/algosec"
+          ],
+          "service_name": "ms-aad-log-sensor.service"
+        }
+      ],
+      "symptom_focus": "Use this when one product feature fails after login and the UI itself is still up."
+    },
+    {
+      "check_sequence": [
+        "Confirm activemq.service is active and listener 61616 is present.",
+        "Confirm postgresql.service is active and local database access is healthy."
+      ],
+      "evidence_to_collect_next": [
+        "Visible status of activemq.service and whether listener 61616 is present.",
+        "Visible status of postgresql.service and any database connectivity error.",
+        "Any stuck job, queue, or backlog indicator shown during the customer session."
+      ],
+      "flow_id": "messaging-and-data",
+      "label": "Messaging and Data",
+      "likely_failing_services": [
+        "activemq.service",
+        "postgresql.service"
+      ],
+      "next_dependency_focus": "",
+      "path_checkpoints": [],
+      "supporting_evidence": [
+        "activemq.service listener 61616"
+      ],
+      "supporting_service_details": [
+        {
+          "config_refs": [],
+          "listener_ports": [
+            "61616"
+          ],
+          "log_refs": [
+            "/opt/activemq/data",
+            "/opt/apache-activemq-6.1.7/data"
+          ],
+          "service_name": "activemq.service"
+        },
+        {
+          "config_refs": [
+            "/etc/systemd/system/postgresql-15.service.d"
+          ],
+          "listener_ports": [],
+          "log_refs": [
+            "/var/lib/pgsql/15/data"
+          ],
+          "service_name": "postgresql.service"
+        }
+      ],
+      "symptom_focus": "Use this when jobs stop, queues back up, or data actions fail."
+    }
+  ],
+  "first_response_steps": [
+    "Confirm the customer appliance hostname, OS family, and any visible build markers against the lab baseline.",
+    "Check whether the top AlgoSec services are active and enabled in the customer environment.",
+    "Compare Apache-routed endpoints and local listener ports before moving into deeper service-specific diagnosis.",
+    "Use the recorded config and log checkpoints for the top services before inferring broader platform issues."
+  ],
+  "generated_at": "2026-03-24T04:11:16Z",
+  "inferred": {
+    "priority_services": [
+      {
+        "config_refs": [
+          "/etc/httpd/conf.d/aff.conf"
+        ],
+        "http_routes": [
+          {
+            "config_path": "/etc/httpd/conf.d/aff.conf",
+            "locations": "/FireFlow/api, /aff/api",
+            "target_ports": "1989"
+          }
+        ],
+        "log_refs": [
+          "/data/log/algosec_hadr",
+          "/home/afa/algosec"
+        ],
+        "product_scope": "algosec_product",
+        "role_hint": "application or support service",
+        "service_name": "aff-boot.service",
+        "support_importance_score": 16,
+        "support_importance_tier": "critical"
+      },
+      {
+        "config_refs": [
+          "/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf"
+        ],
+        "http_routes": [
+          {
+            "config_path": "/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf",
+            "locations": "/ms-batch-application/local, /ms-batch-application",
+            "target_ports": "8159"
+          }
+        ],
+        "log_refs": [
+          "/data/log/algosec_hadr",
+          "/home/afa/algosec"
+        ],
+        "product_scope": "algosec_product",
+        "role_hint": "microservice",
+        "service_name": "ms-batch-application.service",
+        "support_importance_score": 12,
+        "support_importance_tier": "critical"
+      },
+      {
+        "config_refs": [
+          "/etc/httpd/conf.d/algosec-ms.ms-bflow.conf",
+          "/etc/sysconfig/ms-bflow"
+        ],
+        "http_routes": [
+          {
+            "config_path": "/etc/httpd/conf.d/algosec-ms.ms-bflow.conf",
+            "locations": "/BusinessFlow/local, /BusinessFlow",
+            "target_ports": "8081"
+          }
+        ],
+        "log_refs": [
+          "/data/log/algosec_hadr",
+          "/home/afa/algosec"
+        ],
+        "product_scope": "algosec_product",
+        "role_hint": "microservice",
+        "service_name": "ms-bflow.service",
+        "support_importance_score": 12,
+        "support_importance_tier": "critical"
+      },
+      {
+        "config_refs": [
+          "/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf"
+        ],
+        "http_routes": [
+          {
+            "config_path": "/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf",
+            "locations": "",
+            "target_ports": "8086"
+          }
+        ],
+        "log_refs": [
+          "/data/log/algosec_hadr",
+          "/home/afa/algosec"
+        ],
+        "product_scope": "algosec_product",
+        "role_hint": "microservice",
+        "service_name": "ms-cloudlicensing.service",
+        "support_importance_score": 12,
+        "support_importance_tier": "critical"
+      },
+      {
+        "config_refs": [
+          "/etc/httpd/conf.d/algosec-ms.ms-configuration.conf"
+        ],
+        "http_routes": [
+          {
+            "config_path": "/etc/httpd/conf.d/algosec-ms.ms-configuration.conf",
+            "locations": "",
+            "target_ports": "8185"
+          }
+        ],
+        "log_refs": [
+          "/data/log/algosec_hadr",
+          "/home/afa/algosec"
+        ],
+        "product_scope": "algosec_product",
+        "role_hint": "microservice",
+        "service_name": "ms-configuration.service",
+        "support_importance_score": 12,
+        "support_importance_tier": "critical"
+      }
+    ],
+    "support_focus": [
+      "Start with AlgoSec product services and direct dependencies before generic Rocky platform services.",
+      "Use service state, local port bindings, and proxy-config mismatches before deeper inference when guiding a remote support session."
+    ]
+  },
+  "observed": {
+    "config_checkpoint_count": 114,
+    "listening_endpoint_count": 55,
+    "log_checkpoint_count": 109,
+    "runtime_identity": {
+      "hostname": "algosec",
+      "kernel_release": "4.18.0-553.89.1.el8_10.x86_64",
+      "os_release": {
+        "ANSI_COLOR": "0;32",
+        "BUG_REPORT_URL": "https://bugs.rockylinux.org/",
+        "CPE_NAME": "cpe:/o:rocky:rocky:8:GA",
+        "HOME_URL": "https://rockylinux.org/",
+        "ID": "rocky",
+        "ID_LIKE": "rhel centos fedora",
+        "LOGO": "fedora-logo-icon",
+        "NAME": "Rocky Linux",
+        "PLATFORM_ID": "platform:el8",
+        "PRETTY_NAME": "Rocky Linux 8.10 (Green Obsidian)",
+        "REDHAT_SUPPORT_PRODUCT": "Rocky Linux",
+        "REDHAT_SUPPORT_PRODUCT_VERSION": "8.10",
+        "ROCKY_SUPPORT_PRODUCT": "Rocky-Linux-8",
+        "ROCKY_SUPPORT_PRODUCT_VERSION": "8.10",
+        "SUPPORT_END": "2029-05-31",
+        "VERSION": "8.10 (Green Obsidian)",
+        "VERSION_ID": "8.10"
+      },
+      "platform": "Linux-4.18.0-553.89.1.el8_10.x86_64-x86_64-with-glibc2.28"
+    },
+    "service_summary": {
+      "critical_services": 35,
+      "product_dependencies": 4,
+      "product_services": 33,
+      "reference_services": 174,
+      "services_with_http_routes": 26,
+      "supporting_services": 52,
+      "total_services": 261
+    }
+  },
+  "schema_version": "adf-support-baseline/v1",
+  "service_paths": [
+    {
+      "config_checkpoints": [
+        "/etc/httpd/conf.d/aff.conf"
+      ],
+      "dependency_services": [
+        {
+          "role_hint": "data service",
+          "service_name": "postgresql.service",
+          "tier": "critical"
+        }
+      ],
+      "entry_role_hint": "application or support service",
+      "entry_service": "aff-boot.service",
+      "label": "aff-boot.service",
+      "listener_ports": [
+        "1989"
+      ],
+      "log_checkpoints": [
+        "/data/log/algosec_hadr",
+        "/home/afa/algosec"
+      ],
+      "path_id": "aff-boot",
+      "route_checkpoints": [
+        {
+          "config_path": "/etc/httpd/conf.d/aff.conf",
+          "locations": "/FireFlow/api, /aff/api",
+          "target_ports": "1989"
+        }
+      ],
+      "summary": "route /FireFlow/api, /aff/api -> 1989; depends on postgresql.service; config checkpoints /etc/httpd/conf.d/aff.conf"
+    },
+    {
+      "config_checkpoints": [
+        "/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf"
+      ],
+      "dependency_services": [
+        {
+          "role_hint": "edge or UI service",
+          "service_name": "httpd.service",
+          "tier": "critical"
+        },
+        {
+          "role_hint": "microservice",
+          "service_name": "ms-configuration.service",
+          "tier": "critical"
+        }
+      ],
+      "entry_role_hint": "microservice",
+      "entry_service": "ms-batch-application.service",
+      "label": "ms-batch-application.service",
+      "listener_ports": [],
+      "log_checkpoints": [
+        "/data/log/algosec_hadr",
+        "/home/afa/algosec"
+      ],
+      "path_id": "ms-batch-application",
+      "route_checkpoints": [
+        {
+          "config_path": "/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf",
+          "locations": "/ms-batch-application/local, /ms-batch-application",
+          "target_ports": "8159"
+        }
+      ],
+      "summary": "route /ms-batch-application/local, /ms-batch-application -> 8159; depends on httpd.service, ms-configuration.service; config checkpoints /etc/httpd/conf.d/algosec-ms.ms-batch-application.conf"
+    },
+    {
+      "config_checkpoints": [
+        "/etc/httpd/conf.d/algosec-ms.ms-bflow.conf",
+        "/etc/sysconfig/ms-bflow"
+      ],
+      "dependency_services": [
+        {
+          "role_hint": "edge or UI service",
+          "service_name": "httpd.service",
+          "tier": "critical"
+        }
+      ],
+      "entry_role_hint": "microservice",
+      "entry_service": "ms-bflow.service",
+      "label": "ms-bflow.service",
+      "listener_ports": [],
+      "log_checkpoints": [
+        "/data/log/algosec_hadr",
+        "/home/afa/algosec"
+      ],
+      "path_id": "ms-bflow",
+      "route_checkpoints": [
+        {
+          "config_path": "/etc/httpd/conf.d/algosec-ms.ms-bflow.conf",
+          "locations": "/BusinessFlow/local, /BusinessFlow",
+          "target_ports": "8081"
+        }
+      ],
+      "summary": "route /BusinessFlow/local, /BusinessFlow -> 8081; depends on httpd.service; config checkpoints /etc/httpd/conf.d/algosec-ms.ms-bflow.conf, /etc/sysconfig/ms-bflow"
+    },
+    {
+      "config_checkpoints": [
+        "/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf"
+      ],
+      "dependency_services": [
+        {
+          "role_hint": "edge or UI service",
+          "service_name": "httpd.service",
+          "tier": "critical"
+        },
+        {
+          "role_hint": "microservice",
+          "service_name": "ms-configuration.service",
+          "tier": "critical"
+        }
+      ],
+      "entry_role_hint": "microservice",
+      "entry_service": "ms-cloudlicensing.service",
+      "label": "ms-cloudlicensing.service",
+      "listener_ports": [],
+      "log_checkpoints": [
+        "/data/log/algosec_hadr",
+        "/home/afa/algosec"
+      ],
+      "path_id": "ms-cloudlicensing",
+      "route_checkpoints": [
+        {
+          "config_path": "/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf",
+          "locations": "",
+          "target_ports": "8086"
+        }
+      ],
+      "summary": "route ms-cloudlicensing -> 8086; depends on httpd.service, ms-configuration.service; config checkpoints /etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf"
+    },
+    {
+      "config_checkpoints": [
+        "/etc/httpd/conf.d/algosec-ms.ms-configuration.conf"
+      ],
+      "dependency_services": [
+        {
+          "role_hint": "edge or UI service",
+          "service_name": "httpd.service",
+          "tier": "critical"
+        }
+      ],
+      "entry_role_hint": "microservice",
+      "entry_service": "ms-configuration.service",
+      "label": "ms-configuration.service",
+      "listener_ports": [],
+      "log_checkpoints": [
+        "/data/log/algosec_hadr",
+        "/home/afa/algosec"
+      ],
+      "path_id": "ms-configuration",
+      "route_checkpoints": [
+        {
+          "config_path": "/etc/httpd/conf.d/algosec-ms.ms-configuration.conf",
+          "locations": "",
+          "target_ports": "8185"
+        }
+      ],
+      "summary": "route ms-configuration -> 8185; depends on httpd.service; config checkpoints /etc/httpd/conf.d/algosec-ms.ms-configuration.conf"
+    }
+  ],
+  "support_domains": [
+    {
+      "domain_id": "ui-and-proxy",
+      "first_checks": [
+        "Confirm httpd.service is active and ports 80 and 443 are listening.",
+        "Check disk space, inode usage, and memory pressure before going deeper.",
+        "Confirm keycloak.service is active and listener 8443 is present.",
+        "Confirm ms-metro.service is active and listener 8080 is present.",
+        "Review recent httpd, keycloak, and ms-metro logs for startup, heap, disk, or permission errors."
+      ],
+      "label": "Appliance UI is down",
+      "path_ids": [],
+      "summary": "services: httpd.service, keycloak.service, ms-metro.service",
+      "supporting_services": [
+        "httpd.service",
+        "keycloak.service",
+        "ms-metro.service"
+      ]
+    },
+    {
+      "domain_id": "core-aff",
+      "first_checks": [
+        "Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.",
+        "Confirm postgresql.service is active before treating FireFlow symptoms as application-only."
+      ],
+      "label": "FireFlow Backend",
+      "path_ids": [
+        "aff-boot"
+      ],
+      "summary": "paths: aff-boot; services: aff-boot.service, algosec-dfs.service, postgresql.service",
+      "supporting_services": [
+        "aff-boot.service",
+        "algosec-dfs.service",
+        "postgresql.service"
+      ]
+    },
+    {
+      "domain_id": "microservice-platform",
+      "first_checks": [
+        "Confirm algosec-ms.service completed successfully and the top ms-* services are active.",
+        "Compare the routed microservice paths first: ms-batch-application, ms-bflow, ms-cloudlicensing.",
+        "Check ms-configuration.service early because several other services depend on it."
+      ],
+      "label": "Microservice Platform",
+      "path_ids": [
+        "ms-batch-application",
+        "ms-bflow",
+        "ms-cloudlicensing",
+        "ms-configuration"
+      ],
+      "summary": "paths: ms-batch-application, ms-bflow, ms-cloudlicensing, ms-configuration; services: algobot-microsoft-teams.service, algobot-slack.service, algobot-webex-teams.service, algosec-ms.service, elastic-ssh-tunnel.service, httpd.service",
+      "supporting_services": [
+        "algobot-microsoft-teams.service",
+        "algobot-slack.service",
+        "algobot-webex-teams.service",
+        "algosec-ms.service",
+        "elastic-ssh-tunnel.service",
+        "httpd.service",
+        "ms-aad-azure-sensor.service",
+        "ms-aad-log-sensor.service",
+        "ms-algobot.service",
+        "ms-autodiscovery.service",
+        "ms-backuprestore.service",
+        "ms-batch-application.service",
+        "ms-bflow.service",
+        "ms-cloudflow-broker.service",
+        "ms-cloudlicensing.service",
+        "ms-configuration.service",
+        "ms-devicedriver-aws.service",
+        "ms-devicedriver-azure.service",
+        "ms-devicemanager.service",
+        "ms-genericdevice.service",
+        "ms-hadr.service",
+        "ms-initial-plan.service",
+        "ms-mapDiagnostics.service",
+        "ms-metro.service",
+        "ms-multipush.service",
+        "ms-policy-optimizations.service",
+        "ms-traffic-simulation.service",
+        "ms-trafficlogmanager.service",
+        "ms-validation.service",
+        "ms-vulnerabilities.service",
+        "ms-watchdog.service",
+        "ssh-connections-monitor.service"
+      ]
+    },
+    {
+      "domain_id": "messaging-and-data",
+      "first_checks": [
+        "Confirm activemq.service is active and listener 61616 is present.",
+        "Confirm postgresql.service is active and local database access is healthy."
+      ],
+      "label": "Messaging and Data",
+      "path_ids": [],
+      "summary": "services: activemq.service, postgresql.service",
+      "supporting_services": [
+        "activemq.service",
+        "postgresql.service"
+      ]
+    }
+  ],
+  "symptom_lookup": [
+    {
+      "first_action": "Confirm httpd.service is active and ports 80 and 443 are listening.",
+      "suggested_domain_id": "ui-and-proxy",
+      "suggested_domain_label": "Appliance UI is down",
+      "suggested_flow_label": "Appliance UI is down",
+      "symptom_id": "appliance-ui-down",
+      "symptom_label": "Appliance UI is down"
+    },
+    {
+      "first_action": "Confirm httpd.service is active and ports 80 and 443 are listening.",
+      "suggested_domain_id": "ui-and-proxy",
+      "suggested_domain_label": "Appliance UI is down",
+      "suggested_flow_label": "Appliance UI is down",
+      "symptom_id": "appliance-login-not-loading",
+      "symptom_label": "Appliance login page not loading"
+    },
+    {
+      "first_action": "Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.",
+      "suggested_domain_id": "core-aff",
+      "suggested_domain_label": "FireFlow Backend",
+      "suggested_flow_label": "FireFlow Backend",
+      "symptom_id": "fireflow-action-failing",
+      "symptom_label": "FireFlow action failing"
+    },
+    {
+      "first_action": "Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.",
+      "suggested_domain_id": "core-aff",
+      "suggested_domain_label": "FireFlow Backend",
+      "suggested_flow_label": "FireFlow Backend",
+      "symptom_id": "fireflow-api-error",
+      "symptom_label": "FireFlow API error"
+    },
+    {
+      "first_action": "Confirm algosec-ms.service completed successfully and the top ms-* services are active.",
+      "suggested_domain_id": "microservice-platform",
+      "suggested_domain_label": "Microservice Platform",
+      "suggested_flow_label": "Microservice Platform",
+      "symptom_id": "feature-failing-behind-ui",
+      "symptom_label": "Feature failing behind UI"
+    },
+    {
+      "first_action": "Confirm algosec-ms.service completed successfully and the top ms-* services are active.",
+      "suggested_domain_id": "microservice-platform",
+      "suggested_domain_label": "Microservice Platform",
+      "suggested_flow_label": "Microservice Platform",
+      "symptom_id": "specific-ms-path-failing",
+      "symptom_label": "Specific microservice path failing"
+    },
+    {
+      "first_action": "Confirm activemq.service is active and listener 61616 is present.",
+      "suggested_domain_id": "messaging-and-data",
+      "suggested_domain_label": "Messaging and Data",
+      "suggested_flow_label": "Messaging and Data",
+      "symptom_id": "job-stuck",
+      "symptom_label": "Job stuck or not progressing"
+    },
+    {
+      "first_action": "Confirm activemq.service is active and listener 61616 is present.",
+      "suggested_domain_id": "messaging-and-data",
+      "suggested_domain_label": "Messaging and Data",
+      "suggested_flow_label": "Messaging and Data",
+      "symptom_id": "data-backed-action-failing",
+      "symptom_label": "Data-backed action failing"
+    }
+  ],
+  "target": {
+    "hostname": "algosec",
+    "target_label": "algosec-lab"
+  },
+  "unknowns": [
+    "Only first-pass config and log checkpoints are collected in this slice.",
+    "Dependency mapping between AlgoSec services is not yet collected directly."
+  ]
+}

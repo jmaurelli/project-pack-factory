@@ -26,9 +26,11 @@ from factory_ops import (
 
 LOOP_EVENT_SCHEMA_NAME: Final[str] = "autonomy-loop-event.schema.json"
 RUN_SUMMARY_SCHEMA_NAME: Final[str] = "autonomy-run-summary.schema.json"
+FEEDBACK_MEMORY_SCHEMA_NAME: Final[str] = "autonomy-feedback-memory.schema.json"
 EVENTS_FILENAME: Final[str] = "loop-events.jsonl"
 SUMMARY_FILENAME: Final[str] = "run-summary.json"
 AUTONOMY_RUNS_DIR: Final[Path] = Path(".pack-state") / "autonomy-runs"
+AGENT_MEMORY_DIR: Final[Path] = Path(".pack-state") / "agent-memory"
 READINESS_PATH: Final[Path] = Path("status/readiness.json")
 WORK_STATE_PATH: Final[Path] = Path("status/work-state.json")
 TASK_BACKLOG_PATH: Final[Path] = Path("tasks/active-backlog.json")
@@ -98,6 +100,10 @@ def _events_path(pack_root: Path, run_id: str) -> Path:
 
 def _summary_path(pack_root: Path, run_id: str) -> Path:
     return _run_root(pack_root, run_id) / SUMMARY_FILENAME
+
+
+def _feedback_memory_path(pack_root: Path, run_id: str) -> Path:
+    return pack_root / AGENT_MEMORY_DIR / f"autonomy-feedback-{run_id}.json"
 
 
 def _write_jsonl_line(path: Path, payload: dict[str, Any]) -> None:
@@ -395,6 +401,79 @@ def _recommended_next_action(
     return f"Recommended next action: review stop reason `{stop_reason}` with the current work-state and backlog before continuing."
 
 
+def _feedback_handoff_summary(
+    *,
+    run_id: str,
+    stop_reason: str,
+    baseline_snapshot: dict[str, Any],
+    final_snapshot: dict[str, Any],
+    completed_task_ids: list[str],
+    highest_risk_observation: str,
+    recommended_next_action: str,
+) -> list[str]:
+    completed_summary = ", ".join(completed_task_ids) if completed_task_ids else "none"
+    return [
+        f"Run `{run_id}` ended with stop reason `{stop_reason}`.",
+        (
+            f"Readiness moved from `{baseline_snapshot['readiness_state']}` to "
+            f"`{final_snapshot['readiness_state']}`; ready_for_deployment={final_snapshot['ready_for_deployment']}."
+        ),
+        f"Completed tasks: {completed_summary}.",
+        highest_risk_observation,
+        recommended_next_action,
+    ]
+
+
+def _build_feedback_memory(
+    *,
+    pack_id: str,
+    run_id: str,
+    ended_at: str,
+    stop_reason: str,
+    baseline_snapshot: dict[str, Any],
+    final_snapshot: dict[str, Any],
+    completed_task_ids: list[str],
+    artifacts: dict[str, Any],
+    operator_summary: str,
+    highest_risk_observation: str,
+    recommended_next_action: str,
+) -> dict[str, Any]:
+    return {
+        "schema_version": "autonomy-feedback-memory/v1",
+        "memory_id": f"autonomy-feedback-{run_id}",
+        "pack_id": pack_id,
+        "run_id": run_id,
+        "generated_at": ended_at,
+        "summary": operator_summary,
+        "handoff_summary": _feedback_handoff_summary(
+            run_id=run_id,
+            stop_reason=stop_reason,
+            baseline_snapshot=baseline_snapshot,
+            final_snapshot=final_snapshot,
+            completed_task_ids=completed_task_ids,
+            highest_risk_observation=highest_risk_observation,
+            recommended_next_action=recommended_next_action,
+        ),
+        "highest_risk_observation": highest_risk_observation,
+        "recommended_next_action": recommended_next_action,
+        "baseline_readiness_state": cast(str, baseline_snapshot["readiness_state"]),
+        "final_readiness_state": cast(str, final_snapshot["readiness_state"]),
+        "active_task_id": final_snapshot.get("active_task_id"),
+        "next_recommended_task_id": final_snapshot.get("next_recommended_task_id"),
+        "ready_for_deployment": bool(final_snapshot["ready_for_deployment"]),
+        "completed_task_ids": completed_task_ids,
+        "evidence_paths": [
+            cast(str, artifacts["loop_events_path"]),
+            cast(str, artifacts["run_summary_path"]),
+        ],
+        "source_artifacts": {
+            "loop_events_path": artifacts["loop_events_path"],
+            "run_summary_path": artifacts["run_summary_path"],
+            "factory_validation_command": artifacts.get("factory_validation_command"),
+        },
+    }
+
+
 def start_run(
     *,
     pack_root: Path,
@@ -596,8 +675,19 @@ def finalize_run(
     artifacts = {
         "loop_events_path": str(events_path),
         "run_summary_path": str(_summary_path(pack_root, run_id)),
+        "feedback_memory_path": str(_feedback_memory_path(pack_root, run_id)),
         "factory_validation_command": validation_command,
     }
+    operator_summary = _operator_summary(metrics, artifacts)
+    highest_risk_observation = _highest_risk_observation(
+        metrics=metrics,
+        final_snapshot=final_snapshot,
+    )
+    recommended_next_action = _recommended_next_action(
+        final_snapshot=final_snapshot,
+        stop_reason=stop_reason,
+        metrics=metrics,
+    )
     summary = {
         "schema_version": "autonomy-run-summary/v1",
         "run_id": run_id,
@@ -618,20 +708,33 @@ def finalize_run(
         "escalation_count": sum(1 for event in events if event.get("event_type") == "escalation_raised"),
         "stop_reason": stop_reason,
         "metrics": metrics,
-        "operator_summary": _operator_summary(metrics, artifacts),
-        "highest_risk_observation": _highest_risk_observation(
-            metrics=metrics,
-            final_snapshot=final_snapshot,
-        ),
-        "recommended_next_action": _recommended_next_action(
-            final_snapshot=final_snapshot,
-            stop_reason=stop_reason,
-            metrics=metrics,
-        ),
+        "operator_summary": operator_summary,
+        "highest_risk_observation": highest_risk_observation,
+        "recommended_next_action": recommended_next_action,
         "artifacts": artifacts,
     }
     _validate_payload(schema_factory_root, RUN_SUMMARY_SCHEMA_NAME, summary, label="autonomy-run-summary")
     write_json(_summary_path(pack_root, run_id), summary)
+    feedback_memory = _build_feedback_memory(
+        pack_id=pack_id,
+        run_id=run_id,
+        ended_at=cast(str, summary["ended_at"]),
+        stop_reason=stop_reason,
+        baseline_snapshot=cast(dict[str, Any], baseline_snapshot),
+        final_snapshot=final_snapshot,
+        completed_task_ids=completed_task_ids,
+        artifacts=artifacts,
+        operator_summary=operator_summary,
+        highest_risk_observation=highest_risk_observation,
+        recommended_next_action=recommended_next_action,
+    )
+    _validate_payload(
+        schema_factory_root,
+        FEEDBACK_MEMORY_SCHEMA_NAME,
+        feedback_memory,
+        label="autonomy-feedback-memory",
+    )
+    write_json(_feedback_memory_path(pack_root, run_id), feedback_memory)
     return summary
 
 

@@ -1,7 +1,7 @@
 # ADF Artifact Model v1
 
-ADF v1 keeps JSON as the source of truth and treats HTML as a render of the
-same baseline artifacts.
+ADF v1 keeps JSON as the source of truth and treats rendered documentation as a
+view of the same baseline artifacts.
 
 ## Generated Artifacts
 
@@ -22,6 +22,11 @@ same baseline artifacts.
 - `support-baseline.html`
   Thin human-facing render of `support-baseline.json` for live remote support
   sessions.
+
+- `starlight-site/`
+  Generated Astro Starlight site source derived from `support-baseline.json`,
+  including `package.json`, `astro.config.mjs`, content collection files,
+  markdown playbook pages, and renderer assets.
 
 ## Boundary Rules
 
