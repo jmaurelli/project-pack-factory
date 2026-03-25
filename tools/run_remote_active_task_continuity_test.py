@@ -106,6 +106,7 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
         from __future__ import annotations
 
         import json
+        import re
         import subprocess
         import sys
         from datetime import datetime, timezone
@@ -119,6 +120,33 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
         PACK_ROOT = Path(".").resolve()
         MEMORY_DIR = PACK_ROOT / ".pack-state" / "agent-memory"
         LATEST_MEMORY_PATH = MEMORY_DIR / "latest-memory.json"
+        TOKEN_PATTERN = re.compile(r"[a-z0-9]+")
+        SEMANTIC_STOPWORDS = {{
+            "and",
+            "the",
+            "for",
+            "with",
+            "that",
+            "this",
+            "from",
+            "into",
+            "after",
+            "before",
+            "when",
+            "then",
+            "than",
+            "only",
+            "same",
+            "shared",
+            "through",
+            "during",
+            "task",
+            "tasks",
+            "next",
+            "pack",
+            "build",
+            "record",
+        }}
 
 
         def now() -> str:
@@ -180,6 +208,231 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
             merged = [result for result in existing if result.get("validation_id") != fresh.get("validation_id")]
             merged.append(fresh)
             return merged
+
+
+        def eligible_next_tasks(backlog: dict[str, object]) -> list[dict[str, object]]:
+            tasks = backlog.get("tasks", [])
+            if not isinstance(tasks, list):
+                raise SystemExit("tasks/active-backlog.json must contain a tasks array")
+            completed_task_ids = set(
+                str(task.get("task_id"))
+                for task in tasks
+                if isinstance(task, dict) and task.get("status") == "completed" and isinstance(task.get("task_id"), str)
+            )
+            eligible: list[dict[str, object]] = []
+            for index, task in enumerate(tasks):
+                if not isinstance(task, dict):
+                    continue
+                task_id = task.get("task_id")
+                if not isinstance(task_id, str) or task.get("status") == "completed":
+                    continue
+                dependencies = task.get("dependencies", [])
+                if not isinstance(dependencies, list):
+                    continue
+                if not all(isinstance(dep, str) and dep in completed_task_ids for dep in dependencies):
+                    continue
+                selection_priority = task.get("selection_priority")
+                priority_rank = selection_priority if isinstance(selection_priority, (int, float)) else 1000
+                eligible.append(
+                    {{
+                        "task_id": task_id,
+                        "priority_rank": priority_rank,
+                        "backlog_index": index,
+                        "has_explicit_priority": isinstance(selection_priority, (int, float)),
+                    }}
+                )
+            eligible.sort(key=lambda item: (float(item["priority_rank"]), int(item["backlog_index"])))
+            return eligible
+
+
+        def tokenize_fragments(fragments: list[str]) -> set[str]:
+            tokens: set[str] = set()
+            for fragment in fragments:
+                for token in TOKEN_PATTERN.findall(fragment.lower()):
+                    if len(token) < 3 or token in SEMANTIC_STOPWORDS:
+                        continue
+                    tokens.add(token)
+            return tokens
+
+
+        def selection_context() -> dict[str, object]:
+            objective_path = PACK_ROOT / "contracts" / "project-objective.json"
+            work_state_path = PACK_ROOT / "status" / "work-state.json"
+            fragments: list[str] = []
+            source_labels: list[str] = []
+            branch_selection_hints: list[dict[str, object]] = []
+            if objective_path.exists():
+                objective = load_json(objective_path)
+                for key in ("objective_summary", "problem_statement"):
+                    value = objective.get(key)
+                    if isinstance(value, str) and value.strip():
+                        fragments.append(value)
+                for key in ("success_criteria", "completion_definition"):
+                    values = objective.get(key, [])
+                    if isinstance(values, list):
+                        fragments.extend(value for value in values if isinstance(value, str) and value.strip())
+                source_labels.append("project_objective")
+            if work_state_path.exists():
+                work_state = load_json(work_state_path)
+                values = work_state.get("resume_instructions", [])
+                if isinstance(values, list):
+                    fragments.extend(value for value in values if isinstance(value, str) and value.strip())
+                source_labels.append("work_state_resume_instructions")
+                hints = work_state.get("branch_selection_hints", [])
+                if isinstance(hints, list):
+                    branch_selection_hints = [hint for hint in hints if isinstance(hint, dict)]
+                    if branch_selection_hints:
+                        source_labels.append("work_state_branch_selection_hints")
+            return {{
+                "tokens": tokenize_fragments(fragments),
+                "source_labels": source_labels,
+                "branch_selection_hints": branch_selection_hints,
+            }}
+
+
+        def task_by_id(backlog: dict[str, object], task_id: str) -> dict[str, object]:
+            for task in backlog.get("tasks", []):
+                if isinstance(task, dict) and task.get("task_id") == task_id:
+                    return task
+            raise SystemExit(f"task {{task_id!r}} was not found in tasks/active-backlog.json")
+
+
+        def task_semantic_score(*, task: dict[str, object], context_tokens: set[str]) -> dict[str, object]:
+            summary_tokens = tokenize_fragments([value for value in [task.get("summary")] if isinstance(value, str)])
+            acceptance_tokens = tokenize_fragments(
+                [value for value in task.get("acceptance_criteria", []) if isinstance(value, str)]
+                if isinstance(task.get("acceptance_criteria", []), list) else []
+            )
+            completion_tokens = tokenize_fragments(
+                [value for value in task.get("completion_signals", []) if isinstance(value, str)]
+                if isinstance(task.get("completion_signals", []), list) else []
+            )
+            signal_tokens = tokenize_fragments(
+                [value for value in task.get("selection_signals", []) if isinstance(value, str)]
+                if isinstance(task.get("selection_signals", []), list) else []
+            )
+            summary_matches = sorted(summary_tokens & context_tokens)
+            acceptance_matches = sorted(acceptance_tokens & context_tokens)
+            completion_matches = sorted(completion_tokens & context_tokens)
+            signal_matches = sorted(signal_tokens & context_tokens)
+            score = (
+                2 * len(summary_matches)
+                + len(acceptance_matches)
+                + len(completion_matches)
+                + 3 * len(signal_matches)
+            )
+            return {{
+                "task_id": task.get("task_id"),
+                "semantic_score": score,
+                "matched_terms": sorted(set(summary_matches + acceptance_matches + completion_matches + signal_matches)),
+                "matched_signal_terms": signal_matches,
+            }}
+
+
+        def hint_preference_decision(*, top_candidates: list[dict[str, object]], branch_selection_hints: list[dict[str, object]]) -> dict[str, object] | None:
+            top_candidate_ids = {{str(item["task_id"]) for item in top_candidates}}
+            for hint in branch_selection_hints:
+                preferred_task_ids = hint.get("preferred_task_ids", [])
+                if not isinstance(preferred_task_ids, list):
+                    continue
+                ranked = [task_id for task_id in preferred_task_ids if isinstance(task_id, str) and task_id in top_candidate_ids]
+                if not ranked:
+                    continue
+                return {{
+                    "chosen_task_id": ranked[0],
+                    "applied_hint_ids": [hint.get("hint_id")],
+                    "hint_summary": hint.get("summary"),
+                }}
+            return None
+
+
+        def resolve_next_task_decision(eligible: list[dict[str, object]]) -> dict[str, object]:
+            if not eligible:
+                return {{
+                    "status": "no_candidate",
+                    "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                    "candidate_task_ids": [],
+                    "top_candidate_task_ids": [],
+                    "chosen_task_id": None,
+                    "ambiguity_reason": None,
+                    "selection_method": None,
+                    "semantic_context_sources": [],
+                    "semantic_scores": [],
+                    "applied_hint_ids": [],
+                    "applied_hint_summary": None,
+                }}
+            top_rank = float(eligible[0]["priority_rank"])
+            top_candidates = [item for item in eligible if float(item["priority_rank"]) == top_rank]
+            if len(top_candidates) > 1:
+                context = selection_context()
+                hint_decision = hint_preference_decision(
+                    top_candidates=top_candidates,
+                    branch_selection_hints=context["branch_selection_hints"],
+                )
+                if hint_decision is not None:
+                    return {{
+                        "status": "selected",
+                        "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                        "candidate_task_ids": [str(item["task_id"]) for item in eligible],
+                        "top_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
+                        "chosen_task_id": str(hint_decision["chosen_task_id"]),
+                        "ambiguity_reason": None,
+                        "selection_method": "operator_hint",
+                        "semantic_context_sources": context["source_labels"],
+                        "semantic_scores": [],
+                        "applied_hint_ids": hint_decision["applied_hint_ids"],
+                        "applied_hint_summary": hint_decision["hint_summary"],
+                    }}
+                semantic_scores = [
+                    task_semantic_score(
+                        task=task_by_id(refreshed_backlog, str(item["task_id"])),
+                        context_tokens=context["tokens"],
+                    )
+                    for item in top_candidates
+                ]
+                if semantic_scores:
+                    best_score = max(int(item["semantic_score"]) for item in semantic_scores)
+                    best_candidates = [item for item in semantic_scores if int(item["semantic_score"]) == best_score]
+                    if best_score > 0 and len(best_candidates) == 1:
+                        return {{
+                            "status": "selected",
+                            "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                            "candidate_task_ids": [str(item["task_id"]) for item in eligible],
+                            "top_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
+                            "chosen_task_id": str(best_candidates[0]["task_id"]),
+                            "ambiguity_reason": None,
+                            "selection_method": "semantic_alignment",
+                            "semantic_context_sources": context["source_labels"],
+                            "semantic_scores": semantic_scores,
+                            "applied_hint_ids": [],
+                            "applied_hint_summary": None,
+                        }}
+                return {{
+                    "status": "ambiguous",
+                    "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                    "candidate_task_ids": [str(item["task_id"]) for item in eligible],
+                    "top_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
+                    "chosen_task_id": None,
+                    "ambiguity_reason": "multiple eligible tasks shared the same highest precedence and semantic alignment did not uniquely disambiguate them",
+                    "selection_method": "ambiguous_after_semantic_alignment",
+                    "semantic_context_sources": context["source_labels"],
+                    "semantic_scores": semantic_scores,
+                    "applied_hint_ids": [],
+                    "applied_hint_summary": None,
+                }}
+            return {{
+                "status": "selected",
+                "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                "candidate_task_ids": [str(item["task_id"]) for item in eligible],
+                "top_candidate_task_ids": [str(item["task_id"]) for item in top_candidates],
+                "chosen_task_id": str(eligible[0]["task_id"]),
+                "ambiguity_reason": None,
+                "selection_method": "priority_or_single_candidate",
+                "semantic_context_sources": [],
+                "semantic_scores": [],
+                "applied_hint_ids": [],
+                "applied_hint_summary": None,
+            }}
 
 
         memory_path, memory_doc, memory_source = latest_feedback_memory()
@@ -282,7 +535,113 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
             and isinstance(task.get("task_id"), str)
             and task.get("status") != "completed"
         ]
-        next_active_task_id = None if bool(refreshed_readiness.get("ready_for_deployment")) or not remaining_task_ids else remaining_task_ids[0]
+        eligible_tasks = eligible_next_tasks(refreshed_backlog)
+        next_active_task_id = None
+        branch_selection_path = None
+        branch_selection_notes = []
+        if not bool(refreshed_readiness.get("ready_for_deployment")) and eligible_tasks:
+            branch_decision = resolve_next_task_decision(eligible_tasks)
+            if len(branch_decision["candidate_task_ids"]) > 1 or branch_decision["status"] == "ambiguous":
+                branch_selection_payload = {{
+                    "schema_version": "branch-selection-summary/v1",
+                    "run_id": RUN_ID,
+                    "recorded_at": now(),
+                    "status": branch_decision["status"],
+                    "selection_rule": branch_decision["selection_rule"],
+                    "selection_method": branch_decision["selection_method"],
+                    "candidate_task_ids": branch_decision["candidate_task_ids"],
+                    "top_candidate_task_ids": branch_decision["top_candidate_task_ids"],
+                    "chosen_task_id": branch_decision["chosen_task_id"],
+                    "ambiguity_reason": branch_decision["ambiguity_reason"],
+                    "applied_hint_ids": branch_decision["applied_hint_ids"],
+                    "applied_hint_summary": branch_decision["applied_hint_summary"],
+                    "semantic_context_sources": branch_decision["semantic_context_sources"],
+                    "semantic_scores": branch_decision["semantic_scores"],
+                }}
+                branch_selection_file = PACK_ROOT / ".pack-state" / "autonomy-runs" / RUN_ID / "branch-selection.json"
+                write_json(branch_selection_file, branch_selection_payload)
+                branch_selection_path = branch_selection_file.relative_to(PACK_ROOT).as_posix()
+            if branch_decision["status"] == "ambiguous":
+                ambiguous_task_ids = [str(task_id) for task_id in branch_decision["top_candidate_task_ids"]]
+                for task in refreshed_backlog.get("tasks", []):
+                    if not isinstance(task, dict):
+                        continue
+                    if task.get("status") != "completed":
+                        task["status"] = "pending"
+                write_json(backlog_path, refreshed_backlog)
+
+                refreshed_work_state = load_json(work_state_path)
+                last_validation_results = list(refreshed_work_state.get("last_validation_results", []))
+                for result in recorded_results:
+                    if isinstance(result, dict):
+                        last_validation_results = merge_validation_results(last_validation_results, result)
+                completed_task_ids = list(refreshed_work_state.get("completed_task_ids", []))
+                if EXPECTED_ACTIVE_TASK_ID not in completed_task_ids:
+                    completed_task_ids.append(EXPECTED_ACTIVE_TASK_ID)
+                refreshed_work_state.update(
+                    {{
+                        "autonomy_state": "blocked",
+                        "active_task_id": None,
+                        "next_recommended_task_id": None,
+                        "pending_task_ids": remaining_task_ids,
+                        "blocked_task_ids": ambiguous_task_ids,
+                        "completed_task_ids": completed_task_ids,
+                        "last_outcome": "ambiguity_requires_operator_review",
+                        "last_outcome_at": now(),
+                        "last_validation_results": last_validation_results,
+                        "last_agent_action": (
+                            f"Completed `{{EXPECTED_ACTIVE_TASK_ID}}` through remote active-task continuity but stopped because multiple next tasks remained ambiguous: "
+                            + ", ".join(f"`{{task_id}}`" for task_id in ambiguous_task_ids)
+                            + "."
+                        ),
+                        "escalation_state": "operator_review_required",
+                    }}
+                )
+                write_json(work_state_path, refreshed_work_state)
+
+                append_event(
+                    pack_root=PACK_ROOT,
+                    run_id=RUN_ID,
+                    event_type="escalation_raised",
+                    outcome="ambiguous_next_task_selection",
+                    decision_source="canonical_plus_memory",
+                    memory_state="used_and_consistent",
+                    commands_attempted=[],
+                    notes=[
+                        str(branch_decision["ambiguity_reason"]),
+                        f"Operator disambiguation is required before continuing: {{', '.join(ambiguous_task_ids)}}.",
+                    ],
+                    evidence_paths=[] if branch_selection_path is None else [branch_selection_path],
+                    stop_reason="declared_escalation_boundary",
+                    active_task_id=None,
+                    next_recommended_task_id=None,
+                )
+                print(
+                    json.dumps(
+                        {{
+                            "status": "blocked",
+                            "completed_task_id": EXPECTED_ACTIVE_TASK_ID,
+                            "blocked_task_ids": ambiguous_task_ids,
+                            "ready_for_deployment": bool(refreshed_readiness.get("ready_for_deployment")),
+                        }},
+                        sort_keys=True,
+                    )
+                )
+                raise SystemExit(0)
+
+            next_active_task_id = str(branch_decision["chosen_task_id"])
+            if str(branch_decision.get("selection_method")) == "operator_hint":
+                branch_selection_notes.append(
+                    f"Multiple next tasks were eligible; selected `{{next_active_task_id}}` using operator branch-selection hints."
+                )
+            elif str(branch_decision.get("selection_method")) == "semantic_alignment":
+                branch_selection_notes.append(
+                    f"Multiple next tasks were eligible; selected `{{next_active_task_id}}` using bounded semantic alignment to the objective and resume context."
+                )
+            elif len(branch_decision["candidate_task_ids"]) > 1:
+                branch_selection_notes.append(
+                    f"Multiple next tasks were eligible; selected `{{next_active_task_id}}` using the lowest selection_priority."
+                )
         for task in refreshed_backlog.get("tasks", []):
             if not isinstance(task, dict):
                 continue
@@ -313,7 +672,11 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
                 "last_outcome": "task_completed",
                 "last_outcome_at": now(),
                 "last_validation_results": last_validation_results,
-                "last_agent_action": f"Completed `{{EXPECTED_ACTIVE_TASK_ID}}` through remote active-task continuity and advanced canonical state.",
+                "last_agent_action": (
+                    f"Completed `{{EXPECTED_ACTIVE_TASK_ID}}` through remote active-task continuity and advanced canonical state."
+                    if not branch_selection_notes
+                    else f"Completed `{{EXPECTED_ACTIVE_TASK_ID}}`, evaluated multiple eligible next tasks, and advanced canonical state with `{{next_active_task_id}}` selected."
+                ),
                 "escalation_state": "none",
             }}
         )
@@ -330,8 +693,9 @@ def _build_remote_runner(run_id: str, expected_active_task_id: str) -> str:
             notes=[
                 f"Completed active task `{{EXPECTED_ACTIVE_TASK_ID}}` and advanced canonical state to next task {{next_active_task_id!r}}.",
                 f"ready_for_deployment={{bool(refreshed_readiness.get('ready_for_deployment'))}}.",
+                *branch_selection_notes,
             ],
-            evidence_paths=[],
+            evidence_paths=[] if branch_selection_path is None else [branch_selection_path],
             stop_reason=None,
             active_task_id=next_active_task_id,
             next_recommended_task_id=next_active_task_id,
@@ -447,20 +811,23 @@ def _run_roundtrip_with_seeded_validation_artifacts(*, factory_root: Path, test_
     if pulled_bundle_sha256 != sha256_tree(pulled_bundle_path):
         raise ValueError("pulled bundle sha256 does not match the staged local bundle directory")
 
-    import_request_path = wrapper_request.local_bundle_staging_dir / "generated-import-request.json"
-    import_request_payload = {
-        "schema_version": "external-runtime-evidence-import-request/v1",
-        "build_pack_id": remote_request.source_build_pack_id,
-        "bundle_manifest_path": str(pulled_bundle_path / "bundle.json"),
-        "import_reason": wrapper_request.import_reason,
-        "imported_by": wrapper_request.imported_by,
-    }
-    write_json(import_request_path, import_request_payload)
-    import_result = import_external_runtime_evidence(
-        factory_root,
-        import_request_payload,
-        request_file_dir=import_request_path.parent.resolve(),
-    )
+    import_request_path: Path | None = None
+    import_result: dict[str, Any] | None = None
+    if wrapper_request.import_bundle:
+        import_request_path = wrapper_request.local_bundle_staging_dir / "generated-import-request.json"
+        import_request_payload = {
+            "schema_version": "external-runtime-evidence-import-request/v1",
+            "build_pack_id": remote_request.source_build_pack_id,
+            "bundle_manifest_path": str(pulled_bundle_path / "bundle.json"),
+            "import_reason": wrapper_request.import_reason,
+            "imported_by": wrapper_request.imported_by,
+        }
+        write_json(import_request_path, import_request_payload)
+        import_result = import_external_runtime_evidence(
+            factory_root,
+            import_request_payload,
+            request_file_dir=import_request_path.parent.resolve(),
+        )
 
     roundtrip_manifest_path = wrapper_request.local_bundle_staging_dir / "roundtrip-manifest.json"
     roundtrip_manifest = {
@@ -476,8 +843,8 @@ def _run_roundtrip_with_seeded_validation_artifacts(*, factory_root: Path, test_
         "pulled_bundle_path": str(pulled_bundle_path),
         "pulled_bundle_sha256": pulled_bundle_sha256,
         "pulled_at": pull_result["pulled_at"],
-        "generated_import_request_path": str(import_request_path),
-        "generated_import_request_sha256": sha256_path(import_request_path),
+        "generated_import_request_path": None if import_request_path is None else str(import_request_path),
+        "generated_import_request_sha256": None if import_request_path is None else sha256_path(import_request_path),
     }
     write_validated_roundtrip_manifest(
         factory_root=factory_root,
@@ -501,7 +868,7 @@ def _run_roundtrip_with_seeded_validation_artifacts(*, factory_root: Path, test_
         "pull_result": pull_result,
         "import_result": import_result,
         "roundtrip_manifest_path": str(roundtrip_manifest_path),
-        "import_report_path": str(import_result["import_report_path"]),
+        "import_report_path": None if import_result is None else str(import_result["import_report_path"]),
     }
 
 

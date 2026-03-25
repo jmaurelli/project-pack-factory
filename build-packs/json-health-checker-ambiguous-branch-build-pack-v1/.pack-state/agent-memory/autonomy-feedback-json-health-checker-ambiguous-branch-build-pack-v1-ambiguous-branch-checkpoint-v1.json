@@ -1,0 +1,45 @@
+{
+  "active_task_id": null,
+  "baseline_readiness_state": "in_progress",
+  "block_summary": {
+    "blocking_artifact_kind": "factory_validation",
+    "blocking_artifact_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1/run-summary.json",
+    "details": [
+      "/usr/bin/python3 /home/orchadmin/project-pack-factory/tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+    ],
+    "reason": "canonical_state_integrity_failed",
+    "recommended_recovery_action": "Run the recorded factory validation command and resolve those integrity issues before trusting or continuing the autonomy loop.",
+    "status": "blocked",
+    "summary": "Autonomy stopped fail-closed because canonical state integrity did not pass."
+  },
+  "completed_task_ids": [
+    "run_build_pack_validation"
+  ],
+  "evidence_paths": [
+    "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1/loop-events.jsonl",
+    "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1/run-summary.json"
+  ],
+  "final_readiness_state": "in_progress",
+  "generated_at": "2026-03-25T18:37:36Z",
+  "handoff_summary": [
+    "Run `json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1` ended with stop reason `declared_escalation_boundary`.",
+    "Readiness moved from `in_progress` to `in_progress`; ready_for_deployment=False.",
+    "Completed tasks: run_build_pack_validation.",
+    "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+    "Recommended next action: resolve canonical state integrity issues before continuing autonomous work."
+  ],
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+  "memory_id": "autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1",
+  "next_recommended_task_id": null,
+  "pack_id": "json-health-checker-ambiguous-branch-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: resolve canonical state integrity issues before continuing autonomous work.",
+  "run_id": "json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "factory_validation_command": "/usr/bin/python3 /home/orchadmin/project-pack-factory/tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+    "loop_events_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1/loop-events.jsonl",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1/run-summary.json"
+  },
+  "summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json."
+}

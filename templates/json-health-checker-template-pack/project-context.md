@@ -10,6 +10,8 @@ This template was created to support the following project goal:
 2. Keep validation and benchmark commands small and deterministic.
 3. Keep the runtime behavior focused on one small JSON health-check task.
 4. Keep the pack easy for a fresh agent to inspect.
+5. Keep the template aligned with the PackFactory autonomy baseline so future
+   build-packs inherit agent-memory and stop-restart defaults cleanly.
 
 ## Primary Runtime Surfaces
 
@@ -24,3 +26,15 @@ This template was created to support the following project goal:
 ## Local State
 
 - local scratch state: `.pack-state/`
+
+## Factory-Level Inheritance Note
+
+This template is a source template, not the canonical home of the autonomy
+baseline.
+
+For inherited PackFactory defaults around agent memory, feedback loops,
+restart behavior, rehearsal evidence, and branch-choice policy, prefer the
+factory-level state brief and operations note:
+
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`

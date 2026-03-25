@@ -20,6 +20,7 @@ MEMORY_ROOT = Path(".pack-state") / "agent-memory"
 POINTER_NAME = "latest-memory.json"
 PLANNING_LIST = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md")
 OPERATIONS_NOTE = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md")
+STATE_BRIEF = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md")
 SOURCE_TOOL = "tools/refresh_factory_autonomy_memory.py"
 CHECKLIST_PATTERN = re.compile(r"^- \[(?P<done>[ xX])\] (?P<text>.+)$")
 
@@ -205,6 +206,7 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
     key_artifacts = [
         str(PLANNING_LIST),
         str(OPERATIONS_NOTE),
+        str(STATE_BRIEF),
         "AGENTS.md",
         "README.md",
     ]
@@ -221,13 +223,15 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
         "summary": (
             "PackFactory now has factory-default multi-hop autonomy rehearsal, root-level discoverability notes, "
             "promotion gating through compatible autonomy rehearsal evidence, and a built-in canonical readiness "
-            "refresh at the end of rehearsal. The next highest-value work is to compress the remaining operator "
-            "steps into a tighter autonomy-to-promotion path and keep the factory root memory current."
+            "refresh at the end of rehearsal. It can also stop honestly at ambiguous branch boundaries, honor "
+            "explicit operator branch-selection hints, and use bounded semantic tie-breaking when objective, "
+            "resume context, and task selection signals make one candidate clearly stronger. The next highest-value "
+            "work is to expand broader operator support while keeping that bounded branch-choice ladder explainable."
         ),
         "current_focus": [
             "Keep factory-level autonomy discoverable from the root startup surfaces.",
             "Keep root-level restart memory current so the next agent can recover the current autonomy toolset quickly.",
-            "Turn the validated rehearsal-plus-promotion path into a smaller operator workflow.",
+            "Expand broader operator support around the current branch-choice ladder without broadening into open-ended semantic choice by default.",
         ],
         "next_action_items": next_action_items,
         "pending_items": pending_items,
@@ -240,6 +244,9 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "Import, compatibility-gate, and activate returned feedback memory automatically when it still matches canonical state.",
             "Run a multi-hop autonomy rehearsal and use that rehearsal as real promotion evidence.",
             "Promote a build-pack only when compatible autonomy rehearsal evidence still matches its current canonical state.",
+            "Stop fail-closed when multiple next tasks remain ambiguous after priority and bounded semantic comparison.",
+            "Honor explicit operator branch-selection hints from canonical work-state before falling back to semantic tie-breaking.",
+            "Use bounded semantic alignment to break a next-task tie when the project objective, resume instructions, and task selection signals make one candidate clearly stronger.",
         ],
         "known_limits": known_limits or [
             "A completed multi-hop rehearsal can still require a local canonical readiness refresh before promotion succeeds cleanly in one pass.",
@@ -257,12 +264,16 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>",
             "python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
             "python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+            "python3 tools/apply_branch_selection_hint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --hint-id <hint-id> --summary \"<summary>\" --preferred-task-id <task-id> --output json",
+            "python3 tools/run_semantic_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+            "python3 tools/run_operator_hint_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
             "python3 tools/promote_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json",
             "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json",
         ],
         "discovery_entrypoints": [
             "AGENTS.md",
             "README.md",
+            str(STATE_BRIEF),
             str(OPERATIONS_NOTE),
             str(PLANNING_LIST),
             ".pack-state/agent-memory/latest-memory.json",
@@ -271,6 +282,7 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "latest_rehearsal_report_path": latest_rehearsal,
             "latest_promotion_report_path": latest_promotion,
             "latest_testing_pointer_path": testing_pointer,
+            "current_state_brief_path": str(STATE_BRIEF),
             "planning_list_path": str(PLANNING_LIST),
             "operations_note_path": str(OPERATIONS_NOTE),
         },
@@ -278,7 +290,9 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
         "notes": [
             "This root memory is advisory restart context for the PackFactory repo itself; registry, deployment, readiness, and promotion surfaces remain canonical.",
             "The strongest current proof path is the JSON health checker proving-ground line, especially the promotion-gate pack promoted into testing on 2026-03-25.",
+            "Use the autonomy state brief when you need one stable repo-level snapshot of the current memory, restart, branch-choice, and proof baseline.",
             "Pending and overdue items are derived from the autonomy planning list so executive-summary memory stays tied to an explicit planning surface.",
+            "Priority-driven choice, explicit operator hint overrides, and bounded semantic branch choice are now proven capabilities; the chosen next expansion is broader operator support before any move toward more open-ended semantic branch choice.",
             "Refresh this memory after significant autonomy tooling, rehearsal, or promotion-gate changes so the next agent inherits current factory capabilities and limits.",
         ],
     }

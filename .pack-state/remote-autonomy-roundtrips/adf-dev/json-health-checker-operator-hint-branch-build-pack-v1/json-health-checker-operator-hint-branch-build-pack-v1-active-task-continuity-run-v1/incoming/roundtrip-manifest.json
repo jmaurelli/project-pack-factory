@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "eb3798cb474df0ba44558ae7ab16ec30fc34d9bcc9702bbf028a34ed05e48764",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-operator-hint-branch-build-pack-v1/json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "d3c584f45b3aceb9fdf1ea90f3fdac1234b0b8f6e272d4d6e4635074f020d839",
+  "portable_helper_manifest_sha256": "5b162de354910589dac1c82a5e9045ea7178bb7c720aaafbf54938ad0c66f700",
+  "pulled_at": "2026-03-25T19:18:52Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-operator-hint-branch-build-pack-v1/json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "fa938d24806ade46d275d12a40ae43ef4a33b43750f5a8f501936f5d350b8803",
+  "remote_run_request_sha256": "67912a81cf38f825057d2c946c5f12320b4c0f7b970bad276dd748678d93dd61",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-operator-hint-branch-build-pack-v1",
+  "target_manifest_sha256": "7536d7de0eef13d1c1b7d00d9ae7a4a9d9e0c9c51428f6ac029b32ea65608b5a",
+  "wrapper_request_sha256": "db5574ff8e7aeb5bd67b2ff0e6c53f3841e19ce67e25b0d857251ac661d6b984"
+}

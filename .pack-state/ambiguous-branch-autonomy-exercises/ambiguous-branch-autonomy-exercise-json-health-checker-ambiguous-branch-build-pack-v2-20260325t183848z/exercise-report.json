@@ -1,0 +1,359 @@
+{
+  "ambiguous_branch_setup_result": {
+    "benchmark_dependencies": [
+      "record_ambiguous_branch_alpha",
+      "record_ambiguous_branch_beta"
+    ],
+    "branch_order_in_backlog": [
+      "record_ambiguous_branch_alpha",
+      "record_ambiguous_branch_beta"
+    ],
+    "branch_selection_priority": {
+      "record_ambiguous_branch_alpha": null,
+      "record_ambiguous_branch_beta": null
+    },
+    "branch_task_ids": [
+      "record_ambiguous_branch_alpha",
+      "record_ambiguous_branch_beta"
+    ],
+    "expected_blocked_task_ids": [
+      "record_ambiguous_branch_alpha",
+      "record_ambiguous_branch_beta"
+    ],
+    "helper_script_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/src/record_ambiguous_branch_progress.py",
+    "status": "completed"
+  },
+  "checkpoint_result": {
+    "blocked_task_ids": [
+      "record_ambiguous_branch_alpha",
+      "record_ambiguous_branch_beta"
+    ],
+    "build_pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+    "completed_task_id": "run_build_pack_validation",
+    "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/.pack-state/agent-memory/autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1.json",
+    "next_active_task_id": null,
+    "pointer_result": {
+      "build_pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+      "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/.pack-state/agent-memory/latest-memory.json",
+      "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/.pack-state/agent-memory/autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1.json",
+      "selected_run_id": "json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1",
+      "status": "activated"
+    },
+    "run_id": "json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1/run-summary.json",
+    "status": "blocked"
+  },
+  "exercise_id": "ambiguous-branch-autonomy-exercise-json-health-checker-ambiguous-branch-build-pack-v2-20260325t183848z",
+  "final_state": {
+    "latest_memory": {
+      "pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+      "schema_version": "autonomy-feedback-memory-pointer/v1",
+      "selected_generated_at": "2026-03-25T18:38:48Z",
+      "selected_memory_id": "autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1",
+      "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1.json",
+      "selected_memory_sha256": "2a018ca65e6fd5f6810fa199b744274ed7e51e48a2e750c94996ca81c594d70b",
+      "selected_run_id": "json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1",
+      "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1.json",
+      "source_import_id": null,
+      "source_import_report_path": null,
+      "source_kind": "local_autonomy_run",
+      "updated_at": "2026-03-25T18:38:48Z"
+    },
+    "readiness": {
+      "blocking_issues": [
+        "This build pack has been materialized but has not been evaluated yet."
+      ],
+      "last_evaluated_at": "2026-03-25T18:38:48Z",
+      "pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+      "pack_kind": "build_pack",
+      "readiness_state": "in_progress",
+      "ready_for_deployment": false,
+      "recommended_next_actions": [
+        "Start with the canonical validation task in tasks/active-backlog.json.",
+        "Run the inherited benchmark task after validation passes."
+      ],
+      "required_gates": [
+        {
+          "evidence_paths": [
+            "eval/history/readiness-eval-json-health-checker-ambiguous-branch-build-pack-v2-validation-20260325t183848z/validation-result.json"
+          ],
+          "gate_id": "validate_build_pack_contract",
+          "last_run_at": "2026-03-25T18:38:48Z",
+          "mandatory": true,
+          "status": "pass",
+          "summary": "Build-pack contract validation has not been executed yet."
+        },
+        {
+          "evidence_paths": [],
+          "gate_id": "json_health_checker_template_pack_smoke_small_001",
+          "last_run_at": null,
+          "mandatory": true,
+          "status": "not_run",
+          "summary": "Run a small deterministic JSON health-check smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration."
+        }
+      ],
+      "schema_version": "pack-readiness/v2"
+    },
+    "task_backlog": {
+      "generated_at": "2026-03-25T18:38:48Z",
+      "objective_id": "json-health-checker-ambiguous-branch-build-pack-v2_objective",
+      "pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+      "schema_version": "task-backlog/v1",
+      "tasks": [
+        {
+          "acceptance_criteria": [
+            "The validation readiness-evaluation workflow exits successfully.",
+            "The validation gate records passing evidence in status/readiness.json."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "validate_build_pack_contract reaches pass state.",
+            "Validation evaluation evidence is recorded under eval/history and linked from status/readiness.json."
+          ],
+          "dependencies": [],
+          "escalation_conditions": [
+            "Validation reports schema or contract failures that the current task scope cannot resolve safely."
+          ],
+          "files_in_scope": [
+            "pack.json",
+            "status/readiness.json",
+            "eval/latest/index.json"
+          ],
+          "objective_link": "json-health-checker-ambiguous-branch-build-pack-v2_objective",
+          "status": "completed",
+          "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
+          "task_id": "run_build_pack_validation",
+          "validation_commands": [
+            "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+          ]
+        },
+        {
+          "acceptance_criteria": [
+            "The helper exits successfully for the selected branch.",
+            "A bounded ambiguous-branch checkpoint artifact is written under eval/history."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "A bounded checkpoint artifact is recorded under eval/history for ambiguous branch alpha."
+          ],
+          "dependencies": [
+            "run_build_pack_validation"
+          ],
+          "escalation_conditions": [
+            "Operator disambiguation is required if multiple next tasks remain equally eligible."
+          ],
+          "files_in_scope": [
+            "src/record_ambiguous_branch_progress.py",
+            "eval/history",
+            "status/work-state.json",
+            "status/readiness.json"
+          ],
+          "objective_link": "json-health-checker-ambiguous-branch-build-pack-v2_objective",
+          "status": "pending",
+          "summary": "Record ambiguous branch-alpha checkpoint evidence after validation passes.",
+          "task_id": "record_ambiguous_branch_alpha",
+          "validation_commands": [
+            "python3 src/record_ambiguous_branch_progress.py --pack-root . --task-id record_ambiguous_branch_alpha --branch-lane alpha --output json"
+          ]
+        },
+        {
+          "acceptance_criteria": [
+            "The helper exits successfully for the selected branch.",
+            "A bounded ambiguous-branch checkpoint artifact is written under eval/history."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "A bounded checkpoint artifact is recorded under eval/history for ambiguous branch beta."
+          ],
+          "dependencies": [
+            "run_build_pack_validation"
+          ],
+          "escalation_conditions": [
+            "Operator disambiguation is required if multiple next tasks remain equally eligible."
+          ],
+          "files_in_scope": [
+            "src/record_ambiguous_branch_progress.py",
+            "eval/history",
+            "status/work-state.json",
+            "status/readiness.json"
+          ],
+          "objective_link": "json-health-checker-ambiguous-branch-build-pack-v2_objective",
+          "status": "pending",
+          "summary": "Record ambiguous branch-beta checkpoint evidence after validation passes.",
+          "task_id": "record_ambiguous_branch_beta",
+          "validation_commands": [
+            "python3 src/record_ambiguous_branch_progress.py --pack-root . --task-id record_ambiguous_branch_beta --branch-lane beta --output json"
+          ]
+        },
+        {
+          "acceptance_criteria": [
+            "The benchmark readiness-evaluation workflow exits successfully.",
+            "Inherited benchmark gates update from not_run to pass or waived."
+          ],
+          "blocked_by": [],
+          "completion_signals": [
+            "Benchmark evaluation evidence records results in eval/latest/index.json.",
+            "Required benchmark gates advance to pass or waived in status/readiness.json."
+          ],
+          "dependencies": [
+            "record_ambiguous_branch_alpha",
+            "record_ambiguous_branch_beta"
+          ],
+          "escalation_conditions": [
+            "Benchmark output fails to update readiness or eval state through the existing bounded surfaces."
+          ],
+          "files_in_scope": [
+            "benchmarks/active-set.json",
+            "status/readiness.json",
+            "eval/latest/index.json"
+          ],
+          "objective_link": "json-health-checker-ambiguous-branch-build-pack-v2_objective",
+          "status": "pending",
+          "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
+          "task_id": "run_inherited_benchmarks",
+          "validation_commands": [
+            "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+          ]
+        }
+      ]
+    },
+    "work_state": {
+      "active_task_id": null,
+      "autonomy_state": "blocked",
+      "blocked_task_ids": [
+        "record_ambiguous_branch_alpha",
+        "record_ambiguous_branch_beta"
+      ],
+      "completed_task_ids": [
+        "run_build_pack_validation"
+      ],
+      "escalation_state": "operator_review_required",
+      "last_agent_action": "Completed `run_build_pack_validation` locally but stopped because multiple next tasks shared the same highest precedence: `record_ambiguous_branch_alpha`, `record_ambiguous_branch_beta`.",
+      "last_outcome": "ambiguity_requires_operator_review",
+      "last_outcome_at": "2026-03-25T18:38:48Z",
+      "last_validation_results": [
+        {
+          "evidence_paths": [
+            "eval/history/readiness-eval-json-health-checker-ambiguous-branch-build-pack-v2-validation-20260325t183848z/validation-result.json"
+          ],
+          "recorded_at": "2026-03-25T18:38:48Z",
+          "status": "pass",
+          "summary": "Completed `run_build_pack_validation` through the declared validation_commands during a local mid-backlog checkpoint.",
+          "validation_id": "run_build_pack_validation"
+        }
+      ],
+      "next_recommended_task_id": null,
+      "objective_id": "json-health-checker-ambiguous-branch-build-pack-v2_objective",
+      "pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+      "pending_task_ids": [
+        "record_ambiguous_branch_alpha",
+        "record_ambiguous_branch_beta",
+        "run_inherited_benchmarks"
+      ],
+      "resume_instructions": [
+        "Read the objective, backlog, and work-state files before editing code.",
+        "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+        "Run the validation task before attempting benchmark execution or deployment workflows.",
+        "If multiple next tasks share the same highest precedence, stop fail-closed and request operator disambiguation instead of choosing by backlog order."
+      ],
+      "schema_version": "work-state/v1",
+      "stop_conditions": [
+        "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+        "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+      ]
+    }
+  },
+  "generated_at": "2026-03-25T18:38:48Z",
+  "materialization_result": {
+    "materialization_id": "materialize-json-health-checker-ambiguous-branch-build-pack-v2-20260325t183848z",
+    "materialization_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/eval/history/materialize-json-health-checker-ambiguous-branch-build-pack-v2-20260325t183848z/materialization-report.json",
+    "source_template_id": "json-health-checker-template-pack",
+    "status": "completed",
+    "target_build_pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+    "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2"
+  },
+  "run_summary": {
+    "artifacts": {
+      "factory_validation_command": null,
+      "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/.pack-state/agent-memory/autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1.json",
+      "loop_events_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1/loop-events.jsonl",
+      "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1/run-summary.json"
+    },
+    "baseline_snapshot": {
+      "active_task_id": "run_build_pack_validation",
+      "eval_result_statuses": {
+        "json-health-checker-template-pack-smoke-small-001": "not_run"
+      },
+      "gate_statuses": {
+        "json_health_checker_template_pack_smoke_small_001": "not_run",
+        "validate_build_pack_contract": "not_run"
+      },
+      "next_recommended_task_id": "run_build_pack_validation",
+      "readiness_state": "in_progress",
+      "ready_for_deployment": false
+    },
+    "block_summary": {
+      "blocking_artifact_kind": "work_state",
+      "blocking_artifact_path": "status/work-state.json",
+      "details": [
+        "Inspect status/work-state.json and status/readiness.json together before resuming autonomous work."
+      ],
+      "reason": "declared_escalation_boundary",
+      "recommended_recovery_action": "Recommended next action: review stop reason `declared_escalation_boundary` with the current work-state and backlog before continuing.",
+      "status": "blocked",
+      "summary": "Autonomy stopped fail-closed because the pack declared a blocked or escalation boundary in canonical state."
+    },
+    "completed_task_ids": [
+      "run_build_pack_validation"
+    ],
+    "ended_at": "2026-03-25T18:38:48Z",
+    "escalation_count": 1,
+    "failed_command_count": 0,
+    "final_snapshot": {
+      "active_task_id": null,
+      "eval_result_statuses": {
+        "json-health-checker-template-pack-smoke-small-001": "not_run"
+      },
+      "gate_statuses": {
+        "json_health_checker_template_pack_smoke_small_001": "not_run",
+        "validate_build_pack_contract": "pass"
+      },
+      "next_recommended_task_id": null,
+      "readiness_state": "in_progress",
+      "ready_for_deployment": false
+    },
+    "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+    "metrics": {
+      "benchmark_evidence_gain": false,
+      "canonical_state_integrity": {
+        "command": null,
+        "error_count": null,
+        "status": "not_run",
+        "valid": null
+      },
+      "iterations_to_first_evidence": 3,
+      "iterations_to_readiness_change": null,
+      "readiness_change_summary": {
+        "deployability_changed": false,
+        "gates_advanced_count": 1,
+        "state_advanced": false
+      },
+      "task_completion_rate": 0.25,
+      "validation_evidence_gain": true
+    },
+    "operator_summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json.",
+    "pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+    "recommended_next_action": "Recommended next action: review stop reason `declared_escalation_boundary` with the current work-state and backlog before continuing.",
+    "resume_count": 1,
+    "run_id": "json-health-checker-ambiguous-branch-build-pack-v2-ambiguous-branch-checkpoint-v1",
+    "schema_version": "autonomy-run-summary/v1",
+    "started_at": "2026-03-25T18:38:48Z",
+    "step_count": 4,
+    "stop_reason": "declared_escalation_boundary"
+  },
+  "schema_version": "ambiguous-branch-autonomy-exercise-report/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "status": "completed",
+  "target_build_pack_id": "json-health-checker-ambiguous-branch-build-pack-v2",
+  "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-ambiguous-branch-build-pack-v2"
+}

@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-operator-hint-branch-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T19:19:06Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3.json",
+  "selected_memory_sha256": "c3f358bd73806b7a2eacea509e8027ffd6de48b7f367d3f2a3f5b5f101c9a6cb",
+  "selected_run_id": "json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t191909z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t191909z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T19:19:09Z"
+}

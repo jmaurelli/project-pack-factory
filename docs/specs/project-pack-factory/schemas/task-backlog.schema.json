@@ -117,6 +117,12 @@
         "dependencies": {
           "$ref": "#/$defs/task_id_array"
         },
+        "selection_priority": {
+          "type": "number"
+        },
+        "selection_signals": {
+          "$ref": "#/$defs/non_empty_string_array"
+        },
         "blocked_by": {
           "$ref": "#/$defs/non_empty_string_array"
         },

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "generated_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "improvement_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operator_summary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "proof_paths": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "recorded_by": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "report_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "autonomy-improvement-promotion-report/v1"
+    },
+    "source_build_pack_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_template_id": {
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "summary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "surface_records": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "adoption_status": {
+            "enum": [
+              "adopted",
+              "pending"
+            ],
+            "type": "string"
+          },
+          "inheritance_effect": {
+            "enum": [
+              "factory_default_for_new_build_packs",
+              "factory_root_default",
+              "template_source_tracking"
+            ],
+            "type": "string"
+          },
+          "notes": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "surface_id": {
+            "enum": [
+              "materializer_defaults",
+              "source_template_tracking",
+              "factory_root_discoverability",
+              "factory_root_memory"
+            ],
+            "type": "string"
+          },
+          "target_paths": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "adoption_status",
+          "inheritance_effect",
+          "notes",
+          "surface_id",
+          "target_paths"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "generated_at",
+    "improvement_id",
+    "operator_summary",
+    "proof_paths",
+    "recorded_by",
+    "report_id",
+    "schema_version",
+    "source_build_pack_id",
+    "source_template_id",
+    "summary",
+    "surface_records"
+  ],
+  "title": "Autonomy Improvement Promotion Report",
+  "type": "object"
+}

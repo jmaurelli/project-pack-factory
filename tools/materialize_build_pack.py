@@ -554,6 +554,7 @@ def _build_pack_agents_text(
                 "From the factory root, use `python3 tools/run_local_mid_backlog_checkpoint.py ...` when you want to stop after the current active task, write local feedback memory, and activate a resumable mid-backlog handoff pointer.",
                 "From the factory root, use `python3 tools/run_remote_active_task_continuity_test.py ...` when the pack is already at a compatible active-task boundary and you want to verify the next task resumes remotely from feedback memory.",
                 "From the factory root, use `python3 tools/run_remote_memory_continuity_test.py ...` after the pack reaches `ready_for_deploy` and `.pack-state/agent-memory/latest-memory.json` is active if you want to verify default feedback-memory continuity on a remote target.",
+                "When multiple next tasks are eligible, prefer lower `selection_priority` first. If the top candidates remain tied, honor any operator branch-selection hints recorded in `status/work-state.json.branch_selection_hints` first, then use bounded semantic alignment to `contracts/project-objective.json`, `status/work-state.json.resume_instructions`, and optional task `selection_signals`; otherwise stop fail-closed for operator review.",
                 "For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer.",
                 "Export bundles remain supplementary runtime evidence only.",
             ]
@@ -938,6 +939,7 @@ def _synthesize_build_pack(
             "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
             "Run the validation task before attempting benchmark execution or deployment workflows.",
         ],
+        "branch_selection_hints": [],
         "stop_conditions": [
             "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
             "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly.",

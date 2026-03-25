@@ -1,0 +1,292 @@
+{
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "excluded_paths": [
+    ".packfactory-runtime/tools/__pycache__",
+    ".packfactory-runtime/tools/__pycache__/factory_ops.cpython-312.pyc",
+    "dist/exports/runtime-evidence",
+    "eval/history",
+    "eval/history/import-external-runtime-evidence-20260325t191852z",
+    "eval/history/import-external-runtime-evidence-20260325t191852z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260325t191852z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260325t191852z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260325t191852z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v1.json",
+    "eval/history/import-external-runtime-evidence-20260325t191852z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260325t191852z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260325t191852z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260325t191852z/import-report.json",
+    "eval/history/materialize-json-health-checker-operator-hint-branch-build-pack-v1-20260325t191844z",
+    "eval/history/materialize-json-health-checker-operator-hint-branch-build-pack-v1-20260325t191844z/materialization-report.json",
+    "eval/history/readiness-eval-json-health-checker-operator-hint-branch-build-pack-v1-validation-20260325t191844z",
+    "eval/history/readiness-eval-json-health-checker-operator-hint-branch-build-pack-v1-validation-20260325t191844z/validation-result.json",
+    "eval/history/reconcile-imported-runtime-state-20260325t191852z",
+    "eval/history/reconcile-imported-runtime-state-20260325t191852z/reconcile-report.json",
+    "src/json_health_checker_template_pack/__pycache__",
+    "src/json_health_checker_template_pack/__pycache__/__init__.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/__main__.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/benchmark_smoke.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/cli.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/json_health_checker.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/validate_project_pack.cpython-312.pyc"
+  ],
+  "payload_entries": [
+    {
+      "relative_path": ".gitignore",
+      "sha256": "c3fae528d26966c94641ff9123a1cef4a42571bd3d7fcd49c82a381135407ef9",
+      "size_bytes": 79
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v1.json",
+      "sha256": "9d1174f68eba567a7223bb78eedde7a62d2e2235178d680b9658633ecc98a729",
+      "size_bytes": 3356
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-operator-hint-branch-build-pack-v1-operator-hint-branch-checkpoint-v1.json",
+      "sha256": "b4d9e3cc77ad5210208c8261d7bbf490c059c04b4c08e3af84a1deda47186912",
+      "size_bytes": 3283
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/latest-memory.json",
+      "sha256": "4b5d27b3aaad6524bb216e60d308f3c3f6b95fe11243f613ab9d2c36ba1f888c",
+      "size_bytes": 1153
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/json-health-checker-operator-hint-branch-build-pack-v1-operator-hint-branch-checkpoint-v1/branch-selection.json",
+      "sha256": "14f5c8059cd4b749943dbb5f535f4654d1e461c2f3c9a0a8915be338e4419f06",
+      "size_bytes": 1073
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/json-health-checker-operator-hint-branch-build-pack-v1-operator-hint-branch-checkpoint-v1/loop-events.jsonl",
+      "sha256": "7f7b6b447a1441a681788e632dd052961c25df29072e9ed814a3331c8ee085e9",
+      "size_bytes": 6429
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/json-health-checker-operator-hint-branch-build-pack-v1-operator-hint-branch-checkpoint-v1/run-summary.json",
+      "sha256": "5fdd2f84eb4269a4b5a97be81beac27788218ca428dc22965cacf3b58b0f70fd",
+      "size_bytes": 3657
+    },
+    {
+      "relative_path": ".packfactory-remote/request.json",
+      "sha256": "b68081efc4bc074d7830adaf364c31191ccc72c3c399c2a29515ac719750ce6d",
+      "size_bytes": 30242
+    },
+    {
+      "relative_path": ".packfactory-runtime/manifest.json",
+      "sha256": "5b162de354910589dac1c82a5e9045ea7178bb7c720aaafbf54938ad0c66f700",
+      "size_bytes": 3134
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory-pointer.schema.json",
+      "sha256": "c1cdd804cea3e80f2b495442e8ae819b420336cdeb6ab5bce74422d73309632a",
+      "size_bytes": 2078
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory.schema.json",
+      "sha256": "6d619181d03331c07d387c9e2b4ba91cafd299270d80b38be0c7e07efff5727d",
+      "size_bytes": 4426
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+      "sha256": "8c7427ea3199030ca8df7e6de55fbdbaa3ed5d9bc5251bad1d253a2247bc17a8",
+      "size_bytes": 4442
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+      "sha256": "d7271514f6dfb33851f16b7cd76e404a24a9686b0b247493cf04efd20436afcf",
+      "size_bytes": 8898
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+      "sha256": "c51959a6e627c26eeeb49f690e329a1b61a667a575775a2a5d5594afaa21b206",
+      "size_bytes": 1801
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+      "sha256": "04d712f8830acb83ae57fb116ce7690d7b883f7de90662490d8a95f490c098e7",
+      "size_bytes": 1950
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/readiness.schema.json",
+      "sha256": "e5354daa75d7848833154e6b7350b6e26b1da2ba95280ba1ab98c0057bf2a250",
+      "size_bytes": 5761
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/factory_ops.py",
+      "sha256": "996649576ae33d259d60b853767af4faa7944014a540007b854fa36206eb7562",
+      "size_bytes": 18408
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/record_autonomy_run.py",
+      "sha256": "3a61b8ad44820411ad1e664990a492b9a3ec6c6eb445ebd7aafca6c0b430fbbb",
+      "size_bytes": 34213
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+      "sha256": "89d7216125ba9b207ae2436fdb8396bbb7ae1f3c1329ae70e4dc2f6edee70372",
+      "size_bytes": 17585
+    },
+    {
+      "relative_path": "AGENTS.md",
+      "sha256": "624e73922eacc23b0959d6681fd7f7b3966a27545e86beba2b089c019a31cb14",
+      "size_bytes": 2901
+    },
+    {
+      "relative_path": "README.md",
+      "sha256": "403277b17d21bbb7169b528d72d824bad4344fe523877ddbddaf8258e6633777",
+      "size_bytes": 714
+    },
+    {
+      "relative_path": "benchmarks/active-set.json",
+      "sha256": "69cd786c165a973079979561e97fb4426b5c9bba49add3ec1c0c7b30cf4cf4fd",
+      "size_bytes": 648
+    },
+    {
+      "relative_path": "benchmarks/declarations/json-health-checker-template-pack-smoke-small-001.json",
+      "sha256": "565080c8d2466cb54590f84d64a83af6c4bbcb975dad0435bfd1d7b75268dbd3",
+      "size_bytes": 1313
+    },
+    {
+      "relative_path": "contracts/README.md",
+      "sha256": "26d0051ab37e23966b3d7b39c1c529620469191a38c0599c0384af3055c5d475",
+      "size_bytes": 170
+    },
+    {
+      "relative_path": "contracts/project-objective.json",
+      "sha256": "eb04d25d411bc5d67b096872627de45e62408a7bc886985c31dc4b2943cd5ee2",
+      "size_bytes": 4107
+    },
+    {
+      "relative_path": "docs/specs/README.md",
+      "sha256": "f274eb0c0fcc25bd90f16ae00be8779db4824e25f56184534ba447c2b695cc77",
+      "size_bytes": 129
+    },
+    {
+      "relative_path": "eval/latest/index.json",
+      "sha256": "99cde70bd66d7250734add74f514280f75886b2bdd953d369c70e70d611d1164",
+      "size_bytes": 735
+    },
+    {
+      "relative_path": "lineage/source-template.json",
+      "sha256": "319c7aac7126a4d25ec6c640ea508deccc3e9ddb6dd4253d04fe92433fc9e04c",
+      "size_bytes": 695
+    },
+    {
+      "relative_path": "pack.json",
+      "sha256": "aee5cb0a6ba6b6eff3c4218170a9b5464af59321954b8d2c5406a90e87d3e8c7",
+      "size_bytes": 2892
+    },
+    {
+      "relative_path": "project-context.md",
+      "sha256": "91e50626a4c388bd97cbf4ffcbd634f189684dbc295b5f5f1b6797d24971c351",
+      "size_bytes": 976
+    },
+    {
+      "relative_path": "prompts/README.md",
+      "sha256": "fbf699c4950133c023264d5bc30cfa4e3cd914fae6ddea2e5db05536f8a73ab8",
+      "size_bytes": 92
+    },
+    {
+      "relative_path": "pyproject.toml",
+      "sha256": "b29046b3671175e64d2ac20510ee3df14a088eb18c27b33822a2f58b1a04d818",
+      "size_bytes": 519
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/__init__.py",
+      "sha256": "7d747afc2b886329d5e309a87e59ee8f3eb222fac210351c79bb0742ee11c426",
+      "size_bytes": 19
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/__main__.py",
+      "sha256": "3d2438ae92f4746e9ffaa1f837b1fe803f6281091d1f31f8c95643716f257d9a",
+      "size_bytes": 80
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/benchmark_smoke.py",
+      "sha256": "7a45eed9466b87a9fd419636a2f9c789fbaf17c18ecc7ec9251de195bedca0f4",
+      "size_bytes": 850
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/cli.py",
+      "sha256": "3b3b9695a25f29b37aea9b43e89f926e09ab120d947c0ffd62dcaeec04b03aa1",
+      "size_bytes": 1827
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/json_health_checker.py",
+      "sha256": "38a98564a09925fe2bb696dae8d0aed9812b014481b7a234cfb15efdf4e81189",
+      "size_bytes": 1565
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/validate_project_pack.py",
+      "sha256": "ec6b19a53627fcd531387e40b3842c78d18b05c3cca22e2929be95c94a3faeea",
+      "size_bytes": 1153
+    },
+    {
+      "relative_path": "src/pack_export_runtime_evidence.py",
+      "sha256": "39d7703163cb0d31df9187559e6808e0c613ecd88c1ee4350ff782999f34782e",
+      "size_bytes": 12038
+    },
+    {
+      "relative_path": "src/record_operator_hint_branch_progress.py",
+      "sha256": "f0c5ed0ff32aa23d364fa02e51837e0c9fa5a8d8a266cb9f2e257ef0f7cd81ee",
+      "size_bytes": 1781
+    },
+    {
+      "relative_path": "status/deployment.json",
+      "sha256": "27db79b34ae739202e7884f1ba7ba7ce6c1a3ac73e60bfa21033c7f907b0f56c",
+      "size_bytes": 564
+    },
+    {
+      "relative_path": "status/lifecycle.json",
+      "sha256": "09dab8146668c0b451d02f788f822d5f9026536ec93284b03bc6d205f329f95c",
+      "size_bytes": 475
+    },
+    {
+      "relative_path": "status/readiness.json",
+      "sha256": "4d16f1193ee59f810ce90e170b7f30cc70e98184d637bea22762ffb0cbf9e701",
+      "size_bytes": 1700
+    },
+    {
+      "relative_path": "status/retirement.json",
+      "sha256": "b0171cecf74c1b897e02b5ad466485138676f3b5c9ae80e2448047f9c348f470",
+      "size_bytes": 491
+    },
+    {
+      "relative_path": "status/work-state.json",
+      "sha256": "456940b724e01ce13bb49392f3310bf0e5cad0646bff0c74c19e098378586229",
+      "size_bytes": 3419
+    },
+    {
+      "relative_path": "tasks/active-backlog.json",
+      "sha256": "37633aea9d02187b6db92d4b3d4091eff51ce1f2bb3ff51945e6e1922129a879",
+      "size_bytes": 5534
+    },
+    {
+      "relative_path": "tests/README.md",
+      "sha256": "49edefd89fd0a6dd98ecfd6774a32119d8db542b610e89d4b88e1ba585030edf",
+      "size_bytes": 114
+    }
+  ],
+  "payload_policy_version": "fresh-staging/v1",
+  "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-operator-hint-branch-build-pack-v1/dist/exports/runtime-evidence",
+  "remote_host": "adf-dev",
+  "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-operator-hint-branch-build-pack-v1",
+  "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+  "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-operator-hint-branch-build-pack-v1/runs/json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v2",
+  "remote_target_label": "adf-dev",
+  "remote_user": "adf",
+  "request_sha256": "b68081efc4bc074d7830adaf364c31191ccc72c3c399c2a29515ac719750ce6d",
+  "run_id": "json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v2",
+  "schema_version": "remote-execution-payload-manifest/v1",
+  "source_build_pack_id": "json-health-checker-operator-hint-branch-build-pack-v1",
+  "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-operator-hint-branch-build-pack-v1",
+  "staged_at": "2026-03-25T19:18:53Z",
+  "staged_by": "codex",
+  "transport_mode": "rsync"
+}

@@ -323,6 +323,7 @@ def _promote_feedback_memory(
         "selected_run_id": memory_payload.get("run_id"),
         "selected_memory_sha256": promoted_memory_sha256,
         "source_bundle_path": source_bundle_path,
+        "block_summary": None,
     }
 
 

@@ -1,0 +1,17 @@
+{
+  "ambiguity_reason": "multiple eligible tasks shared the same highest-precedence selection_priority",
+  "candidate_task_ids": [
+    "record_ambiguous_branch_alpha",
+    "record_ambiguous_branch_beta"
+  ],
+  "chosen_task_id": null,
+  "recorded_at": "2026-03-25T18:37:29Z",
+  "run_id": "json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1",
+  "schema_version": "branch-selection-summary/v1",
+  "selection_rule": "lowest selection_priority first; ties require operator disambiguation",
+  "status": "ambiguous",
+  "top_candidate_task_ids": [
+    "record_ambiguous_branch_alpha",
+    "record_ambiguous_branch_beta"
+  ]
+}

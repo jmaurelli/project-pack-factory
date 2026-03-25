@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "978e92dc0dddf1caf91e49bb73fa2c9f60b2d4de6210327aed1b39d6e43ec925",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-semantic-branch-build-pack-v1/json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v2/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "73497310a5f6bb233d12076b9dcc92346e944e395c4b2bf6623847a1b9e2149d",
+  "portable_helper_manifest_sha256": "1b6d3463729b26e93dae2664c47c6a99df097f31aa487cbe85019f5f579db856",
+  "pulled_at": "2026-03-25T18:52:02Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-semantic-branch-build-pack-v1/json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v2/incoming/bundle",
+  "pulled_bundle_sha256": "f19ce966680e16499b320da730b675d54e4e0fcc90625262a8ffe61b5d38cc0e",
+  "remote_run_request_sha256": "eb96252eb22efee48365cde75d5a58494aed5b3acb6a6faa9f4fb2f0c085dfb3",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v2",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-semantic-branch-build-pack-v1",
+  "target_manifest_sha256": "3d1182e4030d3a27e345eb67696580deb79161950c11d58d04d1c16e3fb60c1f",
+  "wrapper_request_sha256": "b3ef0ff0bc7f8196081f0141e5a2a432aa5ac97f274df0690724316b985f69fb"
+}

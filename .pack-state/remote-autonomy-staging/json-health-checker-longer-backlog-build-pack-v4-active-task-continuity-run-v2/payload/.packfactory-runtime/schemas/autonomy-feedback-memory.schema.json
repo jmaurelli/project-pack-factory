@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/autonomy-feedback-memory.schema.json",
+  "title": "Autonomy Feedback Memory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "memory_id",
+    "pack_id",
+    "run_id",
+    "generated_at",
+    "summary",
+    "handoff_summary",
+    "highest_risk_observation",
+    "recommended_next_action",
+    "block_summary",
+    "baseline_readiness_state",
+    "final_readiness_state",
+    "active_task_id",
+    "next_recommended_task_id",
+    "ready_for_deployment",
+    "completed_task_ids",
+    "evidence_paths",
+    "source_artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "autonomy-feedback-memory/v1"
+    },
+    "memory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "handoff_summary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "highest_risk_observation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recommended_next_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "block_summary": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/block_summary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "baseline_readiness_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "final_readiness_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "active_task_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "next_recommended_task_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ready_for_deployment": {
+      "type": "boolean"
+    },
+    "completed_task_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9_-]*$"
+      }
+    },
+    "evidence_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loop_events_path",
+        "run_summary_path"
+      ],
+      "properties": {
+        "loop_events_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_summary_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "factory_validation_command": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "block_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "summary",
+        "blocking_artifact_kind",
+        "blocking_artifact_path",
+        "recommended_recovery_action"
+      ],
+      "properties": {
+        "status": {
+          "const": "blocked"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_artifact_kind": {
+          "type": "string",
+          "enum": [
+            "work_state",
+            "readiness",
+            "loop_events",
+            "factory_validation",
+            "runtime_evidence_export",
+            "remote_execution",
+            "memory_compatibility"
+          ]
+        },
+        "blocking_artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended_recovery_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

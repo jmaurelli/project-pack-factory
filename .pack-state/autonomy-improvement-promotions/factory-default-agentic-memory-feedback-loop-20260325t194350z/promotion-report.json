@@ -1,0 +1,70 @@
+{
+  "generated_at": "2026-03-25T19:43:50Z",
+  "improvement_id": "factory-default-agentic-memory-feedback-loop",
+  "operator_summary": "Proved autonomy improvement `factory-default-agentic-memory-feedback-loop` from `json-health-checker-autonomy-to-promotion-build-pack-v1`. Adopted surfaces: factory_root_discoverability, factory_root_memory, materializer_defaults, source_template_tracking. Pending surfaces: none.",
+  "proof_paths": [
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+    "templates/json-health-checker-template-pack/AGENTS.md",
+    "templates/json-health-checker-template-pack/pack.json",
+    "templates/json-health-checker-template-pack/project-context.md"
+  ],
+  "recorded_by": "codex",
+  "report_id": "factory-default-agentic-memory-feedback-loop-20260325t194350z",
+  "schema_version": "autonomy-improvement-promotion-report/v1",
+  "source_build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "summary": "The PackFactory agentic memory and feedback-loop baseline is now tracked directly in the JSON health checker source template as lightweight pointers back to the factory-level autonomy baseline, so future agents entering the template inherit the same orientation path the factory root now uses.",
+  "surface_records": [
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether a fresh factory-root agent can discover the improvement without entering a pack."
+      ],
+      "surface_id": "factory_root_discoverability",
+      "target_paths": [
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md"
+      ]
+    },
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether the improvement is reflected in the factory's own restart-memory handoff."
+      ],
+      "surface_id": "factory_root_memory",
+      "target_paths": [
+        ".pack-state/agent-memory/latest-memory.json",
+        "tools/refresh_factory_autonomy_memory.py"
+      ]
+    },
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_default_for_new_build_packs",
+      "notes": [
+        "This is the main automatic inheritance path for future build-packs.",
+        "When an autonomy improvement lands here, newly materialized build-packs receive it by default."
+      ],
+      "surface_id": "materializer_defaults",
+      "target_paths": [
+        "tools/materialize_build_pack.py"
+      ]
+    },
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "template_source_tracking",
+      "notes": [
+        "This records whether the source template itself has been updated to describe or carry the improvement.",
+        "Pending here means the improvement may still be inherited through factory tooling without being reflected directly in the template source."
+      ],
+      "surface_id": "source_template_tracking",
+      "target_paths": [
+        "templates/json-health-checker-template-pack/AGENTS.md",
+        "templates/json-health-checker-template-pack/pack.json",
+        "templates/json-health-checker-template-pack/project-context.md"
+      ]
+    }
+  ]
+}

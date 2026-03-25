@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-03-25T18:01:43Z",
+  "improvement_id": "factory-default-agentic-memory-feedback-loop",
+  "operator_summary": "Proved autonomy improvement `factory-default-agentic-memory-feedback-loop` from `json-health-checker-autonomy-to-promotion-build-pack-v1`. Adopted surfaces: factory_root_discoverability, factory_root_memory, materializer_defaults. Pending surfaces: source_template_tracking.",
+  "proof_paths": [
+    ".pack-state/autonomy-to-promotion-workflows/autonomy-to-promotion-workflow-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/workflow-report.json",
+    "build-packs/json-health-checker-drift-exercise-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t174731z/import-report.json",
+    "build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/eval/history/promote-json-health-checker-one-pass-promotion-proof-build-pack-v1-testing-20260325t172121z/promotion-report.json"
+  ],
+  "recorded_by": "codex",
+  "report_id": "factory-default-agentic-memory-feedback-loop-20260325t180143z",
+  "schema_version": "autonomy-improvement-promotion-report/v1",
+  "source_build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "summary": "Use proving-ground JSON health checker build-packs to validate feedback-memory continuity, remote export/import, fail-closed memory intake, and promotion-grade autonomy rehearsal, then record which parts have been promoted into PackFactory defaults.",
+  "surface_records": [
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether a fresh factory-root agent can discover the improvement without entering a pack."
+      ],
+      "surface_id": "factory_root_discoverability",
+      "target_paths": [
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md"
+      ]
+    },
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether the improvement is reflected in the factory's own restart-memory handoff."
+      ],
+      "surface_id": "factory_root_memory",
+      "target_paths": [
+        ".pack-state/agent-memory/latest-memory.json",
+        "tools/refresh_factory_autonomy_memory.py"
+      ]
+    },
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_default_for_new_build_packs",
+      "notes": [
+        "This is the main automatic inheritance path for future build-packs.",
+        "When an autonomy improvement lands here, newly materialized build-packs receive it by default."
+      ],
+      "surface_id": "materializer_defaults",
+      "target_paths": [
+        "tools/materialize_build_pack.py"
+      ]
+    },
+    {
+      "adoption_status": "pending",
+      "inheritance_effect": "template_source_tracking",
+      "notes": [
+        "This records whether the source template itself has been updated to describe or carry the improvement.",
+        "Pending here means the improvement may still be inherited through factory tooling without being reflected directly in the template source."
+      ],
+      "surface_id": "source_template_tracking",
+      "target_paths": [
+        "templates/json-health-checker-template-pack/AGENTS.md",
+        "templates/json-health-checker-template-pack/pack.json",
+        "templates/json-health-checker-template-pack/project-context.md"
+      ]
+    }
+  ]
+}

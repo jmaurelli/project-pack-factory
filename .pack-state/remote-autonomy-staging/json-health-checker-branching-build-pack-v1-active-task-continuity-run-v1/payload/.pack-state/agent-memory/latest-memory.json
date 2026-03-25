@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-branching-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T18:19:40Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-branching-build-pack-v1-branching-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-branching-build-pack-v1-branching-checkpoint-v1.json",
+  "selected_memory_sha256": "bd5495fbc5169bd1f3f5233055c0d0a5b5ad2aa6be967d98033005ffb02adcfa",
+  "selected_run_id": "json-health-checker-branching-build-pack-v1-branching-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-branching-build-pack-v1-branching-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-25T18:19:40Z"
+}

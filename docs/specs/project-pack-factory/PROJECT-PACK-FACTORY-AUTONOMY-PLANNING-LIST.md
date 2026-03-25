@@ -4,7 +4,23 @@ Purpose: track the current PackFactory autonomy follow-up work at the factory
 level so future build-packs inherit the improvements by default instead of
 repeating the same optimization per pack.
 
+Factory learning loop: use proving-ground build-packs to improve agentic
+memory and feedback loops, then carry those improvements back into PackFactory
+itself so the factory becomes a better default starting point for every future
+build-pack.
+
 Last updated: 2026-03-25
+
+## Current State Snapshot
+
+Use this stable state brief when you need one concise factory-level snapshot of
+the autonomy baseline, proof points, restart surfaces, and current limits:
+
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+
+Why it matters: this keeps the current autonomy baseline in the repo itself so
+future agents do not need to reconstruct it from chat history or scattered
+workflow artifacts.
 
 ## Current Baseline
 
@@ -18,6 +34,14 @@ PackFactory autonomy can now:
   evidence
 - run a single autonomy-to-promotion workflow that materializes, rehearses,
   prepares a release, and promotes in one motion
+- stop fail-closed at an ambiguous branch boundary instead of silently
+  choosing by backlog order when multiple next tasks share the same highest
+  precedence
+- honor explicit operator branch-selection hints before semantic inference
+  when multiple next tasks remain tied after priority comparison
+- use bounded semantic alignment to break a next-task tie when the objective,
+  resume context, and task `selection_signals` make one candidate clearly
+  stronger and the justification can be recorded
 
 Recent proof points:
 
@@ -32,10 +56,14 @@ Recent proof points:
   project work.
 - Imported memory is fail-closed by design, so progress can pause until
   reconcile happens.
-- The strongest current proof covers short starter backlogs more than longer
-  branching work.
-- Testing-time remote connectivity is proven; permanent factory-to-pack
-  connectivity is not assumed.
+- The strongest current proof now covers a four-task linear starter backlog,
+  deterministic branching with explicit `selection_priority`, and temporary
+  degraded-connectivity recovery during testing. Ambiguous no-priority branch
+  choice is now fail-closed, explicit operator hint overrides are proven, and
+  bounded semantic tie-breaking is proven, but open-ended branch choice is
+  still not proven.
+- Testing-time remote connectivity and delayed-import recovery are proven;
+  permanent factory-to-pack connectivity is not assumed.
 
 ## Quick Wins
 
@@ -94,6 +122,15 @@ Recent proof points:
   Why it matters: the summary should tell the next agent not just what is true
   now, but also what deserves attention next.
 
+- [x] Add a template/factory improvement promotion loop.
+  Scope: after a proving-ground build-pack validates a new autonomy pattern,
+  record whether that pattern has been promoted into materializer defaults,
+  source-template tracking, factory-root discoverability, or factory-root
+  memory.
+  Why it matters: it makes learning transfer explicit, so we know what is
+  already automatic for future build-packs and what still needs a deliberate
+  factory change.
+
 ## Executive Summary Memory Plan
 
 - [x] Extend the root factory memory artifact.
@@ -129,28 +166,85 @@ Recent proof points:
   Why it matters: this closes the exact gap found in the live promotion-gate
   test.
 
-- [ ] Drift exercise.
+- [x] Drift exercise.
   Scope: intentionally change canonical `status/work-state.json` after a remote
   run, then import returned memory and confirm it is preserved but not
   activated.
   Why it matters: this verifies fail-closed memory intake under real mismatch.
 
-- [ ] Longer-backlog exercise.
+- [x] Longer-backlog exercise.
   Scope: prove continuity across a starter backlog with 4-6 tasks instead of 2.
   Why it matters: this tests whether task selection stays stable as autonomy
   depth increases.
 
-- [ ] Branching exercise.
+- [x] Branching exercise.
   Scope: create a proving-ground pack where two next tasks are both valid and
   inspect how autonomy chooses and explains the choice.
   Why it matters: this is the first meaningful step beyond single-path starter
   backlogs.
 
-- [ ] Degraded-connectivity exercise.
+- [x] Degraded-connectivity exercise.
   Scope: continue local build-pack progress without factory access, then
   reconnect and test import plus compatibility gating.
   Why it matters: this reflects the expected real-world deployment case more
   closely than always-on connectivity.
+
+- [x] Ambiguous-branch exercise.
+  Scope: create a proving-ground pack where two next tasks are equally
+  eligible with no disambiguating `selection_priority`, and confirm autonomy
+  stops fail-closed with a clear escalation boundary instead of choosing by
+  backlog order.
+  Why it matters: this keeps the memory loop honest when the factory lacks
+  enough structured information to make a justified next-task decision.
+
+- [x] Bounded semantic branch-choice exercise.
+  Scope: create a proving-ground pack where two next tasks are equally
+  eligible with no disambiguating `selection_priority`, but one candidate has
+  clearly stronger alignment to the objective, resume context, and task
+  `selection_signals`, then confirm autonomy chooses it with recorded
+  justification.
+  Why it matters: this proves PackFactory can make a more intelligent next
+  choice without dropping explainability or fail-closed behavior.
+
+- [x] Operator-hint branch-choice exercise.
+  Scope: create a proving-ground pack where bounded semantic alignment would
+  normally choose one branch, then apply an explicit operator branch-selection
+  hint and confirm autonomy honors that hint with recorded evidence.
+  Why it matters: this proves the factory can accept clear human intent
+  without abandoning explainability or continuity.
+
+- [x] Open-ended branch-choice follow-up.
+  Scope: decide whether PackFactory should require richer structured priority
+  metadata, expand the operator-hint surface, or broaden the bounded semantic
+  chooser beyond explicit task `selection_signals`, objective alignment, and
+  operator hints.
+  Decision: prefer broader operator support for now.
+  Why it matters: the safe bounded branch-choice ladder is now proven, so the
+  next autonomy gain is extending operator steering without sacrificing
+  explainability or fail-closed behavior.
+
+- [ ] Broader operator-support expansion.
+  Scope: extend the canonical operator-hint surface beyond a single preferred
+  task so operators can express stronger bounded steering such as ordered
+  preferences, avoid-task guidance, or short-lived branch preferences while
+  keeping the result machine-readable.
+  Why it matters: this is the chosen next autonomy gain, and it should improve
+  agent effectiveness without jumping prematurely to open-ended semantic
+  judgment.
+
+- [ ] Operator-hint conflict and precedence policy.
+  Scope: define how PackFactory should behave when explicit priority metadata,
+  multiple operator hints, avoid-task hints, and bounded semantic signals point
+  in different directions.
+  Why it matters: richer operator support only helps if the chooser stays
+  deterministic, explainable, and easy to recover when guidance conflicts.
+
+- [ ] Richer operator-support proving-ground exercise.
+  Scope: create a fresh proving-ground pack that uses more than one operator
+  hint shape or a conflict case, then confirm autonomy follows the policy and
+  records a clean branch-decision artifact.
+  Why it matters: this turns the chosen direction into promotion-grade evidence
+  instead of leaving it as a design preference.
 
 ## Suggested Order
 
@@ -166,11 +260,21 @@ Recent proof points:
 10. Longer-backlog exercise
 11. Branching exercise
 12. Degraded-connectivity exercise
+13. Ambiguous-branch exercise
+14. Bounded semantic branch-choice exercise
+15. Operator-hint branch-choice exercise
+16. Open-ended branch-choice follow-up
+17. Broader operator-support expansion
+18. Operator-hint conflict and precedence policy
+19. Richer operator-support proving-ground exercise
 
 ## Working Notes
 
 - Keep these changes factory-level unless there is a strong reason to scope
   them to one build-pack.
+- Use build-packs as autonomy proving grounds: improvements validated in a
+  build-pack should be assessed for promotion into PackFactory's own default
+  agent memory, feedback loop, rehearsal, and startup surfaces.
 - Prefer proving-ground JSON health checker packs first because they are the
   cleanest current autonomy test surface.
 - Treat promotion-grade evidence as the standard for autonomy improvements,
@@ -180,6 +284,19 @@ Recent proof points:
 
 ## Progress Notes
 
+- Completed on 2026-03-25: captured the current autonomy baseline in
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+  so the current memory, restart, branch-choice, and proof state has a stable
+  factory-level snapshot outside chat history.
+- Completed on 2026-03-25: JSON health checker source-template tracking now
+  points fresh agents at the factory autonomy baseline through
+  `templates/json-health-checker-template-pack/AGENTS.md`,
+  `templates/json-health-checker-template-pack/project-context.md`, and
+  `templates/json-health-checker-template-pack/pack.json`.
+- Completed on 2026-03-25: the open-ended branch-choice follow-up was resolved
+  in favor of broader operator support first, keeping the bounded semantic
+  chooser in place and making richer operator guidance the next planned
+  autonomy expansion.
 - Completed on 2026-03-25: factory-root autonomy tooling discoverability via
   `AGENTS.md`, `README.md`, and
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`.
@@ -205,3 +322,53 @@ Recent proof points:
   summary into autonomy run summaries and feedback memory, and promoted-only
   remote memory imports now record a matching operator-facing block summary in
   the import report.
+- Completed on 2026-03-25: the drift exercise succeeded with
+  `json-health-checker-drift-exercise-build-pack-v1`, proving that intentionally
+  drifted local canonical state causes imported memory to be preserved as
+  `promoted_only` with a concrete mismatch block summary instead of being
+  auto-activated.
+- Completed on 2026-03-25: PackFactory now has an explicit autonomy
+  improvement promotion loop through
+  `tools/record_autonomy_improvement_promotion.py` and
+  `autonomy-improvement-promotion-report.schema.json`, so proven build-pack
+  autonomy patterns can be recorded as adopted or pending across materializer,
+  template, factory-root discoverability, and factory-root memory surfaces.
+- Completed on 2026-03-25: the longer-backlog exercise succeeded with
+  `json-health-checker-longer-backlog-build-pack-v4`, proving stable
+  continuity across a four-task linear starter backlog and hardening two
+  factory issues found by the exercise: imported memory reports now retain
+  `block_summary` during activation, and imported-state reconcile now preserves
+  canonical `validation-result.json` evidence for later benchmark execution.
+- Completed on 2026-03-25: the branching exercise succeeded with
+  `json-health-checker-branching-build-pack-v1`, proving that when two
+  post-validation tasks are both valid, autonomy now makes a deterministic
+  choice using explicit `selection_priority` before backlog order and records
+  that decision in `branch-selection.json` for later review.
+- Completed on 2026-03-25: the degraded-connectivity exercise succeeded with
+  `json-health-checker-degraded-connectivity-build-pack-v1`, proving the
+  factory can delay remote import, continue local progress while disconnected,
+  preserve the returned remote memory as `promoted_only` when local canonical
+  state has already advanced, and then finish the ready-boundary continuity
+  pass cleanly after reconnection.
+- Completed on 2026-03-25: the ambiguous-branch exercise succeeded with
+  `json-health-checker-ambiguous-branch-build-pack-v2`, proving that when two
+  next tasks are equally eligible without disambiguating `selection_priority`
+  metadata, autonomy now stops fail-closed at `declared_escalation_boundary`,
+  records both blocked candidates, and writes compatible feedback memory for
+  the next agent instead of silently choosing by backlog order.
+- Completed on 2026-03-25: the bounded semantic branch-choice exercise
+  succeeded with `json-health-checker-semantic-branch-build-pack-v1`, proving
+  that when two next tasks are equally eligible without disambiguating
+  `selection_priority`, autonomy can still choose the stronger candidate by
+  bounded semantic alignment to the objective, resume context, and task
+  `selection_signals`, record the selection rationale, and carry that choice
+  through the normal remote continuity loop to `ready_for_deploy`.
+- Completed on 2026-03-25: the operator-hint branch-choice exercise succeeded
+  with `json-health-checker-operator-hint-branch-build-pack-v1`, proving that
+  an explicit operator branch-selection hint can override the semantic default,
+  is recorded in `branch-selection.json`, and still carries cleanly through the
+  normal remote continuity loop to `ready_for_deploy`.
+- Completed on 2026-03-25: pack-local local-run summaries now stop passing the
+  whole-factory validator into `finalize_run`, so unrelated dirty-state noise
+  elsewhere in the repo no longer overrides pack-local ambiguity or escalation
+  summaries with `canonical_state_integrity_failed`.

@@ -1,0 +1,68 @@
+{
+  "after_summary": {
+    "active_task_id": "record_progress_checkpoint_02",
+    "completed_task_ids": [
+      "run_build_pack_validation",
+      "record_progress_checkpoint_01"
+    ],
+    "eval_result_statuses": {
+      "json-health-checker-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "json_health_checker_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "record_progress_checkpoint_02",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false,
+    "task_statuses": {
+      "record_progress_checkpoint_01": "completed",
+      "record_progress_checkpoint_02": "in_progress",
+      "run_build_pack_validation": "completed",
+      "run_inherited_benchmarks": "pending"
+    }
+  },
+  "before_summary": {
+    "active_task_id": "record_progress_checkpoint_01",
+    "completed_task_ids": [
+      "run_build_pack_validation"
+    ],
+    "eval_result_statuses": {
+      "json-health-checker-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "json_health_checker_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "record_progress_checkpoint_01",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false,
+    "task_statuses": {
+      "record_progress_checkpoint_01": "in_progress",
+      "record_progress_checkpoint_02": "pending",
+      "run_build_pack_validation": "completed",
+      "run_inherited_benchmarks": "pending"
+    }
+  },
+  "build_pack_id": "json-health-checker-longer-backlog-build-pack-v3",
+  "build_pack_root": "build-packs/json-health-checker-longer-backlog-build-pack-v3",
+  "control_plane_mutations": {
+    "eval_history_written": true,
+    "eval_latest_updated": true,
+    "memory_pointer_updated": true,
+    "readiness_updated": true,
+    "task_backlog_updated": true,
+    "work_state_updated": true
+  },
+  "generated_at": "2026-03-25T18:09:28Z",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-longer-backlog-build-pack-v3/eval/history/import-external-runtime-evidence-20260325t180928z/import-report.json",
+  "memory_pointer_status": "activated",
+  "reconcile_id": "reconcile-imported-runtime-state-20260325t180928z",
+  "reconcile_reason": "Adopt the successful remote longer-backlog continuity result for hop 1 into local canonical state.",
+  "reconciled_by": "codex",
+  "schema_version": "imported-runtime-state-reconcile-report/v1",
+  "source_import_id": "import-external-runtime-evidence-20260325t180928z",
+  "source_run_id": "json-health-checker-longer-backlog-build-pack-v3-active-task-continuity-run-v1",
+  "source_run_summary_path": "eval/history/import-external-runtime-evidence-20260325t180928z/external-runtime-evidence/artifacts/run-summary.json",
+  "status": "completed"
+}

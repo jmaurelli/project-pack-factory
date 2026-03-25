@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "05dd48d8cc686de5d8db60dbc1f69b6868e33f87f90107cbedf0d639382fa5bd",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "44c2ab2d6f78c847f0c26c3c9a5bb40b78cb9b21bad85af204b72992904e005e",
+  "portable_helper_manifest_sha256": "c725a24d93d6c8f075d4a869501112d4b41817657fe2ae79967107e9e098d4b8",
+  "pulled_at": "2026-03-25T18:29:18Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "1d629aaeb2ef640e0fbe050693b59cf5382b511d12556b99e74d1b18ede17811",
+  "remote_run_request_sha256": "4a7dbb574b79af19bd113e9f10c0b35d22ad61730bdc11d6e25009911dcf437b",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+  "target_manifest_sha256": "5cc41acd0eca9549601fcff633a991a420257f0804ea6f57572983cff4fbbec6",
+  "wrapper_request_sha256": "e835f3b419c783a5408f1865a681b355d76b158db6a7fa3e7ebbee737a837876"
+}

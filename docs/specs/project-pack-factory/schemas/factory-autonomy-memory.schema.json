@@ -97,6 +97,7 @@
         "latest_rehearsal_report_path",
         "latest_promotion_report_path",
         "latest_testing_pointer_path",
+        "current_state_brief_path",
         "planning_list_path",
         "operations_note_path"
       ],
@@ -133,6 +134,10 @@
               "type": "null"
             }
           ]
+        },
+        "current_state_brief_path": {
+          "type": "string",
+          "minLength": 1
         },
         "planning_list_path": {
           "type": "string",

@@ -299,9 +299,17 @@ Example:
 - `python3 tools/run_deployment_pipeline.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
 - `python3 tools/run_multi_hop_autonomy_rehearsal.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_autonomy_to_promotion_workflow.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --target-environment testing --output json`
+- `python3 tools/run_longer_backlog_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --extra-task-count 2 --output json`
+- `python3 tools/run_branching_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_degraded_connectivity_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/run_ambiguous_branch_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --output json`
+- `python3 tools/run_semantic_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
+- `python3 tools/apply_branch_selection_hint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --hint-id <hint-id> --summary "<summary>" --preferred-task-id <task-id> --preferred-task-id <task-id> --output json`
+- `python3 tools/run_operator_hint_branch_choice_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
 - `python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json`
+- `python3 tools/record_autonomy_improvement_promotion.py --factory-root /home/orchadmin/project-pack-factory --improvement-id <id> --summary "<summary>" --source-build-pack-id <pack-id> --proof-path <path> --adopted-surface materializer_defaults --pending-surface source_template_tracking --output json`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
 - `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`
 
@@ -319,6 +327,32 @@ That root memory is meant to help the next agent continue recent autonomy work
 without reconstructing the current tooling state from scratch. It is advisory
 restart context only. Registry, deployment, readiness, and promotion surfaces
 remain canonical.
+
+When a proving-ground build-pack demonstrates a new autonomy pattern, record
+where that pattern has actually been promoted with
+`tools/record_autonomy_improvement_promotion.py`. That keeps it clear which
+parts are already automatic for new build-packs, which are visible at the
+factory root, and which are still pending at the source-template layer.
+
+The current stress surface now also includes degraded-connectivity recovery:
+the factory can preserve a delayed remote memory import as audit evidence
+without letting it override newer local canonical state after disconnected
+local progress.
+
+It also now includes ambiguous-branch fail-closed handling: when two next
+tasks are equally eligible and no structured priority breaks the tie, the
+factory records the blocked candidates and stops for operator review instead
+of treating backlog order as if it were real decision evidence.
+
+It now also has bounded semantic tie-breaking: when no explicit priority
+breaks the tie but one task aligns more strongly with the project objective,
+resume context, and task `selection_signals`, the factory can choose that
+task and record the justification instead of stopping immediately.
+
+It now also supports explicit operator branch-selection hints: when canonical
+work-state includes a hint, the factory honors that preference before falling
+back to semantic tie-breaking, and it records the applied hint in
+`branch-selection.json`.
 
 When a factory-root executive summary uses this memory, it should surface it as
 a short `Agent Memory` section after the canonical factory-state summary and

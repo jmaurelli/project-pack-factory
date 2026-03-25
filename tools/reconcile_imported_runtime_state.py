@@ -228,9 +228,20 @@ def reconcile_imported_runtime_state(factory_root: Path, request: dict[str, Any]
             continue
         if gate_id not in gate_statuses:
             continue
+        existing_evidence_paths = gate.get("evidence_paths", [])
+        preserved_validation_paths = [
+            path
+            for path in existing_evidence_paths
+            if isinstance(path, str) and path.endswith("validation-result.json")
+        ] if isinstance(existing_evidence_paths, list) else []
         gate["status"] = gate_statuses[gate_id]
         gate["last_run_at"] = generated_at
-        gate["evidence_paths"] = [source_run_summary_relpath]
+        if gate_id == "validate_build_pack_contract" and preserved_validation_paths:
+            gate["evidence_paths"] = preserved_validation_paths + [
+                source_run_summary_relpath
+            ]
+        else:
+            gate["evidence_paths"] = [source_run_summary_relpath]
     readiness["last_evaluated_at"] = generated_at
     readiness["readiness_state"] = final_snapshot.get("readiness_state", readiness.get("readiness_state"))
     readiness["ready_for_deployment"] = bool(final_snapshot.get("ready_for_deployment"))

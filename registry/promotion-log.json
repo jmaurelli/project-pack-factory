@@ -570,8 +570,124 @@
       "source_template_id": "json-health-checker-template-pack",
       "status": "completed",
       "target_build_pack_id": "json-health-checker-drift-exercise-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-longer-backlog-build-pack-v1-20260325t180742z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-longer-backlog-build-pack-v1-20260325t180742z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-longer-backlog-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-longer-backlog-build-pack-v2-20260325t180812z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-longer-backlog-build-pack-v2-20260325t180812z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-longer-backlog-build-pack-v2"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-longer-backlog-build-pack-v3-20260325t180914z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-longer-backlog-build-pack-v3-20260325t180914z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-longer-backlog-build-pack-v3"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-longer-backlog-build-pack-v4-20260325t181132z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-longer-backlog-build-pack-v4-20260325t181132z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-longer-backlog-build-pack-v4"
+    },
+    {
+      "event_type": "retired",
+      "retired_at": "2026-03-25T18:13:12Z",
+      "retired_pack_id": "json-health-checker-longer-backlog-build-pack-v1",
+      "retired_pack_kind": "build_pack",
+      "retirement_reason": "Superseded by the successful longer-backlog autonomy proof after correcting SSH host alias usage and follow-on factory fixes.",
+      "retirement_report_path": "eval/history/retire-json-health-checker-longer-backlog-build-pack-v1-20260325t181312z/retirement-report.json",
+      "status": "completed"
+    },
+    {
+      "event_type": "retired",
+      "retired_at": "2026-03-25T18:13:18Z",
+      "retired_pack_id": "json-health-checker-longer-backlog-build-pack-v2",
+      "retired_pack_kind": "build_pack",
+      "retirement_reason": "Superseded by the successful longer-backlog autonomy proof after fixing import-report memory-intake schema handling.",
+      "retirement_report_path": "eval/history/retire-json-health-checker-longer-backlog-build-pack-v2-20260325t181318z/retirement-report.json",
+      "status": "completed"
+    },
+    {
+      "event_type": "retired",
+      "retired_at": "2026-03-25T18:13:22Z",
+      "retired_pack_id": "json-health-checker-longer-backlog-build-pack-v3",
+      "retired_pack_kind": "build_pack",
+      "retirement_reason": "Superseded by the successful longer-backlog autonomy proof after preserving canonical validation-result evidence during imported-state reconcile.",
+      "retirement_report_path": "eval/history/retire-json-health-checker-longer-backlog-build-pack-v3-20260325t181322z/retirement-report.json",
+      "status": "completed"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-branching-build-pack-v1-20260325t181934z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-branching-build-pack-v1-20260325t181934z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-branching-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182852z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182852z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-ambiguous-branch-build-pack-v1-20260325t183729z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-ambiguous-branch-build-pack-v1-20260325t183729z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-ambiguous-branch-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-ambiguous-branch-build-pack-v2-20260325t183848z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-ambiguous-branch-build-pack-v2-20260325t183848z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-ambiguous-branch-build-pack-v2"
+    },
+    {
+      "event_type": "retired",
+      "retired_at": "2026-03-25T18:39:02Z",
+      "retired_pack_id": "json-health-checker-ambiguous-branch-build-pack-v1",
+      "retired_pack_kind": "build_pack",
+      "retirement_reason": "Superseded by json-health-checker-ambiguous-branch-build-pack-v2 after pack-local autonomy summaries stopped inheriting unrelated whole-factory validation noise.",
+      "retirement_report_path": "eval/history/retire-json-health-checker-ambiguous-branch-build-pack-v1-20260325t183902z/retirement-report.json",
+      "status": "completed"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-semantic-branch-build-pack-v1-20260325t185146z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-semantic-branch-build-pack-v1-20260325t185146z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-semantic-branch-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-operator-hint-branch-build-pack-v1-20260325t191844z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-operator-hint-branch-build-pack-v1-20260325t191844z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-operator-hint-branch-build-pack-v1"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-25T17:45:54Z"
+  "updated_at": "2026-03-25T19:18:44Z"
 }

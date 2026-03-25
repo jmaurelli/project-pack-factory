@@ -1,0 +1,503 @@
+{
+  "checkpoint_result": {
+    "build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+    "completed_task_id": "run_build_pack_validation",
+    "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1.json",
+    "next_active_task_id": "run_inherited_benchmarks",
+    "pointer_result": {
+      "build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+      "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+      "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1.json",
+      "selected_run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1",
+      "status": "activated"
+    },
+    "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1/run-summary.json",
+    "status": "completed"
+  },
+  "delayed_import_result": {
+    "build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+    "build_pack_root": "build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+    "copied_artifact_paths": [
+      "external-runtime-evidence/bundle.json",
+      "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1.json",
+      "external-runtime-evidence/artifacts/loop-events.jsonl",
+      "external-runtime-evidence/artifacts/run-summary.json"
+    ],
+    "generated_at": "2026-03-25T18:29:12Z",
+    "import_id": "import-external-runtime-evidence-20260325t182912z",
+    "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t182912z/import-report.json",
+    "memory_intake": {
+      "block_summary": null,
+      "latest_pointer_path": ".pack-state/agent-memory/latest-memory.json",
+      "promoted_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1.json",
+      "selected_memory_id": "autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+      "selected_memory_sha256": "d1c58fd2be5d92c5aa5580d439fbeab167dadbf4aca6a4ebb0de47d106d8205f",
+      "selected_run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+      "source_bundle_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1.json",
+      "status": "promoted_only"
+    },
+    "status": "completed"
+  },
+  "exercise_id": "degraded-connectivity-autonomy-exercise-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182851z",
+  "final_state": {
+    "latest_memory": {
+      "pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+      "schema_version": "autonomy-feedback-memory-pointer/v1",
+      "selected_generated_at": "2026-03-25T18:29:16Z",
+      "selected_memory_id": "autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+      "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1.json",
+      "selected_memory_sha256": "ea3d4ee8edce0a8a99ae32f9af47a5223e4ee1ce8140d381b02742659605925c",
+      "selected_run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+      "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1.json",
+      "source_import_id": "import-external-runtime-evidence-20260325t182918z",
+      "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t182918z/import-report.json",
+      "source_kind": "imported_external_runtime_evidence",
+      "updated_at": "2026-03-25T18:29:18Z"
+    },
+    "readiness": {
+      "blocking_issues": [],
+      "last_evaluated_at": "2026-03-25T18:29:06Z",
+      "pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+      "pack_kind": "build_pack",
+      "readiness_state": "ready_for_deploy",
+      "ready_for_deployment": true,
+      "recommended_next_actions": [
+        "Start with the canonical validation task in tasks/active-backlog.json.",
+        "Run the inherited benchmark task after validation passes."
+      ],
+      "required_gates": [
+        {
+          "evidence_paths": [
+            "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-validation-20260325t182852z/validation-result.json"
+          ],
+          "gate_id": "validate_build_pack_contract",
+          "last_run_at": "2026-03-25T18:28:52Z",
+          "mandatory": true,
+          "status": "pass",
+          "summary": "Build-pack contract validation has not been executed yet."
+        },
+        {
+          "evidence_paths": [
+            "eval/latest/index.json"
+          ],
+          "gate_id": "json_health_checker_template_pack_smoke_small_001",
+          "last_run_at": "2026-03-25T18:29:06Z",
+          "mandatory": true,
+          "status": "pass",
+          "summary": "Run a small deterministic JSON health-check smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration."
+        }
+      ],
+      "schema_version": "pack-readiness/v2"
+    },
+    "work_state": {
+      "active_task_id": null,
+      "autonomy_state": "ready_for_deploy",
+      "blocked_task_ids": [],
+      "completed_task_ids": [
+        "run_build_pack_validation",
+        "run_inherited_benchmarks"
+      ],
+      "escalation_state": "none",
+      "last_agent_action": "Completed `run_inherited_benchmarks` locally during disconnected continuity and advanced canonical state.",
+      "last_outcome": "task_completed",
+      "last_outcome_at": "2026-03-25T18:29:06Z",
+      "last_validation_results": [
+        {
+          "evidence_paths": [
+            "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-validation-20260325t182852z/validation-result.json"
+          ],
+          "recorded_at": "2026-03-25T18:28:52Z",
+          "status": "pass",
+          "summary": "Completed `run_build_pack_validation` through the declared validation_commands during a local mid-backlog checkpoint.",
+          "validation_id": "run_build_pack_validation"
+        },
+        {
+          "evidence_paths": [
+            "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-benchmark-20260325t182906z/benchmark-result.json"
+          ],
+          "recorded_at": "2026-03-25T18:29:06Z",
+          "status": "pass",
+          "summary": "Completed `run_inherited_benchmarks` through the declared validation_commands during local active-task continuity.",
+          "validation_id": "run_inherited_benchmarks"
+        }
+      ],
+      "next_recommended_task_id": null,
+      "objective_id": "json-health-checker-degraded-connectivity-build-pack-v1_objective",
+      "pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+      "pending_task_ids": [],
+      "resume_instructions": [
+        "Read the objective, backlog, and work-state files before editing code.",
+        "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+        "Run the validation task before attempting benchmark execution or deployment workflows."
+      ],
+      "schema_version": "work-state/v1",
+      "stop_conditions": [
+        "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+        "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+      ]
+    }
+  },
+  "generated_at": "2026-03-25T18:29:18Z",
+  "local_disconnected_result": {
+    "build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+    "completed_task_id": "run_inherited_benchmarks",
+    "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-local-disconnected-continuity-v1.json",
+    "next_active_task_id": null,
+    "pointer_result": {
+      "build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+      "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+      "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-local-disconnected-continuity-v1.json",
+      "selected_run_id": "json-health-checker-degraded-connectivity-build-pack-v1-local-disconnected-continuity-v1",
+      "status": "activated"
+    },
+    "ready_for_deployment": true,
+    "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-local-disconnected-continuity-v1",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-local-disconnected-continuity-v1/run-summary.json",
+    "status": "completed"
+  },
+  "materialization_result": {
+    "materialization_id": "materialize-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182852z",
+    "materialization_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/eval/history/materialize-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182852z/materialization-report.json",
+    "source_template_id": "json-health-checker-template-pack",
+    "status": "completed",
+    "target_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+    "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1"
+  },
+  "ready_boundary_continuity_result": {
+    "build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+    "generated_at": "2026-03-25T18:29:18Z",
+    "remote_host": "adf-dev",
+    "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/remote-run-request.json",
+    "remote_target_label": "adf-dev",
+    "remote_test_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/remote-test-request.json",
+    "remote_user": "adf",
+    "request_root": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+    "roundtrip_result": {
+      "execution_result": {
+        "bootstrap": {
+          "bootstrap_mode": "presence-check-only",
+          "python_verified": true,
+          "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1"
+        },
+        "boundary_violations": [],
+        "changed_paths": [
+          ".pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/loop-events.jsonl",
+          ".pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/memory-ingress.json"
+        ],
+        "execution_manifest_path": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.packfactory-remote/execution-manifest.json",
+        "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1-20260325T182916Z",
+        "export_status": "succeeded",
+        "exported_run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+        "prompt_sha256": "674ad3c1601c7fbe5885224fc3bc3f608ea3b3708eead8558054a058b46b0e6d",
+        "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/dist/exports/runtime-evidence",
+        "remote_host": "adf-dev",
+        "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/runs/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "remote_target_label": "adf-dev",
+        "remote_user": "adf",
+        "request_sha256": "4a7dbb574b79af19bd113e9f10c0b35d22ad61730bdc11d6e25009911dcf437b",
+        "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "schema_version": "remote-autonomy-loop-result/v1",
+        "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "status": "completed",
+        "target_manifest_sha256": "5cc41acd0eca9549601fcff633a991a420257f0804ea6f57572983cff4fbbec6",
+        "terminal_outcome": "promotion_or_deployment_boundary",
+        "terminal_reason": "starter_backlog_completed"
+      },
+      "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t182918z/import-report.json",
+      "import_result": {
+        "build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "build_pack_root": "build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "copied_artifact_paths": [
+          "external-runtime-evidence/bundle.json",
+          "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1.json",
+          "external-runtime-evidence/artifacts/loop-events.jsonl",
+          "external-runtime-evidence/artifacts/run-summary.json"
+        ],
+        "generated_at": "2026-03-25T18:29:18Z",
+        "import_id": "import-external-runtime-evidence-20260325t182918z",
+        "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t182918z/import-report.json",
+        "memory_intake": {
+          "block_summary": null,
+          "latest_pointer_path": ".pack-state/agent-memory/latest-memory.json",
+          "promoted_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1.json",
+          "selected_memory_id": "autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+          "selected_memory_sha256": "ea3d4ee8edce0a8a99ae32f9af47a5223e4ee1ce8140d381b02742659605925c",
+          "selected_run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+          "source_bundle_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1.json",
+          "status": "activated"
+        },
+        "status": "completed"
+      },
+      "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming",
+      "preparation_result": {
+        "ensured_paths": [
+          "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+          "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/runs/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+          "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.packfactory-remote"
+        ],
+        "factory_root": "/home/orchadmin/project-pack-factory",
+        "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/dist/exports/runtime-evidence",
+        "remote_host": "adf-dev",
+        "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+        "remote_reason": "Factory-default feedback-memory continuity run from canonical ready-for-deploy state.",
+        "remote_request_path": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.packfactory-remote/request.json",
+        "remote_request_sha256": "4a7dbb574b79af19bd113e9f10c0b35d22ad61730bdc11d6e25009911dcf437b",
+        "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/runs/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "remote_runner": "python3 - <<'PY'\nfrom __future__ import annotations\n\nimport json\nimport sys\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nsys.path.insert(0, str((Path(\".packfactory-runtime/tools\")).resolve()))\nfrom record_autonomy_run import append_event\n\nRUN_ID = \"json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1\"\nPACK_ROOT = Path(\".\").resolve()\nMEMORY_DIR = PACK_ROOT / \".pack-state\" / \"agent-memory\"\nLATEST_MEMORY_PATH = MEMORY_DIR / \"latest-memory.json\"\n\n\ndef now() -> str:\n    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace(\"+00:00\", \"Z\")\n\n\ndef load_json(path: Path) -> dict[str, object]:\n    payload = json.loads(path.read_text(encoding=\"utf-8\"))\n    if not isinstance(payload, dict):\n        raise SystemExit(f\"{path} did not contain a JSON object\")\n    return payload\n\n\ndef write_json(path: Path, payload: dict[str, object]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n\n\ndef latest_feedback_memory() -> tuple[Path, dict[str, object], str]:\n    if LATEST_MEMORY_PATH.exists():\n        pointer_doc = load_json(LATEST_MEMORY_PATH)\n        selected_memory_path = pointer_doc.get(\"selected_memory_path\")\n        if not isinstance(selected_memory_path, str) or not selected_memory_path:\n            raise SystemExit(\"latest-memory.json is missing selected_memory_path\")\n        memory_path = (PACK_ROOT / selected_memory_path).resolve()\n        if not memory_path.exists():\n            raise SystemExit(f\"latest-memory.json pointed at a missing file: {memory_path}\")\n        return memory_path, load_json(memory_path), \"latest_pointer\"\n\n    candidates = sorted(MEMORY_DIR.glob(\"autonomy-feedback-*.json\"))\n    if not candidates:\n        raise SystemExit(\"expected at least one factory-default feedback-memory artifact under .pack-state/agent-memory\")\n    path = candidates[-1]\n    return path, load_json(path), \"directory_fallback\"\n\n\nmemory_path, memory_doc, memory_source = latest_feedback_memory()\nwork_state = load_json(PACK_ROOT / \"status/work-state.json\")\nreadiness = load_json(PACK_ROOT / \"status/readiness.json\")\ncanonical_next_task = work_state.get(\"next_recommended_task_id\")\nmemory_next_task = memory_doc.get(\"next_recommended_task_id\")\nautonomy_state = work_state.get(\"autonomy_state\")\nready_for_deployment = bool(readiness.get(\"ready_for_deployment\"))\n\nif autonomy_state != \"ready_for_deploy\":\n    raise SystemExit(f\"unexpected autonomy_state: {autonomy_state}\")\nif canonical_next_task is not None:\n    raise SystemExit(f\"expected no canonical next task at deployment boundary, found {canonical_next_task!r}\")\nif not ready_for_deployment:\n    raise SystemExit(\"expected readiness.ready_for_deployment to be true\")\nif memory_next_task is not None:\n    raise SystemExit(f\"expected feedback memory to carry no next task at deployment boundary, found {memory_next_task!r}\")\n\nmemory_ingress_path = PACK_ROOT / \".pack-state\" / \"autonomy-runs\" / RUN_ID / \"memory-ingress.json\"\nwrite_json(\n    memory_ingress_path,\n    {\n        \"memory_path\": memory_path.as_posix(),\n        \"memory_run_id\": memory_doc.get(\"run_id\"),\n        \"memory_generated_at\": memory_doc.get(\"generated_at\"),\n        \"memory_source\": memory_source,\n        \"canonical_next_task\": canonical_next_task,\n        \"memory_next_task\": memory_next_task,\n        \"autonomy_state\": autonomy_state,\n        \"ready_for_deployment\": ready_for_deployment,\n        \"recorded_at\": now(),\n    },\n)\n\nappend_event(\n    pack_root=PACK_ROOT,\n    run_id=RUN_ID,\n    event_type=\"task_selected\",\n    outcome=\"confirmed_deployment_boundary_from_feedback_memory\",\n    decision_source=\"canonical_plus_memory\",\n    memory_state=\"used_and_consistent\",\n    commands_attempted=[],\n    notes=[\n        f\"Loaded factory-default feedback memory from {memory_path.as_posix()} via {memory_source}.\",\n        \"Canonical state and feedback memory both indicated the pack was already at the deployment boundary.\",\n        \"Stopped cleanly without replaying starter tasks.\",\n    ],\n    evidence_paths=[memory_ingress_path.relative_to(PACK_ROOT).as_posix()],\n    stop_reason=None,\n    active_task_id=None,\n    next_recommended_task_id=None,\n)\n\nprint(\n    json.dumps(\n        {\n            \"status\": \"completed\",\n            \"memory_path\": memory_path.as_posix(),\n            \"memory_run_id\": memory_doc.get(\"run_id\"),\n            \"memory_source\": memory_source,\n            \"autonomy_state\": autonomy_state,\n            \"ready_for_deployment\": ready_for_deployment,\n            \"next_recommended_task_id\": canonical_next_task,\n        },\n        sort_keys=True,\n    )\n)\nPY",
+        "remote_target_label": "adf-dev",
+        "remote_user": "adf",
+        "request_sha256": "4a7dbb574b79af19bd113e9f10c0b35d22ad61730bdc11d6e25009911dcf437b",
+        "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "schema_version": "remote-autonomy-target-preparation-result/v1",
+        "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "ssh_target": "adf@adf-dev",
+        "staged_by": "codex",
+        "status": "prepared"
+      },
+      "pull_result": {
+        "bundle_generated_at": "2026-03-25T18:29:16Z",
+        "execution_manifest_sha256": "05dd48d8cc686de5d8db60dbc1f69b6868e33f87f90107cbedf0d639382fa5bd",
+        "incoming_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming",
+        "local_bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming/bundle/bundle.json",
+        "local_bundle_root": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming/bundle",
+        "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming",
+        "local_execution_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming/execution-manifest.json",
+        "local_portable_helper_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming/portable-runtime-helper-manifest.json",
+        "local_target_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming/target-manifest.json",
+        "portable_helper_manifest_sha256": "c725a24d93d6c8f075d4a869501112d4b41817657fe2ae79967107e9e098d4b8",
+        "pulled_at": "2026-03-25T18:29:18Z",
+        "pulled_bundle_sha256": "1d629aaeb2ef640e0fbe050693b59cf5382b511d12556b99e74d1b18ede17811",
+        "remote_host": "adf-dev",
+        "remote_target_label": "adf-dev",
+        "remote_user": "adf",
+        "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "schema_version": "remote-runtime-evidence-pull-result/v1",
+        "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "status": "pulled",
+        "target_manifest_sha256": "5cc41acd0eca9549601fcff633a991a420257f0804ea6f57572983cff4fbbec6",
+        "transport_mode": "rsync"
+      },
+      "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/remote-run-request.json",
+      "remote_target_label": "adf-dev",
+      "roundtrip_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/incoming/roundtrip-manifest.json",
+      "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+      "schema_version": "remote-autonomy-test-result/v1",
+      "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+      "staging_result": {
+        "excluded_paths": [
+          ".packfactory-runtime/tools/__pycache__",
+          ".packfactory-runtime/tools/__pycache__/factory_ops.cpython-312.pyc",
+          "dist/exports/runtime-evidence",
+          "eval/history",
+          "eval/history/import-external-runtime-evidence-20260325t182912z",
+          "eval/history/import-external-runtime-evidence-20260325t182912z/external-runtime-evidence",
+          "eval/history/import-external-runtime-evidence-20260325t182912z/external-runtime-evidence/artifacts",
+          "eval/history/import-external-runtime-evidence-20260325t182912z/external-runtime-evidence/artifacts/agent-memory",
+          "eval/history/import-external-runtime-evidence-20260325t182912z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1.json",
+          "eval/history/import-external-runtime-evidence-20260325t182912z/external-runtime-evidence/artifacts/loop-events.jsonl",
+          "eval/history/import-external-runtime-evidence-20260325t182912z/external-runtime-evidence/artifacts/run-summary.json",
+          "eval/history/import-external-runtime-evidence-20260325t182912z/external-runtime-evidence/bundle.json",
+          "eval/history/import-external-runtime-evidence-20260325t182912z/import-report.json",
+          "eval/history/materialize-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182852z",
+          "eval/history/materialize-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182852z/materialization-report.json",
+          "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-benchmark-20260325t182906z",
+          "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-benchmark-20260325t182906z/benchmark-result.json",
+          "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-validation-20260325t182852z",
+          "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-validation-20260325t182852z/validation-result.json",
+          "src/json_health_checker_template_pack/__pycache__",
+          "src/json_health_checker_template_pack/__pycache__/__init__.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/__main__.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/benchmark_smoke.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/cli.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/json_health_checker.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/validate_project_pack.cpython-312.pyc"
+        ],
+        "local_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-staging/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/target-manifest.json",
+        "local_staging_root": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-staging/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "payload_entry_count": 48,
+        "payload_policy_version": "fresh-staging/v1",
+        "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/dist/exports/runtime-evidence",
+        "remote_host": "adf-dev",
+        "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+        "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/runs/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "remote_target_label": "adf-dev",
+        "remote_user": "adf",
+        "request_sha256": "4a7dbb574b79af19bd113e9f10c0b35d22ad61730bdc11d6e25009911dcf437b",
+        "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+        "schema_version": "remote-build-pack-stage-result/v1",
+        "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "status": "staged",
+        "target_manifest_path": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.packfactory-remote/target-manifest.json",
+        "transport_mode": "rsync"
+      },
+      "status": "completed",
+      "wrapper_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1/remote-test-request.json"
+    },
+    "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+    "schema_version": "remote-memory-continuity-test-result/v1",
+    "status": "completed"
+  },
+  "remote_host": "adf-dev",
+  "remote_only_roundtrip_result": {
+    "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/remote-run-request.json",
+    "remote_test_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/remote-test-request.json",
+    "request_root": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+    "roundtrip_result": {
+      "execution_result": {
+        "bootstrap": {
+          "bootstrap_mode": "presence-check-only",
+          "python_verified": true,
+          "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1"
+        },
+        "boundary_violations": [],
+        "changed_paths": [
+          ".pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/loop-events.jsonl",
+          ".pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/memory-ingress.json",
+          "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-benchmark-20260325t182903z/benchmark-result.json",
+          "eval/latest/index.json",
+          "status/readiness.json",
+          "status/work-state.json",
+          "tasks/active-backlog.json"
+        ],
+        "execution_manifest_path": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.packfactory-remote/execution-manifest.json",
+        "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1-20260325T182903Z",
+        "export_status": "succeeded",
+        "exported_run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+        "prompt_sha256": "49f6d8516aae9428b83785f700a9c964964e7ff31b0a3c8e130ff7ee7f3ccc8a",
+        "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/dist/exports/runtime-evidence",
+        "remote_host": "adf-dev",
+        "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "remote_target_label": "adf-dev",
+        "remote_user": "adf",
+        "request_sha256": "7989a5a74be33f58272a31a4911838fcd5077d0f0ae8ef9c259f229f0f045d4a",
+        "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "schema_version": "remote-autonomy-loop-result/v1",
+        "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "status": "completed",
+        "target_manifest_sha256": "f01af8ef961e72b2c28e4b8511030f895db627bd8955e5f36695910a4c0aecee",
+        "terminal_outcome": "promotion_or_deployment_boundary",
+        "terminal_reason": "starter_backlog_completed"
+      },
+      "import_report_path": null,
+      "import_result": null,
+      "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming",
+      "preparation_result": {
+        "ensured_paths": [
+          "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+          "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+          "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.packfactory-remote"
+        ],
+        "factory_root": "/home/orchadmin/project-pack-factory",
+        "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/dist/exports/runtime-evidence",
+        "remote_host": "adf-dev",
+        "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+        "remote_reason": "Remote active-task continuity run with delayed import to simulate degraded factory connectivity.",
+        "remote_request_path": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.packfactory-remote/request.json",
+        "remote_request_sha256": "7989a5a74be33f58272a31a4911838fcd5077d0f0ae8ef9c259f229f0f045d4a",
+        "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "remote_runner": "python3 - <<'PY'\nfrom __future__ import annotations\n\nimport json\nimport subprocess\nimport sys\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nsys.path.insert(0, str((Path(\".packfactory-runtime/tools\")).resolve()))\nfrom record_autonomy_run import append_event\n\nRUN_ID = \"json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1\"\nEXPECTED_ACTIVE_TASK_ID = \"run_inherited_benchmarks\"\nPACK_ROOT = Path(\".\").resolve()\nMEMORY_DIR = PACK_ROOT / \".pack-state\" / \"agent-memory\"\nLATEST_MEMORY_PATH = MEMORY_DIR / \"latest-memory.json\"\n\n\ndef now() -> str:\n    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace(\"+00:00\", \"Z\")\n\n\ndef load_json(path: Path) -> dict[str, object]:\n    payload = json.loads(path.read_text(encoding=\"utf-8\"))\n    if not isinstance(payload, dict):\n        raise SystemExit(f\"{path} did not contain a JSON object\")\n    return payload\n\n\ndef write_json(path: Path, payload: dict[str, object]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True)\n    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n\n\ndef latest_feedback_memory() -> tuple[Path, dict[str, object], str]:\n    if LATEST_MEMORY_PATH.exists():\n        pointer_doc = load_json(LATEST_MEMORY_PATH)\n        selected_memory_path = pointer_doc.get(\"selected_memory_path\")\n        if not isinstance(selected_memory_path, str) or not selected_memory_path:\n            raise SystemExit(\"latest-memory.json is missing selected_memory_path\")\n        memory_path = (PACK_ROOT / selected_memory_path).resolve()\n        if not memory_path.exists():\n            raise SystemExit(f\"latest-memory.json pointed at a missing file: {memory_path}\")\n        return memory_path, load_json(memory_path), \"latest_pointer\"\n\n    candidates = sorted(MEMORY_DIR.glob(\"autonomy-feedback-*.json\"))\n    if not candidates:\n        raise SystemExit(\"expected at least one factory-default feedback-memory artifact under .pack-state/agent-memory\")\n    path = candidates[-1]\n    return path, load_json(path), \"directory_fallback\"\n\n\ndef run_command(command: str) -> dict[str, object]:\n    completed = subprocess.run(\n        command,\n        shell=True,\n        executable=\"/bin/bash\",\n        cwd=PACK_ROOT,\n        text=True,\n        capture_output=True,\n        check=False,\n    )\n    if completed.returncode != 0:\n        raise SystemExit(completed.stderr.strip() or completed.stdout.strip() or f\"command failed: {command}\")\n    stdout = completed.stdout.strip()\n    if not stdout:\n        return {\"status\": \"completed\", \"generated_at\": now(), \"evidence_paths\": []}\n    payload = json.loads(stdout)\n    if not isinstance(payload, dict):\n        raise SystemExit(f\"command output must be a JSON object: {command}\")\n    return payload\n\n\ndef merge_validation_results(existing: list[dict[str, object]], fresh: dict[str, object]) -> list[dict[str, object]]:\n    merged = [result for result in existing if result.get(\"validation_id\") != fresh.get(\"validation_id\")]\n    merged.append(fresh)\n    return merged\n\n\ndef eligible_next_tasks(backlog: dict[str, object]) -> list[dict[str, object]]:\n    tasks = backlog.get(\"tasks\", [])\n    if not isinstance(tasks, list):\n        raise SystemExit(\"tasks/active-backlog.json must contain a tasks array\")\n    completed_task_ids = set(\n        str(task.get(\"task_id\"))\n        for task in tasks\n        if isinstance(task, dict) and task.get(\"status\") == \"completed\" and isinstance(task.get(\"task_id\"), str)\n    )\n    eligible: list[dict[str, object]] = []\n    for index, task in enumerate(tasks):\n        if not isinstance(task, dict):\n            continue\n        task_id = task.get(\"task_id\")\n        if not isinstance(task_id, str) or task.get(\"status\") == \"completed\":\n            continue\n        dependencies = task.get(\"dependencies\", [])\n        if not isinstance(dependencies, list):\n            continue\n        if not all(isinstance(dep, str) and dep in completed_task_ids for dep in dependencies):\n            continue\n        selection_priority = task.get(\"selection_priority\")\n        priority_rank = selection_priority if isinstance(selection_priority, (int, float)) else 1000\n        eligible.append(\n            {\n                \"task_id\": task_id,\n                \"priority_rank\": priority_rank,\n                \"backlog_index\": index,\n            }\n        )\n    eligible.sort(key=lambda item: (float(item[\"priority_rank\"]), int(item[\"backlog_index\"])))\n    return eligible\n\n\nmemory_path, memory_doc, memory_source = latest_feedback_memory()\nwork_state_path = PACK_ROOT / \"status\" / \"work-state.json\"\nbacklog_path = PACK_ROOT / \"tasks\" / \"active-backlog.json\"\nreadiness_path = PACK_ROOT / \"status\" / \"readiness.json\"\nwork_state = load_json(work_state_path)\nbacklog = load_json(backlog_path)\nreadiness = load_json(readiness_path)\nactive_task_id = work_state.get(\"active_task_id\")\nnext_task_id = work_state.get(\"next_recommended_task_id\")\nif active_task_id != EXPECTED_ACTIVE_TASK_ID or next_task_id != EXPECTED_ACTIVE_TASK_ID:\n    raise SystemExit(f\"unexpected canonical active-task boundary: active={active_task_id!r} next={next_task_id!r} expected={EXPECTED_ACTIVE_TASK_ID!r}\")\nif bool(readiness.get(\"ready_for_deployment\")):\n    raise SystemExit(\"expected readiness.ready_for_deployment to be false\")\nif memory_doc.get(\"active_task_id\") != EXPECTED_ACTIVE_TASK_ID or memory_doc.get(\"next_recommended_task_id\") != EXPECTED_ACTIVE_TASK_ID:\n    raise SystemExit(\"feedback memory did not match the canonical active task boundary\")\n\nselected_task = None\nfor task in backlog.get(\"tasks\", []):\n    if isinstance(task, dict) and task.get(\"task_id\") == EXPECTED_ACTIVE_TASK_ID:\n        selected_task = task\n        break\nif not isinstance(selected_task, dict):\n    raise SystemExit(f\"active task {EXPECTED_ACTIVE_TASK_ID!r} was not found in tasks/active-backlog.json\")\ncommands = selected_task.get(\"validation_commands\", [])\nif not isinstance(commands, list) or not commands or not all(isinstance(command, str) and command.strip() for command in commands):\n    raise SystemExit(f\"active task {EXPECTED_ACTIVE_TASK_ID!r} must declare non-empty validation_commands\")\n\nmemory_ingress_path = PACK_ROOT / \".pack-state\" / \"autonomy-runs\" / RUN_ID / \"memory-ingress.json\"\nwrite_json(\n    memory_ingress_path,\n    {\n        \"memory_path\": memory_path.as_posix(),\n        \"memory_run_id\": memory_doc.get(\"run_id\"),\n        \"memory_generated_at\": memory_doc.get(\"generated_at\"),\n        \"memory_source\": memory_source,\n        \"active_task_id\": active_task_id,\n        \"next_recommended_task_id\": next_task_id,\n        \"recorded_at\": now(),\n    },\n)\n\nappend_event(\n    pack_root=PACK_ROOT,\n    run_id=RUN_ID,\n    event_type=\"task_selected\",\n    outcome=\"selected_active_task_from_feedback_memory\",\n    decision_source=\"canonical_plus_memory\",\n    memory_state=\"used_and_consistent\",\n    commands_attempted=[],\n    notes=[\n        f\"Loaded factory-default feedback memory from {memory_path.as_posix()} via {memory_source}.\",\n        f\"Memory agreed with canonical state on active task {EXPECTED_ACTIVE_TASK_ID}.\",\n    ],\n    evidence_paths=[memory_ingress_path.relative_to(PACK_ROOT).as_posix()],\n    stop_reason=None,\n    active_task_id=EXPECTED_ACTIVE_TASK_ID,\n    next_recommended_task_id=EXPECTED_ACTIVE_TASK_ID,\n)\n\nrecorded_results: list[dict[str, object]] = []\nfor command in commands:\n    payload = run_command(command)\n    evidence_paths = list(payload.get(\"evidence_paths\", [])) if isinstance(payload.get(\"evidence_paths\", []), list) else []\n    recorded_results.append(\n        {\n            \"validation_id\": EXPECTED_ACTIVE_TASK_ID,\n            \"status\": \"pass\",\n            \"summary\": f\"Completed `{EXPECTED_ACTIVE_TASK_ID}` through the declared validation_commands during remote active-task continuity.\",\n            \"evidence_paths\": evidence_paths,\n            \"recorded_at\": payload.get(\"generated_at\"),\n        }\n    )\n    append_event(\n        pack_root=PACK_ROOT,\n        run_id=RUN_ID,\n        event_type=\"command_completed\",\n        outcome=f\"{EXPECTED_ACTIVE_TASK_ID}_command_completed\",\n        decision_source=\"canonical_plus_memory\",\n        memory_state=\"used_and_consistent\",\n        commands_attempted=[command],\n        notes=[f\"Completed the declared command for active task `{EXPECTED_ACTIVE_TASK_ID}`.\"],\n        evidence_paths=evidence_paths,\n        stop_reason=None,\n        active_task_id=EXPECTED_ACTIVE_TASK_ID,\n        next_recommended_task_id=EXPECTED_ACTIVE_TASK_ID,\n    )\n\nrefreshed_readiness = load_json(readiness_path)\nrefreshed_backlog = load_json(backlog_path)\nfor task in refreshed_backlog.get(\"tasks\", []):\n    if isinstance(task, dict) and task.get(\"task_id\") == EXPECTED_ACTIVE_TASK_ID:\n        task[\"status\"] = \"completed\"\n\nremaining_task_ids = [\n    str(task.get(\"task_id\"))\n    for task in refreshed_backlog.get(\"tasks\", [])\n    if isinstance(task, dict)\n    and isinstance(task.get(\"task_id\"), str)\n    and task.get(\"status\") != \"completed\"\n]\neligible_tasks = eligible_next_tasks(refreshed_backlog)\nnext_active_task_id = None if bool(refreshed_readiness.get(\"ready_for_deployment\")) or not eligible_tasks else str(eligible_tasks[0][\"task_id\"])\nbranch_selection_path = None\nbranch_selection_notes = []\nif len(eligible_tasks) > 1:\n    branch_selection_payload = {\n        \"schema_version\": \"branch-selection-summary/v1\",\n        \"run_id\": RUN_ID,\n        \"recorded_at\": now(),\n        \"selection_rule\": \"lowest selection_priority first, then backlog order\",\n        \"candidate_task_ids\": [str(item[\"task_id\"]) for item in eligible_tasks],\n        \"chosen_task_id\": next_active_task_id,\n    }\n    branch_selection_file = PACK_ROOT / \".pack-state\" / \"autonomy-runs\" / RUN_ID / \"branch-selection.json\"\n    write_json(branch_selection_file, branch_selection_payload)\n    branch_selection_path = branch_selection_file.relative_to(PACK_ROOT).as_posix()\n    branch_selection_notes.append(\n        f\"Multiple next tasks were eligible; selected `{next_active_task_id}` using selection_priority then backlog order.\"\n    )\nfor task in refreshed_backlog.get(\"tasks\", []):\n    if not isinstance(task, dict):\n        continue\n    task_id = task.get(\"task_id\")\n    if next_active_task_id is not None and task_id == next_active_task_id:\n        task[\"status\"] = \"in_progress\"\n    elif task_id != EXPECTED_ACTIVE_TASK_ID and task.get(\"status\") != \"completed\":\n        task[\"status\"] = \"pending\"\nwrite_json(backlog_path, refreshed_backlog)\n\nrefreshed_work_state = load_json(work_state_path)\nlast_validation_results = list(refreshed_work_state.get(\"last_validation_results\", []))\nfor result in recorded_results:\n    if isinstance(result, dict):\n        last_validation_results = merge_validation_results(last_validation_results, result)\ncompleted_task_ids = list(refreshed_work_state.get(\"completed_task_ids\", []))\nif EXPECTED_ACTIVE_TASK_ID not in completed_task_ids:\n    completed_task_ids.append(EXPECTED_ACTIVE_TASK_ID)\nautonomy_state = \"ready_for_deploy\" if bool(refreshed_readiness.get(\"ready_for_deployment\")) else \"actively_building\"\nrefreshed_work_state.update(\n    {\n        \"autonomy_state\": autonomy_state,\n        \"active_task_id\": next_active_task_id,\n        \"next_recommended_task_id\": next_active_task_id,\n        \"pending_task_ids\": [] if next_active_task_id is None else [task_id for task_id in remaining_task_ids if task_id != next_active_task_id],\n        \"blocked_task_ids\": [],\n        \"completed_task_ids\": completed_task_ids,\n        \"last_outcome\": \"task_completed\",\n        \"last_outcome_at\": now(),\n        \"last_validation_results\": last_validation_results,\n        \"last_agent_action\": (\n            f\"Completed `{EXPECTED_ACTIVE_TASK_ID}` through remote active-task continuity and advanced canonical state.\"\n            if not branch_selection_notes\n            else f\"Completed `{EXPECTED_ACTIVE_TASK_ID}`, evaluated multiple eligible next tasks, and advanced canonical state with `{next_active_task_id}` selected.\"\n        ),\n        \"escalation_state\": \"none\",\n    }\n)\nwrite_json(work_state_path, refreshed_work_state)\n\nappend_event(\n    pack_root=PACK_ROOT,\n    run_id=RUN_ID,\n    event_type=\"state_updated\",\n    outcome=\"active_task_continuity_completed\",\n    decision_source=\"canonical_plus_memory\",\n    memory_state=\"used_and_consistent\",\n    commands_attempted=[],\n    notes=[\n        f\"Completed active task `{EXPECTED_ACTIVE_TASK_ID}` and advanced canonical state to next task {next_active_task_id!r}.\",\n        f\"ready_for_deployment={bool(refreshed_readiness.get('ready_for_deployment'))}.\",\n        *branch_selection_notes,\n    ],\n    evidence_paths=[] if branch_selection_path is None else [branch_selection_path],\n    stop_reason=None,\n    active_task_id=next_active_task_id,\n    next_recommended_task_id=next_active_task_id,\n)\n\nprint(\n    json.dumps(\n        {\n            \"status\": \"completed\",\n            \"completed_task_id\": EXPECTED_ACTIVE_TASK_ID,\n            \"next_active_task_id\": next_active_task_id,\n            \"ready_for_deployment\": bool(refreshed_readiness.get(\"ready_for_deployment\")),\n        },\n        sort_keys=True,\n    )\n)\nPY",
+        "remote_target_label": "adf-dev",
+        "remote_user": "adf",
+        "request_sha256": "7989a5a74be33f58272a31a4911838fcd5077d0f0ae8ef9c259f229f0f045d4a",
+        "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "schema_version": "remote-autonomy-target-preparation-result/v1",
+        "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "ssh_target": "adf@adf-dev",
+        "staged_by": "codex",
+        "status": "prepared"
+      },
+      "pull_result": {
+        "bundle_generated_at": "2026-03-25T18:29:03Z",
+        "execution_manifest_sha256": "8a4323f71e86d62dae4a0e3771cfcfebf2977a7e6b7c92761ba64e1f1252656b",
+        "incoming_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming",
+        "local_bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming/bundle/bundle.json",
+        "local_bundle_root": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming/bundle",
+        "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming",
+        "local_execution_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming/execution-manifest.json",
+        "local_portable_helper_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming/portable-runtime-helper-manifest.json",
+        "local_target_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming/target-manifest.json",
+        "portable_helper_manifest_sha256": "c725a24d93d6c8f075d4a869501112d4b41817657fe2ae79967107e9e098d4b8",
+        "pulled_at": "2026-03-25T18:29:06Z",
+        "pulled_bundle_sha256": "8292a35d271aa5c05c5872e4ea6cee075c5dea1d7d5cfc3ddfd3818e4ad9f989",
+        "remote_host": "adf-dev",
+        "remote_target_label": "adf-dev",
+        "remote_user": "adf",
+        "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "schema_version": "remote-runtime-evidence-pull-result/v1",
+        "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "status": "pulled",
+        "target_manifest_sha256": "f01af8ef961e72b2c28e4b8511030f895db627bd8955e5f36695910a4c0aecee",
+        "transport_mode": "rsync"
+      },
+      "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/remote-run-request.json",
+      "remote_target_label": "adf-dev",
+      "roundtrip_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/incoming/roundtrip-manifest.json",
+      "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+      "schema_version": "remote-autonomy-test-result/v1",
+      "seeded_prerequisite_paths": [
+        "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-validation-20260325t182852z/validation-result.json"
+      ],
+      "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+      "staging_result": {
+        "excluded_paths": [
+          ".packfactory-runtime/tools/__pycache__",
+          ".packfactory-runtime/tools/__pycache__/factory_ops.cpython-312.pyc",
+          "dist/exports/runtime-evidence",
+          "eval/history",
+          "eval/history/materialize-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182852z",
+          "eval/history/materialize-json-health-checker-degraded-connectivity-build-pack-v1-20260325t182852z/materialization-report.json",
+          "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-validation-20260325t182852z",
+          "eval/history/readiness-eval-json-health-checker-degraded-connectivity-build-pack-v1-validation-20260325t182852z/validation-result.json",
+          "src/json_health_checker_template_pack/__pycache__",
+          "src/json_health_checker_template_pack/__pycache__/__init__.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/__main__.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/benchmark_smoke.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/cli.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/json_health_checker.cpython-312.pyc",
+          "src/json_health_checker_template_pack/__pycache__/validate_project_pack.cpython-312.pyc"
+        ],
+        "local_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-staging/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/target-manifest.json",
+        "local_staging_root": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-staging/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "payload_entry_count": 44,
+        "payload_policy_version": "fresh-staging/v1",
+        "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/dist/exports/runtime-evidence",
+        "remote_host": "adf-dev",
+        "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+        "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "remote_target_label": "adf-dev",
+        "remote_user": "adf",
+        "request_sha256": "7989a5a74be33f58272a31a4911838fcd5077d0f0ae8ef9c259f229f0f045d4a",
+        "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+        "schema_version": "remote-build-pack-stage-result/v1",
+        "source_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1",
+        "status": "staged",
+        "target_manifest_path": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.packfactory-remote/target-manifest.json",
+        "transport_mode": "rsync"
+      },
+      "status": "completed",
+      "wrapper_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-degraded-connectivity-build-pack-v1/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1/remote-test-request.json"
+    },
+    "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-remote-run-v1",
+    "status": "completed"
+  },
+  "remote_target_label": "adf-dev",
+  "remote_user": "adf",
+  "schema_version": "degraded-connectivity-autonomy-exercise-report/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "status": "completed",
+  "target_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+  "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1"
+}

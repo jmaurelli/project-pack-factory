@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-semantic-branch-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T18:51:52Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v1.json",
+  "selected_memory_sha256": "8145fb29d6cf1e8f954e7f5c1664e33c2d597845c5d3823c82049e2a39499cf6",
+  "selected_run_id": "json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t185154z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t185154z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T18:51:54Z"
+}

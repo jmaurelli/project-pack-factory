@@ -93,6 +93,12 @@
         "minLength": 1
       }
     },
+    "branch_selection_hints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/branch_selection_hint"
+      }
+    },
     "stop_conditions": {
       "type": "array",
       "minItems": 1,
@@ -129,6 +135,28 @@
       "items": {
         "type": "string",
         "pattern": "^[a-z0-9][a-z0-9_-]*$"
+      }
+    },
+    "branch_selection_hint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hint_id",
+        "summary",
+        "preferred_task_ids"
+      ],
+      "properties": {
+        "hint_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preferred_task_ids": {
+          "$ref": "#/$defs/task_id_array"
+        }
       }
     },
     "validation_result": {

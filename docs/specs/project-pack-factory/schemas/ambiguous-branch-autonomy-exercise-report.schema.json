@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "ambiguous_branch_setup_result": {
+      "type": "object"
+    },
+    "checkpoint_result": {
+      "type": "object"
+    },
+    "exercise_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "final_state": {
+      "type": "object"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "materialization_result": {
+      "type": "object"
+    },
+    "run_summary": {
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "ambiguous-branch-autonomy-exercise-report/v1"
+    },
+    "source_template_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "completed"
+      ],
+      "type": "string"
+    },
+    "target_build_pack_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "target_build_pack_root": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "ambiguous_branch_setup_result",
+    "checkpoint_result",
+    "exercise_id",
+    "final_state",
+    "generated_at",
+    "materialization_result",
+    "run_summary",
+    "schema_version",
+    "source_template_id",
+    "status",
+    "target_build_pack_id",
+    "target_build_pack_root"
+  ],
+  "title": "Ambiguous Branch Autonomy Exercise Report",
+  "type": "object"
+}

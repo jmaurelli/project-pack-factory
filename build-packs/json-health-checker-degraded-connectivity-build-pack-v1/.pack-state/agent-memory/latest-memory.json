@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T18:29:16Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1.json",
+  "selected_memory_sha256": "ea3d4ee8edce0a8a99ae32f9af47a5223e4ee1ce8140d381b02742659605925c",
+  "selected_run_id": "json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-continuity-run-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t182918z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t182918z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T18:29:18Z"
+}

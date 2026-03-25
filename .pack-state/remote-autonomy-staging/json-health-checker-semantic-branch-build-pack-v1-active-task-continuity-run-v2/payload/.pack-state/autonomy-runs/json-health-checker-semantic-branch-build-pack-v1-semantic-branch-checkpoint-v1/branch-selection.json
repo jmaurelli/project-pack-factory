@@ -1,0 +1,68 @@
+{
+  "ambiguity_reason": null,
+  "candidate_task_ids": [
+    "record_semantic_branch_alpha",
+    "record_semantic_branch_beta"
+  ],
+  "chosen_task_id": "record_semantic_branch_beta",
+  "recorded_at": "2026-03-25T18:51:46Z",
+  "run_id": "json-health-checker-semantic-branch-build-pack-v1-semantic-branch-checkpoint-v1",
+  "schema_version": "branch-selection-summary/v1",
+  "selection_method": "semantic_alignment",
+  "selection_rule": "lowest selection_priority first; then bounded semantic alignment; remaining ties require operator disambiguation",
+  "semantic_context_sources": [
+    "project_objective",
+    "work_state_resume_instructions"
+  ],
+  "semantic_scores": [
+    {
+      "matched_signal_terms": [
+        "operator",
+        "reporting"
+      ],
+      "matched_terms": [
+        "completes",
+        "eval",
+        "evidence",
+        "json",
+        "operator",
+        "recorded",
+        "reporting",
+        "semantic",
+        "state",
+        "successfully",
+        "validation",
+        "work"
+      ],
+      "semantic_score": 24,
+      "task_id": "record_semantic_branch_alpha"
+    },
+    {
+      "matched_signal_terms": [
+        "json",
+        "schema",
+        "validation"
+      ],
+      "matched_terms": [
+        "completes",
+        "eval",
+        "evidence",
+        "json",
+        "recorded",
+        "schema",
+        "semantic",
+        "state",
+        "successfully",
+        "validation",
+        "work"
+      ],
+      "semantic_score": 25,
+      "task_id": "record_semantic_branch_beta"
+    }
+  ],
+  "status": "selected",
+  "top_candidate_task_ids": [
+    "record_semantic_branch_alpha",
+    "record_semantic_branch_beta"
+  ]
+}

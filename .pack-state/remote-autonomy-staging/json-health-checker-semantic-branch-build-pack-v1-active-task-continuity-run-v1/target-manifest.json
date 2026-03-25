@@ -1,0 +1,276 @@
+{
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "excluded_paths": [
+    ".packfactory-runtime/tools/__pycache__",
+    ".packfactory-runtime/tools/__pycache__/factory_ops.cpython-312.pyc",
+    "dist/exports/runtime-evidence",
+    "eval/history",
+    "eval/history/materialize-json-health-checker-semantic-branch-build-pack-v1-20260325t185146z",
+    "eval/history/materialize-json-health-checker-semantic-branch-build-pack-v1-20260325t185146z/materialization-report.json",
+    "eval/history/readiness-eval-json-health-checker-semantic-branch-build-pack-v1-validation-20260325t185146z",
+    "eval/history/readiness-eval-json-health-checker-semantic-branch-build-pack-v1-validation-20260325t185146z/validation-result.json",
+    "src/json_health_checker_template_pack/__pycache__",
+    "src/json_health_checker_template_pack/__pycache__/__init__.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/__main__.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/benchmark_smoke.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/cli.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/json_health_checker.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/validate_project_pack.cpython-312.pyc"
+  ],
+  "payload_entries": [
+    {
+      "relative_path": ".gitignore",
+      "sha256": "c3fae528d26966c94641ff9123a1cef4a42571bd3d7fcd49c82a381135407ef9",
+      "size_bytes": 79
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-semantic-branch-build-pack-v1-semantic-branch-checkpoint-v1.json",
+      "sha256": "b3e2f695b1522661d02ff5a8a1d620b824ed09ddfaef7d644891ab1e1d25f9e0",
+      "size_bytes": 3185
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/latest-memory.json",
+      "sha256": "18a2b43546ad157976c2b513e611a13b63736f088ce445d21dae37a3c8b8fd52",
+      "size_bytes": 962
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/json-health-checker-semantic-branch-build-pack-v1-semantic-branch-checkpoint-v1/branch-selection.json",
+      "sha256": "1c5f8995ea4a2b12d3ce3ef3fbc5f1e884dfa364375155bac004f5abf6ea9435",
+      "size_bytes": 1668
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/json-health-checker-semantic-branch-build-pack-v1-semantic-branch-checkpoint-v1/loop-events.jsonl",
+      "sha256": "d035425e3627feb79e53bd6e939108dca9d150fe3654620bf8f1ac4ca17b7275",
+      "size_bytes": 6425
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/json-health-checker-semantic-branch-build-pack-v1-semantic-branch-checkpoint-v1/run-summary.json",
+      "sha256": "93845c767159a23e13054ef1abc25eb132d587f87eb334519a6bcb06439404fb",
+      "size_bytes": 3591
+    },
+    {
+      "relative_path": ".packfactory-remote/request.json",
+      "sha256": "75b4fd1664a74e2f505675209de92299fd4387227bc33b3b70fd343c020cf691",
+      "size_bytes": 26957
+    },
+    {
+      "relative_path": ".packfactory-runtime/manifest.json",
+      "sha256": "1b6d3463729b26e93dae2664c47c6a99df097f31aa487cbe85019f5f579db856",
+      "size_bytes": 3134
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory-pointer.schema.json",
+      "sha256": "c1cdd804cea3e80f2b495442e8ae819b420336cdeb6ab5bce74422d73309632a",
+      "size_bytes": 2078
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory.schema.json",
+      "sha256": "6d619181d03331c07d387c9e2b4ba91cafd299270d80b38be0c7e07efff5727d",
+      "size_bytes": 4426
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+      "sha256": "8c7427ea3199030ca8df7e6de55fbdbaa3ed5d9bc5251bad1d253a2247bc17a8",
+      "size_bytes": 4442
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+      "sha256": "d7271514f6dfb33851f16b7cd76e404a24a9686b0b247493cf04efd20436afcf",
+      "size_bytes": 8898
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+      "sha256": "c51959a6e627c26eeeb49f690e329a1b61a667a575775a2a5d5594afaa21b206",
+      "size_bytes": 1801
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+      "sha256": "04d712f8830acb83ae57fb116ce7690d7b883f7de90662490d8a95f490c098e7",
+      "size_bytes": 1950
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/readiness.schema.json",
+      "sha256": "e5354daa75d7848833154e6b7350b6e26b1da2ba95280ba1ab98c0057bf2a250",
+      "size_bytes": 5761
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/factory_ops.py",
+      "sha256": "996649576ae33d259d60b853767af4faa7944014a540007b854fa36206eb7562",
+      "size_bytes": 18408
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/record_autonomy_run.py",
+      "sha256": "3a61b8ad44820411ad1e664990a492b9a3ec6c6eb445ebd7aafca6c0b430fbbb",
+      "size_bytes": 34213
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+      "sha256": "89d7216125ba9b207ae2436fdb8396bbb7ae1f3c1329ae70e4dc2f6edee70372",
+      "size_bytes": 17585
+    },
+    {
+      "relative_path": "AGENTS.md",
+      "sha256": "d8678551b82dc88530245b358d98a08cb4f20b36b00e1e5c78768d376c281fbd",
+      "size_bytes": 2459
+    },
+    {
+      "relative_path": "README.md",
+      "sha256": "403277b17d21bbb7169b528d72d824bad4344fe523877ddbddaf8258e6633777",
+      "size_bytes": 714
+    },
+    {
+      "relative_path": "benchmarks/active-set.json",
+      "sha256": "69cd786c165a973079979561e97fb4426b5c9bba49add3ec1c0c7b30cf4cf4fd",
+      "size_bytes": 648
+    },
+    {
+      "relative_path": "benchmarks/declarations/json-health-checker-template-pack-smoke-small-001.json",
+      "sha256": "565080c8d2466cb54590f84d64a83af6c4bbcb975dad0435bfd1d7b75268dbd3",
+      "size_bytes": 1313
+    },
+    {
+      "relative_path": "contracts/README.md",
+      "sha256": "26d0051ab37e23966b3d7b39c1c529620469191a38c0599c0384af3055c5d475",
+      "size_bytes": 170
+    },
+    {
+      "relative_path": "contracts/project-objective.json",
+      "sha256": "068e6635cbafff08eeff096a1c6a25fbb7707a0537fdd90924368a975ebb4506",
+      "size_bytes": 4289
+    },
+    {
+      "relative_path": "docs/specs/README.md",
+      "sha256": "f274eb0c0fcc25bd90f16ae00be8779db4824e25f56184534ba447c2b695cc77",
+      "size_bytes": 129
+    },
+    {
+      "relative_path": "eval/latest/index.json",
+      "sha256": "160d0460b1195ecd1eb094adaf43055d7982e91aa48a11832f879125916ad232",
+      "size_bytes": 732
+    },
+    {
+      "relative_path": "lineage/source-template.json",
+      "sha256": "8270c42e9249148da046b76b49c273fc7f136d5fdef86e9c77b1f93f84492263",
+      "size_bytes": 685
+    },
+    {
+      "relative_path": "pack.json",
+      "sha256": "7c5d51e2b602f7ae04189c58e739f6d7d5c73daaf60630eb3ce150d7ac2c0de0",
+      "size_bytes": 2877
+    },
+    {
+      "relative_path": "project-context.md",
+      "sha256": "91e50626a4c388bd97cbf4ffcbd634f189684dbc295b5f5f1b6797d24971c351",
+      "size_bytes": 976
+    },
+    {
+      "relative_path": "prompts/README.md",
+      "sha256": "fbf699c4950133c023264d5bc30cfa4e3cd914fae6ddea2e5db05536f8a73ab8",
+      "size_bytes": 92
+    },
+    {
+      "relative_path": "pyproject.toml",
+      "sha256": "b29046b3671175e64d2ac20510ee3df14a088eb18c27b33822a2f58b1a04d818",
+      "size_bytes": 519
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/__init__.py",
+      "sha256": "7d747afc2b886329d5e309a87e59ee8f3eb222fac210351c79bb0742ee11c426",
+      "size_bytes": 19
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/__main__.py",
+      "sha256": "3d2438ae92f4746e9ffaa1f837b1fe803f6281091d1f31f8c95643716f257d9a",
+      "size_bytes": 80
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/benchmark_smoke.py",
+      "sha256": "7a45eed9466b87a9fd419636a2f9c789fbaf17c18ecc7ec9251de195bedca0f4",
+      "size_bytes": 850
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/cli.py",
+      "sha256": "3b3b9695a25f29b37aea9b43e89f926e09ab120d947c0ffd62dcaeec04b03aa1",
+      "size_bytes": 1827
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/json_health_checker.py",
+      "sha256": "38a98564a09925fe2bb696dae8d0aed9812b014481b7a234cfb15efdf4e81189",
+      "size_bytes": 1565
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/validate_project_pack.py",
+      "sha256": "ec6b19a53627fcd531387e40b3842c78d18b05c3cca22e2929be95c94a3faeea",
+      "size_bytes": 1153
+    },
+    {
+      "relative_path": "src/pack_export_runtime_evidence.py",
+      "sha256": "39d7703163cb0d31df9187559e6808e0c613ecd88c1ee4350ff782999f34782e",
+      "size_bytes": 12038
+    },
+    {
+      "relative_path": "src/record_semantic_branch_progress.py",
+      "sha256": "6755a3b45f936c1673a474b90173032675e51284ba5123bde37db540a69848b0",
+      "size_bytes": 1761
+    },
+    {
+      "relative_path": "status/deployment.json",
+      "sha256": "998258dea596c7be35b7a4434c41db42065851c071842209c0711234a4fc4612",
+      "size_bytes": 559
+    },
+    {
+      "relative_path": "status/lifecycle.json",
+      "sha256": "2dbf9c064c2889710845dd113f890352ad339475b8cc2aa02a3c08984422f7af",
+      "size_bytes": 460
+    },
+    {
+      "relative_path": "status/readiness.json",
+      "sha256": "cd5edd29010d468a77b40c82c43348101116033a58ff4e07162fc157a86d386e",
+      "size_bytes": 1328
+    },
+    {
+      "relative_path": "status/retirement.json",
+      "sha256": "8b6dae6aeff0ab752cbee91fa5c2b6c530b8da1360edcafa254ff0f68619732a",
+      "size_bytes": 486
+    },
+    {
+      "relative_path": "status/work-state.json",
+      "sha256": "7f16521a807a1afb362aaf09d76d65a97a650cedba4e0c9c75c3a024cb7efcda",
+      "size_bytes": 2092
+    },
+    {
+      "relative_path": "tasks/active-backlog.json",
+      "sha256": "6b665328b811f23bfae0ea0bc8427c924aea901d28325346a354017137cc39b4",
+      "size_bytes": 5558
+    },
+    {
+      "relative_path": "tests/README.md",
+      "sha256": "49edefd89fd0a6dd98ecfd6774a32119d8db542b610e89d4b88e1ba585030edf",
+      "size_bytes": 114
+    }
+  ],
+  "payload_policy_version": "fresh-staging/v1",
+  "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-semantic-branch-build-pack-v1/dist/exports/runtime-evidence",
+  "remote_host": "adf-dev",
+  "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-semantic-branch-build-pack-v1",
+  "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+  "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-semantic-branch-build-pack-v1/runs/json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v1",
+  "remote_target_label": "adf-dev",
+  "remote_user": "adf",
+  "request_sha256": "75b4fd1664a74e2f505675209de92299fd4387227bc33b3b70fd343c020cf691",
+  "run_id": "json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "remote-execution-payload-manifest/v1",
+  "source_build_pack_id": "json-health-checker-semantic-branch-build-pack-v1",
+  "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-semantic-branch-build-pack-v1",
+  "staged_at": "2026-03-25T18:51:48Z",
+  "staged_by": "codex",
+  "transport_mode": "rsync"
+}

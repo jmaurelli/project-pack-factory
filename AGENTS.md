@@ -340,6 +340,10 @@ After the operator confirms the intended build-pack:
   and the active planning list at
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
   before reconstructing the workflow from scattered tool files
+- when a proving-ground build-pack demonstrates a new autonomy pattern, record
+  whether that improvement has been promoted into PackFactory defaults with
+  `python3 tools/record_autonomy_improvement_promotion.py ...` so inheritance
+  status is explicit instead of implied
 
 ## Operator Tools
 
@@ -350,9 +354,12 @@ After the operator confirms the intended build-pack:
 - `python3 tools/run_deployment_pipeline.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
 - `python3 tools/run_multi_hop_autonomy_rehearsal.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_autonomy_to_promotion_workflow.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --target-environment testing --output json`
+- `python3 tools/run_longer_backlog_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --extra-task-count 2 --output json`
+- `python3 tools/run_branching_autonomy_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <ssh-host-alias> --remote-user <user> --output json`
 - `python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>`
 - `python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json`
+- `python3 tools/record_autonomy_improvement_promotion.py --factory-root /home/orchadmin/project-pack-factory --improvement-id <id> --summary "<summary>" --source-build-pack-id <pack-id> --proof-path <path> --adopted-surface materializer_defaults --pending-surface source_template_tracking --output json`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
 - `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`

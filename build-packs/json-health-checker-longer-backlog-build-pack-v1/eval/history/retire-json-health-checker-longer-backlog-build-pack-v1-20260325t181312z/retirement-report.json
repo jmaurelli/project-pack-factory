@@ -1,0 +1,102 @@
+{
+  "actions": [
+    {
+      "action_id": "write_retirement_state",
+      "status": "completed",
+      "summary": "Recorded terminal retirement state.",
+      "target_path": "build-packs/json-health-checker-longer-backlog-build-pack-v1/status/retirement.json"
+    },
+    {
+      "action_id": "update_lifecycle_state",
+      "status": "completed",
+      "summary": "Marked the pack retired.",
+      "target_path": "build-packs/json-health-checker-longer-backlog-build-pack-v1/status/lifecycle.json"
+    },
+    {
+      "action_id": "update_readiness_state",
+      "status": "completed",
+      "summary": "Marked readiness retired.",
+      "target_path": "build-packs/json-health-checker-longer-backlog-build-pack-v1/status/readiness.json"
+    },
+    {
+      "action_id": "update_deployment_state",
+      "status": "completed",
+      "summary": "Cleared the deployment surface.",
+      "target_path": "build-packs/json-health-checker-longer-backlog-build-pack-v1/status/deployment.json"
+    },
+    {
+      "action_id": "remove_deployment_pointer",
+      "status": "skipped",
+      "summary": "No active deployment pointers were present at retirement time.",
+      "target_path": "deployments/"
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "summary": "Marked the registry entry inactive and retired.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "append_promotion_log",
+      "status": "completed",
+      "summary": "Appended a retired event with evidence path.",
+      "target_path": "registry/promotion-log.json"
+    },
+    {
+      "action_id": "write_retirement_report",
+      "status": "completed",
+      "summary": "Recorded terminal retirement evidence.",
+      "target_path": "eval/history/retire-json-health-checker-longer-backlog-build-pack-v1-20260325t181312z/retirement-report.json"
+    }
+  ],
+  "evidence_paths": [
+    "build-packs/json-health-checker-longer-backlog-build-pack-v1/status/lifecycle.json",
+    "build-packs/json-health-checker-longer-backlog-build-pack-v1/status/readiness.json",
+    "build-packs/json-health-checker-longer-backlog-build-pack-v1/status/deployment.json",
+    "build-packs/json-health-checker-longer-backlog-build-pack-v1/status/retirement.json",
+    "build-packs/json-health-checker-longer-backlog-build-pack-v1/eval/latest/index.json"
+  ],
+  "generated_at": "2026-03-25T18:13:12Z",
+  "pack_id": "json-health-checker-longer-backlog-build-pack-v1",
+  "pack_kind": "build_pack",
+  "pack_root": "build-packs/json-health-checker-longer-backlog-build-pack-v1",
+  "post_retirement_state": {
+    "active_environment": "none",
+    "deployment_pointer_path": null,
+    "deployment_state": "not_deployed",
+    "lifecycle_stage": "retired",
+    "readiness_state": "retired",
+    "retirement_state": "retired"
+  },
+  "pre_retirement_state": {
+    "active_environment": "none",
+    "deployment_pointer_path": null,
+    "deployment_state": "not_deployed",
+    "lifecycle_stage": "testing",
+    "readiness_state": "in_progress",
+    "retirement_state": "active"
+  },
+  "promotion_log_update": {
+    "event_type": "retired",
+    "promotion_log_path": "registry/promotion-log.json",
+    "retired_at": "2026-03-25T18:13:12Z",
+    "retired_pack_id": "json-health-checker-longer-backlog-build-pack-v1",
+    "retired_pack_kind": "build_pack",
+    "retirement_report_path": "eval/history/retire-json-health-checker-longer-backlog-build-pack-v1-20260325t181312z/retirement-report.json"
+  },
+  "registry_updates": [
+    {
+      "active": false,
+      "pack_id": "json-health-checker-longer-backlog-build-pack-v1",
+      "pack_kind": "build_pack",
+      "registry_path": "registry/build-packs.json",
+      "retired_at": "2026-03-25T18:13:12Z",
+      "retirement_state": "retired"
+    }
+  ],
+  "retired_by": "codex",
+  "retirement_id": "retire-json-health-checker-longer-backlog-build-pack-v1-20260325t181312z",
+  "retirement_reason": "Superseded by the successful longer-backlog autonomy proof after correcting SSH host alias usage and follow-on factory fixes.",
+  "schema_version": "pack-retirement-report/v1",
+  "superseded_by_pack_id": null
+}

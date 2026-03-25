@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "checkpoint_result": {
+      "type": "object"
+    },
+    "delayed_import_result": {
+      "type": "object"
+    },
+    "exercise_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "final_state": {
+      "type": "object"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "local_disconnected_result": {
+      "type": "object"
+    },
+    "materialization_result": {
+      "type": "object"
+    },
+    "ready_boundary_continuity_result": {
+      "type": "object"
+    },
+    "remote_only_roundtrip_result": {
+      "type": "object"
+    },
+    "remote_host": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "remote_target_label": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "remote_user": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "degraded-connectivity-autonomy-exercise-report/v1"
+    },
+    "source_template_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "completed"
+      ],
+      "type": "string"
+    },
+    "target_build_pack_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "target_build_pack_root": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "checkpoint_result",
+    "delayed_import_result",
+    "exercise_id",
+    "final_state",
+    "generated_at",
+    "local_disconnected_result",
+    "materialization_result",
+    "ready_boundary_continuity_result",
+    "remote_only_roundtrip_result",
+    "remote_host",
+    "remote_target_label",
+    "remote_user",
+    "schema_version",
+    "source_template_id",
+    "status",
+    "target_build_pack_id",
+    "target_build_pack_root"
+  ],
+  "title": "Degraded Connectivity Autonomy Exercise Report",
+  "type": "object"
+}

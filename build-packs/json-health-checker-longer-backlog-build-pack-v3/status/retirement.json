@@ -1,0 +1,20 @@
+{
+  "operator_notes": [
+    "Retired through the PackFactory retire workflow."
+  ],
+  "pack_id": "json-health-checker-longer-backlog-build-pack-v3",
+  "pack_kind": "build_pack",
+  "removed_deployment_pointer_paths": [],
+  "retained_artifacts": {
+    "eval_history": true,
+    "lineage": true,
+    "release_artifacts": true
+  },
+  "retired_at": "2026-03-25T18:13:22Z",
+  "retired_by": "codex",
+  "retirement_reason": "Superseded by the successful longer-backlog autonomy proof after preserving canonical validation-result evidence during imported-state reconcile.",
+  "retirement_report_path": "eval/history/retire-json-health-checker-longer-backlog-build-pack-v3-20260325t181322z/retirement-report.json",
+  "retirement_state": "retired",
+  "schema_version": "pack-retirement/v1",
+  "superseded_by_pack_id": null
+}

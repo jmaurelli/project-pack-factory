@@ -1,0 +1,11 @@
+{
+  "candidate_task_ids": [
+    "record_branch_beta",
+    "record_branch_alpha"
+  ],
+  "chosen_task_id": "record_branch_beta",
+  "recorded_at": "2026-03-25T18:19:34Z",
+  "run_id": "json-health-checker-branching-build-pack-v1-branching-checkpoint-v1",
+  "schema_version": "branch-selection-summary/v1",
+  "selection_rule": "lowest selection_priority first, then backlog order"
+}

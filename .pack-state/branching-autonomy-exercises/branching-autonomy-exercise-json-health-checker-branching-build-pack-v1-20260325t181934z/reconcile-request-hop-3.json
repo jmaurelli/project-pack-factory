@@ -1,0 +1,7 @@
+{
+  "build_pack_id": "json-health-checker-branching-build-pack-v1",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-branching-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t182004z/import-report.json",
+  "reconcile_reason": "Adopt the successful remote branching continuity result for hop 3 into local canonical state.",
+  "reconciled_by": "codex",
+  "schema_version": "imported-runtime-state-reconcile-request/v1"
+}

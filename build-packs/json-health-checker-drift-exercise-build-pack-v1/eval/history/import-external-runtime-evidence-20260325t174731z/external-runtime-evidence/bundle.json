@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-json-health-checker-drift-exercise-build-pack-v1-active-task-continuity-run-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "40d8493e3e2c2ab8db9295744a473917b62407b7e8fa22bf3e26e4dda5fde31b",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-drift-exercise-build-pack-v1-active-task-continuity-run-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "e0d045b66ac8478bb6cba558616b9c8cb18bcec6dc0f51cf7c57405dbe709a2e",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-drift-exercise-build-pack-v1-active-task-continuity-run-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "c189a495279b512266743cec992b0f239df4dd9f4c146375d37c00759b20469c",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-drift-exercise-build-pack-v1-active-task-continuity-run-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-drift-exercise-build-pack-v1-active-task-continuity-run-v1-20260325T174652Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-json-health-checker-drift-exercise-build-pack-v1-active-task-continuity-run-v1-20260325T174652Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T17:46:52Z",
+  "pack_id": "json-health-checker-drift-exercise-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "json-health-checker-drift-exercise-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/json-health-checker-drift-exercise-build-pack-v1-active-task-continuity-run-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T17:46:52Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 1,
+    "started_at": "2026-03-25T17:46:51Z",
+    "stop_reason": "starter_backlog_completed",
+    "task_completion_rate": 1.0
+  }
+}

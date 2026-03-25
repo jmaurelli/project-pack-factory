@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "c3f358bd73806b7a2eacea509e8027ffd6de48b7f367d3f2a3f5b5f101c9a6cb",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "928aa0c34fccbac97a19d7c96ed90ad043f3065f278369106dd35ec64f834dd9",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "fc6ec03bbc1323db1d59d1b602cc1752e42961542aed1aaee255244600d8938a",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3-20260325T191906Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3-20260325T191906Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T19:19:06Z",
+  "pack_id": "json-health-checker-operator-hint-branch-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/json-health-checker-operator-hint-branch-build-pack-v1-active-task-continuity-run-v3",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T19:19:06Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 1,
+    "started_at": "2026-03-25T19:19:06Z",
+    "stop_reason": "starter_backlog_completed",
+    "task_completion_rate": 1.0
+  }
+}

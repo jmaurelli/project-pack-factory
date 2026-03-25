@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "checkpoint_result": {
+      "type": "object"
+    },
+    "exercise_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "final_state": {
+      "type": "object"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "initial_branch_selection": {
+      "type": "object"
+    },
+    "materialization_result": {
+      "type": "object"
+    },
+    "ready_boundary_continuity_result": {
+      "type": "object"
+    },
+    "reconcile_results": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "remote_hops": {
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "remote_host": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "remote_target_label": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "remote_user": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "semantic-branch-choice-exercise-report/v1"
+    },
+    "semantic_branch_setup_result": {
+      "type": "object"
+    },
+    "source_template_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "completed"
+      ],
+      "type": "string"
+    },
+    "target_build_pack_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "target_build_pack_root": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "checkpoint_result",
+    "exercise_id",
+    "final_state",
+    "generated_at",
+    "initial_branch_selection",
+    "materialization_result",
+    "ready_boundary_continuity_result",
+    "reconcile_results",
+    "remote_hops",
+    "remote_host",
+    "remote_target_label",
+    "remote_user",
+    "schema_version",
+    "semantic_branch_setup_result",
+    "source_template_id",
+    "status",
+    "target_build_pack_id",
+    "target_build_pack_root"
+  ],
+  "title": "Semantic Branch Choice Exercise Report",
+  "type": "object"
+}

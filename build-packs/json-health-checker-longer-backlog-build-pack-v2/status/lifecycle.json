@@ -1,0 +1,12 @@
+{
+  "current_revision": "longer-backlog-autonomy-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "retired",
+  "pack_id": "json-health-checker-longer-backlog-build-pack-v2",
+  "pack_kind": "build_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Superseded by the successful longer-backlog autonomy proof after fixing import-report memory-intake schema handling.",
+  "updated_at": "2026-03-25T18:13:18Z",
+  "updated_by": "codex"
+}

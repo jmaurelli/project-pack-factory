@@ -14,6 +14,23 @@ This is a PackFactory-native template created through the template creation work
 8. `benchmarks/active-set.json`
 9. `eval/latest/index.json`
 
+## Factory Autonomy Baseline
+
+This template inherits the PackFactory autonomy baseline from the factory root.
+
+Read these factory-level surfaces when the task concerns inherited agent
+memory, feedback loops, autonomy rehearsal, stop-and-restart behavior, or
+branch-choice policy:
+
+1. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+2. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+3. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
+4. `.pack-state/agent-memory/latest-memory.json`
+
+Treat the factory-level autonomy baseline as canonical for inherited default
+behavior. Use this template only for template-specific source guidance and
+runtime shape.
+
 ## Working Rules
 
 - Treat this pack as an active source template.

@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-ambiguous-branch-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T18:37:36Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1.json",
+  "selected_memory_sha256": "1ea5a306de2c8c5d3bd904a94464b72a61c61540d2ef2e51eaac00b30db59874",
+  "selected_run_id": "json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-ambiguous-branch-build-pack-v1-ambiguous-branch-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-25T18:37:36Z"
+}

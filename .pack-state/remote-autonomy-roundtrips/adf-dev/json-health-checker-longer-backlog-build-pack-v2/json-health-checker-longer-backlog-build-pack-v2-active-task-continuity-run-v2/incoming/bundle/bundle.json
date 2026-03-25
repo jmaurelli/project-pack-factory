@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-json-health-checker-longer-backlog-build-pack-v2-active-task-continuity-run-v2.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "9e7fc1e1daddae102ebf0921ede78b3575f92beb0d15f6441cb7880fef95bf3d",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-longer-backlog-build-pack-v2-active-task-continuity-run-v2.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "fbf6ed605857f618d995dd99d9f751871f0f7b2ca0f0de98cb9069eed6ec3f89",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-longer-backlog-build-pack-v2-active-task-continuity-run-v2/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "7490fb7e5d1b029e1867fff5f312e8e305a0e6edc355f7e3a42c5cafb6ab2788",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-longer-backlog-build-pack-v2-active-task-continuity-run-v2/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-longer-backlog-build-pack-v2-active-task-continuity-run-v2-20260325T180830Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-json-health-checker-longer-backlog-build-pack-v2-active-task-continuity-run-v2-20260325T180830Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T18:08:30Z",
+  "pack_id": "json-health-checker-longer-backlog-build-pack-v2",
+  "pack_kind": "build_pack",
+  "run_id": "json-health-checker-longer-backlog-build-pack-v2-active-task-continuity-run-v2",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/json-health-checker-longer-backlog-build-pack-v2-active-task-continuity-run-v2",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T18:08:30Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "in_progress",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 1,
+    "started_at": "2026-03-25T18:08:30Z",
+    "stop_reason": "starter_backlog_incomplete",
+    "task_completion_rate": 0.75
+  }
+}

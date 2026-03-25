@@ -1,0 +1,74 @@
+{
+  "artifacts": {
+    "factory_validation_command": null,
+    "feedback_memory_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-semantic-branch-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v2.json",
+    "loop_events_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-semantic-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v2/loop-events.jsonl",
+    "run_summary_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-semantic-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v2/run-summary.json"
+  },
+  "baseline_snapshot": {
+    "active_task_id": "record_semantic_branch_alpha",
+    "eval_result_statuses": {
+      "json-health-checker-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "json_health_checker_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "record_semantic_branch_alpha",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false
+  },
+  "block_summary": null,
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "record_semantic_branch_alpha",
+    "record_semantic_branch_beta"
+  ],
+  "ended_at": "2026-03-25T18:52:00Z",
+  "escalation_count": 0,
+  "failed_command_count": 0,
+  "final_snapshot": {
+    "active_task_id": "run_inherited_benchmarks",
+    "eval_result_statuses": {
+      "json-health-checker-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "json_health_checker_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "run_inherited_benchmarks",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false
+  },
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary.",
+  "metrics": {
+    "benchmark_evidence_gain": false,
+    "canonical_state_integrity": {
+      "command": null,
+      "error_count": null,
+      "status": "not_run",
+      "valid": null
+    },
+    "consistent_memory_use_rate": 1.0,
+    "iterations_to_first_evidence": null,
+    "iterations_to_readiness_change": null,
+    "readiness_change_summary": {
+      "deployability_changed": false,
+      "gates_advanced_count": 0,
+      "state_advanced": false
+    },
+    "resume_correctness": 1.0,
+    "stale_memory_rate": 0.0,
+    "task_completion_rate": 0.75,
+    "validation_evidence_gain": false
+  },
+  "operator_summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-semantic-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v2/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json.",
+  "pack_id": "json-health-checker-semantic-branch-build-pack-v1",
+  "recommended_next_action": "Recommended next action: continue with canonical next task `run_inherited_benchmarks` from status/work-state.json and use this summary as local measurement evidence only.",
+  "resume_count": 1,
+  "run_id": "json-health-checker-semantic-branch-build-pack-v1-active-task-continuity-run-v2",
+  "schema_version": "autonomy-run-summary/v1",
+  "started_at": "2026-03-25T18:51:59Z",
+  "step_count": 5,
+  "stop_reason": "starter_backlog_incomplete"
+}

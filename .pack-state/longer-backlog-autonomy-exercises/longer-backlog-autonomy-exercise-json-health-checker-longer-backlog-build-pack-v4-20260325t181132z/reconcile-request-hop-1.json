@@ -1,0 +1,7 @@
+{
+  "build_pack_id": "json-health-checker-longer-backlog-build-pack-v4",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-longer-backlog-build-pack-v4/eval/history/import-external-runtime-evidence-20260325t181147z/import-report.json",
+  "reconcile_reason": "Adopt the successful remote longer-backlog continuity result for hop 1 into local canonical state.",
+  "reconciled_by": "codex",
+  "schema_version": "imported-runtime-state-reconcile-request/v1"
+}

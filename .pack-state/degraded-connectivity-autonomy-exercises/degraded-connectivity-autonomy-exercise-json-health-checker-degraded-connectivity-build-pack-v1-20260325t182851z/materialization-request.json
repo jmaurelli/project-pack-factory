@@ -1,0 +1,12 @@
+{
+  "copy_mode": "copy_pack_root",
+  "include_benchmark_declarations": true,
+  "materialization_reason": "Create a fresh proving-ground build-pack for PackFactory degraded-connectivity autonomy testing.",
+  "materialized_by": "codex",
+  "schema_version": "build-pack-materialization-request/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "target_build_pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+  "target_display_name": "JSON Health Checker Degraded Connectivity Build Pack v1",
+  "target_revision": "degraded-connectivity-autonomy-v1",
+  "target_version": "0.1.0"
+}

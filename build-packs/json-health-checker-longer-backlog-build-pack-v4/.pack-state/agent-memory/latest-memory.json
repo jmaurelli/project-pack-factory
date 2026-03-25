@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-longer-backlog-build-pack-v4",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T18:12:07Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-longer-backlog-build-pack-v4-continuity-run-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-longer-backlog-build-pack-v4-continuity-run-v1.json",
+  "selected_memory_sha256": "52ca5baec384572a5c75ab66e282afbd378517afbb3f4a817f4c21bdbb225b8e",
+  "selected_run_id": "json-health-checker-longer-backlog-build-pack-v4-continuity-run-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-longer-backlog-build-pack-v4-continuity-run-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t181209z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t181209z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T18:12:09Z"
+}

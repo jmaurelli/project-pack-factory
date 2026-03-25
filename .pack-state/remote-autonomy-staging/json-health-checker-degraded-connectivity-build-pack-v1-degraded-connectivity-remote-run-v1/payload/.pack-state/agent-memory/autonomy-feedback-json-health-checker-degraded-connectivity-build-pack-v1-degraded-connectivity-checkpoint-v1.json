@@ -1,0 +1,35 @@
+{
+  "active_task_id": "run_inherited_benchmarks",
+  "baseline_readiness_state": "in_progress",
+  "block_summary": null,
+  "completed_task_ids": [
+    "run_build_pack_validation"
+  ],
+  "evidence_paths": [
+    "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1/loop-events.jsonl",
+    "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1/run-summary.json"
+  ],
+  "final_readiness_state": "in_progress",
+  "generated_at": "2026-03-25T18:28:58Z",
+  "handoff_summary": [
+    "Run `json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1` ended with stop reason `mid_backlog_checkpoint_created`.",
+    "Readiness moved from `in_progress` to `in_progress`; ready_for_deployment=False.",
+    "Completed tasks: run_build_pack_validation.",
+    "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+    "Recommended next action: continue with canonical next task `run_inherited_benchmarks` from status/work-state.json and use this summary as local measurement evidence only."
+  ],
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+  "memory_id": "autonomy-feedback-json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1",
+  "next_recommended_task_id": "run_inherited_benchmarks",
+  "pack_id": "json-health-checker-degraded-connectivity-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: continue with canonical next task `run_inherited_benchmarks` from status/work-state.json and use this summary as local measurement evidence only.",
+  "run_id": "json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "factory_validation_command": "/usr/bin/python3 /home/orchadmin/project-pack-factory/tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+    "loop_events_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1/loop-events.jsonl",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1/run-summary.json"
+  },
+  "summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/orchadmin/project-pack-factory/build-packs/json-health-checker-degraded-connectivity-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-degraded-connectivity-build-pack-v1-degraded-connectivity-checkpoint-v1/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json."
+}

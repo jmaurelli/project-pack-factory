@@ -1,0 +1,9 @@
+{
+  "build_pack_id": "json-health-checker-longer-backlog-build-pack-v2",
+  "command": "PYTHONPATH=src python3 -m json_health_checker_template_pack validate-project-pack --project-root . --output json",
+  "gate_id": "validate_build_pack_contract",
+  "returncode": 0,
+  "status": "pass",
+  "stderr": "",
+  "stdout": "{\n  \"status\": \"pass\",\n  \"project_root\": \"/home/orchadmin/project-pack-factory/build-packs/json-health-checker-longer-backlog-build-pack-v2\",\n  \"pack_id\": \"json-health-checker-longer-backlog-build-pack-v2\",\n  \"pack_kind\": \"build_pack\",\n  \"checked_paths\": [\n    \".pack-state\",\n    \".packfactory-runtime/manifest.json\",\n    \".packfactory-runtime/schemas\",\n    \".packfactory-runtime/tools\",\n    \"AGENTS.md\",\n    \"benchmarks\",\n    \"benchmarks/active-set.json\",\n    \"contracts\",\n    \"contracts/project-objective.json\",\n    \"dist\",\n    \"dist/candidates\",\n    \"dist/exports/runtime-evidence\",\n    \"dist/releases\",\n    \"docs\",\n    \"eval\",\n    \"eval/history\",\n    \"eval/latest/index.json\",\n    \"lineage\",\n    \"lineage/source-template.json\",\n    \"pack.json\",\n    \"project-context.md\",\n    \"prompts\",\n    \"src\",\n    \"status\",\n    \"status/deployment.json\",\n    \"status/lifecycle.json\",\n    \"status/readiness.json\",\n    \"status/retirement.json\",\n    \"status/work-state.json\",\n    \"tasks\",\n    \"tasks/active-backlog.json\",\n    \"tests\"\n  ],\n  \"missing_paths\": []\n}\n"
+}
