@@ -1,0 +1,301 @@
+{
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "excluded_paths": [
+    ".packfactory-runtime/tools/__pycache__",
+    ".packfactory-runtime/tools/__pycache__/factory_ops.cpython-312.pyc",
+    "dist/exports/runtime-evidence",
+    "eval/history",
+    "eval/history/materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z",
+    "eval/history/materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z/materialization-report.json",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t222713z",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t222713z/benchmark-result.json",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223916z",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223916z/benchmark-result.json",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223939z",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223939z/benchmark-result.json",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t222637z",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t222637z/validation-result.json",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223916z",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223916z/validation-result.json",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json",
+    "src/algosec_diagnostic_framework_template_pack/__pycache__",
+    "src/algosec_diagnostic_framework_template_pack/__pycache__/__init__.cpython-312.pyc",
+    "src/algosec_diagnostic_framework_template_pack/__pycache__/__main__.cpython-312.pyc",
+    "src/algosec_diagnostic_framework_template_pack/__pycache__/benchmark_smoke.cpython-312.pyc",
+    "src/algosec_diagnostic_framework_template_pack/__pycache__/cli.cpython-312.pyc",
+    "src/algosec_diagnostic_framework_template_pack/__pycache__/runtime_baseline.cpython-312.pyc",
+    "src/algosec_diagnostic_framework_template_pack/__pycache__/validate_project_pack.cpython-312.pyc"
+  ],
+  "payload_entries": [
+    {
+      "relative_path": ".gitignore",
+      "sha256": "c3fae528d26966c94641ff9123a1cef4a42571bd3d7fcd49c82a381135407ef9",
+      "size_bytes": 79
+    },
+    {
+      "relative_path": ".packfactory-remote/request.json",
+      "sha256": "73c8fec9f406ad8054665df2b4a1e6b8afc2a839fab2d8f4a173f1b705a6bdb3",
+      "size_bytes": 1274
+    },
+    {
+      "relative_path": ".packfactory-runtime/manifest.json",
+      "sha256": "f29bf3c73a96e3ccf548507e9f481f23d1c1c3bdc9b5f3704beee2041dd69eea",
+      "size_bytes": 2544
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+      "sha256": "8c7427ea3199030ca8df7e6de55fbdbaa3ed5d9bc5251bad1d253a2247bc17a8",
+      "size_bytes": 4442
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+      "sha256": "52e084b1e0221a4bfae10d90e7b835301ef5eb0971d35a9616caa0088e329f4d",
+      "size_bytes": 7307
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+      "sha256": "c51959a6e627c26eeeb49f690e329a1b61a667a575775a2a5d5594afaa21b206",
+      "size_bytes": 1801
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+      "sha256": "04d712f8830acb83ae57fb116ce7690d7b883f7de90662490d8a95f490c098e7",
+      "size_bytes": 1950
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/readiness.schema.json",
+      "sha256": "e5354daa75d7848833154e6b7350b6e26b1da2ba95280ba1ab98c0057bf2a250",
+      "size_bytes": 5761
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/factory_ops.py",
+      "sha256": "b84e207292f89c494179c781aff2f7af3f4c2aee264bddaa04742ba8b4e6bca5",
+      "size_bytes": 16170
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/record_autonomy_run.py",
+      "sha256": "b1ba28cae10847c6d8e9e92c365565e7edd18ffc7188e3242055fa96f138ac5b",
+      "size_bytes": 24969
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+      "sha256": "89d7216125ba9b207ae2436fdb8396bbb7ae1f3c1329ae70e4dc2f6edee70372",
+      "size_bytes": 17585
+    },
+    {
+      "relative_path": "AGENTS.md",
+      "sha256": "c22178e3d100174c5b75dc9cc5730e299075c5f7d896e69bdc05c5e7a85b2c7f",
+      "size_bytes": 1024
+    },
+    {
+      "relative_path": "README.md",
+      "sha256": "fd918c7e78a8c2e645312b30b16fb8f3cb9af6125056ef33e040ddfe7cdc4ea1",
+      "size_bytes": 948
+    },
+    {
+      "relative_path": "benchmarks/active-set.json",
+      "sha256": "07643c68dbf72560c63aad76a67f1e74ac503365c1afc5d9329b25aad7e40f3b",
+      "size_bytes": 746
+    },
+    {
+      "relative_path": "benchmarks/declarations/algosec-diagnostic-framework-template-pack-smoke-small-001.json",
+      "sha256": "2296635eaa3267c748cd390fd80de7b277eb87b10f09694308b282dc55c88ad7",
+      "size_bytes": 1420
+    },
+    {
+      "relative_path": "contracts/README.md",
+      "sha256": "26d0051ab37e23966b3d7b39c1c529620469191a38c0599c0384af3055c5d475",
+      "size_bytes": 170
+    },
+    {
+      "relative_path": "contracts/project-objective.json",
+      "sha256": "5fce3a652e07f3dec681633a54cab8da74443e0d5b530b2de163c4f94712d9cb",
+      "size_bytes": 7331
+    },
+    {
+      "relative_path": "dist/candidates/adf-baseline/runtime-evidence.json",
+      "sha256": "29d69f3d5707bf3f18bb3583e2561e0039161b5848354cd2290794961733694c",
+      "size_bytes": 60986
+    },
+    {
+      "relative_path": "dist/candidates/adf-baseline/service-inventory.json",
+      "sha256": "2b584e6062661ede44712b12ed58289aa9d76fc10fa1a411e43b11102d12a19a",
+      "size_bytes": 266893
+    },
+    {
+      "relative_path": "dist/candidates/adf-baseline/support-baseline.html",
+      "sha256": "a37ad738ddf532e567eb62ca8676e5e0cbc14395808fb102352f5007a3c3be94",
+      "size_bytes": 4326
+    },
+    {
+      "relative_path": "dist/candidates/adf-baseline/support-baseline.json",
+      "sha256": "1977569cb39853a1b774e31ad2c93323a6b94e08297e056c6f1657d70bb34f04",
+      "size_bytes": 5230
+    },
+    {
+      "relative_path": "dist/candidates/benchmark-smoke-baseline/runtime-evidence.json",
+      "sha256": "feb94ce8b28a10082c32ac6889d1e7f65a4a1c474b88a5930ec6ea0d4288c4ce",
+      "size_bytes": 61226
+    },
+    {
+      "relative_path": "dist/candidates/benchmark-smoke-baseline/service-inventory.json",
+      "sha256": "06680ae6a63144624bd6cc50202c155f7f84547fcc17233933518663768ed7ff",
+      "size_bytes": 280359
+    },
+    {
+      "relative_path": "dist/candidates/benchmark-smoke-baseline/support-baseline.html",
+      "sha256": "5cb401270d236dd0b8e1efd27cb9dc0c165071c7365d19996c1c65503c10f4ff",
+      "size_bytes": 6403
+    },
+    {
+      "relative_path": "dist/candidates/benchmark-smoke-baseline/support-baseline.json",
+      "sha256": "5a1c532be5b292ee7d5649069af4756e64536e79342d787f40029131507f0836",
+      "size_bytes": 5391
+    },
+    {
+      "relative_path": "docs/remote-targets/algosec-lab/README.md",
+      "sha256": "42a024c1abec47dc26edde62189fdfc1559922101cb2521657fbde7b1a0e4af9",
+      "size_bytes": 1526
+    },
+    {
+      "relative_path": "docs/remote-targets/algosec-lab/remote-autonomy-run-request.json",
+      "sha256": "a84a67e513aaca8ba6ee19ce9b7f016e1b7da4131edb220da4a9ca3bba81ec4f",
+      "size_bytes": 1274
+    },
+    {
+      "relative_path": "docs/specs/README.md",
+      "sha256": "f274eb0c0fcc25bd90f16ae00be8779db4824e25f56184534ba447c2b695cc77",
+      "size_bytes": 129
+    },
+    {
+      "relative_path": "docs/specs/adf-artifact-model-v1.md",
+      "sha256": "453de2cf7944536998ea89b1ee73744d10616e446eb90109b1c594d7e50750c3",
+      "size_bytes": 1157
+    },
+    {
+      "relative_path": "eval/latest/index.json",
+      "sha256": "92348ca8c55ba9a3d8a24423f45a8aad67453e78e28b48643eaeab148554e50b",
+      "size_bytes": 737
+    },
+    {
+      "relative_path": "lineage/source-template.json",
+      "sha256": "54be9b9748af8d39784064fee32e1fb1e3b4f5c48d8662e1ece92d2268be0284",
+      "size_bytes": 689
+    },
+    {
+      "relative_path": "pack.json",
+      "sha256": "8b09a6e95e656575dfa7cd7b866f86f557e7ddb38fde6d55a1cdf3b3802a5866",
+      "size_bytes": 2892
+    },
+    {
+      "relative_path": "project-context.md",
+      "sha256": "0376d27c0d1e695148c12f619643b269f988eab0000105c89a6d705207639971",
+      "size_bytes": 1633
+    },
+    {
+      "relative_path": "prompts/README.md",
+      "sha256": "fbf699c4950133c023264d5bc30cfa4e3cd914fae6ddea2e5db05536f8a73ab8",
+      "size_bytes": 92
+    },
+    {
+      "relative_path": "pyproject.toml",
+      "sha256": "e04b2ad22da1d4eddbe56e00294cf43164704203e8039e3f8e37845c4e196085",
+      "size_bytes": 564
+    },
+    {
+      "relative_path": "src/algosec_diagnostic_framework_template_pack/__init__.py",
+      "sha256": "7d747afc2b886329d5e309a87e59ee8f3eb222fac210351c79bb0742ee11c426",
+      "size_bytes": 19
+    },
+    {
+      "relative_path": "src/algosec_diagnostic_framework_template_pack/__main__.py",
+      "sha256": "3d2438ae92f4746e9ffaa1f837b1fe803f6281091d1f31f8c95643716f257d9a",
+      "size_bytes": 80
+    },
+    {
+      "relative_path": "src/algosec_diagnostic_framework_template_pack/benchmark_smoke.py",
+      "sha256": "89cf74e5806166395a501e0ac10b1945074cb428d793dc1b4bd1ecffa4537ff6",
+      "size_bytes": 1925
+    },
+    {
+      "relative_path": "src/algosec_diagnostic_framework_template_pack/cli.py",
+      "sha256": "c6112842c73da7de15f09a695273d42af3ae3d25ab0c62bd85199ee708712c97",
+      "size_bytes": 2049
+    },
+    {
+      "relative_path": "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+      "sha256": "5a54cbe1e9780f4b79617a5bffed1175048f3b0bf424df383414841789cf36ca",
+      "size_bytes": 91421
+    },
+    {
+      "relative_path": "src/algosec_diagnostic_framework_template_pack/validate_project_pack.py",
+      "sha256": "ec6b19a53627fcd531387e40b3842c78d18b05c3cca22e2929be95c94a3faeea",
+      "size_bytes": 1153
+    },
+    {
+      "relative_path": "src/pack_export_runtime_evidence.py",
+      "sha256": "947093ad6e9aa203f5bbbb9439e24465005f3d032733cf8a9dad8ba23d93c5b0",
+      "size_bytes": 9400
+    },
+    {
+      "relative_path": "status/deployment.json",
+      "sha256": "24549be0ebc39c1b2971920cada65dca59ae35a0cbd08df3ecd505d640bd31c5",
+      "size_bytes": 552
+    },
+    {
+      "relative_path": "status/lifecycle.json",
+      "sha256": "4ef3e5746de6464a196c1e7330b73fd2a9c033046799f285661b05be3a8a16bb",
+      "size_bytes": 476
+    },
+    {
+      "relative_path": "status/readiness.json",
+      "sha256": "5b9f3efdaae692af0699447644da01a506f774f4f5263182a58805c527c3a644",
+      "size_bytes": 1541
+    },
+    {
+      "relative_path": "status/retirement.json",
+      "sha256": "12cf2f8d9a2a1e3f2d7fdadd94b0115d04febc65b66e7581d8a46a2837b84930",
+      "size_bytes": 479
+    },
+    {
+      "relative_path": "status/work-state.json",
+      "sha256": "d130cf7bc709187447546fed3dfc4901f1d6f606ba2a637335247f62adb15684",
+      "size_bytes": 2257
+    },
+    {
+      "relative_path": "tasks/active-backlog.json",
+      "sha256": "5d3b16e7336ceb21f3fcfa6e83e1f1defad4e85ebf5ab67a6513b29e23751300",
+      "size_bytes": 9735
+    },
+    {
+      "relative_path": "tests/README.md",
+      "sha256": "49edefd89fd0a6dd98ecfd6774a32119d8db542b610e89d4b88e1ba585030edf",
+      "size_bytes": 114
+    }
+  ],
+  "payload_policy_version": "fresh-staging/v1",
+  "remote_export_dir": "~/packfactory-source__algosec-lab__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1/dist/exports/runtime-evidence",
+  "remote_host": "10.167.2.150",
+  "remote_pack_dir": "~/packfactory-source__algosec-lab__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1",
+  "remote_parent_dir": "~/packfactory-source__algosec-lab__autonomous-build-packs",
+  "remote_run_dir": "~/packfactory-source__algosec-lab__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1/runs/adf-algosec-lab-bootstrap-20260323",
+  "remote_target_label": "algosec-lab",
+  "remote_user": "root",
+  "request_sha256": "73c8fec9f406ad8054665df2b4a1e6b8afc2a839fab2d8f4a173f1b705a6bdb3",
+  "run_id": "adf-algosec-lab-bootstrap-20260323",
+  "schema_version": "remote-execution-payload-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1",
+  "staged_at": "2026-03-24T01:13:43Z",
+  "staged_by": "codex",
+  "transport_mode": "rsync"
+}

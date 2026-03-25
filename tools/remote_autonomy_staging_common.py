@@ -19,6 +19,8 @@ REQUEST_SCHEMA_VERSION: Final[str] = "remote-autonomy-run-request/v1"
 PAYLOAD_MANIFEST_SCHEMA_NAME: Final[str] = "remote-execution-payload-manifest.schema.json"
 PAYLOAD_MANIFEST_SCHEMA_VERSION: Final[str] = "remote-execution-payload-manifest/v1"
 PAYLOAD_POLICY_VERSION: Final[str] = "fresh-staging/v1"
+REMOTE_PARENT_TEMPLATE: Final[str] = "~/packfactory-source__{remote_target_label}__autonomous-build-packs"
+REMOTE_EXPORT_DIR_SUFFIX: Final[str] = "dist/exports/runtime-evidence"
 SLUG_PATTERN: Final[re.Pattern[str]] = re.compile(r"^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
 MAX_SLUG_LENGTH: Final[int] = 128
 REMOTE_METADATA_DIR: Final[str] = ".packfactory-remote"
@@ -66,6 +68,22 @@ class RemoteAutonomyRunRequest:
     @property
     def remote_address(self) -> str:
         return f"{self.remote_user}@{self.remote_host}"
+
+
+def canonical_remote_parent_dir(remote_target_label: str) -> str:
+    return REMOTE_PARENT_TEMPLATE.format(remote_target_label=remote_target_label)
+
+
+def canonical_remote_pack_dir(remote_parent_dir: str, source_build_pack_id: str) -> str:
+    return f"{remote_parent_dir}/{source_build_pack_id}"
+
+
+def canonical_remote_run_dir(remote_pack_dir: str, run_id: str) -> str:
+    return f"{remote_pack_dir}/runs/{run_id}"
+
+
+def canonical_remote_export_dir(remote_pack_dir: str) -> str:
+    return f"{remote_pack_dir}/{REMOTE_EXPORT_DIR_SUFFIX}"
 
 
 def _load_object(path: Path) -> dict[str, Any]:

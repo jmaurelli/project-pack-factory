@@ -24,6 +24,10 @@ Use this when jobs stop, queues back up, or data actions fail.
       </div>
     </div>
   </div>
+  <div class="adf-panel adf-cockpit-strip">
+    <p class="adf-panel-label">Command-first flow</p>
+    <p>Open one checkpoint, run the listed read-only commands, compare the healthy signal, then stop at the first failure point.</p>
+  </div>
   <div class="adf-cockpit-grid">
     <aside class="adf-cockpit-nav adf-panel">
       <p class="adf-panel-label">Quick jump</p>
@@ -58,10 +62,6 @@ Use this when jobs stop, queues back up, or data actions fail.
       </div>
     </aside>
     <div class="adf-cockpit-main">
-      <div class="adf-panel adf-cockpit-strip">
-        <p class="adf-panel-label">Command-first flow</p>
-        <p>Open one checkpoint, run the listed read-only commands, compare the healthy signal, then stop at the first failure point.</p>
-      </div>
 <details id="messaging-and-data-step-1" class="adf-checkpoint">
 <summary class="adf-step-summary">
   <span class="adf-step-badge">Step 1</span>

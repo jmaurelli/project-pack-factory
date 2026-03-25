@@ -60,18 +60,16 @@ EXPECTED_PORTABLE_STARTER_COMMANDS = {
     "run_inherited_benchmarks": "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop",
 }
 FINAL_TASK_STATUSES = {"completed", "escalated", "cancelled"}
-ACTIVE_AUTONOMY_STATES = {
+ACTIVE_TASK_REQUIRED_AUTONOMY_STATES = {
     "actively_building",
     "blocked",
-    "awaiting_operator",
-    "ready_for_review",
-    "ready_for_deploy",
 }
 
 PACK_ROOTS = ("templates", "build-packs")
 DEPLOYMENT_ENVIRONMENTS = ("testing", "staging", "production")
 VALIDATION_GATE_ID = "validate_build_pack_contract"
 EVAL_LATEST_INDEX_PATH = "eval/latest/index.json"
+FACTORY_MEMORY_POINTER_PATH = Path(".pack-state/agent-memory/latest-memory.json")
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -414,7 +412,7 @@ def _validate_autonomy_documents(
 
     active_task_id = work_state.get("active_task_id")
     autonomy_state = work_state.get("autonomy_state")
-    if autonomy_state in ACTIVE_AUTONOMY_STATES:
+    if autonomy_state in ACTIVE_TASK_REQUIRED_AUTONOMY_STATES:
         if not isinstance(active_task_id, str) or active_task_id not in task_by_id:
             errors.append(
                 f"{pack_root / contract['work_state_file']}: active_task_id must reference a real task when autonomy_state is active"
@@ -751,6 +749,7 @@ def _validate_environment_assignments(
     schema_root = factory_root / "docs/specs/project-pack-factory/schemas"
     pointer_schema = schema_root / "deployment-pointer.schema.json"
     promotion_report_schema = schema_root / "promotion-report.schema.json"
+    rehearsal_report_schema = schema_root / "multi-hop-autonomy-rehearsal-report.schema.json"
     build_pack_roots = {pack_root.name: pack_root for pack_root in _iter_build_pack_roots(factory_root)}
     registry_claims = _build_registry_environment_claims(build_registry)
     pack_claims = _build_pack_environment_claims(build_pack_roots)
@@ -876,6 +875,20 @@ def _validate_environment_assignments(
                 errors.append(f"{report_path}: post_promotion_state.active_release_path must match `{pointer_relative}`")
             if post_state.get("deployment_pointer_path") != pointer_relative:
                 errors.append(f"{report_path}: post_promotion_state.deployment_pointer_path must equal `{pointer_relative}`")
+            rehearsal_evidence = report.get("autonomy_rehearsal_evidence")
+            if isinstance(rehearsal_evidence, dict):
+                rehearsal_relative = rehearsal_evidence.get("report_path")
+                if not isinstance(rehearsal_relative, str):
+                    errors.append(f"{report_path}: autonomy_rehearsal_evidence.report_path must be a string")
+                else:
+                    rehearsal_path = factory_root / rehearsal_relative
+                    if not rehearsal_path.exists():
+                        errors.append(f"{rehearsal_path}: autonomy rehearsal report referenced by promotion report is missing")
+                    else:
+                        errors.extend(validate_json_document(rehearsal_path, rehearsal_report_schema))
+                        rehearsal_report = _load_object(rehearsal_path)
+                        if rehearsal_report.get("target_build_pack_id") != pack_id:
+                            errors.append(f"{rehearsal_path}: target_build_pack_id must match `{pack_id}`")
 
         matching_events = [
             event
@@ -890,6 +903,52 @@ def _validate_environment_assignments(
             errors.append(
                 f"{factory_root / 'registry/promotion-log.json'}: active pointer `{pointer_relative}` is missing a matching promoted event"
             )
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _validate_factory_root_autonomy_memory(factory_root: Path, errors: list[str]) -> None:
+    pointer_path = factory_root / FACTORY_MEMORY_POINTER_PATH
+    if not pointer_path.exists():
+        return
+
+    schema_root = factory_root / "docs/specs/project-pack-factory/schemas"
+    pointer_schema = schema_root / "factory-autonomy-memory-pointer.schema.json"
+    memory_schema = schema_root / "factory-autonomy-memory.schema.json"
+
+    errors.extend(validate_json_document(pointer_path, pointer_schema))
+    pointer = _load_object(pointer_path)
+
+    selected_memory_path = pointer.get("selected_memory_path")
+    if not isinstance(selected_memory_path, str):
+        errors.append(f"{pointer_path}: selected_memory_path must be a string")
+        return
+
+    resolved_memory_path = (factory_root / selected_memory_path).resolve()
+    if not path_is_relative_to(resolved_memory_path, factory_root.resolve()):
+        errors.append(f"{pointer_path}: selected_memory_path must stay within the factory root")
+        return
+    if not resolved_memory_path.exists():
+        errors.append(f"{resolved_memory_path}: selected factory autonomy memory is missing")
+        return
+
+    errors.extend(validate_json_document(resolved_memory_path, memory_schema))
+    memory = _load_object(resolved_memory_path)
+
+    if memory.get("memory_id") != pointer.get("selected_memory_id"):
+        errors.append(f"{pointer_path}: selected_memory_id must match the selected factory autonomy memory")
+    if memory.get("generated_at") != pointer.get("selected_generated_at"):
+        errors.append(f"{pointer_path}: selected_generated_at must match the selected factory autonomy memory")
+    if _sha256(resolved_memory_path) != pointer.get("selected_memory_sha256"):
+        errors.append(f"{pointer_path}: selected_memory_sha256 must match the selected factory autonomy memory")
+    if memory.get("factory_root") != str(factory_root):
+        errors.append(f"{resolved_memory_path}: factory_root must equal the validated factory root")
 
 
 def _check_active_registry(entry: dict[str, Any], registry_path: Path, errors: list[str]) -> None:
@@ -1157,6 +1216,7 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
 
     _validate_template_creation_events(factory_root, registry_templates, promotion_log, errors)
     _validate_environment_assignments(factory_root, registry_builds, promotion_log, errors)
+    _validate_factory_root_autonomy_memory(factory_root, errors)
 
     known_pack_ids = {pack_root.name for pack_root in _iter_pack_roots(factory_root)}
     for registry_path, registry_map in (

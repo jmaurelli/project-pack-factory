@@ -1511,7 +1511,7 @@ def _build_support_domains(service_inventory: dict[str, Any], service_paths: lis
     domains = [
         {
             "domain_id": "ui-and-proxy",
-            "label": "Appliance UI is down",
+            "label": "ASMS UI is down",
             "summary": "",
             "service_paths": [],
             "supporting_services": [],
@@ -1716,7 +1716,7 @@ def _build_diagnostic_flows(
 
 def _domain_symptom_focus(domain_id: str) -> str:
     return {
-        "ui-and-proxy": "Use this when the customer UI is down and the engineer is checking the appliance from SSH.",
+        "ui-and-proxy": "Use this when the ASMS UI is down and the engineer is checking the appliance from SSH.",
         "core-aff": "Use this when a FireFlow action fails or FireFlow returns an error.",
         "microservice-platform": "Use this when one product feature fails after login and the UI itself is still up.",
         "messaging-and-data": "Use this when jobs stop, queues back up, or data actions fail.",
@@ -1771,8 +1771,8 @@ def _domain_supporting_evidence(
 def _build_symptom_lookup(diagnostic_flows: list[dict[str, Any]]) -> list[dict[str, str]]:
     flow_index = {flow["flow_id"]: flow for flow in diagnostic_flows}
     symptom_map = [
-        ("appliance-ui-down", "Appliance UI is down", "ui-and-proxy"),
-        ("appliance-login-not-loading", "Appliance login page not loading", "ui-and-proxy"),
+        ("asms-ui-down", "ASMS UI is down", "ui-and-proxy"),
+        ("asms-login-not-loading", "ASMS login page not loading", "ui-and-proxy"),
         ("fireflow-action-failing", "FireFlow action failing", "core-aff"),
         ("fireflow-api-error", "FireFlow API error", "core-aff"),
         ("feature-failing-behind-ui", "Feature failing behind UI", "microservice-platform"),
@@ -1871,26 +1871,26 @@ def _playbook_dependency_path(flow_id: str) -> list[dict[str, str]]:
             {
                 "step_label": "Step 1",
                 "step_id": "ui-and-proxy-step-1",
-                "label": "Apache edge",
-                "details": "Start here. Confirm httpd.service is active and ports 80 and 443 are listening before checking anything deeper.",
+                "label": "Host Health Pre-Check",
+                "details": "Start here. Check disk, inodes, memory, load, recent OOM events, and top CPU consumers before moving into ASMS services.",
             },
             {
                 "step_label": "Step 2",
                 "step_id": "ui-and-proxy-step-2",
-                "label": "Host health",
-                "details": "If Apache is up, check disk space, inode usage, available memory, and recent OOM pressure on the host.",
+                "label": "Apache edge",
+                "details": "If the host looks healthy, confirm httpd.service is active and ports 80 and 443 are listening. Apache is the front door for both the auth path and the app path.",
             },
             {
                 "step_label": "Step 3",
                 "step_id": "ui-and-proxy-step-3",
-                "label": "UI services",
-                "details": "Then check the main UI services: keycloak.service on 8443 and ms-metro.service on 8080.",
+                "label": "ASMS UI services",
+                "details": "Then check the two first-pass ASMS UI service branches: Keycloak on 8443 for auth and login, and ms-metro on 8080 for the main app and API path.",
             },
             {
                 "step_label": "Step 4",
                 "step_id": "ui-and-proxy-step-4",
                 "label": "Logs",
-                "details": "If the services are up, check httpd, keycloak, and ms-metro logs to find the real clue.",
+                "details": "If the services are up, check httpd, Keycloak, and ms-metro logs to find the real clue, using the service log files where they are more useful than journal output.",
             },
         ]
     return []
@@ -2015,6 +2015,104 @@ def _listener_command(
     )
 
 
+def _host_health_precheck_commands() -> list[dict[str, Any]]:
+    return _command_bundle(
+        _command_entry(
+            label="Check disk space",
+            command="df -h",
+            expected_signal="Main filesystems have free space and are not near 100% use.",
+            interpretation="If /, /boot, or /data is full or nearly full, services may fail to write logs, temp files, or runtime data.",
+            healthy_markers=[
+                "Use% below 100%",
+                "Avail is not 0",
+                "/ and /data still have free space",
+            ],
+            example_output=_example_output(
+                "Filesystem           Size  Used Avail Use% Mounted on",
+                "/dev/mapper/rl-root   60G   16G   45G  27% /",
+                "/dev/mapper/rl-data  238G   21G  218G   9% /data",
+            ),
+        ),
+        _command_entry(
+            label="Check inode usage",
+            command="df -ih",
+            expected_signal="Main filesystems have free inodes and are not near 100% inode use.",
+            interpretation="If inode use is high, services can fail even when normal disk space still looks free.",
+            healthy_markers=[
+                "IUse% below 100%",
+                "IFree is not 0",
+                "/ and /data still have free inodes",
+            ],
+            example_output=_example_output(
+                "Filesystem          Inodes IUsed IFree IUse% Mounted on",
+                "/dev/mapper/rl-root    30M  343K   30M    2% /",
+                "/dev/mapper/rl-data   119M   21K  119M    1% /data",
+            ),
+        ),
+        _command_entry(
+            label="Check memory",
+            command="free -h",
+            expected_signal="Available memory is present and swap is not under heavy use.",
+            interpretation="If available memory is very low or swap is heavily used, Java services may slow down, hang, or crash.",
+            healthy_markers=[
+                "available memory is present",
+                "swap is not exhausted",
+                "Mem and Swap are shown in GiB",
+            ],
+            example_output=_example_output(
+                "              total        used        free      shared  buff/cache   available",
+                "Mem:           32Gi        13Gi       8.6Gi       2.4Gi         9Gi        15Gi",
+                "Swap:          24Gi          0B        24Gi",
+            ),
+        ),
+        _command_entry(
+            label="Check system load",
+            command="uptime",
+            expected_signal="Load is not unexpectedly high for the host.",
+            interpretation="If load is unusually high for the host, the server may be under CPU pressure, blocked work, or heavy I/O wait.",
+            healthy_markers=[
+                "load average:",
+                "load values are not unexpectedly high",
+            ],
+            example_output=_example_output(
+                "14:42:03 up 17 days,  1:52,  1 user,  load average: 0.25, 0.18, 0.11",
+            ),
+        ),
+        _command_entry(
+            label="Check recent OOM events",
+            command="journalctl -k --since \"24 hours ago\" --no-pager | grep -i -E \"out of memory|oom|killed process\"",
+            expected_signal="No recent Out Of Memory lines are returned.",
+            interpretation="If OOM lines appear, the host has been killing or starving processes under memory pressure.",
+            healthy_markers=[
+                "No output is normal",
+                "No 'Out of memory' lines",
+                "No 'Killed process' lines",
+            ],
+            example_output=_example_output(
+                "No output",
+            ),
+        ),
+        _command_entry(
+            label="Check top CPU consumers",
+            command="ps -eo pid,comm,%cpu,%mem --sort=-%cpu | head -n 10",
+            expected_signal="No unexpected process is consuming excessive CPU.",
+            interpretation="If one process is consuming most of the CPU, focus on that process before assuming the UI path itself is the root cause.",
+            healthy_markers=[
+                "PID",
+                "COMMAND",
+                "%CPU",
+                "%MEM",
+            ],
+            example_output=_example_output(
+                "  PID COMMAND         %CPU %MEM",
+                " 6012 java             8.1  7.4",
+                " 1018 httpd            1.2  0.4",
+                " 3758 algosec_keycloa  0.8  1.6",
+            ),
+        ),
+    )
+
+
 def _config_command(
     config_path: str,
     *,
@@ -2124,15 +2222,27 @@ def _decision_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
     evidence = flow["evidence_to_collect_next"]
-    keycloak_detail = _flow_service_detail(flow, "keycloak.service")
-    metro_detail = _flow_service_detail(flow, "ms-metro.service")
     return [
         _playbook_step(
             step_id="ui-and-proxy-step-1",
             step_number=1,
-            action="Check Apache first. Confirm httpd.service is running and ports 80 and 443 are open.",
-            why_this_matters="Apache is the front door for the UI. If Apache is down, the UI cannot load.",
-            next_if_pass="If httpd is running and both ports are open, go to the next step.",
+            action="Start with Host Health Pre-Check. Confirm the server has free disk, free inodes, available memory, acceptable load, no recent OOM events, and no obvious runaway CPU process.",
+            why_this_matters="Every major playbook starts with the Linux host. If the host is under pressure, higher-level ASMS symptoms may only be side effects.",
+            next_if_pass="If the host looks healthy, move to the Apache edge checks.",
+            failure_point="Host health pre-check",
+            decision_if_fail="Stop here and treat disk, inode, memory, load, OOM, or CPU pressure on the host as the current failure point.",
+            evidence_to_collect=[
+                "Output of df -h, df -ih, free -h, and uptime.",
+                "Any recent OOM lines and the top CPU process output.",
+            ],
+            recommended_commands=_host_health_precheck_commands(),
+        ),
+        _playbook_step(
+            step_id="ui-and-proxy-step-2",
+            step_number=2,
+            action="Check the Apache edge. Confirm httpd.service is running and ports 80 and 443 are open.",
+            why_this_matters="After host health, Apache is the front door for the ASMS UI. If Apache is down, the UI cannot load.",
+            next_if_pass="If httpd is running and both ports are open, go to the ASMS UI service checks.",
             failure_point="httpd.service or edge listener state",
             decision_if_fail="Stop here and treat httpd.service or the 80/443 listener layer as the current failure point.",
             evidence_to_collect=evidence[:2],
@@ -2166,87 +2276,13 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             ),
         ),
         _playbook_step(
-            step_id="ui-and-proxy-step-2",
-            step_number=2,
-            action="Check system pressure. Confirm the server still has free disk, free inodes, and available memory.",
-            why_this_matters="Disk full, inode full, or OOM pressure are common Linux failure points and are more common than Apache rewrite problems.",
-            next_if_pass="If disk, inode, and memory checks look healthy, go to the service checks.",
-            failure_point="Disk, inode, or memory pressure on the host",
-            decision_if_fail="Stop here and treat host pressure as the current failure point.",
-            evidence_to_collect=evidence[:2],
-            recommended_commands=_command_bundle(
-                _command_entry(
-                    label="Check disk usage",
-                    command="df -h",
-                    expected_signal="Main filesystems still have free space and are not close to 100% use.",
-                    interpretation="If /, /boot, or /data is full or nearly full, services may stop writing logs, temp files, or data.",
-                    healthy_markers=[
-                        "Use% below 100%",
-                        "Avail is not 0",
-                        "/ and /data still have free space",
-                    ],
-                    example_output=_example_output(
-                        "Filesystem           Size  Used Avail Use% Mounted on",
-                        "/dev/mapper/rl-root   60G   16G   45G  27% /",
-                        "/dev/mapper/rl-data  238G   21G  218G   9% /data",
-                    ),
-                ),
-                _command_entry(
-                    label="Check inode usage",
-                    command="df -ih",
-                    expected_signal="Main filesystems still have free inodes and are not close to 100% inode use.",
-                    interpretation="If inode use is high, services can fail even when normal disk space still looks free.",
-                    healthy_markers=[
-                        "IUse% below 100%",
-                        "IFree is not 0",
-                        "/ and /data still have free inodes",
-                    ],
-                    example_output=_example_output(
-                        "Filesystem          Inodes IUsed IFree IUse% Mounted on",
-                        "/dev/mapper/rl-root    30M  343K   30M    2% /",
-                        "/dev/mapper/rl-data   119M   21K  119M    1% /data",
-                    ),
-                ),
-                _command_entry(
-                    label="Check memory pressure",
-                    command="free -h",
-                    expected_signal="The host still has available memory and is not fully relying on swap.",
-                    interpretation="If available memory is very low or swap is heavily used, Java services may slow down, hang, or crash.",
-                    healthy_markers=[
-                        "available memory is present",
-                        "swap is not exhausted",
-                        "Mem and Swap are shown in GiB",
-                    ],
-                    example_output=_example_output(
-                        "              total        used        free      shared  buff/cache   available",
-                        "Mem:           32Gi        13Gi       8.6Gi       2.4Gi         9Gi        15Gi",
-                        "Swap:          24Gi          0B        24Gi",
-                    ),
-                ),
-                _command_entry(
-                    label="Check for recent OOM pressure",
-                    command="journalctl -k --since '-7 days' --no-pager | grep -i -E 'out of memory|oom|killed process' | tail -n 20",
-                    expected_signal="No recent OOM lines are returned.",
-                    interpretation="If OOM lines appear, the host has been killing or starving processes under memory pressure.",
-                    healthy_markers=[
-                        "No output is normal",
-                        "No 'Out of memory' lines",
-                        "No 'Killed process' lines",
-                    ],
-                    example_output=_example_output(
-                        "No output",
-                    ),
-                ),
-            ),
-        ),
-        _playbook_step(
             step_id="ui-and-proxy-step-3",
             step_number=3,
-            action="Check the main UI services. Confirm keycloak.service and ms-metro.service are running and ports 8443 and 8080 are open.",
-            why_this_matters="After Apache and host health, the next common failure is that a key Java service is down or not listening.",
+            action="Check the main ASMS UI services. Confirm Keycloak and ms-metro are running, listening, and answering a real local health or app check.",
+            why_this_matters="After host health and Apache, the next common failure is that a Java service looks up but is not healthy enough to serve the UI path.",
             next_if_pass="If the services and listeners look healthy, go to the log checks.",
-            failure_point="keycloak.service, ms-metro.service, or their listener ports",
-            decision_if_fail="Stop here and treat the missing service or listener as the current failure point.",
+            failure_point="keycloak.service, ms-metro.service, or their local service checks",
+            decision_if_fail="Stop here and treat the first failed service check as the current failure point.",
             evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
                 _service_status_command(
@@ -2265,13 +2301,45 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                         " Main PID: 3758 (algosec_keycloa)",
                     ),
                 ),
-                _listener_command(
-                    keycloak_detail.get("listener_ports", ["8443"]),
-                    label="Check Keycloak listener",
-                    interpretation="If port 8443 is missing, focus on Keycloak startup or bind problems.",
-                    healthy_markers=["LISTEN", ":8443", "java"],
+                _command_entry(
+                    label="Check Keycloak ports",
+                    command="ss -lntp | grep -E ':(8443|9000)\\b'",
+                    expected_signal="Ports 8443 and 9000 are listening for Keycloak.",
+                    interpretation="If 8443 or 9000 is missing, focus on Keycloak startup, bind, or health-endpoint problems.",
+                    healthy_markers=["LISTEN", ":8443", ":9000", "java"],
                     example_output=_example_output(
                         'LISTEN 0 16384 0.0.0.0:8443 0.0.0.0:* users:(("java",pid=5129,fd=363))',
+                        'LISTEN 0 16384 127.0.0.1:9000 0.0.0.0:* users:(("java",pid=5129,fd=412))',
+                    ),
+                ),
+                _command_entry(
+                    label="Check Keycloak readiness",
+                    command="curl -k https://127.0.0.1:9000/health/ready --max-time 10",
+                    expected_signal='The JSON response shows `"status": "UP"`.',
+                    interpretation="If the readiness endpoint is not UP, Keycloak may be running but not healthy enough to serve login traffic.",
+                    healthy_markers=['"status": "UP"', "Keycloak database connections async health check", '"status": "UP"'],
+                    example_output=_example_output(
+                        "{",
+                        '    "status": "UP",',
+                        '    "checks": [',
+                        '        {',
+                        '            "name": "Keycloak database connections async health check",',
+                        '            "status": "UP"',
+                        "        }",
+                        "    ]",
+                        "}",
+                    ),
+                ),
+                _command_entry(
+                    label="Check Keycloak OIDC path",
+                    command="curl -k -I https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration --max-time 10",
+                    expected_signal="The local Keycloak OIDC path returns HTTP 200.",
+                    interpretation="If the OIDC path fails, Keycloak may be up but not reachable through the expected local path.",
+                    healthy_markers=["HTTP/1.1 200", "Server: Apache", "application/json"],
+                    example_output=_example_output(
+                        "HTTP/1.1 200 OK",
+                        "Server: Apache",
+                        "Content-Type: application/json;charset=UTF-8",
                     ),
                 ),
                 _service_status_command(
@@ -2290,13 +2358,26 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                         " Main PID: 6012 (java)",
                     ),
                 ),
-                _listener_command(
-                    metro_detail.get("listener_ports", ["8080"]),
+                _command_entry(
                     label="Check Metro listener",
+                    command="ss -lntp | grep -E ':8080\\b'",
+                    expected_signal="Port 8080 is listening for ms-metro.",
                     interpretation="If port 8080 is missing, the UI backend route has no working target.",
                     healthy_markers=["LISTEN", ":8080", "java"],
                     example_output=_example_output(
                         'LISTEN 0 100 0.0.0.0:8080 0.0.0.0:* users:(("java",pid=6012,fd=44))',
+                    ),
+                ),
+                _command_entry(
+                    label="Check Metro heartbeat",
+                    command="curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10",
+                    expected_signal='The JSON response shows `"isAlive" : true`.',
+                    interpretation="If the heartbeat hangs, errors, or returns a different value, Metro is not healthy enough for the ASMS UI path.",
+                    healthy_markers=['"isAlive" : true'],
+                    example_output=_example_output(
+                        "{",
+                        '  "isAlive" : true',
+                        "}",
                     ),
                 ),
             ),
@@ -2304,8 +2385,8 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
         _playbook_step(
             step_id="ui-and-proxy-step-4",
             step_number=4,
-            action="Check the logs. Look for disk, memory, startup, or Java errors in httpd, keycloak, and ms-metro.",
-            why_this_matters="Logs often show disk problems, heap problems, startup failures, and Java stack clues faster than config review.",
+            action="Check the logs. Look for disk, memory, startup, auth, or Java errors in httpd, Keycloak, and ms-metro.",
+            why_this_matters="Logs often show the real failure clue faster than config review. On this appliance, Keycloak and ms-metro write the useful clues to their own log files.",
             next_if_pass="If the logs do not show the issue clearly, move to a narrower service or escalation workflow.",
             failure_point="Recent service errors in httpd, keycloak, or ms-metro logs",
             decision_if_fail="Stop here and treat the service with the clear error as the current failure point.",
@@ -2319,15 +2400,38 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                 ),
                 _command_entry(
                     label="Review recent Keycloak logs",
-                    command="journalctl -u keycloak.service -n 50 --no-pager",
-                    expected_signal="No obvious startup, auth, memory, or crash errors appear in recent lines.",
+                    command="tail -n 80 /var/log/keycloak/keycloak.log",
+                    expected_signal="Recent lines show healthy startup or a clear auth, database, TLS, or startup clue.",
                     interpretation="If recent Keycloak lines show errors, stay on Keycloak and follow that clue first.",
+                    healthy_markers=["started", "Listening on", "https://0.0.0.0:8443", "hostname:"],
                 ),
                 _command_entry(
-                    label="Review recent Metro logs",
-                    command="journalctl -u ms-metro.service -n 50 --no-pager",
-                    expected_signal="No obvious Java heap, startup, disk, or application crash errors appear in recent lines.",
-                    interpretation="If recent Metro lines show errors, stay on Metro and follow that clue first.",
+                    label="Check Metro app traffic",
+                    command="grep -E '/afa/getStatus|/afa/api/v1/config/all/noauth' /data/ms-metro/logs/localhost_access_log.txt | tail -n 40",
+                    expected_signal="Recent access lines show normal 200 responses for the Metro heartbeat or no-auth app paths.",
+                    interpretation="If these lines stop, shift to 5xx, or show repeated failures, Metro may be up but not serving useful app traffic.",
+                    healthy_markers=["GET /afa/getStatus", " 200 ", "/afa/api/v1/config/all/noauth"],
+                ),
+                _command_entry(
+                    label="Check what Metro is busy doing",
+                    command="ps -p $(cat /var/run/ms-metro/ms-metro.pid) -o pid,etime,%cpu,%mem,nlwp,cmd --cols 160",
+                    expected_signal="The Metro JVM is present, has a stable elapsed runtime, and its CPU, memory, and thread count look reasonable for the current case.",
+                    interpretation="If CPU, memory, or thread count looks unexpectedly high or unstable, treat Metro resource pressure or a stuck JVM as part of the failure.",
+                    healthy_markers=["PID", "ELAPSED", "%CPU", "%MEM", "NLWP", "java"],
+                ),
+                _command_entry(
+                    label="Review Metro error clues",
+                    command="grep -n -i -E 'error|exception|failed|caused by|outofmemory|unable|refused|timed out' /data/ms-metro/logs/catalina.out | tail -n 40",
+                    expected_signal="No fresh Metro error signatures appear, or the returned lines clearly point to the real Java, dependency, or application failure.",
+                    interpretation="Use this only after the traffic and JVM checks if you still need a narrower Java clue.",
+                    healthy_markers=["No output is often normal", "Error", "Exception", "Caused by", "Failed"],
+                ),
+                _command_entry(
+                    label="Review Metro access log",
+                    command="tail -n 40 /data/ms-metro/logs/localhost_access_log.txt",
+                    expected_signal="Recent lines show normal 200 responses for Metro paths such as /afa/getStatus.",
+                    interpretation="If recent access lines shift to 5xx or stop entirely, Metro may be up but not serving normal UI traffic.",
+                    healthy_markers=["GET /afa/getStatus", " 200 ", "/afa/api/v1/config/all/noauth"],
                 ),
             ),
         ),

@@ -2,7 +2,7 @@
   "artifact_refs": {
     "runtime_evidence": "runtime-evidence.json"
   },
-  "generated_at": "2026-03-23T22:52:07Z",
+  "generated_at": "2026-03-25T16:33:15Z",
   "schema_version": "adf-service-inventory/v1",
   "services": [
     {
@@ -23,6 +23,9 @@
         "control_refs": [
           "/usr/lib/systemd/system/ModemManager.service",
           "/usr/sbin/ModemManager"
+        ],
+        "dependency_refs": [
+          "polkit.service"
         ],
         "description": "Modem Manager",
         "evidence_refs": [
@@ -57,6 +60,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "NetworkManager.service",
         "evidence_refs": [
           "systemd_units"
@@ -99,6 +103,9 @@
           "/usr/lib/systemd/system/apparmor.service",
           "/var/cache/apparmor"
         ],
+        "dependency_refs": [
+          "systemd-sysctl.service"
+        ],
         "description": "Load AppArmor profiles",
         "evidence_refs": [
           "systemd_unit_files",
@@ -136,6 +143,7 @@
           "/usr/share/apport/whoopsie-upload-all",
           "/var/lib/apport/autoreport"
         ],
+        "dependency_refs": [],
         "description": "Process error reports when automatic reporting is enabled",
         "evidence_refs": [
           "systemd_unit_files",
@@ -173,6 +181,7 @@
           "/usr/lib/systemd/system/apport.service",
           "/usr/share/apport/apport"
         ],
+        "dependency_refs": [],
         "description": "automatic crash report generation",
         "evidence_refs": [
           "systemd_unit_files",
@@ -210,6 +219,12 @@
           "/usr/lib/apt/apt.systemd.daily",
           "/usr/lib/systemd/system/apt-daily-upgrade.service"
         ],
+        "dependency_refs": [
+          "NetworkManager.service",
+          "apt-daily.service",
+          "connman.service",
+          "systemd-networkd.service"
+        ],
         "description": "Daily apt upgrade and clean activities",
         "evidence_refs": [
           "systemd_unit_files",
@@ -246,6 +261,11 @@
           "/usr/lib/apt/apt-helper",
           "/usr/lib/apt/apt.systemd.daily",
           "/usr/lib/systemd/system/apt-daily.service"
+        ],
+        "dependency_refs": [
+          "NetworkManager.service",
+          "connman.service",
+          "systemd-networkd.service"
         ],
         "description": "Daily apt download activities",
         "evidence_refs": [
@@ -286,6 +306,7 @@
           "/usr/lib/systemd/system/apt-news.service",
           "/usr/lib/ubuntu-advantage/apt_news.py"
         ],
+        "dependency_refs": [],
         "description": "apt-news.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -318,6 +339,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "auditd.service",
         "evidence_refs": [
           "process_inventory",
@@ -363,6 +385,13 @@
           "/usr/lib/systemd/system/blk-availability.service",
           "/usr/sbin/blkdeactivate"
         ],
+        "dependency_refs": [
+          "fcoe.service",
+          "iscsi-shutdown.service",
+          "iscsi.service",
+          "iscsid.service",
+          "rbdmap.service"
+        ],
         "description": "Availability of block devices",
         "evidence_refs": [
           "systemd_unit_files",
@@ -399,6 +428,9 @@
           "/usr/lib/systemd/system/bolt.service",
           "/usr/libexec/boltd",
           "/var/lib/boltd"
+        ],
+        "dependency_refs": [
+          "polkit.service"
         ],
         "description": "bolt.service",
         "evidence_refs": [
@@ -439,6 +471,7 @@
           "/usr/bin/cloud-init",
           "/usr/lib/systemd/system/cloud-config.service"
         ],
+        "dependency_refs": [],
         "description": "cloud-config.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -478,6 +511,10 @@
           "//docs.cloud-init.io/en/latest/explanation/boot.html",
           "/usr/bin/cloud-init",
           "/usr/lib/systemd/system/cloud-final.service"
+        ],
+        "dependency_refs": [
+          "cloud-config.service",
+          "rc-local.service"
         ],
         "description": "cloud-final.service",
         "evidence_refs": [
@@ -519,6 +556,7 @@
           "/usr/bin/cloud-init",
           "/usr/lib/systemd/system/cloud-init-hotplugd.service"
         ],
+        "dependency_refs": [],
         "description": "cloud-init-hotplugd.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -559,6 +597,10 @@
           "/usr/bin/cloud-init",
           "/usr/lib/systemd/system/cloud-init-local.service",
           "/var/lib/cloud"
+        ],
+        "dependency_refs": [
+          "hv_kvp_daemon.service",
+          "systemd-remount-fs.service"
         ],
         "description": "Cloud-init: Local Stage (pre-network)",
         "evidence_refs": [
@@ -601,6 +643,13 @@
           "/usr/bin/cloud-init",
           "/usr/lib/systemd/system/cloud-init.service"
         ],
+        "dependency_refs": [
+          "cloud-init-local.service",
+          "networking.service",
+          "sshd-keygen.service",
+          "sshd.service",
+          "systemd-networkd-wait-online.service"
+        ],
         "description": "cloud-init.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -634,6 +683,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "connman.service",
         "evidence_refs": [
           "systemd_units"
@@ -671,6 +721,11 @@
           "/sbin/agetty",
           "/usr/lib/systemd/system/console-getty.service"
         ],
+        "dependency_refs": [
+          "plymouth-quit-wait.service",
+          "rc-local.service",
+          "systemd-user-sessions.service"
+        ],
         "description": "console-getty.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -703,6 +758,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "console-screen.service",
         "evidence_refs": [
           "systemd_units"
@@ -740,6 +796,10 @@
           "/lib/console-setup/console-setup.sh",
           "/usr",
           "/usr/lib/systemd/system/console-setup.service"
+        ],
+        "dependency_refs": [
+          "console-screen.service",
+          "kbd.service"
         ],
         "description": "Set console font and keymap",
         "evidence_refs": [
@@ -782,6 +842,7 @@
           "/usr/lib/systemd/system/cron.service",
           "/usr/sbin/cron"
         ],
+        "dependency_refs": [],
         "description": "Regular background program processing daemon",
         "evidence_refs": [
           "systemd_unit_files",
@@ -818,6 +879,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/cryptdisks-early.service"
         ],
+        "dependency_refs": [],
         "description": "cryptdisks-early.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -852,6 +914,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/cryptdisks.service"
         ],
+        "dependency_refs": [],
         "description": "cryptdisks.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -890,6 +953,7 @@
           "/usr/bin/dbus-send",
           "/usr/lib/systemd/system/dbus.service"
         ],
+        "dependency_refs": [],
         "description": "D-Bus System Message Bus",
         "evidence_refs": [
           "systemd_unit_files",
@@ -928,6 +992,9 @@
           "/usr/bin/bash",
           "/usr/lib/systemd/system/debug-shell.service"
         ],
+        "dependency_refs": [
+          "systemd-vconsole-setup.service"
+        ],
         "description": "debug-shell.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -960,6 +1027,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "display-manager.service",
         "evidence_refs": [
           "systemd_units"
@@ -996,6 +1064,7 @@
           "/usr/lib/systemd/system/dm-event.service",
           "/usr/sbin/dmeventd"
         ],
+        "dependency_refs": [],
         "description": "Device-mapper event daemon",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1036,6 +1105,7 @@
           "/usr/bin/savelog",
           "/usr/lib/systemd/system/dmesg.service"
         ],
+        "dependency_refs": [],
         "description": "Save initial kernel messages after boot",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1074,6 +1144,7 @@
           "/usr/lib/systemd/system/dpkg-db-backup.service",
           "/usr/libexec/dpkg/dpkg-db-backup"
         ],
+        "dependency_refs": [],
         "description": "Daily dpkg database backup service",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1110,6 +1181,7 @@
           "/sbin/e2scrub_all",
           "/usr/lib/systemd/system/e2scrub_all.service"
         ],
+        "dependency_refs": [],
         "description": "Online ext4 Metadata Check for All Filesystems",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1146,6 +1218,7 @@
           "/sbin/e2scrub_all",
           "/usr/lib/systemd/system/e2scrub_reap.service"
         ],
+        "dependency_refs": [],
         "description": "Remove Stale Online ext4 Metadata Check Snapshots",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1185,6 +1258,7 @@
           "/usr/lib/systemd/system/emergency.service",
           "/usr/lib/systemd/systemd-sulogin-shell"
         ],
+        "dependency_refs": [],
         "description": "Emergency Shell",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1222,6 +1296,7 @@
           "/usr/lib/systemd/system/esm-cache.service",
           "/usr/lib/ubuntu-advantage/esm_cache.py"
         ],
+        "dependency_refs": [],
         "description": "esm-cache.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -1254,6 +1329,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "fcoe.service",
         "evidence_refs": [
           "systemd_units"
@@ -1291,6 +1367,7 @@
           "/usr/bin/finalrd",
           "/usr/lib/systemd/system/finalrd.service"
         ],
+        "dependency_refs": [],
         "description": "Create final runtime dir for shutdown pivot root",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1329,6 +1406,10 @@
           "/lib/recovery-mode/recovery-menu",
           "/root",
           "/usr/lib/systemd/system/friendly-recovery.service"
+        ],
+        "dependency_refs": [
+          "systemd-udev-trigger.service",
+          "systemd-udevd.service"
         ],
         "description": "friendly-recovery.service",
         "evidence_refs": [
@@ -1369,6 +1450,7 @@
           "/sbin/fstrim",
           "/usr/lib/systemd/system/fstrim.service"
         ],
+        "dependency_refs": [],
         "description": "Discard unused blocks on filesystems from /etc/fstab",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1407,6 +1489,7 @@
           "/usr/libexec/fwupd/fwupdoffline",
           "/var/lib/fwupd/pending.db"
         ],
+        "dependency_refs": [],
         "description": "fwupd-offline-update.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -1442,6 +1525,7 @@
           "/usr/bin/fwupdmgr",
           "/usr/lib/systemd/system/fwupd-refresh.service"
         ],
+        "dependency_refs": [],
         "description": "Refresh fwupd metadata and update motd",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1465,16 +1549,14 @@
       "inference": {
         "product_scope": "platform",
         "reasoning": [
-          "service is active",
-          "service is running",
           "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 6,
-        "support_importance_tier": "supporting"
+        "support_importance_score": 1,
+        "support_importance_tier": "reference"
       },
       "observed": {
-        "active_state": "active",
+        "active_state": "unknown",
         "config_refs": [],
         "control_refs": [
           "//fwupd.org/",
@@ -1486,17 +1568,19 @@
           "/usr/lib/systemd/system/fwupd.service",
           "/usr/libexec/fwupd/fwupd"
         ],
-        "description": "Firmware update daemon",
+        "dependency_refs": [
+          "dbus.service"
+        ],
+        "description": "fwupd.service",
         "evidence_refs": [
-          "systemd_unit_files",
-          "systemd_units"
+          "systemd_unit_files"
         ],
         "http_routes": [],
         "listeners": [],
-        "load_state": "loaded",
+        "load_state": "unknown",
         "log_refs": [],
         "process_matches": [],
-        "sub_state": "running",
+        "sub_state": "unknown",
         "unit_file_path": "/usr/lib/systemd/system/fwupd.service",
         "unit_file_state": "static"
       },
@@ -1524,6 +1608,7 @@
           "/usr/bin/dbus-daemon",
           "/usr/lib/systemd/system/getty-static.service"
         ],
+        "dependency_refs": [],
         "description": "getty on tty2-tty6 if dbus and logind are not available",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1558,6 +1643,7 @@
         "active_state": "active",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "Getty on tty1",
         "evidence_refs": [
           "systemd_units"
@@ -1594,6 +1680,7 @@
           "/usr/bin/gpu-manager",
           "/usr/lib/systemd/system/gpu-manager.service"
         ],
+        "dependency_refs": [],
         "description": "gpu-manager.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -1636,6 +1723,7 @@
           "/boot/grub/grubenv",
           "/usr/lib/systemd/system/grub-common.service"
         ],
+        "dependency_refs": [],
         "description": "Record successful boot for GRUB",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1677,6 +1765,9 @@
           "/usr/bin/grub-editenv",
           "/usr/lib/systemd/system/grub-initrd-fallback.service"
         ],
+        "dependency_refs": [
+          "grub-common.service"
+        ],
         "description": "GRUB failed boot detection",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1711,6 +1802,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "hv_kvp_daemon.service",
         "evidence_refs": [
           "systemd_units"
@@ -1745,6 +1837,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/hwclock.service"
         ],
+        "dependency_refs": [],
         "description": "hwclock.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -1783,6 +1876,7 @@
           "/or",
           "/usr/lib/systemd/system/initrd-cleanup.service"
         ],
+        "dependency_refs": [],
         "description": "Cleaning Up and Shutting Down Daemons",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1826,6 +1920,7 @@
           "/usr/lib/systemd/system/initrd-parse-etc.service",
           "/usr/lib/systemd/systemd-sysroot-fstab-check"
         ],
+        "dependency_refs": [],
         "description": "Mountpoints Configured in the Real Root",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1866,6 +1961,7 @@
           "/or",
           "/usr/lib/systemd/system/initrd-switch-root.service"
         ],
+        "dependency_refs": [],
         "description": "Switch Root",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1906,6 +2002,11 @@
           "/or",
           "/usr/lib/systemd/system/initrd-udevadm-cleanup-db.service"
         ],
+        "dependency_refs": [
+          "systemd-udev-settle.service",
+          "systemd-udev-trigger.service",
+          "systemd-udevd.service"
+        ],
         "description": "Cleanup udev Database",
         "evidence_refs": [
           "systemd_unit_files",
@@ -1940,6 +2041,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "iscsi-shutdown.service",
         "evidence_refs": [
           "systemd_units"
@@ -1977,6 +2079,7 @@
           "/usr/lib/systemd/system/iscsid.service",
           "/usr/sbin/iscsid"
         ],
+        "dependency_refs": [],
         "description": "iSCSI initiator daemon (iscsid)",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2010,6 +2113,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "kbd.service",
         "evidence_refs": [
           "systemd_units"
@@ -2047,6 +2151,7 @@
           "/lib/console-setup/keyboard-setup.sh",
           "/usr/lib/systemd/system/keyboard-setup.service"
         ],
+        "dependency_refs": [],
         "description": "Set the console keyboard layout",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2089,6 +2194,7 @@
           "/usr/bin/kmod",
           "/usr/lib/systemd/system/kmod-static-nodes.service"
         ],
+        "dependency_refs": [],
         "description": "Create List of Static Device Nodes",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2131,6 +2237,7 @@
           "/sbin/ldconfig",
           "/usr/lib/systemd/system/ldconfig.service"
         ],
+        "dependency_refs": [],
         "description": "Rebuild Dynamic Linker Cache",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2169,6 +2276,7 @@
           "//www.freedesktop.org/software/systemd/man/systemd.exec.html",
           "/usr/lib/systemd/system/logrotate.service"
         ],
+        "dependency_refs": [],
         "description": "Rotate log files",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2206,6 +2314,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "lvm2-activation-early.service",
         "evidence_refs": [
           "systemd_units"
@@ -2242,6 +2351,7 @@
           "/usr/lib/systemd/system/lvm2-lvmpolld.service",
           "/usr/sbin/lvmpolld"
         ],
+        "dependency_refs": [],
         "description": "LVM2 poll daemon",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2278,6 +2388,9 @@
         "control_refs": [
           "/usr/lib/systemd/system/lvm2-monitor.service",
           "/usr/sbin/lvm"
+        ],
+        "dependency_refs": [
+          "dm-event.service"
         ],
         "description": "Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling",
         "evidence_refs": [
@@ -2318,6 +2431,7 @@
           "/run/lxd_agent/lxd-agent",
           "/usr/lib/systemd/system/lxd-agent.service"
         ],
+        "dependency_refs": [],
         "description": "lxd-agent.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -2355,6 +2469,7 @@
           "/usr/lib/systemd/system/man-db.service",
           "/var/cache/man"
         ],
+        "dependency_refs": [],
         "description": "Daily man-db regeneration",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2393,6 +2508,7 @@
           "/usr/share/mdadm/mdcheck",
           "/var/lib/mdcheck/MD_UUID_*"
         ],
+        "dependency_refs": [],
         "description": "mdcheck_continue.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -2429,6 +2545,7 @@
           "/usr/lib/systemd/system/mdcheck_start.service",
           "/usr/share/mdadm/mdcheck"
         ],
+        "dependency_refs": [],
         "description": "mdcheck_start.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -2468,6 +2585,7 @@
           "/sbin/mdadm",
           "/usr/lib/systemd/system/mdmonitor-oneshot.service"
         ],
+        "dependency_refs": [],
         "description": "mdmonitor-oneshot.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -2505,6 +2623,7 @@
           "/sbin/mdadm",
           "/usr/lib/systemd/system/mdmonitor.service"
         ],
+        "dependency_refs": [],
         "description": "mdmonitor.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -2537,6 +2656,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "Load Kernel Module configfs",
         "evidence_refs": [
           "systemd_units"
@@ -2569,6 +2689,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "Load Kernel Module dm_mod",
         "evidence_refs": [
           "systemd_units"
@@ -2601,6 +2722,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "Load Kernel Module drm",
         "evidence_refs": [
           "systemd_units"
@@ -2633,6 +2755,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "Load Kernel Module efi_pstore",
         "evidence_refs": [
           "systemd_units"
@@ -2665,6 +2788,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "Load Kernel Module fuse",
         "evidence_refs": [
           "systemd_units"
@@ -2697,6 +2821,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "Load Kernel Module loop",
         "evidence_refs": [
           "systemd_units"
@@ -2734,6 +2859,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/motd-news.service"
         ],
+        "dependency_refs": [],
         "description": "Message of the Day",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2770,6 +2896,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/multipath-tools-boot.service"
         ],
+        "dependency_refs": [],
         "description": "multipath-tools-boot.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -2794,11 +2921,10 @@
         "reasoning": [
           "service is active",
           "service is running",
-          "service is enabled or static",
-          "service has a matched running process"
+          "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 7,
+        "support_importance_score": 6,
         "support_importance_tier": "supporting"
       },
       "observed": {
@@ -2809,9 +2935,11 @@
           "/sbin/multipathd",
           "/usr/lib/systemd/system/multipathd.service"
         ],
+        "dependency_refs": [
+          "systemd-remount-fs.service"
+        ],
         "description": "Device-Mapper Multipath Device Controller",
         "evidence_refs": [
-          "process_inventory",
           "systemd_unit_files",
           "systemd_units"
         ],
@@ -2819,15 +2947,7 @@
         "listeners": [],
         "load_state": "loaded",
         "log_refs": [],
-        "process_matches": [
-          {
-            "args": "/sbin/multipathd -d -s",
-            "comm": "multipathd",
-            "pid": "524",
-            "ppid": "1",
-            "user": "root"
-          }
-        ],
+        "process_matches": [],
         "sub_state": "running",
         "unit_file_path": "/usr/lib/systemd/system/multipathd.service",
         "unit_file_state": "enabled"
@@ -2851,6 +2971,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "OpenVSwitch configuration for cleanup",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2893,6 +3014,7 @@
           "/usr/lib/networkd-dispatcher/*/*",
           "/usr/lib/systemd/system/networkd-dispatcher.service"
         ],
+        "dependency_refs": [],
         "description": "Dispatcher daemon for systemd-networkd",
         "evidence_refs": [
           "systemd_unit_files",
@@ -2933,6 +3055,7 @@
           "/usr/lib/systemd/system/nftables.service",
           "/usr/sbin/nft"
         ],
+        "dependency_refs": [],
         "description": "nftables.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -2977,6 +3100,9 @@
           "/usr/lib/systemd/system/open-iscsi.service",
           "/usr/sbin/iscsiadm"
         ],
+        "dependency_refs": [
+          "iscsid.service"
+        ],
         "description": "Login to default iSCSI targets",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3020,6 +3146,13 @@
           "/usr/bin/vmtoolsd",
           "/usr/lib/systemd/system/open-vm-tools.service"
         ],
+        "dependency_refs": [
+          "apparmor.service",
+          "systemd-modules-load.service",
+          "systemd-remount-fs.service",
+          "systemd-tmpfiles-setup.service",
+          "vgauth.service"
+        ],
         "description": "Service for virtual machines hosted on VMware",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3053,6 +3186,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "ovsdb-server.service",
         "evidence_refs": [
           "systemd_units"
@@ -3089,6 +3223,7 @@
           "/usr/lib/systemd/system/packagekit-offline-update.service",
           "/usr/libexec/pk-offline-update"
         ],
+        "dependency_refs": [],
         "description": "packagekit-offline-update.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3125,6 +3260,7 @@
           "/usr/lib/systemd/system/packagekit.service",
           "/usr/libexec/packagekitd"
         ],
+        "dependency_refs": [],
         "description": "packagekit.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3163,6 +3299,7 @@
           "/usr/lib/systemd/system/pam_namespace.service",
           "/usr/sbin/pam_namespace_helper"
         ],
+        "dependency_refs": [],
         "description": "pam_namespace.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3200,6 +3337,11 @@
           "/usr/lib/systemd/system/plymouth-halt.service",
           "/usr/sbin/plymouthd"
         ],
+        "dependency_refs": [
+          "display-manager.service",
+          "getty@tty1.service",
+          "plymouth-start.service"
+        ],
         "description": "plymouth-halt.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3235,6 +3377,11 @@
           "/usr/bin/plymouth",
           "/usr/lib/systemd/system/plymouth-kexec.service",
           "/usr/sbin/plymouthd"
+        ],
+        "dependency_refs": [
+          "display-manager.service",
+          "getty@tty1.service",
+          "plymouth-start.service"
         ],
         "description": "plymouth-kexec.service",
         "evidence_refs": [
@@ -3272,6 +3419,11 @@
           "/usr/lib/systemd/system/plymouth-poweroff.service",
           "/usr/sbin/plymouthd"
         ],
+        "dependency_refs": [
+          "display-manager.service",
+          "getty@tty1.service",
+          "plymouth-start.service"
+        ],
         "description": "plymouth-poweroff.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3307,6 +3459,11 @@
         "control_refs": [
           "/usr/bin/plymouth",
           "/usr/lib/systemd/system/plymouth-quit-wait.service"
+        ],
+        "dependency_refs": [
+          "plymouth-start.service",
+          "rc-local.service",
+          "systemd-user-sessions.service"
         ],
         "description": "Hold until boot process finishes up",
         "evidence_refs": [
@@ -3344,6 +3501,11 @@
         "control_refs": [
           "/usr/bin/plymouth",
           "/usr/lib/systemd/system/plymouth-quit.service"
+        ],
+        "dependency_refs": [
+          "plymouth-start.service",
+          "rc-local.service",
+          "systemd-user-sessions.service"
         ],
         "description": "Terminate Plymouth Boot Screen",
         "evidence_refs": [
@@ -3385,6 +3547,7 @@
           "/usr/bin/plymouth",
           "/usr/lib/systemd/system/plymouth-read-write.service"
         ],
+        "dependency_refs": [],
         "description": "Tell Plymouth To Write Out Runtime Data",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3423,6 +3586,11 @@
           "/usr/lib/systemd/system/plymouth-reboot.service",
           "/usr/sbin/plymouthd"
         ],
+        "dependency_refs": [
+          "display-manager.service",
+          "getty@tty1.service",
+          "plymouth-start.service"
+        ],
         "description": "plymouth-reboot.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3459,6 +3627,11 @@
           "/usr/bin/plymouth",
           "/usr/lib/systemd/system/plymouth-start.service",
           "/usr/sbin/plymouthd"
+        ],
+        "dependency_refs": [
+          "keyboard-setup.service",
+          "systemd-udev-trigger.service",
+          "systemd-udevd.service"
         ],
         "description": "Show Plymouth Boot Screen",
         "evidence_refs": [
@@ -3499,6 +3672,14 @@
           "/usr/bin/plymouth",
           "/usr/lib/systemd/system/plymouth-switch-root-initramfs.service"
         ],
+        "dependency_refs": [
+          "dracut-shutdown.service",
+          "mkinitcpio-generate-shutdown-ramfs.service",
+          "plymouth-halt.service",
+          "plymouth-kexec.service",
+          "plymouth-poweroff.service",
+          "plymouth-reboot.service"
+        ],
         "description": "plymouth-switch-root-initramfs.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3538,6 +3719,7 @@
           "/usr/bin/plymouth",
           "/usr/lib/systemd/system/plymouth-switch-root.service"
         ],
+        "dependency_refs": [],
         "description": "Plymouth switch root service",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3578,6 +3760,7 @@
           "/usr/lib/polkit-1/polkitd",
           "/usr/lib/systemd/system/polkit.service"
         ],
+        "dependency_refs": [],
         "description": "Authorization Manager",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3616,6 +3799,7 @@
           "/usr/lib/systemd/system/pollinate.service",
           "/var/cache/pollinate/seeded"
         ],
+        "dependency_refs": [],
         "description": "Pollinate to seed the pseudo random number generator",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3653,6 +3837,9 @@
           "/usr/lib/systemd/system/quotaon.service",
           "/usr/sbin/quotaon"
         ],
+        "dependency_refs": [
+          "systemd-quotacheck.service"
+        ],
         "description": "quotaon.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3685,6 +3872,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "rbdmap.service",
         "evidence_refs": [
           "systemd_units"
@@ -3723,6 +3911,7 @@
           "/or",
           "/usr/lib/systemd/system/rc-local.service"
         ],
+        "dependency_refs": [],
         "description": "/etc/rc.local Compatibility",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3762,6 +3951,9 @@
           "/usr/bin/plymouth",
           "/usr/lib/systemd/system/rescue.service",
           "/usr/lib/systemd/systemd-sulogin-shell"
+        ],
+        "dependency_refs": [
+          "plymouth-start.service"
         ],
         "description": "Rescue Shell",
         "evidence_refs": [
@@ -3804,6 +3996,7 @@
           "/usr/bin/rsync",
           "/usr/lib/systemd/system/rsync.service"
         ],
+        "dependency_refs": [],
         "description": "rsync.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3844,6 +4037,7 @@
           "/usr/lib/systemd/system/rsyslog.service",
           "/usr/sbin/rsyslogd"
         ],
+        "dependency_refs": [],
         "description": "System Logging Service",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3879,6 +4073,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/screen-cleanup.service"
         ],
+        "dependency_refs": [],
         "description": "screen-cleanup.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -3919,6 +4114,7 @@
           "/usr/lib/systemd/system/secureboot-db.service",
           "/usr/share/secureboot/updates"
         ],
+        "dependency_refs": [],
         "description": "Secure Boot updates for DB and DBX",
         "evidence_refs": [
           "systemd_unit_files",
@@ -3959,6 +4155,10 @@
           "/dev/tty0",
           "/sbin/setvtrgb",
           "/usr/lib/systemd/system/setvtrgb.service"
+        ],
+        "dependency_refs": [
+          "plymouth-quit-wait.service",
+          "systemd-user-sessions.service"
         ],
         "description": "Set console scheme",
         "evidence_refs": [
@@ -4004,6 +4204,9 @@
           "/var/cache/apparmor",
           "/var/lib/snapd/apparmor/profiles"
         ],
+        "dependency_refs": [
+          "apparmor.service"
+        ],
         "description": "Load AppArmor profiles managed internally by snapd",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4044,6 +4247,10 @@
           "/usr/bin/snap",
           "/usr/lib/systemd/system/snapd.autoimport.service"
         ],
+        "dependency_refs": [
+          "snapd.seeded.service",
+          "snapd.service"
+        ],
         "description": "Auto import assertions from block devices",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4082,6 +4289,7 @@
           "/usr/lib/snapd/snapd.core-fixup.sh",
           "/usr/lib/systemd/system/snapd.core-fixup.service"
         ],
+        "dependency_refs": [],
         "description": "Automatically repair incorrect owner/permissions on core devices",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4121,6 +4329,7 @@
           "/usr/lib/snapd/snap-failure",
           "/usr/lib/systemd/system/snapd.failure.service"
         ],
+        "dependency_refs": [],
         "description": "Failure handling of the snapd snap",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4160,6 +4369,7 @@
           "/usr/lib/snapd/snap-bootstrap",
           "/usr/lib/systemd/system/snapd.recovery-chooser-trigger.service"
         ],
+        "dependency_refs": [],
         "description": "Wait for the Ubuntu Core chooser trigger",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4197,6 +4407,7 @@
           "/usr/bin/snap",
           "/usr/lib/systemd/system/snapd.seeded.service"
         ],
+        "dependency_refs": [],
         "description": "Wait until snapd is fully seeded",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4238,6 +4449,7 @@
           "/usr/lib/snapd/snapd",
           "/usr/lib/systemd/system/snapd.service"
         ],
+        "dependency_refs": [],
         "description": "Snap Daemon",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4279,6 +4491,7 @@
           "/usr/lib/snapd/snap-repair",
           "/usr/lib/systemd/system/snapd.snap-repair.service"
         ],
+        "dependency_refs": [],
         "description": "Automatically fetch and run repair assertions",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4323,6 +4536,7 @@
           "/usr/lib/snapd/system-shutdown",
           "/usr/lib/systemd/system/snapd.system-shutdown.service"
         ],
+        "dependency_refs": [],
         "description": "Ubuntu core (all-snaps) system shutdown helper setup service",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4348,11 +4562,12 @@
         "reasoning": [
           "service is active",
           "service is running",
+          "service has visible TCP listeners",
           "service has product-specific config or route checkpoints"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 6,
-        "support_importance_tier": "supporting"
+        "support_importance_score": 8,
+        "support_importance_tier": "critical"
       },
       "observed": {
         "active_state": "active",
@@ -4365,13 +4580,32 @@
           "/usr/lib/systemd/system/ssh.service",
           "/usr/sbin/sshd"
         ],
+        "dependency_refs": [
+          "auditd.service"
+        ],
         "description": "OpenBSD Secure Shell server",
         "evidence_refs": [
+          "listening_tcp_ports",
           "systemd_unit_files",
           "systemd_units"
         ],
         "http_routes": [],
-        "listeners": [],
+        "listeners": [
+          {
+            "local_address": "0.0.0.0:18081",
+            "local_host": "0.0.0.0",
+            "pid": "289035",
+            "port": "18081",
+            "process_name": "ssh"
+          },
+          {
+            "local_address": "0.0.0.0:18083",
+            "local_host": "0.0.0.0",
+            "pid": "303648",
+            "port": "18083",
+            "process_name": "ssh"
+          }
+        ],
         "load_state": "loaded",
         "log_refs": [],
         "process_matches": [],
@@ -4401,6 +4635,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/sudo.service"
         ],
+        "dependency_refs": [],
         "description": "sudo.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -4435,6 +4670,9 @@
         "control_refs": [
           "/usr/lib/sysstat/sa1",
           "/usr/lib/systemd/system/sysstat-collect.service"
+        ],
+        "dependency_refs": [
+          "sysstat.service"
         ],
         "description": "system activity accounting tool",
         "evidence_refs": [
@@ -4471,6 +4709,9 @@
         "control_refs": [
           "/usr/lib/sysstat/sa2",
           "/usr/lib/systemd/system/sysstat-summary.service"
+        ],
+        "dependency_refs": [
+          "sysstat.service"
         ],
         "description": "Generate a daily summary of process accounting",
         "evidence_refs": [
@@ -4509,6 +4750,7 @@
           "/usr/lib/sysstat/sa1",
           "/usr/lib/systemd/system/sysstat.service"
         ],
+        "dependency_refs": [],
         "description": "Resets System Activity Logs",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4549,6 +4791,7 @@
           "/system-update",
           "/usr/lib/systemd/system/system-update-cleanup.service"
         ],
+        "dependency_refs": [],
         "description": "system-update-cleanup.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -4585,6 +4828,10 @@
           "/or",
           "/run/plymouth/pid",
           "/usr/lib/systemd/system/systemd-ask-password-console.service"
+        ],
+        "dependency_refs": [
+          "plymouth-start.service",
+          "systemd-vconsole-setup.service"
         ],
         "description": "Dispatch Password Requests to Console",
         "evidence_refs": [
@@ -4624,6 +4871,9 @@
           "/usr/bin/systemd-tty-ask-password-agent",
           "/usr/lib/systemd/system/systemd-ask-password-plymouth.service"
         ],
+        "dependency_refs": [
+          "plymouth-start.service"
+        ],
         "description": "Forward Password Requests to Plymouth",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4659,6 +4909,9 @@
         "control_refs": [
           "/or",
           "/usr/lib/systemd/system/systemd-ask-password-wall.service"
+        ],
+        "dependency_refs": [
+          "systemd-user-sessions.service"
         ],
         "description": "Forward Password Requests to Wall",
         "evidence_refs": [
@@ -4700,6 +4953,9 @@
           "/sys/class/power_supply/",
           "/usr/lib/systemd/system/systemd-battery-check.service",
           "/usr/lib/systemd/systemd-battery-check"
+        ],
+        "dependency_refs": [
+          "plymouth-start.service"
         ],
         "description": "Check battery level during early boot",
         "evidence_refs": [
@@ -4750,6 +5006,7 @@
           "/usr/lib/systemd/systemd-binfmt",
           "/usr/local/lib/binfmt.d"
         ],
+        "dependency_refs": [],
         "description": "Set Up Additional Binary Formats",
         "evidence_refs": [
           "systemd_unit_files",
@@ -4788,6 +5045,7 @@
           "/usr/lib/systemd/system/systemd-boot-check-no-failures.service",
           "/usr/lib/systemd/systemd-boot-check-no-failures"
         ],
+        "dependency_refs": [],
         "description": "systemd-boot-check-no-failures.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -4823,6 +5081,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-bsod.service",
           "/usr/lib/systemd/systemd-bsod"
+        ],
+        "dependency_refs": [
+          "systemd-battery-check.service"
         ],
         "description": "Displays emergency message in full screen.",
         "evidence_refs": [
@@ -4866,6 +5127,7 @@
           "/usr/local/lib/confexts",
           "/var/lib/confexts"
         ],
+        "dependency_refs": [],
         "description": "systemd-confext.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -4902,6 +5164,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-exit.service"
         ],
+        "dependency_refs": [],
         "description": "systemd-exit.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -4937,6 +5200,12 @@
           "/etc",
           "/or",
           "/usr/lib/systemd/system/systemd-firstboot.service"
+        ],
+        "dependency_refs": [
+          "systemd-remount-fs.service",
+          "systemd-sysusers.service",
+          "systemd-tmpfiles-setup.service",
+          "systemd-vconsole-setup.service"
         ],
         "description": "First Boot Wizard",
         "evidence_refs": [
@@ -4976,6 +5245,7 @@
           "/usr/lib/systemd/system/systemd-fsck-root.service",
           "/usr/lib/systemd/systemd-fsck"
         ],
+        "dependency_refs": [],
         "description": "File System Check on Root Device",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5009,6 +5279,7 @@
         "active_state": "active",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "File System Check on /dev/disk/by-uuid/de1e0631-5c28-4b85-9401-cf983a4784b5",
         "evidence_refs": [
           "systemd_units"
@@ -5045,6 +5316,7 @@
           "/usr/lib/systemd/system/systemd-fsckd.service",
           "/usr/lib/systemd/systemd-fsckd"
         ],
+        "dependency_refs": [],
         "description": "File System Check Daemon to report status",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5082,6 +5354,10 @@
           "/usr/lib/systemd/system/systemd-growfs-root.service",
           "/usr/lib/systemd/systemd-growfs"
         ],
+        "dependency_refs": [
+          "systemd-remount-fs.service",
+          "systemd-repart.service"
+        ],
         "description": "systemd-growfs-root.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -5117,6 +5393,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-halt.service"
         ],
+        "dependency_refs": [],
         "description": "systemd-halt.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -5156,6 +5433,7 @@
           "/usr/lib/systemd/system/systemd-hibernate-resume.service",
           "/usr/lib/systemd/systemd-hibernate-resume"
         ],
+        "dependency_refs": [],
         "description": "Resume from hibernation",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5194,6 +5472,7 @@
           "/usr/lib/systemd/system/systemd-hibernate.service",
           "/usr/lib/systemd/systemd-sleep"
         ],
+        "dependency_refs": [],
         "description": "System Hibernate",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5233,6 +5512,7 @@
           "/usr/lib/systemd/system/systemd-hostnamed.service",
           "/usr/lib/systemd/systemd-hostnamed"
         ],
+        "dependency_refs": [],
         "description": "systemd-hostnamed.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -5274,6 +5554,9 @@
           "/usr/lib/systemd/system/systemd-hwdb-update.service",
           "/usr/lib/udev/hwdb.bin"
         ],
+        "dependency_refs": [
+          "systemd-remount-fs.service"
+        ],
         "description": "Rebuild Hardware Database",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5312,6 +5595,7 @@
           "/usr/lib/systemd/system/systemd-hybrid-sleep.service",
           "/usr/lib/systemd/systemd-sleep"
         ],
+        "dependency_refs": [],
         "description": "System Hybrid Suspend+Hibernate",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5349,6 +5633,7 @@
           "/usr/lib/systemd/system/systemd-initctl.service",
           "/usr/lib/systemd/systemd-initctl"
         ],
+        "dependency_refs": [],
         "description": "initctl Compatibility Daemon",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5385,6 +5670,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-journal-catalog-update.service",
           "/var"
+        ],
+        "dependency_refs": [
+          "systemd-tmpfiles-setup.service"
         ],
         "description": "Rebuild Journal Catalog",
         "evidence_refs": [
@@ -5427,6 +5715,10 @@
           "/or",
           "/usr/lib/systemd/system/systemd-journal-flush.service"
         ],
+        "dependency_refs": [
+          "systemd-journald.service",
+          "systemd-remount-fs.service"
+        ],
         "description": "Flush Journal to Persistent Storage",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5455,11 +5747,10 @@
         "reasoning": [
           "service is active",
           "service is running",
-          "service is enabled or static",
-          "service has a matched running process"
+          "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 7,
+        "support_importance_score": 6,
         "support_importance_tier": "supporting"
       },
       "observed": {
@@ -5474,9 +5765,9 @@
           "/usr/lib/systemd/system/systemd-journald.service",
           "/usr/lib/systemd/systemd-journald"
         ],
+        "dependency_refs": [],
         "description": "Journal Service",
         "evidence_refs": [
-          "process_inventory",
           "systemd_unit_files",
           "systemd_units"
         ],
@@ -5484,15 +5775,7 @@
         "listeners": [],
         "load_state": "loaded",
         "log_refs": [],
-        "process_matches": [
-          {
-            "args": "/usr/lib/systemd/systemd-journald",
-            "comm": "systemd-journal",
-            "pid": "498",
-            "ppid": "1",
-            "user": "root"
-          }
-        ],
+        "process_matches": [],
         "sub_state": "running",
         "unit_file_path": "/usr/lib/systemd/system/systemd-journald.service",
         "unit_file_state": "static"
@@ -5519,6 +5802,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-kexec.service"
         ],
+        "dependency_refs": [],
         "description": "systemd-kexec.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -5557,6 +5841,7 @@
           "/usr/lib/systemd/system/systemd-localed.service",
           "/usr/lib/systemd/systemd-localed"
         ],
+        "dependency_refs": [],
         "description": "systemd-localed.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -5604,6 +5889,9 @@
           "/usr/lib/systemd/system/systemd-logind.service",
           "/usr/lib/systemd/systemd-logind"
         ],
+        "dependency_refs": [
+          "modprobe@drm.service"
+        ],
         "description": "User Login Management",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5644,6 +5932,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-machine-id-commit.service"
         ],
+        "dependency_refs": [],
         "description": "Commit a transient machine-id on disk",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5690,6 +5979,7 @@
           "/usr/lib/systemd/systemd-modules-load",
           "/usr/local/lib/modules-load.d"
         ],
+        "dependency_refs": [],
         "description": "Load Kernel Modules",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5728,6 +6018,7 @@
           "/usr/lib/systemd/system/systemd-network-generator.service",
           "/usr/lib/systemd/systemd-network-generator"
         ],
+        "dependency_refs": [],
         "description": "systemd-network-generator.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -5764,6 +6055,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-networkd-wait-online.service",
           "/usr/lib/systemd/systemd-networkd-wait-online"
+        ],
+        "dependency_refs": [
+          "systemd-networkd.service"
         ],
         "description": "Wait for Network to be Configured",
         "evidence_refs": [
@@ -5805,6 +6099,11 @@
           "/usr/lib/systemd/system/systemd-networkd.service",
           "/usr/lib/systemd/systemd-networkd"
         ],
+        "dependency_refs": [
+          "systemd-sysctl.service",
+          "systemd-sysusers.service",
+          "systemd-udevd.service"
+        ],
         "description": "Network Configuration",
         "evidence_refs": [
           "systemd_unit_files",
@@ -5838,6 +6137,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "systemd-oomd.service",
         "evidence_refs": [
           "systemd_units"
@@ -5876,6 +6176,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-pcrfs-root.service",
           "/usr/lib/systemd/systemd-pcrextend"
+        ],
+        "dependency_refs": [
+          "systemd-pcrmachine.service"
         ],
         "description": "systemd-pcrfs-root.service",
         "evidence_refs": [
@@ -5916,6 +6219,7 @@
           "/usr/lib/systemd/system/systemd-pcrlock-file-system.service",
           "/usr/lib/systemd/systemd-pcrlock"
         ],
+        "dependency_refs": [],
         "description": "systemd-pcrlock-file-system.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -5954,6 +6258,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-pcrlock-firmware-code.service",
           "/usr/lib/systemd/systemd-pcrlock"
+        ],
+        "dependency_refs": [
+          "systemd-tpm2-setup.service"
         ],
         "description": "systemd-pcrlock-firmware-code.service",
         "evidence_refs": [
@@ -5994,6 +6301,9 @@
           "/usr/lib/systemd/system/systemd-pcrlock-firmware-config.service",
           "/usr/lib/systemd/systemd-pcrlock"
         ],
+        "dependency_refs": [
+          "systemd-tpm2-setup.service"
+        ],
         "description": "systemd-pcrlock-firmware-config.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -6033,6 +6343,7 @@
           "/usr/lib/systemd/system/systemd-pcrlock-machine-id.service",
           "/usr/lib/systemd/systemd-pcrlock"
         ],
+        "dependency_refs": [],
         "description": "systemd-pcrlock-machine-id.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -6071,6 +6382,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-pcrlock-make-policy.service",
           "/usr/lib/systemd/systemd-pcrlock"
+        ],
+        "dependency_refs": [
+          "systemd-tpm2-setup.service"
         ],
         "description": "systemd-pcrlock-make-policy.service",
         "evidence_refs": [
@@ -6111,6 +6425,9 @@
           "/usr/lib/systemd/system/systemd-pcrlock-secureboot-authority.service",
           "/usr/lib/systemd/systemd-pcrlock"
         ],
+        "dependency_refs": [
+          "systemd-tpm2-setup.service"
+        ],
         "description": "systemd-pcrlock-secureboot-authority.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -6149,6 +6466,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-pcrlock-secureboot-policy.service",
           "/usr/lib/systemd/systemd-pcrlock"
+        ],
+        "dependency_refs": [
+          "systemd-tpm2-setup.service"
         ],
         "description": "systemd-pcrlock-secureboot-policy.service",
         "evidence_refs": [
@@ -6190,6 +6510,7 @@
           "/usr/lib/systemd/system/systemd-pcrmachine.service",
           "/usr/lib/systemd/systemd-pcrextend"
         ],
+        "dependency_refs": [],
         "description": "TPM2 PCR Machine ID Measurement",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6231,6 +6552,7 @@
           "/usr/lib/systemd/system/systemd-pcrphase-initrd.service",
           "/usr/lib/systemd/systemd-pcrextend"
         ],
+        "dependency_refs": [],
         "description": "TPM2 PCR Barrier (initrd)",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6272,6 +6594,7 @@
           "/usr/lib/systemd/system/systemd-pcrphase-sysinit.service",
           "/usr/lib/systemd/systemd-pcrextend"
         ],
+        "dependency_refs": [],
         "description": "TPM2 PCR Barrier (Initialization)",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6313,6 +6636,7 @@
           "/usr/lib/systemd/system/systemd-pcrphase.service",
           "/usr/lib/systemd/systemd-pcrextend"
         ],
+        "dependency_refs": [],
         "description": "TPM2 PCR Barrier (User)",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6350,6 +6674,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-poweroff.service"
         ],
+        "dependency_refs": [],
         "description": "systemd-poweroff.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -6388,6 +6713,9 @@
           "/usr/lib/systemd/system/systemd-pstore.service",
           "/usr/lib/systemd/systemd-pstore"
         ],
+        "dependency_refs": [
+          "modprobe@efi_pstore.service"
+        ],
         "description": "Platform Persistent Storage Archival",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6425,6 +6753,9 @@
           "/usr/lib/systemd/system/systemd-quotacheck.service",
           "/usr/lib/systemd/systemd-quotacheck",
           "/usr/sbin/quotacheck"
+        ],
+        "dependency_refs": [
+          "systemd-remount-fs.service"
         ],
         "description": "File System Quota Check",
         "evidence_refs": [
@@ -6469,6 +6800,9 @@
           "/usr/lib/systemd/systemd-random-seed",
           "/var/lib/systemd/random-seed"
         ],
+        "dependency_refs": [
+          "systemd-remount-fs.service"
+        ],
         "description": "Load/Save OS Random Seed",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6506,6 +6840,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-reboot.service"
         ],
+        "dependency_refs": [],
         "description": "systemd-reboot.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -6543,6 +6878,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-remount-fs.service",
           "/usr/lib/systemd/systemd-remount-fs"
+        ],
+        "dependency_refs": [
+          "systemd-fsck-root.service"
         ],
         "description": "Remount Root and Kernel File Systems",
         "evidence_refs": [
@@ -6589,6 +6927,10 @@
           "/usr/lib/systemd/system/systemd-repart.service",
           "/usr/local/lib/repart.d"
         ],
+        "dependency_refs": [
+          "modprobe@dm_mod.service",
+          "modprobe@loop.service"
+        ],
         "description": "Repartition Root Disk",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6632,6 +6974,10 @@
           "/usr/lib/systemd/system/systemd-resolved.service",
           "/usr/lib/systemd/systemd-resolved"
         ],
+        "dependency_refs": [
+          "systemd-sysctl.service",
+          "systemd-sysusers.service"
+        ],
         "description": "Network Name Resolution",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6674,6 +7020,7 @@
           "/usr/lib/systemd/system/systemd-rfkill.service",
           "/usr/lib/systemd/systemd-rfkill"
         ],
+        "dependency_refs": [],
         "description": "Load/Save RF Kill Switch Status",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6711,6 +7058,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-soft-reboot.service"
         ],
+        "dependency_refs": [],
         "description": "Reboot System Userspace",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6748,6 +7096,11 @@
           "/usr/lib/systemd/system/systemd-storagetm.service",
           "/usr/lib/systemd/systemd-storagetm"
         ],
+        "dependency_refs": [
+          "modprobe@nvmet_tcp.service",
+          "modprobe@thunderbolt_net.service",
+          "plymouth-start.service"
+        ],
         "description": "systemd-storagetm.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -6784,6 +7137,7 @@
           "/usr/lib/systemd/system/systemd-suspend-then-hibernate.service",
           "/usr/lib/systemd/systemd-sleep"
         ],
+        "dependency_refs": [],
         "description": "System Suspend then Hibernate",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6821,6 +7175,7 @@
           "/usr/lib/systemd/system/systemd-suspend.service",
           "/usr/lib/systemd/systemd-sleep"
         ],
+        "dependency_refs": [],
         "description": "System Suspend",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6859,6 +7214,9 @@
           "/proc/sys/net/",
           "/usr/lib/systemd/system/systemd-sysctl.service",
           "/usr/lib/systemd/systemd-sysctl"
+        ],
+        "dependency_refs": [
+          "systemd-modules-load.service"
         ],
         "description": "Apply Kernel Variables",
         "evidence_refs": [
@@ -6903,6 +7261,7 @@
           "/usr/lib/systemd/system/systemd-sysext.service",
           "/var/lib/extensions"
         ],
+        "dependency_refs": [],
         "description": "Merge System Extension Images into /usr/ and /opt/",
         "evidence_refs": [
           "systemd_unit_files",
@@ -6941,6 +7300,7 @@
           "/usr/lib/systemd/system/systemd-sysupdate-reboot.service",
           "/usr/lib/systemd/systemd-sysupdate"
         ],
+        "dependency_refs": [],
         "description": "systemd-sysupdate-reboot.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -6977,6 +7337,7 @@
           "/usr/lib/systemd/system/systemd-sysupdate.service",
           "/usr/lib/systemd/systemd-sysupdate"
         ],
+        "dependency_refs": [],
         "description": "systemd-sysupdate.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -7012,6 +7373,10 @@
           "/etc",
           "/or",
           "/usr/lib/systemd/system/systemd-sysusers.service"
+        ],
+        "dependency_refs": [
+          "systemd-remount-fs.service",
+          "systemd-tmpfiles-setup-dev-early.service"
         ],
         "description": "Create System Users",
         "evidence_refs": [
@@ -7050,6 +7415,7 @@
           "/usr/lib/systemd/system/systemd-time-wait-sync.service",
           "/usr/lib/systemd/systemd-time-wait-sync"
         ],
+        "dependency_refs": [],
         "description": "systemd-time-wait-sync.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -7087,6 +7453,7 @@
           "/usr/lib/systemd/system/systemd-timedated.service",
           "/usr/lib/systemd/systemd-timedated"
         ],
+        "dependency_refs": [],
         "description": "systemd-timedated.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -7126,6 +7493,9 @@
           "/usr/lib/systemd/system/systemd-timesyncd.service",
           "/usr/lib/systemd/systemd-timesyncd"
         ],
+        "dependency_refs": [
+          "systemd-sysusers.service"
+        ],
         "description": "Network Time Synchronization",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7162,6 +7532,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-tmpfiles-clean.service"
         ],
+        "dependency_refs": [],
         "description": "Cleanup of Temporary Directories",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7200,6 +7571,7 @@
           "/or",
           "/usr/lib/systemd/system/systemd-tmpfiles-setup-dev-early.service"
         ],
+        "dependency_refs": [],
         "description": "Create Static Device Nodes in /dev gracefully",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7237,6 +7609,9 @@
           "/dev",
           "/or",
           "/usr/lib/systemd/system/systemd-tmpfiles-setup-dev.service"
+        ],
+        "dependency_refs": [
+          "systemd-tmpfiles-setup-dev-early.service"
         ],
         "description": "Create Static Device Nodes in /dev",
         "evidence_refs": [
@@ -7276,6 +7651,10 @@
           "/or",
           "/usr/lib/systemd/system/systemd-tmpfiles-setup.service"
         ],
+        "dependency_refs": [
+          "systemd-journald.service",
+          "systemd-sysusers.service"
+        ],
         "description": "Create Volatile Files and Directories",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7314,6 +7693,7 @@
           "/usr/lib/systemd/system/systemd-tpm2-setup-early.service",
           "/usr/lib/systemd/systemd-tpm2-setup"
         ],
+        "dependency_refs": [],
         "description": "TPM2 SRK Setup (Early)",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7355,6 +7735,10 @@
           "/usr/lib/systemd/systemd-tpm2-setup",
           "/var/lib/systemd/tpm2-srk-public-key.pem"
         ],
+        "dependency_refs": [
+          "systemd-remount-fs.service",
+          "systemd-tpm2-setup-early.service"
+        ],
         "description": "TPM2 SRK Setup",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7394,6 +7778,10 @@
           "/sys",
           "/usr/lib/systemd/system/systemd-udev-settle.service"
         ],
+        "dependency_refs": [
+          "systemd-udev-trigger.service",
+          "systemd-udevd.service"
+        ],
         "description": "Wait for udev To Complete Device Initialization",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7432,6 +7820,9 @@
           "/sys",
           "/usr/lib/systemd/system/systemd-udev-trigger.service"
         ],
+        "dependency_refs": [
+          "systemd-udevd.service"
+        ],
         "description": "Coldplug All udev Devices",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7457,11 +7848,10 @@
         "reasoning": [
           "service is active",
           "service is running",
-          "service is enabled or static",
-          "service has a matched running process"
+          "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 7,
+        "support_importance_score": 6,
         "support_importance_tier": "supporting"
       },
       "observed": {
@@ -7473,9 +7863,12 @@
           "/usr/lib/systemd/system/systemd-udevd.service",
           "/usr/lib/systemd/systemd-udevd"
         ],
+        "dependency_refs": [
+          "systemd-hwdb-update.service",
+          "systemd-sysusers.service"
+        ],
         "description": "Rule-based Manager for Device Events and Files",
         "evidence_refs": [
-          "process_inventory",
           "systemd_unit_files",
           "systemd_units"
         ],
@@ -7483,15 +7876,7 @@
         "listeners": [],
         "load_state": "loaded",
         "log_refs": [],
-        "process_matches": [
-          {
-            "args": "/usr/lib/systemd/systemd-udevd",
-            "comm": "systemd-udevd",
-            "pid": "535",
-            "ppid": "1",
-            "user": "root"
-          }
-        ],
+        "process_matches": [],
         "sub_state": "running",
         "unit_file_path": "/usr/lib/systemd/system/systemd-udevd.service",
         "unit_file_state": "static"
@@ -7521,6 +7906,7 @@
           "/usr/lib/systemd/systemd-update-done",
           "/var"
         ],
+        "dependency_refs": [],
         "description": "Update is Completed",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7561,6 +7947,9 @@
           "/or",
           "/usr/lib/systemd/system/systemd-update-utmp-runlevel.service",
           "/usr/lib/systemd/systemd-update-utmp"
+        ],
+        "dependency_refs": [
+          "systemd-update-utmp.service"
         ],
         "description": "Record Runlevel Change in UTMP",
         "evidence_refs": [
@@ -7608,6 +7997,11 @@
           "/usr/lib/systemd/system/systemd-update-utmp.service",
           "/usr/lib/systemd/systemd-update-utmp"
         ],
+        "dependency_refs": [
+          "auditd.service",
+          "systemd-remount-fs.service",
+          "systemd-tmpfiles-setup.service"
+        ],
         "description": "Record System Boot/Shutdown in UTMP",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7649,6 +8043,7 @@
           "/usr/lib/systemd/system/systemd-user-sessions.service",
           "/usr/lib/systemd/systemd-user-sessions"
         ],
+        "dependency_refs": [],
         "description": "Permit User Sessions",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7682,6 +8077,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "systemd-vconsole-setup.service",
         "evidence_refs": [
           "systemd_units"
@@ -7722,6 +8118,9 @@
           "/usr/lib/systemd/system/systemd-volatile-root.service",
           "/usr/lib/systemd/systemd-volatile-root"
         ],
+        "dependency_refs": [
+          "systemd-repart.service"
+        ],
         "description": "systemd-volatile-root.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -7758,6 +8157,7 @@
           "/usr/lib/systemd/system/thermald.service",
           "/usr/sbin/thermald"
         ],
+        "dependency_refs": [],
         "description": "Thermal Daemon Service",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7793,6 +8193,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/tpm-udev.service"
         ],
+        "dependency_refs": [],
         "description": "Handle dynamically added tpm devices",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7826,6 +8227,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "ua-auto-attach.service",
         "evidence_refs": [
           "systemd_units"
@@ -7865,6 +8267,9 @@
           "/var/lib/ubuntu-advantage/marker-reboot-cmds-required",
           "/var/lib/ubuntu-advantage/private/machine-token.json"
         ],
+        "dependency_refs": [
+          "ua-auto-attach.service"
+        ],
         "description": "Ubuntu Pro reboot cmds",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7903,6 +8308,10 @@
           "/usr/lib/systemd/system/ua-timer.service",
           "/usr/lib/ubuntu-advantage/timer.py"
         ],
+        "dependency_refs": [
+          "systemd-networkd.service",
+          "ua-auto-attach.service"
+        ],
         "description": "Ubuntu Pro Timer for running repeated jobs",
         "evidence_refs": [
           "systemd_unit_files",
@@ -7936,6 +8345,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "ubuntu-advantage-cloud-id-shim.service",
         "evidence_refs": [
           "systemd_units"
@@ -7979,6 +8389,11 @@
           "/var/lib/ubuntu-advantage/",
           "/var/lib/ubuntu-advantage/private/machine-token.json"
         ],
+        "dependency_refs": [
+          "systemd-networkd.service",
+          "ua-auto-attach.service",
+          "ubuntu-advantage-cloud-id-shim.service"
+        ],
         "description": "Ubuntu Pro Background Auto Attach",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8017,6 +8432,7 @@
           "/usr/lib/systemd/system/udisks2.service",
           "/usr/libexec/udisks2/udisksd"
         ],
+        "dependency_refs": [],
         "description": "Disk Manager",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8054,6 +8470,7 @@
           "/usr/lib/systemd/system/ufw.service",
           "/usr/lib/ufw/ufw-init"
         ],
+        "dependency_refs": [],
         "description": "Uncomplicated firewall",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8097,6 +8514,9 @@
           "/var/lib",
           "/var/run"
         ],
+        "dependency_refs": [
+          "systemd-logind.service"
+        ],
         "description": "Unattended Upgrades Shutdown",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8135,6 +8555,7 @@
           "/usr/lib/systemd/system/update-notifier-download.service",
           "/usr/lib/update-notifier/package-data-downloader"
         ],
+        "dependency_refs": [],
         "description": "Download data for packages that failed at package install time",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8171,6 +8592,7 @@
           "/usr/lib/systemd/system/update-notifier-motd.service",
           "/usr/lib/ubuntu-release-upgrader/release-upgrade-motd"
         ],
+        "dependency_refs": [],
         "description": "Check to see whether there is a new version of Ubuntu available",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8209,6 +8631,7 @@
           "/usr/libexec/upowerd",
           "/var/lib/upower"
         ],
+        "dependency_refs": [],
         "description": "Daemon for power management",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8245,6 +8668,7 @@
           "/usr/lib/systemd/system/usbmuxd.service",
           "/usr/sbin/usbmuxd"
         ],
+        "dependency_refs": [],
         "description": "usbmuxd.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -8277,6 +8701,7 @@
         "active_state": "active",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "User Runtime Directory /run/user/1000",
         "evidence_refs": [
           "systemd_units"
@@ -8310,6 +8735,7 @@
         "active_state": "active",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "User Manager for UID 1000",
         "evidence_refs": [
           "systemd_units"
@@ -8346,6 +8772,7 @@
           "/usr/sbin/uuidd",
           "/var/lib/libuuid/"
         ],
+        "dependency_refs": [],
         "description": "Daemon for generating UUIDs",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8385,6 +8812,11 @@
           "/usr/bin/VGAuthService",
           "/usr/lib/systemd/system/vgauth.service"
         ],
+        "dependency_refs": [
+          "apparmor.service",
+          "systemd-remount-fs.service",
+          "systemd-tmpfiles-setup.service"
+        ],
         "description": "Authentication service for virtual machines hosted on VMware",
         "evidence_refs": [
           "systemd_unit_files",
@@ -8420,6 +8852,7 @@
         "control_refs": [
           "/usr/lib/systemd/system/x11-common.service"
         ],
+        "dependency_refs": [],
         "description": "x11-common.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -8455,6 +8888,11 @@
           "/usr/lib/systemd/system/xfs_scrub_all.service",
           "/usr/sbin/xfs_scrub_all"
         ],
+        "dependency_refs": [
+          "NetworkManager.service",
+          "connman.service",
+          "systemd-networkd.service"
+        ],
         "description": "xfs_scrub_all.service",
         "evidence_refs": [
           "systemd_unit_files"
@@ -8487,6 +8925,7 @@
         "active_state": "inactive",
         "config_refs": [],
         "control_refs": [],
+        "dependency_refs": [],
         "description": "zfs-mount.service",
         "evidence_refs": [
           "systemd_units"
@@ -8507,16 +8946,16 @@
     }
   ],
   "summary": {
-    "critical_services": 0,
+    "critical_services": 1,
     "product_dependencies": 0,
     "product_services": 0,
-    "reference_services": 173,
+    "reference_services": 174,
     "services_with_http_routes": 0,
-    "supporting_services": 50,
+    "supporting_services": 48,
     "total_services": 223
   },
   "target": {
     "hostname": "orch-lab-01",
-    "target_label": "algosec-lab"
+    "target_label": "local-dev"
   }
 }

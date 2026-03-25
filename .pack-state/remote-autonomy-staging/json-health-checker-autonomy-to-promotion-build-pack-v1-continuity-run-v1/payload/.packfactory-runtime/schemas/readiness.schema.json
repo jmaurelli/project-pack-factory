@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/readiness.schema.json",
+  "title": "Project Pack Readiness State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pack_id",
+    "pack_kind",
+    "readiness_state",
+    "ready_for_deployment",
+    "last_evaluated_at",
+    "blocking_issues",
+    "recommended_next_actions",
+    "required_gates"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "pack-readiness/v2"
+    },
+    "pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "pack_kind": {
+      "type": "string",
+      "enum": [
+        "template_pack",
+        "build_pack"
+      ]
+    },
+    "readiness_state": {
+      "type": "string",
+      "enum": [
+        "blocked",
+        "in_progress",
+        "ready_for_review",
+        "ready_for_deploy",
+        "deployed",
+        "retired"
+      ]
+    },
+    "ready_for_deployment": {
+      "type": "boolean"
+    },
+    "last_evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "blocking_issues": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "recommended_next_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    }
+  },
+  "$defs": {
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_id",
+        "mandatory",
+        "status",
+        "summary",
+        "last_run_at",
+        "evidence_paths"
+      ],
+      "properties": {
+        "gate_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "mandatory": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_run",
+            "in_progress",
+            "pass",
+            "fail",
+            "waived"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "last_run_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "pass",
+                  "fail",
+                  "waived"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "last_run_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "evidence_paths": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "last_run_at": {
+                "type": "null"
+              },
+              "evidence_paths": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pack_kind": {
+            "const": "template_pack"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "ready_for_deployment": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ready_for_deployment": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "pack_kind": {
+            "const": "build_pack"
+          },
+          "readiness_state": {
+            "enum": [
+              "ready_for_deploy",
+              "deployed"
+            ]
+          },
+          "blocking_issues": {
+            "maxItems": 0
+          },
+          "required_gates": {
+            "items": {
+              "allOf": [
+                {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "mandatory": {
+                          "const": false
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "mandatory": {
+                          "const": true
+                        },
+                        "status": {
+                          "enum": [
+                            "pass",
+                            "waived"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "readiness_state": {
+            "const": "retired"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "ready_for_deployment": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "readiness_state": {
+            "const": "deployed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "ready_for_deployment": {
+            "const": true
+          }
+        }
+      }
+    }
+  ]
+}

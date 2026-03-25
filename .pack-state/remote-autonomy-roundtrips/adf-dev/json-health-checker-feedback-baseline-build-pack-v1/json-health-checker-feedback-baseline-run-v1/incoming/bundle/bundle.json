@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "a6b521ca03c5b0e949623395a1627f457b7e4f88d68de2e1c48bdfb8840adb08",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "ef73f48c5e1abee7d741212637b02c75ac20c8be69ca7e459827e1ef46a2fd45",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-feedback-baseline-run-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "1ad1e7b9e4597ff5a61d328e357eecf1e3456b59e2f2ee7e3dd3453ec6ef5d94",
+      "source_pack_path": ".pack-state/autonomy-runs/json-health-checker-feedback-baseline-run-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-json-health-checker-feedback-baseline-run-v1-20260325T152106Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-json-health-checker-feedback-baseline-run-v1-20260325T152106Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T15:21:06Z",
+  "pack_id": "json-health-checker-feedback-baseline-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "json-health-checker-feedback-baseline-run-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/json-health-checker-feedback-baseline-run-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T15:21:06Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 1,
+    "started_at": "2026-03-25T15:21:05Z",
+    "stop_reason": "starter_backlog_completed",
+    "task_completion_rate": 1.0
+  }
+}

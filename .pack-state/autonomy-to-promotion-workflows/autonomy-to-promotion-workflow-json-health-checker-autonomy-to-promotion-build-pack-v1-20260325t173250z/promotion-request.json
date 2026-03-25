@@ -1,0 +1,9 @@
+{
+  "build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "promoted_by": "codex",
+  "promotion_reason": "Run the factory-default autonomy-to-promotion workflow after a successful multi-hop autonomy rehearsal.",
+  "release_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+  "schema_version": "build-pack-promotion-request/v1",
+  "target_environment": "testing",
+  "verification_timestamp": "2026-03-25T17:33:09Z"
+}

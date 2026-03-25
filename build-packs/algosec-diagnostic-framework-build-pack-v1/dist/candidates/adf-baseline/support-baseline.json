@@ -26,15 +26,30 @@
       "label": "Compare visible listeners"
     }
   ],
+  "decision_playbooks": [],
+  "diagnostic_flows": [],
   "first_response_steps": [
     "Confirm the customer appliance hostname, OS family, and any visible build markers against the lab baseline.",
     "Check whether the top AlgoSec services are active and enabled in the customer environment.",
     "Compare Apache-routed endpoints and local listener ports before moving into deeper service-specific diagnosis.",
     "Use the recorded config and log checkpoints for the top services before inferring broader platform issues."
   ],
-  "generated_at": "2026-03-23T22:52:07Z",
+  "generated_at": "2026-03-25T16:33:15Z",
   "inferred": {
     "priority_services": [
+      {
+        "config_refs": [
+          "/etc/default/ssh",
+          "/etc/ssh/sshd_not_to_be_run"
+        ],
+        "http_routes": [],
+        "log_refs": [],
+        "product_scope": "platform",
+        "role_hint": "application or support service",
+        "service_name": "ssh.service",
+        "support_importance_score": 8,
+        "support_importance_tier": "critical"
+      },
       {
         "config_refs": [
           "/etc/default/cron"
@@ -50,36 +65,6 @@
       {
         "config_refs": [],
         "http_routes": [],
-        "log_refs": [],
-        "product_scope": "platform",
-        "role_hint": "application or support service",
-        "service_name": "multipathd.service",
-        "support_importance_score": 7,
-        "support_importance_tier": "supporting"
-      },
-      {
-        "config_refs": [],
-        "http_routes": [],
-        "log_refs": [],
-        "product_scope": "platform",
-        "role_hint": "application or support service",
-        "service_name": "systemd-journald.service",
-        "support_importance_score": 7,
-        "support_importance_tier": "supporting"
-      },
-      {
-        "config_refs": [],
-        "http_routes": [],
-        "log_refs": [],
-        "product_scope": "platform",
-        "role_hint": "application or support service",
-        "service_name": "systemd-udevd.service",
-        "support_importance_score": 7,
-        "support_importance_tier": "supporting"
-      },
-      {
-        "config_refs": [],
-        "http_routes": [],
         "log_refs": [
           "/var/log"
         ],
@@ -87,6 +72,26 @@
         "role_hint": "application or support service",
         "service_name": "unattended-upgrades.service",
         "support_importance_score": 7,
+        "support_importance_tier": "supporting"
+      },
+      {
+        "config_refs": [],
+        "http_routes": [],
+        "log_refs": [],
+        "product_scope": "platform",
+        "role_hint": "application or support service",
+        "service_name": "ModemManager.service",
+        "support_importance_score": 6,
+        "support_importance_tier": "supporting"
+      },
+      {
+        "config_refs": [],
+        "http_routes": [],
+        "log_refs": [],
+        "product_scope": "platform",
+        "role_hint": "application or support service",
+        "service_name": "dbus.service",
+        "support_importance_score": 6,
         "support_importance_tier": "supporting"
       }
     ],
@@ -97,7 +102,7 @@
   },
   "observed": {
     "config_checkpoint_count": 69,
-    "listening_endpoint_count": 4,
+    "listening_endpoint_count": 6,
     "log_checkpoint_count": 10,
     "runtime_identity": {
       "hostname": "orch-lab-01",
@@ -120,19 +125,22 @@
       "platform": "Linux-6.8.0-106-generic-x86_64-with-glibc2.39"
     },
     "service_summary": {
-      "critical_services": 0,
+      "critical_services": 1,
       "product_dependencies": 0,
       "product_services": 0,
-      "reference_services": 173,
+      "reference_services": 174,
       "services_with_http_routes": 0,
-      "supporting_services": 50,
+      "supporting_services": 48,
       "total_services": 223
     }
   },
   "schema_version": "adf-support-baseline/v1",
+  "service_paths": [],
+  "support_domains": [],
+  "symptom_lookup": [],
   "target": {
     "hostname": "orch-lab-01",
-    "target_label": "algosec-lab"
+    "target_label": "local-dev"
   },
   "unknowns": [
     "Only first-pass config and log checkpoints are collected in this slice.",

@@ -77,6 +77,9 @@
     },
     "promotion_readiness_requirements": {
       "$ref": "#/$defs/non_empty_string_array"
+    },
+    "autonomy_rehearsal_requirement": {
+      "$ref": "#/$defs/autonomy_rehearsal_requirement"
     }
   },
   "$defs": {
@@ -112,6 +115,29 @@
           "$ref": "#/$defs/non_empty_string"
         },
         "evidence_hint": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
+    "autonomy_rehearsal_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_for_promotion",
+        "workflow_id",
+        "summary"
+      ],
+      "properties": {
+        "required_for_promotion": {
+          "type": "boolean"
+        },
+        "workflow_id": {
+          "type": "string",
+          "enum": [
+            "multi_hop_autonomy_rehearsal"
+          ]
+        },
+        "summary": {
           "$ref": "#/$defs/non_empty_string"
         }
       }

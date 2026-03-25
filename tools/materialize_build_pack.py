@@ -80,6 +80,7 @@ PORTABLE_RUNTIME_SCHEMA_FILENAMES = (
     "autonomy-loop-event.schema.json",
     "autonomy-run-summary.schema.json",
     "autonomy-feedback-memory.schema.json",
+    "autonomy-feedback-memory-pointer.schema.json",
 )
 PORTABLE_RUNTIME_TOOL_FILENAMES = (
     "factory_ops.py",
@@ -229,6 +230,7 @@ def _runtime_evidence_export_helper_source() -> str:
         RUN_SUMMARY_NAME = "run-summary.json"
         LOOP_EVENTS_NAME = "loop-events.jsonl"
         SUPPLEMENTARY_MEMORY_ROOT = Path(".pack-state") / "agent-memory"
+        FEEDBACK_MEMORY_ARTIFACT_ROOT = Path("artifacts") / "agent-memory"
 
 
         def _load_json(path: Path) -> dict[str, Any]:
@@ -306,6 +308,34 @@ def _runtime_evidence_export_helper_source() -> str:
             return run_root, selected
 
 
+        def _resolve_feedback_memory(
+            *,
+            pack_root: Path,
+            run_id: str,
+            run_summary: dict[str, Any],
+        ) -> Path | None:
+            artifacts = run_summary.get("artifacts", {})
+            candidate_value = None
+            if isinstance(artifacts, dict):
+                raw_feedback_memory_path = artifacts.get("feedback_memory_path")
+                if isinstance(raw_feedback_memory_path, str) and raw_feedback_memory_path:
+                    candidate_value = raw_feedback_memory_path
+
+            if candidate_value is None:
+                fallback = pack_root / SUPPLEMENTARY_MEMORY_ROOT / f"autonomy-feedback-{run_id}.json"
+                return fallback if fallback.exists() else None
+
+            candidate = Path(candidate_value).expanduser()
+            resolved = candidate.resolve() if candidate.is_absolute() else (pack_root / candidate).resolve()
+            try:
+                resolved.relative_to((pack_root / SUPPLEMENTARY_MEMORY_ROOT).resolve())
+            except ValueError as exc:
+                raise ValueError("feedback_memory_path must stay inside .pack-state/agent-memory") from exc
+            if not resolved.exists():
+                raise ValueError(f"{resolved}: run-summary.json references a feedback-memory artifact that does not exist")
+            return resolved
+
+
         def _validate_loop_events(path: Path, run_id: str) -> None:
             for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
                 if not line.strip():
@@ -317,6 +347,16 @@ def _runtime_evidence_export_helper_source() -> str:
                     raise ValueError(f"{path}:{line_number}: loop event run_id does not match selected run")
 
 
+        def _validate_feedback_memory(path: Path, *, run_id: str, pack_id: str) -> None:
+            payload = _load_json(path)
+            if payload.get("schema_version") != "autonomy-feedback-memory/v1":
+                raise ValueError(f"{path}: feedback memory must set schema_version=autonomy-feedback-memory/v1")
+            if payload.get("run_id") != run_id:
+                raise ValueError(f"{path}: feedback memory run_id does not match selected run")
+            if payload.get("pack_id") != pack_id:
+                raise ValueError(f"{path}: feedback memory pack_id does not match pack.json")
+
+
         def _copy_selected_artifacts(
             *,
             pack_root: Path,
@@ -325,16 +365,25 @@ def _runtime_evidence_export_helper_source() -> str:
             selected_files: list[Path],
         ) -> list[dict[str, Any]]:
             manifest: list[dict[str, Any]] = []
+            memory_root = (pack_root / SUPPLEMENTARY_MEMORY_ROOT).resolve()
             for source_path in sorted({path.resolve() for path in selected_files}):
-                if SUPPLEMENTARY_MEMORY_ROOT in source_path.parents:
-                    raise ValueError("runtime-memory artifacts are not exportable in v1")
-                try:
-                    source_path.relative_to(run_root)
-                except ValueError as exc:
-                    raise ValueError(f"{source_path}: v1 export allows only files under the selected run root") from exc
-
                 relative_source = source_path.relative_to(pack_root).as_posix()
-                relative_bundle = Path("artifacts") / Path(relative_source).relative_to(Path(".pack-state") / "autonomy-runs" / run_root.name)
+                try:
+                    relative_under_run = source_path.relative_to(run_root)
+                except ValueError:
+                    relative_under_run = None
+
+                if relative_under_run is not None:
+                    relative_bundle = Path("artifacts") / relative_under_run
+                else:
+                    try:
+                        relative_under_memory = source_path.relative_to(memory_root)
+                    except ValueError as exc:
+                        raise ValueError(
+                            f"{source_path}: export allows only files under the selected run root or .pack-state/agent-memory"
+                        ) from exc
+                    relative_bundle = FEEDBACK_MEMORY_ARTIFACT_ROOT / relative_under_memory
+
                 target_path = bundle_root / relative_bundle
                 target_path.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source_path, target_path)
@@ -377,6 +426,18 @@ def _runtime_evidence_export_helper_source() -> str:
                 raise ValueError("selected run pack_id does not match pack.json")
             if run_summary.get("run_id") != args.run_id:
                 raise ValueError("selected run_id does not match run-summary.json")
+            feedback_memory_path = _resolve_feedback_memory(
+                pack_root=pack_root,
+                run_id=args.run_id,
+                run_summary=run_summary,
+            )
+            if feedback_memory_path is not None:
+                _validate_feedback_memory(
+                    feedback_memory_path,
+                    run_id=args.run_id,
+                    pack_id=str(pack_manifest.get("pack_id")),
+                )
+                selected_files.append(feedback_memory_path)
 
             export_id = f"external-runtime-evidence-{args.run_id}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
             bundle_root = (pack_root / output_dir / export_id).resolve()
@@ -398,6 +459,9 @@ def _runtime_evidence_export_helper_source() -> str:
             final_snapshot = run_summary.get("final_snapshot", {})
             if not isinstance(final_snapshot, dict):
                 final_snapshot = {}
+            source_runtime_roots = [str(run_root.relative_to(pack_root))]
+            if feedback_memory_path is not None:
+                source_runtime_roots.append(str((pack_root / SUPPLEMENTARY_MEMORY_ROOT).relative_to(pack_root)))
 
             control_plane_mutations = {
                 "readiness_updated": False,
@@ -416,7 +480,7 @@ def _runtime_evidence_export_helper_source() -> str:
                 "run_id": args.run_id,
                 "exported_by": args.exported_by,
                 "bundle_root": str(bundle_root.relative_to(pack_root)),
-                "source_runtime_roots": [str(run_root.relative_to(pack_root))],
+                "source_runtime_roots": source_runtime_roots,
                 "authority_class": "supplementary_runtime_evidence",
                 "control_plane_mutations": control_plane_mutations,
                 "artifact_manifest": artifact_manifest,
@@ -478,7 +542,7 @@ def _build_pack_agents_text(
         "Then read `pack.json` and use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap traversal contract.",
         "When `pack.json.directory_contract` declares `contracts/project-objective.json`, `tasks/active-backlog.json`, or `status/work-state.json`, read those files as canonical pack-local control-plane handoff files.",
         "Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.",
-        "When present, treat `.pack-state/agent-memory/*.json` as supplementary restart memory distilled from prior autonomy runs.",
+        "When present, inspect `.pack-state/agent-memory/latest-memory.json` first, then treat other `.pack-state/agent-memory/*.json` files as supplementary restart memory distilled from prior autonomy runs.",
     ]
     if runtime_is_python:
         lines.extend(
@@ -486,6 +550,11 @@ def _build_pack_agents_text(
                 "",
                 "This build pack can export bounded runtime evidence when running externally.",
                 "Use `pack.json.entrypoints.export_runtime_evidence_command` when that capability is present.",
+                "From the factory root, use `python3 tools/run_multi_hop_autonomy_rehearsal.py ...` when you want a single fresh-pack rehearsal that materializes a proving ground, checkpoints mid-backlog memory, runs the remote continuity hops, reconciles canonical state, and verifies the ready-boundary loop end to end.",
+                "From the factory root, use `python3 tools/run_local_mid_backlog_checkpoint.py ...` when you want to stop after the current active task, write local feedback memory, and activate a resumable mid-backlog handoff pointer.",
+                "From the factory root, use `python3 tools/run_remote_active_task_continuity_test.py ...` when the pack is already at a compatible active-task boundary and you want to verify the next task resumes remotely from feedback memory.",
+                "From the factory root, use `python3 tools/run_remote_memory_continuity_test.py ...` after the pack reaches `ready_for_deploy` and `.pack-state/agent-memory/latest-memory.json` is active if you want to verify default feedback-memory continuity on a remote target.",
+                "For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer.",
                 "Export bundles remain supplementary runtime evidence only.",
             ]
         )
@@ -774,7 +843,13 @@ def _synthesize_build_pack(
             "Build-pack validation must pass with recorded evidence.",
             "Inherited required benchmark gates must pass or be waived.",
             "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+            "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
         ],
+        "autonomy_rehearsal_requirement": {
+            "required_for_promotion": True,
+            "workflow_id": "multi_hop_autonomy_rehearsal",
+            "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state.",
+        },
     }
     validation_task_id = "run_build_pack_validation"
     benchmark_task_id = "run_inherited_benchmarks"
@@ -860,7 +935,7 @@ def _synthesize_build_pack(
         "last_agent_action": "Materialized the build-pack and seeded objective, backlog, and work-state files.",
         "resume_instructions": [
             "Read the objective, backlog, and work-state files before editing code.",
-            "Inspect `.pack-state/agent-memory/` for prior autonomy feedback memory when it exists.",
+            "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
             "Run the validation task before attempting benchmark execution or deployment workflows.",
         ],
         "stop_conditions": [

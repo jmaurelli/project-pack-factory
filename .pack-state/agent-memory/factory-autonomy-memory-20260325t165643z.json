@@ -1,0 +1,67 @@
+{
+  "current_capabilities": [
+    "Materialize fresh proving-ground build-packs that inherit feedback-memory and autonomy guidance by default.",
+    "Run local mid-backlog checkpoints and activate pack-local latest-memory pointers.",
+    "Run remote active-task continuity and ready-boundary continuity against a remote target.",
+    "Import, compatibility-gate, and activate returned feedback memory automatically when it still matches canonical state.",
+    "Run a multi-hop autonomy rehearsal and use that rehearsal as real promotion evidence.",
+    "Promote a build-pack only when compatible autonomy rehearsal evidence still matches its current canonical state."
+  ],
+  "current_focus": [
+    "Keep factory-level autonomy discoverable from the root startup surfaces.",
+    "Keep root-level restart memory current so the next agent can recover the current autonomy toolset quickly.",
+    "Close the canonical readiness refresh gap after multi-hop autonomy rehearsal."
+  ],
+  "discovery_entrypoints": [
+    "AGENTS.md",
+    "README.md",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+    ".pack-state/agent-memory/latest-memory.json"
+  ],
+  "factory_root": "/home/orchadmin/project-pack-factory",
+  "generated_at": "2026-03-25T16:56:43Z",
+  "key_artifact_paths": [
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+    "AGENTS.md",
+    "README.md",
+    ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-promotion-gate-build-pack-v1-20260325t163227z/rehearsal-report.json",
+    "eval/history/promote-release-evidence-summarizer-build-pack-v3-testing-20260323t104153z/promotion-report.json",
+    "deployments/testing/json-health-checker-promotion-gate-build-pack-v1.json"
+  ],
+  "known_limits": [
+    "A completed multi-hop rehearsal can still require a local canonical readiness refresh before promotion succeeds cleanly in one pass.",
+    "Autonomy is strongest in bounded PackFactory workflows rather than broad unscripted project work.",
+    "Longer branching backlogs and degraded-connectivity recovery are still planned exercises rather than proven defaults."
+  ],
+  "memory_id": "factory-autonomy-memory-20260325t165643z",
+  "notes": [
+    "This root memory is advisory restart context for the PackFactory repo itself; registry, deployment, readiness, and promotion surfaces remain canonical.",
+    "The strongest current proof path is the JSON health checker proving-ground line, especially the promotion-gate pack promoted into testing on 2026-03-25.",
+    "Refresh this memory after significant autonomy tooling, rehearsal, or promotion-gate changes so the next agent inherits current factory capabilities and limits."
+  ],
+  "producer": "codex",
+  "recommended_next_steps": [
+    "Add a canonical readiness refresh step at the end of tools/run_multi_hop_autonomy_rehearsal.py.",
+    "Rerun the promotion-readiness exercise after that refresh so rehearsal output becomes promotion-ready without manual retries.",
+    "Keep this root-level memory updated after major autonomy workflow or promotion changes."
+  ],
+  "relevant_commands": [
+    "python3 tools/run_multi_hop_autonomy_rehearsal.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>",
+    "python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json",
+    "python3 tools/promote_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json",
+    "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json"
+  ],
+  "schema_version": "factory-autonomy-memory/v1",
+  "status_snapshot": {
+    "latest_promotion_report_path": "eval/history/promote-release-evidence-summarizer-build-pack-v3-testing-20260323t104153z/promotion-report.json",
+    "latest_rehearsal_report_path": ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-promotion-gate-build-pack-v1-20260325t163227z/rehearsal-report.json",
+    "latest_testing_pointer_path": "deployments/testing/json-health-checker-promotion-gate-build-pack-v1.json",
+    "operations_note_path": "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+    "planning_list_path": "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+  },
+  "summary": "PackFactory now has factory-default multi-hop autonomy rehearsal, root-level discoverability notes, and promotion gating through compatible autonomy rehearsal evidence. The next highest-value work is to make rehearsal output promotion-ready in one pass and keep the factory root memory current."
+}

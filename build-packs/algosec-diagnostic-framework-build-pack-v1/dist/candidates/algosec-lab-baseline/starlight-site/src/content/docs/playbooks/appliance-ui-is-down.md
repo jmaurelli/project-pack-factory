@@ -25,6 +25,43 @@ Use this when the customer UI is down and the engineer is checking the appliance
       </div>
     </div>
   </div>
+  <div class="adf-panel adf-cockpit-strip">
+    <p class="adf-panel-label">Command-first flow</p>
+    <p>Open one checkpoint, run the listed read-only commands, compare the healthy signal, then stop at the first failure point.</p>
+  </div>
+  <div class="adf-cockpit-path">
+    <p class="adf-panel-label">Dependency path</p>
+    <ol class="adf-path-list">
+      <li class="adf-path-item">
+        <a class="adf-path-link" href="#ui-and-proxy-step-1">
+          <span class="adf-route-step">Step 1</span>
+          <strong>Apache edge</strong>
+          <span>Start here. Confirm httpd.service is active and ports 80 and 443 are listening before checking anything deeper.</span>
+        </a>
+      </li>
+      <li class="adf-path-item">
+        <a class="adf-path-link" href="#ui-and-proxy-step-2">
+          <span class="adf-route-step">Step 2</span>
+          <strong>Host health</strong>
+          <span>If Apache is up, check disk space, inode usage, available memory, and recent OOM pressure on the host.</span>
+        </a>
+      </li>
+      <li class="adf-path-item">
+        <a class="adf-path-link" href="#ui-and-proxy-step-3">
+          <span class="adf-route-step">Step 3</span>
+          <strong>UI services</strong>
+          <span>Then check the main UI services: keycloak.service on 8443 and ms-metro.service on 8080.</span>
+        </a>
+      </li>
+      <li class="adf-path-item">
+        <a class="adf-path-link" href="#ui-and-proxy-step-4">
+          <span class="adf-route-step">Step 4</span>
+          <strong>Logs</strong>
+          <span>If the services are up, check httpd, keycloak, and ms-metro logs to find the real clue.</span>
+        </a>
+      </li>
+    </ol>
+  </div>
   <div class="adf-cockpit-grid">
     <aside class="adf-cockpit-nav adf-panel">
       <p class="adf-panel-label">Quick jump</p>
@@ -59,43 +96,6 @@ Use this when the customer UI is down and the engineer is checking the appliance
       </div>
     </aside>
     <div class="adf-cockpit-main">
-      <div class="adf-panel adf-cockpit-strip">
-        <p class="adf-panel-label">Command-first flow</p>
-        <p>Open one checkpoint, run the listed read-only commands, compare the healthy signal, then stop at the first failure point.</p>
-      </div>
-      <div class="adf-cockpit-path">
-        <p class="adf-panel-label">Dependency path</p>
-        <ol class="adf-path-list">
-          <li class="adf-path-item">
-            <a class="adf-path-link" href="#ui-and-proxy-step-1">
-              <span class="adf-route-step">Step 1</span>
-              <strong>Apache edge</strong>
-              <span>Start here. Confirm httpd.service is active and ports 80 and 443 are listening before checking anything deeper.</span>
-            </a>
-          </li>
-          <li class="adf-path-item">
-            <a class="adf-path-link" href="#ui-and-proxy-step-2">
-              <span class="adf-route-step">Step 2</span>
-              <strong>Host health</strong>
-              <span>If Apache is up, check disk space, inode usage, available memory, and recent OOM pressure on the host.</span>
-            </a>
-          </li>
-          <li class="adf-path-item">
-            <a class="adf-path-link" href="#ui-and-proxy-step-3">
-              <span class="adf-route-step">Step 3</span>
-              <strong>UI services</strong>
-              <span>Then check the main UI services: keycloak.service on 8443 and ms-metro.service on 8080.</span>
-            </a>
-          </li>
-          <li class="adf-path-item">
-            <a class="adf-path-link" href="#ui-and-proxy-step-4">
-              <span class="adf-route-step">Step 4</span>
-              <strong>Logs</strong>
-              <span>If the services are up, check httpd, keycloak, and ms-metro logs to find the real clue.</span>
-            </a>
-          </li>
-        </ol>
-      </div>
 <details id="ui-and-proxy-step-1" class="adf-checkpoint">
 <summary class="adf-step-summary">
   <span class="adf-step-badge">Step 1</span>

@@ -18,11 +18,15 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from factory_ops import dump_json, load_json, resolve_factory_root, schema_path, validate_json_document
+from remote_autonomy_staging_common import (
+    canonical_remote_export_dir,
+    canonical_remote_pack_dir,
+    canonical_remote_parent_dir,
+    canonical_remote_run_dir,
+)
 
 REQUEST_SCHEMA_NAME = "remote-autonomy-run-request.schema.json"
 REQUEST_SCHEMA_VERSION = "remote-autonomy-run-request/v1"
-REMOTE_PARENT_TEMPLATE = "~/packfactory-source__{remote_target_label}__autonomous-build-packs"
-REMOTE_EXPORT_DIR_SUFFIX = "dist/exports/runtime-evidence"
 REMOTE_REQUEST_RELATIVE_PATH = ".packfactory-remote/request.json"
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
@@ -56,22 +60,6 @@ def _validate_slug(field_name: str, value: Any) -> str:
             f"`{field_name}` must contain only lowercase ASCII letters, digits, and hyphens"
         )
     return value
-
-
-def _canonical_remote_parent_dir(remote_target_label: str) -> str:
-    return REMOTE_PARENT_TEMPLATE.format(remote_target_label=remote_target_label)
-
-
-def _canonical_remote_pack_dir(remote_parent_dir: str, source_build_pack_id: str) -> str:
-    return f"{remote_parent_dir}/{source_build_pack_id}"
-
-
-def _canonical_remote_run_dir(remote_pack_dir: str, run_id: str) -> str:
-    return f"{remote_pack_dir}/runs/{run_id}"
-
-
-def _canonical_remote_export_dir(remote_pack_dir: str) -> str:
-    return f"{remote_pack_dir}/{REMOTE_EXPORT_DIR_SUFFIX}"
 
 
 def _validate_request_schema(factory_root: Path, request_path: Path) -> dict[str, Any]:
@@ -125,10 +113,10 @@ def _validate_request_contract(factory_root: Path, request_payload: dict[str, An
     remote_run_dir = str(request_payload.get("remote_run_dir", ""))
     remote_export_dir = str(request_payload.get("remote_export_dir", ""))
 
-    expected_remote_parent_dir = _canonical_remote_parent_dir(remote_target_label)
-    expected_remote_pack_dir = _canonical_remote_pack_dir(expected_remote_parent_dir, source_build_pack_id)
-    expected_remote_run_dir = _canonical_remote_run_dir(expected_remote_pack_dir, run_id)
-    expected_remote_export_dir = _canonical_remote_export_dir(expected_remote_pack_dir)
+    expected_remote_parent_dir = canonical_remote_parent_dir(remote_target_label)
+    expected_remote_pack_dir = canonical_remote_pack_dir(expected_remote_parent_dir, source_build_pack_id)
+    expected_remote_run_dir = canonical_remote_run_dir(expected_remote_pack_dir, run_id)
+    expected_remote_export_dir = canonical_remote_export_dir(expected_remote_pack_dir)
 
     if remote_parent_dir != expected_remote_parent_dir:
         raise ValueError(

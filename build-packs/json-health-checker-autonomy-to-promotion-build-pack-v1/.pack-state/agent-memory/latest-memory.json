@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T17:33:06Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1.json",
+  "selected_memory_sha256": "ef045d2e6d142db7a3f80867c06a08ad096e31939f14d20907706cff97fc2da6",
+  "selected_run_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t173308z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t173308z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T17:33:08Z"
+}

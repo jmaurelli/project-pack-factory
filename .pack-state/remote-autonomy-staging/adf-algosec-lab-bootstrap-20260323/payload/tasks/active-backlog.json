@@ -1,0 +1,192 @@
+{
+  "generated_at": "2026-03-24T00:41:12Z",
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The build-pack defines a canonical artifact model for runtime evidence, service inventory, and baseline output.",
+        "The first artifact model clearly separates observed facts, inference, and unknowns."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The CLI and source layout expose named surfaces for the first ADF artifact set.",
+        "The pack-local objective, backlog, and work-state files all point at the same first implementation slice."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The artifact model cannot stay small enough for the MVP without reopening product scope.",
+        "The required output set starts to imply broad test or fixture expansion."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Define the first bounded ADF artifact model for runtime evidence, service inventory, and baseline output.",
+      "task_id": "define_adf_artifact_model",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack can collect a safe first-pass AlgoSec runtime snapshot from the lab appliance.",
+        "The first collection path stays read-only and bounded to support-relevant evidence classes."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A runtime collection command exists for the first ADF slice.",
+        "The collection output includes service inventory and core platform checkpoints."
+      ],
+      "dependencies": [
+        "define_adf_artifact_model"
+      ],
+      "escalation_conditions": [
+        "The target appliance requires risky write actions or unsupported privilege changes to gather the first evidence set.",
+        "The first-pass evidence set expands beyond the MVP boundary of useful support diagnostics."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack",
+        "src/pack_export_runtime_evidence.py"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Implement the first safe runtime evidence collection path for the controlled AlgoSec lab appliance.",
+      "task_id": "implement_safe_runtime_collection",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack renders machine-readable baseline artifacts into a simple support-facing HTML view.",
+        "The HTML output remains a render of canonical JSON artifacts rather than a separate source of truth."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The first HTML-ready baseline output exists for the AlgoSec lab path.",
+        "Support-facing output is generated from the same artifact model used for machine-readable evidence."
+      ],
+      "dependencies": [
+        "define_adf_artifact_model",
+        "implement_safe_runtime_collection"
+      ],
+      "escalation_conditions": [
+        "The HTML layer starts to dominate the scope instead of remaining a thin render of machine-readable output.",
+        "The support-facing output requires broad UX work beyond a simple MVP render."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Generate the first HTML-ready support output from canonical ADF baseline artifacts.",
+      "task_id": "render_baseline_outputs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The top support domains use language and sequencing that match how support engineers actually diagnose customer issues.",
+        "The highest-value decision playbooks are tuned for operator review without changing the canonical JSON-first model."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "FireFlow Backend and Microservice Platform playbooks reflect reviewed support phrasing and decision order.",
+        "HTML and JSON outputs remain aligned after the language tuning pass."
+      ],
+      "dependencies": [
+        "render_baseline_outputs"
+      ],
+      "escalation_conditions": [
+        "Requested wording changes imply a broader UX rewrite instead of playbook tuning.",
+        "Support guidance starts to require risky write actions instead of read-only diagnostics."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "docs/specs/adf-artifact-model-v1.md",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Tune high-value support playbooks into final operator language and decision flow, starting with FireFlow Backend.",
+      "task_id": "tune_operator_language_for_priority_domains",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Priority playbooks embed service-status, listener, config, and log commands for more AlgoSec services and dependencies.",
+        "Each command remains read-only and includes a healthy signal plus failure interpretation."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The command bundles extend beyond the current top-path checks and cover more service-specific failure paths.",
+        "Service ports and config checkpoints are surfaced more explicitly in the operator-facing output."
+      ],
+      "dependencies": [
+        "render_baseline_outputs"
+      ],
+      "escalation_conditions": [
+        "The required command coverage implies broad appliance-specific scripting beyond the MVP boundary.",
+        "The next command set would require unsupported or risky write access on the target appliance."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/pack_export_runtime_evidence.py",
+        "docs/specs/adf-artifact-model-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Expand service-specific diagnostic command coverage for priority services and dependencies.",
+      "task_id": "expand_service_command_coverage",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next playbook slice deepens dependency-aware checks for important AlgoSec paths without trying to cover every service equally.",
+        "The build-pack preserves the current minimal-testing boundary while extending real operator value."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Shared dependencies and deeper failure branches are clearer for the top customer-facing paths.",
+        "The next remote review can focus on specific unresolved service paths instead of the whole appliance."
+      ],
+      "dependencies": [
+        "tune_operator_language_for_priority_domains",
+        "expand_service_command_coverage"
+      ],
+      "escalation_conditions": [
+        "The dependency model starts to force full-system reverse engineering instead of bounded support diagnostics.",
+        "The next extension would require broad new tests or fixture matrices."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Deepen dependency-aware playbooks for the highest-value AlgoSec service paths.",
+      "task_id": "deepen_dependency_aware_playbooks",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    }
+  ]
+}

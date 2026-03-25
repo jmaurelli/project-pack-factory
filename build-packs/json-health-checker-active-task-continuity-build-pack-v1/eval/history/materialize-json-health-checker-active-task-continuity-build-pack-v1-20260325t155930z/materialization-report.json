@@ -1,0 +1,118 @@
+{
+  "actions": [
+    {
+      "action_id": "copy_template_content",
+      "status": "completed",
+      "summary": "Copied bounded template content into the new build pack.",
+      "target_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1"
+    },
+    {
+      "action_id": "write_build_pack_manifest",
+      "status": "completed",
+      "summary": "Wrote the schema-valid build-pack manifest.",
+      "target_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1/pack.json"
+    },
+    {
+      "action_id": "write_lineage",
+      "status": "completed",
+      "summary": "Recorded template lineage and inherited contract metadata.",
+      "target_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1/lineage/source-template.json"
+    },
+    {
+      "action_id": "write_status_files",
+      "status": "completed",
+      "summary": "Wrote initial lifecycle, readiness, retirement, deployment, and work-state files.",
+      "target_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1/status"
+    },
+    {
+      "action_id": "rewrite_build_pack_agents",
+      "status": "completed",
+      "summary": "Rewrote the build-pack AGENTS file to match the derived build-pack runtime model.",
+      "target_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1/AGENTS.md"
+    },
+    {
+      "action_id": "seed_runtime_evidence_export_helper",
+      "status": "completed",
+      "summary": "Seeded the standalone runtime evidence export helper for Python build packs.",
+      "target_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1/src/pack_export_runtime_evidence.py"
+    },
+    {
+      "action_id": "seed_portable_runtime_helpers",
+      "status": "completed",
+      "summary": "Seeded the bounded portable runtime helper bundle for autonomy-capable Python build packs.",
+      "target_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1/.packfactory-runtime/manifest.json"
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "summary": "Registered the materialized build pack as active and not deployed.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "append_operation_log",
+      "status": "completed",
+      "summary": "Appended a materialized event for later agents.",
+      "target_path": "registry/promotion-log.json"
+    },
+    {
+      "action_id": "write_materialization_report",
+      "status": "completed",
+      "summary": "Wrote the terminal materialization evidence report.",
+      "target_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1/eval/history/materialize-json-health-checker-active-task-continuity-build-pack-v1-20260325t155930z/materialization-report.json"
+    }
+  ],
+  "copy_summary": {
+    "copied_paths": [
+      "AGENTS.md",
+      "project-context.md",
+      "docs",
+      "prompts",
+      "contracts",
+      "src",
+      "tests",
+      "benchmarks",
+      "pyproject.toml",
+      "README.md",
+      ".gitignore"
+    ],
+    "skipped_paths": [
+      ".pack-state",
+      "dist",
+      "eval",
+      "status"
+    ]
+  },
+  "evidence_paths": [
+    "build-packs/json-health-checker-active-task-continuity-build-pack-v1/eval/history/materialize-json-health-checker-active-task-continuity-build-pack-v1-20260325t155930z/materialization-report.json",
+    "build-packs/json-health-checker-active-task-continuity-build-pack-v1/eval/latest/index.json",
+    "build-packs/json-health-checker-active-task-continuity-build-pack-v1/lineage/source-template.json",
+    "build-packs/json-health-checker-active-task-continuity-build-pack-v1/AGENTS.md",
+    "build-packs/json-health-checker-active-task-continuity-build-pack-v1/src/pack_export_runtime_evidence.py",
+    "build-packs/json-health-checker-active-task-continuity-build-pack-v1/.packfactory-runtime/manifest.json"
+  ],
+  "generated_at": "2026-03-25T15:59:30Z",
+  "lineage_path": "build-packs/json-health-checker-active-task-continuity-build-pack-v1/lineage/source-template.json",
+  "materialization_id": "materialize-json-health-checker-active-task-continuity-build-pack-v1-20260325t155930z",
+  "materialized_by": "codex",
+  "operation_log_update": {
+    "event_type": "materialized",
+    "materialization_id": "materialize-json-health-checker-active-task-continuity-build-pack-v1-20260325t155930z",
+    "materialization_report_path": "eval/history/materialize-json-health-checker-active-task-continuity-build-pack-v1-20260325t155930z/materialization-report.json",
+    "promotion_log_path": "registry/promotion-log.json",
+    "target_build_pack_id": "json-health-checker-active-task-continuity-build-pack-v1"
+  },
+  "registry_update": {
+    "deployment_state": "not_deployed",
+    "lifecycle_stage": "testing",
+    "pack_id": "json-health-checker-active-task-continuity-build-pack-v1",
+    "registry_path": "registry/build-packs.json",
+    "retirement_state": "active"
+  },
+  "schema_version": "build-pack-materialization-report/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "source_template_root": "templates/json-health-checker-template-pack",
+  "target_build_pack_id": "json-health-checker-active-task-continuity-build-pack-v1",
+  "target_build_pack_root": "build-packs/json-health-checker-active-task-continuity-build-pack-v1",
+  "target_revision": "feedback-loop-mid-backlog-v1",
+  "target_version": "0.1.0"
+}

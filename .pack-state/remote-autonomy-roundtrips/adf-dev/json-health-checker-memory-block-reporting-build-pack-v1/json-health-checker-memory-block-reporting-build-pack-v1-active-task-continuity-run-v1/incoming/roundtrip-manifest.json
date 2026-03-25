@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "12c3e7c6e2f0460ec71cfa6e7113b09f4871ea199fa16cfaedbe43a170ebbd4e",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-memory-block-reporting-build-pack-v1/json-health-checker-memory-block-reporting-build-pack-v1-active-task-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "ffa1231fe1cea81dfb0d6556da2d8933a162bb74676438942faa5a4b3f90e072",
+  "portable_helper_manifest_sha256": "6667a120d9e32522bd6dc2956f48d3433e2c1937326273a0e45ca6656a44a89c",
+  "pulled_at": "2026-03-25T17:40:01Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-memory-block-reporting-build-pack-v1/json-health-checker-memory-block-reporting-build-pack-v1-active-task-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "823e186603e645760ecec6abbca534d12617a870c5abf953380196bdd7592c2b",
+  "remote_run_request_sha256": "c5f95c5f404b4974e82c7566df09c51b25511a86945a200699680f9ca7a496e1",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-memory-block-reporting-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-memory-block-reporting-build-pack-v1",
+  "target_manifest_sha256": "38cdaa5b781df24dab139d62926ecdc1e9964af6739228c8caec7f65d5d08086",
+  "wrapper_request_sha256": "85548e3391a0c751693f1f4530767375181ab7c1a60ef5c992802391e2d5ab4e"
+}

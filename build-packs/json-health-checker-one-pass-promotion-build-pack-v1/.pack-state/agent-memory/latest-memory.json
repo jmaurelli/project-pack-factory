@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-one-pass-promotion-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T17:19:45Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-one-pass-promotion-build-pack-v1-mid-backlog-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-one-pass-promotion-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "selected_memory_sha256": "b86363786f46cc1fe82473258f1d1682b31fec965b5e2a289db2bc3b431305e5",
+  "selected_run_id": "json-health-checker-one-pass-promotion-build-pack-v1-mid-backlog-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-one-pass-promotion-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-25T17:19:45Z"
+}

@@ -1,0 +1,12 @@
+{
+  "current_revision": "promotion-gate-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "json-health-checker-promotion-gate-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "staging",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Exercise the factory-default autonomy rehearsal gate on a real PackFactory promotion.",
+  "updated_at": "2026-03-25T16:33:32Z",
+  "updated_by": "codex"
+}

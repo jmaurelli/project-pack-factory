@@ -1,0 +1,10 @@
+{
+  "import_bundle": true,
+  "import_reason": "Factory-default feedback-memory baseline remote autonomy import.",
+  "imported_by": "codex",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-feedback-baseline-build-pack-v1/json-health-checker-feedback-baseline-run-v1/incoming",
+  "pull_bundle": true,
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-feedback-baseline-build-pack-v1/json-health-checker-feedback-baseline-run-v1/remote-run-request.json",
+  "schema_version": "remote-autonomy-test-request/v1",
+  "test_reason": "PackFactory remote end-to-end proving-ground run for default feedback-memory handoff."
+}

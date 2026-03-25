@@ -1,0 +1,309 @@
+{
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "excluded_paths": [
+    ".packfactory-runtime/tools/__pycache__",
+    ".packfactory-runtime/tools/__pycache__/factory_ops.cpython-312.pyc",
+    "dist/exports/runtime-evidence",
+    "dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z",
+    "dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z/artifacts",
+    "dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z/artifacts/agent-memory",
+    "dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z/artifacts/agent-memory/autonomy-feedback-baseline-feedback-smoke-001.json",
+    "dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z/artifacts/loop-events.jsonl",
+    "dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z/artifacts/run-summary.json",
+    "dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z/bundle.json",
+    "eval/history",
+    "eval/history/import-external-runtime-evidence-20260325t143450z",
+    "eval/history/import-external-runtime-evidence-20260325t143450z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260325t143450z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260325t143450z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260325t143450z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260325t143450z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260325t143450z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260325t144920z",
+    "eval/history/import-external-runtime-evidence-20260325t144920z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260325t144920z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260325t144920z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260325t144920z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-baseline-feedback-smoke-001.json",
+    "eval/history/import-external-runtime-evidence-20260325t144920z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260325t144920z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260325t144920z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260325t144920z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260325t145008z",
+    "eval/history/import-external-runtime-evidence-20260325t145008z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260325t145008z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260325t145008z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260325t145008z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+    "eval/history/import-external-runtime-evidence-20260325t145008z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260325t145008z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260325t145008z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260325t145008z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260325t151745z",
+    "eval/history/import-external-runtime-evidence-20260325t151745z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260325t151745z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260325t151745z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260325t151745z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+    "eval/history/import-external-runtime-evidence-20260325t151745z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260325t151745z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260325t151745z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260325t151745z/import-report.json",
+    "eval/history/materialize-json-health-checker-feedback-baseline-build-pack-v1-20260325t142436z",
+    "eval/history/materialize-json-health-checker-feedback-baseline-build-pack-v1-20260325t142436z/materialization-report.json",
+    "eval/history/readiness-eval-json-health-checker-feedback-baseline-build-pack-v1-validation-20260325t142502z",
+    "eval/history/readiness-eval-json-health-checker-feedback-baseline-build-pack-v1-validation-20260325t142502z/validation-result.json",
+    "src/__pycache__",
+    "src/__pycache__/pack_export_runtime_evidence.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__",
+    "src/json_health_checker_template_pack/__pycache__/__init__.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/__main__.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/benchmark_smoke.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/cli.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/json_health_checker.cpython-312.pyc",
+    "src/json_health_checker_template_pack/__pycache__/validate_project_pack.cpython-312.pyc"
+  ],
+  "payload_entries": [
+    {
+      "relative_path": ".gitignore",
+      "sha256": "c3fae528d26966c94641ff9123a1cef4a42571bd3d7fcd49c82a381135407ef9",
+      "size_bytes": 79
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-baseline-feedback-smoke-001.json",
+      "sha256": "774d6298ecd63722962a5dd243067eae4982c693a37f726e3ccd9bf5b35b3b40",
+      "size_bytes": 2677
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+      "sha256": "b073a71b77604bd3fb683fbedfdb5ee55cf7d450f9a04d84fdbd9fca429d9cf8",
+      "size_bytes": 2866
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/latest-memory.json",
+      "sha256": "cdf0054088cb5a5609e2ff598e6fd2298608ee29d10533d9dad58f38c6a88f91",
+      "size_bytes": 990
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/baseline-feedback-smoke-001/loop-events.jsonl",
+      "sha256": "6e8699933955641ff4c7ad7430bed91d0ed4758cf9d84f2f44887d19320fca8b",
+      "size_bytes": 2494
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/baseline-feedback-smoke-001/run-summary.json",
+      "sha256": "bcd7c13d2a7931dc8e02b58ba59e0a7b7c625b6e42a025544a696a1e03c1cd72",
+      "size_bytes": 3260
+    },
+    {
+      "relative_path": ".packfactory-remote/request.json",
+      "sha256": "b3bb56e9bb4b58d77c2a761300b11424363311de671c45ea2d3fb5a9a7e52fb1",
+      "size_bytes": 13382
+    },
+    {
+      "relative_path": ".packfactory-runtime/manifest.json",
+      "sha256": "bfe487f4ecefcdcc9e58a71a3dafb4a30e0b8adb8195822b457fa8f922ef8dde",
+      "size_bytes": 2835
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory.schema.json",
+      "sha256": "32dcf4326129fef3ce81b0e1994574be94745c89be4dc29560601b2d6c4e19d6",
+      "size_bytes": 3007
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+      "sha256": "8c7427ea3199030ca8df7e6de55fbdbaa3ed5d9bc5251bad1d253a2247bc17a8",
+      "size_bytes": 4442
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+      "sha256": "f71c8211a3b3febd0433d5feae278f198c0dd20154035e20a7b2e9490e0ddc9a",
+      "size_bytes": 7532
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+      "sha256": "c51959a6e627c26eeeb49f690e329a1b61a667a575775a2a5d5594afaa21b206",
+      "size_bytes": 1801
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+      "sha256": "04d712f8830acb83ae57fb116ce7690d7b883f7de90662490d8a95f490c098e7",
+      "size_bytes": 1950
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/readiness.schema.json",
+      "sha256": "e5354daa75d7848833154e6b7350b6e26b1da2ba95280ba1ab98c0057bf2a250",
+      "size_bytes": 5761
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/factory_ops.py",
+      "sha256": "996649576ae33d259d60b853767af4faa7944014a540007b854fa36206eb7562",
+      "size_bytes": 18408
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/record_autonomy_run.py",
+      "sha256": "b1a984cc7cf994c071400024f38a1d783cb8637d48d3c9cb2d938e6325aacf75",
+      "size_bytes": 28929
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+      "sha256": "89d7216125ba9b207ae2436fdb8396bbb7ae1f3c1329ae70e4dc2f6edee70372",
+      "size_bytes": 17585
+    },
+    {
+      "relative_path": "AGENTS.md",
+      "sha256": "f6c387f01f72a6c2887bb3ff37478579fece683b04224947166c617726c29045",
+      "size_bytes": 1233
+    },
+    {
+      "relative_path": "README.md",
+      "sha256": "403277b17d21bbb7169b528d72d824bad4344fe523877ddbddaf8258e6633777",
+      "size_bytes": 714
+    },
+    {
+      "relative_path": "benchmarks/active-set.json",
+      "sha256": "69cd786c165a973079979561e97fb4426b5c9bba49add3ec1c0c7b30cf4cf4fd",
+      "size_bytes": 648
+    },
+    {
+      "relative_path": "benchmarks/declarations/json-health-checker-template-pack-smoke-small-001.json",
+      "sha256": "565080c8d2466cb54590f84d64a83af6c4bbcb975dad0435bfd1d7b75268dbd3",
+      "size_bytes": 1313
+    },
+    {
+      "relative_path": "contracts/README.md",
+      "sha256": "26d0051ab37e23966b3d7b39c1c529620469191a38c0599c0384af3055c5d475",
+      "size_bytes": 170
+    },
+    {
+      "relative_path": "contracts/project-objective.json",
+      "sha256": "df0b1ee12fff17fdefaa1173c5dfffa5f51a928119560aeee3c1bd0af0465941",
+      "size_bytes": 3509
+    },
+    {
+      "relative_path": "docs/specs/README.md",
+      "sha256": "f274eb0c0fcc25bd90f16ae00be8779db4824e25f56184534ba447c2b695cc77",
+      "size_bytes": 129
+    },
+    {
+      "relative_path": "eval/latest/index.json",
+      "sha256": "9ab3a2fdd5fa3ca44eb50ec24fbf457f08e24f103188843814f74a00bb4b225f",
+      "size_bytes": 740
+    },
+    {
+      "relative_path": "lineage/source-template.json",
+      "sha256": "362b0a0f66ab8c7c19141c22f0c0205ed8f7ba2bbef6ce8d901d2122cfaf3960",
+      "size_bytes": 689
+    },
+    {
+      "relative_path": "pack.json",
+      "sha256": "769964d70d544fbdb6683a7d87eb5c840466821f20bbac3dace0778781c39e03",
+      "size_bytes": 2883
+    },
+    {
+      "relative_path": "project-context.md",
+      "sha256": "91e50626a4c388bd97cbf4ffcbd634f189684dbc295b5f5f1b6797d24971c351",
+      "size_bytes": 976
+    },
+    {
+      "relative_path": "prompts/README.md",
+      "sha256": "fbf699c4950133c023264d5bc30cfa4e3cd914fae6ddea2e5db05536f8a73ab8",
+      "size_bytes": 92
+    },
+    {
+      "relative_path": "pyproject.toml",
+      "sha256": "b29046b3671175e64d2ac20510ee3df14a088eb18c27b33822a2f58b1a04d818",
+      "size_bytes": 519
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/__init__.py",
+      "sha256": "7d747afc2b886329d5e309a87e59ee8f3eb222fac210351c79bb0742ee11c426",
+      "size_bytes": 19
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/__main__.py",
+      "sha256": "3d2438ae92f4746e9ffaa1f837b1fe803f6281091d1f31f8c95643716f257d9a",
+      "size_bytes": 80
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/benchmark_smoke.py",
+      "sha256": "7a45eed9466b87a9fd419636a2f9c789fbaf17c18ecc7ec9251de195bedca0f4",
+      "size_bytes": 850
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/cli.py",
+      "sha256": "3b3b9695a25f29b37aea9b43e89f926e09ab120d947c0ffd62dcaeec04b03aa1",
+      "size_bytes": 1827
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/json_health_checker.py",
+      "sha256": "38a98564a09925fe2bb696dae8d0aed9812b014481b7a234cfb15efdf4e81189",
+      "size_bytes": 1565
+    },
+    {
+      "relative_path": "src/json_health_checker_template_pack/validate_project_pack.py",
+      "sha256": "ec6b19a53627fcd531387e40b3842c78d18b05c3cca22e2929be95c94a3faeea",
+      "size_bytes": 1153
+    },
+    {
+      "relative_path": "src/pack_export_runtime_evidence.py",
+      "sha256": "39d7703163cb0d31df9187559e6808e0c613ecd88c1ee4350ff782999f34782e",
+      "size_bytes": 12038
+    },
+    {
+      "relative_path": "status/deployment.json",
+      "sha256": "38d7010fbc4fcc0f2806b8ba699c0320c05593cd2fcd156c118e6812e60f949d",
+      "size_bytes": 561
+    },
+    {
+      "relative_path": "status/lifecycle.json",
+      "sha256": "0be7b4222b06e28414741c2319bd4396c54806eaabfe9da2797d9160aba71393",
+      "size_bytes": 492
+    },
+    {
+      "relative_path": "status/readiness.json",
+      "sha256": "36e6cdaab4dd170c759cea818af6cdb5982199e905d39589eda2c0284102a391",
+      "size_bytes": 1332
+    },
+    {
+      "relative_path": "status/retirement.json",
+      "sha256": "e6b1109b6fcea9c9cfe61c90835a779d24043ff9f41ee6138dd1df6157a5ee19",
+      "size_bytes": 488
+    },
+    {
+      "relative_path": "status/work-state.json",
+      "sha256": "104e6a911aa8c8be146d73adc32fdc519f7f5a2d5efa930f896a5b56bc541325",
+      "size_bytes": 1311
+    },
+    {
+      "relative_path": "tasks/active-backlog.json",
+      "sha256": "decc5559d67f4179022032b3bd91bafd4feeaae8150a236de482e6ecc921db88",
+      "size_bytes": 2684
+    },
+    {
+      "relative_path": "tests/README.md",
+      "sha256": "49edefd89fd0a6dd98ecfd6774a32119d8db542b610e89d4b88e1ba585030edf",
+      "size_bytes": 114
+    }
+  ],
+  "payload_policy_version": "fresh-staging/v1",
+  "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-feedback-baseline-build-pack-v1/dist/exports/runtime-evidence",
+  "remote_host": "adf-dev",
+  "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-feedback-baseline-build-pack-v1",
+  "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+  "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-feedback-baseline-build-pack-v1/runs/json-health-checker-feedback-baseline-run-v1",
+  "remote_target_label": "adf-dev",
+  "remote_user": "adf",
+  "request_sha256": "b3bb56e9bb4b58d77c2a761300b11424363311de671c45ea2d3fb5a9a7e52fb1",
+  "run_id": "json-health-checker-feedback-baseline-run-v1",
+  "schema_version": "remote-execution-payload-manifest/v1",
+  "source_build_pack_id": "json-health-checker-feedback-baseline-build-pack-v1",
+  "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-feedback-baseline-build-pack-v1",
+  "staged_at": "2026-03-25T15:18:02Z",
+  "staged_by": "codex",
+  "transport_mode": "rsync"
+}

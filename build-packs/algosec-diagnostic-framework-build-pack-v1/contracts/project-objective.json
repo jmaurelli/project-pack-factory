@@ -2,14 +2,16 @@
   "completion_definition": [
     "The ADF build-pack produces bounded machine-readable artifacts for runtime evidence, service inventory, and support-facing baseline output from the real AlgoSec lab appliance.",
     "The generated JSON and HTML outputs expose diagnostic flows, decision playbooks, and read-only command bundles that a support engineer can review and use during a live session.",
-    "The current HTML output now behaves like a live diagnostic webpage rather than a static artifact, and the Appliance UI is down playbook is now SSH-first, CLI-oriented, and organized around a four-step Linux-first flow.",
-    "The current operator-reviewed frame keeps a single collapsible Step focus panel, a horizontal dependency path at the top of the playbook, command-first step bodies, copy buttons for commands, no built-in right-side page rail, and no redundant evidence or decision panels.",
+    "The current HTML output now behaves like a live diagnostic webpage rather than a static artifact, and the ASMS UI review surface has already proven a strong host-health pack, Apache edge checks, and first lab-backed Keycloak and ms-metro service-pack patterns.",
+    "The next ASMS UI implementation cycle is a from-scratch rebuild around system-thinking and useful-work questions instead of another incremental patch pass on the current service-first page.",
+    "The current operator-reviewed frame keeps a single collapsible Step focus panel, a horizontal dependency path at the top of the playbook, a command-first flow strip above the main two-column layout, Quick jump aligned with the stepwise checkpoint column, copy buttons for commands, no built-in right-side page rail, and no redundant evidence or decision panels.",
     "The current command cards now use a Linux note plus Known working example instead of repeating output-pattern guidance in two places.",
+    "A shared Host Health Pre-Check pack is now defined as a reusable ADF standard so every major playbook can start with the same human-readable Linux resource checks before subsystem-specific diagnosis.",
     "The build-pack can now generate Astro Starlight site source from support-baseline.json, and the Rocky lab appliance can build that site successfully with the system Node runtime.",
     "Support Cockpit is the selected prototype direction for the next Starlight implementation cycle because the sticky quick-jump behavior keeps navigation available while the engineer reads lower command sections.",
-    "The next implementation cycle is focused on turning the Starlight publisher toward the Support Cockpit interaction model and then using that chassis for the next real priority playbook iteration without expanding the testing surface."
+    "The next implementation cycle is focused on using the Support Cockpit chassis to rebuild ASMS UI is down around host, Apache/HTTPD serving the UI, auth-branch, app-branch, and useful-work stop-point questions without expanding the testing surface."
   ],
-  "generated_at": "2026-03-25T00:45:00Z",
+  "generated_at": "2026-03-25T18:15:00Z",
   "intended_inputs": [
     "Pack-local source code and configuration under the materialized build-pack.",
     "The controlled AlgoSec lab appliance on Rocky Linux 8 reached through the saved remote target request.",
@@ -53,7 +55,7 @@
       "evidence_hint": "Forwarded live review URL and target-generated support-baseline.html under the lab artifact path.",
       "metric_id": "live_webpage_reviewability",
       "summary": "The current slice is reviewable as a live diagnostic webpage with symptom navigation and a cleaner step-focused workflow.",
-      "target": "target-generated HTML exposes jump navigation, a horizontal dependency path, Step focus panels, copy buttons, and a Linux-first Appliance UI is down runbook"
+      "target": "target-generated HTML exposes jump navigation, a horizontal dependency path, Step focus panels, copy buttons, and a Linux-first ASMS UI is down runbook"
     }
   ],
   "non_goals": [
@@ -63,7 +65,7 @@
     "Treating HTML as the source of truth instead of a render of machine-readable artifacts."
   ],
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
-  "objective_summary": "Stabilize the first operator-reviewable ADF runtime for the controlled AlgoSec lab appliance: target-backed runtime mapping, support-ready diagnostic playbooks, a live diagnostic webpage for fast iteration, a portable Astro Starlight publishing path, and a selected Support Cockpit interaction direction for the next implementation cycle.",
+  "objective_summary": "Stabilize the first operator-reviewable ADF runtime for the controlled AlgoSec lab appliance: target-backed runtime mapping, support-ready diagnostic playbooks, a live diagnostic webpage for fast iteration, a portable Astro Starlight publishing path, and a Support Cockpit implementation cycle that now rebuilds ASMS UI is down from scratch around system-thinking.",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "problem_statement": "# Project Context\n\n## Project Goal\n\nDeploy Codex into a controlled AlgoSec Security Management Suite lab appliance\non Rocky Linux 8, collect bounded runtime evidence, generate a trustworthy\nmachine-readable baseline and support comparison playbooks, and render a simple\nHTML view for remote support sessions.\n\n## Primary User\n\nSupport engineers working live with customers over screen share or remote\nsession, mostly at a junior level.\n\nThe playbooks should assume:\n\n- the engineer can use basic Linux and network commands\n- the engineer follows explicit step-by-step instructions well\n- the engineer may not know deeper Linux internals\n- English may be the engineer's second language\n- the wording should stay plain, short, and direct\n\n## V1 Scope\n\n- One controlled AlgoSec lab appliance on Rocky Linux 8.\n- Machine-readable runtime evidence as the canonical source of truth.\n- A complete service inventory with deeper playbooks for the highest-value\n  service paths first.\n- Simple HTML output for human use during support sessions.\n- AI inference as a secondary layer over collected evidence, not the primary\n  product output.\n\n## V1 Non-Goals\n\n- Full coverage of every service at equal depth.\n- Direct automation inside customer environments.\n- Broad test expansion or large fixture matrices.\n- A polished portal or generalized reverse-engineering platform.\n\n## Success Criteria\n\n- The output gives support engineers a trusted baseline and clear diagnostic\n  steps they can use in a customer environment.\n- The baseline clearly separates observed facts, inference, and unknowns.\n- The first playbooks help narrow likely issue areas during live support.\n- HTML output is useful during a remote support session without becoming the\n  source of truth.\n\n## Working Priorities\n\n1. Collect trustworthy runtime evidence.\n2. Turn that evidence into simple support playbooks written in plain language.\n3. Keep the scope small enough to stay manageable.\n4. Keep testing minimal and high-signal.",
   "promotion_readiness_requirements": [
@@ -71,7 +73,7 @@
     "Inherited required benchmark gates must pass or be waived.",
     "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
     "ADF artifact-generation work must be complete enough for operator review before any promotion decision.",
-    "The next cycle should move the Starlight publisher toward the selected Support Cockpit interface and then carry that chassis into the next real priority playbook before any promotion discussion."
+    "The next cycle should use the selected Support Cockpit interface to rebuild ASMS UI is down around functional system questions before any promotion discussion."
   ],
   "schema_version": "project-objective/v1",
   "source_template_id": "algosec-diagnostic-framework-template-pack",
@@ -83,7 +85,9 @@
     "The real lab appliance generates diagnostic playbooks and command bundles that are strong enough for operator review and iterative tuning.",
     "At least one priority playbook shows engineers what healthy CLI output looks like with explicit keywords and short terminal examples.",
     "The live reviewable webpage is strong enough to use as a proof-of-concept with support engineers.",
-    "The Appliance UI is down playbook uses the current Step focus plus Run structure with a Linux-first four-step flow, a horizontal clickable dependency path, default-collapsed step cards, copy buttons, and Why this step matters knowledge blocks.",
+    "The build-pack now carries a fixed Host Health Pre-Check command pack with standardized wording for disk, inode, memory, load, OOM, and top CPU-consumer checks.",
+    "The current ASMS UI review surface proves the shared host pre-check, Apache edge checks, and first lab-backed Keycloak and ms-metro command packs, but the next cycle replaces the current service-first playbook shape with a from-scratch system-thinking rebuild.",
+    "The ASMS UI rebuild uses functional questions such as host support, Apache/HTTPD serving the UI, auth-branch useful work, app-branch useful work, and useful-work stop point, while keeping lab-backed Keycloak and ms-metro checks as source material.",
     "Astro Starlight site source can be generated from the ADF baseline and built successfully on the Rocky lab appliance without changing the canonical JSON-first model.",
     "The build-pack records Support Cockpit as the selected prototype direction and uses it as the next publishing target."
   ]

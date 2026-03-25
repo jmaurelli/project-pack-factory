@@ -1,0 +1,40 @@
+{
+  "active_task_id": null,
+  "autonomy_state": "awaiting_operator_review",
+  "blocked_task_ids": [],
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Upgraded the target-generated playbooks into an enterprise-style live diagnostic webpage with symptom navigation, FireFlow operator language, step cards, command panels, and a reviewable forwarded URL.",
+  "last_outcome": "live_diagnostic_webpage_review_ready",
+  "last_outcome_at": "2026-03-24T00:41:12Z",
+  "last_validation_results": [
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json",
+    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223939z/benchmark-result.json"
+  ],
+  "next_recommended_task_id": "tune_operator_language_for_priority_domains",
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pending_task_ids": [
+    "tune_operator_language_for_priority_domains",
+    "expand_service_command_coverage",
+    "deepen_dependency_aware_playbooks"
+  ],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Start the next cycle by reviewing the live target-generated webpage and tuning the wording for FireFlow Backend and Microservice Platform first.",
+    "Restage the build-pack to the saved AlgoSec lab target before the next remote Codex run that changes playbook logic.",
+    "Keep machine-readable artifacts canonical, keep HTML as a thin render layer, and keep new commands read-only.",
+    "Use the saved lab target request and current temporary review path as the baseline operator-review loop."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when the current operator-review slice is captured cleanly and the next work items are recorded in pack-local state.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}

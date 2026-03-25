@@ -75,6 +75,66 @@
       "type": "string",
       "minLength": 1
     },
+    "autonomy_rehearsal_evidence": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "workflow_id",
+            "rehearsal_id",
+            "report_path",
+            "generated_at",
+            "status",
+            "remote_target_label",
+            "latest_memory_run_id",
+            "final_readiness_state",
+            "final_ready_for_deployment"
+          ],
+          "properties": {
+            "workflow_id": {
+              "const": "multi_hop_autonomy_rehearsal"
+            },
+            "rehearsal_id": {
+              "type": "string",
+              "pattern": "^multi-hop-autonomy-rehearsal-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+            },
+            "report_path": {
+              "type": "string",
+              "pattern": "^\\.pack-state/multi-hop-autonomy-rehearsals/[^/]+/rehearsal-report\\.json$"
+            },
+            "generated_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "status": {
+              "const": "completed"
+            },
+            "remote_target_label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "latest_memory_run_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "final_readiness_state": {
+              "type": "string",
+              "enum": [
+                "ready_for_deploy",
+                "deployed"
+              ]
+            },
+            "final_ready_for_deployment": {
+              "const": true
+            }
+          }
+        }
+      ]
+    },
     "reconcile_refresh": {
       "anyOf": [
         {
@@ -394,6 +454,7 @@
             "write_deployment_pointer",
             "update_registry_entry",
             "append_operation_log",
+            "verify_autonomy_rehearsal_evidence",
             "write_promotion_report"
           ]
         },

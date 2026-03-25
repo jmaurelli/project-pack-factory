@@ -1,0 +1,9 @@
+{
+  "build_pack_id": "json-health-checker-promotion-gate-build-pack-v1",
+  "promoted_by": "codex",
+  "promotion_reason": "Exercise the factory-default autonomy rehearsal gate on a real PackFactory promotion.",
+  "release_id": "json-health-checker-promotion-gate-r1",
+  "schema_version": "build-pack-promotion-request/v1",
+  "target_environment": "testing",
+  "verification_timestamp": "2026-03-25T16:32:40Z"
+}

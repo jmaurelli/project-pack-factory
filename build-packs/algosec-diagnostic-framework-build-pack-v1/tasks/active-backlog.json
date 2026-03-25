@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-25T00:45:00Z",
+  "generated_at": "2026-03-25T18:15:00Z",
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -172,7 +172,7 @@
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Appliance UI is down reflects the reviewed SSH-first four-step Linux-first flow inside the cleaned Support Cockpit chassis, and FireFlow Backend follows next.",
+        "ASMS UI is down reflects the reviewed SSH-first four-step Linux-first flow inside the cleaned Support Cockpit chassis, and FireFlow Backend follows next.",
         "HTML and JSON outputs remain aligned after the language tuning pass."
       ],
       "dependencies": [
@@ -192,7 +192,7 @@
         "status/work-state.json"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "in_progress",
+      "status": "pending",
       "summary": "Continue tuning high-value support playbooks into final SSH-first operator language and decision flow, using the Support Cockpit chassis as the next operator-facing container.",
       "task_id": "tune_operator_language_for_priority_domains",
       "validation_commands": [
@@ -202,6 +202,7 @@
     },
     {
       "acceptance_criteria": [
+        "Every major playbook can start from a shared host health pre-check pack before moving into subsystem-specific checks.",
         "Priority playbooks embed service-status, listener, config, and log commands for more AlgoSec services and dependencies.",
         "Each command remains read-only and includes a healthy signal plus failure interpretation.",
         "Priority commands include short Linux note blocks, copy controls, and known working terminal examples where the target appliance can provide them.",
@@ -209,8 +210,10 @@
       ],
       "blocked_by": [],
       "completion_signals": [
+        "A shared host health pre-check pack exists for disk, memory, OOM, and related host-resource checks used across major playbooks.",
         "The command bundles extend beyond the current top-path checks and cover more service-specific failure paths.",
-        "Service ports, config checkpoints, and known working command output are surfaced more explicitly in the operator-facing output."
+        "Service ports, config checkpoints, and known working command output are surfaced more explicitly in the operator-facing output.",
+        "The ASMS UI path proves a reusable service-pack pattern with lab-backed status, listener, functional, and file-log checks for Keycloak and ms-metro."
       ],
       "dependencies": [
         "adopt_support_cockpit_direction",
@@ -224,15 +227,142 @@
       "files_in_scope": [
         "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
         "src/pack_export_runtime_evidence.py",
-        "docs/specs/adf-artifact-model-v1.md"
+        "docs/specs/adf-artifact-model-v1.md",
+        "docs/specs/adf-host-health-precheck-pack-v1.md"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "pending",
-      "summary": "Expand service-specific diagnostic command coverage for priority services and dependencies.",
+      "status": "in_progress",
+      "summary": "Expand service-specific diagnostic command coverage for priority services and dependencies, starting from the reusable ASMS UI service-pack pattern.",
       "task_id": "expand_service_command_coverage",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "task_id": "formalize_shared_host_health_precheck_pack",
+      "title": "Formalize a shared host health pre-check pack",
+      "status": "completed",
+      "priority": "high",
+      "summary": "A fixed shared host health pre-check pack is now defined for every major playbook before subsystem-specific checks.",
+      "why_it_matters": "Disk, memory, OOM, and other host-resource checks are foundational Linux triage steps in every scenario. Defining them as a standard reusable pre-check keeps playbooks consistent and helps engineers start in the same place every time.",
+      "notes": [
+        "Treat this as a shared command pack that appears at the start of major playbooks.",
+        "Prefer human-readable command forms such as `-h` or `--human-readable` where supported.",
+        "Use the host pre-check pack before subsystem-specific commands for ASMS UI, FireFlow Backend, Messaging and Data, and similar playbooks.",
+        "The fixed v1 command set and wording now live in `docs/specs/adf-host-health-precheck-pack-v1.md`."
+      ]
+    },
+    {
+      "task_id": "rebuild_asms_ui_system_thinking_playbook",
+      "title": "Rebuild ASMS UI is down around system thinking",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Rebuild `ASMS UI is down` from scratch around useful-work questions instead of extending the current service-first structure.",
+      "why_it_matters": "The current ASMS UI page proved several valuable patterns, but it still reflects too much service thinking. The next real ADF win is a from-scratch playbook that helps an engineer decide whether the host, Apache/HTTPD serving the UI, auth branch, app branch, and overall path can do useful work.",
+      "notes": [
+        "Treat this as a reset of the playbook structure, not another incremental patch cycle.",
+        "Start from the shared Host Health Pre-Check pack, then move to Apache/HTTPD serving the UI, auth branch, app branch, and useful-work stop point questions.",
+        "Frame Keycloak as the auth/login branch and `ms-metro` as the application branch rather than as isolated running services.",
+        "Keep logs as supporting clue surfaces after the functional checks instead of as the main diagnostic destination."
+      ]
+    },
+    {
+      "task_id": "explore_scenario_based_dashboard_direction",
+      "title": "Explore a scenario-based dashboard direction for ADF",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Consider whether ADF should gradually evolve from a documentation-style playbook surface into a small scenario-based clickable dashboard for support engineers.",
+      "why_it_matters": "ADF is starting to feel like a support engineer's support engineer. A bounded dashboard model could help engineers choose a likely starting scenario quickly and then work through collapsible diagnostic paths with less friction during live cases.",
+      "notes": [
+        "Treat this as a future design direction, not an immediate UI rewrite.",
+        "Keep the number of starting scenarios intentionally small, such as three to five high-value paths.",
+        "Preserve the command-first troubleshooting flow and avoid turning the page into a crowded control panel.",
+        "Use scenario descriptions that help an engineer decide whether the path matches the current case."
+      ]
+    },
+    {
+      "task_id": "build_adf_autonomous_iteration_loop",
+      "title": "Build more autonomous agent iteration into ADF",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Use the memory and feedback-loop surfaces already present in the build-pack, then decide what additional iteration logic should remain pack-local versus be imported from the factory itself so the remote agent can iterate with less scenario-by-scenario manual steering.",
+      "why_it_matters": "ADF is now moving into system-thinking playbooks, which are too deep to manage manually one scenario at a time. Much of the needed memory and feedback-loop foundation already exists in the build-pack, so the next design question is how to use that well and what should be inherited from factory-level logic.",
+      "notes": [
+        "Keep this bounded to pack-local memory surfaces, approved lab evidence, and explicit planning state.",
+        "Treat factory imports as a possible source of shared iteration logic rather than assuming the loop must be rebuilt entirely inside ADF.",
+        "Do not turn this into uncontrolled autonomy or broad self-directed scenario expansion.",
+        "Treat this as a build-pack logic and orchestration concern, not only as a remote runtime convenience.",
+        "Keep human review in the loop for major design, scope, and validation decisions."
+      ]
+    },
+    {
+      "task_id": "plan_controlled_fault_injection_playbook_validation",
+      "title": "Plan controlled fault-injection playbook validation",
+      "status": "pending",
+      "priority": "low",
+      "summary": "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly.",
+      "why_it_matters": "This could become a powerful way to test whether a diagnostic playbook really works end to end instead of only reading well on the page. It would help prove that the dependency path, commands, and stopping points lead an agent or engineer to the right conclusion.",
+      "notes": [
+        "Keep this far-future and lab-only for now.",
+        "Treat this as controlled fault injection, not a normal support workflow.",
+        "Require clear safety boundaries so only approved non-production lab targets can be mutated.",
+        "Use one agent to create the failure scenario and another to follow the playbook independently."
+      ]
+    },
+    {
+      "task_id": "refine_command_palette_contrast",
+      "title": "Refine command palette contrast",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Adjust the command palette styling so command text stays readable against the current code-block background and syntax-highlighting colors.",
+      "why_it_matters": "Some command text is hard to see because the syntax highlighting and frame background are too close in value. That creates friction exactly where engineers need the clearest visual surface.",
+      "notes": [
+        "Keep this as a presentation-layer change, not a command-content change.",
+        "Review both the bash command blocks and the known working example blocks.",
+        "Prefer contrast improvements that keep the command area visually distinct without overpowering the rest of the page."
+      ]
+    },
+    {
+      "task_id": "deepen_asms_ui_service_command_packs",
+      "title": "Deepen ASMS UI service command packs",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Expand the `ASMS UI services` step beyond simple service-up and port-open checks so Keycloak and ms-metro become real diagnostic command packs.",
+      "why_it_matters": "The current ASMS UI playbook is useful through host health and Apache edge, but the service-layer checks are still too shallow. Support engineers need service-specific commands that help explain why the UI is still failing, not only whether a process exists.",
+      "notes": [
+        "Treat the current Step 3 as the immediate command-coverage gap revealed by live review.",
+        "Build richer packs for `keycloak.service` and `ms-metro.service` with status, listener, recent logs, and one or more service-specific functional checks.",
+        "Keep the commands read-only, plain-language, and junior-support friendly.",
+        "Do this before moving on to FireFlow Backend so the first subsystem path becomes genuinely useful."
+      ]
+    },
+    {
+      "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+      "title": "Map the ASMS UI subsystem and validate core scenarios",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Build a bounded dependency map for the ASMS UI subsystem from lab evidence, then validate a small set of common failure scenarios against that map.",
+      "why_it_matters": "The ASMS UI path likely depends on a small set of important services such as httpd, keycloak, ms-metro, and possibly activemq, but the relationship needs to be mapped from evidence instead of guessed. A bounded map plus a few high-value scenarios will make the playbook far more trustworthy than shallow service checks or unlimited speculative branching.",
+      "notes": [
+        "Start by mapping the ASMS UI subsystem from configs, listeners, service units, process relationships, and logs on the lab appliance.",
+        "Treat likely direct dependencies and likely supporting dependencies separately until the evidence is clearer.",
+        "After the map is stable, validate only a small scenario set such as host pressure, httpd down, keycloak down, ms-metro down, and one additional dependency case if the evidence supports it.",
+        "Keep this bounded to the reduced Rocky footprint and the ASMS UI subsystem rather than expanding into full-system reverse engineering."
+      ]
+    },
+    {
+      "task_id": "validate_asms_ui_dependency_order_experimentally",
+      "title": "Validate ASMS UI dependency order experimentally",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Confirm whether the ASMS UI path is truly ordered as host -> httpd -> keycloak -> ms-metro, or whether some of those services should remain peer first-pass checks instead of a strict serial chain.",
+      "why_it_matters": "The current ASMS UI playbook now has effective service packs, but the exact dependency order is not fully proven yet. ADF should only claim a strict path after lab evidence and bounded experiments confirm it.",
+      "notes": [
+        "Treat the current playbook order as a strong working hypothesis, not a final proven dependency chain.",
+        "Use live evidence, config mapping, functional checks, and small lab experiments to confirm which service is upstream or downstream in the real ASMS UI path.",
+        "Keep ActiveMQ out of the first-pass path unless the evidence shows it is a direct gate for the UI-down scenario.",
+        "If controlled service-disable scenarios are needed later, keep them lab-only and align them with the broader controlled fault-injection planning item."
       ]
     },
     {
@@ -354,6 +484,19 @@
         "Keep Linux notes collapsible by default.",
         "Prefer short plain-language explanations tied directly to the current check.",
         "Use Linux notes to clarify terms like memory pressure, inode pressure, OOM, file locks, and similar concepts when they matter to triage."
+      ]
+    },
+    {
+      "task_id": "codify_system_thinking_as_adf_theme",
+      "title": "Codify system thinking as an ADF theme",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up.",
+      "why_it_matters": "This is the deeper value behind the recent service-pack work. ADF is strongest when it helps engineers judge productive system behavior rather than memorize isolated service checks.",
+      "notes": [
+        "Use this theme to shape command coverage, dependency paths, Linux notes, and future playbook wording.",
+        "Prefer checks that prove useful work or functional health over checks that only prove process presence.",
+        "Keep this bounded to support diagnostics and avoid turning ADF into a generalized systems-theory product."
       ]
     },
     {

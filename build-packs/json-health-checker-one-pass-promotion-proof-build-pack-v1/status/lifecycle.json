@@ -1,0 +1,12 @@
+{
+  "current_revision": "multi-hop-autonomy-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "json-health-checker-one-pass-promotion-proof-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "staging",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Validate that multi-hop autonomy rehearsal now leaves the pack promotion-ready in one pass.",
+  "updated_at": "2026-03-25T17:21:21Z",
+  "updated_by": "codex"
+}

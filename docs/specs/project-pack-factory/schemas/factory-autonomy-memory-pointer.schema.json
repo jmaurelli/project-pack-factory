@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/factory-autonomy-memory-pointer.schema.json",
+  "title": "PackFactory Root Autonomy Memory Pointer",
+  "description": "Pointer to the currently selected root-level PackFactory autonomy memory artifact.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "updated_at",
+    "selected_memory_id",
+    "selected_generated_at",
+    "selected_memory_path",
+    "selected_memory_sha256",
+    "source_kind",
+    "source_tool"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "factory-autonomy-memory-pointer/v1"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "selected_memory_id": {
+      "type": "string",
+      "pattern": "^factory-autonomy-memory-[0-9]{8}t[0-9]{6}z$"
+    },
+    "selected_generated_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "selected_memory_path": {
+      "type": "string",
+      "pattern": "^\\.pack-state/agent-memory/factory-autonomy-memory-[0-9]{8}t[0-9]{6}z\\.json$"
+    },
+    "selected_memory_sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "source_kind": {
+      "type": "string",
+      "enum": [
+        "factory_memory_refresh"
+      ]
+    },
+    "source_tool": {
+      "type": "string",
+      "const": "tools/refresh_factory_autonomy_memory.py"
+    }
+  }
+}

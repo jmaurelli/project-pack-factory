@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/multi-hop-autonomy-rehearsal-report.schema.json",
+  "title": "Multi Hop Autonomy Rehearsal Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "rehearsal_id",
+    "generated_at",
+    "status",
+    "source_template_id",
+    "target_build_pack_id",
+    "target_build_pack_root",
+    "remote_target_label",
+    "remote_host",
+    "remote_user",
+    "materialization_request_path",
+    "materialization_result",
+    "checkpoint_result",
+    "active_task_continuity_result",
+    "reconcile_request_path",
+    "reconcile_result",
+    "ready_boundary_continuity_result",
+    "canonical_readiness_refresh_result",
+    "final_state"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "multi-hop-autonomy-rehearsal-report/v1"
+    },
+    "rehearsal_id": {
+      "type": "string",
+      "pattern": "^multi-hop-autonomy-rehearsal-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed"
+      ]
+    },
+    "source_template_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "target_build_pack_root": {
+      "type": "string",
+      "pattern": "^.*/build-packs/[a-z0-9][a-z0-9_-]*$"
+    },
+    "remote_target_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_host": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_user": {
+      "type": "string",
+      "minLength": 1
+    },
+    "materialization_request_path": {
+      "type": "string",
+      "pattern": "^.*/\\.pack-state/multi-hop-autonomy-rehearsals/[^/]+/materialization-request\\.json$"
+    },
+    "materialization_result": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "target_build_pack_id"
+      ],
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "target_build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        }
+      }
+    },
+    "checkpoint_result": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "build_pack_id",
+        "run_id"
+      ],
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "active_task_continuity_result": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "build_pack_id",
+        "run_id"
+      ],
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "reconcile_request_path": {
+      "type": "string",
+      "pattern": "^.*/\\.pack-state/multi-hop-autonomy-rehearsals/[^/]+/reconcile-request\\.json$"
+    },
+    "reconcile_result": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "build_pack_id",
+        "memory_pointer_status"
+      ],
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "memory_pointer_status": {
+          "type": "string",
+          "enum": [
+            "activated",
+            "unchanged"
+          ]
+        }
+      }
+    },
+    "ready_boundary_continuity_result": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "build_pack_id",
+        "run_id"
+      ],
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "build_pack_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "canonical_readiness_refresh_result": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "validation_result",
+        "benchmark_result",
+        "post_refresh_readiness_state",
+        "post_refresh_ready_for_deployment"
+      ],
+      "properties": {
+        "status": {
+          "const": "completed"
+        },
+        "validation_result": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "status",
+            "mode"
+          ],
+          "properties": {
+            "status": {
+              "const": "completed"
+            },
+            "mode": {
+              "const": "validation-only"
+            }
+          }
+        },
+        "benchmark_result": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "status",
+            "mode"
+          ],
+          "properties": {
+            "status": {
+              "const": "completed"
+            },
+            "mode": {
+              "const": "benchmark-only"
+            }
+          }
+        },
+        "post_refresh_readiness_state": {
+          "type": "string",
+          "enum": [
+            "blocked",
+            "in_progress",
+            "ready_for_review",
+            "ready_for_deploy",
+            "deployed",
+            "retired"
+          ]
+        },
+        "post_refresh_ready_for_deployment": {
+          "type": "boolean"
+        }
+      }
+    },
+    "final_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "readiness",
+        "work_state",
+        "latest_memory"
+      ],
+      "properties": {
+        "readiness": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "readiness_state",
+            "ready_for_deployment"
+          ],
+          "properties": {
+            "readiness_state": {
+              "type": "string",
+              "enum": [
+                "blocked",
+                "in_progress",
+                "ready_for_review",
+                "ready_for_deploy",
+                "deployed",
+                "retired"
+              ]
+            },
+            "ready_for_deployment": {
+              "type": "boolean"
+            }
+          }
+        },
+        "work_state": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "autonomy_state",
+            "active_task_id",
+            "next_recommended_task_id",
+            "completed_task_ids",
+            "pending_task_ids"
+          ],
+          "properties": {
+            "autonomy_state": {
+              "type": "string",
+              "enum": [
+                "actively_building",
+                "blocked",
+                "awaiting_operator",
+                "ready_for_review",
+                "ready_for_deploy"
+              ]
+            },
+            "active_task_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_-]*$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "next_recommended_task_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_-]*$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "completed_task_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_-]*$"
+              }
+            },
+            "pending_task_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_-]*$"
+              }
+            }
+          }
+        },
+        "latest_memory": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "pack_id",
+            "selected_run_id",
+            "selected_memory_path"
+          ],
+          "properties": {
+            "pack_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9_-]*$"
+            },
+            "selected_run_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "selected_memory_path": {
+              "type": "string",
+              "pattern": "^\\.pack-state/agent-memory/.+\\.json$"
+            }
+          }
+        }
+      }
+    }
+  }
+}

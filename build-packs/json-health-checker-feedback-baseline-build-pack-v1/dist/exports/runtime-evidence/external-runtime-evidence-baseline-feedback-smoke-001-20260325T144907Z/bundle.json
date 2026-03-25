@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-baseline-feedback-smoke-001.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "774d6298ecd63722962a5dd243067eae4982c693a37f726e3ccd9bf5b35b3b40",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-baseline-feedback-smoke-001.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "6e8699933955641ff4c7ad7430bed91d0ed4758cf9d84f2f44887d19320fca8b",
+      "source_pack_path": ".pack-state/autonomy-runs/baseline-feedback-smoke-001/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "bcd7c13d2a7931dc8e02b58ba59e0a7b7c625b6e42a025544a696a1e03c1cd72",
+      "source_pack_path": ".pack-state/autonomy-runs/baseline-feedback-smoke-001/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-25T14:49:07Z",
+  "pack_id": "json-health-checker-feedback-baseline-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "baseline-feedback-smoke-001",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/baseline-feedback-smoke-001",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-25T14:25:02Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "in_progress",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 0,
+    "started_at": "2026-03-25T14:25:02Z",
+    "stop_reason": "command_completed",
+    "task_completion_rate": 0.0
+  }
+}

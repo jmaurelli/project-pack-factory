@@ -1,0 +1,165 @@
+{
+  "final_state": {
+    "deployment": {
+      "active_environment": "testing",
+      "active_release_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+      "active_release_path": "dist/releases/json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+      "deployment_notes": [
+        "Promoted to testing by PackFactory."
+      ],
+      "deployment_pointer_path": "deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+      "deployment_state": "testing",
+      "deployment_transaction_id": "promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z",
+      "last_promoted_at": "2026-03-25T17:33:09Z",
+      "last_rollback": null,
+      "last_verified_at": "2026-03-25T17:33:09Z",
+      "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+      "pack_kind": "build_pack",
+      "projection_state": "projected",
+      "schema_version": "pack-deployment/v2"
+    },
+    "latest_memory": {
+      "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+      "schema_version": "autonomy-feedback-memory-pointer/v1",
+      "selected_generated_at": "2026-03-25T17:33:06Z",
+      "selected_memory_id": "autonomy-feedback-json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1",
+      "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1.json",
+      "selected_memory_sha256": "ef045d2e6d142db7a3f80867c06a08ad096e31939f14d20907706cff97fc2da6",
+      "selected_run_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1",
+      "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1.json",
+      "source_import_id": "import-external-runtime-evidence-20260325t173308z",
+      "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t173308z/import-report.json",
+      "source_kind": "imported_external_runtime_evidence",
+      "updated_at": "2026-03-25T17:33:08Z"
+    },
+    "readiness": {
+      "blocking_issues": [],
+      "last_evaluated_at": "2026-03-25T17:33:08Z",
+      "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+      "pack_kind": "build_pack",
+      "readiness_state": "ready_for_deploy",
+      "ready_for_deployment": true,
+      "recommended_next_actions": [
+        "Recommended next action: use the existing bounded promotion workflow if you want to move this build-pack toward deployment."
+      ],
+      "required_gates": [
+        {
+          "evidence_paths": [
+            "eval/history/multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z-validation-refresh/validation-result.json"
+          ],
+          "gate_id": "validate_build_pack_contract",
+          "last_run_at": "2026-03-25T17:33:08Z",
+          "mandatory": true,
+          "status": "pass",
+          "summary": "Build-pack contract validation has not been executed yet."
+        },
+        {
+          "evidence_paths": [
+            "eval/latest/index.json"
+          ],
+          "gate_id": "json_health_checker_template_pack_smoke_small_001",
+          "last_run_at": "2026-03-25T17:33:08Z",
+          "mandatory": true,
+          "status": "pass",
+          "summary": "Run a small deterministic JSON health-check smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration."
+        }
+      ],
+      "schema_version": "pack-readiness/v2"
+    },
+    "work_state": {
+      "active_task_id": null,
+      "autonomy_state": "ready_for_deploy",
+      "blocked_task_ids": [],
+      "completed_task_ids": [
+        "run_build_pack_validation",
+        "run_inherited_benchmarks"
+      ],
+      "escalation_state": "none",
+      "last_agent_action": "Reconciled local canonical state from imported external runtime evidence `import-external-runtime-evidence-20260325t173302z`.",
+      "last_outcome": "task_completed",
+      "last_outcome_at": "2026-03-25T17:33:02Z",
+      "last_validation_results": [
+        {
+          "evidence_paths": [
+            "eval/history/import-external-runtime-evidence-20260325t173302z/external-runtime-evidence/artifacts/run-summary.json",
+            "eval/history/import-external-runtime-evidence-20260325t173302z/external-runtime-evidence/artifacts/loop-events.jsonl"
+          ],
+          "recorded_at": "2026-03-25T17:33:00Z",
+          "status": "pass",
+          "summary": "Reconciled local canonical state from imported external runtime evidence.",
+          "validation_id": "run_build_pack_validation"
+        },
+        {
+          "evidence_paths": [
+            "eval/history/import-external-runtime-evidence-20260325t173302z/external-runtime-evidence/artifacts/run-summary.json",
+            "eval/history/import-external-runtime-evidence-20260325t173302z/external-runtime-evidence/artifacts/loop-events.jsonl"
+          ],
+          "recorded_at": "2026-03-25T17:33:00Z",
+          "status": "pass",
+          "summary": "Reconciled local canonical state from imported external runtime evidence.",
+          "validation_id": "run_inherited_benchmarks"
+        }
+      ],
+      "next_recommended_task_id": null,
+      "objective_id": "json-health-checker-autonomy-to-promotion-build-pack-v1_objective",
+      "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+      "pending_task_ids": [],
+      "resume_instructions": [
+        "Read the objective, backlog, and work-state files before editing code.",
+        "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+        "Run the validation task before attempting benchmark execution or deployment workflows."
+      ],
+      "schema_version": "work-state/v1",
+      "stop_conditions": [
+        "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+        "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+      ]
+    }
+  },
+  "generated_at": "2026-03-25T17:33:09Z",
+  "promotion_request_path": "/home/orchadmin/project-pack-factory/.pack-state/autonomy-to-promotion-workflows/autonomy-to-promotion-workflow-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/promotion-request.json",
+  "promotion_result": {
+    "promotion_id": "promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z",
+    "promotion_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+    "status": "completed"
+  },
+  "rehearsal_result": {
+    "active_task_run_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-active-task-continuity-run-v1",
+    "canonical_readiness_refresh_ready_for_deployment": true,
+    "final_readiness_state": "ready_for_deploy",
+    "final_ready_for_deployment": true,
+    "latest_memory_run_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1",
+    "ready_boundary_run_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1",
+    "rehearsal_id": "multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z",
+    "report_path": "/home/orchadmin/project-pack-factory/.pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/rehearsal-report.json",
+    "status": "completed",
+    "target_build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+    "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1"
+  },
+  "release_result": {
+    "artifact_paths": [
+      "src/",
+      "tests/",
+      "contracts/",
+      "docs/specs/",
+      "benchmarks/active-set.json",
+      "eval/latest/index.json"
+    ],
+    "built_at": "2026-03-25T17:33:09Z",
+    "candidate_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/dist/candidates/json-health-checker-autonomy-to-promotion-build-pack-v1-r1/release.json",
+    "release_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+    "release_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/dist/releases/json-health-checker-autonomy-to-promotion-build-pack-v1-r1/release.json",
+    "status": "completed"
+  },
+  "remote_host": "adf-dev",
+  "remote_target_label": "adf-dev",
+  "remote_user": "adf",
+  "schema_version": "autonomy-to-promotion-workflow-report/v1",
+  "skip_promotion": false,
+  "source_template_id": "json-health-checker-template-pack",
+  "status": "completed",
+  "target_build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "target_environment": "testing",
+  "workflow_id": "autonomy-to-promotion-workflow-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z"
+}

@@ -84,12 +84,15 @@ def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: P
     assert "build pack, not a source template" in agents_text
     assert "pack.json.post_bootstrap_read_order" in agents_text
     assert "export bounded runtime evidence when running externally" in agents_text
+    assert "promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report" in agents_text
     assert (target_root / "dist/exports/runtime-evidence").exists()
     assert (target_root / "src/pack_export_runtime_evidence.py").exists()
 
     project_objective = load_json(target_root / "contracts/project-objective.json")
     assert project_objective["pack_id"] == "slim-build-pack"
     assert project_objective["objective_id"] == "slim-build-pack_objective"
+    assert project_objective["autonomy_rehearsal_requirement"]["required_for_promotion"] is True
+    assert project_objective["autonomy_rehearsal_requirement"]["workflow_id"] == "multi_hop_autonomy_rehearsal"
 
     task_backlog = load_json(target_root / "tasks/active-backlog.json")
     task_ids = [task["task_id"] for task in task_backlog["tasks"]]

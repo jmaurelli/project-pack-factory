@@ -1,0 +1,10 @@
+{
+  "import_bundle": true,
+  "import_reason": "Factory-default feedback-memory continuity import from canonical ready-for-deploy state.",
+  "imported_by": "codex",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-feedback-baseline-build-pack-v1/json-health-checker-feedback-baseline-build-pack-v1-continuity-run-v1/incoming",
+  "pull_bundle": true,
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/json-health-checker-feedback-baseline-build-pack-v1/json-health-checker-feedback-baseline-build-pack-v1-continuity-run-v1/remote-run-request.json",
+  "schema_version": "remote-autonomy-test-request/v1",
+  "test_reason": "PackFactory remote continuity run that confirms the active feedback-memory pointer can be reused at the deployment boundary."
+}

@@ -1,0 +1,28 @@
+{
+  "build_pack_id": "json-health-checker-feedback-baseline-build-pack-v1",
+  "build_pack_root": "build-packs/json-health-checker-feedback-baseline-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-feedback-baseline-build-pack-v1/dist/exports/runtime-evidence/external-runtime-evidence-baseline-feedback-smoke-001-20260325T144907Z/bundle.json",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_history_written": true,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "copied_artifact_paths": [
+    "external-runtime-evidence/bundle.json",
+    "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-baseline-feedback-smoke-001.json",
+    "external-runtime-evidence/artifacts/loop-events.jsonl",
+    "external-runtime-evidence/artifacts/run-summary.json"
+  ],
+  "generated_at": "2026-03-25T14:49:20Z",
+  "hash_verification_status": "pass",
+  "import_id": "import-external-runtime-evidence-20260325t144920z",
+  "import_reason": "Local verification of feedback-memory export/import default.",
+  "imported_by": "codex",
+  "schema_version": "external-runtime-evidence-import-report/v1",
+  "status": "completed",
+  "warnings": []
+}

@@ -457,8 +457,121 @@
       "source_template_id": "algosec-diagnostic-framework-template-pack",
       "status": "completed",
       "target_build_pack_id": "algosec-diagnostic-framework-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-feedback-baseline-build-pack-v1-20260325t142436z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-feedback-baseline-build-pack-v1-20260325t142436z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-feedback-baseline-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-active-task-continuity-build-pack-v1-20260325t155930z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-active-task-continuity-build-pack-v1-20260325t155930z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-active-task-continuity-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-multi-hop-autonomy-build-pack-v1-20260325t161028z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-multi-hop-autonomy-build-pack-v1-20260325t161028z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-multi-hop-autonomy-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-promotion-gate-build-pack-v1-20260325t163227z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-promotion-gate-build-pack-v1-20260325t163227z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-promotion-gate-build-pack-v1"
+    },
+    {
+      "build_pack_id": "json-health-checker-promotion-gate-build-pack-v1",
+      "event_type": "promoted",
+      "promotion_id": "promote-json-health-checker-promotion-gate-build-pack-v1-testing-20260325t163332z",
+      "promotion_report_path": "eval/history/promote-json-health-checker-promotion-gate-build-pack-v1-testing-20260325t163332z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "testing"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-one-pass-promotion-build-pack-v1-20260325t171940z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-one-pass-promotion-build-pack-v1-20260325t171940z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-one-pass-promotion-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-one-pass-promotion-proof-build-pack-v1-20260325t172013z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-one-pass-promotion-proof-build-pack-v1-20260325t172013z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-one-pass-promotion-proof-build-pack-v1"
+    },
+    {
+      "build_pack_id": "json-health-checker-one-pass-promotion-proof-build-pack-v1",
+      "event_type": "promoted",
+      "promotion_id": "promote-json-health-checker-one-pass-promotion-proof-build-pack-v1-testing-20260325t172121z",
+      "promotion_report_path": "eval/history/promote-json-health-checker-one-pass-promotion-proof-build-pack-v1-testing-20260325t172121z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "testing"
+    },
+    {
+      "event_type": "retired",
+      "retired_at": "2026-03-25T17:22:29Z",
+      "retired_pack_id": "json-health-checker-one-pass-promotion-build-pack-v1",
+      "retired_pack_kind": "build_pack",
+      "retirement_reason": "Superseded by the successful one-pass promotion proof after a transport-only SSH host mismatch during the first rehearsal attempt.",
+      "retirement_report_path": "eval/history/retire-json-health-checker-one-pass-promotion-build-pack-v1-20260325t172229z/retirement-report.json",
+      "status": "completed"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1"
+    },
+    {
+      "build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+      "event_type": "promoted",
+      "promotion_id": "promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z",
+      "promotion_report_path": "eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+      "status": "completed",
+      "target_environment": "testing"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-memory-block-reporting-build-pack-v1-20260325t173907z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-memory-block-reporting-build-pack-v1-20260325t173907z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-memory-block-reporting-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-block-reporting-build-pack-v1-20260325t173907z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-block-reporting-build-pack-v1-20260325t173907z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-block-reporting-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-drift-exercise-build-pack-v1-20260325t174554z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-drift-exercise-build-pack-v1-20260325t174554z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-drift-exercise-build-pack-v1"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-23T22:02:54Z"
+  "updated_at": "2026-03-25T17:45:54Z"
 }

@@ -1,0 +1,37 @@
+{
+  "build_pack_id": "json-health-checker-feedback-baseline-build-pack-v1",
+  "build_pack_root": "build-packs/json-health-checker-feedback-baseline-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-feedback-baseline-build-pack-v1/json-health-checker-feedback-baseline-run-v1/incoming/bundle/bundle.json",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_history_written": true,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "copied_artifact_paths": [
+    "external-runtime-evidence/bundle.json",
+    "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+    "external-runtime-evidence/artifacts/loop-events.jsonl",
+    "external-runtime-evidence/artifacts/run-summary.json"
+  ],
+  "generated_at": "2026-03-25T15:17:45Z",
+  "hash_verification_status": "pass",
+  "import_id": "import-external-runtime-evidence-20260325t151745z",
+  "import_reason": "Factory-level memory intake verification from remote proving-ground bundle.",
+  "imported_by": "codex",
+  "memory_intake": {
+    "latest_pointer_path": ".pack-state/agent-memory/latest-memory.json",
+    "promoted_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+    "selected_memory_id": "autonomy-feedback-json-health-checker-feedback-baseline-run-v1",
+    "selected_memory_sha256": "b073a71b77604bd3fb683fbedfdb5ee55cf7d450f9a04d84fdbd9fca429d9cf8",
+    "selected_run_id": "json-health-checker-feedback-baseline-run-v1",
+    "source_bundle_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+    "status": "promoted"
+  },
+  "schema_version": "external-runtime-evidence-import-report/v1",
+  "status": "completed",
+  "warnings": []
+}

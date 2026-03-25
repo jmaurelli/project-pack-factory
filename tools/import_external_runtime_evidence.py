@@ -18,6 +18,7 @@ from factory_ops import (
     discover_pack,
     isoformat_z,
     load_json,
+    remove_file,
     read_now,
     relative_path,
     resolve_factory_root,
@@ -30,6 +31,7 @@ from factory_ops import (
 REQUEST_SCHEMA_NAME: Final[str] = "external-runtime-evidence-import-request.schema.json"
 REPORT_SCHEMA_NAME: Final[str] = "external-runtime-evidence-import-report.schema.json"
 BUNDLE_SCHEMA_NAME: Final[str] = "external-runtime-evidence-bundle.schema.json"
+POINTER_SCHEMA_NAME: Final[str] = "autonomy-feedback-memory-pointer.schema.json"
 REQUEST_SCHEMA_VERSION: Final[str] = "external-runtime-evidence-import-request/v1"
 REPORT_SCHEMA_VERSION: Final[str] = "external-runtime-evidence-import-report/v1"
 BUNDLE_SCHEMA_VERSION: Final[str] = "external-runtime-evidence-bundle/v1"
@@ -37,6 +39,9 @@ AUTHORITY_CLASS: Final[str] = "supplementary_runtime_evidence"
 ALLOWED_ARTIFACT_ROOT: Final[str] = "artifacts"
 RUN_SUMMARY_NAME: Final[str] = "run-summary.json"
 LOOP_EVENTS_NAME: Final[str] = "loop-events.jsonl"
+FEEDBACK_MEMORY_DIRNAME: Final[str] = "agent-memory"
+LIVE_MEMORY_ROOT: Final[Path] = Path(".pack-state") / "agent-memory"
+LATEST_MEMORY_POINTER_NAME: Final[str] = "latest-memory.json"
 IMPORT_RUN_PREFIX: Final[str] = "import-external-runtime-evidence"
 
 
@@ -153,6 +158,49 @@ def _manual_validate_report(payload: dict[str, Any]) -> list[str]:
                     errors.append("report field `control_plane_mutations.eval_history_written` must be true")
             elif mutations.get(key) is not False:
                 errors.append(f"report field `control_plane_mutations.{key}` must be false")
+    memory_intake = payload.get("memory_intake")
+    if memory_intake is not None:
+        if not isinstance(memory_intake, dict):
+            errors.append("report field `memory_intake` must be an object when present")
+        else:
+            required_memory_keys = {
+                "status",
+                "promoted_memory_path",
+                "latest_pointer_path",
+                "selected_memory_id",
+                "selected_run_id",
+                "selected_memory_sha256",
+                "source_bundle_path",
+                "block_summary",
+            }
+            extra_memory_keys = sorted(set(memory_intake) - required_memory_keys)
+            missing_memory_keys = sorted(required_memory_keys - set(memory_intake))
+            if missing_memory_keys:
+                errors.append(
+                    f"report field `memory_intake` is missing keys: {', '.join(missing_memory_keys)}"
+                )
+            if extra_memory_keys:
+                errors.append(
+                    f"report field `memory_intake` contains unexpected keys: {', '.join(extra_memory_keys)}"
+                )
+            if memory_intake.get("status") not in {"activated", "promoted_only", "promoted", "not_present"}:
+                errors.append(
+                    "report field `memory_intake.status` must be `activated`, `promoted_only`, `promoted`, or `not_present`"
+                )
+            for key in (
+                "promoted_memory_path",
+                "latest_pointer_path",
+                "selected_memory_id",
+                "selected_run_id",
+                "selected_memory_sha256",
+                "source_bundle_path",
+            ):
+                value = memory_intake.get(key)
+                if value is not None and (not isinstance(value, str) or not value):
+                    errors.append(f"report field `memory_intake.{key}` must be null or a non-empty string")
+            block_summary = memory_intake.get("block_summary")
+            if block_summary is not None and not isinstance(block_summary, dict):
+                errors.append("report field `memory_intake.block_summary` must be null or an object")
     return errors
 
 
@@ -203,11 +251,14 @@ def _validate_bundle_path(bundle_path: str) -> None:
         raise ValueError(f"{bundle_path}: path traversal is not allowed")
     if len(parts) == 2 and parts[1] in {RUN_SUMMARY_NAME, LOOP_EVENTS_NAME}:
         return
+    if len(parts) == 3 and parts[1] == FEEDBACK_MEMORY_DIRNAME and parts[2].endswith(".json"):
+        return
     if len(parts) >= 3 and parts[1] == "logs":
         return
     raise ValueError(
         f"{bundle_path}: v1 allows only `{ALLOWED_ARTIFACT_ROOT}/{RUN_SUMMARY_NAME}`, "
-        f"`{ALLOWED_ARTIFACT_ROOT}/{LOOP_EVENTS_NAME}`, and `{ALLOWED_ARTIFACT_ROOT}/logs/*`"
+        f"`{ALLOWED_ARTIFACT_ROOT}/{LOOP_EVENTS_NAME}`, "
+        f"`{ALLOWED_ARTIFACT_ROOT}/{FEEDBACK_MEMORY_DIRNAME}/*.json`, and `{ALLOWED_ARTIFACT_ROOT}/logs/*`"
     )
 
 
@@ -230,6 +281,176 @@ def _validate_loop_events(path: Path, run_id: str) -> None:
             raise ValueError(f"{path}:{line_number}: loop event run_id does not match selected run")
 
 
+def _validate_feedback_memory(path: Path, run_id: str, pack_id: str) -> None:
+    payload = _load_object(path)
+    if payload.get("schema_version") != "autonomy-feedback-memory/v1":
+        raise ValueError(f"{path}: feedback memory must set schema_version=autonomy-feedback-memory/v1")
+    if payload.get("run_id") != run_id:
+        raise ValueError(f"{path}: feedback memory run_id does not match selected run")
+    if payload.get("pack_id") != pack_id:
+        raise ValueError(f"{path}: feedback memory pack_id does not match target build pack")
+
+
+def _validate_pointer_payload(factory_root: Path, payload: dict[str, Any]) -> None:
+    _validate_payload_or_schema(
+        factory_root,
+        POINTER_SCHEMA_NAME,
+        payload,
+        label="autonomy-feedback-memory-pointer",
+        manual_validator=lambda pointer_payload: [],
+    )
+
+
+def _promote_feedback_memory(
+    *,
+    target_pack,
+    memory_artifact_path: Path,
+    source_bundle_path: str,
+) -> dict[str, Any]:
+    memory_payload = _load_object(memory_artifact_path)
+    memory_filename = memory_artifact_path.name
+    live_memory_root = target_pack.pack_root / LIVE_MEMORY_ROOT
+    live_memory_root.mkdir(parents=True, exist_ok=True)
+    promoted_memory_path = live_memory_root / memory_filename
+    shutil.copy2(memory_artifact_path, promoted_memory_path)
+    promoted_memory_sha256 = _sha256(promoted_memory_path)
+    promoted_memory_relpath = f"{LIVE_MEMORY_ROOT.as_posix()}/{memory_filename}"
+    return {
+        "status": "promoted",
+        "promoted_memory_path": promoted_memory_relpath,
+        "latest_pointer_path": None,
+        "selected_memory_id": memory_payload.get("memory_id"),
+        "selected_run_id": memory_payload.get("run_id"),
+        "selected_memory_sha256": promoted_memory_sha256,
+        "source_bundle_path": source_bundle_path,
+    }
+
+
+def _canonical_memory_alignment(pack_root: Path) -> dict[str, Any]:
+    work_state = _load_object(pack_root / "status/work-state.json")
+    readiness = _load_object(pack_root / "status/readiness.json")
+    return {
+        "active_task_id": work_state.get("active_task_id"),
+        "next_recommended_task_id": work_state.get("next_recommended_task_id"),
+        "final_readiness_state": readiness.get("readiness_state"),
+        "ready_for_deployment": readiness.get("ready_for_deployment"),
+    }
+
+
+def _memory_matches_canonical(memory_payload: dict[str, Any], canonical_alignment: dict[str, Any]) -> bool:
+    return (
+        memory_payload.get("active_task_id") == canonical_alignment.get("active_task_id")
+        and memory_payload.get("next_recommended_task_id") == canonical_alignment.get("next_recommended_task_id")
+        and memory_payload.get("final_readiness_state") == canonical_alignment.get("final_readiness_state")
+        and memory_payload.get("ready_for_deployment") == canonical_alignment.get("ready_for_deployment")
+    )
+
+
+def _memory_mismatch_details(memory_payload: dict[str, Any], canonical_alignment: dict[str, Any]) -> list[str]:
+    details: list[str] = []
+    for key in (
+        "active_task_id",
+        "next_recommended_task_id",
+        "final_readiness_state",
+        "ready_for_deployment",
+    ):
+        if memory_payload.get(key) == canonical_alignment.get(key):
+            continue
+        details.append(
+            f"{key}: imported={memory_payload.get(key)!r} canonical={canonical_alignment.get(key)!r}"
+        )
+    return details
+
+
+def _memory_block_summary(
+    *,
+    memory_payload: dict[str, Any],
+    canonical_alignment: dict[str, Any],
+) -> dict[str, Any] | None:
+    if _memory_matches_canonical(memory_payload, canonical_alignment):
+        return None
+    mismatch_details = _memory_mismatch_details(memory_payload, canonical_alignment)
+    if any(detail.startswith("active_task_id") or detail.startswith("next_recommended_task_id") for detail in mismatch_details):
+        artifact_kind = "work_state"
+        artifact_path = "status/work-state.json"
+    else:
+        artifact_kind = "readiness"
+        artifact_path = "status/readiness.json"
+    return {
+        "status": "blocked",
+        "reason": "memory_not_activated_due_to_canonical_mismatch",
+        "summary": "Imported feedback memory was preserved but not activated because it no longer matched the pack's canonical local state.",
+        "blocking_artifact_kind": artifact_kind,
+        "blocking_artifact_path": artifact_path,
+        "recommended_recovery_action": "Run the imported runtime-state reconcile workflow if you want to adopt the returned remote state; otherwise continue from the current active latest-memory pointer.",
+        "details": mismatch_details,
+    }
+
+
+def _select_active_memory_candidate(pack_root: Path, pack_id: str) -> tuple[Path, dict[str, Any], str] | None:
+    memory_root = pack_root / LIVE_MEMORY_ROOT
+    canonical_alignment = _canonical_memory_alignment(pack_root)
+    candidates: list[tuple[str, str, Path, dict[str, Any], str]] = []
+    for path in sorted(memory_root.glob("autonomy-feedback-*.json")):
+        payload = _load_object(path)
+        if payload.get("schema_version") != "autonomy-feedback-memory/v1":
+            continue
+        if payload.get("pack_id") != pack_id:
+            continue
+        if not _memory_matches_canonical(payload, canonical_alignment):
+            continue
+        generated_at = payload.get("generated_at")
+        if not isinstance(generated_at, str) or not generated_at:
+            continue
+        candidates.append((generated_at, path.name, path, payload, _sha256(path)))
+    if not candidates:
+        return None
+    _generated_at, _name, selected_path, selected_payload, selected_sha256 = max(candidates)
+    return selected_path, selected_payload, selected_sha256
+
+
+def _refresh_latest_memory_pointer(
+    *,
+    factory_root: Path,
+    target_pack,
+    import_generated_at: str,
+    import_id: str,
+    promoted_memory_path: Path,
+    source_bundle_path: str,
+) -> dict[str, Any]:
+    pointer_path = target_pack.pack_root / LIVE_MEMORY_ROOT / LATEST_MEMORY_POINTER_NAME
+    selected = _select_active_memory_candidate(target_pack.pack_root, target_pack.pack_id)
+    if selected is None:
+        remove_file(pointer_path)
+        return {
+            "status": "promoted_only",
+            "latest_pointer_path": None,
+        }
+
+    selected_path, selected_payload, selected_sha256 = selected
+    selected_memory_relpath = relative_path(target_pack.pack_root, selected_path)
+    pointer_payload = {
+        "schema_version": "autonomy-feedback-memory-pointer/v1",
+        "updated_at": import_generated_at,
+        "pack_id": target_pack.pack_id,
+        "selected_memory_id": selected_payload.get("memory_id"),
+        "selected_run_id": selected_payload.get("run_id"),
+        "selected_generated_at": selected_payload.get("generated_at"),
+        "selected_memory_path": selected_memory_relpath,
+        "selected_memory_sha256": selected_sha256,
+        "source_kind": "imported_external_runtime_evidence" if selected_path == promoted_memory_path else "local_autonomy_run",
+        "source_import_id": import_id if selected_path == promoted_memory_path else None,
+        "source_artifact_path": source_bundle_path if selected_path == promoted_memory_path else None,
+        "source_import_report_path": f"eval/history/{import_id}/import-report.json" if selected_path == promoted_memory_path else None,
+    }
+    _validate_pointer_payload(factory_root, pointer_payload)
+    write_json(pointer_path, pointer_payload)
+    return {
+        "status": "activated" if selected_path == promoted_memory_path else "promoted_only",
+        "latest_pointer_path": f"{LIVE_MEMORY_ROOT.as_posix()}/{LATEST_MEMORY_POINTER_NAME}",
+    }
+
+
 def _validate_artifact_manifest(
     *,
     bundle_manifest: dict[str, Any],
@@ -244,6 +465,7 @@ def _validate_artifact_manifest(
     selected: list[tuple[Path, Path, bool]] = []
     seen_bundle_paths: set[str] = set()
     required_run_summary_found = False
+    feedback_memory_count = 0
 
     for entry in artifact_manifest:
         if not isinstance(entry, dict):
@@ -294,11 +516,16 @@ def _validate_artifact_manifest(
 
         if bundle_path == f"{ALLOWED_ARTIFACT_ROOT}/{LOOP_EVENTS_NAME}":
             _validate_loop_events(source_path, run_id)
+        elif Path(bundle_path).parts[1] == FEEDBACK_MEMORY_DIRNAME:
+            feedback_memory_count += 1
+            _validate_feedback_memory(source_path, run_id, pack_id)
 
         selected.append((source_path, Path(bundle_path), required))
 
     if not required_run_summary_found:
         raise ValueError("bundle.json must include required artifacts/run-summary.json")
+    if feedback_memory_count > 1:
+        raise ValueError("bundle.json may include at most one feedback-memory artifact")
 
     run_summary_entry = next(
         (entry for entry in artifact_manifest if entry.get("bundle_path") == f"{ALLOWED_ARTIFACT_ROOT}/{RUN_SUMMARY_NAME}"),
@@ -442,6 +669,51 @@ def import_external_runtime_evidence(
         shutil.copy2(source_path, target_path)
         copied_artifact_paths.append(f"external-runtime-evidence/{bundle_path.as_posix()}")
 
+    memory_artifact_entry = next(
+        (
+            (source_path, bundle_path)
+            for source_path, bundle_path, _required in artifact_entries
+            if bundle_path.parts[1] == FEEDBACK_MEMORY_DIRNAME
+        ),
+        None,
+    )
+    import_report_relpath = f"eval/history/{import_id}/import-report.json"
+    memory_intake = {
+        "status": "not_present",
+        "promoted_memory_path": None,
+        "latest_pointer_path": None,
+        "selected_memory_id": None,
+        "selected_run_id": None,
+        "selected_memory_sha256": None,
+        "source_bundle_path": None,
+        "block_summary": None,
+    }
+    if memory_artifact_entry is not None:
+        _source_path, bundle_path = memory_artifact_entry
+        imported_memory_artifact_path = external_root / bundle_path
+        memory_intake = _promote_feedback_memory(
+            target_pack=target_pack,
+            memory_artifact_path=imported_memory_artifact_path,
+            source_bundle_path=f"external-runtime-evidence/{bundle_path.as_posix()}",
+        )
+        memory_payload = _load_object(imported_memory_artifact_path)
+        canonical_alignment = _canonical_memory_alignment(target_pack.pack_root)
+        pointer_refresh = _refresh_latest_memory_pointer(
+            factory_root=factory_root,
+            target_pack=target_pack,
+            import_generated_at=generated_at,
+            import_id=import_id,
+            promoted_memory_path=target_pack.pack_root / cast(str, memory_intake["promoted_memory_path"]),
+            source_bundle_path=cast(str, memory_intake["source_bundle_path"]),
+        )
+        memory_intake["status"] = pointer_refresh["status"]
+        memory_intake["latest_pointer_path"] = pointer_refresh["latest_pointer_path"]
+        if pointer_refresh["status"] == "promoted_only":
+            memory_intake["block_summary"] = _memory_block_summary(
+                memory_payload=memory_payload,
+                canonical_alignment=canonical_alignment,
+            )
+
     report_payload = {
         "schema_version": REPORT_SCHEMA_VERSION,
         "import_id": import_id,
@@ -464,6 +736,7 @@ def import_external_runtime_evidence(
             "registry_updated": False,
             "release_artifacts_updated": False,
         },
+        "memory_intake": memory_intake,
     }
     report_path = import_root / "import-report.json"
     _write_import_report_schema_validated(
@@ -480,6 +753,7 @@ def import_external_runtime_evidence(
         "build_pack_root": relative_path(factory_root, target_pack.pack_root),
         "import_report_path": str(report_path),
         "copied_artifact_paths": copied_artifact_paths,
+        "memory_intake": memory_intake,
     }
 
 

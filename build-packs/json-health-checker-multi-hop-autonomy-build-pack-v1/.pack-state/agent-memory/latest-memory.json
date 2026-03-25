@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-multi-hop-autonomy-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T16:10:45Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-multi-hop-autonomy-build-pack-v1-continuity-run-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-multi-hop-autonomy-build-pack-v1-continuity-run-v1.json",
+  "selected_memory_sha256": "f9e75c21507d3286f56f745ac81f128d652e201e958a850e08f1fa1e956483e3",
+  "selected_run_id": "json-health-checker-multi-hop-autonomy-build-pack-v1-continuity-run-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-multi-hop-autonomy-build-pack-v1-continuity-run-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t161048z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t161048z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T16:10:48Z"
+}

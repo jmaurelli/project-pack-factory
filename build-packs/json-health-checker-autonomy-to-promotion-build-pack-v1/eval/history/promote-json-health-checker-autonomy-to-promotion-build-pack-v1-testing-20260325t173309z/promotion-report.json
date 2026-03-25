@@ -1,0 +1,138 @@
+{
+  "actions": [
+    {
+      "action_id": "update_lifecycle_state",
+      "status": "completed",
+      "summary": "Updated lifecycle stage and next promotion target.",
+      "target_path": "build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/lifecycle.json"
+    },
+    {
+      "action_id": "update_deployment_state",
+      "status": "completed",
+      "summary": "Updated active deployment state for the target environment.",
+      "target_path": "build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/deployment.json"
+    },
+    {
+      "action_id": "verify_autonomy_rehearsal_evidence",
+      "status": "reconciled",
+      "summary": "Verified the completed multi-hop autonomy rehearsal that matched the pack's current canonical state.",
+      "target_path": ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/rehearsal-report.json"
+    },
+    {
+      "action_id": "evict_prior_assignee",
+      "status": "completed",
+      "summary": "Evicted prior assignee json-health-checker-one-pass-promotion-proof-build-pack-v1 from testing before promotion.",
+      "target_path": "deployments/testing/json-health-checker-one-pass-promotion-proof-build-pack-v1.json"
+    },
+    {
+      "action_id": "clear_prior_deployment_state",
+      "status": "completed",
+      "summary": "Cleared the prior assignee's canonical deployment state.",
+      "target_path": "build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/status/deployment.json"
+    },
+    {
+      "action_id": "clear_prior_registry_assignment",
+      "status": "completed",
+      "summary": "Cleared the prior assignee's registry deployment fields.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "write_deployment_pointer",
+      "status": "completed",
+      "summary": "Wrote the active environment deployment pointer.",
+      "target_path": "deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json"
+    },
+    {
+      "action_id": "update_registry_entry",
+      "status": "completed",
+      "summary": "Updated the build-pack registry entry for the promoted release.",
+      "target_path": "registry/build-packs.json"
+    },
+    {
+      "action_id": "append_operation_log",
+      "status": "completed",
+      "summary": "Appended the promotion event to the factory operation log.",
+      "target_path": "registry/promotion-log.json"
+    },
+    {
+      "action_id": "write_promotion_report",
+      "status": "completed",
+      "summary": "Wrote the terminal promotion evidence report.",
+      "target_path": "build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json"
+    }
+  ],
+  "autonomy_rehearsal_evidence": {
+    "final_readiness_state": "ready_for_deploy",
+    "final_ready_for_deployment": true,
+    "generated_at": "2026-03-25T17:33:09Z",
+    "latest_memory_run_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-continuity-run-v1",
+    "rehearsal_id": "multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z",
+    "remote_target_label": "adf-dev",
+    "report_path": ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/rehearsal-report.json",
+    "status": "completed",
+    "workflow_id": "multi_hop_autonomy_rehearsal"
+  },
+  "build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "build_pack_root": "build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "evicted_prior_assignment": {
+    "cleared_deployment_file": "build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/status/deployment.json",
+    "cleared_registry_fields": [
+      "deployment_state",
+      "deployment_pointer",
+      "active_release_id"
+    ],
+    "environment": "testing",
+    "pack_id": "json-health-checker-one-pass-promotion-proof-build-pack-v1",
+    "removed_pointer_path": "deployments/testing/json-health-checker-one-pass-promotion-proof-build-pack-v1.json"
+  },
+  "evidence_paths": [
+    "build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+    ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-json-health-checker-autonomy-to-promotion-build-pack-v1-20260325t173250z/rehearsal-report.json",
+    "deployments/testing/json-health-checker-one-pass-promotion-proof-build-pack-v1.json",
+    "build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/status/deployment.json",
+    "deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+    "build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/deployment.json"
+  ],
+  "generated_at": "2026-03-25T17:33:09Z",
+  "operation_log_update": {
+    "build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+    "event_type": "promoted",
+    "promotion_id": "promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z",
+    "promotion_log_path": "registry/promotion-log.json",
+    "promotion_report_path": "eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+    "target_environment": "testing"
+  },
+  "post_promotion_state": {
+    "active_environment": "testing",
+    "active_release_path": "dist/releases/json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+    "deployment_pointer_path": "deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+    "deployment_state": "testing",
+    "last_promoted_at": "2026-03-25T17:33:09Z",
+    "last_verified_at": "2026-03-25T17:33:09Z",
+    "lifecycle_stage": "testing"
+  },
+  "pre_promotion_state": {
+    "active_environment": "none",
+    "active_release_path": null,
+    "deployment_pointer_path": null,
+    "deployment_state": "not_deployed",
+    "last_promoted_at": null,
+    "last_verified_at": null,
+    "lifecycle_stage": "testing"
+  },
+  "promoted_by": "codex",
+  "promotion_id": "promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z",
+  "promotion_reason": "Run the factory-default autonomy-to-promotion workflow after a successful multi-hop autonomy rehearsal.",
+  "reconcile_refresh": null,
+  "registry_update": {
+    "deployment_pointer": "deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+    "deployment_state": "testing",
+    "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+    "registry_path": "registry/build-packs.json"
+  },
+  "release_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+  "release_path": "dist/releases/json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+  "schema_version": "build-pack-promotion-report/v1",
+  "status": "completed",
+  "target_environment": "testing"
+}

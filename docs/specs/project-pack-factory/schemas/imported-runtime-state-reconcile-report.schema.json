@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/imported-runtime-state-reconcile-report.schema.json",
+  "title": "Imported Runtime State Reconcile Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "reconcile_id",
+    "generated_at",
+    "status",
+    "build_pack_id",
+    "build_pack_root",
+    "import_report_path",
+    "reconcile_reason",
+    "reconciled_by",
+    "source_import_id",
+    "source_run_id",
+    "source_run_summary_path",
+    "memory_pointer_status",
+    "control_plane_mutations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "imported-runtime-state-reconcile-report/v1"
+    },
+    "reconcile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed"
+      ]
+    },
+    "build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "build_pack_root": {
+      "type": "string",
+      "pattern": "^build-packs/[a-z0-9][a-z0-9_-]*$"
+    },
+    "import_report_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reconcile_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reconciled_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_import_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_run_summary_path": {
+      "type": "string",
+      "pattern": "^eval/history/.+\\.json$"
+    },
+    "memory_pointer_status": {
+      "type": "string",
+      "enum": [
+        "activated",
+        "promoted_only",
+        "not_present"
+      ]
+    },
+    "control_plane_mutations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "readiness_updated",
+        "work_state_updated",
+        "eval_latest_updated",
+        "task_backlog_updated",
+        "memory_pointer_updated",
+        "eval_history_written"
+      ],
+      "properties": {
+        "readiness_updated": {
+          "type": "boolean"
+        },
+        "work_state_updated": {
+          "type": "boolean"
+        },
+        "eval_latest_updated": {
+          "type": "boolean"
+        },
+        "task_backlog_updated": {
+          "type": "boolean"
+        },
+        "memory_pointer_updated": {
+          "type": "boolean"
+        },
+        "eval_history_written": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "before_summary": {
+      "type": "object"
+    },
+    "after_summary": {
+      "type": "object"
+    }
+  }
+}

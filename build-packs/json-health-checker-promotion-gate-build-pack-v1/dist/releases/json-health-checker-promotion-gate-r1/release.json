@@ -1,0 +1,17 @@
+{
+  "artifact_paths": [
+    "src/",
+    "tests/",
+    "contracts/",
+    "docs/specs/",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "build_pack_id": "json-health-checker-promotion-gate-build-pack-v1",
+  "built_at": "2026-03-25T16:32:40Z",
+  "release_id": "json-health-checker-promotion-gate-r1",
+  "release_state": "testing",
+  "schema_version": "pack-release/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "source_template_revision": "create-template-json-health-checker-template-pack-20260321t023354z"
+}

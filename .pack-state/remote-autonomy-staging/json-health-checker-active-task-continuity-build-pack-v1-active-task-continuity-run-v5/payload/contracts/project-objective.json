@@ -1,0 +1,50 @@
+{
+  "completion_definition": [
+    "All starter tasks in tasks/active-backlog.json are completed or explicitly resolved through existing workflows.",
+    "The build-pack is ready for review, ready for deploy, or awaiting the next PackFactory workflow step."
+  ],
+  "generated_at": "2026-03-25T15:59:30Z",
+  "intended_inputs": [
+    "Pack-local source code and configuration under the materialized build-pack.",
+    "Validation and benchmark commands declared in pack.json entrypoints.",
+    "Current readiness, eval, and benchmark state for this build-pack."
+  ],
+  "intended_outputs": [
+    "A schema-valid build-pack with current validation and benchmark evidence.",
+    "Updated readiness and eval state that supports promotion decisions."
+  ],
+  "materialization_id": "materialize-json-health-checker-active-task-continuity-build-pack-v1-20260325t155930z",
+  "metrics": [
+    {
+      "evidence_hint": "status/readiness.json and eval/latest/index.json",
+      "metric_id": "validation_gate_status",
+      "summary": "Validation gate reaches a passing state.",
+      "target": "validate_build_pack_contract=pass"
+    },
+    {
+      "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
+      "metric_id": "benchmark_completion",
+      "summary": "All inherited readiness benchmarks complete successfully.",
+      "target": "required inherited benchmark gates=pass or waived"
+    }
+  ],
+  "non_goals": [
+    "Changing deployment state outside the existing PackFactory workflows.",
+    "Creating new tests or benchmarks without explicit operator approval."
+  ],
+  "objective_id": "json-health-checker-active-task-continuity-build-pack-v1_objective",
+  "objective_summary": "Create a tiny PackFactory-native template for validating a JSON file against a required field set and reporting pass or fail clearly.",
+  "pack_id": "json-health-checker-active-task-continuity-build-pack-v1",
+  "problem_statement": "# Project Context\n\nThis template was created to support the following project goal:\n\n- Create a tiny PackFactory-native template for validating a JSON file against a required field set and reporting pass or fail clearly.\n\n## Priority\n\n1. Keep the template valid for PackFactory traversal and later materialization.\n2. Keep validation and benchmark commands small and deterministic.\n3. Keep the runtime behavior focused on one small JSON health-check task.\n4. Keep the pack easy for a fresh agent to inspect.\n\n## Primary Runtime Surfaces\n\n- `src/json_health_checker_template_pack/cli.py`\n- `src/json_health_checker_template_pack/json_health_checker.py`\n- `src/json_health_checker_template_pack/validate_project_pack.py`\n- `src/json_health_checker_template_pack/benchmark_smoke.py`\n- `benchmarks/active-set.json`\n- `benchmarks/declarations/json-health-checker-template-pack-smoke-small-001.json`\n- `eval/latest/index.json`\n\n## Local State\n\n- local scratch state: `.pack-state/`",
+  "promotion_readiness_requirements": [
+    "Build-pack validation must pass with recorded evidence.",
+    "Inherited required benchmark gates must pass or be waived.",
+    "Readiness state must be updated through existing bounded validation and benchmark surfaces."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "success_criteria": [
+    "The build-pack validation command completes successfully and records passing evidence.",
+    "The inherited benchmark command completes successfully and updates readiness evidence."
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "current_revision": "autonomy-to-promotion-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "staging",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Run the factory-default autonomy-to-promotion workflow after a successful multi-hop autonomy rehearsal.",
+  "updated_at": "2026-03-25T17:33:09Z",
+  "updated_by": "codex"
+}

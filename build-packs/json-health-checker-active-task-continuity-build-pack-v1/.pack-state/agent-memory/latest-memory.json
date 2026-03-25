@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-active-task-continuity-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T16:04:00Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-active-task-continuity-build-pack-v1-active-task-continuity-run-v5",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-active-task-continuity-build-pack-v1-active-task-continuity-run-v5.json",
+  "selected_memory_sha256": "687c5d638f924b1d73974ef23facdedb128b95c520c226098f3e800cad9bedbd",
+  "selected_run_id": "json-health-checker-active-task-continuity-build-pack-v1-active-task-continuity-run-v5",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-active-task-continuity-build-pack-v1-active-task-continuity-run-v5.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t160402z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t160402z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T16:04:20Z"
+}

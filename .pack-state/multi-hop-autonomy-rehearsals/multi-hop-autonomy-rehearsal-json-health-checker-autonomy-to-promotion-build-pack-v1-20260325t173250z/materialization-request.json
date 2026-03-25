@@ -1,0 +1,12 @@
+{
+  "copy_mode": "copy_pack_root",
+  "include_benchmark_declarations": true,
+  "materialization_reason": "Create a fresh proving-ground build-pack for PackFactory multi-hop autonomy rehearsal.",
+  "materialized_by": "codex",
+  "schema_version": "build-pack-materialization-request/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "target_build_pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "target_display_name": "JSON Health Checker Autonomy To Promotion Build Pack v1",
+  "target_revision": "autonomy-to-promotion-v1",
+  "target_version": "0.1.0"
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/imported-runtime-state-reconcile-request.schema.json",
+  "title": "Imported Runtime State Reconcile Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "build_pack_id",
+    "import_report_path",
+    "reconcile_reason",
+    "reconciled_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "imported-runtime-state-reconcile-request/v1"
+    },
+    "build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "import_report_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reconcile_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reconciled_by": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

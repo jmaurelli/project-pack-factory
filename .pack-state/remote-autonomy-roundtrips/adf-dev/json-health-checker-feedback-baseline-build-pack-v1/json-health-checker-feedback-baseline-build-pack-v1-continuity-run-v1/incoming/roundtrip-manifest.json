@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "74af90a48fa48c143e7d96224181eb60a981dced1fc589b85c04f87e505fa6ec",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-feedback-baseline-build-pack-v1/json-health-checker-feedback-baseline-build-pack-v1-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "3854e0983b222add542ce7517e6f46955c084e263905d4aec6cfd65e5f7e32c7",
+  "portable_helper_manifest_sha256": "bfe487f4ecefcdcc9e58a71a3dafb4a30e0b8adb8195822b457fa8f922ef8dde",
+  "pulled_at": "2026-03-25T15:44:49Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-feedback-baseline-build-pack-v1/json-health-checker-feedback-baseline-build-pack-v1-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "128c1ef1850c90be70f455dc111d4b723958992babfe7a85b967c4e7cbc67e46",
+  "remote_run_request_sha256": "4fb87da6b58c042624acfc56cf4e8aaa66b0c65c1db01b415a52e77b51e71d41",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-feedback-baseline-build-pack-v1-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-feedback-baseline-build-pack-v1",
+  "target_manifest_sha256": "61b5c23f94f4aca4374c2e70e46789256a4415c0cbd4786d2969db394a9009b6",
+  "wrapper_request_sha256": "2f53e7bcaa009b7fe99e4ffd3572da7b1a638283af52890c93eb2f67e4af3d2d"
+}

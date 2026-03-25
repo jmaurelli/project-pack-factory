@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-feedback-baseline-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T15:18:05Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-feedback-baseline-run-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+  "selected_memory_sha256": "71a90bb478bb865da05f78def5cdcdbbabee8810b3161fa5fc863b164f16a052",
+  "selected_run_id": "json-health-checker-feedback-baseline-run-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-feedback-baseline-run-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t152045z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t152045z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T15:20:45Z"
+}

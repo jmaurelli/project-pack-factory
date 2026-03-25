@@ -122,6 +122,127 @@
           "const": false
         }
       }
+    },
+    "memory_intake": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "promoted_memory_path",
+        "latest_pointer_path",
+        "selected_memory_id",
+        "selected_run_id",
+        "selected_memory_sha256",
+        "source_bundle_path",
+        "block_summary"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "activated",
+            "promoted_only",
+            "promoted",
+            "not_present"
+          ]
+        },
+        "promoted_memory_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "latest_pointer_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selected_memory_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selected_run_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selected_memory_sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_bundle_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "block_summary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/block_summary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "block_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "summary",
+        "blocking_artifact_kind",
+        "blocking_artifact_path",
+        "recommended_recovery_action"
+      ],
+      "properties": {
+        "status": {
+          "const": "blocked"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_artifact_kind": {
+          "type": "string",
+          "enum": [
+            "work_state",
+            "readiness",
+            "memory_compatibility"
+          ]
+        },
+        "blocking_artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended_recovery_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
     }
   }
 }

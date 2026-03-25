@@ -25,6 +25,8 @@ def generate_starlight_site(
     playbooks_root = docs_root / "playbooks"
     docs_root.mkdir(parents=True, exist_ok=True)
     playbooks_root.mkdir(parents=True, exist_ok=True)
+    for stale_playbook in playbooks_root.glob("*.md"):
+        stale_playbook.unlink()
 
     playbook_nav_entries: list[dict[str, str | int]] = []
     symptom_lookup = _symptoms_by_playbook(support_baseline)
@@ -332,6 +334,35 @@ def _render_playbook_markdown(
         [
             "    </div>",
             "  </div>",
+            '  <div class="adf-panel adf-cockpit-strip">',
+            '    <p class="adf-panel-label">Command-first flow</p>',
+            "    <p>Open one checkpoint, run the listed read-only commands, compare the healthy signal, then stop at the first failure point.</p>",
+            "  </div>",
+        ]
+    )
+    if dependency_path:
+        lines.extend(
+            [
+                '  <div class="adf-cockpit-path">',
+                '    <p class="adf-panel-label">Dependency path</p>',
+                '    <ol class="adf-path-list">',
+            ]
+        )
+        for item in dependency_path:
+            lines.extend(
+                [
+                    '      <li class="adf-path-item">',
+                    f'        <a class="adf-path-link" href="#{item["step_id"]}">',
+                    f'          <span class="adf-route-step">{item["step_label"]}</span>',
+                    f"          <strong>{item['label']}</strong>",
+                    f"          <span>{item['details']}</span>",
+                    "        </a>",
+                    "      </li>",
+                ]
+            )
+        lines.extend(["    </ol>", "  </div>"])
+    lines.extend(
+        [
             '  <div class="adf-cockpit-grid">',
             '    <aside class="adf-cockpit-nav adf-panel">',
             '      <p class="adf-panel-label">Quick jump</p>',
@@ -368,34 +399,8 @@ def _render_playbook_markdown(
         [
             "    </aside>",
             '    <div class="adf-cockpit-main">',
-            '      <div class="adf-panel adf-cockpit-strip">',
-            '        <p class="adf-panel-label">Command-first flow</p>',
-            "        <p>Open one checkpoint, run the listed read-only commands, compare the healthy signal, then stop at the first failure point.</p>",
-            "      </div>",
         ]
     )
-    if dependency_path:
-        lines.extend(
-            [
-                '      <div class="adf-cockpit-path">',
-                '        <p class="adf-panel-label">Dependency path</p>',
-                '        <ol class="adf-path-list">',
-            ]
-        )
-        for item in dependency_path:
-            lines.extend(
-                [
-                    '          <li class="adf-path-item">',
-                    f'            <a class="adf-path-link" href="#{item["step_id"]}">',
-                    f'              <span class="adf-route-step">{item["step_label"]}</span>',
-                    f"              <strong>{item['label']}</strong>",
-                    f"              <span>{item['details']}</span>",
-                    "            </a>",
-                    "          </li>",
-                ]
-            )
-        lines.extend(["        </ol>", "      </div>"])
-
     for step in playbook.get("steps", []):
         lines.extend(_render_step_markdown(step, dependency_by_step.get(step["step_id"])))
 
@@ -598,17 +603,71 @@ def _command_knowledge(command: dict[str, Any]) -> tuple[str, list[str]] | None:
             "Focus on `available` memory and whether swap is starting to grow heavily.",
             "Memory pressure means the server is low on available memory. When that happens, the server slows down, swap grows, or Linux may kill a process to protect itself.",
         ])
+    if raw == "uptime":
+        return ("Linux note: system load", [
+            "This is the quick load check for the host.",
+            "Focus on the `load average` values and whether they look unexpectedly high for the server.",
+            "High load can mean CPU pressure, blocked work, or heavy I/O wait.",
+        ])
     if raw.startswith("journalctl -k --since"):
         return ("Linux note: OOM pressure", [
             "This checks the Linux kernel log for memory-pressure kills.",
             "OOM means Out Of Memory. Linux may kill a process to protect the server.",
             "If you see OOM or `Killed process` lines, memory pressure is likely part of the failure.",
         ])
+    if raw.startswith("ps -eo pid,comm,%cpu,%mem --sort=-%cpu"):
+        return ("Linux note: top CPU consumers", [
+            "This shows which processes are using the most CPU right now.",
+            "Focus on whether one process is dominating CPU and whether that process matches the current symptom.",
+            "A single runaway process can starve the rest of the server and make higher-level application failures look worse than they are.",
+        ])
+    if "/health/ready" in raw:
+        return ("Linux note: service readiness", [
+            "This checks a local readiness endpoint instead of only checking whether the service process exists.",
+            "A readiness endpoint helps prove the service is healthy enough to answer real traffic.",
+            "Use the expected JSON value below as the main reference, not just the HTTP connection itself.",
+        ])
+    if "openid-configuration" in raw:
+        return ("Linux note: OIDC path", [
+            "This checks a real Keycloak OpenID Connect path that the local login flow depends on.",
+            "An HTTP 200 here is a stronger proof than a simple port check because it confirms the local path is answering correctly.",
+            "If this path fails while the service still looks up, treat it as an application-path problem instead of a simple process problem.",
+        ])
+    if "/afa/getStatus" in raw:
+        return ("Linux note: service heartbeat", [
+            "This checks a real ms-metro heartbeat path instead of only checking whether the Java process exists.",
+            "A heartbeat response helps prove the service is alive enough to answer application traffic.",
+            "Use this after the listener check when port 8080 is open but the UI still behaves badly.",
+        ])
+    if "/data/ms-metro/logs/localhost_access_log.txt" in raw and "grep -E '/afa/getStatus|/afa/api/v1/config/all/noauth'" in raw:
+        return ("Linux note: app traffic", [
+            "This checks whether ms-metro is serving useful application traffic, not only whether the port is open.",
+            "Focus on whether the expected Metro paths are returning 200 responses in recent access lines.",
+            "A service can look up from the outside and still fail here if the app path is returning errors or no longer serving requests.",
+        ])
+    if raw.startswith("ps -p $(cat /var/run/ms-metro/ms-metro.pid) -o "):
+        return ("Linux note: JVM activity", [
+            "This shows the live Metro JVM process with elapsed runtime, CPU, memory, and thread count.",
+            "Focus on whether CPU, memory, or thread count looks unexpectedly high for the current case.",
+            "This is a stronger answer to 'what is Metro busy doing' than reading random Java log lines first.",
+        ])
     if raw.startswith("journalctl -u "):
         return ("Linux note: service logs", [
             "Recent service logs are often the fastest way to find the real failure clue.",
             "Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.",
             "Use this after the status check when the service looks up but still behaves badly.",
+        ])
+    if raw.startswith("grep -n -i -E ") and "/data/ms-metro/logs/catalina.out" in raw:
+        return ("Linux note: Java log anomalies", [
+            "Large Java logs are often noisy when read from the bottom alone.",
+            "This check pulls likely error signatures first so the engineer can find the useful anomaly faster.",
+            "Use the line numbers and error keywords here as the first clue, then widen into the full log only if needed.",
+        ])
+    if raw.startswith("tail -n ") and ("/var/log/keycloak/" in raw or "/data/ms-metro/logs/" in raw):
+        return ("Linux note: file-based service logs", [
+            "This appliance writes the useful service clues to log files, not only to systemd journal output.",
+            "Focus on startup errors, dependency failures, auth errors, heap errors, and repeated retries.",
+            "Use the most specific log for the service you are checking before widening the search.",
         ])
     if label.lower().startswith("check config mapping"):
         return ("Linux note: config check", [

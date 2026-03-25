@@ -396,9 +396,102 @@ def _recommended_next_action(
             f"Recommended next action: continue with canonical next task `{next_task_id}` from status/work-state.json "
             "and use this summary as local measurement evidence only."
         )
-    if cast(dict[str, Any], metrics["canonical_state_integrity"])["status"] != "pass":
+    if cast(dict[str, Any], metrics["canonical_state_integrity"])["status"] == "fail":
         return "Recommended next action: resolve canonical state integrity issues before continuing autonomous work."
     return f"Recommended next action: review stop reason `{stop_reason}` with the current work-state and backlog before continuing."
+
+
+def _blocked_reason(stop_reason: str, final_snapshot: dict[str, Any], metrics: dict[str, Any]) -> bool:
+    if final_snapshot.get("ready_for_deployment") is True:
+        return False
+    if isinstance(final_snapshot.get("next_recommended_task_id"), str) and final_snapshot.get("next_recommended_task_id"):
+        return False
+    if stop_reason in {"run_completed", "mid_backlog_checkpoint_created"}:
+        return False
+    return (
+        stop_reason in {
+            "declared_escalation_boundary",
+            "unauthorized_writable_surface",
+            "runtime_evidence_export_failed",
+            "runner_exited_nonzero_with_incomplete_pack_state",
+            "starter_tasks_completed_without_ready_boundary",
+            "starter_backlog_incomplete",
+        }
+        or cast(dict[str, Any], metrics["canonical_state_integrity"])["status"] == "fail"
+        or final_snapshot.get("readiness_state") == "blocked"
+    )
+
+
+def _block_summary(
+    *,
+    stop_reason: str,
+    final_snapshot: dict[str, Any],
+    metrics: dict[str, Any],
+    recommended_next_action: str,
+    artifacts: dict[str, Any],
+) -> dict[str, Any] | None:
+    if not _blocked_reason(stop_reason, final_snapshot, metrics):
+        return None
+
+    if cast(dict[str, Any], metrics["canonical_state_integrity"])["status"] == "fail":
+        return {
+            "status": "blocked",
+            "reason": "canonical_state_integrity_failed",
+            "summary": "Autonomy stopped fail-closed because canonical state integrity did not pass.",
+            "blocking_artifact_kind": "factory_validation",
+            "blocking_artifact_path": cast(str, artifacts["run_summary_path"]),
+            "recommended_recovery_action": "Run the recorded factory validation command and resolve those integrity issues before trusting or continuing the autonomy loop.",
+            "details": [cast(str, artifacts["factory_validation_command"])] if artifacts.get("factory_validation_command") else [],
+        }
+    if stop_reason == "declared_escalation_boundary" or final_snapshot.get("readiness_state") == "blocked":
+        return {
+            "status": "blocked",
+            "reason": stop_reason,
+            "summary": "Autonomy stopped fail-closed because the pack declared a blocked or escalation boundary in canonical state.",
+            "blocking_artifact_kind": "work_state",
+            "blocking_artifact_path": "status/work-state.json",
+            "recommended_recovery_action": recommended_next_action,
+            "details": ["Inspect status/work-state.json and status/readiness.json together before resuming autonomous work."],
+        }
+    if stop_reason in {"starter_backlog_incomplete", "starter_tasks_completed_without_ready_boundary"}:
+        return {
+            "status": "blocked",
+            "reason": stop_reason,
+            "summary": "Autonomy stopped fail-closed because the starter backlog did not reach a promotion-ready boundary.",
+            "blocking_artifact_kind": "readiness",
+            "blocking_artifact_path": "status/readiness.json",
+            "recommended_recovery_action": recommended_next_action,
+            "details": ["Review status/readiness.json and tasks/active-backlog.json to identify the next bounded readiness step."],
+        }
+    if stop_reason == "runtime_evidence_export_failed":
+        return {
+            "status": "blocked",
+            "reason": stop_reason,
+            "summary": "Autonomy stopped fail-closed because runtime evidence export failed after execution.",
+            "blocking_artifact_kind": "runtime_evidence_export",
+            "blocking_artifact_path": cast(str, artifacts["loop_events_path"]),
+            "recommended_recovery_action": "Review the final loop event and the pack export command before re-running the autonomy loop.",
+            "details": [],
+        }
+    if stop_reason in {"unauthorized_writable_surface", "runner_exited_nonzero_with_incomplete_pack_state"}:
+        return {
+            "status": "blocked",
+            "reason": stop_reason,
+            "summary": "Autonomy stopped fail-closed because remote execution ended outside the allowed completion boundary.",
+            "blocking_artifact_kind": "remote_execution",
+            "blocking_artifact_path": cast(str, artifacts["loop_events_path"]),
+            "recommended_recovery_action": "Review the final loop events and remote execution manifest, then rerun only after the writable-surface or runner failure is understood.",
+            "details": [],
+        }
+    return {
+        "status": "blocked",
+        "reason": stop_reason,
+        "summary": f"Autonomy stopped fail-closed with stop reason `{stop_reason}`.",
+        "blocking_artifact_kind": "loop_events",
+        "blocking_artifact_path": cast(str, artifacts["loop_events_path"]),
+        "recommended_recovery_action": recommended_next_action,
+        "details": [],
+    }
 
 
 def _feedback_handoff_summary(
@@ -437,6 +530,7 @@ def _build_feedback_memory(
     operator_summary: str,
     highest_risk_observation: str,
     recommended_next_action: str,
+    block_summary: dict[str, Any] | None,
 ) -> dict[str, Any]:
     return {
         "schema_version": "autonomy-feedback-memory/v1",
@@ -456,6 +550,7 @@ def _build_feedback_memory(
         ),
         "highest_risk_observation": highest_risk_observation,
         "recommended_next_action": recommended_next_action,
+        "block_summary": block_summary,
         "baseline_readiness_state": cast(str, baseline_snapshot["readiness_state"]),
         "final_readiness_state": cast(str, final_snapshot["readiness_state"]),
         "active_task_id": final_snapshot.get("active_task_id"),
@@ -688,6 +783,13 @@ def finalize_run(
         stop_reason=stop_reason,
         metrics=metrics,
     )
+    block_summary = _block_summary(
+        stop_reason=stop_reason,
+        final_snapshot=final_snapshot,
+        metrics=metrics,
+        recommended_next_action=recommended_next_action,
+        artifacts=artifacts,
+    )
     summary = {
         "schema_version": "autonomy-run-summary/v1",
         "run_id": run_id,
@@ -711,6 +813,7 @@ def finalize_run(
         "operator_summary": operator_summary,
         "highest_risk_observation": highest_risk_observation,
         "recommended_next_action": recommended_next_action,
+        "block_summary": block_summary,
         "artifacts": artifacts,
     }
     _validate_payload(schema_factory_root, RUN_SUMMARY_SCHEMA_NAME, summary, label="autonomy-run-summary")
@@ -727,6 +830,7 @@ def finalize_run(
         operator_summary=operator_summary,
         highest_risk_observation=highest_risk_observation,
         recommended_next_action=recommended_next_action,
+        block_summary=block_summary,
     )
     _validate_payload(
         schema_factory_root,

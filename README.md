@@ -68,8 +68,17 @@ Preferred operator-facing flow:
 
 1. `what matters most now`
 2. current portfolio in priority order
-3. recent relevant factory motion
-4. strongest next-step options
+3. for factory-level autonomy continuation work, a short `Agent Memory`
+   section after the canonical factory state section when
+   `.pack-state/agent-memory/latest-memory.json` exists
+4. recent relevant factory motion
+5. strongest next-step options
+
+That `Agent Memory` section should stay explicitly advisory and should normally
+cover current focus, next action items, pending items, overdue items,
+blockers, known limits, latest autonomy proof, and the recommended next step.
+If root memory and canonical registry, deployment, readiness, or promotion
+state disagree, the summary should say so plainly and prefer canonical state.
 
 Preferred priority bands:
 
@@ -155,6 +164,11 @@ is:
 - `registry/templates.json`
 - `registry/build-packs.json`
 - a shallow slice of recent relevant entries from `registry/promotion-log.json`
+- for factory-level autonomy/tooling continuation work,
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+- for factory-level autonomy/tooling continuation work,
+  `.pack-state/agent-memory/latest-memory.json` when it exists, then the
+  selected memory artifact it references
 - `deployments/` only when environment assignment materially affects the brief
 
 Once those sources are enough to explain what the repo is, where current work
@@ -283,5 +297,29 @@ Example:
 - `python3 tools/materialize_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
 - `python3 tools/promote_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
 - `python3 tools/run_deployment_pipeline.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+- `python3 tools/run_multi_hop_autonomy_rehearsal.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/run_autonomy_to_promotion_workflow.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --target-environment testing --output json`
+- `python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
 - `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`
+
+## Factory Autonomy
+
+The factory-level autonomy operations note lives in:
+
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+
+The factory-level restart memory pointer lives in:
+
+- `.pack-state/agent-memory/latest-memory.json`
+
+That root memory is meant to help the next agent continue recent autonomy work
+without reconstructing the current tooling state from scratch. It is advisory
+restart context only. Registry, deployment, readiness, and promotion surfaces
+remain canonical.
+
+When a factory-root executive summary uses this memory, it should surface it as
+a short `Agent Memory` section after the canonical factory-state summary and
+prefer the memory artifact's structured fields over prose-only inference.

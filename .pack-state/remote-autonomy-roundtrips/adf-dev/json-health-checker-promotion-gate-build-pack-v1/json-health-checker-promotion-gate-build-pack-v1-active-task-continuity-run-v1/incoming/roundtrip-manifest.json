@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "fc3e6e979f481a9799822ab1a891e64d4fbc82d838a1715b672ba46fc4c25d3f",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-promotion-gate-build-pack-v1/json-health-checker-promotion-gate-build-pack-v1-active-task-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "a1558fe09eb506a2084ba3869f6e6ff75fb7dfb9119d3feff146ff84d58ca3ed",
+  "portable_helper_manifest_sha256": "bf7ba49934067a7126ca9691f0d197b523b863907584ee4fdf2cb587a2792835",
+  "pulled_at": "2026-03-25T16:32:40Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-promotion-gate-build-pack-v1/json-health-checker-promotion-gate-build-pack-v1-active-task-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "84efd2dcc5ca495ffeffdd715c34411870eaed35a80ca44b4d459902a4857593",
+  "remote_run_request_sha256": "c3e270a45a5507ee66608d9de035f98c8b1f13a4ba1c52e31e15a1ca49380c9e",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-promotion-gate-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-promotion-gate-build-pack-v1",
+  "target_manifest_sha256": "eb9eab295bec101d0509c1e3ebeb9a60c011c7f0f5589ca7fa1301b441502791",
+  "wrapper_request_sha256": "0b528f8191033bc90384979f4ef8ab6820779d23a0d14d15b509f11cfd0b0882"
+}

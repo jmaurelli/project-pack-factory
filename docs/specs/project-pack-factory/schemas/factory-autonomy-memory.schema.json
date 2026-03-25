@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/factory-autonomy-memory.schema.json",
+  "title": "PackFactory Root Autonomy Memory",
+  "description": "Factory-level restart memory for the PackFactory repo itself.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "memory_id",
+    "producer",
+    "factory_root",
+    "summary",
+    "current_focus",
+    "next_action_items",
+    "pending_items",
+    "overdue_items",
+    "blockers",
+    "current_capabilities",
+    "known_limits",
+    "latest_autonomy_proof",
+    "recommended_next_step",
+    "recommended_next_steps",
+    "relevant_commands",
+    "discovery_entrypoints",
+    "status_snapshot",
+    "key_artifact_paths",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "factory-autonomy-memory/v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "memory_id": {
+      "type": "string",
+      "pattern": "^factory-autonomy-memory-[0-9]{8}t[0-9]{6}z$"
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "factory_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_focus": {
+      "$ref": "#/$defs/string_array"
+    },
+    "next_action_items": {
+      "$ref": "#/$defs/string_array_maybe_empty"
+    },
+    "pending_items": {
+      "$ref": "#/$defs/string_array_maybe_empty"
+    },
+    "overdue_items": {
+      "$ref": "#/$defs/string_array_maybe_empty"
+    },
+    "blockers": {
+      "$ref": "#/$defs/string_array_maybe_empty"
+    },
+    "current_capabilities": {
+      "$ref": "#/$defs/string_array"
+    },
+    "known_limits": {
+      "$ref": "#/$defs/string_array"
+    },
+    "latest_autonomy_proof": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recommended_next_step": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recommended_next_steps": {
+      "$ref": "#/$defs/string_array"
+    },
+    "relevant_commands": {
+      "$ref": "#/$defs/string_array"
+    },
+    "discovery_entrypoints": {
+      "$ref": "#/$defs/string_array"
+    },
+    "status_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "latest_rehearsal_report_path",
+        "latest_promotion_report_path",
+        "latest_testing_pointer_path",
+        "planning_list_path",
+        "operations_note_path"
+      ],
+      "properties": {
+        "latest_rehearsal_report_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latest_promotion_report_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latest_testing_pointer_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planning_list_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operations_note_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "key_artifact_paths": {
+      "$ref": "#/$defs/string_array"
+    },
+    "notes": {
+      "$ref": "#/$defs/string_array"
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "string_array_maybe_empty": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

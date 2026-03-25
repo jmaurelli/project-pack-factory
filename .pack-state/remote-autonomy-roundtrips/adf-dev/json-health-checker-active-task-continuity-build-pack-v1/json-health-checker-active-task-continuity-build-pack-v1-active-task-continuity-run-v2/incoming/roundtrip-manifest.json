@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "1f2bf8367b1caeddea3e14df63dc93e74af9364a1e3e631610e64aefd286a234",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-active-task-continuity-build-pack-v1/json-health-checker-active-task-continuity-build-pack-v1-active-task-continuity-run-v2/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "22fa982271e117c8ea5223b615957451f2892c1fb6824af699ea400802f38db9",
+  "portable_helper_manifest_sha256": "b843b08b1b54f9deb5df89074ec3a306e53b1e373c14b8d9a44880d8e459524b",
+  "pulled_at": "2026-03-25T16:00:20Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-active-task-continuity-build-pack-v1/json-health-checker-active-task-continuity-build-pack-v1-active-task-continuity-run-v2/incoming/bundle",
+  "pulled_bundle_sha256": "c12d7ad59ef4d6cb965c5e389fdb73e18801cf9b91a37176c520acf5be6ed9bd",
+  "remote_run_request_sha256": "7f0a69c1e79bcd83c0da2a3314acdbab7de40615512e6b2c84f8dfcbe9639754",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-active-task-continuity-build-pack-v1-active-task-continuity-run-v2",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-active-task-continuity-build-pack-v1",
+  "target_manifest_sha256": "6f210929ff673bb74dfcabdb8f4df6e53737de017bca079492b47dcbb93c31f4",
+  "wrapper_request_sha256": "ec9a4420ae56299fc425095a3d84b347101127dfbc31c37b854c3978c89a0ce5"
+}

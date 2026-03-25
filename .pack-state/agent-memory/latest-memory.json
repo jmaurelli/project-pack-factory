@@ -1,0 +1,10 @@
+{
+  "schema_version": "factory-autonomy-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T17:41:05Z",
+  "selected_memory_id": "factory-autonomy-memory-20260325t174105z",
+  "selected_memory_path": ".pack-state/agent-memory/factory-autonomy-memory-20260325t174105z.json",
+  "selected_memory_sha256": "b27e4b7e31ef3a5c990fca862df8c1e11692c27f57e89fa5c5af28b8ff76db9d",
+  "source_kind": "factory_memory_refresh",
+  "source_tool": "tools/refresh_factory_autonomy_memory.py",
+  "updated_at": "2026-03-25T17:41:05Z"
+}

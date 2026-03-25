@@ -1,0 +1,13 @@
+{
+  "active_release_id": "json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+  "active_release_path": "dist/releases/json-health-checker-autonomy-to-promotion-build-pack-v1-r1",
+  "deployment_transaction_id": "promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z",
+  "environment": "testing",
+  "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "pack_kind": "build_pack",
+  "pack_root": "build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1",
+  "promotion_evidence_ref": "eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+  "schema_version": "pack-deployment-pointer/v2",
+  "source_deployment_file": "build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/deployment.json",
+  "updated_at": "2026-03-25T17:33:09Z"
+}

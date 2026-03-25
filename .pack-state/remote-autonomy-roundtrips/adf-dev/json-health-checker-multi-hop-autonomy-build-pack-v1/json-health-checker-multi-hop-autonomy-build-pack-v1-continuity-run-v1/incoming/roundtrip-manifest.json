@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "75d6c559baafe1c5ea18bb3e759ff79fbe86836f5870cc20cf550aca1b369b77",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-multi-hop-autonomy-build-pack-v1/json-health-checker-multi-hop-autonomy-build-pack-v1-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "726f2644910b5934fedb6fa7b2bba0c93d4692711645fc70a6b4f828eafa6334",
+  "portable_helper_manifest_sha256": "d2034db64ae9be062bb65ca286bd4e3f78d3385894e80e61783d9ab5f33d960e",
+  "pulled_at": "2026-03-25T16:10:48Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-multi-hop-autonomy-build-pack-v1/json-health-checker-multi-hop-autonomy-build-pack-v1-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "bfa02e9ceb389c07cab43cd92f56f427efc8777993b39f46ed2f9d161d6fc574",
+  "remote_run_request_sha256": "1d738c138735aedb6a15795bba6ef303d98cfeeba76757f547364d003856cf25",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-multi-hop-autonomy-build-pack-v1-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-multi-hop-autonomy-build-pack-v1",
+  "target_manifest_sha256": "dc89730b110fe2f92dff8cfb763d61c065bbb513b05e9eb954d5daad7b6d8cb2",
+  "wrapper_request_sha256": "f7e48c3d3f8c1ec37d596be8b86d14e928f903e2b06ecce838d39f511ab293af"
+}

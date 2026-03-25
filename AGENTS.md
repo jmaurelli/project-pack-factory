@@ -76,8 +76,27 @@ Preferred startup flow:
    the operator should pay attention to
 2. present the current portfolio in priority order rather than treating every
    pack or topic as equally important
-3. summarize recent relevant factory motion in a short narrative sequence
-4. close with the strongest practical next-step options
+3. when the task stays at the factory root and `.pack-state/agent-memory/latest-memory.json`
+   exists, include a short `Agent Memory` section after the canonical factory
+   state section
+4. summarize recent relevant factory motion in a short narrative sequence
+5. close with the strongest practical next-step options
+
+The `Agent Memory` section is advisory restart context, not the truth layer.
+When used, keep it brief and source it from the selected root memory artifact.
+It should normally cover:
+
+- current focus
+- next action items
+- pending items
+- overdue items
+- blockers
+- known limits
+- latest autonomy proof
+- recommended next step
+
+If root memory and canonical registry, deployment, readiness, or promotion
+state disagree, say so plainly and prefer canonical state in the summary.
 
 Use evidence-based prioritization when ordering the briefing.
 
@@ -212,10 +231,12 @@ literal ownership, financial stake, or fabricated emotion.
 3. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-PRODUCT-REQUIREMENTS-DOCUMENT.md` when the task needs product intent or scope
 4. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TESTING-POLICY.md` when the task changes workflow tests
 5. `registry/templates.json`, `registry/build-packs.json`, and recent relevant entries in `registry/promotion-log.json` to identify candidate packs and recent workflow state from machine-readable sources
-6. `deployments/` only when the task explicitly concerns the small JSON records that show which build-pack is currently assigned to an environment like `testing`, `staging`, or `production`
-7. after the operator confirms the intended pack, that pack's `AGENTS.md`
-8. after the operator confirms the intended pack, that pack's `project-context.md`
-9. after the operator confirms the intended pack, that pack's `pack.json`
+6. for factory-level autonomy/tooling continuation work, `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+7. for factory-level autonomy/tooling continuation work, `.pack-state/agent-memory/latest-memory.json` when it exists, then the selected root memory artifact it references
+8. `deployments/` only when the task explicitly concerns the small JSON records that show which build-pack is currently assigned to an environment like `testing`, `staging`, or `production`
+9. after the operator confirms the intended pack, that pack's `AGENTS.md`
+10. after the operator confirms the intended pack, that pack's `project-context.md`
+11. after the operator confirms the intended pack, that pack's `pack.json`
 
 ## Post-Confirmation Runtime Surfaces
 
@@ -302,3 +323,36 @@ After the operator confirms the intended build-pack:
 - collaborative wording like `we` is welcome when natural, but it is optional and must not imply literal ownership, fiduciary duty, or fabricated emotion
 - do not present brand-new template creation as an already-implemented
   top-level action unless the current factory tooling actually supports it
+- when the task stays at the factory root and concerns autonomy, memory, or
+  recent tooling evolution, treat `.pack-state/agent-memory/latest-memory.json`
+  as the preferred restart handoff after the shallow startup pass, while still
+  treating registry, deployment, and other machine-readable control-plane state
+  as canonical
+- when a root executive summary uses factory memory, present it as a distinct
+  `Agent Memory` section after the canonical factory state summary rather than
+  blending advisory memory into the truth layer
+- when summarizing factory memory, prefer the structured fields from the
+  selected root memory artifact such as `current_focus`,
+  `next_action_items`, `pending_items`, `overdue_items`, and `blockers`
+  instead of inferring the same content from free-form notes
+- for factory-level autonomy work, prefer the current standard operations note
+  at `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+  and the active planning list at
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
+  before reconstructing the workflow from scattered tool files
+
+## Operator Tools
+
+- `python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory`
+- `python3 tools/create_template_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+- `python3 tools/materialize_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+- `python3 tools/promote_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+- `python3 tools/run_deployment_pipeline.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+- `python3 tools/run_multi_hop_autonomy_rehearsal.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/run_autonomy_to_promotion_workflow.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --target-environment testing --output json`
+- `python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>`
+- `python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json`
+- `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
+- `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`

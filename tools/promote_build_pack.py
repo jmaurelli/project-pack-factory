@@ -38,6 +38,7 @@ ALLOWED_TRANSITIONS = {
     "testing": "staging",
     "staging": "production",
 }
+AUTONOMY_REHEARSAL_WORKFLOW_ID = "multi_hop_autonomy_rehearsal"
 LIFECYCLE_BY_ENV = {
     "testing": ("testing", "staging"),
     "staging": ("release_candidate", "production"),
@@ -111,6 +112,167 @@ def _validate_eval_latest(pack_root: Path, readiness: dict[str, Any]) -> None:
             raise ValueError(f"latest eval evidence is missing benchmark result for {benchmark_id}")
         if result.get("status") != "pass":
             raise ValueError(f"latest eval evidence for {benchmark_id} is not passing")
+
+
+def _load_project_objective(pack_root: Path) -> dict[str, Any] | None:
+    objective_path = pack_root / "contracts/project-objective.json"
+    if not objective_path.exists():
+        return None
+    return _load_object(objective_path)
+
+
+def _load_latest_memory_pointer(pack_root: Path) -> dict[str, Any] | None:
+    latest_memory_path = pack_root / ".pack-state/agent-memory/latest-memory.json"
+    if not latest_memory_path.exists():
+        return None
+    return _load_object(latest_memory_path)
+
+
+def _normalize_task_id_list(value: Any) -> list[str] | None:
+    if not isinstance(value, list):
+        return None
+    items: list[str] = []
+    for item in value:
+        if not isinstance(item, str):
+            return None
+        items.append(item)
+    return items
+
+
+def _rehearsal_matches_current_state(
+    report: dict[str, Any],
+    *,
+    readiness: dict[str, Any],
+    work_state: dict[str, Any],
+    latest_memory: dict[str, Any],
+) -> bool:
+    final_state = report.get("final_state")
+    if not isinstance(final_state, dict):
+        return False
+    final_readiness = final_state.get("readiness")
+    final_work_state = final_state.get("work_state")
+    final_latest_memory = final_state.get("latest_memory")
+    if not all(isinstance(payload, dict) for payload in (final_readiness, final_work_state, final_latest_memory)):
+        return False
+
+    current_completed = _normalize_task_id_list(work_state.get("completed_task_ids"))
+    current_pending = _normalize_task_id_list(work_state.get("pending_task_ids"))
+    final_completed = _normalize_task_id_list(final_work_state.get("completed_task_ids"))
+    final_pending = _normalize_task_id_list(final_work_state.get("pending_task_ids"))
+    if None in (current_completed, current_pending, final_completed, final_pending):
+        return False
+
+    return (
+        final_readiness.get("readiness_state") == readiness.get("readiness_state")
+        and final_readiness.get("ready_for_deployment") == readiness.get("ready_for_deployment")
+        and final_work_state.get("autonomy_state") == work_state.get("autonomy_state")
+        and final_work_state.get("active_task_id") == work_state.get("active_task_id")
+        and final_work_state.get("next_recommended_task_id") == work_state.get("next_recommended_task_id")
+        and final_completed == current_completed
+        and final_pending == current_pending
+        and final_latest_memory.get("pack_id") == latest_memory.get("pack_id")
+        and final_latest_memory.get("selected_memory_id") == latest_memory.get("selected_memory_id")
+        and final_latest_memory.get("selected_run_id") == latest_memory.get("selected_run_id")
+        and final_latest_memory.get("selected_memory_path") == latest_memory.get("selected_memory_path")
+    )
+
+
+def _resolve_autonomy_rehearsal_evidence(
+    *,
+    factory_root: Path,
+    pack_root: Path,
+    pack_id: str,
+    readiness: dict[str, Any],
+) -> dict[str, Any] | None:
+    project_objective = _load_project_objective(pack_root)
+    if project_objective is None:
+        return None
+
+    requirement = project_objective.get("autonomy_rehearsal_requirement")
+    if not isinstance(requirement, dict) or requirement.get("required_for_promotion") is not True:
+        return None
+    if requirement.get("workflow_id") != AUTONOMY_REHEARSAL_WORKFLOW_ID:
+        raise ValueError("project objective autonomy rehearsal requirement declared an unsupported workflow")
+
+    work_state = _load_object(pack_root / "status/work-state.json")
+    latest_memory = _load_latest_memory_pointer(pack_root)
+    if latest_memory is None:
+        raise ValueError(
+            "build pack requires completed multi-hop autonomy rehearsal evidence before promotion, "
+            "but .pack-state/agent-memory/latest-memory.json is missing"
+        )
+
+    rehearsal_root = factory_root / ".pack-state" / "multi-hop-autonomy-rehearsals"
+    if not rehearsal_root.exists():
+        raise ValueError(
+            "build pack requires completed multi-hop autonomy rehearsal evidence before promotion, "
+            "but no rehearsal reports have been recorded yet"
+        )
+
+    rehearsal_schema = schema_path(factory_root, "multi-hop-autonomy-rehearsal-report.schema.json")
+    compatible_candidates: list[tuple[str, Path, dict[str, Any]]] = []
+    candidate_failures: list[str] = []
+    for report_path in sorted(rehearsal_root.glob("*/rehearsal-report.json")):
+        relative = relative_path(factory_root, report_path)
+        errors = validate_json_document(report_path, rehearsal_schema)
+        if errors:
+            candidate_failures.append(f"{relative}: {errors[0]}")
+            continue
+        report = _load_object(report_path)
+        if report.get("target_build_pack_id") != pack_id:
+            continue
+        if report.get("status") != "completed":
+            candidate_failures.append(f"{relative}: rehearsal status was not completed")
+            continue
+        final_state = report.get("final_state")
+        if not isinstance(final_state, dict):
+            candidate_failures.append(f"{relative}: final_state must be an object")
+            continue
+        final_readiness = final_state.get("readiness")
+        if not isinstance(final_readiness, dict) or final_readiness.get("ready_for_deployment") is not True:
+            candidate_failures.append(f"{relative}: rehearsal did not finish at ready_for_deployment=true")
+            continue
+        if not _rehearsal_matches_current_state(
+            report,
+            readiness=readiness,
+            work_state=work_state,
+            latest_memory=latest_memory,
+        ):
+            candidate_failures.append(
+                f"{relative}: rehearsal no longer matches the pack's current readiness, work-state, and latest-memory state"
+            )
+            continue
+        generated_at = str(report.get("generated_at"))
+        compatible_candidates.append((generated_at, report_path, report))
+
+    if not compatible_candidates:
+        if candidate_failures:
+            raise ValueError(
+                "build pack requires completed multi-hop autonomy rehearsal evidence before promotion, "
+                f"but no compatible report was found. Latest issue: {candidate_failures[-1]}"
+            )
+        raise ValueError(
+            "build pack requires completed multi-hop autonomy rehearsal evidence before promotion, "
+            "but no report targeting this build pack was found"
+        )
+
+    compatible_candidates.sort(key=lambda item: item[0])
+    _, selected_path, selected_report = compatible_candidates[-1]
+    selected_relative = relative_path(factory_root, selected_path)
+    final_state = selected_report["final_state"]
+    final_readiness = final_state["readiness"]
+    final_latest_memory = final_state["latest_memory"]
+    return {
+        "workflow_id": AUTONOMY_REHEARSAL_WORKFLOW_ID,
+        "rehearsal_id": selected_report["rehearsal_id"],
+        "report_path": selected_relative,
+        "generated_at": selected_report["generated_at"],
+        "status": selected_report["status"],
+        "remote_target_label": selected_report["remote_target_label"],
+        "latest_memory_run_id": final_latest_memory["selected_run_id"],
+        "final_readiness_state": final_readiness["readiness_state"],
+        "final_ready_for_deployment": final_readiness["ready_for_deployment"],
+    }
 
 
 def _deployment_pointer(
@@ -530,6 +692,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
                 "release_path": f"dist/releases/{release_id}",
                 "promoted_by": promoted_by,
                 "promotion_reason": promotion_reason,
+                "autonomy_rehearsal_evidence": None,
                 "reconcile_refresh": _refresh_metadata(
                     requested=True,
                     performed=True,
@@ -645,6 +808,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
             "release_path": f"dist/releases/{release_id}",
             "promoted_by": promoted_by,
             "promotion_reason": promotion_reason,
+            "autonomy_rehearsal_evidence": None,
             "reconcile_refresh": None,
             "pre_promotion_state": pre_state,
             "post_promotion_state": _state_snapshot(lifecycle, deployment),
@@ -696,6 +860,13 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
     expected_environment = ALLOWED_TRANSITIONS.get(current_state)
     if expected_environment != target_environment:
         raise ValueError(f"invalid promotion transition from {current_state} to {target_environment}")
+
+    autonomy_rehearsal_evidence = _resolve_autonomy_rehearsal_evidence(
+        factory_root=factory_root,
+        pack_root=pack_root,
+        pack_id=pack_id,
+        readiness=readiness,
+    )
 
     generated_at, promotion_id, report_relative = _reserve_promotion_identity(
         factory_root=factory_root,
@@ -816,6 +987,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         "release_path": f"dist/releases/{release_id}",
         "promoted_by": promoted_by,
         "promotion_reason": promotion_reason,
+        "autonomy_rehearsal_evidence": autonomy_rehearsal_evidence,
         "reconcile_refresh": None,
         "pre_promotion_state": pre_state,
         "post_promotion_state": post_state,
@@ -846,6 +1018,18 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
                 "target_path": f"build-packs/{pack_id}/status/deployment.json",
                 "summary": "Updated active deployment state for the target environment.",
             },
+            *(
+                [
+                    {
+                        "action_id": "verify_autonomy_rehearsal_evidence",
+                        "status": "reconciled",
+                        "target_path": autonomy_rehearsal_evidence["report_path"],
+                        "summary": "Verified the completed multi-hop autonomy rehearsal that matched the pack's current canonical state.",
+                    }
+                ]
+                if autonomy_rehearsal_evidence is not None
+                else []
+            ),
             *eviction_actions,
             *stale_actions,
             {
@@ -875,6 +1059,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         ],
         "evidence_paths": [
             f"build-packs/{pack_id}/{report_relative}",
+            *( [autonomy_rehearsal_evidence["report_path"]] if autonomy_rehearsal_evidence is not None else [] ),
             *eviction_evidence_paths,
             pointer_relative,
             f"build-packs/{pack_id}/status/deployment.json",
