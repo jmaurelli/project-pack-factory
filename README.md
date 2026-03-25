@@ -349,9 +349,10 @@ breaks the tie but one task aligns more strongly with the project objective,
 resume context, and task `selection_signals`, the factory can choose that
 task and record the justification instead of stopping immediately.
 
-It now also supports explicit operator branch-selection hints: when canonical
-work-state includes a hint, the factory honors that preference before falling
-back to semantic tie-breaking, and it records the applied hint in
+It now also supports richer explicit operator branch-selection hints: when
+canonical work-state includes preferred-task or avoid-task guidance, the
+factory honors that guidance before falling back to semantic tie-breaking, and
+it records the applied hint plus any filtered-out tasks in
 `branch-selection.json`.
 
 When a factory-root executive summary uses this memory, it should surface it as

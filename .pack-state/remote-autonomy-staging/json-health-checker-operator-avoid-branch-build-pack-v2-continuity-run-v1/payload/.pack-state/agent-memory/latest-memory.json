@@ -1,0 +1,14 @@
+{
+  "pack_id": "json-health-checker-operator-avoid-branch-build-pack-v2",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-25T20:05:54Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v3",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v3.json",
+  "selected_memory_sha256": "27fdb22c34e8f75c3b12359321b4110081da79f80aaf3d839cc291b3e5edf710",
+  "selected_run_id": "json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v3",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v3.json",
+  "source_import_id": "import-external-runtime-evidence-20260325t200557z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260325t200557z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-25T20:05:57Z"
+}

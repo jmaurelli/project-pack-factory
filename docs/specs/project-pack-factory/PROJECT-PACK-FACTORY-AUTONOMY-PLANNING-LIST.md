@@ -42,6 +42,8 @@ PackFactory autonomy can now:
 - use bounded semantic alignment to break a next-task tie when the objective,
   resume context, and task `selection_signals` make one candidate clearly
   stronger and the justification can be recorded
+- use broader operator support through canonical hint guidance that can both
+  prefer and avoid tasks before semantic tie-breaking runs
 
 Recent proof points:
 
@@ -49,6 +51,7 @@ Recent proof points:
 - `json-health-checker-promotion-gate-build-pack-v1`
 - `json-health-checker-one-pass-promotion-proof-build-pack-v1`
 - `json-health-checker-autonomy-to-promotion-build-pack-v1`
+- `json-health-checker-operator-avoid-branch-build-pack-v2`
 
 ## Current Limits
 
@@ -223,7 +226,7 @@ Recent proof points:
   next autonomy gain is extending operator steering without sacrificing
   explainability or fail-closed behavior.
 
-- [ ] Broader operator-support expansion.
+- [x] Broader operator-support expansion.
   Scope: extend the canonical operator-hint surface beyond a single preferred
   task so operators can express stronger bounded steering such as ordered
   preferences, avoid-task guidance, or short-lived branch preferences while
@@ -239,7 +242,7 @@ Recent proof points:
   Why it matters: richer operator support only helps if the chooser stays
   deterministic, explainable, and easy to recover when guidance conflicts.
 
-- [ ] Richer operator-support proving-ground exercise.
+- [x] Richer operator-support proving-ground exercise.
   Scope: create a fresh proving-ground pack that uses more than one operator
   hint shape or a conflict case, then confirm autonomy follows the policy and
   records a clean branch-decision artifact.
@@ -297,6 +300,15 @@ Recent proof points:
   in favor of broader operator support first, keeping the bounded semantic
   chooser in place and making richer operator guidance the next planned
   autonomy expansion.
+- Completed on 2026-03-25: broader operator support now includes canonical
+  avoid-task guidance in `status/work-state.json.branch_selection_hints`, and
+  the chooser can apply that guidance to narrow tied candidates before semantic
+  tie-breaking.
+- Completed on 2026-03-25: the richer operator-support proving-ground exercise
+  succeeded with `json-health-checker-operator-avoid-branch-build-pack-v2`,
+  proving an avoid-style operator hint can filter out one tied branch, record
+  the filtered task in `branch-selection.json`, and still complete the remote
+  continuity loop to `ready_for_deploy`.
 - Completed on 2026-03-25: factory-root autonomy tooling discoverability via
   `AGENTS.md`, `README.md`, and
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`.

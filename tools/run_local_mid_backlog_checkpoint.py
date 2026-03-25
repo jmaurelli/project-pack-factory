@@ -224,18 +224,73 @@ def _task_semantic_score(*, task: dict[str, Any], context_tokens: set[str]) -> d
 
 
 def _hint_preference_decision(*, top_candidates: list[dict[str, Any]], branch_selection_hints: list[dict[str, Any]]) -> dict[str, Any] | None:
-    top_candidate_ids = {cast(str, item["task_id"]) for item in top_candidates}
+    remaining_candidates = list(top_candidates)
+    applied_hint_ids: list[str] = []
+    applied_hint_summaries: list[str] = []
+    filtered_out_task_ids: list[str] = []
+
     for hint in branch_selection_hints:
+        if hint.get("active") is False:
+            continue
+        current_candidate_ids = {cast(str, item["task_id"]) for item in remaining_candidates}
+        if not current_candidate_ids:
+            break
+
+        hint_id = hint.get("hint_id")
+        summary = hint.get("summary")
+
+        avoid_task_ids = hint.get("avoid_task_ids", [])
+        if isinstance(avoid_task_ids, list):
+            removed = [
+                task_id
+                for task_id in avoid_task_ids
+                if isinstance(task_id, str) and task_id in current_candidate_ids
+            ]
+            narrowed_candidates = [
+                item for item in remaining_candidates if cast(str, item["task_id"]) not in removed
+            ]
+            if removed and narrowed_candidates:
+                remaining_candidates = narrowed_candidates
+                filtered_out_task_ids.extend(removed)
+                if isinstance(hint_id, str):
+                    applied_hint_ids.append(hint_id)
+                if isinstance(summary, str) and summary:
+                    applied_hint_summaries.append(summary)
+                current_candidate_ids = {cast(str, item["task_id"]) for item in remaining_candidates}
+                if len(remaining_candidates) == 1:
+                    return {
+                        "chosen_task_id": cast(str, remaining_candidates[0]["task_id"]),
+                        "applied_hint_ids": applied_hint_ids,
+                        "hint_summary": " | ".join(applied_hint_summaries) if applied_hint_summaries else None,
+                        "filtered_out_task_ids": sorted(set(filtered_out_task_ids)),
+                        "post_hint_candidate_task_ids": [cast(str, item["task_id"]) for item in remaining_candidates],
+                    }
+
         preferred_task_ids = hint.get("preferred_task_ids", [])
         if not isinstance(preferred_task_ids, list):
             continue
-        ranked = [task_id for task_id in preferred_task_ids if isinstance(task_id, str) and task_id in top_candidate_ids]
+        ranked = [task_id for task_id in preferred_task_ids if isinstance(task_id, str) and task_id in current_candidate_ids]
         if not ranked:
             continue
+        if isinstance(hint_id, str):
+            applied_hint_ids.append(hint_id)
+        if isinstance(summary, str) and summary:
+            applied_hint_summaries.append(summary)
         return {
             "chosen_task_id": ranked[0],
-            "applied_hint_ids": [hint.get("hint_id")],
-            "hint_summary": hint.get("summary"),
+            "applied_hint_ids": applied_hint_ids,
+            "hint_summary": " | ".join(applied_hint_summaries) if applied_hint_summaries else None,
+            "filtered_out_task_ids": sorted(set(filtered_out_task_ids)),
+            "post_hint_candidate_task_ids": [cast(str, item["task_id"]) for item in remaining_candidates],
+        }
+
+    if applied_hint_ids:
+        return {
+            "chosen_task_id": None,
+            "applied_hint_ids": applied_hint_ids,
+            "hint_summary": " | ".join(applied_hint_summaries) if applied_hint_summaries else None,
+            "filtered_out_task_ids": sorted(set(filtered_out_task_ids)),
+            "post_hint_candidate_task_ids": [cast(str, item["task_id"]) for item in remaining_candidates],
         }
     return None
 
@@ -247,6 +302,8 @@ def _resolve_next_task_decision(*, pack_root: Path, backlog: dict[str, Any], eli
             "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
             "candidate_task_ids": [],
             "top_candidate_task_ids": [],
+            "post_hint_candidate_task_ids": [],
+            "filtered_out_task_ids": [],
             "chosen_task_id": None,
             "ambiguity_reason": None,
             "selection_method": None,
@@ -263,27 +320,44 @@ def _resolve_next_task_decision(*, pack_root: Path, backlog: dict[str, Any], eli
             top_candidates=top_candidates,
             branch_selection_hints=cast(list[dict[str, Any]], context["branch_selection_hints"]),
         )
+        narrowed_candidates = top_candidates
+        applied_hint_ids: list[str] = []
+        applied_hint_summary: str | None = None
+        filtered_out_task_ids: list[str] = []
         if hint_decision is not None:
-            return {
-                "status": "selected",
-                "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
-                "candidate_task_ids": [cast(str, item["task_id"]) for item in eligible_tasks],
-                "top_candidate_task_ids": [cast(str, item["task_id"]) for item in top_candidates],
-                "chosen_task_id": cast(str, hint_decision["chosen_task_id"]),
-                "ambiguity_reason": None,
-                "selection_method": "operator_hint",
-                "semantic_context_sources": context["source_labels"],
-                "semantic_scores": [],
-                "applied_hint_ids": hint_decision["applied_hint_ids"],
-                "applied_hint_summary": hint_decision["hint_summary"],
-            }
+            applied_hint_ids = cast(list[str], hint_decision.get("applied_hint_ids", []))
+            applied_hint_summary = cast(str | None, hint_decision.get("hint_summary"))
+            filtered_out_task_ids = cast(list[str], hint_decision.get("filtered_out_task_ids", []))
+            post_hint_candidate_task_ids = cast(list[str], hint_decision.get("post_hint_candidate_task_ids", []))
+            if post_hint_candidate_task_ids:
+                narrowed_candidates = [
+                    item for item in top_candidates if cast(str, item["task_id"]) in set(post_hint_candidate_task_ids)
+                ]
+            if hint_decision.get("chosen_task_id") is not None:
+                chosen_task_id = cast(str, hint_decision["chosen_task_id"])
+                selection_method = "operator_hint"
+                return {
+                    "status": "selected",
+                    "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
+                    "candidate_task_ids": [cast(str, item["task_id"]) for item in eligible_tasks],
+                    "top_candidate_task_ids": [cast(str, item["task_id"]) for item in top_candidates],
+                    "post_hint_candidate_task_ids": post_hint_candidate_task_ids,
+                    "filtered_out_task_ids": filtered_out_task_ids,
+                    "chosen_task_id": chosen_task_id,
+                    "ambiguity_reason": None,
+                    "selection_method": selection_method,
+                    "semantic_context_sources": context["source_labels"],
+                    "semantic_scores": [],
+                    "applied_hint_ids": applied_hint_ids,
+                    "applied_hint_summary": applied_hint_summary,
+                }
         context_tokens = cast(set[str], context["tokens"])
         semantic_scores = [
             _task_semantic_score(
                 task=_task_by_id(backlog, cast(str, item["task_id"])),
                 context_tokens=context_tokens,
             )
-            for item in top_candidates
+            for item in narrowed_candidates
         ]
         if semantic_scores:
             best_score = max(cast(int, item["semantic_score"]) for item in semantic_scores)
@@ -294,32 +368,38 @@ def _resolve_next_task_decision(*, pack_root: Path, backlog: dict[str, Any], eli
                     "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
                     "candidate_task_ids": [cast(str, item["task_id"]) for item in eligible_tasks],
                     "top_candidate_task_ids": [cast(str, item["task_id"]) for item in top_candidates],
+                    "post_hint_candidate_task_ids": [cast(str, item["task_id"]) for item in narrowed_candidates],
+                    "filtered_out_task_ids": filtered_out_task_ids,
                     "chosen_task_id": cast(str, best_candidates[0]["task_id"]),
                     "ambiguity_reason": None,
-                    "selection_method": "semantic_alignment",
+                    "selection_method": "operator_hint_plus_semantic_alignment" if applied_hint_ids else "semantic_alignment",
                     "semantic_context_sources": context["source_labels"],
                     "semantic_scores": semantic_scores,
-                    "applied_hint_ids": [],
-                    "applied_hint_summary": None,
+                    "applied_hint_ids": applied_hint_ids,
+                    "applied_hint_summary": applied_hint_summary,
                 }
         return {
             "status": "ambiguous",
             "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
             "candidate_task_ids": [cast(str, item["task_id"]) for item in eligible_tasks],
             "top_candidate_task_ids": [cast(str, item["task_id"]) for item in top_candidates],
+            "post_hint_candidate_task_ids": [cast(str, item["task_id"]) for item in narrowed_candidates],
+            "filtered_out_task_ids": filtered_out_task_ids,
             "chosen_task_id": None,
-            "ambiguity_reason": "multiple eligible tasks shared the same highest precedence and semantic alignment did not uniquely disambiguate them",
-            "selection_method": "ambiguous_after_semantic_alignment",
+            "ambiguity_reason": "multiple eligible tasks shared the same highest precedence and operator guidance plus semantic alignment did not uniquely disambiguate them" if applied_hint_ids else "multiple eligible tasks shared the same highest precedence and semantic alignment did not uniquely disambiguate them",
+            "selection_method": "ambiguous_after_operator_hint_and_semantic_alignment" if applied_hint_ids else "ambiguous_after_semantic_alignment",
             "semantic_context_sources": context["source_labels"],
             "semantic_scores": semantic_scores,
-            "applied_hint_ids": [],
-            "applied_hint_summary": None,
+            "applied_hint_ids": applied_hint_ids,
+            "applied_hint_summary": applied_hint_summary,
         }
     return {
         "status": "selected",
         "selection_rule": "lowest selection_priority first; then operator branch-selection hints; then bounded semantic alignment; remaining ties require operator disambiguation",
         "candidate_task_ids": [cast(str, item["task_id"]) for item in eligible_tasks],
         "top_candidate_task_ids": [cast(str, item["task_id"]) for item in top_candidates],
+        "post_hint_candidate_task_ids": [cast(str, item["task_id"]) for item in top_candidates],
+        "filtered_out_task_ids": [],
         "chosen_task_id": cast(str, eligible_tasks[0]["task_id"]),
         "ambiguity_reason": None,
         "selection_method": "priority_or_single_candidate",
@@ -348,6 +428,8 @@ def _record_branch_decision(
         "selection_method": decision.get("selection_method"),
         "candidate_task_ids": candidate_task_ids,
         "top_candidate_task_ids": decision.get("top_candidate_task_ids", []),
+        "post_hint_candidate_task_ids": decision.get("post_hint_candidate_task_ids", []),
+        "filtered_out_task_ids": decision.get("filtered_out_task_ids", []),
         "chosen_task_id": decision.get("chosen_task_id"),
         "ambiguity_reason": decision.get("ambiguity_reason"),
         "applied_hint_ids": decision.get("applied_hint_ids", []),
@@ -562,6 +644,10 @@ def run_local_mid_backlog_checkpoint(
     if cast(str | None, branch_decision.get("selection_method")) == "operator_hint":
         branch_selection_notes.append(
             f"Multiple next tasks were eligible; selected `{next_active_task_id}` using operator branch-selection hints."
+        )
+    elif cast(str | None, branch_decision.get("selection_method")) == "operator_hint_plus_semantic_alignment":
+        branch_selection_notes.append(
+            f"Multiple next tasks were eligible; operator branch-selection hints narrowed the candidates, then bounded semantic alignment selected `{next_active_task_id}`."
         )
     elif cast(str | None, branch_decision.get("selection_method")) == "semantic_alignment":
         branch_selection_notes.append(

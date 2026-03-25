@@ -686,8 +686,24 @@
       "source_template_id": "json-health-checker-template-pack",
       "status": "completed",
       "target_build_pack_id": "json-health-checker-operator-hint-branch-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-operator-avoid-branch-build-pack-v1-20260325t200524z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-operator-avoid-branch-build-pack-v1-20260325t200524z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-operator-avoid-branch-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-operator-avoid-branch-build-pack-v2-20260325t200532z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-operator-avoid-branch-build-pack-v2-20260325t200532z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-operator-avoid-branch-build-pack-v2"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-25T19:18:44Z"
+  "updated_at": "2026-03-25T20:05:32Z"
 }

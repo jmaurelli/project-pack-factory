@@ -102,9 +102,10 @@ memory artifact's structured fields such as `current_focus`,
   remote continuity loop.
 
 - `python3 tools/apply_branch_selection_hint.py ...`
-  Use this when you want to record an explicit operator preference in
+  Use this when you want to record explicit operator guidance in
   `status/work-state.json.branch_selection_hints` before the chooser falls
-  back to semantic alignment.
+  back to semantic alignment. It now supports both preferred-task and
+  avoid-task guidance.
 
 - `python3 tools/run_operator_hint_branch_choice_exercise.py ...`
   Use this when you want to prove the factory honors explicit operator
@@ -112,6 +113,13 @@ memory artifact's structured fields such as `current_focus`,
   proving-ground pack, applies a canonical operator hint, and verifies that
   autonomy follows that hint with recorded evidence before continuing through
   the normal remote continuity loop.
+
+- `python3 tools/run_operator_avoid_branch_choice_exercise.py ...`
+  Use this when you want to prove the factory can apply avoid-style operator
+  guidance before semantic inference. It materializes a fresh proving-ground
+  pack, applies a canonical avoid-task hint, verifies that the avoided branch
+  is filtered out in `branch-selection.json`, and then continues through the
+  normal remote continuity loop.
 
 - `python3 tools/run_local_mid_backlog_checkpoint.py ...`
   Use this when you want a local checkpoint after the current active task plus
@@ -142,7 +150,8 @@ Newly materialized autonomy-capable build-packs now inherit:
 - pack-local feedback-memory writing
 - pack-local `latest-memory.json` activation
 - remote memory export/import support
-- optional canonical `branch_selection_hints` in `status/work-state.json`
+- optional canonical `branch_selection_hints` in `status/work-state.json`,
+  including preferred-task and avoid-task guidance
 - multi-hop autonomy rehearsal guidance
 - promotion gating through compatible autonomy rehearsal evidence
 
@@ -179,7 +188,7 @@ The current autonomy follow-up list is:
 
 - `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
 
-Current direction: broader operator support is the next planned expansion.
-Keep the bounded semantic chooser and fail-closed ambiguity handling in place,
-and prefer richer canonical operator guidance before expanding toward more
-open-ended semantic branch choice.
+Current direction: operator-hint conflict and precedence policy is the next
+planned expansion. Keep the bounded semantic chooser and fail-closed ambiguity
+handling in place, and prefer richer canonical operator guidance before
+expanding toward more open-ended semantic branch choice.

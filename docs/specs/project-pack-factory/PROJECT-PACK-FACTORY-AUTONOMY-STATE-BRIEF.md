@@ -83,7 +83,8 @@ backlog order as fake judgment.
 The current ladder is:
 
 1. explicit `selection_priority`
-2. canonical operator `branch_selection_hints`
+2. canonical operator `branch_selection_hints`, including preferred-task and
+   avoid-task guidance
 3. bounded semantic alignment from objective, resume context, and task
    `selection_signals`
 4. fail-closed escalation when the choice is still not explainable
@@ -92,6 +93,8 @@ This means the factory can now:
 
 - choose deterministically when explicit priority metadata exists
 - honor explicit operator intent when an operator wants to steer the branch
+- honor explicit operator avoid guidance when an operator wants to rule out a
+  branch before semantic tie-breaking
 - make a bounded semantic choice when one task is clearly better aligned and
   the justification can be recorded
 - stop honestly when the choice is still too ambiguous to defend
@@ -110,6 +113,7 @@ Important proof surfaces include:
 - ambiguous branch fail-closed stopping
 - bounded semantic branch choice
 - operator-hint branch choice
+- operator-avoid branch choice
 
 In plain language: the factory has now proven memory handoff, stop/restart,
 promotion-linked rehearsal, and bounded branch choice. It is no longer just a
@@ -142,21 +146,23 @@ promotion gates so the next pack starts from a stronger baseline.
 
 ## Current Best Next Frontier
 
-The next meaningful autonomy improvement is to expand broader operator support
-around the current bounded branch-choice ladder.
+The next meaningful autonomy improvement is to define operator-hint conflict
+and precedence policy around the current broader operator-support surface.
 
 That follow-up is already tracked in:
 
 - `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
 
-The near-term direction is now chosen:
+The near-term direction is now clearer:
 
-- prefer broader operator support before broadening toward more open-ended
-  semantic choice
+- keep broader operator support ahead of more open-ended semantic choice
 - keep the current fail-closed and explainable branch-choice ladder intact
-- expand the canonical operator-hint surface, conflict handling, and proving
-  exercises first
+- define how priority metadata, preferred-task hints, avoid-task hints, and
+  bounded semantic alignment should interact when they point in different
+  directions
 
 In plain language: the factory is not trying to become a free-form chooser by
-default right now. The next gain is to let operators steer autonomy more
-cleanly, more often, and with better recorded evidence.
+default right now. It can already let operators steer branch choice more
+cleanly with preferred and avoided tasks. The next gain is making those richer
+operator instructions resolve conflicts in a deterministic, easy-to-explain
+way.

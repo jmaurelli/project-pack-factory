@@ -31,6 +31,8 @@ def apply_branch_selection_hint(
     hint_id: str,
     summary: str,
     preferred_task_ids: list[str],
+    avoid_task_ids: list[str],
+    active: bool,
 ) -> dict[str, Any]:
     target_pack = discover_pack(factory_root, build_pack_id)
     if target_pack.pack_kind != "build_pack":
@@ -45,9 +47,14 @@ def apply_branch_selection_hint(
         for task in cast(list[dict[str, Any]], task_backlog.get("tasks", []))
         if isinstance(task, dict) and isinstance(task.get("task_id"), str)
     }
-    unknown = [task_id for task_id in preferred_task_ids if task_id not in known_task_ids]
+    if not preferred_task_ids and not avoid_task_ids:
+        raise ValueError("at least one of preferred_task_ids or avoid_task_ids is required")
+    unknown = [task_id for task_id in preferred_task_ids + avoid_task_ids if task_id not in known_task_ids]
     if unknown:
-        raise ValueError(f"preferred_task_ids referenced unknown task ids: {', '.join(unknown)}")
+        raise ValueError(f"branch-selection hints referenced unknown task ids: {', '.join(sorted(set(unknown)))}")
+    overlap = sorted(set(preferred_task_ids).intersection(avoid_task_ids))
+    if overlap:
+        raise ValueError(f"task ids cannot appear in both preferred and avoid lists: {', '.join(overlap)}")
 
     hints = work_state.get("branch_selection_hints", [])
     if not isinstance(hints, list):
@@ -57,7 +64,9 @@ def apply_branch_selection_hint(
         {
             "hint_id": hint_id,
             "summary": summary,
-            "preferred_task_ids": preferred_task_ids,
+            "active": active,
+            **({"preferred_task_ids": preferred_task_ids} if preferred_task_ids else {}),
+            **({"avoid_task_ids": avoid_task_ids} if avoid_task_ids else {}),
         }
     )
     work_state["branch_selection_hints"] = updated_hints
@@ -71,6 +80,8 @@ def apply_branch_selection_hint(
         "work_state_path": str(work_state_path),
         "hint_id": hint_id,
         "preferred_task_ids": preferred_task_ids,
+        "avoid_task_ids": avoid_task_ids,
+        "active": active,
         "hint_count": len(updated_hints),
     }
 
@@ -81,7 +92,9 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--build-pack-id", required=True)
     parser.add_argument("--hint-id", required=True)
     parser.add_argument("--summary", required=True)
-    parser.add_argument("--preferred-task-id", dest="preferred_task_ids", action="append", required=True)
+    parser.add_argument("--preferred-task-id", dest="preferred_task_ids", action="append", default=[])
+    parser.add_argument("--avoid-task-id", dest="avoid_task_ids", action="append", default=[])
+    parser.add_argument("--inactive", action="store_true")
     parser.add_argument("--output", choices=("json",), default="json")
     return parser.parse_args(argv)
 
@@ -94,6 +107,8 @@ def main(argv: list[str] | None = None) -> int:
         hint_id=args.hint_id,
         summary=args.summary,
         preferred_task_ids=args.preferred_task_ids,
+        avoid_task_ids=args.avoid_task_ids,
+        active=not args.inactive,
     )
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0

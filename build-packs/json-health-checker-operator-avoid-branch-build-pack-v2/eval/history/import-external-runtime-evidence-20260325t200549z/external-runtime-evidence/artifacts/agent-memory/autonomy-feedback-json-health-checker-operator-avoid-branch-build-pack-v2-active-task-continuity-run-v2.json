@@ -1,0 +1,37 @@
+{
+  "active_task_id": "run_inherited_benchmarks",
+  "baseline_readiness_state": "in_progress",
+  "block_summary": null,
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "record_hint_branch_alpha",
+    "record_hint_branch_beta"
+  ],
+  "evidence_paths": [
+    "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-operator-avoid-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v2/loop-events.jsonl",
+    "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-operator-avoid-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v2/run-summary.json"
+  ],
+  "final_readiness_state": "in_progress",
+  "generated_at": "2026-03-25T20:05:46Z",
+  "handoff_summary": [
+    "Run `json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v2` ended with stop reason `starter_backlog_incomplete`.",
+    "Readiness moved from `in_progress` to `in_progress`; ready_for_deployment=False.",
+    "Completed tasks: run_build_pack_validation, record_hint_branch_alpha, record_hint_branch_beta.",
+    "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary.",
+    "Recommended next action: continue with canonical next task `run_inherited_benchmarks` from status/work-state.json and use this summary as local measurement evidence only."
+  ],
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary.",
+  "memory_id": "autonomy-feedback-json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v2",
+  "next_recommended_task_id": "run_inherited_benchmarks",
+  "pack_id": "json-health-checker-operator-avoid-branch-build-pack-v2",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: continue with canonical next task `run_inherited_benchmarks` from status/work-state.json and use this summary as local measurement evidence only.",
+  "run_id": "json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v2",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "factory_validation_command": null,
+    "loop_events_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-operator-avoid-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v2/loop-events.jsonl",
+    "run_summary_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-operator-avoid-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v2/run-summary.json"
+  },
+  "summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/adf/packfactory-source__adf-dev__autonomous-build-packs/json-health-checker-operator-avoid-branch-build-pack-v2/.pack-state/autonomy-runs/json-health-checker-operator-avoid-branch-build-pack-v2-active-task-continuity-run-v2/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json."
+}

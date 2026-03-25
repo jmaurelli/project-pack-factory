@@ -1,0 +1,81 @@
+{
+  "active_task_id": "run_inherited_benchmarks",
+  "autonomy_state": "actively_building",
+  "blocked_task_ids": [],
+  "branch_selection_hints": [
+    {
+      "active": true,
+      "avoid_task_ids": [
+        "record_hint_branch_beta"
+      ],
+      "hint_id": "avoid_schema_validation_refinement",
+      "summary": "Avoid the schema-validation refinement branch for this proving-ground run and let the remaining branch continue."
+    }
+  ],
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "record_hint_branch_alpha",
+    "record_hint_branch_beta"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Reconciled local canonical state from imported external runtime evidence `import-external-runtime-evidence-20260325t200549z`.",
+  "last_outcome": "task_completed",
+  "last_outcome_at": "2026-03-25T20:05:49Z",
+  "last_validation_results": [
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260325t200549z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260325t200549z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-25T20:05:46Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "run_build_pack_validation"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260325t200549z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260325t200549z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-25T20:05:46Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "record_hint_branch_alpha"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260325t200549z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260325t200549z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-25T20:05:46Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "record_hint_branch_beta"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260325t200549z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260325t200549z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-25T20:05:46Z",
+      "status": "in_progress",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "run_inherited_benchmarks"
+    }
+  ],
+  "next_recommended_task_id": "run_inherited_benchmarks",
+  "objective_id": "json-health-checker-operator-avoid-branch-build-pack-v2_objective",
+  "pack_id": "json-health-checker-operator-avoid-branch-build-pack-v2",
+  "pending_task_ids": [],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Run the validation task before attempting benchmark execution or deployment workflows.",
+    "Without explicit operator hints, schema-validation continuity is a stronger semantic fit than operator-reporting refinement."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}

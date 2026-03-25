@@ -227,6 +227,10 @@ def run_local_active_task_continuity(
             branch_selection_notes.append(
                 f"Multiple next tasks were eligible; selected `{next_active_task_id}` using operator branch-selection hints."
             )
+        elif cast(str | None, branch_decision.get("selection_method")) == "operator_hint_plus_semantic_alignment":
+            branch_selection_notes.append(
+                f"Multiple next tasks were eligible; operator branch-selection hints narrowed the candidates, then bounded semantic alignment selected `{next_active_task_id}`."
+            )
         elif cast(str | None, branch_decision.get("selection_method")) == "semantic_alignment":
             branch_selection_notes.append(
                 f"Multiple next tasks were eligible; selected `{next_active_task_id}` using bounded semantic alignment to the objective and resume context."
