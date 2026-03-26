@@ -1,0 +1,213 @@
+{
+  "generated_at": "2026-03-26T17:58:39Z",
+  "objective_id": "project_pack_factory_root_objective",
+  "pack_id": "project-pack-factory",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The PackFactory root has schema-valid objective, backlog, and work-state files.",
+        "Root memory refresh and root startup guidance point at those files as the canonical PackFactory work tracker."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "contracts/project-objective.json, tasks/active-backlog.json, and status/work-state.json exist at the factory root.",
+        "tools/refresh_factory_autonomy_memory.py and the root docs acknowledge the root tracker."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The shared control-plane schemas prove too build-pack-specific to represent PackFactory root work cleanly."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "tools/refresh_factory_autonomy_memory.py",
+        "tools/validate_factory.py",
+        "AGENTS.md",
+        "README.md"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 0,
+      "status": "completed",
+      "summary": "Seed the PackFactory root objective, backlog, and work-state files and wire root tooling to use them.",
+      "task_id": "seed_factory_root_work_tracker",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor codex --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The operator dashboard surfaces portfolio state, environment assignments, recent factory motion, and root task guidance clearly enough to replace long routine startup briefs.",
+        "The dashboard remains local-first and keeps the Python snapshot generator as the truth-preserving data-preparation layer."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The dashboard specs and implementation path align on the root executive-summary surface.",
+        "Routine PackFactory status checks no longer need a long chat-only reconstruction path."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "A dashboard change would weaken the canonical registry-first truth model or create conflicting operator views."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-PYTHON-GENERATED-STATIC-DASHBOARD-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ASTRO-DASHBOARD-UPGRADE-SPEC.md",
+        "tools/generate_factory_dashboard.py",
+        "tools/build_factory_dashboard_astro.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 1,
+      "status": "pending",
+      "summary": "Advance the top-priority operator dashboard so it becomes the fast normal briefing surface for PackFactory state.",
+      "task_id": "design_operator_dashboard_surface",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/generate_factory_dashboard.py --factory-root /home/orchadmin/project-pack-factory --output-dir /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest --report-format json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory can declare whether a build-pack is local-factory-managed or remote-managed without leaving dual-primary ambiguity.",
+        "Startup surfaces and operator workflows make the chosen source-of-truth mode visible."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded source-of-truth model is documented and represented in PackFactory surfaces.",
+        "The ADF drift/reconcile problem has a clear PackFactory-native handling path."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "The proposed mode model cannot stay fail-closed across local state, remote-managed state, and import/reconcile workflows."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+        "AGENTS.md",
+        "README.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 2,
+      "status": "pending",
+      "summary": "Define and adopt the build-pack source-of-truth mode so local and remote-managed lines do not behave like competing primaries.",
+      "task_id": "define_build_pack_source_of_truth_mode",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor codex --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The Astro dashboard path has a concrete install, build, and publish plan that keeps the Python snapshot generator canonical.",
+        "Operators have a bounded wrapper path for local dev-server and publish usage."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The Astro dashboard upgrade spec is concrete enough to implement without improvised environment wiring.",
+        "The Astro wrapper path stays clearly downstream of the Python snapshot generator."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker",
+        "design_operator_dashboard_surface"
+      ],
+      "escalation_conditions": [
+        "The Astro presentation layer would require replacing the canonical snapshot contract or adding a live backend."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ASTRO-DASHBOARD-UPGRADE-SPEC.md",
+        "apps/factory-dashboard/",
+        "tools/build_factory_dashboard_astro.py",
+        "tools/serve_factory_dashboard.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 3,
+      "status": "pending",
+      "summary": "Turn the Astro dashboard path into a concrete install and build plan that cleanly consumes the canonical Python snapshot output.",
+      "task_id": "plan_astro_dashboard_upgrade",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/build_factory_dashboard_astro.py --factory-root /home/orchadmin/project-pack-factory --output-dir /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest --app-dir /home/orchadmin/project-pack-factory/apps/factory-dashboard --staging-root /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging --report-format json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has a reusable personality-template model that stays optional and does not collapse template reuse.",
+        "Personality inheritance is explicit during template creation and build-pack materialization."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded personality-template design exists with clear storage and selection surfaces.",
+        "One source template can still produce multiple build-packs with different personalities."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "A proposed personality system would hard-link identity to a source template and reduce template reuse."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-BUSINESS-PARTNER-PERSONALITY-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        "tools/create_template_pack.py",
+        "tools/materialize_build_pack.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4,
+      "status": "pending",
+      "summary": "Design the optional agent-personality template system as a reusable overlay rather than a one-template identity lock-in.",
+      "task_id": "design_agent_personality_template_system",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor codex --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Root and template instruction surfaces have a clearer scan order and lower repetition without losing critical policy content.",
+        "The redesign is grounded in instruction-retention and startup-performance goals rather than prose polish alone."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "PackFactory has a bounded plan for instruction-surface optimization tied to real startup and compliance needs.",
+        "The dashboard work and instruction-performance work share a coherent reduction path for root startup overhead."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker",
+        "design_operator_dashboard_surface"
+      ],
+      "escalation_conditions": [
+        "A proposed simplification would remove or weaken critical workflow rules such as the managed remote-session control plane."
+      ],
+      "files_in_scope": [
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-INSTRUCTION-DISCOVERABILITY-FOR-AUTONOMY-AND-EXTERNAL-RUNTIME-EVIDENCE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 5,
+      "status": "pending",
+      "summary": "Review and optimize PackFactory instruction surfaces for scan speed, retention, and startup compliance.",
+      "task_id": "optimize_agent_instruction_surfaces",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/run_factory_root_startup_benchmark.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    }
+  ]
+}

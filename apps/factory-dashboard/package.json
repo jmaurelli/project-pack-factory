@@ -1,0 +1,14 @@
+{
+  "name": "factory-dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "astro": "^6.1.0",
+    "typescript": "^5.9.3"
+  }
+}

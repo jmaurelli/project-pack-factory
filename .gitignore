@@ -5,4 +5,7 @@ __pycache__/
 .mypy_cache/
 .venv/
 *.egg-info/
+apps/factory-dashboard/.astro/
+apps/factory-dashboard/dist/
+apps/factory-dashboard/node_modules/
 requests/

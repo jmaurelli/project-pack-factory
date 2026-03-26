@@ -1,0 +1,26 @@
+---
+import type { DashboardItem } from "../lib/dashboardTypes";
+
+interface Props {
+  items: DashboardItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Factory Timeline</p>
+      <h2>Recent Motion</h2>
+    </div>
+  </div>
+  <ol class="motion-list">
+    {items.map((item) => (
+      <li>
+        <strong>{item.title ?? item.status ?? item.id}</strong>
+        <p>{item.summary}</p>
+      </li>
+    ))}
+  </ol>
+</section>

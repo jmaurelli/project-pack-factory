@@ -1,0 +1,31 @@
+---
+import type { DashboardItem } from "../lib/dashboardTypes";
+
+interface Props {
+  item: DashboardItem;
+  buildId: string;
+  generatedAt: string;
+}
+
+const { item, buildId, generatedAt } = Astro.props;
+const details = item.details ?? [];
+---
+
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">What Matters Most Now</p>
+    <h1>{item.title ?? item.id}</h1>
+    <p class="hero-summary">{item.summary}</p>
+    <div class="hero-pills">
+      <span class="pill">{item.status ?? "unknown"}</span>
+      <span class="pill truth">{item.truth_layer ?? "derived"}</span>
+      <span class="pill subtle">{buildId}</span>
+      <span class="pill subtle">{generatedAt}</span>
+    </div>
+  </div>
+  {details.length > 0 && (
+    <ul class="detail-list">
+      {details.slice(0, 4).map((detail) => <li>{detail}</li>)}
+    </ul>
+  )}
+</section>

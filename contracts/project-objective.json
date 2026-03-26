@@ -1,0 +1,54 @@
+{
+  "completion_definition": [
+    "Factory-level PackFactory work is tracked through contracts/project-objective.json, tasks/active-backlog.json, and status/work-state.json instead of relying on prose-only restart context.",
+    "The next PackFactory-level design items are either completed, explicitly deferred, or kept current in the canonical root backlog and work-state files.",
+    "Root memory and root startup guidance stay aligned with the canonical root task tracker after major factory changes."
+  ],
+  "generated_at": "2026-03-26T17:58:39Z",
+  "intended_inputs": [
+    "Factory root instruction surfaces such as AGENTS.md and README.md.",
+    "The autonomy planning list, state brief, and operations note under docs/specs/project-pack-factory/.",
+    "Canonical registry, deployment, and root memory state under registry/, deployments/, and .pack-state/agent-memory/."
+  ],
+  "intended_outputs": [
+    "A machine-readable PackFactory root objective, backlog, and work-state layer that mirrors the build-pack control-plane pattern.",
+    "Root memory and startup behavior that can recover the next PackFactory tasks from canonical JSON instead of reconstructing them from prose alone.",
+    "Validated factory-level docs and tools that stay aligned with the root work tracker."
+  ],
+  "materialization_id": "factory-root-canonical-work-tracker-20260326t175839z",
+  "metrics": [
+    {
+      "evidence_hint": "contracts/project-objective.json, tasks/active-backlog.json, and status/work-state.json",
+      "metric_id": "root_task_tracking_surface",
+      "summary": "The PackFactory root exposes the same canonical objective, backlog, and work-state structure used by active build-packs.",
+      "target": "root control-plane files exist and validate against the shared schemas"
+    },
+    {
+      "evidence_hint": ".pack-state/agent-memory/latest-memory.json and tools/refresh_factory_autonomy_memory.py",
+      "metric_id": "root_memory_alignment",
+      "summary": "Root memory derives next-step guidance from the canonical root task tracker when it is present.",
+      "target": "root memory refresh uses root backlog/work-state before planner fallback"
+    }
+  ],
+  "non_goals": [
+    "Replacing registry/, deployments/, or promotion evidence as the canonical truth layer for live build-pack state.",
+    "Creating new workflow tests or benchmarks without explicit operator approval.",
+    "Collapsing the longer-horizon autonomy planning list into generated JSON and losing its broader design context."
+  ],
+  "objective_id": "project_pack_factory_root_objective",
+  "objective_summary": "Track PackFactory root work through the same machine-readable objective, backlog, and work-state structure used by build-packs so future agents can resume factory-level work from canonical JSON rather than rebuilding context from prose alone.",
+  "pack_id": "project-pack-factory",
+  "problem_statement": "# Project Context\n\nPackFactory already tracks build-pack work through canonical objective, backlog, and work-state files, but the factory root itself has been relying on a Markdown planning list plus advisory root memory. That leaves factory-level work less structured than the build-packs it produces.\n\n## Priority\n\n1. Give PackFactory root work the same machine-readable task tracker shape used by build-packs.\n2. Keep registry, deployment, readiness, and promotion state as the canonical truth layer for live pack state.\n3. Keep root memory explicitly advisory while making it derive next-step guidance from canonical root work tracking.\n4. Keep the longer planning list as broader design context rather than forcing every planning note into the task tracker.\n\n## Primary Root Surfaces\n\n- `contracts/project-objective.json`\n- `tasks/active-backlog.json`\n- `status/work-state.json`\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`\n- `.pack-state/agent-memory/latest-memory.json`\n- `tools/refresh_factory_autonomy_memory.py`\n- `tools/validate_factory.py`\n\n## Local State\n\n- root advisory memory: `.pack-state/agent-memory/`\n- factory dashboard state: `.pack-state/factory-dashboard/`",
+  "promotion_readiness_requirements": [
+    "Factory validation must keep the root objective, backlog, and work-state files schema-valid and internally consistent.",
+    "Root startup guidance must point agents at the root task tracker before relying on advisory memory for PackFactory-level continuation work.",
+    "Root memory refresh must keep its next-action and pending-work summary aligned with the canonical root backlog and work-state files when they exist."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "factory-root-control-plane",
+  "success_criteria": [
+    "The PackFactory root has canonical objective, backlog, and work-state files that track factory work in the same structure as build-packs.",
+    "The root memory refresh path reads those files and surfaces their tasks in advisory memory output.",
+    "Root startup docs and validation surfaces treat the new root tracker as the canonical PackFactory work-tracking layer."
+  ]
+}

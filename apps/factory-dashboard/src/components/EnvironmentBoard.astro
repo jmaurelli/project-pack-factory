@@ -1,0 +1,27 @@
+---
+import type { DashboardItem } from "../lib/dashboardTypes";
+
+interface Props {
+  cards: DashboardItem[];
+}
+
+const { cards } = Astro.props;
+---
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Deployments</p>
+      <h2>Environment Board</h2>
+    </div>
+  </div>
+  <div class="environment-grid">
+    {cards.map((card) => (
+      <article class="environment-card">
+        <p class="environment-label">{card.label ?? card.title ?? card.id}</p>
+        <h3>{card.status ?? "unknown"}</h3>
+        <p>{card.summary}</p>
+      </article>
+    ))}
+  </div>
+</section>

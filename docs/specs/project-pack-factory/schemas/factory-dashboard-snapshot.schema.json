@@ -1,0 +1,343 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/factory-dashboard-snapshot.schema.json",
+  "title": "Factory Dashboard Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dashboard_build_id",
+    "generated_at",
+    "source_trace",
+    "what_matters_most",
+    "environment_board",
+    "quality_now",
+    "automation_now",
+    "factory_learning",
+    "agent_memory",
+    "ideas_lab",
+    "recent_motion",
+    "focused_portfolio",
+    "mismatch_warnings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "factory-dashboard-snapshot/v1"
+    },
+    "dashboard_build_id": {
+      "type": "string",
+      "pattern": "^factory-dashboard-build-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_trace": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_trace"
+      }
+    },
+    "what_matters_most": {
+      "$ref": "#/$defs/summary_item"
+    },
+    "environment_board": {
+      "$ref": "#/$defs/environment_board"
+    },
+    "quality_now": {
+      "$ref": "#/$defs/standard_section"
+    },
+    "automation_now": {
+      "$ref": "#/$defs/standard_section"
+    },
+    "factory_learning": {
+      "$ref": "#/$defs/standard_section"
+    },
+    "agent_memory": {
+      "$ref": "#/$defs/standard_section"
+    },
+    "ideas_lab": {
+      "$ref": "#/$defs/standard_section"
+    },
+    "recent_motion": {
+      "$ref": "#/$defs/section_without_warnings"
+    },
+    "focused_portfolio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "source_kind",
+        "source_path",
+        "truth_layer",
+        "high_priority",
+        "medium_priority",
+        "worth_watching",
+        "historical_baseline"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_path": {
+          "$ref": "#/$defs/source_path"
+        },
+        "truth_layer": {
+          "$ref": "#/$defs/truth_layer"
+        },
+        "high_priority": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/summary_item"
+          }
+        },
+        "medium_priority": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/summary_item"
+          }
+        },
+        "worth_watching": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/summary_item"
+          }
+        },
+        "historical_baseline": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/summary_item"
+          }
+        }
+      }
+    },
+    "mismatch_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "truth_layer": {
+      "type": "string",
+      "enum": [
+        "canonical",
+        "advisory",
+        "derived"
+      ]
+    },
+    "source_path": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "kind",
+        "status"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "loaded",
+            "missing",
+            "error"
+          ]
+        }
+      }
+    },
+    "summary_item": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "truth_layer",
+        "source_kind",
+        "source_path"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "truth_layer": {
+          "$ref": "#/$defs/truth_layer"
+        },
+        "source_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_path": {
+          "$ref": "#/$defs/source_path"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "standard_section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "source_kind",
+        "source_path",
+        "truth_layer",
+        "items",
+        "warnings"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_path": {
+          "$ref": "#/$defs/source_path"
+        },
+        "truth_layer": {
+          "$ref": "#/$defs/truth_layer"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/summary_item"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "section_without_warnings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "source_kind",
+        "source_path",
+        "truth_layer",
+        "items"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_path": {
+          "$ref": "#/$defs/source_path"
+        },
+        "truth_layer": {
+          "$ref": "#/$defs/truth_layer"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/summary_item"
+          }
+        }
+      }
+    },
+    "pack_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "environment_card": {
+      "$ref": "#/$defs/summary_item"
+    },
+    "environment_board": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "source_kind",
+        "source_path",
+        "truth_layer",
+        "cards",
+        "ready_unassigned_pack_ids",
+        "not_assigned_pack_ids"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_path": {
+          "$ref": "#/$defs/source_path"
+        },
+        "truth_layer": {
+          "$ref": "#/$defs/truth_layer"
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/environment_card"
+          }
+        },
+        "ready_unassigned_pack_ids": {
+          "$ref": "#/$defs/pack_ids"
+        },
+        "not_assigned_pack_ids": {
+          "$ref": "#/$defs/pack_ids"
+        }
+      }
+    }
+  }
+}

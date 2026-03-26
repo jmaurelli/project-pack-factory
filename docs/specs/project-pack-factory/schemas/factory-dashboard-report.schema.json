@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/factory-dashboard-report.schema.json",
+  "title": "Factory Dashboard Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dashboard_build_id",
+    "generated_at",
+    "output_root",
+    "latest_output_root",
+    "history_build_root",
+    "snapshot_path",
+    "index_path",
+    "report_path",
+    "asset_paths",
+    "source_trace",
+    "source_count",
+    "mismatch_warning_count",
+    "mismatch_warnings",
+    "freshness_thresholds",
+    "ranking_rules",
+    "startup_benchmark_comparison",
+    "validations",
+    "summary_counts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "factory-dashboard-report/v1"
+    },
+    "dashboard_build_id": {
+      "type": "string",
+      "pattern": "^factory-dashboard-build-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "output_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "latest_output_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "latest_published": {
+      "type": "boolean"
+    },
+    "publication_mode": {
+      "type": "string",
+      "enum": [
+        "published_latest",
+        "history_only"
+      ]
+    },
+    "renderer": {
+      "type": "string",
+      "enum": [
+        "python",
+        "astro"
+      ]
+    },
+    "renderer_output_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "history_build_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "snapshot_path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "index_path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "report_path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "asset_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "renderer_artifact_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_trace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "kind",
+          "status"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "loaded",
+              "missing",
+              "error"
+            ]
+          }
+        }
+      }
+    },
+    "source_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "mismatch_warning_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "mismatch_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "freshness_thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fresh_hours",
+        "stale_hours",
+        "recent_motion_hours"
+      ],
+      "properties": {
+        "fresh_hours": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stale_hours": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "recent_motion_hours": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "ranking_rules": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "startup_benchmark_comparison": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "available",
+            "benchmark_report_path",
+            "benchmark_id",
+            "summary"
+          ],
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "benchmark_report_path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "benchmark_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "summary": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "validations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_schema",
+        "report_schema",
+        "errors"
+      ],
+      "properties": {
+        "snapshot_schema": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "report_schema": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "summary_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "high_priority",
+        "medium_priority",
+        "worth_watching",
+        "historical_baseline",
+        "ideas_lab"
+      ],
+      "properties": {
+        "high_priority": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "medium_priority": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "worth_watching": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "historical_baseline": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ideas_lab": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

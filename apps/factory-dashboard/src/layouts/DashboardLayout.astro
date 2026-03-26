@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  buildId: string;
+  generatedAt: string;
+}
+
+const { title, buildId, generatedAt } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content="PackFactory operator dashboard" />
+    <link rel="stylesheet" href="./assets/dashboard.css" />
+  </head>
+  <body>
+    <slot />
+    <footer class="dashboard-footer">
+      <div>
+        <strong>Build:</strong> {buildId}
+      </div>
+      <div>
+        <strong>Generated:</strong> {generatedAt}
+      </div>
+    </footer>
+    <script type="module" src="./assets/dashboard.js"></script>
+  </body>
+</html>

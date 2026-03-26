@@ -1,10 +1,11 @@
 {
   "schema_version": "factory-autonomy-memory-pointer/v1",
-  "selected_generated_at": "2026-03-25T23:17:57Z",
-  "selected_memory_id": "factory-autonomy-memory-20260325t231757z",
-  "selected_memory_path": ".pack-state/agent-memory/factory-autonomy-memory-20260325t231757z.json",
-  "selected_memory_sha256": "8bc20ee131ccd3666d84b60e542161659b5cd99ef847f3799865f19dbe5b027f",
+  "selected_generated_at": "2026-03-26T18:03:45Z",
+  "selected_memory_id": "factory-autonomy-memory-20260326t180345z",
+  "selected_memory_path": ".pack-state/agent-memory/factory-autonomy-memory-20260326t180345z.json",
+  "selected_memory_sha256": "db20ea8963fe9bc2d98de50468861ceffb62fefc87225c5817927c1e9b477fc3",
+  "selected_memory_tier": "promoted_factory_memory",
   "source_kind": "factory_memory_refresh",
   "source_tool": "tools/refresh_factory_autonomy_memory.py",
-  "updated_at": "2026-03-25T23:17:57Z"
+  "updated_at": "2026-03-26T18:03:45Z"
 }

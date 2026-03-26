@@ -1,0 +1,38 @@
+---
+import type { DashboardItem } from "../lib/dashboardTypes";
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  items: DashboardItem[];
+  warnings?: string[];
+}
+
+const { title, eyebrow = "Current View", items, warnings = [] } = Astro.props;
+---
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+    </div>
+    {warnings.length > 0 && <p class="warning-count">{warnings.length} warning(s)</p>}
+  </div>
+  {warnings.length > 0 && (
+    <div class="warning-strip">
+      {warnings.slice(0, 2).map((warning) => <p>{warning}</p>)}
+    </div>
+  )}
+  <div class="card-grid">
+    {items.map((item) => (
+      <article class="summary-card">
+        <div class="card-topline">
+          <h3>{item.title ?? item.id}</h3>
+          <span class="truth-pill">{item.truth_layer ?? "derived"}</span>
+        </div>
+        <p>{item.summary}</p>
+      </article>
+    ))}
+  </div>
+</section>

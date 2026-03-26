@@ -1,0 +1,239 @@
+{
+  "schema_version": "factory-dashboard-snapshot/v1",
+  "dashboard_build_id": "factory-dashboard-build-20260326t180000z",
+  "generated_at": "2026-03-26T18:00:00Z",
+  "source_trace": [],
+  "what_matters_most": {
+    "id": "release-evidence-summarizer-build-pack-v3",
+    "title": "Release Evidence v3",
+    "summary": "This is the current production assignment, so it is the main line to watch.",
+    "status": "production",
+    "truth_layer": "canonical",
+    "details": [
+      "pack_id=release-evidence-summarizer-build-pack-v3",
+      "active_release_id=release-evidence-summarizer-v3-r1"
+    ],
+    "source_kind": "canonical",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+    ]
+  },
+  "environment_board": {
+    "cards": [
+      {
+        "id": "environment-production",
+        "title": "Production",
+        "label": "Production",
+        "summary": "Release Evidence v3 is assigned to production.",
+        "status": "production",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/deployments/production/release-evidence-summarizer-build-pack-v3.json"
+        ]
+      },
+      {
+        "id": "environment-testing",
+        "title": "Testing",
+        "label": "Testing",
+        "summary": "JSON Autonomy Promotion is assigned to testing.",
+        "status": "testing",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json"
+        ]
+      },
+      {
+        "id": "environment-staging",
+        "title": "Staging",
+        "label": "Staging",
+        "summary": "No build-pack is currently assigned to staging.",
+        "status": "not_assigned",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/deployments/staging"
+        ]
+      }
+    ]
+  },
+  "quality_now": {
+    "title": "Quality Now",
+    "items": [
+      {
+        "id": "quality-release-evidence",
+        "title": "Release Evidence v3",
+        "summary": "Readiness is green and recent release evidence is present.",
+        "status": "fresh",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/eval/latest/index.json"
+        ]
+      },
+      {
+        "id": "quality-json-autonomy",
+        "title": "JSON Autonomy Promotion",
+        "summary": "Testing line is ready to keep proving the autonomy path.",
+        "status": "fresh",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/latest/index.json"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "automation_now": {
+    "title": "Automation Now",
+    "items": [
+      {
+        "id": "automation-testing-line",
+        "title": "Current Testing Path",
+        "summary": "The autonomy-to-promotion line is active in testing now.",
+        "status": "testing",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "factory_learning": {
+    "title": "Factory Learning",
+    "items": [
+      {
+        "id": "learning-dashboard",
+        "title": "Current Focus",
+        "summary": "Keep root-level factory state easy to recover through the dashboard.",
+        "status": "advisory",
+        "truth_layer": "advisory",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/latest-memory.json"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "agent_memory": {
+    "title": "Agent Memory",
+    "items": [
+      {
+        "id": "memory-next-step",
+        "title": "Recommended Next Step",
+        "summary": "Keep the dashboard simple and local-first while usefulness is still being proven.",
+        "status": "advisory",
+        "truth_layer": "advisory",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/latest-memory.json"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "ideas_lab": {
+    "title": "Ideas Lab",
+    "items": [
+      {
+        "id": "idea-dashboard-upgrade",
+        "title": "Near-Future Design",
+        "summary": "Use Astro as a presentation-layer upgrade without changing the snapshot truth layer.",
+        "status": "candidate",
+        "truth_layer": "advisory",
+        "source_kind": "planning_list",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "recent_motion": {
+    "title": "Recent Motion",
+    "items": [
+      {
+        "id": "motion-promoted-release-evidence",
+        "title": "Promoted",
+        "summary": "2026-03-23: Release Evidence v3 was promoted to production.",
+        "status": "promoted",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ]
+      },
+      {
+        "id": "motion-promoted-json-autonomy",
+        "title": "Promoted",
+        "summary": "2026-03-25: JSON Autonomy Promotion was promoted into testing.",
+        "status": "promoted",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ]
+      }
+    ]
+  },
+  "focused_portfolio": {
+    "high_priority": [
+      {
+        "id": "portfolio-release-evidence",
+        "title": "Release Evidence v3",
+        "summary": "Assigned to production now.",
+        "status": "production",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ]
+      }
+    ],
+    "medium_priority": [
+      {
+        "id": "portfolio-json-autonomy",
+        "title": "JSON Autonomy Promotion",
+        "summary": "Assigned to testing and still proving the next autonomy step.",
+        "status": "testing",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ]
+      }
+    ],
+    "worth_watching": [
+      {
+        "id": "portfolio-config-drift",
+        "title": "Config Drift Core",
+        "summary": "Ready for deployment but not assigned to an environment.",
+        "status": "ready_unassigned",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ]
+      }
+    ],
+    "historical_baseline": [
+      {
+        "id": "portfolio-old-imported-line",
+        "title": "Imported Baseline",
+        "summary": "Retired after the factory-native reset.",
+        "status": "retired",
+        "truth_layer": "canonical",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ]
+      }
+    ]
+  },
+  "mismatch_warnings": []
+}

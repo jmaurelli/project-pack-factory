@@ -1,0 +1,77 @@
+---
+import DashboardLayout from "../layouts/DashboardLayout.astro";
+import EnvironmentBoard from "../components/EnvironmentBoard.astro";
+import RecentMotion from "../components/RecentMotion.astro";
+import SectionCards from "../components/SectionCards.astro";
+import WhatMattersHero from "../components/WhatMattersHero.astro";
+import { loadDashboardSnapshot } from "../lib/loadDashboardSnapshot";
+
+const snapshot = await loadDashboardSnapshot();
+const environmentCards = snapshot.environment_board.cards ?? [];
+const portfolioSections = [
+  ["High Priority", snapshot.focused_portfolio.high_priority ?? []],
+  ["Medium Priority", snapshot.focused_portfolio.medium_priority ?? []],
+  ["Worth Watching", snapshot.focused_portfolio.worth_watching ?? []],
+];
+---
+
+<DashboardLayout
+  title="PackFactory Dashboard"
+  buildId={snapshot.dashboard_build_id}
+  generatedAt={snapshot.generated_at}
+>
+  <main class="dashboard-shell">
+    <WhatMattersHero
+      item={snapshot.what_matters_most}
+      buildId={snapshot.dashboard_build_id}
+      generatedAt={snapshot.generated_at}
+    />
+
+    <EnvironmentBoard cards={environmentCards} />
+
+    <div class="two-up">
+      <SectionCards
+        title={snapshot.quality_now.title ?? "Quality Now"}
+        eyebrow="Quality"
+        items={snapshot.quality_now.items ?? []}
+        warnings={snapshot.quality_now.warnings ?? []}
+      />
+      <SectionCards
+        title={snapshot.automation_now.title ?? "Automation Now"}
+        eyebrow="Automation"
+        items={snapshot.automation_now.items ?? []}
+        warnings={snapshot.automation_now.warnings ?? []}
+      />
+    </div>
+
+    <div class="two-up">
+      <SectionCards
+        title={snapshot.factory_learning.title ?? "Factory Learning"}
+        eyebrow="Learning"
+        items={snapshot.factory_learning.items ?? []}
+        warnings={snapshot.factory_learning.warnings ?? []}
+      />
+      <SectionCards
+        title={snapshot.agent_memory.title ?? "Agent Memory"}
+        eyebrow="Restart Context"
+        items={snapshot.agent_memory.items ?? []}
+        warnings={snapshot.agent_memory.warnings ?? []}
+      />
+    </div>
+
+    <SectionCards
+      title={snapshot.ideas_lab.title ?? "Ideas Lab"}
+      eyebrow="Planning"
+      items={snapshot.ideas_lab.items ?? []}
+      warnings={snapshot.ideas_lab.warnings ?? []}
+    />
+
+    <div class="portfolio-stack">
+      {portfolioSections.map(([title, items]) => (
+        <SectionCards title={title} eyebrow="Portfolio" items={items} />
+      ))}
+    </div>
+
+    <RecentMotion items={snapshot.recent_motion.items ?? []} />
+  </main>
+</DashboardLayout>
