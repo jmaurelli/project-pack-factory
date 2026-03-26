@@ -148,6 +148,29 @@ Recent proof points:
   Why it matters: the factory can now score autonomy quality, so the next
   question is how much of that score should affect real promotion decisions.
 
+- [ ] Bounded template instruction-surface guard.
+  Scope: extend the factory validator to check active templates only, verify a
+  small set of startup-compliance markers in template `AGENTS.md`,
+  `project-context.md`, and `pack.json`, compare those markers against the
+  same core startup/compliance markers already used by the root surfaces and
+  startup-compliance rehearsal, and keep the guard marker-based rather than
+  full-text-equality-based.
+  Why it matters: templates seed new build-packs, so if template startup
+  guidance drifts away from the factory baseline, fresh packs can inherit
+  stale behavior even when the root instruction surfaces are correct.
+
+- [ ] Template creation reusability gate.
+  Scope: formalize the rule that new template requests should be interpreted
+  as reusable capability-pattern requests first, with a separate first
+  materialized build-pack proving ground, instead of letting templates become
+  permanently paired to one derivative build-pack line. In the near term this
+  should be enforced behaviorally during template-creation work; later it
+  should become a bounded factory-enforced gate through template-creation
+  request fields, validator checks, or both.
+  Why it matters: the PackFactory model is stronger when templates remain
+  reusable source patterns and build-packs remain the concrete, disposable,
+  or evolvable derivatives that prove, test, and deploy those patterns.
+
 ## Quick Wins
 
 - [x] Add a canonical readiness refresh step at the end of
@@ -448,6 +471,9 @@ Proof plan for this pass:
 30. Autonomy quality scoring
 31. Factory-root startup benchmark
 32. Cross-template transfer matrix
+33. Promotion-time autonomy quality gating
+34. Bounded template instruction-surface guard
+35. Template creation reusability gate
 
 ## Working Notes
 
