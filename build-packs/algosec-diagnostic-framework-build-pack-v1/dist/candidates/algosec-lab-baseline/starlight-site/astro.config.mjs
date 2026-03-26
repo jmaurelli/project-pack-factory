@@ -16,13 +16,13 @@ export default defineConfig({
         {
         label: 'Current Focus',
         items: [
-          { label: "Appliance UI is down", slug: "playbooks/appliance-ui-is-down" }
+          { label: "ASMS UI is down", slug: "playbooks/asms-ui-is-down" }
         ],
       },
         {
         label: 'Playbooks',
         items: [
-          { label: "Appliance UI is down", slug: "playbooks/appliance-ui-is-down" },
+          { label: "ASMS UI is down", slug: "playbooks/asms-ui-is-down" },
           { label: "FireFlow Backend", slug: "playbooks/fireflow-backend" },
           { label: "Microservice Platform", slug: "playbooks/microservice-platform" },
           { label: "Messaging and Data", slug: "playbooks/messaging-and-data" }

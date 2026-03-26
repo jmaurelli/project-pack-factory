@@ -148,6 +148,130 @@ Current preference:
 - keep the prompt file, launcher log, and result file separated so retries are
   easier to reason about
 
+## Revised Workflow For ASMS Investigative Authoring
+
+During the March 25, 2026 ASMS UI system-thinking cycle, ADF also tried the
+factory-level bounded remote autonomy wrapper:
+
+- `python3 tools/run_remote_autonomy_loop.py ...`
+
+That structured path worked as designed, but it stopped with:
+
+- `terminal_outcome = boundary_violation`
+- `terminal_reason = unauthorized_writable_surface`
+
+The recorded boundary violations included generated candidate artifacts and
+`src/algosec_diagnostic_framework_template_pack/runtime_baseline.py`.
+
+This matters because the current ASMS trajectory is not a starter-backlog-only
+autonomy proof. It is a guided investigative authoring loop that needs all of
+the following:
+
+- live browser and log investigation on the real appliance
+- pack-local source edits
+- regeneration of appliance-backed artifacts
+- operator-guided systems-thinking refinement
+
+So the revised workflow for the current ADF phase is:
+
+1. use PackFactory remote tooling for target prep and clean staging:
+   - `python3 tools/prepare_remote_autonomy_target.py ...`
+   - `python3 tools/push_build_pack_to_remote.py ...`
+2. use the staged remote workspace for a guided remote Codex investigation run
+   against the named ADF task
+3. sync back the appliance-backed artifacts and notes that matter
+4. update local pack state and validate locally
+
+Do not use `run_remote_autonomy_loop.py` as the primary execution path for the
+current ASMS investigative authoring cycles unless the goal is explicitly a
+bounded starter-backlog autonomy proof rather than guided subsystem
+investigation and source-authoring work.
+
+## Browser Wait Correction For ASMS UI Investigation
+
+During the March 25, 2026 fresh-session isolation pass, a more specific remote
+browser-method lesson became clear for the `ASMS UI is down` path:
+
+- do not wait for Playwright `networkidle` on the ASMS home shell
+
+On this appliance, the post-login home shell keeps enough background activity
+alive that `networkidle` can hang or stall an otherwise healthy investigation.
+That creates a false blocker: the browser session may already have reached a
+usable `AlgoSec - Home` shell while the automation is still waiting for a page
+state that never arrives.
+
+Use this corrected pattern instead:
+
+- launch a fresh browser context or incognito session
+- authenticate normally
+- use bounded waits plus visible-shell checks rather than `networkidle`
+- treat these as the main success markers:
+  - final URL reaches `/afa/php/home.php`
+  - page title is `AlgoSec - Home`
+  - visible body markers such as `HOME`, `DEVICES`, `DASHBOARDS`, `GROUPS`,
+    `MATRICES`, `Firewall Analyzer`, `FireFlow`, `AlgoSec Cloud`, `ObjectFlow`,
+    and `AppViz`
+- capture request and response timing, cookies, and visible-shell markers
+  without waiting for the page to go fully idle
+
+Why this matters:
+
+- it keeps the remote Codex investigation aligned with the real support
+  question, which is first usable home-shell availability, not complete browser
+  quiet
+
+## Route-Owner Split For The Remaining Config Family
+
+During the later March 26, 2026 narrowing pass, one more systems-thinking
+lesson became explicit for the `ASMS UI is down` path:
+
+- the remaining `config` family is not owned by one seam
+
+Carry forward these facts:
+
+- Apache owns browser-facing `/afa/external` and `/afa/api/v1` proxy families
+- PHP `RestClient` also talks directly to `http://127.0.0.1:8080/afa`
+- `RestClient::getConfig($param)` issues direct `/config/...` requests
+- the login path already uses that direct helper in
+  `SuiteLoginSessionValidation.php`
+- the browser UI bundle separately owns `/afa/api/v1/config`
+
+What this changes:
+
+- do not treat the remaining `config` question as only an Apache proxy-family
+  problem
+- do not repeat family-wide Apache denies as the default next move
+- separate browser-owned config requests from PHP-owned direct Metro config
+  reads before planning the next deeper mutation
+
+Use these pack-local notes next:
+
+- `.pack-state/remote-codex/asms-ui-config-owner-split-pass-20260326.md`
+- `docs/specs/asms-ui-config-owner-split-plan-v1.md`
+
+## Browser Tooling Note From The Correlation Pass
+
+During the March 26, 2026 read-only correlation run, one more remote-launch
+detail became explicit:
+
+- Playwright Python was available inside the remote Codex environment
+- Playwright's bundled browser cache was missing
+- system Chromium still worked through
+  `executable_path='/usr/bin/chromium-browser'`
+
+Why this matters:
+
+- remote Codex can still run bounded browser-backed investigation on this
+  appliance without installing browser bundles during the session
+- future read-only investigation prompts should prefer the system Chromium
+  binary first when the bundled Playwright browsers are absent
+  quiet
+- it prevents the fresh-session isolation loop from stalling on the page's
+  normal background chatter
+- it should be treated as the default browser method for the current ASMS
+  post-login and Metro-clue investigations unless a later path proves it needs
+  a different success condition
+
 ## Current Conclusion
 
 Remote Codex invocation on the lab appliance is viable, but it is not yet
@@ -159,5 +283,35 @@ shell behavior and the need for disciplined relaunch handling.
 For ADF, the right current posture is:
 
 - keep using remote Codex
-- keep launch scripts explicit and bounded
+- keep PackFactory target prep and staging as the default control path
+- keep guided remote Codex authoring separate from the bounded autonomy loop
+  when the work needs investigative source edits and appliance-backed artifact
+  regeneration
+- keep launch scripts explicit and bounded when guided remote Codex is the
+  active path
 - record retries and stale-process cleanup as normal orchestration work
+
+## Controlled Mutation Experiments
+
+The next ADF phase now includes a narrower kind of remote work:
+
+- lab-only, tightly bounded mutation experiments at a proven control seam
+
+Use these rules for that mode:
+
+- treat read-only investigation as the default until the likely seam is already
+  narrowed
+- mutate one surface at a time
+- prefer a temporary Apache override file over editing the base config inline
+- prepare rollback before applying the mutation
+- use one bounded browser reproduction after each mutation
+- capture same-minute Apache and downstream logs before interpreting the
+  result
+- revert immediately after the one experiment slice completes
+
+Canonical references:
+
+- reusable pattern:
+  `docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md`
+- current ASMS seam plan:
+  `docs/specs/asms-ui-apache-metro-proxy-isolation-plan-v1.md`

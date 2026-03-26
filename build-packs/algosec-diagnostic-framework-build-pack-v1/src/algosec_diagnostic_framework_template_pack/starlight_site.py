@@ -285,6 +285,13 @@ def _render_playbook_markdown(
     order: int,
     symptom_entries: list[dict[str, str]],
 ) -> str:
+    if playbook["playbook_id"] == PRIMARY_PLAYBOOK_ID:
+        return _render_asms_ui_playbook_markdown(
+            playbook=playbook,
+            order=order,
+            symptom_entries=symptom_entries,
+        )
+
     dependency_path = playbook.get("dependency_path", [])
     dependency_by_step = {item["step_id"]: item for item in dependency_path}
     likely_services = playbook.get("likely_failing_services", [])
@@ -429,6 +436,152 @@ def _render_playbook_markdown(
     )
 
     return "\n".join(lines) + "\n"
+
+
+def _render_asms_ui_playbook_markdown(
+    *,
+    playbook: dict[str, Any],
+    order: int,
+    symptom_entries: list[dict[str, str]],
+) -> str:
+    dependency_path = playbook.get("dependency_path", [])
+    dependency_by_step = {item["step_id"]: item for item in dependency_path}
+
+    lines = [
+        "---",
+        f"title: {playbook['label']}",
+        f"description: {playbook['symptom_focus']}",
+        "sidebar:",
+        f"  label: {playbook['label']}",
+        f"  order: {order}",
+        "---",
+        "",
+        playbook["symptom_focus"],
+        "",
+        "## ASMS UI Working Map",
+        "",
+        '<div class="adf-system-shell">',
+        '  <div class="adf-system-topbar">',
+        '    <div class="adf-panel">',
+        '      <p class="adf-panel-label">Working rule</p>',
+        "      <p>Start at the host, move into Apache/HTTPD serving the UI, then split into auth and app branches. Stop at the first place where useful work no longer happens.</p>",
+        "    </div>",
+        '    <div class="adf-panel">',
+        '      <p class="adf-panel-label">What this page is proving</p>',
+        "      <p>The goal is not to prove that services merely exist. The goal is to prove whether the ASMS UI path can do useful work for the current customer scenario.</p>",
+        "    </div>",
+        "  </div>",
+        '  <div class="adf-system-map adf-panel">',
+        '    <p class="adf-panel-label">Useful-work path</p>',
+        '    <ol class="adf-system-map-list">',
+    ]
+    for item in dependency_path:
+        lines.extend(
+            [
+                '      <li class="adf-system-map-item">',
+                f'        <a class="adf-system-map-link" href="#{item["step_id"]}">',
+                f'          <span class="adf-route-step">{item["step_label"]}</span>',
+                f"          <strong>{item['label']}</strong>",
+                f"          <span>{item['details']}</span>",
+                "        </a>",
+                "      </li>",
+            ]
+        )
+    lines.extend(
+        [
+            "    </ol>",
+            "  </div>",
+            '  <div class="adf-system-grid">',
+            '    <aside class="adf-system-nav adf-panel">',
+            '      <p class="adf-panel-label">Quick jump</p>',
+            '      <div class="adf-system-jumps">',
+        ]
+    )
+    for item in dependency_path:
+        lines.extend(
+            [
+                f'<a class="adf-system-jump" href="#{item["step_id"]}">',
+                f'  <span class="adf-route-step">{item["step_label"]}</span>',
+                f'  <strong>{item["label"]}</strong>',
+                f'  <span>{item["details"]}</span>',
+                "</a>",
+            ]
+        )
+    lines.extend(["      </div>"])
+    if symptom_entries:
+        lines.extend(
+            [
+                '      <div class="adf-system-sideblock">',
+                '        <p class="adf-panel-label">Symptoms that fit here</p>',
+                "        <ul>",
+                *[f"          <li>{entry['symptom_label']}</li>" for entry in symptom_entries],
+                "        </ul>",
+                "      </div>",
+            ]
+        )
+    lines.extend(
+        [
+            "    </aside>",
+            '    <div class="adf-system-main">',
+        ]
+    )
+    for step in playbook.get("steps", []):
+        lines.extend(_render_system_checkpoint_markdown(step, dependency_by_step.get(step["step_id"])))
+    lines.extend(
+        [
+            "    </div>",
+            "  </div>",
+            "</div>",
+            "",
+            '<script>',
+            "(() => {",
+            "  const openHashTarget = () => {",
+            "    const rawHash = window.location.hash;",
+            "    if (!rawHash || rawHash.length < 2) return;",
+            "    const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));",
+            "    if (!target) return;",
+            "    const details = target.matches('details') ? target : target.closest('details');",
+            "    if (details) details.open = true;",
+            "  };",
+            "  window.addEventListener('hashchange', openHashTarget);",
+            "  openHashTarget();",
+            "})();",
+            "</script>",
+            "",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def _render_system_checkpoint_markdown(step: dict[str, Any], dependency_item: dict[str, str] | None) -> list[str]:
+    checkpoint_label = dependency_item["label"] if dependency_item else _step_summary_label(step)
+    lines = [
+        f'<details id="{step["step_id"]}" class="adf-system-checkpoint">',
+        '<summary class="adf-system-summary">',
+        f'  <span class="adf-step-badge">{step["step_label"]}</span>',
+        '  <span class="adf-system-heading">',
+        f"    <strong>{checkpoint_label}</strong>",
+        f'    <span>{step["action"]}</span>',
+        "  </span>",
+        '  <span class="adf-step-toggle" aria-hidden="true"></span>',
+        "</summary>",
+        "",
+        '<div class="adf-system-body">',
+    ]
+    if step.get("why_this_matters"):
+        lines.extend(
+            [
+                '<div class="adf-system-brief adf-panel">',
+                '  <p class="adf-panel-label">Why this checkpoint exists</p>',
+                f'  <p>{step["why_this_matters"]}</p>',
+                "</div>",
+                "",
+            ]
+        )
+    for command in step.get("recommended_commands", []):
+        lines.extend(_render_command_markdown(command))
+    lines.extend(["</div>", "</details>", ""])
+    return lines
 
 
 def _render_step_markdown(step: dict[str, Any], dependency_item: dict[str, str] | None) -> list[str]:
@@ -627,11 +780,83 @@ def _command_knowledge(command: dict[str, Any]) -> tuple[str, list[str]] | None:
             "A readiness endpoint helps prove the service is healthy enough to answer real traffic.",
             "Use the expected JSON value below as the main reference, not just the HTTP connection itself.",
         ])
+    if raw.startswith("for path in /algosec-ui/styles.css /algosec-ui/runtime.js /algosec-ui/main.js; do"):
+        return ("Linux note: browser-useful edge assets", [
+            "This checks whether Apache is serving real UI assets, not only the login HTML shell.",
+            "Non-empty CSS and JavaScript bodies are a stronger edge proof because a browser needs them before sign-in can do useful work.",
+            "If the HTML is up but these assets fail, stay on Apache and the static UI path before chasing Keycloak or Metro.",
+        ])
+    if "/seikan/login/setup" in raw:
+        return ("Linux note: login setup mode", [
+            "This checks the login setup endpoint that the shipped UI uses before credentials are submitted.",
+            "Use it to see whether this appliance is advertising SSO or a different login mode for the current journey.",
+            "If `isSSOEnabled` is false here, do not assume Keycloak is the first observed auth hop without stronger request evidence.",
+        ])
+    if "/afa/php/SuiteLoginSessionValidation.php" in raw:
+        return ("Linux note: legacy session validation", [
+            "This checks a legacy suite login endpoint with a cookie jar so one reproduced journey stays connected.",
+            "A redirect back to `/algosec-ui/login` with a new PHP session cookie is a real auth-path clue, even without credentials.",
+            "If this path lights up before `/BusinessFlow` or `/keycloak/`, treat it as the first observed auth-trigger hop for this journey and keep the later named modules behind it.",
+        ])
+    if label.lower().startswith("check the businessflow checkpoint"):
+        return ("Linux note: BusinessFlow checkpoint", [
+            "This checks the first named operational module we have observed in the customer-visible ASMS login path.",
+            "Use the shallow check to prove BusinessFlow is answering through Apache, then the deep check to confirm its AFA, AFF, and database links still look healthy.",
+            "If these checks fail after the legacy setup hop worked, stop on the BusinessFlow checkpoint before blaming Keycloak or Metro.",
+            "The current staged dependency passes put Postgres, AFA, and AFF closer to this seam than Keycloak or ActiveMQ.",
+            "Those AFA and AFF checks are now concrete local HTTPS session-liveness checks, so the immediate seam is closer to Apache and the local app routes than to raw 8080 or 1989 probes.",
+            "On this lab the AFA side resolves to Apache-served local PHP SOAP at `/afa/php/ws.php`, while the AFF side resolves to Apache `443` -> aff-boot `1989` via `/FireFlow/api/session`.",
+        ])
+    if label.lower().startswith("check the afa soap path behind businessflow afa connection"):
+        return ("Linux note: BusinessFlow AFA SOAP path", [
+            "This proves what owns the AFA side of the BusinessFlow AFA health check.",
+            "On this lab the exact liveness path is the local SOAP endpoint `/afa/php/ws.php`.",
+            "Apache receives that HTTPS request first, but it serves local PHP for `/afa/php` instead of proxying the whole family elsewhere.",
+        ])
+    if label.lower().startswith("check the afa soap runtime seam behind ws.php"):
+        return ("Linux note: AFA SOAP runtime seam", [
+            "This is the first support-readable seam behind the AFA SOAP endpoint.",
+            "Apache shows when `/afa/php/ws.php` was hit, but `.ht-fa-history` is the better seam because it carries the request hash, the `SESSION / TOKEN / COOKIE` triple, and the `is_session_alive` result.",
+            "After that, pivot to the PHP session file and `.ht-LastActionTime` for the same session id before jumping outward into Metro or later GUI workflows.",
+        ])
+    if label.lower().startswith("check the fireflow session path behind businessflow aff connection"):
+        return ("Linux note: BusinessFlow AFF route ownership", [
+            "This proves what owns the FireFlow side of the BusinessFlow AFF health check.",
+            "On this lab the local HTTPS FireFlow session path hits Apache first and is immediately proxied to aff-boot on 1989.",
+            "It does not go through Keycloak 8443 first, so the next support seam is Apache to aff-boot and then FireFlow session handling.",
+        ])
+    if label.lower().startswith("check the fireflow auth-coupled signals"):
+        return ("Linux note: FireFlow auth bridge", [
+            "This checks the FireFlow signals that appear during sign-in and immediately after the PHP home page loads.",
+            "Treat FireFlow here as an auth-coupled module, not as the first branch in the login journey.",
+            "If these checks fail while BusinessFlow and Keycloak looked healthy, the stop point is later in the authenticated handoff, not at the static shell.",
+            "For this seam, Apache proxying, aff-boot, and FireFlow's database-backed runtime still look closer than ActiveMQ for first-pass troubleshooting.",
+            "ActiveMQ is now a proven later supporting dependency here because aff-boot holds live broker connections on 61616, but the reproduced login-handoff minute still showed auth, session, and REST work instead of broker-side signals.",
+            "Keep ActiveMQ behind the closer FireFlow checks unless the reproduced failing minute points to JMS or queue activity.",
+        ])
+    if "/BusinessFlow/rest/v1/login" in raw or "/FireFlow/SelfService/CheckAuthentication/" in raw:
+        return ("Linux note: authenticated auth handoff", [
+            "This checks the mid-login handoff after the legacy setup hop has already fired.",
+            "On this lab the observed order was legacy setup, BusinessFlow as the first named operational module, then proxied Keycloak token paths and FireFlow auth checks before the final `/afa/php/home.php` redirect.",
+            "Use this to show that Keycloak is in the observed auth chain, but not the first post-shell request and not the first named module the support engineer should check.",
+        ])
     if "openid-configuration" in raw:
         return ("Linux note: OIDC path", [
             "This checks a real Keycloak OpenID Connect path that the local login flow depends on.",
             "An HTTP 200 here is a stronger proof than a simple port check because it confirms the local path is answering correctly.",
             "If this path fails while the service still looks up, treat it as an application-path problem instead of a simple process problem.",
+        ])
+    if "/tmp/asms-journey.cookies" in raw and "/algosec/suite/login" in raw:
+        return ("Linux note: browser-like replay", [
+            "This replays one login journey with browser-like headers and a cookie jar so the follow-up log check has one clear anchor.",
+            "Use the headers, cookies, and HTML markers together instead of looking at only one response line.",
+            "If this replay still stops at the static shell, say the first downstream auth or app hop is still unproven.",
+        ])
+    if "/var/log/httpd/ssl_access_log" in raw and "/algosec-ui/" in raw and "/keycloak/" in raw:
+        return ("Linux note: request correlation", [
+            "This ties one reproduced Apache journey to concrete request paths instead of broad log greps.",
+            "Use it to see whether the request stopped at static UI assets, moved through the legacy setup hop, reached BusinessFlow as the first named module, and only then hit Keycloak, FireFlow, and Metro later in the same login minute.",
+            "If no later auth or app lines appear for the reproduced journey, say the next neighbor is still unproven instead of guessing.",
         ])
     if "/afa/getStatus" in raw:
         return ("Linux note: service heartbeat", [
@@ -639,11 +864,24 @@ def _command_knowledge(command: dict[str, Any]) -> tuple[str, list[str]] | None:
             "A heartbeat response helps prove the service is alive enough to answer application traffic.",
             "Use this after the listener check when port 8080 is open but the UI still behaves badly.",
         ])
-    if "/data/ms-metro/logs/localhost_access_log.txt" in raw and "grep -E '/afa/getStatus|/afa/api/v1/config/all/noauth'" in raw:
+    if "/data/ms-metro/logs/localhost_access_log.txt" in raw and "grep -E '/afa/getStatus|/afa/api/v1/config\\?|/afa/api/v1/license|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth'" in raw:
         return ("Linux note: app traffic", [
-            "This checks whether ms-metro is serving useful application traffic, not only whether the port is open.",
-            "Focus on whether the expected Metro paths are returning 200 responses in recent access lines.",
-            "A service can look up from the outside and still fail here if the app path is returning errors or no longer serving requests.",
+            "This checks whether ms-metro is serving useful application traffic after login, not only whether the port is open.",
+            "Focus first on the immediate same-minute home-refresh clues such as `/afa/getStatus`, `/afa/api/v1/license`, `/afa/api/v1/config?...`, or `/afa/api/v1/session/extend`, not on every later subsystem route at once.",
+            "On this lab `/afa/getStatus` is the strongest immediate Metro clue after the first usable shell appears. `config` and `session/extend` now have a stronger fresh-session tie because they matched the new `PHPSESSID`, but they still stay as supporting same-minute clues until a stronger isolation pass proves one of them is a true first-shell gate.",
+            "A CDP `Network.setBlockedURLs(...)` pass matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe and did not actually own the real fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` requests.",
+            "A later Apache seam mutation returned repeated `403` responses for `/afa/external` and still left a fully usable `/afa/php/home.php` shell, so `/afa/external` is demoted as a first-shell gate candidate.",
+            "A second top-level Apache mutation on `/afa/api/v1` also left the home shell fully usable and still did not cleanly own the fresh-session `config` and `session/extend` routes, so the next seam must be narrower than a family-wide Apache deny.",
+            "A service can look up from the outside and still fail here if the home-refresh path is returning errors or no longer serving requests.",
+        ])
+    if label.lower().startswith("check post-home shell and dashboard hydration traffic"):
+        return ("Linux note: post-home follow-ups", [
+            "This checks the first traffic that appears after the browser lands on `/afa/php/home.php`.",
+            "On this lab the first follow-ups were a summary dashboard and issue-center hydration path plus light Metro refresh traffic, not a broad subsystem fan-out.",
+            "The early shell routes included `dynamic.js.php`, `DISPLAY_ISSUES_CENTER`, `/fa/tree/create`, `/afa/php/prod_stat.php`, and `/fa/tree/get_update` before the first deeper operator action was isolated.",
+            "Use them as supporting clues, not as first-class gates by themselves. A bounded client-side check showed that blocking `FireFlowBridge.js` did not stop the initial home page from rendering with the normal menu and summary content.",
+            "Treat `/afa/getStatus` as the strongest immediate Metro clue after home render. Keep `license`, `config`, `config/all/noauth`, and `session/extend` nearby but still unproven, even though `config` and `session/extend` now have a stronger tie to the fresh `PHPSESSID`. The later CDP browser-layer pass did not own those real fresh-session routes, so prefer proxy-side or server-side isolation before promoting any of them. A later Apache seam mutation denied `/afa/external` and still left a fully usable home shell, and a second top-level Apache mutation on `/afa/api/v1` also left the home shell fully usable and still did not cleanly own the fresh-session `config` and `session/extend` routes, so the next seam must be narrower than a family-wide Apache deny. The first clean deeper action isolated so far is `Analyze`, which mapped to `GET_ANALYSIS_OPTIONS` after the landing shell and device context were already visible. The real `Start Analysis` step then crosses into `cmd=ANALYZE` and `RunFaServer(...)`, so treat that as a later workflow branch rather than as part of the first usable-shell gate. The device-context tabs are also already later content branches: `POLICY` posts `GET_POLICY_TAB` and `GET_DEVICE_POLICY`, `CHANGES` uses `GET_MONITORING_CHANGES`, and `REPORTS` uses `GET_REPORTS`. For support classification, once the customer can navigate the devices tree and reach `REPORTS` or `Analyze`, stop calling the case `GUI down` and branch into the more specific failing workflow instead. Keep `bridge/refresh` demoted unless the reproduced fresh session actually owns that request.",
+            "Treat routes like the Notification Center issue count as later subsystem candidates unless the reproduced browser minute proves they are the first stop point.",
         ])
     if raw.startswith("ps -p $(cat /var/run/ms-metro/ms-metro.pid) -o "):
         return ("Linux note: JVM activity", [
@@ -736,13 +974,15 @@ def _render_custom_css() -> str:
             "}",
             "",
             ".adf-home-shell,",
-            ".adf-cockpit-shell {",
+            ".adf-cockpit-shell,",
+            ".adf-system-shell {",
             "  display: grid;",
             "  gap: 1rem;",
             "}",
             "",
             ".adf-home-topbar,",
-            ".adf-cockpit-topbar {",
+            ".adf-cockpit-topbar,",
+            ".adf-system-topbar {",
             "  display: grid;",
             "  grid-template-columns: repeat(2, minmax(0, 1fr));",
             "  gap: 1rem;",
@@ -764,7 +1004,9 @@ def _render_custom_css() -> str:
             ".adf-home-card,",
             ".adf-symptom-card,",
             ".adf-cockpit-jump,",
-            ".adf-path-link {",
+            ".adf-path-link,",
+            ".adf-system-jump,",
+            ".adf-system-map-link {",
             "  display: grid;",
             "  gap: 0.3rem;",
             "  border-radius: 0.9rem;",
@@ -776,7 +1018,9 @@ def _render_custom_css() -> str:
             ".adf-home-card,",
             ".adf-cockpit-jump,",
             ".adf-symptom-link,",
-            ".adf-path-link {",
+            ".adf-path-link,",
+            ".adf-system-jump,",
+            ".adf-system-map-link {",
             "  text-decoration: none;",
             "  color: inherit;",
             "}",
@@ -784,7 +1028,9 @@ def _render_custom_css() -> str:
             ".adf-home-card:hover,",
             ".adf-cockpit-jump:hover,",
             ".adf-symptom-link:hover,",
-            ".adf-path-link:hover {",
+            ".adf-path-link:hover,",
+            ".adf-system-jump:hover,",
+            ".adf-system-map-link:hover {",
             "  border-color: var(--adf-border-strong);",
             "  transform: translateY(-1px);",
             "}",
@@ -792,7 +1038,9 @@ def _render_custom_css() -> str:
             ".adf-home-card span,",
             ".adf-symptom-card span,",
             ".adf-cockpit-jump span:last-child,",
-            ".adf-path-link span:last-child {",
+            ".adf-path-link span:last-child,",
+            ".adf-system-jump span:last-child,",
+            ".adf-system-map-link span:last-child {",
             "  color: var(--adf-muted);",
             "}",
             "",
@@ -826,7 +1074,19 @@ def _render_custom_css() -> str:
             "  gap: 1rem;",
             "}",
             "",
+            ".adf-system-grid {",
+            "  display: grid;",
+            "  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);",
+            "  gap: 1rem;",
+            "}",
+            "",
             ".adf-cockpit-main {",
+            "  display: grid;",
+            "  gap: 1rem;",
+            "  min-width: 0;",
+            "}",
+            "",
+            ".adf-system-main {",
             "  display: grid;",
             "  gap: 1rem;",
             "  min-width: 0;",
@@ -838,8 +1098,15 @@ def _render_custom_css() -> str:
             "  top: 1.1rem;",
             "}",
             "",
+            ".adf-system-nav {",
+            "  align-self: start;",
+            "  position: sticky;",
+            "  top: 1.1rem;",
+            "}",
+            "",
             ".adf-cockpit-jumps,",
-            ".adf-path-list {",
+            ".adf-path-list,",
+            ".adf-system-jumps {",
             "  display: grid;",
             "  gap: 0.65rem;",
             "}",
@@ -850,7 +1117,18 @@ def _render_custom_css() -> str:
             "  padding-top: 0.9rem;",
             "}",
             "",
+            ".adf-system-sideblock {",
+            "  margin-top: 0.9rem;",
+            "  border-top: 1px solid var(--adf-border);",
+            "  padding-top: 0.9rem;",
+            "}",
+            "",
             ".adf-cockpit-sideblock ul {",
+            "  margin: 0;",
+            "  padding-left: 1.1rem;",
+            "}",
+            "",
+            ".adf-system-sideblock ul {",
             "  margin: 0;",
             "  padding-left: 1.1rem;",
             "}",
@@ -871,7 +1149,24 @@ def _render_custom_css() -> str:
             "  padding: 0.9rem 1rem;",
             "}",
             "",
+            ".adf-system-map {",
+            "  display: grid;",
+            "  gap: 0.7rem;",
+            "  border-radius: 0.9rem;",
+            "  border: 1px solid var(--adf-border);",
+            "  background: linear-gradient(180deg, rgba(241, 247, 244, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);",
+            "}",
+            "",
             ".adf-checkpoint {",
+            "  margin: 0.9rem 0;",
+            "  border: 1px solid var(--adf-border);",
+            "  border-radius: 0.95rem;",
+            "  background: rgba(255, 255, 255, 0.98);",
+            "  padding: 0.15rem 0.95rem 0.9rem;",
+            "  scroll-margin-top: 1rem;",
+            "}",
+            "",
+            ".adf-system-checkpoint {",
             "  margin: 0.9rem 0;",
             "  border: 1px solid var(--adf-border);",
             "  border-radius: 0.95rem;",
@@ -889,8 +1184,19 @@ def _render_custom_css() -> str:
             "  padding: 0.8rem 0 0.4rem;",
             "}",
             "",
+            ".adf-system-summary {",
+            "  display: flex;",
+            "  align-items: flex-start;",
+            "  gap: 0.75rem;",
+            "  cursor: pointer;",
+            "  list-style: none;",
+            "  padding: 0.8rem 0 0.4rem;",
+            "}",
+            "",
             ".adf-step-summary::-webkit-details-marker,",
-            ".adf-step-summary::marker {",
+            ".adf-step-summary::marker,",
+            ".adf-system-summary::-webkit-details-marker,",
+            ".adf-system-summary::marker {",
             "  display: none;",
             "}",
             "",
@@ -913,7 +1219,18 @@ def _render_custom_css() -> str:
             "  flex: 1 1 auto;",
             "}",
             "",
+            ".adf-system-heading {",
+            "  display: grid;",
+            "  gap: 0.18rem;",
+            "  flex: 1 1 auto;",
+            "}",
+            "",
             ".adf-step-heading span {",
+            "  color: var(--adf-muted);",
+            "  line-height: 1.4;",
+            "}",
+            "",
+            ".adf-system-heading span {",
             "  color: var(--adf-muted);",
             "  line-height: 1.4;",
             "}",
@@ -941,14 +1258,29 @@ def _render_custom_css() -> str:
             "  padding-top: 0.2rem;",
             "}",
             "",
+            ".adf-system-body {",
+            "  display: grid;",
+            "  gap: 0.8rem;",
+            "  padding-top: 0.2rem;",
+            "}",
+            "",
             ".adf-check {",
             "  border-top: 1px solid rgba(21, 94, 99, 0.08);",
             "  padding-top: 0.85rem;",
             "}",
             "",
+            ".adf-system-body > .adf-check:first-of-type {",
+            "  border-top: 0;",
+            "  padding-top: 0;",
+            "}",
+            "",
             ".adf-step-body > .adf-check:first-of-type {",
             "  border-top: 0;",
             "  padding-top: 0;",
+            "}",
+            "",
+            ".adf-system-brief {",
+            "  padding: 0.9rem 1rem;",
             "}",
             "",
             ".adf-check-label {",
@@ -1025,6 +1357,19 @@ def _render_custom_css() -> str:
             "  min-width: 0;",
             "}",
             "",
+            ".adf-system-map-list {",
+            "  list-style: none;",
+            "  margin: 0;",
+            "  padding: 0;",
+            "  display: grid;",
+            "  grid-template-columns: repeat(5, minmax(0, 1fr));",
+            "  gap: 0.65rem;",
+            "}",
+            "",
+            ".adf-system-map-item {",
+            "  min-width: 0;",
+            "}",
+            "",
             ".adf-path-list {",
             "  list-style: none;",
             "  margin: 0;",
@@ -1071,11 +1416,17 @@ def _render_custom_css() -> str:
             "  .adf-home-topbar,",
             "  .adf-home-grid,",
             "  .adf-cockpit-topbar,",
-            "  .adf-cockpit-grid {",
+            "  .adf-system-topbar,",
+            "  .adf-cockpit-grid,",
+            "  .adf-system-grid {",
             "    grid-template-columns: 1fr;",
             "  }",
-            "  .adf-cockpit-nav {",
+            "  .adf-cockpit-nav,",
+            "  .adf-system-nav {",
             "    position: static;",
+            "  }",
+            "  .adf-system-map-list {",
+            "    grid-template-columns: 1fr;",
             "  }",
             "  .adf-path-list {",
             "    grid-auto-flow: row;",

@@ -171,6 +171,36 @@ Examples:
 This is a strong ADF design direction because it helps the engineer reason
 about systems instead of memorizing isolated checks.
 
+## Engineer-Effort Direction
+
+ADF should optimize for the engineer's effort during a live customer session.
+
+That means the playbook should help the engineer answer:
+
+- what is the current assessment of the system
+- where is the first meaningful pressure or failure signal
+- what should be checked next
+
+This is especially important for the shared host pre-check.
+
+The host pre-check should not only show resource values. It should help the
+engineer see the pressure signal behind those values.
+
+Examples:
+
+- disk checks should emphasize pressure on important filesystems, not only raw
+  used space
+- inode checks should emphasize inode pressure, not only whether the command
+  returned output
+- memory checks should emphasize available memory, swap growth, and the
+  processes that explain memory pressure
+- CPU checks should emphasize sustained load and the processes consuming the
+  most CPU
+
+The aim is to help the engineer join a call, run the shared checks quickly,
+and reach a current system assessment without having to translate raw output
+into meaning alone.
+
 ## ASMS UI Reset Direction
 
 `ASMS UI is down` should now be treated as a rebuild-from-scratch path, not an

@@ -18,7 +18,7 @@ Support Cockpit is the current interaction model for the Starlight publisher.
     </div>
     <div class="adf-panel">
       <p class="adf-panel-label">Observed scope</p>
-      <p>261 services, 55 listeners, 114 config checkpoints, 109 log checkpoints.</p>
+      <p>263 services, 56 listeners, 114 config checkpoints, 109 log checkpoints.</p>
     </div>
   </div>
 
@@ -47,13 +47,13 @@ Support Cockpit is the current interaction model for the Starlight publisher.
 ## Playbooks
 
 <div class="adf-home-card-grid">
-<a class="adf-home-card" href="/playbooks/appliance-ui-is-down/">
+<a class="adf-home-card" href="/playbooks/asms-ui-is-down/">
   <p class="adf-panel-label">ui-and-proxy</p>
-  <strong>Appliance UI is down</strong>
+  <strong>ASMS UI is down</strong>
   <span>services: httpd.service, keycloak.service, ms-metro.service</span>
   <span class="adf-home-card-list">
-    Confirm httpd.service is active and ports 80 and 443 are listening.
-    Check disk space, inode usage, and memory pressure before going deeper.
+    Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.
+    Confirm Apache/HTTPD can answer local UI traffic and still route toward the auth and app branches.
   </span>
 </a>
 <a class="adf-home-card" href="/playbooks/fireflow-backend/">
@@ -89,14 +89,14 @@ Support Cockpit is the current interaction model for the Starlight publisher.
 
 <div class="adf-symptom-grid">
 <div class="adf-symptom-card">
-  <a class="adf-symptom-link" href="/playbooks/appliance-ui-is-down/"><strong>Appliance UI is down</strong></a>
-  <p>Confirm httpd.service is active and ports 80 and 443 are listening.</p>
-  <span>Use Appliance UI is down.</span>
+  <a class="adf-symptom-link" href="/playbooks/asms-ui-is-down/"><strong>ASMS UI is down</strong></a>
+  <p>Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.</p>
+  <span>Use ASMS UI is down.</span>
 </div>
 <div class="adf-symptom-card">
-  <a class="adf-symptom-link" href="/playbooks/appliance-ui-is-down/"><strong>Appliance login page not loading</strong></a>
-  <p>Confirm httpd.service is active and ports 80 and 443 are listening.</p>
-  <span>Use Appliance UI is down.</span>
+  <a class="adf-symptom-link" href="/playbooks/asms-ui-is-down/"><strong>ASMS login page not loading</strong></a>
+  <p>Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.</p>
+  <span>Use ASMS UI is down.</span>
 </div>
 <div class="adf-symptom-card">
   <a class="adf-symptom-link" href="/playbooks/fireflow-backend/"><strong>FireFlow action failing</strong></a>

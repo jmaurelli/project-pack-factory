@@ -12,12 +12,17 @@
     "adopt_support_cockpit_direction",
     "refine_support_cockpit_right_rail_layout",
     "formalize_shared_host_health_precheck_pack",
-    "rename_appliance_ui_is_down_to_asms_ui_is_down"
+    "formalize_controlled_lab_mutation_experiment_pattern",
+    "rename_appliance_ui_is_down_to_asms_ui_is_down",
+    "prove_asms_ui_system_thinking_with_authenticated_flow",
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "capture_asms_post_home_followups_before_subsystem_split",
+    "prove_home_php_render_is_the_first_class_post_login_checkpoint"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Captured the decision to stop incrementally patching ASMS UI is down and instead rebuild it from scratch around system-thinking and useful-work questions, using the current page only as a discovery milestone.",
-  "last_outcome": "asms_ui_system_thinking_reset_captured",
-  "last_outcome_at": "2026-03-25T18:15:00Z",
+  "last_agent_action": "Folded the latest BusinessFlow seam evidence back into the main `ASMS UI is down` playbook. Step 3 now names `BusinessFlow -> AFA connection` and `BusinessFlow -> AFF connection` as explicit auth-branch stop points, Step 4 stays bounded to the first usable `/afa/php/home.php` shell plus immediate hydration, and Step 5 now branches out of `GUI down` once the customer crosses the devices-tree-plus-`REPORTS` boundary.",
+  "last_outcome": "asms_ui_main_stop_logic_refined_around_businessflow_child_seams_and_gui_up_boundary",
+  "last_outcome_at": "2026-03-26T11:18:00Z",
   "last_validation_results": [
     "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json",
     "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223939z/benchmark-result.json"
@@ -27,9 +32,12 @@
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "pending_task_ids": [
     "rebuild_asms_ui_system_thinking_playbook",
+    "investigate_asms_ui_components_for_useful_work_checks",
+    "reframe_host_precheck_around_pressure_signals",
     "expand_service_command_coverage",
     "deepen_dependency_aware_playbooks",
     "build_adf_autonomous_iteration_loop",
+    "stabilize_remote_codex_launcher_against_interactive_menu",
     "tune_operator_language_for_priority_domains",
     "review_adf_agent_persona_alignment",
     "enhance_linux_notes_as_optional_learning_layer",
@@ -41,14 +49,63 @@
     "Preserve the sticky quick-jump behavior because that is the operator-confirmed reason Support Cockpit won the prototype comparison.",
     "Use the cleaned Support Cockpit chassis as the next container for a real playbook iteration instead of reintroducing the older boxed legacy page structures.",
     "The command-first flow strip and the horizontal dependency path now sit above the main two-column layout, and Quick jump starts level with the first stepwise checkpoint content.",
-    "The next active content task is a from-scratch rebuild of ASMS UI is down around system-thinking and useful-work questions rather than another incremental patch pass on the current page.",
-    "Treat the current ASMS UI page as a discovery milestone that proved the host pre-check, Apache edge checks, and first useful Keycloak and ms-metro service packs, not as the desired final structure.",
-    "Rebuild the ASMS UI path around these questions: can the host support useful work, can Apache/HTTPD serve the UI, can the auth branch do useful work, can the app branch do useful work, and where does useful work stop.",
+    "The current active content task is reviewing and tightening the rebuilt ASMS UI is down page, which now uses a from-scratch system-thinking layout instead of the older service-first page shape.",
+    "The live ASMS UI page now uses five useful-work checkpoints: host support, Apache/HTTPD serving the UI, auth branch, app branch, and useful-work stop point.",
+    "Keep treating the current ASMS UI page as a first real system-thinking reference playbook and tighten it through review rather than reverting to the older incremental patch model.",
     "The current ASMS UI service pack now uses real Keycloak readiness and OIDC path checks, a real ms-metro heartbeat check, and file-based Keycloak and ms-metro logs taken from the lab-backed appliance behavior.",
     "Treat ActiveMQ as a supporting dependency for the ASMS UI path, not a first-pass UI-down check, unless ms-metro logs or behavior point to JMS or broker problems.",
-    "The current evidence-backed ASMS UI working model is host health -> Apache edge -> parallel first-pass Keycloak and ms-metro checks, not a fully proven strict Keycloak-to-ms-metro chain.",
+    "The current evidence-backed ASMS UI working model is host health -> Apache edge -> legacy post-shell checks -> BusinessFlow checkpoint -> `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection` when deep health names them -> later Keycloak and FireFlow auth handoff -> `/afa/php/home.php` render -> supporting post-home home-shell clues and light Metro refresh -> broader app traffic.",
+    "The systems-thinking method is now proven on the lab: reproduce one bounded browser flow, correlate the same minute in Apache and downstream logs, and only then update the playbook model.",
+    "Keep observed and inferred dependency claims separate. The value comes from reducing support effort with real path evidence, not from forcing a cleaner serial chain than the lab actually shows.",
     "Treat disk, memory, OOM, and other core host-resource checks as the shared Host Health Pre-Check pack defined in docs/specs/adf-host-health-precheck-pack-v1.md and use it at the start of every major playbook.",
     "Keep the stronger Keycloak and ms-metro command coverage, but reframe those checks as auth-branch and app-branch useful-work checks in the rebuild.",
+    "Continue following the customer-visible path through BusinessFlow and FireFlow because BusinessFlow is now the first named operational checkpoint in the observed login path and FireFlow is now a later auth-coupled module that can change the engineer's next move.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-backward-dependency-trajectory-note-20260326.md` as the current trajectory note: keep the core `ASMS UI is down` path bounded, then walk backward through BusinessFlow first, FireFlow second, and only then through supporting dependencies.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-businessflow-fireflow-dependency-seams-pass-20260326.md` as the current staged seam note: BusinessFlow's closest readable neighbors are Postgres, AFA, and AFF, while FireFlow's closest readable neighbors are Apache proxying, aff-boot, and database-backed runtime behavior.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-businessflow-health-implementation-pass-20260326.md` as the current BusinessFlow deep-health note: the `AFA connection` and `AFF connection` checks are local HTTPS session-liveness checks rather than raw direct 8080 or 1989 probes.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-businessflow-local-https-ownership-pass-20260326.md` as the local-HTTPS ownership note: the BusinessFlow AFF side is now reduced to Apache `443` -> `aff-boot` `1989`.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-afa-local-ownership-pass-20260326.md` as the AFA local-ownership note: `/afa/php/...` is Apache-fronted local PHP, while `/afa/external` and `/afa/api/v1` are Metro-backed proxy families.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-businessflow-afa-soap-path-pass-20260326.md` as the final AFA path note: the BusinessFlow `AFA connection` deep-health check lands on `https://localhost/afa/php/ws.php` and uses SOAP `isSessionAlive`, not `/afa/php/commands.php`.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-afa-soap-runtime-correlation-pass-20260326.md` as the runtime seam note: Apache only gives timing for `ws.php`, while `.ht-fa-history` provides the request hash, `SESSION / TOKEN / COOKIE` triple, and `is_session_alive` result, and the next direct seam is the PHP session file plus `.ht-LastActionTime` for that same session id.",
+    "Treat the immediate backend seams behind `ms-bflow.service` on `8081` and `aff-boot.service` on `1989` as the next support-relevant dependency surfaces to map, because those are the module checkpoints most likely to make a case look like `ASMS UI is down` before it becomes a narrower subsystem issue.",
+    "Keep ActiveMQ behind those module checkpoints for now. It is now a proven later supporting dependency for the FireFlow seam because aff-boot holds live broker connections on 61616, but the current lab evidence still keeps it behind the closer route, service, and database checks instead of treating it as a first-pass `GUI down` gate.",
+    "Within the BusinessFlow seam, keep the new deep-health implementation result in view: `AFA connection` and `AFF connection` are local HTTPS session-liveness checks, so the immediate seam stays closer to Apache and those app routes than to raw 8080, 1989, or broker theory.",
+    "Treat the BusinessFlow seam as reduced enough to name directly in the current playbook: `AFA connection` lands on Apache-served local PHP SOAP `/afa/php/ws.php`, and `AFF connection` lands on Apache `443` -> `aff-boot` `1989` via `/FireFlow/api/session`.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-main-stop-logic-refinement-pass-20260326.md` as the top-level stop-logic note: Step 3 now stops at named BusinessFlow child seams, Step 4 stays bounded to first usable home-shell plus immediate hydration, and Step 5 is for naming the first clear stop point or branching out of `GUI down`.",
+    "For the AFA side, stop the next support step at `.ht-fa-history` and the PHP session backing files before jumping outward to Metro. The first useful follow-on seam is `ws.php` -> `.ht-fa-history` -> `/var/lib/php/session/sess_<id>` -> `.ht-LastActionTime`.",
+    "Within the FireFlow seam, keep Apache proxying, aff-boot, and database-backed runtime evidence ahead of ActiveMQ for first-pass troubleshooting. Use `.pack-state/remote-codex/asms-ui-fireflow-broker-dependency-pass-20260326.md` plus `.pack-state/remote-codex/asms-ui-fireflow-broker-correlation-pass-20260326.md` as the supporting notes: aff-boot holds live broker connections on 61616, but the reproduced ASMS login-handoff minute still centered on auth, session, and REST activity instead of broker-side signals.",
+    "Keep the first post-home checks inside the ASMS playbook for now, but demote them to supporting clues: `FireFlowBridge.js`, basic home assets, and nearby Metro routes help explain the same minute after `/afa/php/home.php`, but they are not first-class gates unless the rendered home shell itself degrades.",
+    "Within those nearby Metro routes, treat `GET /afa/getStatus` as the strongest immediate supporting clue after the first usable shell appears. Keep `GET /afa/api/v1/license`, `GET /afa/api/v1/config?...`, `GET /afa/api/v1/config/all/noauth?domain=0`, and `POST /afa/api/v1/session/extend?...` as same-minute but still unproven first-shell requirements until a fresh-session isolation pass proves one of them matters.",
+    "The latest fresh-session pass now ties `GET /afa/api/v1/config?...` and `POST /afa/api/v1/session/extend?...` more directly to the new `PHPSESSID`, so they should be treated as stronger fresh-session clues than before, but still not as proven first-shell gates.",
+    "A later CDP `Network.setBlockedURLs(...)` pass matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe and did not record real block events for the fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` routes, so browser-side blocking is not yet a reliable control point for those requests on this lab.",
+    "The route-ownership pass now shows Apache exposing separate `/afa/external` and `/afa/api/v1` proxy families toward Metro, while the fresh-session minute showed paired `/afa/config/...` and `/afa/api/v1/config?...` surfaces on the server side.",
+    "Variant A of the Apache seam mutation has now run. Denying `/afa/external` returned repeated `403` responses for that family but still left `/afa/php/home.php` fully usable, so `/afa/external` is now demoted as a first-shell gate candidate.",
+    "Variant B of the Apache seam mutation has also run. Denying the top-level `/afa/api/v1` Location still left `/afa/php/home.php` fully usable, and same-minute Metro logs still showed fresh-session `/afa/api/v1/config?...` and `/afa/api/v1/session/extend?...` as `200`, so the top-level Apache deny is not a clean control lever for that path.",
+    "Keep `POST /afa/api/v1/bridge/refresh?...` demoted from the ASMS first-shell gate model for now because the latest lab pass tied it to a different long-lived session instead of the reproduced fresh login session.",
+    "The newer route-owner split is now explicit: Apache owns browser-facing `/afa/external` and `/afa/api/v1` proxy families, while PHP `RestClient` also issues direct `http://127.0.0.1:8080/afa/config/...` requests.",
+    "Treat the remaining `config` question as browser-owned versus PHP-owned route ownership, not as another family-wide Apache deny candidate.",
+    "Prefer one read-only correlation pass that proves which Metro `config` requests have no matching Apache parent before planning another mutation.",
+    "That read-only correlation pass is now complete for fresh session `jkp0cnnf971ksgifu3k25jopiq`: browser-facing `/afa/external/...` lines matched Metro `/afa/api/v1/...`, while direct `/afa/config/...` and same-minute `/afa/getStatus` lines had no Apache parent.",
+    "Treat the remaining unresolved seam as mostly the internal direct `/afa/config/...` family behind PHP `RestClient`, not as another browser-facing proxy-family question.",
+    "The smallest auth-side named read is now already demoted by observation: `GET /afa/config/Case_Sensitive_Username?...` returns `404` on the lab and `SuiteLoginSessionValidation.php` already falls back without breaking login.",
+    "Treat the broader `AlgosecSession::__construct()` / `GetConfigurationSettings()` bundle as the first unresolved internal config surface worth planning next.",
+    "The broader bundle should now be approached through login bootstrap, not `home.php`: `home.php` mostly consumes an existing `AlgosecSession`, while `AlgosecSessionManager::executeLogin()` and `postLoginActions()` own the first bootstrap bundle loads.",
+    "Use `.pack-state/remote-codex/asms-ui-login-bootstrap-control-path-pass-20260326.md` before planning the next internal mutation so the first app-level experiment starts at the bootstrap hook instead of another coarse transport seam.",
+    "Use `docs/specs/asms-ui-login-bootstrap-config-isolation-plan-v1.md` as the closed record of the bootstrap-bundle experiment family.",
+    "Treat Variant C1, Variant C2, and Variant C3 as all reduced for first-shell gating: skipping the post-login recache, bypassing the constructor-time bundle, and suppressing both together still left `/afa/php/home.php` usable on the lab.",
+    "Use `.pack-state/remote-codex/asms-ui-postlogin-handleconfigparams-variant-c1-pass-20260326.md`, `.pack-state/remote-codex/asms-ui-constructor-config-bypass-variant-c2-pass-20260326.md`, and `.pack-state/remote-codex/asms-ui-combined-bootstrap-variant-c3-pass-20260326.md` as the canonical bootstrap results.",
+    "Shift the next seam work away from bootstrap config-bundle theory and toward later demand-loaded home-shell behavior, especially `dynamic.js.php`, dashboard hydration, the first interactive home-shell actions, and the surviving config-family route ownership after `/afa/php/home.php`.",
+    "Use `.pack-state/remote-codex/asms-ui-dashboard-demand-load-pass-20260326.md` as the canonical note for the reduced later-shell picture: the first usable shell hydrates `DISPLAY_ISSUES_CENTER`, `GET_DASHBOARDS_DATA`, `GET_CHART_FOR_DASHBOARD_MULTIPLE`, and `GET_RISK_PROFILES_OPTIONS` before a deeper operator action is isolated.",
+    "Treat `DEVICES` as a shell-context and tree-refresh step in the bounded pass, not yet as the first clearly separate backend seam.",
+    "Treat `Analyze` as the first clean deeper operator action isolated so far, because it produced `GET_ANALYSIS_OPTIONS` only after the landing shell and device context were already visible.",
+    "Carry forward the code-trace result from `.pack-state/remote-codex/asms-ui-dashboard-demand-load-pass-20260326.md`: `Analyze` first opens a dialog and fetches options through `SubmitAnalysisHTMLOptionsRequest(...)`, so the next seam is still narrower than a full analysis run.",
+    "Carry forward the server-side boundary too: the dialog path uses `GET_ANALYZE_DATA`, while the real `Start Analysis` step posts `cmd=ANALYZE` and launches `RunFaServer(...)`, so that step is already a later workflow branch rather than part of the first usable-shell gate.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-policy-tab-branch-pass-20260326.md` too: the device-context `POLICY` tab already posts `GET_POLICY_TAB` and `GET_DEVICE_POLICY`, prepares `PolicyTabIframe.php`, and can depend on analyzed report data, so it is a later content branch rather than part of the first usable-shell gate.",
+    "Treat the sibling device-context tabs the same way unless stronger evidence proves otherwise: `CHANGES` uses `GET_MONITORING_CHANGES` and `REPORTS` uses `GET_REPORTS`, so they also belong to later content branches rather than to the first usable-shell gate.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-gui-up-classification-note-20260326.md` as the operator-facing classification rule: once the customer can navigate the devices tree and open `REPORTS` to view a report, stop classifying the case as `GUI down`; reaching `Analyze` is optional extra confirmation rather than a required boundary.",
+    "Use docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md as the reusable mutation template for future ADF seam experiments.",
+    "Use docs/specs/asms-ui-apache-metro-proxy-isolation-plan-v1.md as the closed record of the family-wide Apache seam test, then continue with docs/specs/asms-ui-config-owner-split-plan-v1.md and docs/specs/asms-ui-direct-config-seam-plan-v1.md.",
+    "Treat routes like Notification Center or watchdog-linked issue counts as later subsystem candidates unless the reproduced browser minute proves they are the first real stop point.",
     "After the ASMS UI rebuild proves the system-thinking pattern, deepen the next dependency-aware playbook branches before returning to a broader wording pass.",
     "Use docs/specs/adf-language-standard-v1.md as the wording contract when command coverage work introduces new operator-facing text.",
     "The built-in Starlight `On this page` rail is now removed from the playbook page so the center pane has more horizontal room for command-first content.",
@@ -56,13 +113,18 @@
     "There is also a separate pending planning item to review whether the remote Codex persona and pack-local agent guidance should evolve toward an ADF-specific Linux troubleshooting and diagnostic-authoring profile.",
     "Restage the build-pack to the saved AlgoSec lab target before the next remote Codex run that changes playbook logic.",
     "Read docs/specs/adf-remote-codex-invocation-notes-v1.md before the next remote Codex launch.",
+    "For controlled lab seam mutations, follow docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md and prefer a temporary Apache override file over editing the base config inline.",
+    "For the next ASMS narrowing cycle, start from `.pack-state/remote-codex/asms-ui-config-correlation-pass-20260326.md` and docs/specs/asms-ui-direct-config-seam-plan-v1.md instead of another Apache-family or browser-only mutation.",
+    "For the current ASMS investigative authoring phase, use PackFactory target prep and staging (`prepare_remote_autonomy_target.py` and `push_build_pack_to_remote.py`) before guided remote Codex work on the staged pack.",
+    "Do not use `run_remote_autonomy_loop.py` as the default path for the current ASMS subsystem-investigation cycles. The bounded autonomy wrapper is right for starter-backlog autonomy proofs, but it will correctly stop when the work needs guided source edits or appliance-backed artifact regeneration.",
     "Use a small remote shell script plus env -i and /bin/bash --noprofile --norc for the outer appliance launcher instead of a long inline SSH command.",
+    "For ASMS browser-backed investigation, do not wait on Playwright `networkidle` after login. Use bounded waits plus visible-shell checks like title `AlgoSec - Home`, final URL `/afa/php/home.php`, and visible home markers instead.",
     "Clear stale matching codex exec processes before relaunching, and confirm both the result file and rebuilt starlight-site timestamps before assuming the remote run finished cleanly.",
     "Keep machine-readable artifacts canonical, keep HTML as a thin render layer, and keep new commands read-only.",
     "Keep rare path and config checks deferred unless a playbook truly needs them.",
     "Use the live Starlight review page at http://10.167.2.150:18082/playbooks/asms-ui-is-down/ as the current operator review surface for the first subsystem-specific pack.",
     "Use the saved lab target request and the prototype comparison ports 18083, 18084, and 18085 as the last reviewed prototype surfaces.",
-    "Use the generated site roots under dist/prototypes/starlight and dist/candidates/algosec-lab-baseline/starlight-site when iterating on the Astro Starlight publisher."
+    "Use the generated site roots under dist/prototypes/starlight, dist/candidates/algosec-lab-baseline/starlight-site, and the current appliance-backed dist/candidates/adf-baseline/starlight-site when iterating on the Astro Starlight publisher."
   ],
   "schema_version": "work-state/v1",
   "stop_conditions": [
@@ -70,6 +132,154 @@
     "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
   ],
   "planning_items": [
+    {
+      "task_id": "formalize_controlled_lab_mutation_experiment_pattern",
+      "title": "Formalize a reusable controlled lab mutation experiment pattern",
+      "status": "completed",
+      "priority": "high",
+      "summary": "ADF now has a reusable lab-only mutation pattern for bounded, reversible seam experiments after read-only investigation has already narrowed the likely control surface.",
+      "why_it_matters": "The ASMS path has now reached questions that cannot be answered by observation alone. A reusable pattern keeps future seam experiments disciplined, reversible, and evidence-first instead of turning them into ad hoc break-fix work.",
+      "notes": [
+        "The canonical pattern now lives in `docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md`.",
+        "The default shape is one seam at a time, one bounded reproduction, same-minute log capture, immediate rollback, and explicit interpretation.",
+        "When Apache is the seam, prefer a temporary override include under `/etc/httpd/conf.d/zzzz_adf_*.conf` over editing the base config inline."
+      ]
+    },
+    {
+      "task_id": "run_apache_to_metro_proxy_family_isolation_variant_a",
+      "title": "Run the ASMS Apache-to-Metro proxy-family isolation experiment Variant A",
+      "status": "completed",
+      "priority": "high",
+      "summary": "A temporary Apache deny on `/afa/external` produced repeated `403` responses for that family, but the first usable ASMS home shell still survived.",
+      "why_it_matters": "This is the first bounded mutation proof at the Apache-to-Metro seam. It lowers support ambiguity by demoting `/afa/external` as a first-shell gate candidate instead of leaving it as a plausible but unproven path.",
+      "notes": [
+        "The canonical note is `.pack-state/remote-codex/asms-ui-apache-proxy-isolation-variant-a-pass-20260325.md`.",
+        "The mutation used a temporary Apache override include, one bounded fresh login, same-minute Apache and Metro evidence capture, immediate rollback, and one post-rollback recovery login.",
+        "The strongest next seam is now Variant B on `/afa/api/v1`."
+      ]
+    },
+    {
+      "task_id": "run_apache_to_metro_proxy_family_isolation_variant_b",
+      "title": "Run the ASMS Apache-to-Metro proxy-family isolation experiment Variant B",
+      "status": "completed",
+      "priority": "high",
+      "summary": "A temporary Apache deny on `/afa/api/v1` still left the first usable ASMS home shell intact, and it did not cleanly own the fresh-session `config` and `session/extend` path.",
+      "why_it_matters": "This closes out the top-level Apache proxy-family experiment. It shows that a family-wide deny on `/afa/api/v1` is not a precise enough control seam for the fresh-session config/session path, which saves future ADF work from repeating the same broad mutation.",
+      "notes": [
+        "The canonical note is `.pack-state/remote-codex/asms-ui-apache-proxy-isolation-variant-b-pass-20260325.md`.",
+        "Apache showed `403` for some `/afa/api/v1` requests such as `config/PRINT_TABLE_IN_NORMAL_VIEW` and `license`, but Metro still served fresh-session `/afa/api/v1/config?...` and `/afa/api/v1/session/extend?...` as `200`.",
+        "The narrowest remaining unknown is why those fresh-session routes still reached Metro under the deny window."
+      ]
+    },
+    {
+      "task_id": "run_apache_to_metro_proxy_family_isolation_experiment",
+      "title": "Run the ASMS Apache-to-Metro proxy-family isolation experiment",
+      "status": "completed",
+      "priority": "high",
+      "summary": "The top-level Apache proxy-family experiment is now complete: both `/afa/external` and `/afa/api/v1` were mutated in bounded lab passes, and neither family-wide deny broke the first usable ASMS home shell.",
+      "why_it_matters": "The read-only investigation has already shown that browser-side blocking is the wrong control point and that Apache exposes separate proxy families toward Metro. The next meaningful reduction in support ambiguity now requires one reversible seam mutation.",
+      "notes": [
+        "Use the exact plan in `docs/specs/asms-ui-apache-metro-proxy-isolation-plan-v1.md`.",
+        "Variant A demoted `/afa/external` as a first-shell gate candidate.",
+        "Variant B showed that a top-level Apache deny on `/afa/api/v1` is not a clean control lever for the fresh-session config/session path.",
+        "The next experiment should move one seam deeper than the family-wide Apache deny."
+      ]
+    },
+    {
+      "task_id": "separate_browser_owned_and_php_owned_asms_config_routes",
+      "title": "Separate browser-owned and PHP-owned ASMS config routes",
+      "status": "completed",
+      "priority": "high",
+      "summary": "A fresh-session correlation pass now separates the browser-facing `/afa/external` -> `/afa/api/v1` path from the unmatched internal direct `/afa/config/...` family.",
+      "why_it_matters": "This closes the owner-split question with concrete session evidence and keeps the next experiment aimed at the true remaining seam instead of repeating solved browser-proxy ground.",
+      "notes": [
+        "The owner-split setup note is `.pack-state/remote-codex/asms-ui-config-owner-split-pass-20260326.md`.",
+        "The fresh-session correlation result is `.pack-state/remote-codex/asms-ui-config-correlation-pass-20260326.md`.",
+        "Apache proxies `/afa/external` and `/afa/api/v1` to Metro, but PHP `RestClient` also talks directly to `http://127.0.0.1:8080/afa` and issues `/config/...` requests.",
+        "Fresh session `jkp0cnnf971ksgifu3k25jopiq` proved that `/afa/external//config...` and `/afa/external//session/extend...` line up with Metro `/afa/api/v1/...`, while direct `/afa/config/...` and `/afa/getStatus` lines had no Apache parent.",
+        "The next plan should target the internal direct `/afa/config/...` seam."
+      ]
+    },
+    {
+      "task_id": "plan_internal_php_to_metro_config_seam_experiment",
+      "title": "Plan the internal PHP-to-Metro `/afa/config/...` seam experiment",
+      "status": "pending",
+      "priority": "high",
+      "summary": "The next meaningful ASMS seam is now the direct `/afa/config/...` family behind PHP `RestClient`, and it needs its own bounded plan before any mutation is attempted.",
+      "why_it_matters": "This is the remaining unresolved owner after the browser-proxy path was explained by the fresh-session correlation pass. Planning it separately keeps the next experiment precise, reversible, and aligned with the real source of ambiguity.",
+      "notes": [
+        "Start from `.pack-state/remote-codex/asms-ui-config-correlation-pass-20260326.md` and `.pack-state/remote-codex/asms-ui-case-sensitive-username-read-pass-20260326.md`.",
+        "Use `docs/specs/asms-ui-direct-config-seam-plan-v1.md` as the working plan.",
+        "Treat `/afa/getStatus` as a nearby internal supporting clue, but keep `/afa/config/...` as the main direct-Metro seam.",
+        "Do not reuse the Apache family deny pattern for this step.",
+        "Treat `Case_Sensitive_Username` as already demoted on this lab and focus the next plan on the broader `GetConfigurationSettings()` bundle.",
+        "Do not use a host-level owner-based `iptables` block on user `apache` as the first broader-bundle mutation surface.",
+        "Prefer the first application-level variant in `AlgosecSessionManager::postLoginActions()` before considering a wider constructor-time bundle bypass.",
+        "Require a clear control point, rollback, evidence plan, and risk review before execution."
+      ]
+    },
+    {
+      "task_id": "prove_home_php_render_is_the_first_class_post_login_checkpoint",
+      "title": "Prove that `home.php` render is the first-class post-login checkpoint",
+      "status": "completed",
+      "priority": "high",
+      "summary": "The ASMS UI playbook now treats a meaningfully usable `/afa/php/home.php` render as the first-class post-login signal, while keeping nearby post-home requests as supporting clues.",
+      "why_it_matters": "This keeps the playbook centered on the customer-visible usability checkpoint that actually reduces support ambiguity. It prevents nearby requests from being promoted into hard stop points before the reproduced browser flow proves they gate initial ASMS home-shell availability.",
+      "notes": [
+        "A bounded authenticated browser comparison showed that blocking `FireFlowBridge.js` did not stop the initial home page from rendering with the normal menu and summary view.",
+        "The bounded comparison did not prove `/afa/api/v1/license`, `/afa/api/v1/config?...`, `/afa/api/v1/config/all/noauth?domain=0`, or `/afa/api/v1/session/extend?...` are required for the initial home-shell render, so those routes stay as supporting clues rather than first-class gates.",
+        "A later fresh-session pass tied `config` and `session/extend` more directly to the new `PHPSESSID`, which raises their value as supporting clues without proving they gate first-shell usability.",
+        "A later CDP browser-layer pass matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe and recorded no real block events for the fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` traffic, so browser-side blocking is not yet a trustworthy proof path for those routes.",
+        "The later route-ownership pass showed Apache exposing both `/afa/external` and `/afa/api/v1` proxy families toward Metro, while the fresh-session minute showed paired `/afa/config/...` and `/afa/api/v1/config?...` server-side surfaces around the same config family.",
+        "`GET /afa/getStatus` is now treated as the strongest immediate Metro clue after the first usable shell appears, but still not as a first-class gate for initial home-shell render.",
+        "The latest lab pass tied `/afa/api/v1/bridge/refresh?...` to a different long-lived session instead of the fresh login session, so it stays demoted as nearby background traffic unless a cleaner reproduction proves otherwise.",
+        "The appliance-backed ADF artifacts, remote note, and live review page on port 18082 were all regenerated from this stronger systems-thinking rule."
+      ]
+    },
+    {
+      "task_id": "capture_asms_post_home_followups_before_subsystem_split",
+      "title": "Capture ASMS post-home follow-ups before splitting into later subsystem paths",
+      "status": "completed",
+      "priority": "high",
+      "summary": "The ASMS UI playbook now treats the first traffic after `/afa/php/home.php` as immediate home-shell follow-ups and light Metro refresh work, while deferring later subsystem candidates until the reproduced browser minute proves they matter.",
+      "why_it_matters": "This keeps support engineers on the shortest useful next checks after login succeeds. It prevents the playbook from overreacting to every nearby route and instead separates the immediate ASMS home-shell path from later subsystem candidates like Notification Center or watchdog-linked issue counts.",
+      "notes": [
+        "The earliest observed post-home follow-ups were `FireFlowBridge.js`, `logo.php`, and nearby Metro clues such as `GET /afa/getStatus`, `GET /afa/api/v1/license`, `GET /afa/api/v1/config?...`, `GET /afa/api/v1/config/all/noauth?domain=0`, and `POST /afa/api/v1/session/extend?...`.",
+        "`GET /afa/getStatus` is now the strongest immediate Metro supporting clue after the first usable shell, while the other same-minute routes remain unproven first-shell requirements.",
+        "`GET /afa/api/v1/config?...` and `POST /afa/api/v1/session/extend?...` now have a stronger fresh-session tie because the latest pass matched them to the new `PHPSESSID` in the exact fresh-login minute.",
+        "The later CDP browser-layer pass still did not own those fresh-session routes. It matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe, which means the next meaningful isolation experiment should move closer to the proxy or server side.",
+        "The later route-ownership pass showed Apache exposing both `/afa/external` and `/afa/api/v1` proxy families toward Metro, which is the most likely next control seam for a clean isolation pass.",
+        "`POST /afa/api/v1/bridge/refresh?...` appeared in the same window but stayed tied to a different long-lived session, so it is now treated as nearby background traffic rather than the fresh home-shell gate.",
+        "Watchdog-linked issue-count traffic appeared in the same window but from a different client address, so it is now treated as a later subsystem candidate rather than the first reproduced stop point."
+      ]
+    },
+    {
+      "task_id": "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+      "title": "Capture BusinessFlow and FireFlow as support-relevant ASMS operational checkpoints",
+      "status": "completed",
+      "priority": "high",
+      "summary": "The ASMS UI playbook now reflects that BusinessFlow is the first named operational checkpoint in the observed login path, while FireFlow is a later auth-coupled module with its own support-useful checks.",
+      "why_it_matters": "This keeps the troubleshooting model aligned with the real customer-visible path. It reduces support effort by giving the engineer a stronger first named stop point than a generic Keycloak-first guess and by keeping FireFlow in the path only where the evidence says it matters.",
+      "notes": [
+        "Remote Codex evidence plus appliance log correlation showed `/BusinessFlow` redirects before submit, `POST /BusinessFlow/rest/v1/login` during sign-in, and FireFlow auth signals around the final `/afa/php/home.php` handoff.",
+        "The playbook now encodes BusinessFlow shallow and deep health checks and FireFlow auth-coupled checks instead of treating both modules as vague later details.",
+        "The live review surface on port 18082 was rebuilt from `dist/candidates/adf-baseline` so the appliance-backed page now reflects this stronger subsystem model."
+      ]
+    },
+    {
+      "task_id": "prove_asms_ui_system_thinking_with_authenticated_flow",
+      "title": "Prove the ASMS UI system-thinking method with one authenticated lab flow",
+      "status": "completed",
+      "priority": "high",
+      "summary": "A real authenticated GUI flow plus same-minute log correlation proved that ADF can refine the ASMS UI playbook from observed system behavior instead of guessed service order.",
+      "why_it_matters": "This is the first strong proof that the build-pack can reduce support ambiguity by following the real customer-visible path across modules, keeping observed and inferred claims separate, and then folding that evidence back into the canonical playbook.",
+      "notes": [
+        "The effective loop was: reproduce one bounded browser flow, capture the first post-shell requests, correlate the same minute in Apache and downstream logs, then update the playbook only where the evidence justified it.",
+        "The discovery mattered more than any single request detail: the ASMS UI path included legacy setup and session checks plus later authenticated module handoffs that a service-first model would have hidden.",
+        "This confirms that systems thinking is not only a writing style in ADF. It is a practical troubleshooting method for reducing support-engineer effort during live GUI-down cases.",
+        "Use the same method when following the path through BusinessFlow, FireFlow, and later modules that materially affect customer-visible troubleshooting."
+      ]
+    },
     {
       "task_id": "formalize_shared_host_health_precheck_pack",
       "title": "Formalize a shared host health pre-check pack",
@@ -123,6 +333,21 @@
         "Keep this as a presentation-layer change, not a command-content change.",
         "Review both the bash command blocks and the known working example blocks.",
         "Prefer contrast improvements that keep the command area visually distinct without overpowering the rest of the page."
+      ]
+    },
+    {
+      "task_id": "distinguish_run_commands_from_output_across_adf_ui",
+      "title": "Make run commands and output clearly distinguishable across the ADF UI",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Adjust the ADF website and playbook UI so runnable command blocks and the resulting output blocks are easy for support engineers to tell apart at a glance across the full system, not only inside one playbook.",
+      "why_it_matters": "Right now the run commands and the generated output share too much of the same visual language, which increases reading friction exactly where support engineers need the clearest command-to-result mapping. ADF should make it immediately obvious what the engineer runs versus what the engineer expects to see next.",
+      "notes": [
+        "Treat this as an ADF-wide website and UI planning item, not an `ASMS UI is down` only change.",
+        "Keep syntax highlighting where it helps, but do not let highlighting make commands and output feel like the same content type.",
+        "Make the command block and the subsequent output block visually distinct through layout, labeling, framing, typography, or color treatment.",
+        "Preserve the command-first troubleshooting flow while helping the engineer scan from command to expected output with less ambiguity.",
+        "Review this pattern across all generated playbooks and shared command-pack surfaces, not just the current Starlight page."
       ]
     },
     {
@@ -246,6 +471,34 @@
       ]
     },
     {
+      "task_id": "investigate_asms_ui_components_for_useful_work_checks",
+      "title": "Investigate ASMS UI components for stronger useful-work checks",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Investigate each major ASMS UI dependency component more thoroughly so the rebuilt playbook uses stronger useful-work checks instead of mostly restructured status and grep commands.",
+      "why_it_matters": "The current ASMS UI rebuild improved the structure, but several checks still prove service presence more than productive work. To make system thinking real, each branch now needs deeper component-level investigation and better functional surfaces.",
+      "notes": [
+        "Start with Apache/HTTPD, Keycloak, and ms-metro as the three main ASMS UI components.",
+        "Treat current curl checks as strong starting points and keep looking for better component-specific runtime surfaces.",
+        "Challenge the current ms-metro access-log and Catalina grep commands and replace them if stronger useful-work checks are found.",
+        "Use the lab to discover better application-path, JVM, or subsystem behavior checks before widening the playbook again."
+      ]
+    },
+    {
+      "task_id": "reframe_host_precheck_around_pressure_signals",
+      "title": "Reframe the host pre-check around pressure signals",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Keep the current shared host pre-check commands, but reframe them so they reveal the pressure signal being checked and help the engineer reach a quick current assessment of the system.",
+      "why_it_matters": "ADF is now optimizing for engineer effort during live support. The host pre-check should not only show raw resource values. It should help the engineer see disk pressure, inode pressure, memory pressure, CPU pressure, and similar system conditions quickly and consistently.",
+      "notes": [
+        "Keep the existing host pre-check command set as the starting surface.",
+        "Reorient verification and Linux-note language around the main pressure metric for each command.",
+        "Prefer the most meaningful pressure clues first, such as available memory, swap growth, highest filesystem use, lowest free space, or top CPU consumers.",
+        "Use this to help the engineer reach a current system assessment quickly at the start of any playbook."
+      ]
+    },
+    {
       "task_id": "build_adf_autonomous_iteration_loop",
       "title": "Build more autonomous agent iteration into ADF",
       "status": "pending",
@@ -258,6 +511,20 @@
         "Treat this as build-pack logic and orchestration, not only as a remote runtime convenience.",
         "Do not turn this into uncontrolled autonomy or open-ended scenario sprawl.",
         "Keep human review in the loop for major design, scope, and validation decisions."
+      ]
+    },
+    {
+      "task_id": "stabilize_remote_codex_launcher_against_interactive_menu",
+      "title": "Stabilize the remote Codex launcher against interactive-menu and shell-wrapper drift",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Standardize one remote Codex launcher path that consistently bypasses the appliance interactive menu and shell-quoting drift for both short control runs and longer ADF investigation loops.",
+      "why_it_matters": "ADF now depends on repeated remote Codex investigation on the real appliance. If menu bypass or shell-wrapper behavior stays fragile, the systems-thinking loop loses repeatability and support-authoring effort gets wasted on launcher recovery instead of diagnostic progress.",
+      "notes": [
+        "Treat this as a build-pack planning item, not only as a shell convenience issue.",
+        "Define one supported launcher pattern with `env -i`, `/bin/bash --noprofile --norc`, a small remote shell script, and separate prompt, result, stderr, and launcher-log files under `/tmp`.",
+        "Make the path work consistently for quick control tasks, longer Codex investigation passes, and relaunch cases after interrupted runs or ad hoc shell recovery attempts.",
+        "Codify stale-process cleanup, success verification, and interactive-menu bypass so the remote path no longer depends on trial-and-error quoting variations like inline SSH strings, temporary control interruptions, or `bash -s` improvisation."
       ]
     },
     {
