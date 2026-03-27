@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -13,6 +14,9 @@ from .runtime_baseline import (
 )
 
 PRIMARY_PLAYBOOK_ID = "ui-and-proxy"
+STARLIGHT_SITE_PNPM_LOCK = (
+    Path(__file__).resolve().parent / "assets" / "starlight-site-pnpm-lock.yaml"
+)
 
 
 def generate_starlight_site(
@@ -28,8 +32,25 @@ def generate_starlight_site(
     output_root = project_root / Path(site_root) if site_root else baseline_root / "starlight-site"
     docs_root = output_root / "src" / "content" / "docs"
     playbooks_root = docs_root / "playbooks"
+    for stale_path in (
+        output_root / ".astro",
+        output_root / "dist",
+        output_root / "node_modules",
+        output_root / "package-lock.json",
+        output_root / "pnpm-lock.yaml",
+    ):
+        if stale_path.is_dir():
+            shutil.rmtree(stale_path)
+        elif stale_path.exists():
+            stale_path.unlink()
     docs_root.mkdir(parents=True, exist_ok=True)
     playbooks_root.mkdir(parents=True, exist_ok=True)
+    stale_index_mdx = docs_root / "index.mdx"
+    if stale_index_mdx.exists():
+        stale_index_mdx.unlink()
+    stale_not_found = docs_root / "404.md"
+    if stale_not_found.exists():
+        stale_not_found.unlink()
     for stale_playbook in playbooks_root.glob("*.md"):
         stale_playbook.unlink()
 
@@ -57,8 +78,9 @@ def generate_starlight_site(
             }
         )
 
-    (docs_root / "index.mdx").write_text(_render_index_markdown(support_baseline, playbook_nav_entries), encoding="utf-8")
+    (docs_root / "index.md").write_text(_render_index_markdown(support_baseline, playbook_nav_entries), encoding="utf-8")
     (output_root / "package.json").write_text(_render_package_json(), encoding="utf-8")
+    (output_root / "pnpm-lock.yaml").write_text(STARLIGHT_SITE_PNPM_LOCK.read_text(encoding="utf-8"), encoding="utf-8")
     (output_root / "astro.config.mjs").write_text(_render_astro_config(playbook_nav_entries), encoding="utf-8")
     (output_root / "tsconfig.json").write_text(_render_tsconfig(), encoding="utf-8")
     (output_root / "src" / "content.config.ts").parent.mkdir(parents=True, exist_ok=True)
@@ -71,7 +93,8 @@ def generate_starlight_site(
         str((output_root / "tsconfig.json").relative_to(project_root)),
         str((output_root / "src" / "content.config.ts").relative_to(project_root)),
         str((output_root / "src" / "custom.css").relative_to(project_root)),
-        str((docs_root / "index.mdx").relative_to(project_root)),
+        str((docs_root / "index.md").relative_to(project_root)),
+        str((output_root / "pnpm-lock.yaml").relative_to(project_root)),
     ] + [
         str((playbooks_root / Path(entry["relative_path"]).name).relative_to(project_root))
         for entry in playbook_nav_entries
@@ -99,6 +122,7 @@ def _render_package_json() -> str:
             "build": "astro build",
             "preview": "astro preview --host 0.0.0.0 --port 18082",
         },
+        "packageManager": "pnpm@10.33.0",
         "dependencies": {
             "astro": "5.12.8",
             "@astrojs/starlight": "0.36.0",
@@ -148,6 +172,7 @@ def _render_astro_config(playbook_nav_entries: list[dict[str, str | int]]) -> st
         "    starlight({\n"
         "      title: 'AlgoSec Diagnostic Framework',\n"
         "      description: 'Target-backed diagnostic playbooks for support engineers.',\n"
+        "      disable404Route: true,\n"
         "      customCss: ['./src/custom.css'],\n"
         "      tableOfContents: false,\n"
         "      sidebar: [\n"
@@ -171,10 +196,9 @@ def _render_tsconfig() -> str:
 def _render_content_config() -> str:
     return (
         "import { defineCollection } from 'astro:content';\n"
-        "import { docsLoader } from '@astrojs/starlight/loaders';\n"
         "import { docsSchema } from '@astrojs/starlight/schema';\n\n"
         "export const collections = {\n"
-        "  docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),\n"
+        "  docs: defineCollection({ schema: docsSchema() }),\n"
         "};\n"
     )
 
@@ -418,24 +442,9 @@ def _render_playbook_markdown(
 
     lines.extend(
         [
-            "    </div>",
-            "  </div>",
             "</div>",
-            "",
-            '<script>',
-            "(() => {",
-            "  const openHashTarget = () => {",
-            "    const rawHash = window.location.hash;",
-            "    if (!rawHash || rawHash.length < 2) return;",
-            "    const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));",
-            "    if (!target) return;",
-            "    const details = target.matches('details') ? target : target.closest('details');",
-            "    if (details) details.open = true;",
-            "  };",
-            "  window.addEventListener('hashchange', openHashTarget);",
-            "  openHashTarget();",
-            "})();",
-            "</script>",
+            "</div>",
+            "</div>",
             "",
         ]
     )
@@ -534,24 +543,9 @@ def _render_asms_ui_playbook_markdown(
         lines.extend(_render_system_checkpoint_markdown(step, dependency_by_step.get(step["step_id"])))
     lines.extend(
         [
-            "    </div>",
-            "  </div>",
             "</div>",
-            "",
-            '<script>',
-            "(() => {",
-            "  const openHashTarget = () => {",
-            "    const rawHash = window.location.hash;",
-            "    if (!rawHash || rawHash.length < 2) return;",
-            "    const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));",
-            "    if (!target) return;",
-            "    const details = target.matches('details') ? target : target.closest('details');",
-            "    if (details) details.open = true;",
-            "  };",
-            "  window.addEventListener('hashchange', openHashTarget);",
-            "  openHashTarget();",
-            "})();",
-            "</script>",
+            "</div>",
+            "</div>",
             "",
         ]
     )

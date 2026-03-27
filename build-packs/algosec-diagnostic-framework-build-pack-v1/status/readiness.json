@@ -2,7 +2,7 @@
   "blocking_issues": [
     "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary."
   ],
-  "last_evaluated_at": "2026-03-27T10:29:28Z",
+  "last_evaluated_at": "2026-03-27T13:31:30Z",
   "operator_hint_status": {
     "active_hint_ids": [],
     "cleanup_candidate_hint_ids": [],
@@ -19,7 +19,8 @@
   "ready_for_deployment": false,
   "recommended_next_actions": [
     "Recommended next action: continue with canonical next task `deepen_dependency_aware_playbooks` from status/work-state.json and use `docs/specs/asms-ui-bounded-dependency-map-v1.md`, `docs/specs/asms-ui-dependency-order-validation-v1.md`, `docs/specs/fireflow-internals-bounded-map-v1.md`, and `docs/specs/adf-remote-runtime-decoupling-plan-v1.md` for the next bounded remote investigation runs.",
-    "Keep the live review surface on `http://10.167.2.151:18082/playbooks/asms-ui-is-down/` as the current operator baseline while deepening content. The approved `124rem / 22rem / 88ch` layout is now preserved on plain playbook URLs through the staged `adf-dev` content server."
+    "Keep the live review surface on `http://10.167.2.151:18082/playbooks/asms-ui-is-down/` as the current operator baseline while deepening content. The approved `124rem / 22rem / 88ch` layout is now preserved on plain playbook URLs through the staged `adf-dev` content server.",
+    "Use the pinned `pnpm` publication path for future static ADF playbook rebuilds. The generator now emits `pnpm-lock.yaml`, and clean local plus remote `pnpm install --frozen-lockfile && pnpm build` passes for the current four-playbook set."
   ],
   "required_gates": [
     {

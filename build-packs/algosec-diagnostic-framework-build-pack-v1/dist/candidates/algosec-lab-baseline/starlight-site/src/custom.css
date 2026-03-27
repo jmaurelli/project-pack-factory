@@ -2,6 +2,7 @@
   --sl-color-accent-low: #d7ebe8;
   --sl-color-accent: #155e63;
   --sl-color-accent-high: #0d393e;
+  --sl-content-width: 124rem;
   --adf-bg-soft: #eef3ef;
   --adf-panel: rgba(255, 255, 255, 0.96);
   --adf-panel-strong: #f8fbf8;
@@ -9,6 +10,8 @@
   --adf-border-strong: rgba(21, 94, 99, 0.24);
   --adf-muted: #52626c;
   --adf-code-bg: #15262f;
+  --adf-shell-max-width: 112rem;
+  --adf-command-max-width: 92ch;
 }
 
 body {
@@ -27,6 +30,17 @@ body {
 
 .sl-markdown-content {
   color: #142126;
+}
+
+.main-pane {
+  width: 100% !important;
+}
+
+.content-panel > .sl-container {
+  width: min(100%, 124rem) !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
 }
 
 .adf-panel {
@@ -147,38 +161,44 @@ body {
 
 .adf-cockpit-grid {
   display: grid;
-  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  grid-template-columns: 22rem minmax(0, 1fr) !important;
   gap: 1rem;
+  align-items: start;
 }
 
 .adf-system-grid {
   display: grid;
-  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  grid-template-columns: 22rem minmax(0, 1fr) !important;
   gap: 1rem;
+  align-items: start;
 }
 
 .adf-cockpit-main {
   display: grid;
   gap: 1rem;
   min-width: 0;
+  max-width: 100%;
 }
 
 .adf-system-main {
   display: grid;
   gap: 1rem;
   min-width: 0;
+  max-width: 100%;
 }
 
 .adf-cockpit-nav {
   align-self: start;
   position: sticky;
   top: 1.1rem;
+  width: 100%;
 }
 
 .adf-system-nav {
   align-self: start;
   position: sticky;
   top: 1.1rem;
+  width: 100%;
 }
 
 .adf-cockpit-jumps,
@@ -487,6 +507,126 @@ body {
 .sl-markdown-content pre {
   border-radius: 0.8rem;
   background: var(--adf-code-bg);
+}
+
+.adf-check pre,
+.adf-check .expressive-code,
+.adf-check .frame,
+.adf-system-checkpoint pre,
+.adf-system-checkpoint .expressive-code,
+.adf-system-checkpoint .frame {
+  --ec-brdRad: 0.8rem !important;
+  width: min(100%, 88ch) !important;
+  max-width: 88ch !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+.adf-check .expressive-code .frame,
+.adf-system-checkpoint .expressive-code .frame {
+  border-radius: calc(var(--ec-brdRad) + var(--ec-brdWd)) !important;
+  overflow: hidden !important;
+}
+
+:root[data-theme='light'] .adf-check .expressive-code,
+:root[data-theme='light'] .adf-system-checkpoint .expressive-code {
+  --ec-brdCol: color-mix(in srgb, var(--sl-color-gray-5), transparent 25%) !important;
+  --ec-codeBg: #23262f !important;
+  --ec-codeFg: #d6deeb !important;
+  --ec-codeSelBg: #1d3b53 !important;
+  --ec-gtrFg: #63798b !important;
+  --ec-gtrBrdCol: #63798b33 !important;
+  --ec-gtrHlFg: #c5e4fd97 !important;
+  --ec-uiSelBg: #234d708c !important;
+  --ec-uiSelFg: #ffffff !important;
+  --ec-focusBrd: #122d42 !important;
+  --ec-sbThumbCol: #ffffff17 !important;
+  --ec-sbThumbHoverCol: #ffffff47 !important;
+  --ec-tm-markBg: #ffffff17 !important;
+  --ec-tm-markBrdCol: #ffffff40 !important;
+  --ec-tm-insBg: #1e571599 !important;
+  --ec-tm-insBrdCol: #487f3bd0 !important;
+  --ec-tm-insDiffIndCol: #79b169d0 !important;
+  --ec-tm-delBg: #862d2799 !important;
+  --ec-tm-delBrdCol: #d1584d !important;
+  --ec-tm-delDiffIndCol: #e26b5d !important;
+  --ec-frm-shdCol: #00000070 !important;
+  --ec-frm-edBg: #23262f !important;
+  --ec-frm-trmTtbBg: #1b1e26 !important;
+  --ec-frm-trmBg: #23262f !important;
+}
+
+:root[data-theme='light'] .adf-check .expressive-code .ec-line :where(span[style^='--']:not([class])),
+:root[data-theme='light'] .adf-system-checkpoint .expressive-code .ec-line :where(span[style^='--']:not([class])) {
+  color: var(--0, inherit) !important;
+  background-color: var(--0bg, transparent) !important;
+  font-style: var(--0fs, inherit) !important;
+  font-weight: var(--0fw, inherit) !important;
+  text-decoration: var(--0td, inherit) !important;
+}
+
+.adf-check .expressive-code .frame .header,
+.adf-system-checkpoint .expressive-code .frame .header {
+  display: none !important;
+}
+
+.adf-check .expressive-code .frame.has-title pre,
+.adf-check .expressive-code .frame.has-title code,
+.adf-check .expressive-code .frame.is-terminal pre,
+.adf-check .expressive-code .frame.is-terminal code,
+.adf-system-checkpoint .expressive-code .frame.has-title pre,
+.adf-system-checkpoint .expressive-code .frame.has-title code,
+.adf-system-checkpoint .expressive-code .frame.is-terminal pre,
+.adf-system-checkpoint .expressive-code .frame.is-terminal code {
+  border-top: var(--ec-brdWd) solid var(--ec-brdCol) !important;
+  border-top-left-radius: calc(var(--ec-brdRad) + var(--ec-brdWd)) !important;
+  border-top-right-radius: calc(var(--ec-brdRad) + var(--ec-brdWd)) !important;
+}
+
+.adf-check .expressive-code .frame.is-terminal pre,
+.adf-system-checkpoint .expressive-code .frame.is-terminal pre {
+  overflow-x: hidden !important;
+}
+
+.adf-check .expressive-code .frame.is-terminal .ec-line .code,
+.adf-system-checkpoint .expressive-code .frame.is-terminal .ec-line .code {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  min-width: 0 !important;
+  padding-inline-end: calc(var(--ec-codePadInl) + 2.8rem) !important;
+}
+
+.adf-check .expressive-code .frame.is-terminal .copy,
+.adf-system-checkpoint .expressive-code .frame.is-terminal .copy {
+  inset-block-start: 0.9rem !important;
+  inset-inline-end: 1.6rem !important;
+  z-index: 3 !important;
+}
+
+.adf-check .expressive-code .frame:not(.is-terminal) .copy,
+.adf-system-checkpoint .expressive-code .frame:not(.is-terminal) .copy {
+  display: none !important;
+}
+
+.adf-check .expressive-code .copy button,
+.adf-system-checkpoint .expressive-code .copy button {
+  background: rgba(27, 30, 38, 0.96) !important;
+  color: #d6deeb !important;
+  border-color: rgba(99, 121, 139, 0.35) !important;
+  border-radius: 0.75rem !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 160ms ease !important;
+}
+
+.adf-check .expressive-code .frame.is-terminal:hover .copy button,
+.adf-check .expressive-code .frame.is-terminal:focus-within .copy button,
+.adf-system-checkpoint .expressive-code .frame.is-terminal:hover .copy button,
+.adf-system-checkpoint .expressive-code .frame.is-terminal:focus-within .copy button {
+  opacity: 0.96 !important;
+  pointer-events: auto !important;
 }
 
 @media (max-width: 60rem) {

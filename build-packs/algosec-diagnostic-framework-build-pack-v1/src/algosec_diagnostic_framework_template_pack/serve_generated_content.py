@@ -3,12 +3,22 @@ from __future__ import annotations
 import contextlib
 import functools
 import json
+import re
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
 
 from .runtime_baseline import DEFAULT_ARTIFACT_ROOT
+
+STRAY_LITERAL_DIV_BLOCK = re.compile(
+    r'\s*<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption>'
+    r'<pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span[^>]*>&#x3C;/div></span>'
+    r'</div></div></code></pre><div class="copy"><div aria-live="polite"></div>'
+    r'<button title="Copy to clipboard" data-copied="Copied!" data-code="</div>"><div></div></button>'
+    r'</div></figure></div>',
+    re.DOTALL,
+)
 
 LAYOUT_HOTFIX_STYLE = """
 <style id="adf-layout-hotfix">
@@ -250,6 +260,7 @@ def serve_generated_content(
             if not target_path.is_file() or target_path.suffix.lower() != ".html":
                 return False
             html = target_path.read_text(encoding="utf-8")
+            html = STRAY_LITERAL_DIV_BLOCK.sub("", html)
             if 'id="adf-layout-hotfix"' not in html:
                 if "</head>" in html:
                     html = html.replace("</head>", f"{LAYOUT_HOTFIX_STYLE}</head>", 1)

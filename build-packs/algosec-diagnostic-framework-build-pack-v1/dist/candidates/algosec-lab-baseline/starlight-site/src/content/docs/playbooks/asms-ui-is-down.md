@@ -753,7 +753,7 @@ The legacy session-validation path either redirects back to `/algosec-ui/login` 
 
 - This checks a legacy suite login endpoint with a cookie jar so one reproduced journey stays connected.
 - A redirect back to `/algosec-ui/login` with a new PHP session cookie is a real auth-path clue, even without credentials.
-- If this path lights up before `/keycloak/`, treat it as the first observed auth-trigger hop for this journey and keep BusinessFlow or Keycloak as later auth neighbors.
+- If this path lights up before `/BusinessFlow` or `/keycloak/`, treat it as the first observed auth-trigger hop for this journey and keep the later named modules behind it.
   </div>
 </details>
 
@@ -1450,22 +1450,7 @@ Use this only after the traffic and JVM checks if you still need a narrower Java
 </div>
 </details>
 
-    </div>
-  </div>
 </div>
-
-<script>
-(() => {
-  const openHashTarget = () => {
-    const rawHash = window.location.hash;
-    if (!rawHash || rawHash.length < 2) return;
-    const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));
-    if (!target) return;
-    const details = target.matches('details') ? target : target.closest('details');
-    if (details) details.open = true;
-  };
-  window.addEventListener('hashchange', openHashTarget);
-  openHashTarget();
-})();
-</script>
+</div>
+</div>
 

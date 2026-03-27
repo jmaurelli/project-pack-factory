@@ -27,10 +27,104 @@
     "consider_horizontal_dependency_path_in_center_pane"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Locked the approved Support Cockpit playbook layout in as the default plain-URL review surface by keeping the widened `124rem / 22rem / 88ch` layout in the generated site intent and making the staged `adf-dev` content server inject the same layout fail-closed into served HTML pages during normal navigation.",
+  "last_agent_action": "Fixed the ADF static Starlight publication path by making the generator emit a pinned `pnpm-lock.yaml`, preserving a clean generated-site contract, validating a fresh local `pnpm` build, and restaging plus rebuilding the pack on `adf-dev` so the plain playbook URLs were restored on the same pinned graph.",
   "last_outcome": "task_completed",
-  "last_outcome_at": "2026-03-27T10:29:28Z",
+  "last_outcome_at": "2026-03-27T13:31:30Z",
   "last_validation_results": [
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "src/algosec_diagnostic_framework_template_pack/assets/starlight-site-pnpm-lock.yaml",
+        "dist/candidates/algosec-lab-baseline/starlight-site/pnpm-lock.yaml",
+        "dist/candidates/algosec-lab-baseline/starlight-site/package.json",
+        ".pack-state/remote-autonomy-staging/algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1/target-manifest.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "recorded_at": "2026-03-27T13:31:30Z",
+      "status": "pass",
+      "summary": "Used a local multi-agent swarm to isolate the remaining Astro or Starlight publication failure to transitive dependency drift on a truly clean generated site. The generator now emits a pinned `pnpm-lock.yaml`, declares `pnpm@10.33.0`, and still cleans stale install and build residue before regeneration. A fresh `npx pnpm install --frozen-lockfile && npx pnpm build` now passes locally, and the same pinned rebuild path passes on `adf-dev` with the plain live URLs restored for the overview and all four playbooks.",
+      "validation_id": "restore_adf_static_starlight_publication_with_pinned_pnpm_graph_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-cross-playbook-system-layer-taxonomy-v1.md",
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        ".pack-state/remote-autonomy-staging/algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1/target-manifest.json"
+      ],
+      "recorded_at": "2026-03-27T13:11:01Z",
+      "status": "pass",
+      "summary": "Recorded the canonical cross-playbook ADF system-layer taxonomy in build-pack state and synchronized the refreshed build-pack copy to `adf-dev` through the official PackFactory staging path. The shared layers are now Linux substrate, HTTPD/Apache edge, authentication and session, application services, and shared runtime and dependencies. The pack also now records that `useful work` is a stop rule rather than a named layer, and that the current playbooks are seed traversals of the model rather than the limit of it.",
+      "validation_id": "record_cross_playbook_system_layer_taxonomy_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "eval/history/asms-ui-frontline-support-auth-service-first-decision-20260327.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T11:14:34Z",
+      "status": "pass",
+      "summary": "Decommissioned the deep AFF cookie-bootstrap branch from the active ASMS support playbook and reframed the path around what a support engineer can actually do during a live customer session: verify the login shell, session-validation hop, BusinessFlow health, AFA or AFF health, later auth handoff, and service status or restart points. The deeper localhost cookie, polling, and bootstrap notes remain archived engineering evidence only and are no longer active frontline stop points.",
+      "validation_id": "decommission_aff_cookie_bootstrap_branch_from_frontline_support_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "eval/history/asms-ui-businessflow-aff-bootstrap-trigger-correlation-20260327.md",
+        ".pack-state/remote-codex/asms-ui-auth-hop-pass-20260325.md",
+        ".pack-state/remote-codex/asms-ui-authenticated-flow-pass-20260325.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/target-bundle/artifacts/apache-timeline.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/target-bundle/artifacts/aff-timeline.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/target-bundle/artifacts/login-service-snippet.ts",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T11:00:13Z",
+      "status": "pass",
+      "summary": "Used a local multi-agent swarm plus the official `adf-dev -> algosec-lab` delegation path to isolate the strongest browser-facing trigger for the localhost AFF bootstrap window. The accepted delegated observe-only bundle `businessflow-aff-bootstrap-trigger-v1` showed that the requested March 26 and March 27 bootstrap seconds still contain only localhost traffic, but the preserved sequence across Apache and AFF logs is `fa/server/connection/login`, `FireFlow/SelfService/CheckAuthentication`, `BusinessFlow/rest/v1/login`, and `storeFireflowCookie` before `home.php`-adjacent AFA calls. The delegated source extraction from `main.js.map` also showed the suite Angular `LoginService` probing `/seikan/login/setup`, preferring AFF when enabled, then falling through to ABF and AFA as needed. Combined with the earlier accepted auth-hop notes, the strongest supported browser-facing caller is now `/algosec-ui/login`, with `/seikan/login/setup` as the early setup probe and the AFF-first cascade happening behind that shell.",
+      "validation_id": "validate_businessflow_aff_bootstrap_trigger_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "eval/history/asms-ui-businessflow-aff-shared-polling-correlation-20260327.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/target-bundle/artifacts/correlation-timeline.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/target-bundle/artifacts/source-excerpts.txt",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T10:46:59Z",
+      "status": "pass",
+      "summary": "Used a local multi-agent swarm plus the official `adf-dev -> algosec-lab` delegation path to classify later recurring AFF session windows after the cookie-handoff work was already preserved. The accepted delegated observe-only bundle `businessflow-aff-entrypoint-correlation-v1` did not isolate a distinct BusinessFlow-cookie branch as the direct initiator of `GET /FireFlow/api/session`. Instead, the clearest preserved March 25, 2026 windows at `03:15:43-03:15:44 -0400` and neighboring cadences tied `/FireFlow/api/session` most closely to a shared localhost polling loop around repeated `/afa/php/ws.php`, `POST /fa/environment/getAFASessionInfo`, `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`, `GET /BusinessFlow/shallow_health_check`, and AFF health checks. The preserved PHP excerpts also showed that `SuiteLoginSessionValidation.php` cannot read the BusinessFlow cookie, `getAFASessionInfo()` is a read-only AFA session endpoint, and explicit SSO cookie paths still exist but are distinct from this recurring polling cadence.",
+      "validation_id": "validate_businessflow_aff_shared_polling_window_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "eval/history/asms-ui-businessflow-aff-cookie-handoff-correlation-20260327.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/target-bundle/artifacts/log-windows.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/target-bundle/artifacts/source-snippets.txt",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T10:52:00Z",
+      "status": "pass",
+      "summary": "Used a local multi-agent swarm plus the official `adf-dev -> algosec-lab` delegation path to separate the original AFF cookie handoff from the later refresh loop. The accepted delegated observe-only bundle `businessflow-aff-cookie-handoff-v1` showed that `SSOLogin.php` passes `AFF_COOKIE` into FireFlow, accepts `BFCookie` back for `/BusinessFlow`, and that `SuiteLoginSessionValidation.php` is a cleanup path rather than the initiator. The strongest preserved runtime handoff window was `2026-03-27 00:00:43-00:00:51 -0400`, where Apache showed `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`, `GET /FireFlow/api/session`, `POST /fa/server/connection/login`, `POST /fa/environment/getAFASessionInfo`, `POST /afa/external//bridge/storeFireflowCookie`, and AFA `session/extend`, while matching FireFlow logs showed successful AFA login followed immediately by `_issuePostToAfa will call /storeFireflowCookie`. A separate later window at `05:59:57-06:00:00 -0400` showed `bridge/refresh`, repeated `getAFASessionInfo`, and AFA `session/extend`, which is now treated as later session upkeep rather than the original BusinessFlow cookie bridge.",
+      "validation_id": "validate_businessflow_aff_cookie_handoff_v1"
+    },
     {
       "evidence_paths": [
         "src/algosec_diagnostic_framework_template_pack/serve_generated_content.py",
@@ -758,7 +852,8 @@
     "deepen_dependency_aware_playbooks",
     "enhance_linux_notes_as_optional_learning_layer",
     "codify_system_thinking_as_adf_theme",
-    "formalize_linux_foundation_as_adf_theme"
+    "formalize_linux_foundation_as_adf_theme",
+    "reduce_oversized_generated_artifacts_in_adf_snapshots"
   ],
   "resume_instructions": [
     "Read the objective, backlog, and work-state files before editing code.",
@@ -790,12 +885,14 @@
     "Preserve the sticky quick-jump behavior because that is the operator-confirmed reason Support Cockpit won the prototype comparison.",
     "Use the cleaned Support Cockpit chassis as the next container for a real playbook iteration instead of reintroducing the older boxed legacy page structures.",
     "The command-first flow strip and the horizontal dependency path now sit above the main two-column layout, and Quick jump starts level with the first stepwise checkpoint content.",
-    "The next recommended content task is `deepen_dependency_aware_playbooks`, because the bounded ASMS map and the top-level ordering conclusion are now recorded well enough to shift from proving order to improving the playbooks that use it.",
-    "The live ASMS UI page now uses five useful-work checkpoints: host support, Apache/HTTPD serving the UI, auth branch, app branch, and useful-work stop point.",
+    "The next recommended content task is `deepen_dependency_aware_playbooks`, because the bounded ASMS map, the top-level ordering conclusion, and the new shared taxonomy are now recorded well enough to shift from proving order to improving the playbooks that use it.",
+    "The canonical cross-playbook ADF system-layer taxonomy is Linux substrate -> HTTPD/Apache edge -> authentication and session -> application services -> shared runtime and dependencies.",
+    "Treat `useful work` as a stop rule that tells the engineer where to stop, not as a named layer in the taxonomy.",
     "Keep treating the current ASMS UI page as a first real system-thinking reference playbook and tighten it through review rather than reverting to the older incremental patch model.",
     "The current ASMS UI service pack now uses real Keycloak readiness and OIDC path checks, a real ms-metro heartbeat check, and file-based Keycloak and ms-metro logs taken from the lab-backed appliance behavior.",
     "Treat ActiveMQ as a supporting dependency for the ASMS UI path, not a first-pass UI-down check, unless ms-metro logs or behavior point to JMS or broker problems.",
-    "The current evidence-backed ASMS UI working model is host health -> Apache edge -> legacy post-shell checks -> BusinessFlow checkpoint -> `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection` when deep health names them -> later Keycloak and FireFlow auth handoff -> `/afa/php/home.php` render -> supporting post-home home-shell clues and light Metro refresh -> broader app traffic.",
+    "Treat the current four playbooks as seed traversals of the shared taxonomy, not as the limit of ADF. Future playbooks should inherit the same layers and only vary the symptom entry point, likely traversal, safe restarts, and stop conditions.",
+    "The current evidence-backed ASMS UI working model traverses the shared taxonomy as Linux substrate -> HTTPD/Apache edge -> authentication and session through legacy setup and BusinessFlow -> application services through `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection` -> shared runtime and dependency clues only when the closer customer-visible seams stay ambiguous.",
     "The systems-thinking method is now proven on the lab: reproduce one bounded browser flow, correlate the same minute in Apache and downstream logs, and only then update the playbook model.",
     "Keep observed and inferred dependency claims separate. The value comes from reducing support effort with real path evidence, not from forcing a cleaner serial chain than the lab actually shows.",
     "Treat disk, memory, OOM, and other core host-resource checks as the shared Host Health Pre-Check pack defined in docs/specs/adf-host-health-precheck-pack-v1.md and use it at the start of every major playbook.",
@@ -865,6 +962,7 @@
     "Keep rare path and config checks deferred unless a playbook truly needs them.",
     "Use the live Starlight review page at http://10.167.2.151:18082/playbooks/asms-ui-is-down/ as the current operator review surface for the first subsystem-specific pack.",
     "Treat the plain adf-dev playbook URLs as the current approved review surface; the staged content server now injects the operator-approved `124rem / 22rem / 88ch` layout fail-closed into served HTML so navigation keeps the widened review view without cache-busting query strings.",
+    "Carry forward the GitHub large-file warning from commit `a2ef2fcb` as a follow-up hygiene task: future ADF state snapshots should preserve the approved remote review surface without recommitting heavyweight generated preview artifacts like staged `node_modules` binaries by default.",
     "Use the saved lab target request and the prototype comparison ports 18083, 18084, and 18085 as the last reviewed prototype surfaces.",
     "Use the generated site roots under dist/prototypes/starlight, dist/candidates/algosec-lab-baseline/starlight-site, and the current appliance-backed dist/candidates/adf-baseline/starlight-site when iterating on the Astro Starlight publisher.",
     "Use `docs/remote-targets/algosec-lab/lab-target-inventory.json` as the local source for alternate downstream lab IPs before the next retargeted FireFlow mapping cycle.",

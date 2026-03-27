@@ -355,22 +355,7 @@ If queue or backlog evidence cannot be gathered, escalate with the broker and da
 </div>
 </details>
 
-    </div>
-  </div>
 </div>
-
-<script>
-(() => {
-  const openHashTarget = () => {
-    const rawHash = window.location.hash;
-    if (!rawHash || rawHash.length < 2) return;
-    const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));
-    if (!target) return;
-    const details = target.matches('details') ? target : target.closest('details');
-    if (details) details.open = true;
-  };
-  window.addEventListener('hashchange', openHashTarget);
-  openHashTarget();
-})();
-</script>
+</div>
+</div>
 

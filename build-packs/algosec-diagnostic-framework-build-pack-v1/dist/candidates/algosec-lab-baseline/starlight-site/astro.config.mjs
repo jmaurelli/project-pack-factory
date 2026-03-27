@@ -6,6 +6,7 @@ export default defineConfig({
     starlight({
       title: 'AlgoSec Diagnostic Framework',
       description: 'Target-backed diagnostic playbooks for support engineers.',
+      disable404Route: true,
       customCss: ['./src/custom.css'],
       tableOfContents: false,
       sidebar: [
