@@ -1,0 +1,166 @@
+# BEGIN AlgoSec TAGGED BLOCK {{{
+#
+# COPYRIGHT:
+#
+# This software is Copyright (c) 2007-2024 AlgoSec Systems Ltd
+#     <info@algosec.com>
+# (Except where explicitly superseded by other copyright notices)
+#
+# This file is part of AlgoSec-Ticketing.
+#
+# LICENSE:
+#
+# AlgoSec-Ticketing is free software: you can redistribute it and/or
+# modify it under the terms of Version 2 of the GNU General Public
+# License, as published by the Free Software Foundation.
+#
+# AlgoSec-Ticketing is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with AlgoSec-Ticketing.  If not, see http://www.gnu.org/licenses/.
+#
+# CONTRIBUTION SUBMISSION POLICY:
+#
+# (The following paragraph is not intended to limit the rights granted
+# to you to modify and distribute this software under the terms of
+# the GNU General Public License and is only of importance to you if
+# you choose to contribute your changes and enhancements to the
+# community by submitting them to AlgoSec.)
+#
+# By intentionally submitting any modifications, corrections or
+# derivatives to this work, or any other work intended for use with
+# FireFlow(TM), to AlgoSec, you confirm that
+# you are the copyright holder for those contributions and you grant
+# AlgoSec a nonexclusive, worldwide, irrevocable,
+# royalty-free, perpetual, license to use, copy, create derivative
+# works based on those contributions, and sublicense and distribute
+# those contributions and any derivatives thereof.
+#
+# END AlgoSec TAGGED BLOCK }}}
+#
+# Apache conf file for FireFlow
+
+PerlSwitches -I/opt/algosec/perl5/lib/perl5/x86_64-linux-thread-multi -I/opt/algosec/perl5/lib/perl5 -I/usr/share/fireflow/local
+
+PerlModule Apache::DBI
+PerlRequire /usr/share/fireflow/local/bin/webmux.pl 
+
+# gzip and compression - the following modules already loaded in httpd.conf
+#LoadModule headers_module modules/mod_headers.so
+#LoadModule deflate_module modules/mod_deflate.so
+# compress text file types
+AddOutputFilterByType DEFLATE text/plain text/html text/css text/xml text/javascript application/x-javascript
+# compression level 9-most compressed (cpu)
+DeflateCompressionLevel 9
+
+
+# Mason tuning - these settings are for production enviroment only since it assumes that source
+# files are static.
+PerlModule HTML::Mason::ApacheHandler
+# use static source
+PerlSetVar MasonStaticSource true
+# avoid multiple allocations by providing max page buffersize
+PerlSetVar MasonBufferPreallocateSize 4096000
+
+PerlSetVar MasonDataCacheDefaults "cache_class=> MemoryCache, cache_depth => 4"
+# what to cache
+PerlAddVar  MasonPreloads  '/Elements/*'
+PerlAddVar  MasonPreloads  '/Ticket/Elements/*'
+PerlAddVar  MasonPreloads  '/Ticket/*'
+PerlAddVar  MasonPreloads  '/Callbacks/FireFlow/*'
+PerlAddVar  MasonPreloads  '/Search/*'
+PerlAddVar  MasonPreloads  '/SelfService/Elements/*'
+# seto to 0 unless dynamic autoflush - for progressbar. 
+PerlSetVar MasonEnableAutoflush 0
+
+# Redirect http requests to https
+RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteRule ^/(.*) https://%{HTTP_HOST}/$1 [L,R]
+# Note: There are more redirect directives for https in <VirtualHost _default_:443> block in separate config file
+
+
+
+# Normailly Mason handles all requests and knows to look in the "local" 
+# directory before the "share" directory.
+# However, since we don't use Mason to handle images and 3rdParty packages
+# (for performance and not looking for Mason syntax in them), then we need
+# to tell Apache where in the file system the local files are located.
+# The order of the Alias commands is important - from specific to general.
+Alias /WebServices "/usr/share/fireflow/local/WebServiceServer"
+Alias /FireFlow/site/NoAuth/images "/usr/share/fireflow/local/html/site/NoAuth/images"
+Alias /FireFlow/NoAuth/images/FireFlow "/usr/share/fireflow/local/html/NoAuth/images/FireFlow"
+Alias /FireFlow/NoAuth/3rdParty "/usr/share/fireflow/local/html/NoAuth/3rdParty"
+Alias /FireFlow/NoAuth/doc "/usr/share/fireflow/local/html/NoAuth/doc"
+Alias /FireFlow/NoAuth/js/Angular "/usr/share/fireflow/local/html/NoAuth/js/Angular"
+Alias /FireFlow "/usr/share/fireflow/share/html"
+Alias /VisualFlow "/usr/share/fireflow/local/VisualFlow/public"
+
+<Location /FireFlow>
+    Options None
+    AddDefaultCharset UTF-8
+    PerlOptions +GlobalRequest
+    SetHandler modperl
+	PerlHandler RT::Mason
+    ErrorDocument 500 /FireFlow/NoAuth/Error.html 
+</Location>
+
+<LocationMatch "/FireFlow/NoAuth/(images|3rdParty|doc)|/FireFlow/site/NoAuth/images">
+   SetHandler default-handler
+</LocationMatch>
+
+<LocationMatch "/FireFlow/NoAuth/(images|3rdParty|doc|snippets)|/FireFlow/site/NoAuth/images|VisualFlow/(images|javscripts|stylesheets|help)">
+     # This content is handled in default manner, not via Mason. So we need to explicitly set their browser cache settings (otherwise set by Mason).
+    # Set to expire in 3 days which is the same as Mason (see RT::Interface::Web::StaticFileHeaders)
+    <IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresDefault "now plus 3 days"
+    </IfModule>
+    <IfModule mod_headers.c>
+        Header append Cache-Control "public"
+    </IfModule>
+</LocationMatch>
+
+<IfModule mod_headers.c>
+    <Files "*.bundle.*">
+        Header append Cache-Control "public,max-age=15768000"
+    </Files>
+</IfModule>
+
+<Directory "/usr/share/aff/ng/">
+    <Files "index.html">
+       Header append Cache-Control "public, no-cache"
+    </Files>
+</Directory>
+
+<Directory "/usr/share/aff/aff-ng/">
+    <Files "index.html">
+       Header append Cache-Control "public, no-cache"
+    </Files>
+</Directory>
+
+<Location /WebServices>
+        Options +ExecCGI +FollowSymLinks -SymLinksifOwnerMatch
+        SetHandler perl-script
+        PerlResponseHandler ModPerl::Registry
+        Require all granted
+
+</Location>
+
+# Set WSDL files mime type as XML.
+AddType text/xml .wsdl
+AddEncoding text/xml .wsdl
+
+#The following Directory directive is used to allow serving /usr/share/fireflow/local whic is a symbolic link to CVS dir
+<Directory "/usr/share/fireflow">
+    Options +FollowSymLinks -SymLinksifOwnerMatch
+</Directory>
+
+<DirectoryMatch "/usr/share/fireflow/(share|local)/html/">
+    AllowOverride None
+    Require all granted
+
+</DirectoryMatch>

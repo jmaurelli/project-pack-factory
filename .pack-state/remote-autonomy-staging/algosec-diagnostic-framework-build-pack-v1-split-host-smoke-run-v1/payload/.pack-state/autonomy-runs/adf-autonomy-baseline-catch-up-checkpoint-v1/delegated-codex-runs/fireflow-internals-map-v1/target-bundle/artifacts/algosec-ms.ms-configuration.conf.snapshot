@@ -1,0 +1,4 @@
+RewriteCond %{HTTP_HOST} ^ms-configuration$
+RewriteCond %{REMOTE_ADDR} ^127.0.0.1$
+RewriteRule ^/(.*)$ http://127.0.0.1:8185/$1 [P]
+

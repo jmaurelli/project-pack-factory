@@ -1,0 +1,10 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/algosec-lab/algosec-diagnostic-framework-build-pack-v1/adf-algosec-lab-service-pack-refresh-20260326/remote-run-request.json",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/algosec-lab/algosec-diagnostic-framework-build-pack-v1/adf-algosec-lab-service-pack-refresh-20260326/incoming",
+  "pull_bundle": true,
+  "import_bundle": true,
+  "imported_by": "codex",
+  "import_reason": "Import bounded appliance-backed ADF runtime evidence from the PackFactory-managed algosec-lab roundtrip for the ASMS UI service-pack refresh.",
+  "test_reason": "Run the PackFactory-managed ADF appliance roundtrip on algosec-lab so the current service-pack iteration can be evaluated from real appliance evidence."
+}

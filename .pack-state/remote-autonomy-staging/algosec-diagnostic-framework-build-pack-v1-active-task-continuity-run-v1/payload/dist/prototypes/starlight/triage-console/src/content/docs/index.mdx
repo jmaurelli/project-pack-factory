@@ -1,0 +1,29 @@
+---
+title: ADF Prototype 1 · Triage Console
+description: A second-screen triage console for engineers who need one clear lane, one clear route, and one clear next command.
+sidebar:
+  label: Overview
+  order: 1
+---
+
+# Triage Console
+
+This concept treats a playbook like a live operator console instead of a documentation page.
+
+These prototype sites use fake triage data only. The goal is to compare interface styles, not content accuracy.
+
+## Triage context
+
+- Engineers are on SSH during a live case.
+- They troubleshoot both Linux and the application running on Linux.
+- Common Linux failures like disk pressure, OOM, file locks, inode exhaustion, and port conflicts can break the application.
+- The job is triage: find the first broken checkpoint fast and move the case forward with confidence.
+
+## Sample playbooks
+
+<div class="proto-home-grid">
+<a class="proto-home-card" href="/playbooks/application-ui-wont-load/"><strong>Application UI won't load</strong><span>Use this when the customer says the application UI is down and the engineer is already on SSH.</span></a>
+<a class="proto-home-card" href="/playbooks/service-wont-start/"><strong>Application service will not start</strong><span>Use this when a service is stopped, flapping, or exits immediately after restart.</span></a>
+<a class="proto-home-card" href="/playbooks/linux-host-under-pressure/"><strong>Linux host under pressure</strong><span>Use this when multiple services are acting strangely and the host itself may be the real problem.</span></a>
+</div>
+

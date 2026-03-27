@@ -20,7 +20,13 @@
     "Run the initial smoke benchmark when ready."
   ],
   "planning_summary": {
+    "capability_family": "release-evidence-summarization",
     "delivery_shape": "script",
+    "expected_build_pack_variants": [
+      "baseline release summarizer",
+      "promotion-ready release summarizer"
+    ],
+    "first_materialization_purpose": "baseline release summarizer",
     "initial_benchmark_intent": "Run a deterministic release-evidence smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal.",
     "new_template_rationale": "The existing active templates cover smoke checks and narrow JSON inspection, but neither focuses on operator-facing release evidence. This new template grows the factory toward a practical delivery support tool while staying close to the repo's existing workflow artifacts.",
     "project_goal": "Create a small PackFactory-native template for summarizing validation, benchmark, promotion, and pipeline evidence into a short release-readiness brief.",

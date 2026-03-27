@@ -562,6 +562,7 @@ def _build_pack_agents_text(
                 "From the factory root, use `python3 tools/audit_branch_selection_hints.py ...` when you need one bounded view of active, exhausted, and cleanup-candidate hints plus recent consumed/deactivated hint evidence.",
                 "Export bounded runtime evidence from the pack when needed, but import it only from the factory root through `python3 tools/import_external_runtime_evidence.py ...` or a higher-level PackFactory workflow that wraps that import.",
                 "For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer.",
+                "Autonomy quality remains advisory by default, but `contracts/project-objective.json.autonomy_quality_requirement` can opt this build-pack into bounded promotion-time quality thresholds when stronger promotion discipline is required.",
                 "Export bundles remain supplementary runtime evidence only, and raw remote stdout/stderr is supplementary debugging rather than canonical PackFactory evidence.",
             ]
         )
@@ -851,11 +852,16 @@ def _synthesize_build_pack(
             "Inherited required benchmark gates must pass or be waived.",
             "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
             "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
+            "Autonomy quality remains advisory by default unless this build-pack later declares a bounded promotion-time autonomy-quality requirement.",
         ],
         "autonomy_rehearsal_requirement": {
             "required_for_promotion": True,
             "workflow_id": "multi_hop_autonomy_rehearsal",
             "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state.",
+        },
+        "autonomy_quality_requirement": {
+            "required_for_promotion": False,
+            "summary": "Autonomy quality is advisory by default; promotion only blocks on autonomy quality when this objective explicitly declares bounded thresholds.",
         },
     }
     validation_task_id = "run_build_pack_validation"

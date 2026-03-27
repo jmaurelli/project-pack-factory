@@ -49,13 +49,20 @@
       "additionalProperties": false,
       "required": [
         "project_goal",
+        "capability_family",
         "delivery_shape",
         "reuse_active_template",
         "new_template_rationale",
-        "initial_benchmark_intent"
+        "initial_benchmark_intent",
+        "expected_build_pack_variants",
+        "first_materialization_purpose"
       ],
       "properties": {
         "project_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capability_family": {
           "type": "string",
           "minLength": 1
         },
@@ -76,6 +83,18 @@
           "type": "string"
         },
         "initial_benchmark_intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_build_pack_variants": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "first_materialization_purpose": {
           "type": "string",
           "minLength": 1
         }

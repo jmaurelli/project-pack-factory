@@ -23,11 +23,11 @@
       ],
       "command_id": "systemd_units",
       "exit_code": 0,
-      "observed_at": "2026-03-24T01:13:37Z",
+      "observed_at": "2026-03-25T20:14:51Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
-      "stdout_line_count": 160,
+      "stdout_line_count": 159,
       "stdout_preview": [
         "apparmor.service                                                                          loaded    active   exited  Load AppArmor profiles",
         "apport-autoreport.service                                                                 loaded    inactive dead    Process error reports when automatic reporting is enabled",
@@ -53,7 +53,6 @@
         "finalrd.service                                                                           loaded    active   exited  Create final runtime dir for shutdown pivot root",
         "fstrim.service                                                                            loaded    inactive dead    Discard unused blocks on filesystems from /etc/fstab",
         "fwupd-refresh.service                                                                     loaded    inactive dead    Refresh fwupd metadata and update motd",
-        "fwupd.service                                                                             loaded    active   running Firmware update daemon",
         "getty-static.service                                                                      loaded    inactive dead    getty on tty2-tty6 if dbus and logind are not available",
         "getty@tty1.service                                                                        loaded    active   running Getty on tty1",
         "grub-common.service                                                                       loaded    inactive dead    Record successful boot for GRUB",
@@ -202,7 +201,7 @@
       ],
       "command_id": "systemd_unit_files",
       "exit_code": 0,
-      "observed_at": "2026-03-24T01:13:38Z",
+      "observed_at": "2026-03-25T20:14:51Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -456,16 +455,17 @@
       ],
       "command_id": "listening_tcp_ports",
       "exit_code": 0,
-      "observed_at": "2026-03-24T01:13:38Z",
+      "observed_at": "2026-03-25T20:14:52Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
-      "stdout_line_count": 5,
+      "stdout_line_count": 6,
       "stdout_preview": [
         "LISTEN 0      4096   127.0.0.53%lo:53    0.0.0.0:*                                ",
         "LISTEN 0      4096      127.0.0.54:53    0.0.0.0:*                                ",
         "LISTEN 0      4096         0.0.0.0:22    0.0.0.0:*                                ",
         "LISTEN 0      128          0.0.0.0:18081 0.0.0.0:* users:((\"ssh\",pid=289035,fd=4))",
+        "LISTEN 0      128          0.0.0.0:18083 0.0.0.0:* users:((\"ssh\",pid=303648,fd=4))",
         "LISTEN 0      4096            [::]:22       [::]:*                                "
       ]
     },
@@ -477,13 +477,13 @@
       ],
       "command_id": "process_inventory",
       "exit_code": 0,
-      "observed_at": "2026-03-24T01:13:38Z",
+      "observed_at": "2026-03-25T20:14:52Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
       "stdout_line_count": 265,
       "stdout_preview": [
-        "      1       0 root     systemd         /sbin/init",
+        "      1       0 root     systemd         /usr/lib/systemd/systemd --system --deserialize=66",
         "      2       0 root     kthreadd        [kthreadd]",
         "      3       2 root     pool_workqueue_ [pool_workqueue_release]",
         "      4       2 root     kworker/R-rcu_g [kworker/R-rcu_g]",
@@ -678,15 +678,15 @@
         "    390       2 root     kworker/R-raid5 [kworker/R-raid5]",
         "    430       2 root     jbd2/dm-0-8     [jbd2/dm-0-8]",
         "    431       2 root     kworker/R-ext4- [kworker/R-ext4-]",
-        "    498       1 root     systemd-journal /usr/lib/systemd/systemd-journald",
         "    522       2 root     kworker/R-kmpat [kworker/R-kmpat]",
         "    523       2 root     kworker/R-kmpat [kworker/R-kmpat]",
-        "    524       1 root     multipathd      /sbin/multipathd -d -s",
-        "    535       1 root     systemd-udevd   /usr/lib/systemd/systemd-udevd"
+        "    626       2 root     irq/66-vmw_vmci [irq/66-vmw_vmci]",
+        "    627       2 root     irq/67-vmw_vmci [irq/67-vmw_vmci]",
+        "    633       2 root     irq/16-vmwgfx   [irq/16-vmwgfx]"
       ]
     }
   ],
-  "generated_at": "2026-03-24T01:13:38Z",
+  "generated_at": "2026-03-25T20:14:52Z",
   "observation_boundaries": {
     "inferred": [
       "Support-priority hints and service roles are derived from command output heuristics in the build-pack."

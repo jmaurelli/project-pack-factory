@@ -1,0 +1,180 @@
+<?php
+/*---------------------------------------------------------------------------
+// This software is Copyright (c) 2015 AlgoSec Inc.
+//---------------------------------------------------------------------------
+*/
+
+$g_arrExecTimes['START_SCRIPT'] = microtime();
+require_once("RequireHeaders.php");
+require_once("AlgosecSession.php");
+require_once("inc/users_prefs.inc.php");
+require_once("inc/data_collection.inc.php");
+$userName  = '';
+$sessionId = '';
+
+
+//needed for licenes not to be red:
+$AlgosecSession = utils::SetSession();
+
+if (empty($AlgosecSession)) {
+    utils::PrintLog("Warning", "Could not find AlgosecSession");
+	utils::RedirectUrl(NO_SESS_FILE);
+}
+
+
+$sAFAVersion = (!empty($AlgosecSession->m_sAFAversion) ? $AlgosecSession->m_sAFAversion : '');
+utils::PrintLog("Info", '---- home.php ('.$sAFAVersion.') - Started ['.UNIQUE_REQUEST_ID.'] ----');
+$userName  = $AlgosecSession->GetUserName();
+$sessionId = $AlgosecSession->GetSessionId();
+$bIsAdmin  = $AlgosecSession->IsAdmin();
+$bHasAllPermission = (isset($AlgosecSession->m_metaData['all_firewalls_permission']) &&
+        ((strtolower($AlgosecSession->m_metaData['all_firewalls_permission']) == 'standard') || (strtolower($AlgosecSession->m_metaData['all_firewalls_permission']) == 'readonly')) );
+
+define('IGNORE_CF_REDIR', true);
+if (!isset($_SESSION['host_cloudflow'])) {
+    require_once('redir_CF.php');
+}
+utils::PrintLog("Info", 'CloudFlow URL: [' . ($_SESSION['host_cloudflow'] ?? '') .']');
+
+if ($AlgosecSession->IsLoggedInToDomainsManagement()) {
+    utils::RedirectUrl(DOMAIN_MANAGEMENT_HOME_TAB_FILE);
+}
+
+
+if ($AlgosecSession->IsUserManager()){
+    utils::RedirectUrl("users_management.php");
+}
+
+
+if (utils::IsMonitoringMode()) {
+	// If not allowed to view the page redirect to the "Home" screen.
+	utils::RedirectUrl(HOME_TAB_FILE);
+}
+
+// Checking if global monitoring is active
+if (empty($AlgosecSession->m_configurationSettings['Disable_Monitoring'])) {
+	$AlgosecSession->m_configurationSettings['Disable_Monitoring'] = 'no';
+}
+$bGlobalMonitoringActive = ($AlgosecSession->m_configurationSettings['Disable_Monitoring'] == 'no');
+
+// Checking if Disable_Routing_Element_Monitoring  is active
+if (empty($AlgosecSession->m_configurationSettings['Disable_Routing_Element_Monitoring'])) {
+	$AlgosecSession->m_configurationSettings['Disable_Routing_Element_Monitoring'] = 'no';
+}
+$bGlobalRoutingElementMonitoringActive = ($AlgosecSession->m_configurationSettings['Disable_Routing_Element_Monitoring'] == 'no');
+
+$bDisplayOnlineTraining = ((isset($AlgosecSession->m_configurationSettings['DISPLAY_ONLINE_TRAINING']) &&
+	($AlgosecSession->m_configurationSettings['DISPLAY_ONLINE_TRAINING'] == 'no')) === false ) ;
+
+$_SESSION['AlgosecSession']->m_arrMonitoringData = array(); // clear the session cache data of the monitoring
+$_SESSION['AlgosecSession']->GetDevicesData();
+$_SESSION['AlgosecSession']->ResetReportsDataConfig();
+$_SESSION['AlgosecSession']->LoadFirewallDisplayNameArray(); // load display names of firewalls to the session
+
+$sGenericDevicesJavaScriptArray = $AlgosecSession->BuildGenericDevicesJavaScriptArr();
+
+$bMapDisabled = (!empty($AlgosecSession->m_configurationSettings['DISABLE_MAP']) &&
+				$AlgosecSession->m_configurationSettings['DISABLE_MAP'] == 'yes') ? 1 : 0;
+
+$bGotoMap = (!empty($_REQUEST["map"]) && ($_REQUEST["map"] == '1')) ? 'true' : 'false';
+
+$sAddedDevice = (!empty($_REQUEST["device_name"])) ? '"'.htmlspecialchars($_REQUEST["device_name"], ENT_QUOTES).'"' : '""';
+
+$iChangesTabUpgradeTime = $AlgosecSession->getChangesTabUpgradeTime();
+
+//--------------------------------------------------------------------------
+$sIsLoggedInToDomain = ($AlgosecSession->IsLoggedInToDomain()) ? 'true' : 'false';
+$sIsAdmin = ($AlgosecSession->IsAdmin()) ? 'true' : 'false';
+$sReportNeedsRefresh = (!empty($AlgosecSession->m_needRefresh) ? ($AlgosecSession->m_needRefresh) : '');
+//--------------------------------------------------------------------------
+
+$monitoringDaysViewRange = null;
+if (isset($AlgosecSession->m_configurationSettings['MONITORING_DAYS_VIEW_RANGE'])) {
+	$monitoringDaysViewRange = $AlgosecSession->m_configurationSettings['MONITORING_DAYS_VIEW_RANGE'];
+}
+
+// ART link shown, unless in domains and not domain admin
+$bArtShown = true;
+if ($_SESSION['AlgosecSession']->areDomainsUsed())
+{
+	$bArtShown = $_SESSION['AlgosecSession']->m_bIsDomainsAdmin;
+}
+// Decide if ART links should be enabled, and if not - why.
+$bArtEnabled = true;
+// ART disabled for non-admin users
+if (! $AlgosecSession->CanOpenArt())
+{
+	$bArtEnabled = false;
+	$sWhyArtDisabled = "The Reporting Tool is not enabled for this user. Please contact your system Administrator.";
+}
+// ART link disalbed when ART is disabled
+if (!(isset($AlgosecSession->m_configurationSettings['ART_Operation_Status']) &&
+	($AlgosecSession->m_configurationSettings['ART_Operation_Status'] == 'on')))
+{
+	$bArtEnabled = false;
+    $sWhyArtDisabled = "The Reporting Tool is currently disabled. Please contact your system Administrator.";
+}
+$dateTimetooltipNote = "Server date/time is shown (not your local date/time)";
+$bIsDisplayTreeRightClick = isset($AlgosecSession->m_configurationSettings['ALGOSEC_EA_TREE_RIGHT_CLICK_MENU']) && ($AlgosecSession->m_configurationSettings['ALGOSEC_EA_TREE_RIGHT_CLICK_MENU'] === 'yes');
+$cloudflowAutoOnboardEnabled = (isset($AlgosecSession->m_configurationSettings['EA_CF_Auto_Onboard']) && ($AlgosecSession->m_configurationSettings['EA_CF_Auto_Onboard'] === 'yes'));
+$bIsCfTenantId = (isset($AlgosecSession->m_configurationSettings['Cloud_Tenant_Id']));
+$bIsDisplayPolicyAutomationUi = isset($AlgosecSession->m_configurationSettings['DISPLAY_POLICY_AUTOMATION_UI']) && ($AlgosecSession->m_configurationSettings['DISPLAY_POLICY_AUTOMATION_UI'] === 'yes');
+?>
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>AlgoSec - Home</title>
+	<script type="text/javascript">
+	//<![CDATA[
+		var g_sessID  = '<?php echo $sessionId;?>';
+		var g_bIsDistributionEnabled = <?php echo ($_SESSION["AlgosecSession"]->m_bIsDistributionEnabled ? 'true' : 'false'); ?>;
+		var g_bIsHome = true;
+        var g_bIsCompletenessTool = false;
+        var g_selectedType = '';
+		var g_sReportNeedsRefresh = '<?php echo $sReportNeedsRefresh;?>';
+		var g_sPermittedModules = '<?php echo $AlgosecSession->GetPermittedModules();?>';
+		var g_arrGenericDevices = <?php echo($sGenericDevicesJavaScriptArray); ?>;
+		var g_bIsMonitoringActive = <?php echo ($bGlobalMonitoringActive ? 'true' : 'false');?>;
+		var g_bIsRoutingElementMonitoringActive = <?php echo ($bGlobalRoutingElementMonitoringActive ? 'true' : 'false');?>;
+		var g_monitoringDaysViewRange = <?php echo json_encode($monitoringDaysViewRange); ?>;
+		var g_isAdmin = <?php echo ($bIsAdmin ? 'true' : 'false'); ?>;
+		var g_domainID = '<?php echo $AlgosecSession->GetDomain();?>';
+		var g_arrDeniedActions = '<?php echo $AlgosecSession->GetDeniedActions();?>'.split(",");
+		var g_bGotoMap = <?php echo $bGotoMap; ?>;
+		var g_bStopGraphAnimation = <?php echo ((isset($AlgosecSession->m_configurationSettings['Stop_Graph_Animation']) && ($AlgosecSession->m_configurationSettings['Stop_Graph_Animation'] == 'yes')) ? 'true' : 'false');?>;
+		var g_PolicyTabLimitaion = <?php echo (isset($AlgosecSession->m_configurationSettings['Policy_Tab_Limitaion']) ? $AlgosecSession->m_configurationSettings['Policy_Tab_Limitaion'] : 'null');?>;
+		var g_phpSessId = "<?php echo session_id(); ?>";
+        var g_kafka_tenant_region = '<?php echo(isset($AlgosecSession->m_configurationSettings['Kafka_Tenant_Region']) ? $AlgosecSession->m_configurationSettings['Kafka_Tenant_Region'] : 'null');?>';
+        var g_kafka_tenant_environment = '<?php echo(isset($AlgosecSession->m_configurationSettings['Kafka_Tenant_Environment']) ? $AlgosecSession->m_configurationSettings['Kafka_Tenant_Environment'] : 'null');?>';
+		var g_bflowHostname;
+        var g_bIsDisplayTreeRightClick = <?php echo($bIsDisplayTreeRightClick ? 'true' : 'false');?>;
+        var g_bIsCloudflowAutoOnboard = <?php echo ($cloudflowAutoOnboardEnabled ? 'true' : 'false');?>;
+        var g_bIsCfTenantId = <?php echo ($bIsCfTenantId ? 'true' : 'false');?>;
+        var g_bIsDisplayPolicyAutomationUi = <?php echo ($bIsDisplayPolicyAutomationUi ? 'true' : 'false');?>;
+		<?php if (utils::isBusinessFlowLicenseAndInstalled()) {?>
+			g_bflowHostname = "<?php echo $AlgosecSession->m_configurationSettings['BUSINESSFLOW_ADDRESS'] ?>";
+		<?php } ?>
+	//]]>
+	</script>
+<?php
+PrintAdditionalHTMLheaders();
+?>
+	<link href="themes/<?php echo(ALGOSEC_THEME);?>/css/tree.css" rel="stylesheet" type="text/css" />
+
+	<!-- <script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/3rdParty/jquery/jquery.jstree.min.js"></script> -->
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/3rdParty/jquery/jquery.jstree.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/AlgosecGeneral.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/dynamic.js.php?sid=<?php echo $sessionId;?>"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/home.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/FireFlowBridge.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/reports.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/options.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/AlgosecQuery.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/fireflow_tckts.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/getargs.js"></script>
+
+	<link href="themes/<?php echo(ALGOSEC_THEME);?>/jqgrid/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/3rdParty/jquery/grid.locale-en-1.4.js"></script>
+	<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/3rdParty/jquery/jquery.jqGrid-1.4.min.js"></script>
+

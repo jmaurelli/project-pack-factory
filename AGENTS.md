@@ -11,233 +11,84 @@ packs can prove for practical problems beyond the factory itself.
 ## Concierge Startup
 
 When the operator says `load AGENTS.md`, do not respond with a file-load
-acknowledgment alone.
+acknowledgment alone. Treat it as a startup/orientation request.
 
-Treat that request as a concierge startup prompt:
+Default startup mode is now dashboard-first and short:
 
-- read the current state from `registry/templates.json`,
-  `registry/build-packs.json`, and recent relevant entries in
-  `registry/promotion-log.json`
-- treat `registry/*.json` as the source of truth for live pack state, not
-  prose summaries or directory listings
-- consult `deployments/` only when the startup brief needs to explain which
-  build-pack is currently assigned to an environment
-- summarize what this repo is in plain language
-- summarize where work currently stands
-- identify active, recently completed, and retired packs from current factory
-  state
-- give each relevant pack a very short operator-friendly phrase plus its
-  current role, stage, recent outcome, environment assignment, and when useful
-  its evidenced human-facing purpose
-- summarize what kinds of real problems the active packs appear to address and
-  what kind of work the current active packs show this factory can handle
-- explain what looks most promising, most worth attention next, or most likely
-  to improve project success, readiness, performance, or deployment
-  confidence, using concrete factory evidence or clearly labeled inference
-- when the evidence is strong enough, briefly explain what adjacent problem
-  category looks most promising next; if the outward-looking signal is still
-  thin, say so plainly instead of inventing a stronger story
-- summarize recent relevant factory work using PackFactory verbs like
-  `retired`, `materialized`, `promoted`, and `pipeline_executed`
-- include a short retirement summary when retired packs help explain the
-  current baseline
-- if recent repo-level tooling or doc work matters to the current task, check
-  the latest git commits and mention the concrete date
-- offer a short list of practical next-step options at the administrator level,
-  based on the discovered pack state, such as reviewing candidate packs,
-  rerunning existing validation and benchmark checks for an active testing
-  candidate, creating a template through the supported planning/creation
-  workflow, materializing a build-pack, promoting a ready build-pack,
-  reviewing deployment assignments, or retiring historical work that should
-  stay frozen
-- end by asking what the operator wants to do next
+- if `.pack-state/factory-dashboard/latest/dashboard-report.json` and
+  `.pack-state/factory-dashboard/latest/dashboard-snapshot.json` exist, use
+  them as the normal fast briefing surface for project state, current
+  portfolio, environment assignments, recent motion, and root task guidance
+- treat the dashboard as a derived briefing layer, not the truth layer
+- keep the default reply concise and decision-oriented; do not produce a long
+  pack-by-pack executive summary unless the operator asks for depth or the
+  dashboard is missing or unreliable
 
-Gather recent workflow state from `registry/promotion-log.json` early, but
-present it later in the briefing after the opening `what matters most now`
-summary unless the recent event is itself the top priority.
+Use canonical machine-readable state to confirm exact claims when:
 
-When the environment picture matters, explain it in plain operator terms:
+- the dashboard is missing
+- the dashboard is stale, mismatched, or reports warnings
+- environment assignment or live-state accuracy materially matters
+- the operator asks for a deeper registry-level briefing
 
-- what is live now
-- what is only in testing or staging
-- what is ready for the next step but not assigned anywhere
-- what has no current environment assignment
+Canonical truth order for root startup:
 
-When using PackFactory workflow verbs such as `retired`, `materialized`,
-`promoted`, and `pipeline_executed`, keep them mainly in the recent-motion
-section and translate them into plain operator language in the same sentence.
+1. dashboard report and snapshot for fast orientation
+2. `contracts/project-objective.json`, `tasks/active-backlog.json`, and
+   `status/work-state.json` for current project trajectory
+3. `registry/templates.json`, `registry/build-packs.json`, and recent relevant
+   entries in `registry/promotion-log.json` when exact live portfolio state or
+   recent motion needs confirmation
+4. `.pack-state/agent-memory/latest-memory.json` as advisory restart context
+5. `deployments/` only when environment assignment needs explicit confirmation
 
-Present the startup brief as a flowed operator briefing, not as a flat summary
-page.
+Default startup reply shape:
 
-Preferred startup flow:
+1. one short `what matters most now` line
+2. a brief note on what is live now, what is only in testing, and what is
+   blocked or postponed when that affects the next decision
+3. the next likely operator decision or strongest next-step options
+4. a closing question about what the operator wants to do next
 
-1. open with a short `what matters most now` line that explains the main thing
-   the operator should pay attention to
-2. present the current portfolio in priority order rather than treating every
-   pack or topic as equally important
-3. when the task stays at the factory root and `.pack-state/agent-memory/latest-memory.json`
-   exists, include a short `Agent Memory` section after the canonical factory
-   state section
-4. summarize recent relevant factory motion in a short narrative sequence
-5. close with the strongest practical next-step options
+When the dashboard already covers the portfolio clearly:
 
-The `Agent Memory` section is advisory restart context, not the truth layer.
-When used, keep it brief and source it from the selected root memory artifact.
-It should normally cover:
+- summarize only the top one to three priority items
+- avoid repeating the full portfolio inventory in chat
+- keep `Agent Memory` brief and clearly advisory
+- mention exact dates only when recent motion or assignment timing matters
 
-- current focus
-- next action items
-- pending items
-- overdue items
-- blockers
-- known limits
-- latest autonomy proof
-- recommended next step
+When deeper fallback startup is needed:
 
-If root memory and canonical registry, deployment, readiness, or promotion
-state disagree, say so plainly and prefer canonical state in the summary.
+- keep it bounded and registry-first
+- use PackFactory verbs such as `retired`, `materialized`, `promoted`, and
+  `pipeline_executed` in the recent-motion section, with plain-language
+  translation in the same sentence
+- prioritize production and staging assignments above testing-only paths unless
+  evidence clearly points another way
 
-Use evidence-based prioritization when ordering the briefing.
-
-Preferred priority bands:
-
-- `high priority`: active packs, deployment-linked risks, or readiness
-  questions that most affect the next real decision
-- `medium priority`: meaningful work that matters, but does not outrank the
-  main active path
-- `worth watching`: plausible directions or weaker-signal items that should be
-  framed cautiously
-- `historical baseline`: retired or superseded packs that mainly matter as
-  context for why the current portfolio looks the way it does
-
-Use these as the default startup bands unless there is a strong reason not to.
-
-Do not present every pack in the same flat format if that makes the summary
-feel random or siloed.
-
-The startup brief should feel like a guided judgment call:
-
-- what matters most
-- why it matters
-- what is most likely to pay off next
-- what is less urgent, more speculative, or mainly historical
-
-When helpful, the agent may use the default startup bands `high priority`,
-`medium priority`, `worth watching`, and `historical baseline`.
-
-The agent may also mention possible customer or business value as a clearly
-labeled inference when a pack's evidenced purpose suggests real operator
-usefulness, but it must not imply actual revenue, market demand, or commercial
-validation that the repo does not show.
-
-Keep the broader-view startup layer brief and derived from the same shallow
-registry-first startup surfaces. Do not deepen into pack-local docs, web
-research, or generic market storytelling just to produce stronger outward-
-looking commentary.
-
-Use a bounded shallow startup pass first. For `load AGENTS.md` and similar
-startup/orientation requests, stop and answer once the repo purpose, current
-active/recently completed/retired state, any relevant environment assignment,
-recent relevant factory work, and practical next-step options are clear from
-the allowed startup surfaces. Deeper product, workflow, and pack-local reads
-are for escalation, not default startup.
-
-Keep the reply project-oriented and human-facing. Do not default to an
-internal “key points I’m carrying forward” style.
-
-Prefer plain operator language over strategy jargon. Assume the operator is
-comfortable with software delivery, deployment, support, escalation, release
-readiness, and business tradeoffs, but does not want inflated product-language
-or abstract framework-language in a startup brief.
-
-Prefer naming continuity over variation. If the agent introduces a pack,
-project, workflow, environment, or issue with a specific operator-facing name
-or keyword, keep using that same name for the same thing throughout the rest
-of the response and, unless the operator redirects it, throughout the rest of
-the session.
-
-Example:
-
-- if the agent starts with one operator-facing label, keep using that same
-  label
-- do not switch later to a different casual variation for the same pack unless
-  you are explicitly mapping the names once
-
-If both a formal id and a plain operator label are useful, introduce the
-mapping once and then stay consistent.
-
-Good startup language sounds like:
-
-- what is live now
-- what is closest to ready
-- what is still proving itself
-- what looks risky
-- what is likely to pay off next
-- what needs attention now
-- what is a solid backup or baseline
-- what is only a possible next idea
-
-Avoid piling up terms like:
-
-- `commercially legible`
-- `portfolio thesis`
-- `canary`
-- `operational pressure`
-- `utility path`
-- `signal quality`
-
-unless there is a strong reason to use them. Prefer clearer phrases such as:
-
-- `main active path`
-- `best current bet`
-- `still in testing`
-- `useful in the real world`
-- `could help customers or operators`
-- `not proven yet`
-- `worth watching`
-- `baseline check`
-- `backup path`
-- `main production candidate`
-- `something we should keep an eye on`
-
-Inside priority sections such as `high priority`, `medium priority`,
-`worth watching`, or similar, keep the language especially plain.
-
-For each item, prefer this simple pattern:
-
-1. what it is
-2. where it stands now
-3. why it matters
-
-Good examples:
-
-- `This is the main build-pack to watch right now because it is the one in production.`
-- `This pack is still in testing, so it matters mainly as a factory health check.`
-- `This looks like a reasonable next area to explore, but it is not proven yet.`
-
-If a technical term is necessary, translate it immediately into plain language
-in the same sentence.
-
-The reply should also feel like it comes from an invested operating partner:
-energized by the project's potential, eager to help, attentive to performance
-and readiness, and genuinely supportive of shared progress without claiming
-literal ownership, financial stake, or fabricated emotion.
+Prefer plain operator language over abstract strategy phrasing. Keep naming
+stable once introduced. If the evidence for a broader claim is thin, say so
+plainly instead of strengthening the story.
 
 ## First Reads
 
 1. `AGENTS.md`
 2. `README.md`
-3. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-PRODUCT-REQUIREMENTS-DOCUMENT.md` when the task needs product intent or scope
-4. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TESTING-POLICY.md` when the task changes workflow tests
-5. `registry/templates.json`, `registry/build-packs.json`, and recent relevant entries in `registry/promotion-log.json` to identify candidate packs and recent workflow state from machine-readable sources
-6. for factory-level autonomy/tooling continuation work, `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
-7. for factory-level autonomy/tooling continuation work, `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
-8. for factory-level autonomy/tooling continuation work, `.pack-state/agent-memory/latest-memory.json` when it exists, then the selected root memory artifact it references
-9. `deployments/` only when the task explicitly concerns the small JSON records that show which build-pack is currently assigned to an environment like `testing`, `staging`, or `production`
-10. after the operator confirms the intended pack, that pack's `AGENTS.md`
-11. after the operator confirms the intended pack, that pack's `project-context.md`
-12. after the operator confirms the intended pack, that pack's `pack.json`
+3. `.pack-state/factory-dashboard/latest/dashboard-report.json` when it exists
+4. `.pack-state/factory-dashboard/latest/dashboard-snapshot.json` when it exists
+5. `contracts/project-objective.json`
+6. `tasks/active-backlog.json`
+7. `status/work-state.json`
+8. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md` for factory-level autonomy/tooling continuation work
+9. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md` for factory-level autonomy/tooling continuation work
+10. `registry/templates.json`, `registry/build-packs.json`, and recent relevant entries in `registry/promotion-log.json` when exact live state or recent motion needs confirmation beyond the dashboard
+11. `.pack-state/agent-memory/latest-memory.json` when it exists, then the selected root memory artifact it references
+12. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-PRODUCT-REQUIREMENTS-DOCUMENT.md` when the task needs product intent or scope
+13. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TESTING-POLICY.md` when the task changes workflow tests
+14. `deployments/` only when the task explicitly concerns the small JSON records that show which build-pack is currently assigned to an environment like `testing`, `staging`, or `production`
+15. after the operator confirms the intended pack, that pack's `AGENTS.md`
+16. after the operator confirms the intended pack, that pack's `project-context.md`
+17. after the operator confirms the intended pack, that pack's `pack.json`
 
 ## Post-Confirmation Runtime Surfaces
 
@@ -273,8 +124,8 @@ After the operator confirms the intended build-pack:
 - after the operator confirms a build-pack target, keep `pack.json` as the
   canonical traversal contract; use `AGENTS.md` for discoverability help, not
   as a competing read-order authority
-- for startup/orientation requests, prefer a current-state summary over a file-centric acknowledgment
-- for startup/orientation requests, summarize recent work from `registry/promotion-log.json` first and use recent git commits only as a fallback for repo-level changes
+- for startup/orientation requests, prefer a short dashboard-first current-state summary over a file-centric acknowledgment or a long chat-only executive summary
+- for startup/orientation requests, use `registry/promotion-log.json` and exact registry state as fallback or verification surfaces when the dashboard is missing, stale, mismatched, or the operator asks for deeper detail
 - inspect machine-readable state first, summarize likely candidate packs, and ask the operator to confirm the intended target before entering a pack
 - only bypass confirmation when the operator has already named the pack explicitly
 - prefer `tools/validate_factory.py` for whole-factory validation and `tools/retire_pack.py` for lifecycle retirement mutations
@@ -282,6 +133,7 @@ After the operator confirms the intended build-pack:
 - interpret generic requests such as `test this`, `continue testing`, `run the tests`, or `refresh evidence` as permission to run existing validation, benchmark, and workflow commands only
 - prefer the smallest existing bounded surface first: pack validation, then pack benchmark or workflow smoke checks, then broader deployment or pipeline commands only when deployment-linked evidence or promotion readiness is the task
 - do not create, expand, or strengthen tests or benchmarks without explicit operator approval
+- for root startup or instruction-surface work, prefer existing validation surfaces such as `python3 tools/run_factory_root_startup_benchmark.py ...`, `python3 tools/build_factory_dashboard_astro.py ...`, and bounded documentation or state checks rather than authoring new tests
 - if existing coverage looks weak, placeholder-only, or missing, run the existing surfaces that do exist, report the gap, and recommend test additions separately rather than authoring them implicitly
 - example: `continue testing this build pack` means rerun the existing
   validation, benchmark, and workflow evidence surfaces that already exist; it
@@ -336,6 +188,10 @@ After the operator confirms the intended build-pack:
 - do not present brand-new template creation as an already-implemented
   top-level action unless the current factory tooling actually supports it
 - when the task stays at the factory root and concerns autonomy, memory, or
+  work tracking, read `contracts/project-objective.json`,
+  `tasks/active-backlog.json`, and `status/work-state.json` as the canonical
+  PackFactory root work tracker before leaning on advisory memory
+- when the task stays at the factory root and concerns autonomy, memory, or
   recent tooling evolution, treat `.pack-state/agent-memory/latest-memory.json`
   as the preferred restart handoff after the shallow startup pass, while still
   treating registry, deployment, and other machine-readable control-plane state
@@ -351,7 +207,8 @@ After the operator confirms the intended build-pack:
   at `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`,
   the current state brief at
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`,
-  and the active planning list at
+  the root task tracker files at `contracts/project-objective.json`,
+  `tasks/active-backlog.json`, and `status/work-state.json`, and the active planning list at
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
   before reconstructing the workflow from scattered tool files
 - when a proving-ground build-pack demonstrates a new autonomy pattern, record
@@ -385,13 +242,27 @@ After the operator confirms the intended build-pack:
 - `python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>`
 - `python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/record_autonomy_run.py finalize-run --pack-root <pack-root> --run-id <run-id> --output json`
+- `python3 tools/refresh_local_feedback_memory_pointer.py --pack-root <pack-root> --output json`
 - `python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json`
 - `python3 tools/record_autonomy_improvement_promotion.py --factory-root /home/orchadmin/project-pack-factory --improvement-id <id> --summary "<summary>" --source-build-pack-id <pack-id> --proof-path <path> --adopted-surface materializer_defaults --pending-surface source_template_tracking --output json`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
 - `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`
 - `python3 tools/score_autonomy_quality.py --factory-root /home/orchadmin/project-pack-factory --report-path <rehearsal-report.json> --output json`
+- `python3 tools/generate_factory_dashboard.py --factory-root /home/orchadmin/project-pack-factory --output-dir /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest --report-format json`
+  Current baseline: this remains the canonical Python snapshot/history generator and the fallback HTML publication path.
+  Wrapper support: add `--skip-latest-publish` when a renderer needs an immutable history build without touching `latest/`.
+- `python3 tools/build_factory_dashboard_astro.py --factory-root /home/orchadmin/project-pack-factory --output-dir /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest --app-dir /home/orchadmin/project-pack-factory/apps/factory-dashboard --staging-root /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging --report-format json`
+  Current Astro path: this is the canonical Astro publication wrapper. It consumes a fresh history-only generator build, stages Astro output, finalizes renderer provenance in `dashboard-report.json`, and promotes `latest/` atomically.
+- `python3 tools/serve_factory_dashboard.py --factory-root /home/orchadmin/project-pack-factory --renderer astro --host 127.0.0.1 --port 8000`
+  Operator viewing path: this builds the dashboard if needed and serves the published output at a real local URL.
 - `python3 tools/run_factory_root_startup_benchmark.py --factory-root /home/orchadmin/project-pack-factory --output json`
 - `python3 tools/run_cross_template_transfer_matrix.py --factory-root /home/orchadmin/project-pack-factory --entry <template-id::build-pack-id::/absolute/report/path> --entry <template-id::build-pack-id::/absolute/report/path> --output json`
+- `python3 tools/distill_autonomy_memory_across_build_packs.py --factory-root /home/orchadmin/project-pack-factory --output json`
+- `python3 tools/refresh_template_lineage_memory.py --factory-root /home/orchadmin/project-pack-factory --template-id <template-id> --actor <actor> --output json`
+- `python3 tools/run_adversarial_restart_drills.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name "<name>" --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/run_post_autonomy_change_maintenance.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json`
+- `python3 tools/distill_autonomy_memory_lessons.py --factory-root /home/orchadmin/project-pack-factory --matrix-report-path <matrix-report.json> --quality-report-path <score-report.json> --import-report-path <import-report.json> --branch-exercise-report-path <exercise-report.json> --output json`
 
 ## Factory Autonomy
 
@@ -416,3 +287,9 @@ For remote Codex session management, the PackFactory-local workflows above are
 the required control plane. Do not replace them with ad hoc `ssh` prompts,
 manual remote-session wrappers, or raw stdout/stderr logging as if those were
 equivalent PackFactory evidence.
+
+After major autonomy tooling, promotion, or startup-surface changes, run
+`python3 tools/run_post_autonomy_change_maintenance.py ...`. That is the
+current fail-closed baseline-preservation path: it refreshes distilled
+factory lessons, refreshes template lineage memory, refreshes root memory,
+and exits nonzero until the filtered baseline-validation slice passes.

@@ -1,0 +1,7 @@
+ExecMainCode=0
+ExecMainStatus=0
+LoadState=loaded
+ActiveState=inactive
+SubState=dead
+FragmentPath=/usr/lib/systemd/system/ms-autodiscovery.service
+UnitFileState=disabled

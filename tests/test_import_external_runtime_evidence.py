@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -10,11 +11,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from factory_ops import load_json
+from import_external_runtime_evidence import _select_active_memory_candidate
 
 
 SOURCE_PACK_ID = "release-evidence-summarizer-build-pack-v3"
 SOURCE_RUN_ID = "release-evidence-summarizer-loop-002"
 TARGET_PACK_ID = "external-runtime-evidence-import-smoke-pack"
+SELECTOR_PACK_ID = "json-health-checker-feedback-baseline-build-pack-v1"
 
 
 def _copy_factory(tmp_path: Path) -> Path:
@@ -211,3 +214,94 @@ def test_import_external_runtime_evidence_smoke_success_and_rejects_control_plan
     assert load_json(pack_root / "status/work-state.json") == work_state_before
     assert load_json(pack_root / "eval/latest/index.json") == eval_latest_before
     assert load_json(pack_root / "status/deployment.json") == deployment_before
+
+
+def test_select_active_memory_candidate_skips_expired_memory_and_keeps_fresh_candidate(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    pack_root = factory_root / "build-packs" / SELECTOR_PACK_ID
+    readiness = load_json(pack_root / "status/readiness.json")
+    work_state = load_json(pack_root / "status/work-state.json")
+    memory_root = pack_root / ".pack-state" / "agent-memory"
+    shutil.rmtree(memory_root, ignore_errors=True)
+    memory_root.mkdir(parents=True, exist_ok=True)
+
+    expired_memory = {
+        "schema_version": "autonomy-feedback-memory/v1",
+        "memory_id": "autonomy-feedback-expired-001",
+        "pack_id": SELECTOR_PACK_ID,
+        "run_id": "expired-001",
+        "generated_at": "2026-03-20T00:00:00Z",
+        "summary": "Expired ready-boundary memory.",
+        "memory_validity": {
+            "status": "active",
+            "confidence_level": "high",
+            "confidence_score": 0.9,
+            "scope": "ready_boundary_restart",
+            "expires_at": "2026-03-20T12:00:00Z",
+            "expires_after_hours": 12,
+            "basis": ["synthetic_test_memory"],
+            "summary": "Expired synthetic test memory."
+        },
+        "handoff_summary": ["Expired memory should not be selected."],
+        "highest_risk_observation": "Expired memory may be stale.",
+        "recommended_next_action": "Ignore expired memory.",
+        "block_summary": None,
+        "resolved_block_summary": None,
+        "baseline_readiness_state": readiness["readiness_state"],
+        "final_readiness_state": readiness["readiness_state"],
+        "active_task_id": work_state.get("active_task_id"),
+        "next_recommended_task_id": work_state.get("next_recommended_task_id"),
+        "ready_for_deployment": readiness["ready_for_deployment"],
+        "completed_task_ids": [],
+        "operator_intervention_summary": None,
+        "evidence_paths": [],
+        "source_artifacts": {
+            "loop_events_path": ".pack-state/autonomy-runs/expired-001/loop-events.jsonl",
+            "run_summary_path": ".pack-state/autonomy-runs/expired-001/run-summary.json",
+            "branch_selection_path": None,
+            "previous_memory_path": None,
+            "factory_validation_command": None,
+        },
+    }
+    fresh_memory = {
+        **expired_memory,
+        "memory_id": "autonomy-feedback-fresh-001",
+        "run_id": "fresh-001",
+        "generated_at": "2026-03-26T11:00:00Z",
+        "summary": "Fresh ready-boundary memory.",
+        "memory_validity": {
+            "status": "active",
+            "confidence_level": "high",
+            "confidence_score": 0.9,
+            "scope": "ready_boundary_restart",
+            "expires_at": "2026-03-29T11:00:00Z",
+            "expires_after_hours": 72,
+            "basis": ["synthetic_test_memory"],
+            "summary": "Fresh synthetic test memory."
+        },
+        "handoff_summary": ["Fresh memory should be selected."],
+        "source_artifacts": {
+            "loop_events_path": ".pack-state/autonomy-runs/fresh-001/loop-events.jsonl",
+            "run_summary_path": ".pack-state/autonomy-runs/fresh-001/run-summary.json",
+            "branch_selection_path": None,
+            "previous_memory_path": None,
+            "factory_validation_command": None,
+        },
+    }
+    (memory_root / "autonomy-feedback-expired-001.json").write_text(json.dumps(expired_memory, indent=2) + "\n", encoding="utf-8")
+    (memory_root / "autonomy-feedback-fresh-001.json").write_text(json.dumps(fresh_memory, indent=2) + "\n", encoding="utf-8")
+
+    old_now = os.environ.get("PROJECT_PACK_FACTORY_FIXED_NOW")
+    os.environ["PROJECT_PACK_FACTORY_FIXED_NOW"] = "2026-03-26T12:00:00Z"
+    try:
+        selected = _select_active_memory_candidate(pack_root, SELECTOR_PACK_ID)
+    finally:
+        if old_now is None:
+            os.environ.pop("PROJECT_PACK_FACTORY_FIXED_NOW", None)
+        else:
+            os.environ["PROJECT_PACK_FACTORY_FIXED_NOW"] = old_now
+
+    assert selected is not None
+    selected_path, selected_payload, _selected_sha = selected
+    assert selected_path.name == "autonomy-feedback-fresh-001.json"
+    assert selected_payload["memory_id"] == "autonomy-feedback-fresh-001"

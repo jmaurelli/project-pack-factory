@@ -31,6 +31,12 @@ Treat the factory-level autonomy baseline as canonical for inherited default
 behavior. Use this template only for template-specific source guidance and
 runtime shape.
 
+When `.pack-state/template-lineage-memory/latest-memory.json` exists, read it
+after the factory-level baseline when you need a compact view of what this
+template family has already taught the factory across derived build-packs.
+Treat that template lineage memory as advisory template-family context, not as
+canonical factory truth.
+
 For remote Codex session management and external runtime-evidence handling,
 follow the factory-root control plane rather than inventing template-local
 remote workflows:

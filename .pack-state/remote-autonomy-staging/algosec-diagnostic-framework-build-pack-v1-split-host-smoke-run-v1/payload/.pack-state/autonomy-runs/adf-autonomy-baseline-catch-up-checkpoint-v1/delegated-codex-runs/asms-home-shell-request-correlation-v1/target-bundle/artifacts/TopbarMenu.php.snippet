@@ -1,0 +1,87 @@
+<?php
+require_once("RequireHeaders.php");
+require_once("AlgosecSession.php");
+session_start();
+
+$loggedIn = isset($_SESSION['AlgosecSession']);
+if ($loggedIn) {
+	$AlgosecSession = $_SESSION['AlgosecSession'];
+}
+
+$mainLinks = array();
+if ($loggedIn) {
+	if ($AlgosecSession->IsLoggedInToDomainsManagement()) {
+		array_push($mainLinks, array( "text" => "Domains", "href" => "/afa/php/domains_mng_home.php" ));
+		array_push($mainLinks, array( "text" => "Reports", "href" => "/afa/php/domains_reports.php", "icon" => "af-ic_reports" ));
+	}
+	if (!$AlgosecSession->IsLoggedInToDomain() && $AlgosecSession->m_bIsDomainsAdmin && !$AlgosecSession->IsUserManager()) {
+	    
+        array_push($mainLinks, array( "text" => "Analysis Status", "href" => "/afa/php/status.php", "icon" => "af-ic_status" ));
+	}
+} else {
+	// to do
+	die('Please log in');
+}
+
+$obj = new stdClass;
+$obj->mainLinkItems = $mainLinks;
+
+if ($loggedIn) {
+	$sessionId = $AlgosecSession->GetSessionId();
+	$isAdmin = $AlgosecSession->IsAdmin();
+	$userMenuItem = array();
+
+	if ($isAdmin) {
+		if ($AlgosecSession->IsLoggedInToDomainsManagement() && !$AlgosecSession->m_bIsDomainsAdmin) {
+			$settingsPage = 'users_management.php?show_dlg=yes';
+		} else {
+			$settingsPage = (isset($AlgosecSession->m_configurationSettings['ADMINISTRATION_FILE']) ? $AlgosecSession->m_configurationSettings['ADMINISTRATION_FILE'] : ADMINISTRATION_FILE);
+		}
+		$settingsName = 'Administration';
+	} else if ($AlgosecSession->IsUserManager()){
+		$settingsPage = 'users_management.php';
+		$settingsName = 'User Management';
+	} else {
+		$settingsPage = 'user_settings.php';
+		$settingsName = 'User Settings';
+	}
+
+	// Check if authenticated with SSO. Logout links should not display for SSO users.
+	$isAuthenticatedWithSSO = array_key_exists('SSOAuthenticated', $_SESSION) && $_SESSION["SSOAuthenticated"];
+	$isSSOEnabled = array_key_exists('Use_SSO', $AlgosecSession->m_configurationSettings) && $AlgosecSession->m_configurationSettings["Use_SSO"] == "yes";
+	$isSSOLocalAuthAllowed = 	true;
+
+	$logoutLocalAuthParam = '';
+	// Check if despite of SSO the user has opted Local Authentication. If so, the logout links should include the "forceLocalAuth" parameter.
+	if ($isSSOEnabled && !$isAuthenticatedWithSSO && $isSSOLocalAuthAllowed) {
+		$logoutLocalAuthParam = '&forceLocalAuth=1';
+	}
+
+	array_push($userMenuItem, array( "tag" => "a", "innerHTML" => "$settingsName", "href" => "/afa/php/$settingsPage" ));
+
+	if ($isAdmin) {
+		if ($AlgosecSession->IsLoggedInToDomain()) {
+			$license = array( "tag" => "a", "innerHTML" => "License", "onclick" => "Algosec.modal.showLicense(false);", "data-extra" => "license" );
+		} else {
+			$license = array( "tag" => "a", "innerHTML" => "License", "onclick" => "Algosec.modal.showLicense(true);", "data-extra" => "license" );
+		}
+		array_push($userMenuItem, $license);
+    }
+
+	array_push($userMenuItem, array( "tag" => "__" ));
+	array_push($userMenuItem, array( "tag" => "div", "innerHTML" => "Help", "onclick" => "OpenHelpWindow();" ));
+    array_push($userMenuItem, array( "tag" => "div", "innerHTML" => "API Documentation", "onclick" => "window.open('/algosec/swagger/swagger-ui.html');" ));
+	array_push($userMenuItem, array( "tag" => "div", "innerHTML" => "Info", "onclick" => "toggleDialog(dialogTypes.info);" ));
+
+    if ($isAdmin)
+        array_push($userMenuItem, array( "tag" => "div", "innerHTML" => "Support", "onclick" => "toggleDialog(dialogTypes.tlc);" ));
+	if (!$isSSOEnabled || !$isAuthenticatedWithSSO) {
+		array_push($userMenuItem, array( "tag" => "__" ));
+		array_push($userMenuItem, array( "tag" => "a", "innerHTML" => "Logout", "href" => "/afa/php/SuiteLogout.php", "onclick" => "g_bInLogout = true; g_objCheckAjax.abort(); clearInterval(g_objTreeCheck);" ));
+	}
+
+	$obj->userMenuItems = $userMenuItem;
+}
+
+header('Content-Type: application/json');
+echo json_encode($obj);

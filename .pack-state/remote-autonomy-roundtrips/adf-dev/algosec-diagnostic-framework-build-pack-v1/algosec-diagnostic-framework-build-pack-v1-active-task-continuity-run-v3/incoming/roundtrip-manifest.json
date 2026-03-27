@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "4a8880ae783253b2321eaf7a843b02aabb05c7d1480c8a174d5872cd754efd1c",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v3/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "4056cd69abc90d683240c9801985d9c69fca091d0907bf73c4d73290182f30d5",
+  "portable_helper_manifest_sha256": "02b098e1723171875633693075f749dbb565a6c1a9daab5e3cd70bb19740d604",
+  "pulled_at": "2026-03-26T14:46:13Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v3/incoming/bundle",
+  "pulled_bundle_sha256": "e82840c48282254196a356c716a2df3c34299ab462f74420fea580ac724b571d",
+  "remote_run_request_sha256": "a5e0da8c2e44cf57cb6e656bb0ac7ff6b1976a54547ac5f596997f9f775074bf",
+  "remote_target_label": "adf-dev",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v3",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "target_manifest_sha256": "ec88624194cceef3ee806d1bfb42f70dd5d7d08831d158ba4024f29f8b99ce32",
+  "wrapper_request_sha256": "8f08887501f7d13194634bd335eb1053d00651407879267adee81a17df05dc17"
+}

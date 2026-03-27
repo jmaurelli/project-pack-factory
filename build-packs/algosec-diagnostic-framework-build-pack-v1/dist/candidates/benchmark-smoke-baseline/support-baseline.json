@@ -34,7 +34,7 @@
     "Compare Apache-routed endpoints and local listener ports before moving into deeper service-specific diagnosis.",
     "Use the recorded config and log checkpoints for the top services before inferring broader platform issues."
   ],
-  "generated_at": "2026-03-25T20:14:52Z",
+  "generated_at": "2026-03-27T10:32:46Z",
   "inferred": {
     "priority_services": [
       {
@@ -128,9 +128,9 @@
       "critical_services": 1,
       "product_dependencies": 0,
       "product_services": 0,
-      "reference_services": 174,
+      "reference_services": 173,
       "services_with_http_routes": 0,
-      "supporting_services": 48,
+      "supporting_services": 49,
       "total_services": 223
     }
   },

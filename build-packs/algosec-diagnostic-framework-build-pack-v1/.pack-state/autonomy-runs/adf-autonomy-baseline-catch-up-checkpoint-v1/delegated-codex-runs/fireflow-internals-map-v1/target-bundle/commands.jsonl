@@ -1,0 +1,38 @@
+{"cmd":"pwd","workdir":"/root","login":true,"note":"initial command hit appliance interactive menu instead of plain shell"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/delegated-task-request.json","workdir":"/root","login":true,"note":"initial command hit appliance interactive menu instead of plain shell"}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts","workdir":"/root","login":true,"note":"initial command hit appliance interactive menu instead of plain shell"}
+{"cmd":"pwd","workdir":"/root","login":false}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/delegated-task-request.json","workdir":"/root","login":false}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts","workdir":"/root","login":false}
+{"cmd":"cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","workdir":"/root","login":false,"exit_code":1,"note":"referenced baseline summary path was absent"}
+{"cmd":"rg -n -i \"fireflow|aff-boot|activemq|postgres|amq|broker|httpd|apache\" /etc/httpd/conf.d /usr/lib/systemd/system /etc/systemd/system /data /var/log","workdir":"/root","login":false,"note":"broad discovery search; output was truncated due size"}
+{"cmd":"find /etc/httpd/conf.d /usr/lib/systemd/system /etc/systemd/system -maxdepth 2 \\( -iname '*fireflow*' -o -iname '*aff*' -o -iname '*amq*' -o -iname '*activemq*' -o -iname '*postgres*' -o -iname '*httpd*' \\) | sort","workdir":"/root","login":false}
+{"cmd":"find /var/log -maxdepth 3 \\( -iname '*fireflow*' -o -iname '*aff*' -o -iname '*amq*' -o -iname '*activemq*' -o -iname '*postgres*' \\) | sort","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /etc/httpd/conf.d/fireflow.conf","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /etc/httpd/conf.d/aff.conf","workdir":"/root","login":false}
+{"cmd":"sed -n '214,290p' /etc/httpd/conf.d/ssl.conf","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /etc/systemd/system/aff-boot.service","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /etc/systemd/system/activemq.service","workdir":"/root","login":false}
+{"cmd":"find /data -maxdepth 4 \\( -iname '*fireflow*' -o -iname '*aff*' -o -iname '*postgres*' -o -iname '*amq*' -o -iname '*broker*' \\) | sort | head -n 200","workdir":"/root","login":false}
+{"cmd":"systemctl is-active aff-boot postgresql activemq httpd ms-cloudflow-broker 2>/dev/null","workdir":"/root","login":false}
+{"cmd":"systemctl show aff-boot postgresql activemq httpd ms-cloudflow-broker -p Id -p LoadState -p ActiveState -p SubState -p After -p Wants -p ExecStart","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /usr/lib/systemd/system/postgresql.service","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /usr/lib/systemd/system/ms-cloudflow-broker.service","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /data/algosec-ms/config/ms-cloudflow-broker.properties","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /data/pgsql/15/data/postgresql_dynamic.conf","workdir":"/root","login":false}
+{"cmd":"find /data -maxdepth 4 -type f \\( -path '/data/algosec-ms/logs/*' -o -path '/data/log/*' -o -path '/data/logs/*' \\) | sort | head -n 300","workdir":"/root","login":false}
+{"cmd":"find /var/log -maxdepth 3 -type f \\( -iname '*fireflow*' -o -iname '*aff*' -o -iname '*activemq*' -o -iname '*postgres*' -o -iname 'boot.log*' \\) | sort","workdir":"/root","login":false}
+{"cmd":"sed -n '1,220p' /var/log/fireflow-install.log","workdir":"/root","login":false}
+{"cmd":"sed -n '180,260p' /var/log/boot.log-20260308","workdir":"/root","login":false}
+{"cmd":"rg -n -i \"fireflow|aff-boot|activemq|postgres|broker|kafka|amq\" /data/algosec-ms/logs /var/log/fireflow-install.log /var/log/boot.log-20260308 2>/dev/null","workdir":"/root","login":false,"note":"broad log scan; output was truncated due size"}
+{"cmd":"find /data/pgsql/15/data -maxdepth 2 -type f | sort | head -n 200","workdir":"/root","login":false}
+{"cmd":"rg -n -m 40 -i \"activemq|amq|kafka|broker|postgres|psql\" /data/algosec-ms/logs/ms-batch-application.log /data/algosec-ms/logs/ms-watchdog.log /data/algosec-ms/logs/ms-configuration.log /data/algosec-ms/logs/ms-mapDiagnostics.log 2>/dev/null","workdir":"/root","login":false}
+{"cmd":"ls -1 /etc/httpd/conf.d","workdir":"/root","login":false}
+{"cmd":"cp /etc/httpd/conf.d/fireflow.conf /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/fireflow.conf.snapshot && cp /etc/httpd/conf.d/aff.conf /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/aff.conf.snapshot && cp /etc/systemd/system/aff-boot.service /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/aff-boot.service.snapshot && cp /etc/systemd/system/activemq.service /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/activemq.service.snapshot && cp /usr/lib/systemd/system/postgresql.service /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/postgresql.service.snapshot && cp /usr/lib/systemd/system/ms-cloudflow-broker.service /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/ms-cloudflow-broker.service.snapshot && cp /data/algosec-ms/config/ms-cloudflow-broker.properties /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/ms-cloudflow-broker.properties.snapshot && cp /data/pgsql/15/data/postgresql_dynamic.conf /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/postgresql_dynamic.conf.snapshot","workdir":"/root","login":false}
+{"cmd":"sed -n '1,180p' /etc/httpd/conf.d/algosec-ms.ms-cloudflow-broker.conf","workdir":"/root","login":false}
+{"cmd":"sed -n '1,180p' /etc/httpd/conf.d/algosec-ms.ms-batch-application.conf","workdir":"/root","login":false}
+{"cmd":"sed -n '1,180p' /etc/httpd/conf.d/algosec-ms.ms-configuration.conf","workdir":"/root","login":false}
+{"cmd":"cp /etc/httpd/conf.d/algosec-ms.ms-cloudflow-broker.conf /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/algosec-ms.ms-cloudflow-broker.conf.snapshot && cp /etc/httpd/conf.d/algosec-ms.ms-batch-application.conf /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/algosec-ms.ms-batch-application.conf.snapshot && cp /etc/httpd/conf.d/algosec-ms.ms-configuration.conf /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts/algosec-ms.ms-configuration.conf.snapshot","workdir":"/root","login":false}
+{"cmd":"ls -1 /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1","workdir":"/root","login":false}
+{"cmd":"find /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/artifacts -maxdepth 1 -type f | sort","workdir":"/root","login":false}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/fireflow-internals-map-v1/delegated-task-result.json","workdir":"/root","login":false}

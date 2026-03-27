@@ -9,7 +9,7 @@ memory and feedback loops, then carry those improvements back into PackFactory
 itself so the factory becomes a better default starting point for every future
 build-pack.
 
-Last updated: 2026-03-25
+Last updated: 2026-03-26
 
 ## Current State Snapshot
 
@@ -141,35 +141,229 @@ Recent proof points:
   Success signal: `tools/run_cross_template_transfer_matrix.py` records at
   least a three-row matrix with successful proofs beyond JSON health checking.
 
-- [ ] Promotion-time autonomy quality gating.
-  Scope: decide whether promotion should stay compatible-evidence-based only
-  or begin consuming bounded autonomy-quality scores as an additional gate or
-  advisory signal.
-  Why it matters: the factory can now score autonomy quality, so the next
-  question is how much of that score should affect real promotion decisions.
+- [x] Promotion-time autonomy quality gating.
+  Completed on 2026-03-26 in advisory form.
+  Scope: promotion reports now attach matched autonomy-quality score evidence
+  when a compatible score report exists for the selected autonomy rehearsal.
+  This currently remains advisory rather than blocking.
+  Why it matters: the factory can now carry autonomy quality into real
+  promotion evidence without over-gating promotion before the hard-threshold
+  policy is decided.
 
-- [ ] Bounded template instruction-surface guard.
-  Scope: extend the factory validator to check active templates only, verify a
-  small set of startup-compliance markers in template `AGENTS.md`,
-  `project-context.md`, and `pack.json`, compare those markers against the
-  same core startup/compliance markers already used by the root surfaces and
-  startup-compliance rehearsal, and keep the guard marker-based rather than
-  full-text-equality-based.
-  Why it matters: templates seed new build-packs, so if template startup
-  guidance drifts away from the factory baseline, fresh packs can inherit
-  stale behavior even when the root instruction surfaces are correct.
+- [x] Promotion-time autonomy quality hard-gate decision.
+  Completed on 2026-03-26 with a bounded opt-in policy.
+  Scope: promotion now supports an objective-declared hard gate through
+  `contracts/project-objective.json.autonomy_quality_requirement`. Advisory
+  remains the default, but packs can now require a minimum overall rating,
+  minimum overall score, and/or minimum dimension scores before promotion.
+  Why it matters: the factory now has a real policy instead of a vague future
+  gate, while still avoiding a brittle global threshold.
 
-- [ ] Template creation reusability gate.
-  Scope: formalize the rule that new template requests should be interpreted
-  as reusable capability-pattern requests first, with a separate first
-  materialized build-pack proving ground, instead of letting templates become
-  permanently paired to one derivative build-pack line. In the near term this
-  should be enforced behaviorally during template-creation work; later it
-  should become a bounded factory-enforced gate through template-creation
-  request fields, validator checks, or both.
-  Why it matters: the PackFactory model is stronger when templates remain
-  reusable source patterns and build-packs remain the concrete, disposable,
-  or evolvable derivatives that prove, test, and deploy those patterns.
+- [x] Bounded template instruction-surface guard.
+  Completed on 2026-03-26.
+  Scope: `validate_factory.py` now checks active templates only, verifies a
+  small marker set in template `AGENTS.md`, `project-context.md`, and
+  `pack.json`, and the active templates plus `create_template_pack.py` now
+  carry the same bounded startup-compliance markers.
+  Why it matters: templates seed new build-packs, so this now catches drift in
+  the inheritance layer before stale startup guidance spreads downstream.
+
+- [x] Template creation reusability gate.
+  Completed on 2026-03-26.
+  Scope: `create_template_pack.py` and the template-creation request/report
+  schemas now require `capability_family`, at least two
+  `expected_build_pack_variants`, and a `first_materialization_purpose`.
+  Template creation now fails closed when the request still reads like a
+  one-template/one-pack plan.
+  Why it matters: the PackFactory model now enforces reusable capability
+  patterns plus a first proving-ground build-pack plan instead of relying on
+  the operator or agent to remember that separation informally.
+
+- [x] Memory tiers.
+  Scope: separate temporary scratch memory, restart memory, promoted factory
+  memory, and retired memory so the next agent can tell what is ephemeral,
+  what is live restart context, and what has become trusted factory guidance.
+  Why it matters: memory is already useful, but tiering would make it easier
+  to keep advisory context from being mistaken for promoted factory truth.
+  Current bounded baseline: pack-local autonomy feedback memory now carries
+  `memory_tier.tier=restart_memory`, root factory memory now carries
+  `memory_tier.tier=promoted_factory_memory`, and both pack and root
+  `latest-memory.json` pointers now expose the selected memory tier directly.
+
+- [x] Negative memory.
+  Scope: record first-class “do not repeat this” guidance such as failed
+  operator patterns, stale restart paths, or known bad recovery choices.
+  Why it matters: good feedback loops are not just about what to do next, but
+  also about what the factory should avoid repeating.
+  Current bounded baseline: autonomy feedback memory now carries
+  `negative_memory_summary` when a run shows a concrete anti-pattern such as
+  trusting a run without canonical integrity, reusing stale memory, or
+  repeating a fail-closed blocked path without resolving it first.
+
+- [x] Memory confidence and expiry.
+  Scope: add bounded `confidence`, `scope`, and expiry semantics to memory
+  entries so the agent can distinguish durable guidance from likely-stale
+  context.
+  Why it matters: this would reduce over-trust in old memory while keeping
+  restart context fast and usable.
+  Current bounded baseline: autonomy feedback memory now carries
+  `memory_validity` with `confidence_level`, `confidence_score`, `scope`,
+  `expires_at`, `expires_after_hours`, `basis`, and `summary`. The active
+  local/imported memory selector now skips otherwise-compatible feedback
+  memories whose `memory_validity.expires_at` is already past.
+
+- [x] Operator intervention learning.
+  Scope: capture operator corrections, redirects, and explicit decisions as
+  reusable factory guidance so the same correction does not have to be made by
+  hand on future runs.
+  Why it matters: operator intervention is one of the strongest real-world
+  feedback signals available to the factory.
+  Current bounded baseline: autonomy feedback memory now carries an
+  `operator_intervention_summary` when a run records an applied operator hint
+  in `branch-selection.json`, including the applied hint ids, the selection
+  method, the chosen task, the branch-selection artifact path, and a short
+  reusable learning summary for the next agent.
+
+- [x] Canonical state delta memory.
+  Scope: record the meaningful delta since the previous run in addition to the
+  current memory summary so the next agent can see what changed without
+  re-deriving it from raw artifacts.
+  Why it matters: delta-focused restart context can shorten reorientation time
+  substantially.
+  Current bounded baseline: when a previously active feedback memory exists,
+  new feedback memory now carries `delta_summary` with the prior memory path,
+  prior run id, changed canonical fields, newly completed task ids, and short
+  summary lines that explain what actually changed since the last active
+  restart note.
+
+- [x] Blocker-to-resolution loops.
+  Scope: pair structured blocker reports with the eventual successful recovery
+  pattern so the factory learns not only why it stopped, but how the stop was
+  resolved.
+  Why it matters: the current block reporting is strong, and the next step is
+  turning those blocks into reusable resolution knowledge.
+  Current bounded baseline: when a successful run follows a previously active
+  feedback memory with `block_summary.status=blocked`, the new feedback memory
+  now carries `resolved_block_summary` with the prior block reason, prior
+  blocking artifact, prior recommended recovery action, prior memory path, and
+  a compact recovery summary tied to the new run evidence.
+
+- [x] Budget-aware autonomy.
+  Scope: give autonomy runs explicit step, time, or ambiguity budgets and
+  record how well the agent used them.
+  Why it matters: autonomy quality is more practical when the factory can
+  score not only success, but efficiency and boundedness.
+  Current bounded baseline: autonomy run summaries and feedback memory now
+  carry `autonomy_budget` with explicit limits, observed usage, and
+  `within_budget` versus `budget_exceeded` status. Autonomy quality scoring
+  now includes a `budget_efficiency_quality` dimension derived from those
+  bounded run budgets.
+
+- [x] Memory distillation across build-packs.
+  Scope: synthesize repeated lessons from multiple build-packs into one
+  promoted factory-level memory artifact when the same autonomy pattern is
+  proven more than once.
+  Why it matters: this would keep the factory from scattering the same lesson
+  across many local proving-ground artifacts.
+  Current bounded baseline:
+  `tools/distill_autonomy_memory_across_build_packs.py` now writes
+  schema-valid factory-level distillation reports under
+  `.pack-state/autonomy-memory-distillations/`. The first report distilled
+  four repeated lessons: cross-template transfer, bounded memory-handoff
+  quality, fail-closed import/reconcile recovery, and the operator-guided
+  branch-choice ladder.
+
+- [x] Template lineage memory.
+  Scope: give each template a compact memory surface that records what that
+  template family has taught the factory without turning the template into a
+  paired build-pack.
+  Why it matters: this would support reusable template learning while keeping
+  template and build-pack roles distinct.
+  Current bounded baseline:
+  `tools/refresh_template_lineage_memory.py` now writes template-local lineage
+  memory under `.pack-state/template-lineage-memory/` for active templates,
+  keyed by derived build-pack lineage plus the latest factory-level autonomy
+  distillation report. Active template startup guidance now points to that
+  optional lineage surface when present.
+
+- [x] Adversarial restart drills.
+  Scope: intentionally restart with partial, stale, or conflicting memory and
+  score how well the autonomy loop recovers.
+  Why it matters: this is a high-signal way to harden memory and restart
+  behavior before real failures do it for us.
+  Current bounded baseline:
+  `tools/run_adversarial_restart_drills.py` now runs a three-part restart
+  drill: local lost-pointer recovery, forced-expired-memory fail-closed
+  recovery, and a conflicting-memory path through the existing degraded-
+  connectivity exercise. The first proof completed on
+  `json-health-checker-adversarial-restart-build-pack-v1`.
+
+- [x] Recommended Order For Memory/Feedback Frontier Wave.
+  Scope: work the next agentic-memory upgrades in this order:
+  1. operator intervention learning
+  2. blocker-to-resolution loops
+  3. memory confidence and expiry
+  4. canonical state delta memory
+  5. negative memory
+  6. memory tiers
+  7. budget-aware autonomy
+  8. memory distillation across build-packs
+  9. template lineage memory
+  10. adversarial restart drills
+  Why it matters: this order prioritizes the fastest gains to real agent
+  effectiveness before moving into broader architectural refinement.
+  Current status: the full bounded frontier wave is now complete.
+
+### Evidence Notes For Memory/Feedback Frontier Wave
+
+- Strongly supported by current tooling and artifacts:
+  `operator intervention learning`, `blocker-to-resolution loops`, and
+  `memory distillation across build-packs`.
+  Current evidence:
+  `status/work-state.json.branch_selection_hints`, bounded hint lifetime
+  through `remaining_applications`, hint audit/cleanup exercises, structured
+  `block_summary` in run summaries and feedback memory, structured
+  `memory_intake.block_summary` in import reports, and repeated successful
+  cross-template proofs in
+  `.pack-state/cross-template-transfer-matrices/`.
+  New bounded proof:
+  `tools/record_autonomy_run.py` and its portable helper now distill applied
+  operator hints from `branch-selection.json` into
+  `autonomy-feedback-memory.operator_intervention_summary`, so the next agent
+  can see what operator guidance actually changed run behavior.
+  `tools/record_autonomy_run.py` and its portable helper now also distill a
+  `resolved_block_summary` when a previously active blocked feedback memory is
+  followed by a successful run, so the next agent can see not only the old
+  stop reason but the bounded recovery pattern that cleared it.
+
+- Partially supported by current tooling and artifacts:
+  `memory confidence and expiry`, `canonical state delta memory`, and
+  `negative memory`.
+  Current evidence:
+  root memory already carries structured restart fields such as
+  `next_action_items`, `overdue_items`, `blockers`, and
+  `latest_autonomy_proof`. The bounded memory-confidence model and a
+  first-class pack-local “what changed since last run” artifact now exist for
+  feedback memory, and a bounded negative-memory layer now exists too. The
+  remaining gap is distilling those warnings upward instead of keeping them
+  only at the pack-feedback level.
+
+- More architectural than directly measured today:
+  none of the remaining frontier items are purely architectural.
+  Current evidence:
+  explicit tier semantics, bounded runtime-budget modeling, cross-build-pack
+  lesson distillation, and template-local lineage-memory contracts now all
+  exist in factory tooling.
+
+- Current summary:
+  the existing metrics are strongest at memory reuse correctness,
+  fail-closed blocking, recovery behavior, startup compliance, and
+  cross-template completion. They are weaker at intervention cost,
+  lesson distillation, confidence/decay semantics, explicit deltas, and
+  budgeted efficiency. The bounded budget-efficiency, cross-build-pack
+  distillation, and template-lineage layers are now in place, so the
+  remaining gap in this frontier wave is the tougher restart-drill surface
+  rather than basic boundedness.
 
 ## Quick Wins
 
@@ -472,8 +666,19 @@ Proof plan for this pass:
 31. Factory-root startup benchmark
 32. Cross-template transfer matrix
 33. Promotion-time autonomy quality gating
-34. Bounded template instruction-surface guard
-35. Template creation reusability gate
+34. Promotion-time autonomy quality hard-gate decision
+35. Bounded template instruction-surface guard
+36. Template creation reusability gate
+37. Operator intervention learning
+38. Blocker-to-resolution loops
+39. Memory confidence and expiry
+40. Canonical state delta memory
+41. Negative memory
+42. Memory tiers
+43. Budget-aware autonomy
+44. Memory distillation across build-packs
+45. Template lineage memory
+46. Adversarial restart drills
 
 ## Working Notes
 
@@ -494,6 +699,10 @@ Proof plan for this pass:
 
 ## Progress Notes
 
+- Completed on 2026-03-26: PackFactory root work is now tracked through
+  `contracts/project-objective.json`, `tasks/active-backlog.json`, and
+  `status/work-state.json`, and root memory now derives next-action guidance
+  from that canonical root tracker before falling back to planning-list prose.
 - Completed on 2026-03-25: captured the current autonomy baseline in
   `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
   so the current memory, restart, branch-choice, and proof state has a stable
@@ -517,14 +726,34 @@ Proof plan for this pass:
   the filtered task in `branch-selection.json`, and still complete the remote
   continuity loop to `ready_for_deploy`.
 - Completed on 2026-03-25: the operator-hint conflict and precedence policy is
-  now proven with
-  `json-health-checker-operator-hint-conflict-build-pack-v1`, confirming the
-  current ladder of `selection_priority` -> active `avoid_task_ids` in
-  canonical hint order -> active `preferred_task_ids` in canonical hint order
-  -> bounded semantic alignment -> fail-closed operator review. In that proof,
-  an avoid hint filtered out the preferred reporting branch, semantic
-  alignment selected the stronger schema-validation branch, and the pack still
-  completed the remote continuity loop to `ready_for_deploy`.
+  proven and recorded in the factory baseline, including the conflict-heavy
+  proving-ground exercise and the current ladder of priority -> avoid ->
+  prefer -> semantic alignment -> fail-closed review.
+- Completed on 2026-03-26: bounded budget-aware autonomy is now in place.
+  `tools/record_autonomy_run.py` and the portable helper now write
+  `autonomy_budget` into run summaries and feedback memory with explicit
+  limits, observed usage, and `within_budget` versus `budget_exceeded`
+  status, and `tools/score_autonomy_quality.py` now derives a
+  `budget_efficiency_quality` dimension from those bounded run budgets.
+- Completed on 2026-03-26: bounded memory distillation across build-packs is
+  now in place. `tools/distill_autonomy_memory_across_build_packs.py` writes
+  schema-valid reports under `.pack-state/autonomy-memory-distillations/`,
+  and the first report distilled four repeated factory-level lessons from
+  existing proofs: cross-template transfer, bounded memory-handoff quality,
+  fail-closed import/reconcile recovery, and the operator-guided
+  branch-choice ladder.
+- Completed on 2026-03-26: bounded template lineage memory is now in place.
+  `tools/refresh_template_lineage_memory.py` writes template-local lineage
+  memory under `.pack-state/template-lineage-memory/` for active templates,
+  and the first sweep refreshed all active template families from derived
+  build-pack lineage plus the latest factory-level autonomy distillation
+  report.
+- Completed on 2026-03-26: bounded adversarial restart drills are now in
+  place. `tools/run_adversarial_restart_drills.py` produced the first proof at
+  `.pack-state/adversarial-restart-drills/adversarial-restart-drill-json-health-checker-adversarial-restart-build-pack-v1-20260326t120233z/drill-report.json`,
+  confirming local lost-pointer recovery, forced-expired-memory fail-closed
+  behavior, restored pointer activation, and conflicting-memory preservation
+  through the degraded-connectivity path.
 - Completed on 2026-03-25: ordered preferences and bounded hint lifecycles are
   now proven with
   `json-health-checker-ordered-hint-lifecycle-build-pack-v1`, confirming that
@@ -661,3 +890,246 @@ Proof plan for this pass:
   whole-factory validator into `finalize_run`, so unrelated dirty-state noise
   elsewhere in the repo no longer overrides pack-local ambiguity or escalation
   summaries with `canonical_state_integrity_failed`.
+
+## Baseline Preservation
+
+- [x] Post-autonomy-change maintenance workflow.
+  Completed on 2026-03-26 in fail-closed form.
+  Scope: add a one-command baseline-preservation workflow that refreshes
+  factory-level autonomy lesson distillation, refreshes active-template
+  lineage memory, refreshes root factory memory, and exits nonzero until the
+  filtered validation slice for instruction surfaces, root memory,
+  template-lineage memory, and autonomy-memory distillation passes.
+  Why it matters: closing a frontier wave is only durable if the next agent
+  can trust the preserved baseline after major autonomy changes instead of
+  relying on fresh-session luck or chat memory alone.
+
+## Existing Pack Catch-Up
+
+- [x] ADF build-pack autonomy baseline catch-up.
+  Scope: bring `algosec-diagnostic-framework-build-pack-v1` up to the current
+  PackFactory agentic-memory and feedback-loop baseline by inheriting or
+  importing the newer root, template, and build-pack autonomy updates that
+  landed after the original ADF materialization.
+  Why it matters: the ADF build-pack appears to contain some earlier autonomy
+  work, but it does not yet reflect the current bounded memory, restart,
+  feedback, branch-choice, and baseline-preservation surfaces that newer
+  build-packs now inherit automatically.
+  Success signal: the ADF build-pack has an explicit gap review, a bounded
+  update path, and refreshed runtime/startup surfaces that match the current
+  factory-default autonomy baseline where applicable.
+  Current bounded status on 2026-03-26:
+  - explicit gap review recorded at
+    `build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/adf-autonomy-baseline-gap-review-20260326.md`
+  - build-pack `AGENTS.md`, `pack.json`, `contracts/project-objective.json`,
+    and `status/work-state.json` refreshed toward the current autonomy
+    baseline without replacing the ADF-specific backlog
+  - legacy ADF `planning_items` and richer task metadata preserved in
+    snapshots while canonical `status/work-state.json` and
+    `tasks/active-backlog.json` were normalized to the current PackFactory
+    schema
+  - `.packfactory-runtime` helper bundle refreshed in place to the current
+    PackFactory helper/schema set, including the newer feedback-memory
+    contracts
+  - pack-local validation passed through the existing ADF validation command
+  - first live ADF local checkpoint completed through
+    `adf-autonomy-baseline-catch-up-checkpoint-v1`, producing a schema-valid
+    run summary, feedback memory artifact, and activated
+    `.pack-state/agent-memory/latest-memory.json` pointer
+  - managed remote continuity proof completed through
+    `algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v2`,
+    followed by official reconcile at
+    `build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/reconcile-imported-runtime-state-20260326t144522z/reconcile-report.json`
+  - the next managed remote continuity hop also completed through
+    `algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v3`,
+    followed by a second official reconcile at
+    `build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/reconcile-imported-runtime-state-20260326t144629z/reconcile-report.json`
+  - ADF now has a live imported-memory continuity loop with an activated
+    `.pack-state/agent-memory/latest-memory.json` pointer targeting
+    `autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v3.json`
+    while canonical local state advances to
+    `build_adf_autonomous_iteration_loop`
+  - filtered factory validation for the updated ADF control-plane, runtime,
+    and memory surfaces now returns `0` errors
+  - broader readiness-state modernization is now complete too: legacy ADF
+    readiness planning content was preserved in
+    `build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/adf-readiness-planning-items-snapshot-20260326.json`,
+    `status/readiness.json` now matches the modern PackFactory control-plane
+    shape with `operator_hint_status`, and local readiness validation plus
+    benchmark evidence now point back at canonical ADF-local artifacts
+  - ADF is now a fully caught-up legacy build-pack line with the current
+    bounded PackFactory restart-memory, feedback-loop, reconcile, and
+    readiness-control-plane baseline in place
+
+- [x] ADF readiness-surface modernization follow-up.
+  Scope: normalize the older ADF-specific `status/readiness.json` planning and
+  reporting content so the ADF line matches the modern PackFactory readiness
+  surface without losing useful domain-specific notes.
+  Why it matters: the core ADF memory and continuity loop now works, but the
+  remaining older readiness surface still creates drift against current
+  PackFactory control-plane expectations and makes future ADF automation less
+  clean than newer build-packs.
+  Success signal: ADF retains its useful domain notes through bounded
+  supporting artifacts while `status/readiness.json` itself aligns with the
+  current PackFactory readiness contract and operator-summary expectations.
+  Completed on 2026-03-26:
+  - legacy readiness planning notes preserved in
+    `build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/adf-readiness-planning-items-snapshot-20260326.json`
+  - canonical `status/readiness.json` now aligns with `pack-readiness/v2`
+    without pack-specific extra fields
+  - `operator_hint_status` now surfaces in the standard readiness location
+  - sequential local readiness validation and benchmark refresh restored
+    canonical local evidence in `status/readiness.json` and
+    `eval/latest/index.json`
+
+## Near-Future Design
+
+- [x] Top-priority operator dashboard for factory state.
+  Scope: promote the existing Python-generated local-first dashboard into the
+  normal fast operator briefing surface, then refine it so it clearly surfaces
+  the PackFactory executive-summary layer, current portfolio state,
+  active/testing/deployed assignments, recent
+  promotions/materializations/retirements, and root agent memory highlights
+  without requiring a long `load AGENTS.md` startup brief in the chat context.
+  Why it matters: root startup is currently consuming too much context and too
+  much wall-clock time just to reconstruct operator-facing state. A lightweight
+  dashboard can move that high-frequency executive-summary path out of the
+  prompt channel, reduce token burn, and let `AGENTS.md` become much smaller
+  and more agent-optimized over time.
+  Success signal: an operator can open the PackFactory dashboard and reliably
+  see the current portfolio, environment assignments, recent factory motion,
+  and brief root-memory guidance with materially less token use than the
+  current concierge startup path, and the dashboard becomes the normal first
+  stop for high-frequency operator status checks.
+  Early design notes:
+  - the current Python-generated dashboard baseline already exists and should
+    remain the truth-preserving starting point
+  - keep the current operator path simple and local-first
+  - prioritize factory registry state, deployment pointers, promotion history,
+    and root memory summary fields
+  - treat the dashboard as the fast operator-facing briefing surface
+  - use this to support a later reduction and simplification of root
+    `AGENTS.md`
+  - connect this work directly to the agent-instruction performance review
+    rather than treating them as unrelated tracks
+
+- [ ] Build-pack source-of-truth mode: local vs remote-managed.
+  Scope: add PackFactory-native support for declaring whether a build-pack is
+  locally sourced from the PackFactory repo or is a remote-managed build-pack
+  whose working source of truth lives on the remote destination and should be
+  operated through PackFactory remote autonomy, continuity, export, pull, and
+  import workflows.
+  Why it matters: the current model can leave local and remote copies behaving
+  like competing writable primaries. The ADF build-pack exposed this clearly:
+  local and remote drift created real overhead and forced extensive reconcile
+  work to recover a clean canonical state. PackFactory should be able to say
+  clearly whether a build-pack is local-first or remote-managed-first.
+  Success signal: PackFactory can represent and enforce source-of-truth mode
+  for build-packs so operators and agents know whether to maintain the pack
+  locally in the factory or treat the remote destination as the managed working
+  location with PackFactory roundtrip evidence as the canonical integration
+  path.
+  Early design notes:
+  - support at least two explicit modes: `local_factory_managed` and
+    `remote_managed`
+  - support managed mode transitions in both directions:
+    `local_factory_managed` -> `remote_managed` and
+    `remote_managed` -> `local_factory_managed`
+  - for `remote_managed`, prefer PackFactory request, continuity, export,
+    pull, import, and reconcile workflows over manual local/remote sync habits
+  - make the mode visible in startup surfaces and pack metadata
+  - define which mutations remain allowed locally when a pack is marked
+    `remote_managed`
+  - define a bounded conversion workflow so a pack can be promoted from local
+    to remote-managed or brought back from remote-managed to local without
+    ambiguous dual-primary state
+  - use the ADF drift/reconcile experience as the motivating proof case
+  - keep the rule simple: a build-pack is either local to the PackFactory or
+    remote-managed through PackFactory autonomy and memory-loop tooling
+  - keep the Python dashboard snapshot generator as the canonical
+    data-preparation layer described in
+    `PROJECT-PACK-FACTORY-PYTHON-GENERATED-STATIC-DASHBOARD-SPEC.md`
+  - treat the remaining work here as adoption, refinement, and operator
+    workflow reduction rather than pretending the dashboard baseline does not
+    exist yet
+  - move the next presentation-layer planning step to the Astro dashboard
+    upgrade spec in
+    `PROJECT-PACK-FACTORY-ASTRO-DASHBOARD-UPGRADE-SPEC.md`
+  - organize the page around the operator goals of building quality software,
+    automating more of the factory, self-improving the baseline, and keeping
+    an intentional space for ideas and experiments
+
+- [x] Astro installation and dashboard build plan.
+  Scope: define the concrete install, directory layout, build flow, and
+  wrapper-command plan for an Astro-based PackFactory dashboard that consumes
+  the canonical Python-generated dashboard snapshot.
+  Why it matters: the operator expectation is a real web dashboard experience,
+  and Astro gives us a clearer UI authoring model without forcing a live
+  backend or replacing the PackFactory snapshot contract.
+  Success signal: PackFactory has a concrete Astro planning spec covering app
+  location, snapshot consumption, static build output, local dev-server usage,
+  and how the built site will publish into the existing dashboard `history/`
+  and `latest/` layout.
+  Early design notes:
+  - keep the Python snapshot generator as the canonical data-preparation layer
+  - use Astro for the presentation layer only
+  - keep the build static and local-first
+  - prefer a bounded app root such as `apps/factory-dashboard/`
+  - plan for an operator-friendly PackFactory wrapper command rather than
+    exposing only raw Astro environment wiring
+  - follow
+    `PROJECT-PACK-FACTORY-ASTRO-DASHBOARD-UPGRADE-SPEC.md`
+
+- [ ] Optional agent-personality template system.
+  Scope: add a PackFactory-native way to define reusable agent personality
+  templates that can be selected when a build-pack is created or materialized,
+  without hard-linking one personality permanently to one source template or
+  one build-pack line.
+  Why it matters: this builds directly on the clarified template-versus-build-pack
+  distinction. A source template should stay reusable across multiple
+  build-packs, and personality should become an optional composable layer
+  rather than something implicitly fused into one template/build-pack pair.
+  Success signal: PackFactory has a clear design for personality templates,
+  selection during template creation or build-pack materialization, and a
+  bounded inheritance model showing how personality guidance enters `AGENTS.md`
+  and related startup surfaces without collapsing template reuse.
+  Early design notes:
+  - keep personality optional, not mandatory
+  - treat personality as a reusable overlay layer, not as the identity of the
+    source template itself
+  - support choosing a personality template when creating a new template-pack
+    or materializing a build-pack
+  - preserve the ability for one source template to feed multiple build-packs
+    with different personalities
+  - define where personality lives canonically: likely a dedicated personality
+    template catalog plus explicit selection metadata in template/build-pack
+    requests
+
+- [x] Agent-instruction performance review and optimization.
+  Scope: review PackFactory instruction surfaces such as root `AGENTS.md`,
+  template `AGENTS.md`, and related startup/context files for LLM readability,
+  scan speed, and comprehension efficiency, then redesign the syntax and
+  structure using more agent-optimized language and layout.
+  Why it matters: the current instructions are rich, but they have grown
+  large and layered over time. A more agent-optimized Markdown structure could
+  improve startup quality, reduce instruction miss rate, and lower the chance
+  that an agent overlooks critical workflow rules such as managed remote-session
+  control-plane usage.
+  Success signal: PackFactory has a bounded research-backed plan for how to
+  restructure instruction files for faster LLM parsing and more reliable rule
+  retention, with the resulting changes preserving meaning while improving
+  startup performance and compliance.
+  Early design notes:
+  - now that the dashboard exists, root `load AGENTS.md` should default to a
+    shorter dashboard-first briefing rather than a long chat-only executive
+    summary
+  - optimize the first-read path around project purpose, current state, and
+    current trajectory before deeper registry reconstruction
+  - research examples of agent-optimized Markdown instruction structures
+  - compare current PackFactory instruction surfaces against those patterns
+  - focus on syntax, hierarchy, density, repetition, and scan order
+  - preserve critical policy content while shortening the path to the highest
+    priority rules
+  - treat this as instruction-performance work, not a prose-polish exercise
+  - validate this work through the existing startup benchmark, dashboard build,
+    and bounded doc/state checks before considering any test changes

@@ -2,12 +2,23 @@
 
 ## Status
 
-Proposed planning specification for the Astro-based PackFactory dashboard
-presentation layer.
+Implemented and installation-verified on 2026-03-26 for the Astro-based
+PackFactory dashboard presentation layer.
 
 This spec assumes the Python dashboard snapshot generator remains the canonical
 state-preparation layer. Astro becomes the operator-facing web UI layer that
 consumes the generated snapshot and produces a more intentional web dashboard.
+
+Current repo evidence:
+
+- Astro app checked in at `apps/factory-dashboard/`
+- canonical Astro publication wrapper checked in at
+  `tools/build_factory_dashboard_astro.py`
+- local operator serving wrapper checked in at
+  `tools/serve_factory_dashboard.py`
+- installation verified with `npm ci --no-fund --no-audit`
+- publication verified with
+  `python3 tools/build_factory_dashboard_astro.py --factory-root /home/orchadmin/project-pack-factory --output-dir /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest --app-dir /home/orchadmin/project-pack-factory/apps/factory-dashboard --staging-root /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging --report-format json`
 
 ## Purpose
 

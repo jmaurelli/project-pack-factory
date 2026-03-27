@@ -1,0 +1,73 @@
+{
+  "checkpoint_result": {
+    "build_pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+    "completed_task_id": "run_build_pack_validation",
+    "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1.json",
+    "next_active_task_id": "run_inherited_benchmarks",
+    "pointer_result": {
+      "build_pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+      "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+      "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1.json",
+      "selected_run_id": "json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+      "status": "activated"
+    },
+    "run_id": "json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/run-summary.json",
+    "status": "completed"
+  },
+  "conflicting_memory_exercise_result": {
+    "delayed_import_memory_status": "promoted_only",
+    "exercise_id": "degraded-connectivity-autonomy-exercise-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-20260326t120233z",
+    "final_ready_for_deployment": true,
+    "latest_memory_run_id": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-continuity-run-v1",
+    "report_path": "/home/orchadmin/project-pack-factory/.pack-state/degraded-connectivity-autonomy-exercises/degraded-connectivity-autonomy-exercise-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-20260326t120233z/exercise-report.json",
+    "status": "completed",
+    "target_build_pack_id": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1"
+  },
+  "drill_id": "adversarial-restart-drill-json-health-checker-adversarial-restart-build-pack-v1-20260326t120233z",
+  "expired_memory_fail_closed": {
+    "fail_closed_result": {
+      "build_pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+      "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+      "selected_memory_path": null,
+      "selected_run_id": null,
+      "status": "no_compatible_memory"
+    },
+    "forced_expires_at": "2000-01-01T00:00:00Z",
+    "memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1.json",
+    "status": "completed"
+  },
+  "generated_at": "2026-03-26T12:02:48Z",
+  "local_restart_pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+  "local_restart_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1",
+  "materialization_result": {
+    "materialization_id": "materialize-json-health-checker-adversarial-restart-build-pack-v1-20260326t120233z",
+    "materialization_report_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/eval/history/materialize-json-health-checker-adversarial-restart-build-pack-v1-20260326t120233z/materialization-report.json",
+    "source_template_id": "json-health-checker-template-pack",
+    "status": "completed",
+    "target_build_pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+    "target_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1"
+  },
+  "partial_pointer_recovery": {
+    "deleted_pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+    "deleted_selected_run_id": "json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+    "recovery_result": {
+      "build_pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+      "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+      "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1.json",
+      "selected_run_id": "json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+      "status": "activated"
+    },
+    "status": "completed"
+  },
+  "restored_pointer_result": {
+    "build_pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+    "pointer_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+    "selected_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1.json",
+    "selected_run_id": "json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+    "status": "activated"
+  },
+  "schema_version": "adversarial-restart-drill-report/v1",
+  "source_template_id": "json-health-checker-template-pack",
+  "status": "completed"
+}

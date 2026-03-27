@@ -20,7 +20,13 @@
     "Run the initial smoke benchmark when ready."
   ],
   "planning_summary": {
+    "capability_family": "api-contract-validation",
     "delivery_shape": "script",
+    "expected_build_pack_variants": [
+      "baseline contract sentinel",
+      "autonomy transfer proving ground"
+    ],
+    "first_materialization_purpose": "baseline contract sentinel",
     "initial_benchmark_intent": "Run a deterministic API-contract smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal.",
     "new_template_rationale": "The current active line shows structured-data utility value, but it does not yet move into API contract safety. This new template extends the same small-pack pattern toward a more customer-facing validation problem without leaving the factory's lightweight workflow model.",
     "project_goal": "Create a small PackFactory-native template for checking API request and response payloads against expected schema contracts and reporting contract breaks clearly.",

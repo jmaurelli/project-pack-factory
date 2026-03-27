@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-26T17:58:39Z",
+  "generated_at": "2026-03-26T22:39:22Z",
   "objective_id": "project_pack_factory_root_objective",
   "pack_id": "project-pack-factory",
   "schema_version": "task-backlog/v1",
@@ -63,7 +63,7 @@
       ],
       "objective_link": "project_pack_factory_root_objective",
       "selection_priority": 1,
-      "status": "pending",
+      "status": "completed",
       "summary": "Advance the top-priority operator dashboard so it becomes the fast normal briefing surface for PackFactory state.",
       "task_id": "design_operator_dashboard_surface",
       "validation_commands": [
@@ -76,7 +76,9 @@
         "PackFactory can declare whether a build-pack is local-factory-managed or remote-managed without leaving dual-primary ambiguity.",
         "Startup surfaces and operator workflows make the chosen source-of-truth mode visible."
       ],
-      "blocked_by": [],
+      "blocked_by": [
+        "Postponed by operator on 2026-03-26T22:27:19Z until PackFactory chooses to resume source-of-truth mode work."
+      ],
       "completion_signals": [
         "A bounded source-of-truth model is documented and represented in PackFactory surfaces.",
         "The ADF drift/reconcile problem has a clear PackFactory-native handling path."
@@ -97,7 +99,7 @@
       ],
       "objective_link": "project_pack_factory_root_objective",
       "selection_priority": 2,
-      "status": "pending",
+      "status": "blocked",
       "summary": "Define and adopt the build-pack source-of-truth mode so local and remote-managed lines do not behave like competing primaries.",
       "task_id": "define_build_pack_source_of_truth_mode",
       "validation_commands": [
@@ -132,7 +134,7 @@
       ],
       "objective_link": "project_pack_factory_root_objective",
       "selection_priority": 3,
-      "status": "pending",
+      "status": "completed",
       "summary": "Turn the Astro dashboard path into a concrete install and build plan that cleanly consumes the canonical Python snapshot output.",
       "task_id": "plan_astro_dashboard_upgrade",
       "validation_commands": [
@@ -201,7 +203,7 @@
       ],
       "objective_link": "project_pack_factory_root_objective",
       "selection_priority": 5,
-      "status": "pending",
+      "status": "completed",
       "summary": "Review and optimize PackFactory instruction surfaces for scan speed, retention, and startup compliance.",
       "task_id": "optimize_agent_instruction_surfaces",
       "validation_commands": [

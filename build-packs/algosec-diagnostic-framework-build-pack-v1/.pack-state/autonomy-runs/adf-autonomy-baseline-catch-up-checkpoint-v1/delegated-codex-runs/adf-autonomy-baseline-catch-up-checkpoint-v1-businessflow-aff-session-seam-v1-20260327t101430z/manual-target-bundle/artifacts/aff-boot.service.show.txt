@@ -1,0 +1,7 @@
+ExecStart={ path=/usr/share/aff/lib/aff-boot.jar ; argv[]=/usr/share/aff/lib/aff-boot.jar ; ignore_errors=no ; start_time=[Sat 2026-03-07 13:36:11 EST] ; stop_time=[n/a] ; pid=1538 ; code=(null) ; status=0/0 }
+User=afa
+Group=
+Id=aff-boot.service
+LoadState=loaded
+ActiveState=active
+SubState=running

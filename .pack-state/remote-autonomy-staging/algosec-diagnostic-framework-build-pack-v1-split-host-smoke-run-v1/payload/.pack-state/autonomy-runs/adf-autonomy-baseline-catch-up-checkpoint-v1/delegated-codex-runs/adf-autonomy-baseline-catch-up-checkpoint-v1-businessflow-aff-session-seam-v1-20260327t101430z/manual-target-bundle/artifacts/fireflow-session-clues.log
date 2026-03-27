@@ -1,0 +1,20 @@
+34670:[webapp:1989-exec-7] [2026-03-27 06:15:04,773] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::isSessionValid:47] Session 533c342cd4 valid: true
+34675:[webapp:1989-exec-4] [2026-03-27 06:15:09,313] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::isSessionValid:47] Session 533c342cd4 valid: true
+34680:[webapp:989-exec-10] [2026-03-27 06:15:15,549] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::isSessionValid:47] Session 533c342cd4 valid: true
+34681:[webapp:1989-exec-3] [2026-03-27 06:15:15,552] [DEBUG  ]: [LegacyRestRepository.java::sendRequest:57] Calling to perl code [UserSession::extendUserSession] 
+34682:[1624383] [533c342cd4] [2026-03-27 06:15:15,576] [debug  ]: [/html/Elements/CommandsDispatcher::(eval):108] Destination module: [UserSession], Command: [extendUserSession]
+34683:[1624383] [533c342cd4] [2026-03-27 06:15:15,582] [debug  ]: [/lib/RT_Vendor.pm::TouchFictiveSession:1027] TouchFictiveSession updating session id [533c342cd4] with time [1774606515]
+34684:[1624383] [533c342cd4] [2026-03-27 06:15:15,593] [debug  ]: [/html/Elements/CommandsDispatcher::__ANON__:346] Command Dispatcher [UserSession:extendUserSession] (took 0.016371 sec)
+34685:[webapp:1989-exec-3] [2026-03-27 06:15:15,603] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::extendUserSession:115] successfully extended session 533c342cd4
+34688:[webapp:1989-exec-5] [2026-03-27 06:15:18,944] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+34698:[1624383] [e0974e9f0e] [2026-03-27 06:15:19,019] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/session/extend], method=[post]
+34703:[webapp:1989-exec-6] [2026-03-27 06:15:19,425] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+34710:[webapp:1989-exec-7] [2026-03-27 06:15:19,516] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+34721:[webapp:1989-exec-4] [2026-03-27 06:15:22,199] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::isSessionValid:47] Session 533c342cd4 valid: true
+34732:[webapp:1989-exec-7] [2026-03-27 06:15:33,766] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: ecad8a323f
+34752:[webapp:1989-exec-2] [2026-03-27 06:15:43,953] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+34761:[webapp:1989-exec-6] [2026-03-27 06:15:44,007] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+34768:[webapp:1989-exec-7] [2026-03-27 06:15:44,055] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+34779:[webapp:1989-exec-5] [2026-03-27 06:16:10,523] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+34787:[webapp:1989-exec-4] [2026-03-27 06:16:10,631] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+34794:[webapp:1989-exec-8] [2026-03-27 06:16:10,687] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e

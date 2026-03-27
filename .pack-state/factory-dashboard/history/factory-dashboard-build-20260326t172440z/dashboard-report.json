@@ -1,0 +1,189 @@
+{
+  "asset_paths": [
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t172440z/assets/dashboard.css",
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t172440z/assets/dashboard.js"
+  ],
+  "dashboard_build_id": "factory-dashboard-build-20260326t172440z",
+  "freshness_thresholds": {
+    "fresh_hours": 24,
+    "recent_motion_hours": 96,
+    "stale_hours": 72
+  },
+  "generated_at": "2026-03-26T17:24:40Z",
+  "history_build_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t172440z",
+  "index_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t172440z/index.html",
+  "latest_output_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest",
+  "latest_published": true,
+  "mismatch_warning_count": 0,
+  "mismatch_warnings": [],
+  "output_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest",
+  "publication_mode": "published_latest",
+  "ranking_rules": [
+    "production mismatch or production assignment first",
+    "staging mismatch or staging assignment second",
+    "testing assignment with active blocker or stale evidence third",
+    "ready-but-unassigned pack with missing or stale quality evidence fourth",
+    "strongest recent proven improvement fifth"
+  ],
+  "renderer": "astro",
+  "renderer_artifact_paths": [
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260326t172440z/index.html",
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260326t172440z/assets/dashboard.css",
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260326t172440z/assets/dashboard.js"
+  ],
+  "renderer_output_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260326t172440z",
+  "report_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t172440z/dashboard-report.json",
+  "schema_version": "factory-dashboard-report/v1",
+  "snapshot_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t172440z/dashboard-snapshot.json",
+  "source_count": 26,
+  "source_trace": [
+    {
+      "kind": "registry",
+      "path": "/home/orchadmin/project-pack-factory/registry/templates.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "registry",
+      "path": "/home/orchadmin/project-pack-factory/registry/build-packs.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "promotion_log",
+      "path": "/home/orchadmin/project-pack-factory/registry/promotion-log.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "root_memory_pointer",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/latest-memory.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "root_memory",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "planning_list",
+      "path": "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+      "status": "loaded"
+    },
+    {
+      "kind": "startup_benchmark_root",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks",
+      "status": "loaded"
+    },
+    {
+      "kind": "startup_benchmark_report",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260325t231514z/benchmark-report.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "startup_benchmark_report",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260325t231447z/benchmark-report.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "deployment_pointer_dir",
+      "path": "/home/orchadmin/project-pack-factory/deployments/production",
+      "status": "loaded"
+    },
+    {
+      "kind": "deployment_pointer_dir",
+      "path": "/home/orchadmin/project-pack-factory/deployments/staging",
+      "status": "loaded"
+    },
+    {
+      "kind": "deployment_pointer_dir",
+      "path": "/home/orchadmin/project-pack-factory/deployments/testing",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-promotion-gate-build-pack-v1/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-promotion-gate-build-pack-v1/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/eval/latest/index.json",
+      "status": "loaded"
+    }
+  ],
+  "startup_benchmark_comparison": {
+    "available": true,
+    "benchmark_id": "factory-root-startup-benchmark-20260325t231514z",
+    "benchmark_report_path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260325t231514z/benchmark-report.json",
+    "summary": "The latest startup benchmark is available and the dashboard consolidates the same operator-summary inputs into one pre-rendered page."
+  },
+  "summary_counts": {
+    "high_priority": 1,
+    "historical_baseline": 7,
+    "ideas_lab": 5,
+    "medium_priority": 6,
+    "worth_watching": 40
+  },
+  "validations": {
+    "errors": [],
+    "report_schema": "pass",
+    "snapshot_schema": "pass"
+  }
+}

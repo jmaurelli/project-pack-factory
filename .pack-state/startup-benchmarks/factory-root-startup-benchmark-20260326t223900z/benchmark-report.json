@@ -1,0 +1,153 @@
+{
+  "benchmark_id": "factory-root-startup-benchmark-20260326t223900z",
+  "deployment_checks": [
+    {
+      "details": [],
+      "environment": "production",
+      "pack_id": "release-evidence-summarizer-build-pack-v3",
+      "pack_local_deployment_path": "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/status/deployment.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/deployments/production/release-evidence-summarizer-build-pack-v3.json",
+      "status": "pass"
+    },
+    {
+      "details": [],
+      "environment": "testing",
+      "pack_id": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+      "pack_local_deployment_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/deployment.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+      "status": "pass"
+    }
+  ],
+  "dimensions": {
+    "environment_fail_closed_quality": {
+      "details": [
+        "release-evidence-summarizer-build-pack-v3@production status=pass",
+        "json-health-checker-autonomy-to-promotion-build-pack-v1@testing status=pass"
+      ],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/deployments/production/release-evidence-summarizer-build-pack-v3.json",
+        "/home/orchadmin/project-pack-factory/deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether deployment pointers, registry state, and pack-local deployment state agree across current environments."
+    },
+    "memory_usage_quality": {
+      "details": [
+        "present_fields=7",
+        "required_fields=7"
+      ],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/latest-memory.json",
+        "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t222815z.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether root startup memory is present and structured enough to support an Agent Memory section."
+    },
+    "operator_usefulness_quality": {
+      "details": [
+        "present_sections=5",
+        "expected_sections=5"
+      ],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/startup-brief.md"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether the generated startup brief contains the expected operator-facing sections and next-step guidance."
+    },
+    "priority_ordering_quality": {
+      "details": [],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/startup-brief.md",
+        "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether the generated startup brief reflects a registry-first priority order instead of a flat pack listing."
+    },
+    "source_discipline_quality": {
+      "details": [
+        "loaded_sources=8",
+        "total_sources=8"
+      ],
+      "evidence_paths": [
+        "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/source-trace.json"
+      ],
+      "score": 100.0,
+      "status": "scored",
+      "summary": "Scores whether the canonical root startup surfaces were loaded in the expected order."
+    }
+  },
+  "findings": [],
+  "generated_at": "2026-03-26T22:39:00Z",
+  "high_priority_pack_ids": [
+    "release-evidence-summarizer-build-pack-v3"
+  ],
+  "historical_baseline_pack_ids": [
+    "ai-native-codex-build-pack",
+    "agent-memory-first-build-pack",
+    "json-health-checker-one-pass-promotion-build-pack-v1",
+    "json-health-checker-longer-backlog-build-pack-v1",
+    "json-health-checker-longer-backlog-build-pack-v2",
+    "json-health-checker-longer-backlog-build-pack-v3",
+    "json-health-checker-ambiguous-branch-build-pack-v1"
+  ],
+  "medium_priority_pack_ids": [
+    "factory-native-smoke-build-pack",
+    "json-health-checker-build-pack",
+    "config-drift-checker-build-pack",
+    "json-health-checker-promotion-gate-build-pack-v1",
+    "json-health-checker-one-pass-promotion-proof-build-pack-v1",
+    "json-health-checker-autonomy-to-promotion-build-pack-v1"
+  ],
+  "overall_rating": "strong",
+  "overall_score": 100.0,
+  "schema_version": "startup-benchmark-report/v1",
+  "source_trace_path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/source-trace.json",
+  "startup_brief_path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/startup-brief.md",
+  "what_matters_most": "release-evidence-summarizer-build-pack-v3 is the live path in production.",
+  "worth_watching_pack_ids": [
+    "release-evidence-summarizer-build-pack",
+    "api-contract-sentinel-build-pack",
+    "release-evidence-summarizer-build-pack-v2",
+    "release-evidence-summarizer-build-pack-v4",
+    "json-health-checker-live-roundtrip-build-pack-v1",
+    "json-health-checker-memory-resume-build-pack-v1",
+    "json-health-checker-memory-resume-build-pack-v2",
+    "json-health-checker-resume-correctness-build-pack-v1",
+    "json-health-checker-unified-memory-resume-build-pack-v1",
+    "json-health-checker-resume-success-build-pack-v1",
+    "algosec-diagnostic-framework-build-pack-v1",
+    "json-health-checker-feedback-baseline-build-pack-v1",
+    "json-health-checker-active-task-continuity-build-pack-v1",
+    "json-health-checker-multi-hop-autonomy-build-pack-v1",
+    "json-health-checker-memory-block-reporting-build-pack-v1",
+    "json-health-checker-block-reporting-build-pack-v1",
+    "json-health-checker-drift-exercise-build-pack-v1",
+    "json-health-checker-longer-backlog-build-pack-v4",
+    "json-health-checker-branching-build-pack-v1",
+    "json-health-checker-degraded-connectivity-build-pack-v1",
+    "json-health-checker-ambiguous-branch-build-pack-v2",
+    "json-health-checker-semantic-branch-build-pack-v1",
+    "json-health-checker-operator-hint-branch-build-pack-v1",
+    "json-health-checker-operator-avoid-branch-build-pack-v1",
+    "json-health-checker-operator-avoid-branch-build-pack-v2",
+    "json-health-checker-operator-hint-conflict-build-pack-v1",
+    "json-health-checker-ordered-hint-lifecycle-build-pack-v1",
+    "json-health-checker-hint-audit-cleanup-build-pack-v1",
+    "json-health-checker-hint-audit-cleanup-build-pack-v2",
+    "json-health-checker-hint-audit-cleanup-build-pack-v3",
+    "json-health-checker-hint-status-surfacing-build-pack-v1",
+    "json-health-checker-hint-status-surfacing-build-pack-v2",
+    "json-health-checker-hint-briefing-build-pack-v1",
+    "json-health-checker-startup-compliance-build-pack-v1",
+    "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+    "config-drift-autonomy-transfer-build-pack-v1",
+    "release-evidence-autonomy-transfer-build-pack-v1",
+    "api-contract-autonomy-transfer-build-pack-v1",
+    "json-health-checker-adversarial-restart-build-pack-v1",
+    "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1"
+  ]
+}

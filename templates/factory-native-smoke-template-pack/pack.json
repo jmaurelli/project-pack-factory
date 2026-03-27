@@ -49,6 +49,9 @@
   },
   "identity_source": "pack.json",
   "notes": [
-    "Fresh minimal PackFactory-native template for live workflow testing."
+    "Fresh minimal PackFactory-native template for live workflow testing.",
+    "factory_autonomy_baseline=This source template inherits the PackFactory autonomy baseline from docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md and docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md.",
+    "factory_autonomy_tracking=Template-level autonomy notes are pointers to factory defaults; the factory root remains the canonical baseline for inherited memory, feedback, restart, branch-choice behavior, and remote-session compliance.",
+    "factory_startup_compliance=Inherited startup guidance requires PackFactory-local remote-session workflows and treats external runtime-evidence import as factory-only."
   ]
 }

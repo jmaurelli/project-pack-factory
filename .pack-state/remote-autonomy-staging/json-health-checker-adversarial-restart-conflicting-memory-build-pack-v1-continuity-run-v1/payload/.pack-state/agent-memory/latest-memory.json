@@ -1,0 +1,15 @@
+{
+  "pack_id": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-26T12:02:42Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-local-disconnected-continuity-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-local-disconnected-continuity-v1.json",
+  "selected_memory_sha256": "55485941857a6ecbc01014770853bfd5469cbcd3dd237a271a07a29503b041e0",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-local-disconnected-continuity-v1",
+  "source_artifact_path": null,
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-26T12:02:42Z"
+}

@@ -2,7 +2,7 @@
   "artifact_refs": {
     "runtime_evidence": "runtime-evidence.json"
   },
-  "generated_at": "2026-03-24T01:13:38Z",
+  "generated_at": "2026-03-25T20:14:52Z",
   "schema_version": "adf-service-inventory/v1",
   "services": [
     {
@@ -1549,16 +1549,14 @@
       "inference": {
         "product_scope": "platform",
         "reasoning": [
-          "service is active",
-          "service is running",
           "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 6,
-        "support_importance_tier": "supporting"
+        "support_importance_score": 1,
+        "support_importance_tier": "reference"
       },
       "observed": {
-        "active_state": "active",
+        "active_state": "unknown",
         "config_refs": [],
         "control_refs": [
           "//fwupd.org/",
@@ -1573,17 +1571,16 @@
         "dependency_refs": [
           "dbus.service"
         ],
-        "description": "Firmware update daemon",
+        "description": "fwupd.service",
         "evidence_refs": [
-          "systemd_unit_files",
-          "systemd_units"
+          "systemd_unit_files"
         ],
         "http_routes": [],
         "listeners": [],
-        "load_state": "loaded",
+        "load_state": "unknown",
         "log_refs": [],
         "process_matches": [],
-        "sub_state": "running",
+        "sub_state": "unknown",
         "unit_file_path": "/usr/lib/systemd/system/fwupd.service",
         "unit_file_state": "static"
       },
@@ -2924,11 +2921,10 @@
         "reasoning": [
           "service is active",
           "service is running",
-          "service is enabled or static",
-          "service has a matched running process"
+          "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 7,
+        "support_importance_score": 6,
         "support_importance_tier": "supporting"
       },
       "observed": {
@@ -2944,7 +2940,6 @@
         ],
         "description": "Device-Mapper Multipath Device Controller",
         "evidence_refs": [
-          "process_inventory",
           "systemd_unit_files",
           "systemd_units"
         ],
@@ -2952,15 +2947,7 @@
         "listeners": [],
         "load_state": "loaded",
         "log_refs": [],
-        "process_matches": [
-          {
-            "args": "/sbin/multipathd -d -s",
-            "comm": "multipathd",
-            "pid": "524",
-            "ppid": "1",
-            "user": "root"
-          }
-        ],
+        "process_matches": [],
         "sub_state": "running",
         "unit_file_path": "/usr/lib/systemd/system/multipathd.service",
         "unit_file_state": "enabled"
@@ -4610,6 +4597,13 @@
             "pid": "289035",
             "port": "18081",
             "process_name": "ssh"
+          },
+          {
+            "local_address": "0.0.0.0:18083",
+            "local_host": "0.0.0.0",
+            "pid": "303648",
+            "port": "18083",
+            "process_name": "ssh"
           }
         ],
         "load_state": "loaded",
@@ -5753,11 +5747,10 @@
         "reasoning": [
           "service is active",
           "service is running",
-          "service is enabled or static",
-          "service has a matched running process"
+          "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 7,
+        "support_importance_score": 6,
         "support_importance_tier": "supporting"
       },
       "observed": {
@@ -5775,7 +5768,6 @@
         "dependency_refs": [],
         "description": "Journal Service",
         "evidence_refs": [
-          "process_inventory",
           "systemd_unit_files",
           "systemd_units"
         ],
@@ -5783,15 +5775,7 @@
         "listeners": [],
         "load_state": "loaded",
         "log_refs": [],
-        "process_matches": [
-          {
-            "args": "/usr/lib/systemd/systemd-journald",
-            "comm": "systemd-journal",
-            "pid": "498",
-            "ppid": "1",
-            "user": "root"
-          }
-        ],
+        "process_matches": [],
         "sub_state": "running",
         "unit_file_path": "/usr/lib/systemd/system/systemd-journald.service",
         "unit_file_state": "static"
@@ -7864,11 +7848,10 @@
         "reasoning": [
           "service is active",
           "service is running",
-          "service is enabled or static",
-          "service has a matched running process"
+          "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 7,
+        "support_importance_score": 6,
         "support_importance_tier": "supporting"
       },
       "observed": {
@@ -7886,7 +7869,6 @@
         ],
         "description": "Rule-based Manager for Device Events and Files",
         "evidence_refs": [
-          "process_inventory",
           "systemd_unit_files",
           "systemd_units"
         ],
@@ -7894,15 +7876,7 @@
         "listeners": [],
         "load_state": "loaded",
         "log_refs": [],
-        "process_matches": [
-          {
-            "args": "/usr/lib/systemd/systemd-udevd",
-            "comm": "systemd-udevd",
-            "pid": "535",
-            "ppid": "1",
-            "user": "root"
-          }
-        ],
+        "process_matches": [],
         "sub_state": "running",
         "unit_file_path": "/usr/lib/systemd/system/systemd-udevd.service",
         "unit_file_state": "static"
@@ -8975,9 +8949,9 @@
     "critical_services": 1,
     "product_dependencies": 0,
     "product_services": 0,
-    "reference_services": 173,
+    "reference_services": 174,
     "services_with_http_routes": 0,
-    "supporting_services": 49,
+    "supporting_services": 48,
     "total_services": 223
   },
   "target": {

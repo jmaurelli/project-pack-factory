@@ -806,8 +806,24 @@
       "source_template_id": "api-contract-sentinel-template-pack",
       "status": "completed",
       "target_build_pack_id": "api-contract-autonomy-transfer-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-adversarial-restart-build-pack-v1-20260326t120233z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-adversarial-restart-build-pack-v1-20260326t120233z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-adversarial-restart-build-pack-v1"
+    },
+    {
+      "event_type": "materialized",
+      "materialization_id": "materialize-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-20260326t120234z",
+      "materialization_report_path": "eval/history/materialize-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-20260326t120234z/materialization-report.json",
+      "source_template_id": "json-health-checker-template-pack",
+      "status": "completed",
+      "target_build_pack_id": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1"
     }
   ],
   "schema_version": "project-pack-factory-promotion-log/v1",
-  "updated_at": "2026-03-25T23:15:45Z"
+  "updated_at": "2026-03-26T12:02:34Z"
 }

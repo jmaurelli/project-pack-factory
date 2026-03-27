@@ -1,0 +1,15 @@
+{
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-26T14:36:27Z",
+  "selected_memory_id": "autonomy-feedback-adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-adf-autonomy-baseline-catch-up-checkpoint-v1.json",
+  "selected_memory_sha256": "2aba820737ce2fdb94db8941bc40542e1af3128f8242354cf2b9c44e7c1a01db",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-adf-autonomy-baseline-catch-up-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-26T14:36:27Z"
+}

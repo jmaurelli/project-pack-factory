@@ -4,7 +4,7 @@ Purpose: preserve the current PackFactory autonomy baseline in one stable
 factory-level note so future agents can recover the current memory, restart,
 and branch-choice capabilities without reconstructing them from chat history.
 
-Snapshot date: 2026-03-25
+Snapshot date: 2026-03-26
 
 ## What Exists Now
 
@@ -43,14 +43,18 @@ At the factory root, the main restart-memory path is:
 
 1. `AGENTS.md`
 2. `README.md`
-3. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
-4. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
-5. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
-6. `.pack-state/agent-memory/latest-memory.json`
+3. `contracts/project-objective.json`
+4. `tasks/active-backlog.json`
+5. `status/work-state.json`
+6. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+7. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+8. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
+9. `.pack-state/agent-memory/latest-memory.json`
 
-The root memory is advisory restart context. Canonical truth still lives in
-the factory control-plane surfaces such as `registry/`, `deployments/`,
-readiness state, and promotion evidence.
+The root objective, backlog, and work-state files are the canonical PackFactory
+root work tracker. Root memory is still advisory restart context. Canonical
+truth for live pack state still lives in the factory control-plane surfaces
+such as `registry/`, `deployments/`, readiness state, and promotion evidence.
 
 ## Proven Stop And Restart Loop
 
@@ -226,5 +230,101 @@ Those two follow-ups are now also proven:
   across config drift, release evidence, and API contract transfer proofs, all
   of which reached `ready_for_deploy`.
 
-The next meaningful frontier is now narrower: decide how autonomy-quality
-scores should influence real promotion behavior, if at all.
+The promotion frontier is now in a bounded steady state. Promotion records
+matched autonomy-quality evidence as an advisory signal by default, and packs
+can now opt into a hard gate through
+`contracts/project-objective.json.autonomy_quality_requirement` with explicit
+minimum overall rating, overall score, and/or dimension-score thresholds.
+That keeps the factory default conservative while still allowing stronger
+promotion discipline where a pack explicitly asks for it.
+
+That inheritance-quality gap is now closed in bounded form: active templates
+carry the core startup-compliance markers, fresh templates inherit them from
+`create_template_pack.py`, and `validate_factory.py` now catches drift in
+active template `AGENTS.md`, `project-context.md`, and `pack.json` without
+requiring full text equality.
+
+That template-creation frontier is now in place too. New template requests
+must now declare a reusable `capability_family`, at least two expected
+build-pack variants, and a `first_materialization_purpose`, and
+`create_template_pack.py` fails closed when that reusability plan is missing
+or too narrow. The factory no longer depends on behavioral memory alone to
+keep templates from collapsing back into paired one-pack sources.
+
+That next memory/feedback wave has now started in bounded form too.
+`tools/record_autonomy_run.py` and the portable runtime helper now promote
+applied operator-hint branch decisions into
+`autonomy-feedback-memory.operator_intervention_summary`, including the
+applied hint ids, the selection method, the chosen task, and the
+`branch-selection.json` artifact path. That means the next agent can now see
+not only that an operator intervened, but exactly which hint changed the run
+and how.
+
+The next bounded step is in place as well: when a run succeeds after the
+previously active feedback memory ended in a structured block, the new
+feedback memory now carries `resolved_block_summary` with the prior block
+reason, prior blocking artifact, prior recommended recovery action, prior
+memory path, and a compact recovery summary tied to the new run evidence.
+That gives the next agent one restart note for both “what stopped us” and
+“what actually cleared that stop.”
+
+That bounded trust layer is in place now too. Pack-local autonomy feedback
+memory now carries `memory_validity` with explicit confidence level, confidence
+score, restart scope, expiry window, and the basis used to derive that trust
+level. The live memory selector now skips compatible memories whose expiry
+window has already elapsed, so stale restart notes are less likely to become
+the active default by accident.
+
+The “what changed” layer is now present too. When a previously active feedback
+memory exists, new feedback memory now carries `delta_summary` with the prior
+memory path, prior run id, changed canonical fields, newly completed task ids,
+and short summary lines that explain what changed since the last active
+restart note.
+
+The bounded “what not to repeat” layer is in place as well. Feedback memory
+now carries `negative_memory_summary` when a run shows a concrete anti-pattern
+such as trusting a run without canonical integrity, reusing stale memory, or
+repeating a fail-closed blocked path without resolving it first.
+
+The first bounded tier model is in place too. Pack-local autonomy feedback
+memory now declares itself as `restart_memory`, root PackFactory memory now
+declares itself as `promoted_factory_memory`, and both pack and root
+`latest-memory.json` pointers expose the selected tier directly.
+
+The bounded budget layer is in place now too. Autonomy run summaries and
+feedback memory now carry `autonomy_budget` with explicit limits, observed
+usage, and `within_budget` versus `budget_exceeded` status, and autonomy
+quality scoring now includes a `budget_efficiency_quality` dimension derived
+from those bounded run budgets.
+
+The first bounded distillation layer is now in place too.
+`tools/distill_autonomy_memory_across_build_packs.py` now writes factory-level
+lesson reports under `.pack-state/autonomy-memory-distillations/`, and the
+first report distilled four repeated lessons from existing proof artifacts:
+cross-template transfer, bounded memory-handoff quality, fail-closed
+import/reconcile recovery, and the operator-guided branch-choice ladder.
+
+The first bounded template-lineage layer is now in place too.
+`tools/refresh_template_lineage_memory.py` writes template-local lineage
+memory under `.pack-state/template-lineage-memory/` for active templates,
+using derived build-pack lineage plus the latest factory-level autonomy
+distillation report. That means a template can now carry a compact advisory
+summary of what its family has already taught the factory without pretending
+the template itself is a build-pack.
+
+The bounded adversarial-restart layer is now in place too.
+`tools/run_adversarial_restart_drills.py` now proves three restart-adversity
+cases through official PackFactory paths: local lost-pointer recovery,
+forced-expired-memory fail-closed behavior, and conflicting imported-memory
+preservation through the degraded-connectivity path.
+
+The current memory/feedback frontier wave is now fully implemented in bounded
+form.
+
+The main standing follow-up is now baseline preservation rather than a missing
+core memory-loop capability. After major autonomy tooling, promotion, or
+startup-surface changes, the intended path is
+`tools/run_post_autonomy_change_maintenance.py`, which refreshes factory-level
+lesson distillation, refreshes active-template lineage memory, refreshes root
+factory memory, and then fails closed until the filtered baseline-validation
+slice passes.

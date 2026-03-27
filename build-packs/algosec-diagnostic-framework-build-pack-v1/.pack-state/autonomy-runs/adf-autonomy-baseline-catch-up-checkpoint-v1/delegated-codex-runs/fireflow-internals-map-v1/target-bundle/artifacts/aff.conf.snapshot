@@ -1,0 +1,57 @@
+<Directory />
+        Require all granted
+</Directory>
+
+<Location /FireFlow/api>
+  ProxyPass http://localhost:1989/aff/api/external timeout=7200
+  ProxyPassReverse http://localhost:1989/aff/api/external
+  SSLRequireSSL
+
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css application/json application/javascript
+  </IfModule>
+</Location>
+
+<Location /aff/api>
+  ProxyPass http://localhost:1989/aff/api timeout=7200
+  ProxyPassReverse http://localhost:1989/aff/api
+  SSLRequireSSL
+
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css application/json application/javascript
+  </IfModule>
+</Location>
+
+Alias /aff "/usr/share/aff/ng"
+
+#The following Directory directive is used to allow serving /usr/share/fireflow/local which is a symbolic link to CVS dir
+<Directory "usr/share/aff/ng">
+  Options +FollowSymLinks
+  AddDefaultCharset UTF-8
+  DirectoryIndex index.html
+  AllowOverride None
+  Order allow,deny
+  Allow from all
+  ErrorDocument 500 /FireFlow/NoAuth/Error.html
+</Directory>
+
+Alias /aff-ng "/usr/share/aff/aff-ng"
+
+#The following Directory directive is used to allow serving /usr/share/fireflow/local which is a symbolic link to CVS dir
+<Directory "usr/share/aff/aff-ng">
+  Options +FollowSymLinks
+  AddDefaultCharset UTF-8
+  DirectoryIndex index.html
+  AllowOverride None
+  Order allow,deny
+  Allow from all
+  ErrorDocument 500 /FireFlow/NoAuth/Error.html
+  <IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /aff-ng/
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . index.html [L]
+  </IfModule>
+</Directory>

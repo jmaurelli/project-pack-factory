@@ -1,0 +1,5 @@
+maintenance_work_mem = 333MB
+work_mem = 33MB
+shared_buffers = 8275MB
+effective_cache_size = 16550MB
+idle_in_transaction_session_timeout = 1h

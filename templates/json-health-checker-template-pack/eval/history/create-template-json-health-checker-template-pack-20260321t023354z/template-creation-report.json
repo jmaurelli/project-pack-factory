@@ -20,7 +20,13 @@
     "Run the initial smoke benchmark when ready."
   ],
   "planning_summary": {
+    "capability_family": "json-health-checking",
     "delivery_shape": "script",
+    "expected_build_pack_variants": [
+      "baseline proving ground",
+      "memory and continuity proving ground"
+    ],
+    "first_materialization_purpose": "baseline proving ground",
     "initial_benchmark_intent": "Run a small deterministic JSON health-check smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration.",
     "new_template_rationale": "The active smoke template should stay a neutral factory workflow baseline, while this new template gives us a more task-shaped quick test pack for JSON input validation.",
     "project_goal": "Create a tiny PackFactory-native template for validating a JSON file against a required field set and reporting pass or fail clearly.",

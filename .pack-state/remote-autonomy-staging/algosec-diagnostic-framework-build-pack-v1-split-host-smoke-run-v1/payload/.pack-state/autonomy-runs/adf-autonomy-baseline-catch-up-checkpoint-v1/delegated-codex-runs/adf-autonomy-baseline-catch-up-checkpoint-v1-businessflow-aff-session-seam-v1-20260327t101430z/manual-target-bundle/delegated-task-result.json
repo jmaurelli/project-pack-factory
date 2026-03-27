@@ -1,0 +1,25 @@
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1-businessflow-aff-session-seam-v1-20260327t101430z",
+  "task_id": "businessflow-aff-session-seam-v1",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Observed that Apache 443 /FireFlow/api/session proxies to aff-boot 1989 /aff/api/external/session, and both live paths returned the same HTTP 200 invalid-session JSON. Captured aff.conf, aff-boot ownership, and correlated Apache/AFF log clues for the next debugging seam.",
+  "returned_artifact_paths": [
+    "artifacts/aff.conf.snippet.txt",
+    "artifacts/apache_session.headers.txt",
+    "artifacts/apache_session.body.json",
+    "artifacts/direct_aff_session.headers.txt",
+    "artifacts/direct_aff_session.body.json",
+    "artifacts/aff-boot.systemctl-status.txt",
+    "artifacts/aff-boot.systemctl-cat.txt",
+    "artifacts/httpd.ssl_access.tail.txt",
+    "artifacts/aff-boot.access.tail.txt",
+    "artifacts/fireflow.tail.filtered.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If parity later breaks for a real session, correlate the exact timestamp across artifacts/httpd.ssl_access.tail.txt and artifacts/aff-boot.access.tail.txt first, then inspect AFF session handling around UserSessionPersistenceEventHandler, LegacyRestRepository, and UserSession::getUserSession.",
+    "If needed, repeat the same comparison with a known valid FireFlow session cookie to separate transport/proxy issues from downstream session resolution behavior."
+  ]
+}

@@ -23,11 +23,11 @@
       ],
       "command_id": "systemd_units",
       "exit_code": 0,
-      "observed_at": "2026-03-25T20:14:51Z",
+      "observed_at": "2026-03-27T10:32:46Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
-      "stdout_line_count": 159,
+      "stdout_line_count": 160,
       "stdout_preview": [
         "apparmor.service                                                                          loaded    active   exited  Load AppArmor profiles",
         "apport-autoreport.service                                                                 loaded    inactive dead    Process error reports when automatic reporting is enabled",
@@ -53,6 +53,7 @@
         "finalrd.service                                                                           loaded    active   exited  Create final runtime dir for shutdown pivot root",
         "fstrim.service                                                                            loaded    inactive dead    Discard unused blocks on filesystems from /etc/fstab",
         "fwupd-refresh.service                                                                     loaded    inactive dead    Refresh fwupd metadata and update motd",
+        "fwupd.service                                                                             loaded    active   running Firmware update daemon",
         "getty-static.service                                                                      loaded    inactive dead    getty on tty2-tty6 if dbus and logind are not available",
         "getty@tty1.service                                                                        loaded    active   running Getty on tty1",
         "grub-common.service                                                                       loaded    inactive dead    Record successful boot for GRUB",
@@ -201,7 +202,7 @@
       ],
       "command_id": "systemd_unit_files",
       "exit_code": 0,
-      "observed_at": "2026-03-25T20:14:51Z",
+      "observed_at": "2026-03-27T10:32:46Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -455,7 +456,7 @@
       ],
       "command_id": "listening_tcp_ports",
       "exit_code": 0,
-      "observed_at": "2026-03-25T20:14:52Z",
+      "observed_at": "2026-03-27T10:32:46Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -477,11 +478,11 @@
       ],
       "command_id": "process_inventory",
       "exit_code": 0,
-      "observed_at": "2026-03-25T20:14:52Z",
+      "observed_at": "2026-03-27T10:32:46Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
-      "stdout_line_count": 265,
+      "stdout_line_count": 266,
       "stdout_preview": [
         "      1       0 root     systemd         /usr/lib/systemd/systemd --system --deserialize=66",
         "      2       0 root     kthreadd        [kthreadd]",
@@ -490,7 +491,6 @@
         "      5       2 root     kworker/R-rcu_p [kworker/R-rcu_p]",
         "      6       2 root     kworker/R-slub_ [kworker/R-slub_]",
         "      7       2 root     kworker/R-netns [kworker/R-netns]",
-        "      9       2 root     kworker/0:0H-ev [kworker/0:0H-events_highpri]",
         "     12       2 root     kworker/R-mm_pe [kworker/R-mm_pe]",
         "     13       2 root     rcu_tasks_kthre [rcu_tasks_kthread]",
         "     14       2 root     rcu_tasks_rude_ [rcu_tasks_rude_kthread]",
@@ -682,11 +682,12 @@
         "    523       2 root     kworker/R-kmpat [kworker/R-kmpat]",
         "    626       2 root     irq/66-vmw_vmci [irq/66-vmw_vmci]",
         "    627       2 root     irq/67-vmw_vmci [irq/67-vmw_vmci]",
-        "    633       2 root     irq/16-vmwgfx   [irq/16-vmwgfx]"
+        "    633       2 root     irq/16-vmwgfx   [irq/16-vmwgfx]",
+        "    634       2 root     kworker/R-ttm   [kworker/R-ttm]"
       ]
     }
   ],
-  "generated_at": "2026-03-25T20:14:52Z",
+  "generated_at": "2026-03-27T10:32:46Z",
   "observation_boundaries": {
     "inferred": [
       "Support-priority hints and service roles are derived from command output heuristics in the build-pack."

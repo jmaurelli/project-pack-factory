@@ -1,0 +1,4 @@
+[webapp:1989-exec-4] [2026-03-27 06:16:10,631] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+[webapp:1989-exec-4] [2026-03-27 06:16:10,631] [DEBUG  ]: [LegacyRestRepository.java::sendRequest:57] Calling to perl code [UserSession::getUserSession] 
+[webapp:1989-exec-8] [2026-03-27 06:16:10,687] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: e0974e9f0e
+[webapp:1989-exec-8] [2026-03-27 06:16:10,687] [DEBUG  ]: [LegacyRestRepository.java::sendRequest:57] Calling to perl code [UserSession::getUserSession] 

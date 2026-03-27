@@ -1,0 +1,286 @@
+{
+  "active_task_id": "build_adf_autonomous_iteration_loop",
+  "autonomy_state": "ready_for_review",
+  "blocked_task_ids": [],
+  "branch_selection_hints": [],
+  "completed_task_ids": [
+    "adopt_support_cockpit_direction",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs",
+    "prototype_starlight_publishing",
+    "formalize_shared_host_health_precheck_pack",
+    "prove_asms_ui_system_thinking_with_authenticated_flow",
+    "capture_asms_post_home_followups_before_subsystem_split",
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "rebuild_asms_ui_system_thinking_playbook",
+    "investigate_asms_ui_components_for_useful_work_checks",
+    "reframe_host_precheck_around_pressure_signals",
+    "refine_support_cockpit_right_rail_layout",
+    "consider_horizontal_dependency_path_in_center_pane"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Reconciled local canonical state from imported external runtime evidence `import-external-runtime-evidence-20260326t144613z`.",
+  "last_outcome": "task_completed",
+  "last_outcome_at": "2026-03-26T15:19:22Z",
+  "last_validation_results": [
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "adopt_support_cockpit_direction"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "define_adf_artifact_model"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "implement_safe_runtime_collection"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "render_baseline_outputs"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "prototype_starlight_publishing"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "formalize_shared_host_health_precheck_pack"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "prove_asms_ui_system_thinking_with_authenticated_flow"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "capture_asms_post_home_followups_before_subsystem_split"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "capture_businessflow_and_fireflow_as_asms_operational_checkpoints"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "rebuild_asms_ui_system_thinking_playbook"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "investigate_asms_ui_components_for_useful_work_checks"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "reframe_host_precheck_around_pressure_signals"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "in_progress",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "build_adf_autonomous_iteration_loop"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "refine_support_cockpit_right_rail_layout"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "consider_horizontal_dependency_path_in_center_pane"
+    }
+  ],
+  "next_recommended_task_id": "build_adf_autonomous_iteration_loop",
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pending_task_ids": [
+    "tune_operator_language_for_priority_domains",
+    "expand_service_command_coverage",
+    "explore_scenario_based_dashboard_direction",
+    "plan_controlled_fault_injection_playbook_validation",
+    "refine_command_palette_contrast",
+    "deepen_asms_ui_service_command_packs",
+    "map_asms_ui_subsystem_and_validate_core_scenarios",
+    "validate_asms_ui_dependency_order_experimentally",
+    "stabilize_remote_codex_launcher_against_interactive_menu",
+    "review_adf_agent_persona_alignment",
+    "deepen_dependency_aware_playbooks",
+    "enhance_linux_notes_as_optional_learning_layer",
+    "codify_system_thinking_as_adf_theme",
+    "formalize_linux_foundation_as_adf_theme"
+  ],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Start the next cycle from the selected Support Cockpit direction rather than the older reviewed webpage frame.",
+    "Preserve the sticky quick-jump behavior because that is the operator-confirmed reason Support Cockpit won the prototype comparison.",
+    "Use the cleaned Support Cockpit chassis as the next container for a real playbook iteration instead of reintroducing the older boxed legacy page structures.",
+    "The command-first flow strip and the horizontal dependency path now sit above the main two-column layout, and Quick jump starts level with the first stepwise checkpoint content.",
+    "The current active content task is reviewing and tightening the rebuilt ASMS UI is down page, which now uses a from-scratch system-thinking layout instead of the older service-first page shape.",
+    "The live ASMS UI page now uses five useful-work checkpoints: host support, Apache/HTTPD serving the UI, auth branch, app branch, and useful-work stop point.",
+    "Keep treating the current ASMS UI page as a first real system-thinking reference playbook and tighten it through review rather than reverting to the older incremental patch model.",
+    "The current ASMS UI service pack now uses real Keycloak readiness and OIDC path checks, a real ms-metro heartbeat check, and file-based Keycloak and ms-metro logs taken from the lab-backed appliance behavior.",
+    "Treat ActiveMQ as a supporting dependency for the ASMS UI path, not a first-pass UI-down check, unless ms-metro logs or behavior point to JMS or broker problems.",
+    "The current evidence-backed ASMS UI working model is host health -> Apache edge -> legacy post-shell checks -> BusinessFlow checkpoint -> `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection` when deep health names them -> later Keycloak and FireFlow auth handoff -> `/afa/php/home.php` render -> supporting post-home home-shell clues and light Metro refresh -> broader app traffic.",
+    "The systems-thinking method is now proven on the lab: reproduce one bounded browser flow, correlate the same minute in Apache and downstream logs, and only then update the playbook model.",
+    "Keep observed and inferred dependency claims separate. The value comes from reducing support effort with real path evidence, not from forcing a cleaner serial chain than the lab actually shows.",
+    "Treat disk, memory, OOM, and other core host-resource checks as the shared Host Health Pre-Check pack defined in docs/specs/adf-host-health-precheck-pack-v1.md and use it at the start of every major playbook.",
+    "Keep the stronger Keycloak and ms-metro command coverage, but reframe those checks as auth-branch and app-branch useful-work checks in the rebuild.",
+    "Continue following the customer-visible path through BusinessFlow and FireFlow because BusinessFlow is now the first named operational checkpoint in the observed login path and FireFlow is now a later auth-coupled module that can change the engineer's next move.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-backward-dependency-trajectory-note-20260326.md` as the current trajectory note: keep the core `ASMS UI is down` path bounded, then walk backward through BusinessFlow first, FireFlow second, and only then through supporting dependencies.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-businessflow-fireflow-dependency-seams-pass-20260326.md` as the current staged seam note: BusinessFlow's closest readable neighbors are Postgres, AFA, and AFF, while FireFlow's closest readable neighbors are Apache proxying, aff-boot, and database-backed runtime behavior.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-businessflow-health-implementation-pass-20260326.md` as the current BusinessFlow deep-health note: the `AFA connection` and `AFF connection` checks are local HTTPS session-liveness checks rather than raw direct 8080 or 1989 probes.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-businessflow-local-https-ownership-pass-20260326.md` as the local-HTTPS ownership note: the BusinessFlow AFF side is now reduced to Apache `443` -> `aff-boot` `1989`.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-afa-local-ownership-pass-20260326.md` as the AFA local-ownership note: `/afa/php/...` is Apache-fronted local PHP, while `/afa/external` and `/afa/api/v1` are Metro-backed proxy families.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-businessflow-afa-soap-path-pass-20260326.md` as the final AFA path note: the BusinessFlow `AFA connection` deep-health check lands on `https://localhost/afa/php/ws.php` and uses SOAP `isSessionAlive`, not `/afa/php/commands.php`.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-afa-soap-runtime-correlation-pass-20260326.md` as the runtime seam note: Apache only gives timing for `ws.php`, while `.ht-fa-history` provides the request hash, `SESSION / TOKEN / COOKIE` triple, and `is_session_alive` result, and the next direct seam is the PHP session file plus `.ht-LastActionTime` for that same session id.",
+    "Treat the immediate backend seams behind `ms-bflow.service` on `8081` and `aff-boot.service` on `1989` as the next support-relevant dependency surfaces to map, because those are the module checkpoints most likely to make a case look like `ASMS UI is down` before it becomes a narrower subsystem issue.",
+    "Keep ActiveMQ behind those module checkpoints for now. It is now a proven later supporting dependency for the FireFlow seam because aff-boot holds live broker connections on 61616, but the current lab evidence still keeps it behind the closer route, service, and database checks instead of treating it as a first-pass `GUI down` gate.",
+    "Within the BusinessFlow seam, keep the new deep-health implementation result in view: `AFA connection` and `AFF connection` are local HTTPS session-liveness checks, so the immediate seam stays closer to Apache and those app routes than to raw 8080, 1989, or broker theory.",
+    "Treat the BusinessFlow seam as reduced enough to name directly in the current playbook: `AFA connection` lands on Apache-served local PHP SOAP `/afa/php/ws.php`, and `AFF connection` lands on Apache `443` -> `aff-boot` `1989` via `/FireFlow/api/session`.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-main-stop-logic-refinement-pass-20260326.md` as the top-level stop-logic note: Step 3 now stops at named BusinessFlow child seams, Step 4 stays bounded to first usable home-shell plus immediate hydration, and Step 5 is for naming the first clear stop point or branching out of `GUI down`.",
+    "For the AFA side, stop the next support step at `.ht-fa-history` and the PHP session backing files before jumping outward to Metro. The first useful follow-on seam is `ws.php` -> `.ht-fa-history` -> `/var/lib/php/session/sess_<id>` -> `.ht-LastActionTime`.",
+    "Within the FireFlow seam, keep Apache proxying, aff-boot, and database-backed runtime evidence ahead of ActiveMQ for first-pass troubleshooting. Use `.pack-state/remote-codex/asms-ui-fireflow-broker-dependency-pass-20260326.md` plus `.pack-state/remote-codex/asms-ui-fireflow-broker-correlation-pass-20260326.md` as the supporting notes: aff-boot holds live broker connections on 61616, but the reproduced ASMS login-handoff minute still centered on auth, session, and REST activity instead of broker-side signals.",
+    "Keep the first post-home checks inside the ASMS playbook for now, but demote them to supporting clues: `FireFlowBridge.js`, basic home assets, and nearby Metro routes help explain the same minute after `/afa/php/home.php`, but they are not first-class gates unless the rendered home shell itself degrades.",
+    "Within those nearby Metro routes, treat `GET /afa/getStatus` as the strongest immediate supporting clue after the first usable shell appears. Keep `GET /afa/api/v1/license`, `GET /afa/api/v1/config?...`, `GET /afa/api/v1/config/all/noauth?domain=0`, and `POST /afa/api/v1/session/extend?...` as same-minute but still unproven first-shell requirements until a fresh-session isolation pass proves one of them matters.",
+    "The latest fresh-session pass now ties `GET /afa/api/v1/config?...` and `POST /afa/api/v1/session/extend?...` more directly to the new `PHPSESSID`, so they should be treated as stronger fresh-session clues than before, but still not as proven first-shell gates.",
+    "A later CDP `Network.setBlockedURLs(...)` pass matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe and did not record real block events for the fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` routes, so browser-side blocking is not yet a reliable control point for those requests on this lab.",
+    "The route-ownership pass now shows Apache exposing separate `/afa/external` and `/afa/api/v1` proxy families toward Metro, while the fresh-session minute showed paired `/afa/config/...` and `/afa/api/v1/config?...` surfaces on the server side.",
+    "Variant A of the Apache seam mutation has now run. Denying `/afa/external` returned repeated `403` responses for that family but still left `/afa/php/home.php` fully usable, so `/afa/external` is now demoted as a first-shell gate candidate.",
+    "Variant B of the Apache seam mutation has also run. Denying the top-level `/afa/api/v1` Location still left `/afa/php/home.php` fully usable, and same-minute Metro logs still showed fresh-session `/afa/api/v1/config?...` and `/afa/api/v1/session/extend?...` as `200`, so the top-level Apache deny is not a clean control lever for that path.",
+    "Keep `POST /afa/api/v1/bridge/refresh?...` demoted from the ASMS first-shell gate model for now because the latest lab pass tied it to a different long-lived session instead of the reproduced fresh login session.",
+    "The newer route-owner split is now explicit: Apache owns browser-facing `/afa/external` and `/afa/api/v1` proxy families, while PHP `RestClient` also issues direct `http://127.0.0.1:8080/afa/config/...` requests.",
+    "Treat the remaining `config` question as browser-owned versus PHP-owned route ownership, not as another family-wide Apache deny candidate.",
+    "Prefer one read-only correlation pass that proves which Metro `config` requests have no matching Apache parent before planning another mutation.",
+    "That read-only correlation pass is now complete for fresh session `jkp0cnnf971ksgifu3k25jopiq`: browser-facing `/afa/external/...` lines matched Metro `/afa/api/v1/...`, while direct `/afa/config/...` and same-minute `/afa/getStatus` lines had no Apache parent.",
+    "Treat the remaining unresolved seam as mostly the internal direct `/afa/config/...` family behind PHP `RestClient`, not as another browser-facing proxy-family question.",
+    "The smallest auth-side named read is now already demoted by observation: `GET /afa/config/Case_Sensitive_Username?...` returns `404` on the lab and `SuiteLoginSessionValidation.php` already falls back without breaking login.",
+    "Treat the broader `AlgosecSession::__construct()` / `GetConfigurationSettings()` bundle as the first unresolved internal config surface worth planning next.",
+    "The broader bundle should now be approached through login bootstrap, not `home.php`: `home.php` mostly consumes an existing `AlgosecSession`, while `AlgosecSessionManager::executeLogin()` and `postLoginActions()` own the first bootstrap bundle loads.",
+    "Use `.pack-state/remote-codex/asms-ui-login-bootstrap-control-path-pass-20260326.md` before planning the next internal mutation so the first app-level experiment starts at the bootstrap hook instead of another coarse transport seam.",
+    "Use `docs/specs/asms-ui-login-bootstrap-config-isolation-plan-v1.md` as the closed record of the bootstrap-bundle experiment family.",
+    "Treat Variant C1, Variant C2, and Variant C3 as all reduced for first-shell gating: skipping the post-login recache, bypassing the constructor-time bundle, and suppressing both together still left `/afa/php/home.php` usable on the lab.",
+    "Use `.pack-state/remote-codex/asms-ui-postlogin-handleconfigparams-variant-c1-pass-20260326.md`, `.pack-state/remote-codex/asms-ui-constructor-config-bypass-variant-c2-pass-20260326.md`, and `.pack-state/remote-codex/asms-ui-combined-bootstrap-variant-c3-pass-20260326.md` as the canonical bootstrap results.",
+    "Shift the next seam work away from bootstrap config-bundle theory and toward later demand-loaded home-shell behavior, especially `dynamic.js.php`, dashboard hydration, the first interactive home-shell actions, and the surviving config-family route ownership after `/afa/php/home.php`.",
+    "Use `.pack-state/remote-codex/asms-ui-dashboard-demand-load-pass-20260326.md` as the canonical note for the reduced later-shell picture: the first usable shell hydrates `DISPLAY_ISSUES_CENTER`, `GET_DASHBOARDS_DATA`, `GET_CHART_FOR_DASHBOARD_MULTIPLE`, and `GET_RISK_PROFILES_OPTIONS` before a deeper operator action is isolated.",
+    "Treat `DEVICES` as a shell-context and tree-refresh step in the bounded pass, not yet as the first clearly separate backend seam.",
+    "Treat `Analyze` as the first clean deeper operator action isolated so far, because it produced `GET_ANALYSIS_OPTIONS` only after the landing shell and device context were already visible.",
+    "Carry forward the code-trace result from `.pack-state/remote-codex/asms-ui-dashboard-demand-load-pass-20260326.md`: `Analyze` first opens a dialog and fetches options through `SubmitAnalysisHTMLOptionsRequest(...)`, so the next seam is still narrower than a full analysis run.",
+    "Carry forward the server-side boundary too: the dialog path uses `GET_ANALYZE_DATA`, while the real `Start Analysis` step posts `cmd=ANALYZE` and launches `RunFaServer(...)`, so that step is already a later workflow branch rather than part of the first usable-shell gate.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-policy-tab-branch-pass-20260326.md` too: the device-context `POLICY` tab already posts `GET_POLICY_TAB` and `GET_DEVICE_POLICY`, prepares `PolicyTabIframe.php`, and can depend on analyzed report data, so it is a later content branch rather than part of the first usable-shell gate.",
+    "Treat the sibling device-context tabs the same way unless stronger evidence proves otherwise: `CHANGES` uses `GET_MONITORING_CHANGES` and `REPORTS` uses `GET_REPORTS`, so they also belong to later content branches rather than to the first usable-shell gate.",
+    "Carry forward `.pack-state/remote-codex/asms-ui-gui-up-classification-note-20260326.md` as the operator-facing classification rule: once the customer can navigate the devices tree and open `REPORTS` to view a report, stop classifying the case as `GUI down`; reaching `Analyze` is optional extra confirmation rather than a required boundary.",
+    "Use docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md as the reusable mutation template for future ADF seam experiments.",
+    "Use docs/specs/asms-ui-apache-metro-proxy-isolation-plan-v1.md as the closed record of the family-wide Apache seam test, then continue with docs/specs/asms-ui-config-owner-split-plan-v1.md and docs/specs/asms-ui-direct-config-seam-plan-v1.md.",
+    "Treat routes like Notification Center or watchdog-linked issue counts as later subsystem candidates unless the reproduced browser minute proves they are the first real stop point.",
+    "After the ASMS UI rebuild proves the system-thinking pattern, deepen the next dependency-aware playbook branches before returning to a broader wording pass.",
+    "Use docs/specs/adf-language-standard-v1.md as the wording contract when command coverage work introduces new operator-facing text.",
+    "The built-in Starlight `On this page` rail is now removed from the playbook page so the center pane has more horizontal room for command-first content.",
+    "The dependency path is now horizontal inside the center pane and still supports click-to-jump into the matching checkpoint details below.",
+    "There is also a separate pending planning item to review whether the remote Codex persona and pack-local agent guidance should evolve toward an ADF-specific Linux troubleshooting and diagnostic-authoring profile.",
+    "Restage the build-pack to the saved AlgoSec lab target before the next remote Codex run that changes playbook logic.",
+    "Read docs/specs/adf-remote-codex-invocation-notes-v1.md before the next remote Codex launch.",
+    "For controlled lab seam mutations, follow docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md and prefer a temporary Apache override file over editing the base config inline.",
+    "For the next ASMS narrowing cycle, start from `.pack-state/remote-codex/asms-ui-config-correlation-pass-20260326.md` and docs/specs/asms-ui-direct-config-seam-plan-v1.md instead of another Apache-family or browser-only mutation.",
+    "For the current ASMS investigative authoring phase, use PackFactory target prep and staging (`prepare_remote_autonomy_target.py` and `push_build_pack_to_remote.py`) before guided remote Codex work on the staged pack.",
+    "Do not use `run_remote_autonomy_loop.py` as the default path for the current ASMS subsystem-investigation cycles. The bounded autonomy wrapper is right for starter-backlog autonomy proofs, but it will correctly stop when the work needs guided source edits or appliance-backed artifact regeneration.",
+    "Use a small remote shell script plus env -i and /bin/bash --noprofile --norc for the outer appliance launcher instead of a long inline SSH command.",
+    "For ASMS browser-backed investigation, do not wait on Playwright `networkidle` after login. Use bounded waits plus visible-shell checks like title `AlgoSec - Home`, final URL `/afa/php/home.php`, and visible home markers instead.",
+    "Clear stale matching codex exec processes before relaunching, and confirm both the result file and rebuilt starlight-site timestamps before assuming the remote run finished cleanly.",
+    "Keep machine-readable artifacts canonical, keep HTML as a thin render layer, and keep new commands read-only.",
+    "Keep rare path and config checks deferred unless a playbook truly needs them.",
+    "Use the live Starlight review page at http://10.167.2.150:18082/playbooks/asms-ui-is-down/ as the current operator review surface for the first subsystem-specific pack.",
+    "Use the saved lab target request and the prototype comparison ports 18083, 18084, and 18085 as the last reviewed prototype surfaces.",
+    "Use the generated site roots under dist/prototypes/starlight, dist/candidates/algosec-lab-baseline/starlight-site, and the current appliance-backed dist/candidates/adf-baseline/starlight-site when iterating on the Astro Starlight publisher."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when the current operator-review slice is captured cleanly and the next work items are recorded in pack-local state.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}

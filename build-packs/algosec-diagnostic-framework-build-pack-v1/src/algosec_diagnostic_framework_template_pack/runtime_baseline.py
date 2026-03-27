@@ -1820,6 +1820,7 @@ def _flow_evidence_to_collect_next(
         evidence.append("Result of the failing FireFlow action, including the exact endpoint or screen.")
         evidence.append("Visible status for aff-boot.service and postgresql.service.")
         evidence.append("Any recent FireFlow-related lines from the customer-facing logs or service status output.")
+        evidence.append("If the same minute rolls into `/FireFlow/api/swagger/v2/api-docs` or unified service-definition refresh, capture matching `ms-configuration` and Apache `ssl_error_log` lines before promoting ActiveMQ.")
         return evidence
 
     if domain_id == "microservice-platform":
@@ -1886,7 +1887,7 @@ def _playbook_dependency_path(flow_id: str) -> list[dict[str, str]]:
                 "step_label": "Step 3",
                 "step_id": "ui-and-proxy-step-3",
                 "label": "Auth handoff can do useful work",
-                "details": "Check whether the legacy auth-trigger hop reaches BusinessFlow as the first named operational checkpoint, then confirm the later Keycloak and FireFlow handoff without pretending they are the first observed neighbor.",
+                "details": "Check whether the legacy auth-trigger hop reaches BusinessFlow as the first named operational checkpoint, then stop cleanly on `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection` before the later Keycloak and FireFlow handoff.",
             },
             {
                 "step_label": "Step 4",
@@ -1941,13 +1942,335 @@ def _command_entry(
     healthy_markers: list[str] | None = None,
     example_output: str | None = None,
 ) -> dict[str, Any]:
-    return {
+    entry = {
         "label": label,
         "command": command,
         "expected_signal": expected_signal,
         "interpretation": interpretation,
         "healthy_markers": healthy_markers or [],
         "example_output": example_output or "",
+    }
+    linux_note = derive_command_linux_note(entry)
+    if linux_note:
+        entry["linux_note"] = linux_note
+    known_working_example = derive_known_working_example(entry)
+    if known_working_example:
+        entry["known_working_example"] = known_working_example
+    return entry
+
+
+def derive_known_working_example(command: dict[str, Any]) -> dict[str, str] | None:
+    example = (command.get("example_output") or "").rstrip()
+    if not example:
+        return None
+    return {
+        "title": "Known working example",
+        "output": example,
+    }
+
+
+def derive_command_linux_note(command: dict[str, Any]) -> dict[str, Any] | None:
+    raw = command["command"]
+    label = command["label"]
+    if raw.startswith("systemctl status "):
+        return {
+            "title": "Linux note: service status",
+            "items": [
+                "This asks systemd whether the service is known and running now.",
+                "`Loaded` means the service unit exists on the server.",
+                "`Active (running)` means the service is up now. `Main PID` means systemd still sees the main process.",
+            ],
+        }
+    if raw.startswith("ss -lntp"):
+        return {
+            "title": "Linux note: listening port",
+            "items": [
+                "This checks whether Linux is listening on the expected port.",
+                "`LISTEN` means a process has opened the port and is waiting for connections.",
+                "If the port is missing, the service may be down, slow to start, or bound to the wrong place.",
+            ],
+        }
+    if raw == "df -h":
+        return {
+            "title": "Linux note: disk pressure",
+            "items": [
+                "This checks human-readable disk usage for the main filesystems.",
+                "Focus on `Use%` and `Avail`, especially for `/` and `/data`.",
+                "Disk pressure means the filesystem is close to full. When that happens, services can fail to write logs, temp files, or runtime data.",
+            ],
+        }
+    if raw == "df -ih":
+        return {
+            "title": "Linux note: inode pressure",
+            "items": [
+                "This checks inode usage, which is different from normal disk space.",
+                "A filesystem can still have free space but fail because it has no free inodes left.",
+                "Inode pressure means the server has too many files or directory entries. Focus on `IUse%` and whether `IFree` is close to zero.",
+            ],
+        }
+    if raw == "free -h":
+        return {
+            "title": "Linux note: memory pressure",
+            "items": [
+                "This is the quick memory check for the host.",
+                "Focus on `available` memory and whether swap is starting to grow heavily.",
+                "Memory pressure means the server is low on available memory. When that happens, the server slows down, swap grows, or Linux may kill a process to protect itself.",
+            ],
+        }
+    if raw == "uptime":
+        return {
+            "title": "Linux note: system load",
+            "items": [
+                "This is the quick load check for the host.",
+                "Focus on the `load average` values and whether they look unexpectedly high for the server.",
+                "High load can mean CPU pressure, blocked work, or heavy I/O wait.",
+            ],
+        }
+    if raw.startswith("journalctl -k --since"):
+        return {
+            "title": "Linux note: OOM pressure",
+            "items": [
+                "This checks the Linux kernel log for memory-pressure kills.",
+                "OOM means Out Of Memory. Linux may kill a process to protect the server.",
+                "If you see OOM or `Killed process` lines, memory pressure is likely part of the failure.",
+            ],
+        }
+    if raw.startswith("ps -eo pid,comm,%cpu,%mem --sort=-%cpu"):
+        return {
+            "title": "Linux note: top CPU consumers",
+            "items": [
+                "This shows which processes are using the most CPU right now.",
+                "Focus on whether one process is dominating CPU and whether that process matches the current symptom.",
+                "A single runaway process can starve the rest of the server and make higher-level application failures look worse than they are.",
+            ],
+        }
+    if "/health/ready" in raw:
+        return {
+            "title": "Linux note: service readiness",
+            "items": [
+                "This checks a local readiness endpoint instead of only checking whether the service process exists.",
+                "A readiness endpoint helps prove the service is healthy enough to answer real traffic.",
+                "Use the expected JSON value below as the main reference, not just the HTTP connection itself.",
+            ],
+        }
+    if raw.startswith("for path in /algosec-ui/styles.css /algosec-ui/runtime.js /algosec-ui/main.js; do"):
+        return {
+            "title": "Linux note: browser-useful edge assets",
+            "items": [
+                "This checks whether Apache is serving real UI assets, not only the login HTML shell.",
+                "Non-empty CSS and JavaScript bodies are a stronger edge proof because a browser needs them before sign-in can do useful work.",
+                "If the HTML is up but these assets fail, stay on Apache and the static UI path before chasing Keycloak or Metro.",
+            ],
+        }
+    if "/seikan/login/setup" in raw:
+        return {
+            "title": "Linux note: login setup mode",
+            "items": [
+                "This checks the login setup endpoint that the shipped UI uses before credentials are submitted.",
+                "Use it to see whether this appliance is advertising SSO or a different login mode for the current journey.",
+                "If `isSSOEnabled` is false here, do not assume Keycloak is the first observed auth hop without stronger request evidence.",
+            ],
+        }
+    if "/afa/php/SuiteLoginSessionValidation.php" in raw:
+        return {
+            "title": "Linux note: legacy session validation",
+            "items": [
+                "This checks a legacy suite login endpoint with a cookie jar so one reproduced journey stays connected.",
+                "A redirect back to `/algosec-ui/login` with a new PHP session cookie is a real auth-path clue, even without credentials.",
+                "If this path lights up before `/BusinessFlow` or `/keycloak/`, treat it as the first observed auth-trigger hop for this journey and keep the later named modules behind it.",
+            ],
+        }
+    if label.lower().startswith("check the businessflow checkpoint"):
+        return {
+            "title": "Linux note: BusinessFlow checkpoint",
+            "items": [
+                "This checks the first named operational module we have observed in the customer-visible ASMS login path.",
+                "Use the shallow check to prove BusinessFlow is answering through Apache, then the deep check to confirm its AFA, AFF, and database links still look healthy.",
+                "If these checks fail after the legacy setup hop worked, stop on the BusinessFlow checkpoint before blaming Keycloak or Metro.",
+                "The current staged dependency passes put Postgres, AFA, and AFF closer to this seam than Keycloak or ActiveMQ.",
+                "Those AFA and AFF checks are now concrete local HTTPS session-liveness checks, so the immediate seam is closer to Apache and the local app routes than to raw 8080 or 1989 probes.",
+                "On this lab the AFA side resolves to Apache-served local PHP SOAP at `/afa/php/ws.php`, while the AFF side resolves to Apache `443` -> aff-boot `1989` via `/FireFlow/api/session`.",
+            ],
+        }
+    if label.lower().startswith("check the afa soap path behind businessflow afa connection"):
+        return {
+            "title": "Linux note: BusinessFlow AFA SOAP path",
+            "items": [
+                "This proves what owns the AFA side of the BusinessFlow AFA health check.",
+                "On this lab the exact liveness path is the local SOAP endpoint `/afa/php/ws.php`.",
+                "Apache receives that HTTPS request first, but it serves local PHP for `/afa/php` instead of proxying the whole family elsewhere.",
+            ],
+        }
+    if label.lower().startswith("check the afa soap runtime seam behind ws.php"):
+        return {
+            "title": "Linux note: AFA SOAP runtime seam",
+            "items": [
+                "This is the first support-readable seam behind the AFA SOAP endpoint.",
+                "Apache shows when `/afa/php/ws.php` was hit, but `.ht-fa-history` is the better seam because it carries the request hash, the `SESSION / TOKEN / COOKIE` triple, and the `is_session_alive` result.",
+                "After that, pivot to the PHP session file and `.ht-LastActionTime` for the same session id before jumping outward into Metro or later GUI workflows.",
+            ],
+        }
+    if label.lower().startswith("check the afa session backing files after ws.php"):
+        return {
+            "title": "Linux note: AFA session backing files",
+            "items": [
+                "This confirms that the same SOAP session id from `.ht-fa-history` still has local PHP session backing and a pulse-file update.",
+                "Treat a missing `sess_<id>` file or a missing or stale `.ht-LastActionTime` file as a real `BusinessFlow -> AFA connection` stop point before jumping to Metro or broader GUI theories.",
+                "Use the same session id from the latest `is_session_alive` request so the engineer stays on one reproduced AFA seam instead of mixing in unrelated background traffic.",
+            ],
+        }
+    if label.lower().startswith("check the fireflow session path behind businessflow aff connection"):
+        return {
+            "title": "Linux note: BusinessFlow AFF route ownership",
+            "items": [
+                "This proves what owns the FireFlow side of the BusinessFlow AFF health check.",
+                "On this lab the local HTTPS FireFlow session path hits Apache first and is immediately proxied to aff-boot on 1989.",
+                "The Apache-fronted `/FireFlow/api/session` response and the direct `1989` `/aff/api/external/session` response should match on the same invalid-session JSON body.",
+                "It does not go through Keycloak 8443 first, so the next support seam is Apache to aff-boot and then the FireFlow UserSession bridge behind `/FireFlow/api/session`.",
+            ],
+        }
+    if label.lower().startswith("check the fireflow usersession bridge after the aff session path"):
+        return {
+            "title": "Linux note: FireFlow UserSession bridge after the AFF session path",
+            "items": [
+                "Use this after `/FireFlow/api/session` and direct `1989` already match, so the engineer stays on the next readable seam instead of widening into generic FireFlow workflow theory.",
+                "On this lab the closest follow-on seam is the FireFlow `UserSession` bridge: the same minute can show `CommandsDispatcher`, `/FireFlow/api/session`, `UserSessionPersistenceEventHandler.java::requestUserDetails`, `LegacyRestRepository.java::sendRequest`, and then a reused FA session id.",
+                "Treat a missing `UserSession` bridge for the reproduced window as a real `BusinessFlow -> AFF connection` stop before promoting later FireFlow workflow, config-broadcast, or ActiveMQ checks.",
+                "Keep `aff-boot.service` as supporting route ownership, but do not stop there if the route already looks healthy and the sharper question is whether FireFlow still bridges into the FA session.",
+            ],
+        }
+    if label.lower().startswith("check the fireflow auth-coupled signals"):
+        return {
+            "title": "Linux note: FireFlow auth bridge",
+            "items": [
+                "This checks the FireFlow signals that appear during sign-in and immediately after the PHP home page loads.",
+                "Treat FireFlow here as an auth-coupled module, not as the first branch in the login journey.",
+                "If these checks fail while BusinessFlow and Keycloak looked healthy, the stop point is later in the authenticated handoff, not at the static shell.",
+                "For this seam, Apache proxying, aff-boot, and FireFlow's database-backed runtime still look closer than ActiveMQ for first-pass troubleshooting.",
+                "ActiveMQ is now a proven later supporting dependency here because aff-boot holds live broker connections on 61616, but the reproduced login-handoff minute still showed auth, session, and REST work instead of broker-side signals.",
+                "Keep ActiveMQ behind the closer FireFlow checks unless the reproduced failing minute points to JMS or queue activity.",
+            ],
+        }
+    if "/BusinessFlow/rest/v1/login" in raw or "/FireFlow/SelfService/CheckAuthentication/" in raw:
+        return {
+            "title": "Linux note: authenticated auth handoff",
+            "items": [
+                "This checks the mid-login handoff after the legacy setup hop has already fired.",
+                "On this lab the observed order was legacy setup, BusinessFlow as the first named operational module, then proxied Keycloak token paths and FireFlow auth checks before the final `/afa/php/home.php` redirect.",
+                "Use this to show that Keycloak is in the observed auth chain, but not the first post-shell request and not the first named module the support engineer should check.",
+            ],
+        }
+    if "openid-configuration" in raw:
+        return {
+            "title": "Linux note: OIDC path",
+            "items": [
+                "This checks a real Keycloak OpenID Connect path that the local login flow depends on.",
+                "An HTTP 200 here is a stronger proof than a simple port check because it confirms the local path is answering correctly.",
+                "If this path fails while the service still looks up, treat it as an application-path problem instead of a simple process problem.",
+            ],
+        }
+    if "/tmp/asms-journey.cookies" in raw and "/algosec/suite/login" in raw:
+        return {
+            "title": "Linux note: browser-like replay",
+            "items": [
+                "This replays one login journey with browser-like headers and a cookie jar so the follow-up log check has one clear anchor.",
+                "Use the headers, cookies, and HTML markers together instead of looking at only one response line.",
+                "If this replay still stops at the static shell, say the first downstream auth or app hop is still unproven.",
+            ],
+        }
+    if "/var/log/httpd/ssl_access_log" in raw and "/algosec-ui/" in raw and "/keycloak/" in raw:
+        return {
+            "title": "Linux note: request correlation",
+            "items": [
+                "This ties one reproduced Apache journey to concrete request paths instead of broad log greps.",
+                "Use it to see whether the request stopped at static UI assets, moved through the legacy setup hop, reached BusinessFlow as the first named module, and only then hit Keycloak, FireFlow, and Metro later in the same login minute.",
+                "If no later auth or app lines appear for the reproduced journey, say the next neighbor is still unproven instead of guessing.",
+            ],
+        }
+    if "/afa/getStatus" in raw:
+        return {
+            "title": "Linux note: service heartbeat",
+            "items": [
+                "This checks a real ms-metro heartbeat path instead of only checking whether the Java process exists.",
+                "A heartbeat response helps prove the service is alive enough to answer application traffic.",
+                "Use this after the listener check when port 8080 is open but the UI still behaves badly.",
+            ],
+        }
+    if "/data/ms-metro/logs/localhost_access_log.txt" in raw and "grep -E '/afa/getStatus|/afa/api/v1/config\\?|/afa/api/v1/license|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth'" in raw:
+        return {
+            "title": "Linux note: app traffic",
+            "items": [
+                "This checks whether ms-metro is serving useful application traffic after login, not only whether the port is open.",
+                "Focus first on the immediate same-minute home-refresh clues such as `/afa/getStatus`, `/afa/api/v1/license`, `/afa/api/v1/config?...`, or `/afa/api/v1/session/extend`, not on every later subsystem route at once.",
+                "On this lab `/afa/getStatus` is the strongest immediate Metro clue after the first usable shell appears. `config` and `session/extend` now have a stronger fresh-session tie because they matched the new `PHPSESSID`, but they still stay as supporting same-minute clues until a stronger isolation pass proves one of them is a true first-shell gate.",
+                "A CDP `Network.setBlockedURLs(...)` pass matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe and did not actually own the real fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` requests.",
+                "A later Apache seam mutation returned repeated `403` responses for `/afa/external` and still left a fully usable `/afa/php/home.php` shell, so `/afa/external` is demoted as a first-shell gate candidate.",
+                "A second top-level Apache mutation on `/afa/api/v1` also left the home shell fully usable and still did not cleanly own the fresh-session `config` and `session/extend` routes, so the next seam must be narrower than a family-wide Apache deny.",
+                "A service can look up from the outside and still fail here if the home-refresh path is returning errors or no longer serving requests.",
+            ],
+        }
+    if label.lower().startswith("check post-home shell and dashboard hydration traffic"):
+        return {
+            "title": "Linux note: post-home follow-ups",
+            "items": [
+                "This checks the first traffic that appears after the browser lands on `/afa/php/home.php`.",
+                "On this lab the first follow-ups were a summary dashboard and issue-center hydration path plus light Metro refresh traffic, not a broad subsystem fan-out.",
+                "The early shell routes included `dynamic.js.php`, `DISPLAY_ISSUES_CENTER`, `/fa/tree/create`, `/afa/php/prod_stat.php`, and `/fa/tree/get_update` before the first deeper operator action was isolated.",
+                "Use them as supporting clues, not as first-class gates by themselves. A bounded client-side check showed that blocking `FireFlowBridge.js` did not stop the initial home page from rendering with the normal menu and summary content.",
+                "Treat `/afa/getStatus` as the strongest immediate Metro clue after home render. Keep `license`, `config`, `config/all/noauth`, and `session/extend` nearby but still unproven, even though `config` and `session/extend` now have a stronger tie to the fresh `PHPSESSID`. The later CDP browser-layer pass did not own those real fresh-session routes, so prefer proxy-side or server-side isolation before promoting any of them. A later Apache seam mutation denied `/afa/external` and still left a fully usable home shell, and a second top-level Apache mutation on `/afa/api/v1` also left the home shell fully usable and still did not cleanly own the fresh-session `config` and `session/extend` routes, so the next seam must be narrower than a family-wide Apache deny. The first clean deeper action isolated so far is `Analyze`, which mapped to `GET_ANALYSIS_OPTIONS` after the landing shell and device context were already visible. The real `Start Analysis` step then crosses into `cmd=ANALYZE` and `RunFaServer(...)`, so treat that as a later workflow branch rather than as part of the first usable-shell gate. The device-context tabs are also already later content branches: `POLICY` posts `GET_POLICY_TAB` and `GET_DEVICE_POLICY`, `CHANGES` uses `GET_MONITORING_CHANGES`, and `REPORTS` uses `GET_REPORTS`. For support classification, once the customer can navigate the devices tree and reach `REPORTS` or `Analyze`, stop calling the case `GUI down` and branch into the more specific failing workflow instead. Keep `bridge/refresh` demoted unless the reproduced fresh session actually owns that request.",
+                "Treat routes like the Notification Center issue count as later subsystem candidates unless the reproduced browser minute proves they are the first stop point.",
+            ],
+        }
+    if raw.startswith("ps -p $(cat /var/run/ms-metro/ms-metro.pid) -o "):
+        return {
+            "title": "Linux note: JVM activity",
+            "items": [
+                "This shows the live Metro JVM process with elapsed runtime, CPU, memory, and thread count.",
+                "Focus on whether CPU, memory, or thread count looks unexpectedly high for the current case.",
+                "This is a stronger answer to 'what is Metro busy doing' than reading random Java log lines first.",
+            ],
+        }
+    if raw.startswith("journalctl -u "):
+        return {
+            "title": "Linux note: service logs",
+            "items": [
+                "Recent service logs are often the fastest way to find the real failure clue.",
+                "Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.",
+                "Use this after the status check when the service looks up but still behaves badly.",
+            ],
+        }
+    if raw.startswith("grep -n -i -E ") and "/data/ms-metro/logs/catalina.out" in raw:
+        return {
+            "title": "Linux note: Java log anomalies",
+            "items": [
+                "Large Java logs are often noisy when read from the bottom alone.",
+                "This check pulls likely error signatures first so the engineer can find the useful anomaly faster.",
+                "Use the line numbers and error keywords here as the first clue, then widen into the full log only if needed.",
+            ],
+        }
+    if raw.startswith("tail -n ") and ("/var/log/keycloak/" in raw or "/data/ms-metro/logs/" in raw):
+        return {
+            "title": "Linux note: file-based service logs",
+            "items": [
+                "This appliance writes the useful service clues to log files, not only to systemd journal output.",
+                "Focus on startup errors, dependency failures, auth errors, heap errors, and repeated retries.",
+                "Use the most specific log for the service you are checking before widening the search.",
+            ],
+        }
+    if label.lower().startswith("check config mapping"):
+        return {
+            "title": "Linux note: config check",
+            "items": [
+                "This checks whether the expected mapping still exists in the service config.",
+                "Use it to confirm the route, port, or target value is still what the application expects.",
+            ],
+        }
+    return {
+        "title": "Linux note",
+        "items": [
+            "This command gives a focused check for the current step.",
+            "Use the healthy example below as the main output reference for what good looks like.",
+        ],
     }
 
 
@@ -2347,7 +2670,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             step_id="ui-and-proxy-step-3",
             step_number=3,
             action="Check the first auth-triggering chain after the static shell. On this lab, the browser first touches legacy suite setup and session-validation paths, then reaches BusinessFlow as the first named operational checkpoint. Treat the next named stops there as `BusinessFlow -> AFA connection` and `BusinessFlow -> AFF connection`, then only after that move to the later Keycloak and FireFlow auth handoff before `/afa/php/home.php`.",
-            why_this_matters="The static shell alone does not prove the real auth order. On this lab the first JS-triggered request after the shell was `/seikan/login/setup`, the first session-validation hop was `POST /afa/php/SuiteLoginSessionValidation.php?clean=false`, BusinessFlow first appeared as a redirect and later `POST /BusinessFlow/rest/v1/login`, and FireFlow showed up as auth checks during sign-in plus `FireFlowBridge.js` after the PHP home page loaded. The newer seam work now makes BusinessFlow support-useful instead of generic: `AFA connection` is Apache-served local PHP SOAP on `/afa/php/ws.php`, and `AFF connection` is Apache `443` -> `aff-boot` `1989` through `/FireFlow/api/session`.",
+            why_this_matters="The static shell alone does not prove the real auth order. On this lab the first JS-triggered request after the shell was `/seikan/login/setup`, the first session-validation hop was `POST /afa/php/SuiteLoginSessionValidation.php?clean=false`, BusinessFlow first appeared as a redirect and later `POST /BusinessFlow/rest/v1/login`, and FireFlow showed up as auth checks during sign-in plus `FireFlowBridge.js` after the PHP home page loaded. The newer seam work now makes BusinessFlow support-useful instead of generic: `AFA connection` is Apache-served local PHP SOAP on `/afa/php/ws.php`, and `AFF connection` is Apache `443` -> `aff-boot` `1989` through `/FireFlow/api/session`. The next readable stop behind the AFA side is now explicit too: `.ht-fa-history`, then the PHP session file and `.ht-LastActionTime` for the same session id. The AFF side is explicit too: the Apache-fronted and direct `1989` session bodies should match first, then the next runtime seam is the FireFlow `UserSession` bridge and reused FA session id.",
             next_if_pass="If the first auth-triggering hop, the BusinessFlow child seams (`AFA connection` and `AFF connection`), and the later Keycloak and FireFlow handoff all look healthy, move to the app branch checks.",
             failure_point="the first auth-triggering hop after the static shell, `BusinessFlow -> AFA connection`, `BusinessFlow -> AFF connection`, or the later Keycloak and FireFlow-backed auth handoff",
             decision_if_fail="Stop here and treat the first auth-triggering hop you actually reproduced as the current failure point. If the reproduced journey still never leaves the static shell, say the first auth neighbor remains unproven. If it reaches the legacy setup hop but never reaches BusinessFlow, stay on the earlier auth-trigger path. If it reaches BusinessFlow and deep health names `AFA connection` or `AFF connection` as unhealthy, stop at that named child seam instead of keeping the failure point vague. If it reaches BusinessFlow but not the later Keycloak or FireFlow handoff, keep the failure point on the BusinessFlow-to-auth transition instead of skipping ahead.",
@@ -2397,7 +2720,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                     label="Check the FireFlow session path behind BusinessFlow AFF connection",
                     command="sed -n '1,80p' /etc/httpd/conf.d/aff.conf; echo '--- apache https ---'; curl -k -sS -D - -o /tmp/asms-bflow-aff-https.body https://localhost/FireFlow/api/session | sed -n '1,12p'; sed -n '1,12p' /tmp/asms-bflow-aff-https.body; echo '--- direct 1989 ---'; curl -sS -D - -o /tmp/asms-bflow-aff-1989.body http://localhost:1989/aff/api/external/session | sed -n '1,12p'; sed -n '1,12p' /tmp/asms-bflow-aff-1989.body",
                     expected_signal="Apache `443` shows the `/FireFlow/api` proxy rule, and the HTTPS and direct `1989` session checks return the same invalid-session JSON body.",
-                    interpretation="Use this when BusinessFlow deep health says `AFF connection` is the failing neighbor. On this lab the local HTTPS FireFlow session path does not terminate at Apache and does not pass through Keycloak `8443` first. Apache immediately proxies it to `aff-boot` on `1989`, which makes the Apache-to-aff-boot handoff the next support seam behind the BusinessFlow AFF check.",
+                    interpretation="Use this when BusinessFlow deep health says `AFF connection` is the failing neighbor. On this lab the local HTTPS FireFlow session path does not terminate at Apache and does not pass through Keycloak `8443` first. Apache immediately proxies it to `aff-boot` on `1989`, and the Apache-fronted and direct `1989` probes now match on the same invalid-session JSON body. That keeps the stop point on the Apache-to-aff-boot handoff before later FireFlow workflow or broker theory.",
                     healthy_markers=["<Location /FireFlow/api>", "ProxyPass http://localhost:1989/aff/api/external", "HTTP/1.1 200", '"valid":false', '"INVALID_SESSION_KEY"'],
                     example_output=_example_output(
                         "<Location /FireFlow/api>",
@@ -2405,6 +2728,23 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                         "--- apache https ---",
                         "HTTP/1.1 200 OK",
                         '{"valid":false,"message":{"code":"INVALID_SESSION_KEY","message":"The session key provided is invalid"}}',
+                    ),
+                ),
+                _command_entry(
+                    label="Check the FireFlow UserSession bridge after the AFF session path",
+                    command="echo '--- apache session activity ---'; grep -E '/BusinessFlow/deep_health_check|/FireFlow/api/session|/FireFlow/api/session/validate|CommandsDispatcher|extendSession' /var/log/httpd/ssl_access_log | tail -n 20; echo '--- fireflow usersession ---'; grep -E 'UserSessionPersistenceEventHandler|LegacyRestRepository.java::sendRequest|UserSession::getUserSession|isUserSessionValid|Using existing FASessionId|ff-session:' /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /usr/share/fireflow/var/log/fireflow.log.3 /usr/share/fireflow/var/log/fireflow.log.4 /usr/share/fireflow/var/log/fireflow.log.5 /usr/share/fireflow/var/log/fireflow.log.6 /usr/share/fireflow/var/log/fireflow.log.7 2>/dev/null | tail -n 30",
+                    expected_signal="Apache shows the nearby `BusinessFlow` checkpoint plus FireFlow session or dispatcher activity, and FireFlow logs show `requestUserDetails`, `UserSession` validation or lookup, and a reused FA session id.",
+                    interpretation="Use this after the AFF session-path parity check already proved that Apache `443` and direct `1989` land on the same FireFlow session response. On this lab the next readable seam is the FireFlow `UserSession` bridge, not a generic aff-boot or later workflow guess. The sharper read is not only `/FireFlow/api/session`; it is the bridge through `CommandsDispatcher`, `UserSessionPersistenceEventHandler.java::requestUserDetails`, `LegacyRestRepository.java::sendRequest`, and then `UserSession::getUserSession` or `isUserSessionValid` with a reused FA session id. If the reproduced window keeps showing the BusinessFlow or FireFlow side in Apache but never shows those bridge clues, stop at `BusinessFlow -> AFF connection` before promoting config-broadcast, workflow-specific FireFlow, or ActiveMQ checks.",
+                    healthy_markers=["/BusinessFlow/deep_health_check", "/FireFlow/api/session", "CommandsDispatcher", "UserSessionPersistenceEventHandler.java::requestUserDetails", "LegacyRestRepository.java::sendRequest", "UserSession::getUserSession", "isUserSessionValid", "Using existing FASessionId", "ff-session:"],
+                    example_output=_example_output(
+                        "--- apache session activity ---",
+                        '127.0.0.1 - - [27/Mar/2026:06:25:43 -0400] "GET /BusinessFlow/deep_health_check HTTP/1.1" 200 160',
+                        '127.0.0.1 - - [27/Mar/2026:06:25:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070',
+                        '127.0.0.1 - - [27/Mar/2026:06:25:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49',
+                        "--- fireflow usersession ---",
+                        "[UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: bc86040555",
+                        "[LegacyRestRepository.java::sendRequest:57] Calling to perl code [UserSession::getUserSession]",
+                        "[/lib/FireFlow/CDModule/UserSession.pm::_getFASession:178] Using existing FASessionId: 3v5voa7rn9",
                     ),
                 ),
                 _command_entry(
@@ -2424,8 +2764,8 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                 _command_entry(
                     label="Check the AFA SOAP runtime seam behind ws.php",
                     command="echo '--- ws history ---'; grep -n 'SOAP Web Service call\\|is_session_alive\\|SESSION:\\|COOKIE:\\|TOKEN:' /data/public_html/algosec/.ht-fa-history | tail -n 12; echo '--- latest session pivot ---'; sid=$(grep 'SOAP Web Service call' /data/public_html/algosec/.ht-fa-history | tail -n 1 | sed -E 's/.*SESSION:([^ ]+).*/\\1/'); echo SID=$sid; ls -l \"/var/lib/php/session/sess_${sid}\" \"/data/public_html/algosec/session-${sid}/work/.ht-LastActionTime\" 2>/dev/null; stat -c '%n mtime=%y' \"/data/public_html/algosec/session-${sid}/work/.ht-LastActionTime\" 2>/dev/null",
-                    expected_signal="The PHP history log shows the latest `ws.php` SOAP request and `is_session_alive` result with a request hash and session id, and the same session id exists in the PHP session file and pulse-file path.",
-                    interpretation="Use this after `ws.php` itself looks healthy but the AFA side still seems suspect. On this lab the first useful follow-on seam behind `/afa/php/ws.php` is not Metro and not `display_log_data.cmd.php`; it is `.ht-fa-history`, then the PHP session file and pulse-file freshness for the same session id. Apache gives timing for `ws.php`, but `.ht-fa-history` is the usable seam because it carries the request hash, `SESSION / TOKEN / COOKIE` triple, and the `is_session_alive` result.",
+                    expected_signal="The PHP history log shows the latest `ws.php` SOAP request and `is_session_alive` result with a request hash and session id.",
+                    interpretation="Use this after `ws.php` itself looks healthy but the AFA side still seems suspect. On this lab the first useful follow-on seam behind `/afa/php/ws.php` is not Metro and not `display_log_data.cmd.php`; it is `.ht-fa-history`. Apache gives timing for `ws.php`, but `.ht-fa-history` is the usable seam because it carries the request hash, `SESSION / TOKEN / COOKIE` triple, and the `is_session_alive` result. Use the next command to confirm the same session id still has local PHP session backing and pulse-file freshness.",
                     healthy_markers=["SOAP Web Service call", "is_session_alive - AlgosecSession is still active", "SID=", "sess_", ".ht-LastActionTime"],
                     example_output=_example_output(
                         "--- ws history ---",
@@ -2433,6 +2773,18 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                         "SESSION:vq6d70hh7m9u6a4ssk0ad9sojp --- TOKEN:vq6d70hh7m9u6a4ssk0ad9sojp --- COOKIE:vq6d70hh7m9u6a4ssk0ad9sojp",
                         "9fa86682cbda64048a Info ... is_session_alive - AlgosecSession is still active.",
                         "SID=vq6d70hh7m9u6a4ssk0ad9sojp",
+                    ),
+                ),
+                _command_entry(
+                    label="Check the AFA session backing files after ws.php",
+                    command="sid=$(grep 'SOAP Web Service call' /data/public_html/algosec/.ht-fa-history | tail -n 1 | sed -E 's/.*SESSION:([^ ]+).*/\\1/'); echo SID=$sid; stat -c '%n size=%s mtime=%y' \"/var/lib/php/session/sess_${sid}\" \"/data/public_html/algosec/session-${sid}/work/.ht-LastActionTime\" 2>/dev/null; echo '--- latest pulse ---'; tail -n 5 \"/data/public_html/algosec/session-${sid}/work/.ht-LastActionTime\" 2>/dev/null",
+                    expected_signal="The same session id from `.ht-fa-history` still has a local PHP session file and a recent `.ht-LastActionTime` pulse-file update.",
+                    interpretation="Use this when `.ht-fa-history` shows a real `is_session_alive` request but BusinessFlow still reports `AFA connection` unhealthy or ambiguous. If the same session id has no PHP session file or no pulse-file freshness, stop at the `BusinessFlow -> AFA connection` seam before guessing that Metro or a later GUI workflow is the problem.",
+                    healthy_markers=["SID=", "sess_", ".ht-LastActionTime", "mtime="],
+                    example_output=_example_output(
+                        "SID=vq6d70hh7m9u6a4ssk0ad9sojp",
+                        "/var/lib/php/session/sess_vq6d70hh7m9u6a4ssk0ad9sojp size=814 mtime=2026-03-26 16:09:07.000000000 -0400",
+                        "/data/public_html/algosec/session-vq6d70hh7m9u6a4ssk0ad9sojp/work/.ht-LastActionTime size=11 mtime=2026-03-26 16:09:08.000000000 -0400",
                     ),
                 ),
                 _command_entry(
@@ -2522,6 +2874,18 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                         "Content-Type: application/json;charset=UTF-8",
                     ),
                 ),
+                _command_entry(
+                    label="Check Keycloak recent auth and startup clues",
+                    command="tail -n 80 /var/log/keycloak/keycloak.log",
+                    expected_signal="Recent lines show healthy startup or a clear auth, database, TLS, or hostname clue close to the current login handoff.",
+                    interpretation="Use this when Keycloak status, ports, or readiness still leave the auth branch ambiguous. This is the fastest service-specific follow-up for the Keycloak handoff because it can expose startup, database, TLS, or hostname problems without dropping into a broader log sweep first.",
+                    healthy_markers=["started", "Listening on", "https://0.0.0.0:8443", "hostname:"],
+                    example_output=_example_output(
+                        "2026-03-25 16:08:51,337 INFO  [org.keycloak.services] (main) KC-SERVICES0009: Added user 'admin' to realm 'master'",
+                        "2026-03-25 16:08:54,602 INFO  [org.keycloak.quarkus.runtime.hostname.DefaultHostnameProvider] (main) Hostname settings: Base URL: <unset>, Hostname: localhost, Strict HTTPS: false",
+                        "2026-03-25 16:08:56,149 INFO  [io.quarkus] (main) Keycloak 24.0.4 on JVM (powered by Quarkus 3.8.3) started in 18.221s. Listening on: https://0.0.0.0:8443",
+                    ),
+                ),
             ),
         ),
         _playbook_step(
@@ -2609,6 +2973,13 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                     expected_signal="The Metro JVM is present, has a stable elapsed runtime, and its CPU, memory, and thread count look reasonable for the current case.",
                     interpretation="If CPU, memory, or thread count looks unexpectedly high or unstable, treat Metro resource pressure or a stuck JVM as part of the failure.",
                     healthy_markers=["PID", "ELAPSED", "%CPU", "%MEM", "NLWP", "java"],
+                ),
+                _command_entry(
+                    label="Check Metro JVM error clues",
+                    command="grep -n -i -E 'error|exception|failed|caused by|outofmemory|unable|refused|timed out' /data/ms-metro/logs/catalina.out | tail -n 40",
+                    expected_signal="No fresh Metro error signatures appear, or the returned lines clearly point to the real Java, dependency, or application failure.",
+                    interpretation="Use this inside the Metro command pack after the listener, heartbeat, app-traffic, and JVM-activity checks if the app branch still looks unhealthy. It keeps the Metro-specific clue inside the service pack instead of forcing the engineer to jump ahead to a generic final log sweep.",
+                    healthy_markers=["No output is often normal", "Error", "Exception", "Caused by", "Failed"],
                 ),
             ),
         ),
@@ -2769,7 +3140,35 @@ def _core_aff_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             recommended_commands=_command_bundle(
                 _journal_command(
                     "aff-boot.service",
-                    interpretation="Look for permission errors, startup failures, database errors, or Metro-adjacent dependency errors first. Broker theory is now real for this seam because aff-boot holds live 61616 sockets, but the reproduced login-handoff minute still centered on auth, session, and REST activity rather than broker-side signals. Keep JMS and queue suspicion after the closer FireFlow route, service, and database checks unless the same failing minute points directly at broker activity.",
+                    interpretation="Look for permission errors, startup failures, database errors, or Metro-adjacent dependency errors first. Broker theory is now real for this seam because aff-boot holds live 61616 sockets, but the reproduced login-handoff minute still centered on auth, session, and REST activity rather than broker-side signals. A later FireFlow workflow minute now sharpened the same rule further: `CommandsDispatcher` plus nearby AFF reads rolled into `ms-configuration` unified-swagger refresh and an `AutoDiscovery` 502 without same-minute broker evidence. A second `CommandsDispatcher` pass on the `2026-03-21 04:30 EDT` cadence also stayed synchronous, matching journal refresh and `UserSession` fetches rather than queue-backed progression. The next non-`UserSession` branch still did not prove ticket progression either: it clustered around config broadcast plus `Authentication:authenticateUser` and `User:GetUserInfo`. A later targeted hunt on the same lab then showed a different boundary: FireFlow was enabled and polling AFF or AFA surfaces successfully, but `syslog_ticket_changes.pl` reported `Total tickets in DB: 0`, so there was no live request branch to correlate. Keep JMS and queue suspicion after the closer FireFlow route, service, and database checks unless the same failing minute points directly at broker activity, and if the lab appears empty from a ticket-workflow perspective, seed or replay a real request before another progression slice.",
+                ),
+                _command_entry(
+                    label="Check same-minute configuration refresh clues",
+                    command="grep -E 'AlgoSec_FireFlow|AlgoSec_ApplicationDiscovery|swagger|BAD_GATEWAY' /data/algosec-ms/logs/ms-configuration.log | tail -n 40; echo '--- apache ---'; grep -E 'AutoDiscovery|swagger/v2/api-docs' /var/log/httpd/ssl_error_log | tail -n 20",
+                    expected_signal="Recent lines either stay quiet or show whether the failing FireFlow minute rolled into unified swagger refresh, downstream service-definition fetches, or a concrete Apache-side 502.",
+                    interpretation="Use this when the FireFlow action minute includes `CommandsDispatcher`, `/FireFlow/api/session`, or nearby AFF config reads and then drifts into swagger or service-definition work. If `ms-configuration` and Apache show same-minute refresh or downstream 502 clues, pivot next to configuration-service troubleshooting before promoting ActiveMQ.",
+                    healthy_markers=["AlgoSec_FireFlow", "swagger", "AutoDiscovery", "BAD_GATEWAY"],
+                ),
+                _command_entry(
+                    label="Check whether CommandsDispatcher stayed on journal or session maintenance",
+                    command="grep -E 'CommandsDispatcher|/journal/getChangesInOrigRulesByDate|/FireFlow/api/session|/session/extend' /var/log/httpd/ssl_access_log | tail -n 60",
+                    expected_signal="The returned window shows whether the FireFlow branch stayed on journal refresh and session maintenance or moved into a different workflow shape.",
+                    interpretation="Use this before escalating to ActiveMQ for a `CommandsDispatcher` minute. If the same window keeps resolving to journal refresh, `/FireFlow/api/session`, or `/session/extend`, treat it as synchronous maintenance-style traffic and keep broker inspection later.",
+                    healthy_markers=["CommandsDispatcher", "/journal/getChangesInOrigRulesByDate", "/FireFlow/api/session", "/session/extend"],
+                ),
+                _command_entry(
+                    label="Check whether the branch is config broadcast plus FireFlow auth bootstrap",
+                    command="grep -E 'application-afaConfig.properties|notify ActiveMq broadcast|MicroserviceConfigurationBroadcast|Refreshing application context' /data/algosec-ms/logs/ms-configuration.log /data/algosec-ms/logs/ms-initial-plan.log | tail -n 60; echo '--- fireflow ---'; grep -E 'authenticateUser|GetUserInfo' /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 2>/dev/null | tail -n 40",
+                    expected_signal="The returned window shows whether the same FireFlow minute is really a config-broadcast ripple with nearby authentication and user bootstrap rather than a ticket-progression branch.",
+                    interpretation="Use this when a non-`UserSession` dispatcher destination appears, but the nearby minute still looks like setup work. If config broadcast, `MicroserviceConfigurationBroadcast`, `Authentication:authenticateUser`, and `User:GetUserInfo` cluster together, classify the branch as config-propagation plus auth bootstrap and keep approval, worker, or broker escalation later.",
+                    healthy_markers=["application-afaConfig.properties", "MicroserviceConfigurationBroadcast", "authenticateUser", "GetUserInfo"],
+                ),
+                _command_entry(
+                    label="Check whether FireFlow is active but the lab has zero tickets",
+                    command="grep -E 'Total tickets in DB|tickets updated in the last 10 minutes|setup/fireflow/is_enabled|allowedDevices|brandConfig' /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 2>/dev/null | tail -n 80; echo '--- apache ---'; grep -E '/setup/fireflow/is_enabled|/allowedDevices|/bridge/refresh|/config/all/noauth' /var/log/httpd/ssl_access_log | tail -n 40",
+                    expected_signal="The returned window shows whether FireFlow is enabled and polling neighboring dependencies successfully while still reporting zero tickets in DB.",
+                    interpretation="Use this when FireFlow looks enabled but every progression hunt collapses back into setup, config, AFF bridge, and session-maintenance traffic. If the same windows show `Total tickets in DB: 0` or no recent ticket updates, stop treating the lab as a populated workflow environment. Seed or replay one real FireFlow request before another approval, implementation, review, or ActiveMQ-oriented slice.",
+                    healthy_markers=["Total tickets in DB: 0", "setup/fireflow/is_enabled", "allowedDevices", "brandConfig"],
                 ),
             ),
         ),

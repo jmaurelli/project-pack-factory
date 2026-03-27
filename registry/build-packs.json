@@ -987,8 +987,46 @@
       "retired_at": null,
       "retirement_file": "status/retirement.json",
       "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/json-health-checker-adversarial-restart-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-adversarial-restart-build-pack-v1-20260326t120233z"
+      ],
+      "pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-adversarial-restart-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `json-health-checker-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-20260326t120234z"
+      ],
+      "pack_id": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-25T23:15:45Z"
+  "updated_at": "2026-03-26T12:02:34Z"
 }

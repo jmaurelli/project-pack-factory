@@ -1,0 +1,83 @@
+{
+  "active_task_id": "run_inherited_benchmarks",
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 0,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 5
+    },
+    "status": "within_budget",
+    "summary": "Autonomy stayed within the default bounded run budget."
+  },
+  "baseline_readiness_state": "in_progress",
+  "block_summary": null,
+  "completed_task_ids": [
+    "run_build_pack_validation"
+  ],
+  "delta_summary": null,
+  "evidence_paths": [
+    "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/loop-events.jsonl",
+    "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/run-summary.json"
+  ],
+  "final_readiness_state": "in_progress",
+  "generated_at": "2026-03-26T12:02:33Z",
+  "handoff_summary": [
+    "Run `json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1` ended with stop reason `mid_backlog_checkpoint_created`.",
+    "Readiness moved from `in_progress` to `in_progress`; ready_for_deployment=False.",
+    "Completed tasks: run_build_pack_validation.",
+    "Avoid trusting autonomy memory from runs where canonical state integrity did not pass; rerun bounded validation first.",
+    "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+    "Recommended next action: continue with canonical next task `run_inherited_benchmarks` from status/work-state.json and use this summary as local measurement evidence only."
+  ],
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+  "memory_id": "autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Pack-local restart memory for the next bounded autonomy run.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "canonical_state_integrity_not_passed"
+    ],
+    "confidence_level": "low",
+    "confidence_score": 0.35,
+    "expires_after_hours": 12,
+    "expires_at": "2026-03-27T00:02:33Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "Low-confidence active pack restart memory with 12h freshness window."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_trusting_runs_without_canonical_integrity"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Avoid trusting autonomy memory from runs where canonical state integrity did not pass; rerun bounded validation first."
+    ]
+  },
+  "next_recommended_task_id": "run_inherited_benchmarks",
+  "operator_intervention_summary": null,
+  "pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: continue with canonical next task `run_inherited_benchmarks` from status/work-state.json and use this summary as local measurement evidence only.",
+  "resolved_block_summary": null,
+  "run_id": "json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": null,
+    "loop_events_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/loop-events.jsonl",
+    "previous_memory_path": null,
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/run-summary.json"
+  },
+  "summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json."
+}

@@ -1,0 +1,121 @@
+[webapp:kScheduler3] [2026-03-26 10:18:15,232] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFile:30] loading fa_key file: /home/afa/.fa/.fa_key
+[webapp:Scheduler20] [2026-03-26 10:18:45,232] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFileOld:53] file /home/afa/.fa/.fa_key.old does not exist - fa key won't be loaded
+[webapp:Scheduler18] [2026-03-26 10:18:45,232] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFile:30] loading fa_key file: /home/afa/.fa/.fa_key
+[webapp:989-exec-10] [2026-03-26 10:18:56,721] [INFO   ]: [StatusController.java::getStatus:19] FireFlow web application is available
+[webapp:Scheduler10] [2026-03-26 10:19:15,232] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFileOld:53] file /home/afa/.fa/.fa_key.old does not exist - fa key won't be loaded
+[webapp:kScheduler5] [2026-03-26 10:19:15,232] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFile:30] loading fa_key file: /home/afa/.fa/.fa_key
+[webapp:kScheduler2] [2026-03-26 10:19:45,232] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFileOld:53] file /home/afa/.fa/.fa_key.old does not exist - fa key won't be loaded
+[webapp:kScheduler2] [2026-03-26 10:19:45,232] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFile:30] loading fa_key file: /home/afa/.fa/.fa_key
+[webapp:1989-exec-1] [2026-03-26 10:20:05,172] [INFO   ]: [AuthenticationExternalController.java::authenticate:65] Authenticating user [Backup_user]
+[webapp:1989-exec-1] [2026-03-26 10:20:05,172] [DEBUG  ]: [LegacyRestRepository.java::sendRequest:57] Calling to perl code [Authentication::authenticateUser] 
+[560198] [          ] [2026-03-26 10:20:05,178] [debug  ]: [/lib/RT_Vendor.pm::InitLogging:814] Checking if FireFlow_Config.json has changed.
+[560198] [65bb545eaa] [2026-03-26 10:20:05,190] [debug  ]: [/html/Elements/CommandsDispatcher::(eval):108] Destination module: [Authentication], Command: [authenticateUser]
+[560198] [65bb545eaa] [2026-03-26 10:20:05,232] [debug  ]: [/lib/FireFlow/CDModule/Authentication.pm::authenticateUser:68] authenticateUser: authenticate function - going to run verifyOrPerformAuth function
+[560198] [65bb545eaa] [2026-03-26 10:20:05,233] [debug  ]: [/lib/FireFlow/AuthenticationUtils.pm::verifyOrPerformAuth:56] WebService: inside verifyOrPerformAuth function
+[560198] [65bb545eaa] [2026-03-26 10:20:05,233] [debug  ]: [/lib/FireFlow/AuthenticationUtils.pm::verifyOrPerformAuth:94] WebService: verifyOrPerformAuth function - going to IssueHTTPRequest to the following URL  - https://127.0.0.1/FireFlow/SelfService/CheckAuthentication 
+[531195] [533c342cd4] [2026-03-26 10:20:05,438] [debug  ]: [/lib/FireFlow/DomainsUtils.pm::getDomainIdFromName:194] Could not find domain with name [Management].
+[531195] [533c342cd4] [2026-03-26 10:20:05,439] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6170] session is not required for command [config/all/noauth]
+[531195] [533c342cd4] [2026-03-26 10:20:05,439] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/config/all/noauth], method=[get]
+[531195] [533c342cd4] [2026-03-26 10:20:05,440] [debug  ]: [/lib/FireFlow/FABridge.pm::getRequest:153] RestClient get: [https://localhost:443/afa/external//config/all/noauth?domain=0]
+[531195] [533c342cd4] [2026-03-26 10:20:05,541] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[531195] [533c342cd4] [2026-03-26 10:20:05,544] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6263] IssueMetroCall command [config/all/noauth] output as json: ##JSON## {"LDAP_AssociatedRoles":"yes","Disable_Monitoring":"no","WEBGUI_SESSION_LENGTH":"300","LDAP_FetchData":"no","DB_host":"localhost","DB_user":"afa","last_administrator":"admin","DB_name":"afa","BUSINESSFLOW_ADDRESS":"localhost","FireFlow_configured":"yes","Use_SSO":"no","APPVIZCLOUD_ENABLED":"yes","System_Users":"FireFlow_batch,Backup_user","Use_Work_Flow":"yes","FIREFLOW_ADDRESS":"localhost"}
+[531195] [533c342cd4] [2026-03-26 10:20:05,547] [debug  ]: [/lib/RT/User_Vendor.pm::IsPassword:285] IsPassword: user [Backup_user] checking auth methods: [AFA], "only check authentication" flag - 0
+[531195] [533c342cd4] [2026-03-26 10:20:05,548] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/server/connection/login]
+[531195] [533c342cd4] [2026-03-26 10:20:05,548] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
+[621028] [          ] [2026-03-26 10:20:09,645] [info   ]: [/bin/StartWorkers.pl:74] --> StartWorkers started
+[621028] [          ] [2026-03-26 10:20:09,971] [info   ]: [/bin/StartWorkers.pl:119] StartWorkers ending
+[webapp:1989-exec-7] [2026-03-26 10:20:12,426] [INFO   ]: [StatusController.java::getStatus:19] FireFlow web application is available
+[webapp:Scheduler19] [2026-03-26 10:20:15,233] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFileOld:53] file /home/afa/.fa/.fa_key.old does not exist - fa key won't be loaded
+[webapp:Scheduler19] [2026-03-26 10:20:15,233] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFile:30] loading fa_key file: /home/afa/.fa/.fa_key
+[531195] [533c342cd4] [2026-03-26 10:20:16,182] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[531195] [533c342cd4] [2026-03-26 10:20:16,185] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
+[531195] [533c342cd4] [2026-03-26 10:20:16,186] [info   ]: [/lib/FireFlow/HTTPUtils.pm::SetCookie:150] Adding header Set-Cookie to response with value: PHPSESSID=
+[531195] [533c342cd4] [2026-03-26 10:20:16,187] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
+[531195] [533c342cd4] [2026-03-26 10:20:16,188] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
+[531195] [533c342cd4] [2026-03-26 10:20:16,188] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=87809vce36fj9169nbl6vuvm79?domain=0&session=87809vce36]
+[531195] [533c342cd4] [2026-03-26 10:20:16,189] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["533c342cd4155c9319ef959b9699574b"]
+[531195] [533c342cd4] [2026-03-26 10:20:16,336] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
+[531195] [533c342cd4] [2026-03-26 10:20:16,337] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/config], method=[get]
+[531195] [533c342cd4] [2026-03-26 10:20:16,338] [debug  ]: [/lib/FireFlow/FABridge.pm::getRequest:153] RestClient get: [https://localhost:443/afa/external//config?session=87809vce36&domain=0]
+[531195] [533c342cd4] [2026-03-26 10:20:16,394] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[531195] [533c342cd4] [2026-03-26 10:20:16,398] [info   ]: [/html/autohandler::__ANON__:432] Successful login for Backup_user from 127.0.0.1
+[531195] [533c342cd4] [2026-03-26 10:20:16,404] [debug  ]: [/lib/RT/User_Vendor.pm::InitCacheQueueInfo:1409] Queue [Firewalls] allowed for user
+[531195] [533c342cd4] [2026-03-26 10:20:16,407] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/config], method=[get]
+[531195] [533c342cd4] [2026-03-26 10:20:16,407] [debug  ]: [/lib/FireFlow/FABridge.pm::getRequest:153] RestClient get: [https://localhost:443/afa/external//config?session=87809vce36&domain=0]
+[531195] [533c342cd4] [2026-03-26 10:20:16,441] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[531195] [533c342cd4] [2026-03-26 10:20:16,444] [info   ]: [/html/autohandler::__ANON__:479] Found AppViz hostname. logging in.
+[623758] [          ] [2026-03-26 10:20:16,787] [debug  ]: [/lib/RT_Vendor.pm::InitLogging:814] Checking if FireFlow_Config.json has changed.
+[623758] [          ] [2026-03-26 10:20:17,234] [debug  ]: [/lib/FireFlow/SrvUtils.pm::readDefSrvFile:1097] About to read srv file [/usr/share/fa/data/def.srv]
+[623758] [          ] [2026-03-26 10:20:17,241] [debug  ]: [/lib/FireFlow/SrvUtils.pm::readDefSrvFile:1097] About to read srv file [/home/afa/.fa/user_def.srv]
+[623758] [          ] [2026-03-26 10:20:17,241] [info   ]: [/lib/FireFlow/SrvUtils.pm::readDefSrvFile:1099] Def srv file [/home/afa/.fa/user_def.srv] does not exist
+[623758] [533c342cd4] [2026-03-26 10:20:17,327] [debug  ]: [/lib/FireFlow/FABridge.pm::SetLazySMTPInfo:4165] --> SetLazySMTPInfo is starting
+[623758] [533c342cd4] [2026-03-26 10:20:17,328] [debug  ]: [/lib/FireFlow/FABridge.pm::GetPassword:4108] GetPassword: No encrypted password to decode for [SMTPPassword]
+[623758] [533c342cd4] [2026-03-26 10:20:17,328] [debug  ]: [/lib/FireFlow/FABridge.pm::GetSMTPInfo:4134] --> GetSMTPInfo
+[623758] [533c342cd4] [2026-03-26 10:20:17,330] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/config], method=[get]
+[623758] [533c342cd4] [2026-03-26 10:20:17,331] [debug  ]: [/lib/FireFlow/FABridge.pm::getRequest:153] RestClient get: [https://localhost:443/afa/external//config?session=87809vce36&domain=0]
+[623758] [533c342cd4] [2026-03-26 10:20:17,384] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[623758] [533c342cd4] [2026-03-26 10:20:17,388] [debug  ]: [/lib/FireFlow/FABridge.pm::GetSMTPInfo:4147] GetSMTPInfo: No encrypted password to decrypt
+[623758] [533c342cd4] [2026-03-26 10:20:17,388] [debug  ]: [/lib/FireFlow/FABridge.pm::GetSMTPInfo:4159] GetSMTPInfo - get config is finished
+[623758] [533c342cd4] [2026-03-26 10:20:17,389] [info   ]: [/lib/FireFlow/FABridge.pm::SetLazySMTPInfo:4198] SetLazySMTPInfo is finished
+[623758] [533c342cd4] [2026-03-26 10:20:17,396] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+[623758] [533c342cd4] [2026-03-26 10:20:17,397] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: []
+[623758] [533c342cd4] [2026-03-26 10:20:17,442] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[623758] [533c342cd4] [2026-03-26 10:20:17,444] [debug  ]: [/lib/FireFlow/FABridge.pm::SessionExpirationCheck:1135] FA session is being extended 87809vce36
+[623758] [533c342cd4] [2026-03-26 10:20:17,445] [debug  ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:195] _issuePostToAfa will call session/extend
+[623758] [533c342cd4] [2026-03-26 10:20:17,446] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/session/extend], method=[post]
+[623758] [533c342cd4] [2026-03-26 10:20:17,446] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//session/extend?domain=0&session=87809vce36fj9169nbl6vuvm79?domain=0&session=87809vce36]
+[623758] [533c342cd4] [2026-03-26 10:20:17,447] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [null]
+[623758] [533c342cd4] [2026-03-26 10:20:17,501] [debug  ]: [/html/Elements/CommandsDispatcher::(eval):108] Destination module: [User], Command: [GetUserInfo]
+[623758] [533c342cd4] [2026-03-26 10:20:17,528] [debug  ]: [/html/Elements/CommandsDispatcher::(eval):252] The results: $VAR1 = {
+          'LDAPAssociatedRoles' => 1,
+          'UseLDAP' => '',
+          'LdapMemberOfDNs' => [],
+          'EmailAddress' => 'some_email_not_used1@somewhere.org',
+          'templates' => [
+                           '110: Multi-Approval Request',
+                           '115: Automatic Traffic Change Request',
+                           '120: Generic request',
+                           '130: Object Change Request',
+                           '135: Object Change Multi Device Request',
+                           '140: Rule Removal Request',
+                           '145: Rule Modification Request',
+                           '150: Parallel-Approval Request',
+                           '160: Web Filter-Change Request (Blue Coat)',
+                           '170: Traffic Change Request (IPv6)',
+                           '180: Traffic Change Request (Multicast)',
+                           '190: Verbatim Rule Addition',
+                           'Basic Change Traffic Request'
+                         ],
+          'RealName' => 'user for backup',
+          'Name' => 'Backup_user',
+          'Privileged' => 1,
+          'LDAPFetchData' => ''
+        };
+[623758] [533c342cd4] [2026-03-26 10:20:17,529] [debug  ]: [/html/Elements/CommandsDispatcher::__ANON__:346] Command Dispatcher [User:GetUserInfo] (took 0.027793 sec)
+[531195] [533c342cd4] [2026-03-26 10:20:19,807] [info   ]: [/html/autohandler::__ANON__:499] Completed login to AppViz and saved cookie
+[531195] [533c342cd4] [2026-03-26 10:20:19,810] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+[531195] [533c342cd4] [2026-03-26 10:20:19,810] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: []
+[531195] [533c342cd4] [2026-03-26 10:20:19,848] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[531195] [533c342cd4] [2026-03-26 10:20:19,852] [debug  ]: [/lib/FireFlow/FABridge.pm::SessionExpirationCheck:1135] FA session is being extended 87809vce36
+[531195] [533c342cd4] [2026-03-26 10:20:19,852] [debug  ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:195] _issuePostToAfa will call session/extend
+[531195] [533c342cd4] [2026-03-26 10:20:19,853] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/session/extend], method=[post]
+[531195] [533c342cd4] [2026-03-26 10:20:19,854] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//session/extend?session=87809vce36fj9169nbl6vuvm79&domain=0?session=87809vce36&domain=0]
+[531195] [533c342cd4] [2026-03-26 10:20:19,854] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [null]
+[531195] [533c342cd4] [2026-03-26 10:20:19,904] [debug  ]: [/html/SelfService/CheckAuthentication::__ANON__:117] RESULTS: ##JSON##: [{"sessionId":"533c342cd4","afaDomainId":0,"username":"Backup_user","isManagementDomainUser":0,"phpSessionId":"87809vce36fj9169nbl6vuvm79","faToken":"87809vce36","faSessionId":"87809vce36","authenticated":1,"ldapMemberOfDNs":[],"errorMessage":"","isRequestor":0}].
+[560198] [65bb545eaa] [2026-03-26 10:20:19,992] [debug  ]: [/lib/FireFlow/CDModule/Authentication.pm::authenticateUser:70] authenticateUser: authenticate function - verifyOrPerformAuth function completed
+[560198] [65bb545eaa] [2026-03-26 10:20:19,992] [debug  ]: [/html/Elements/CommandsDispatcher::__ANON__:346] Command Dispatcher [Authentication:authenticateUser] (took 14.802893 sec)
+[webapp:1989-exec-1] [2026-03-26 10:20:19,999] [INFO   ]: [AuthenticationExternalController.java::authenticate:76] User [Backup_user] authenticated successfully
+[592603] [x_a87e2   ] [2026-03-26 10:20:25,174] [debug  ]: [/bin/UpdateChangesInDB.pl:139] UpdateChangesInDB: running now
+[592603] [x_a87e2   ] [2026-03-26 10:20:25,175] [debug  ]: [/lib/RT_Vendor.pm::InitLogging:814] Checking if FireFlow_Config.json has changed.
+[592603] [x_a87e2   ] [2026-03-26 10:20:25,175] [debug  ]: [/lib/FireFlow/FABridge.pm::_init:84] Initialized AffApi with baseUrl: http://127.0.0.1:1989
+[592603] [x_a87e2   ] [2026-03-26 10:20:25,176] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [http://127.0.0.1:1989/aff/api/internal/journal/updateLastChanges]
+[592603] [x_a87e2   ] [2026-03-26 10:20:25,177] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: []
+[webapp:1989-exec-2] [2026-03-26 10:20:25,181] [DEBUG  ]: [AbstractPreAuthenticatedProcessingFilter.java::doFilter:137] Authenticating null
+[webapp:1989-exec-2] [2026-03-26 10:20:25,181] [DEBUG  ]: [AbstractPreAuthenticatedProcessingFilter.java::doAuthenticate:194] preAuthenticatedPrincipal = c6a08fe79f, trying to authenticate
+[webapp:1989-exec-2] [2026-03-26 10:20:25,181] [DEBUG  ]: [LegacyUserService.java::loadUserDetails:82] ff-session key: c6a08fe79f
+[webapp:1989-exec-2] [2026-03-26 10:20:25,181] [DEBUG  ]: [UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: c6a08fe79f
+[webapp:1989-exec-2] [2026-03-26 10:20:25,181] [DEBUG  ]: [LegacyRestRepository.java::sendRequest:57] Calling to perl code [UserSession::getUserSession] 
+[560198] [c6a08fe79f] [2026-03-26 10:20:25,199] [debug  ]: [/html/Elements/CommandsDispatcher::(eval):108] Destination module: [UserSession], Command: [getUserSession]
+[560198] [c6a08fe79f] [2026-03-26 10:20:25,199] [debug  ]: [/lib/FireFlow/CDModule/UserSession.pm::getUserSession:63] getUserSession: starting... 
+[560198] [c6a08fe79f] [2026-03-26 10:20:25,199] [debug  ]: [/lib/FireFlow/CDModule/UserSession.pm::_getFFSessionState:125] isUserSessionValid: starting... 
+[560198] [c6a08fe79f] [2026-03-26 10:20:25,202] [debug  ]: [/lib/FireFlow/CDModule/UserSession.pm::_getFASession:178] Using existing FASessionId: du15gcigkv

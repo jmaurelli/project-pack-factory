@@ -52,6 +52,7 @@ def refresh_local_feedback_memory_pointer(
         "selected_run_id": selected_payload.get("run_id"),
         "selected_generated_at": selected_payload.get("generated_at"),
         "selected_memory_path": relative_path(target_pack.pack_root, selected_path),
+        "selected_memory_tier": selected_payload.get("memory_tier", {}).get("tier", "restart_memory"),
         "selected_memory_sha256": selected_sha256,
         "source_kind": "local_autonomy_run",
         "source_import_id": None,

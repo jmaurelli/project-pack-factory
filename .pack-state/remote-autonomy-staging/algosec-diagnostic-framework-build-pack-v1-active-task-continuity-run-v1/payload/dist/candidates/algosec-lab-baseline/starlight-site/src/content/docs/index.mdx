@@ -1,0 +1,133 @@
+---
+title: AlgoSec Diagnostic Framework
+description: Runtime-backed framework for diagnostic playbooks, evidence, and support workflows.
+sidebar:
+  label: Overview
+  order: 1
+---
+
+# AlgoSec Diagnostic Framework
+
+Support Cockpit is the current interaction model for the Starlight publisher.
+
+<div class="adf-home-shell">
+  <div class="adf-home-topbar">
+    <div class="adf-panel">
+      <p class="adf-panel-label">Live baseline</p>
+      <p>algosec-lab on algosec running Rocky Linux 8.10 (Green Obsidian).</p>
+    </div>
+    <div class="adf-panel">
+      <p class="adf-panel-label">Observed scope</p>
+      <p>263 services, 56 listeners, 114 config checkpoints, 109 log checkpoints.</p>
+    </div>
+  </div>
+
+## First response
+
+<div class="adf-home-grid">
+  <div class="adf-panel">
+    <p class="adf-panel-label">How to use this site</p>
+    <ul>
+      <li>Confirm the customer appliance hostname, OS family, and any visible build markers against the lab baseline.</li>
+      <li>Check whether the top AlgoSec services are active and enabled in the customer environment.</li>
+      <li>Compare Apache-routed endpoints and local listener ports before moving into deeper service-specific diagnosis.</li>
+      <li>Use the recorded config and log checkpoints for the top services before inferring broader platform issues.</li>
+    </ul>
+  </div>
+  <div class="adf-panel">
+    <p class="adf-panel-label">Why this shape</p>
+    <ul>
+      <li>Quick jump stays visible while you read lower command content.</li>
+      <li>Each checkpoint stays collapsed until you need it.</li>
+      <li>The JSON baseline stays canonical. This page is only a render.</li>
+    </ul>
+  </div>
+</div>
+
+## Playbooks
+
+<div class="adf-home-card-grid">
+<a class="adf-home-card" href="/playbooks/asms-ui-is-down/">
+  <p class="adf-panel-label">ui-and-proxy</p>
+  <strong>ASMS UI is down</strong>
+  <span>services: httpd.service, keycloak.service, ms-metro.service</span>
+  <span class="adf-home-card-list">
+    Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.
+    Confirm Apache/HTTPD can answer local UI traffic and still route toward the auth and app branches.
+  </span>
+</a>
+<a class="adf-home-card" href="/playbooks/fireflow-backend/">
+  <p class="adf-panel-label">core-aff</p>
+  <strong>FireFlow Backend</strong>
+  <span>paths: aff-boot; services: aff-boot.service, algosec-dfs.service, postgresql.service</span>
+  <span class="adf-home-card-list">
+    Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.
+    Confirm postgresql.service is active before treating FireFlow symptoms as application-only.
+  </span>
+</a>
+<a class="adf-home-card" href="/playbooks/microservice-platform/">
+  <p class="adf-panel-label">microservice-platform</p>
+  <strong>Microservice Platform</strong>
+  <span>paths: ms-batch-application, ms-bflow, ms-cloudlicensing, ms-configuration; services: algobot-microsoft-teams.service, algobot-slack.service, algobot-webex-teams.service, algosec-ms.service, elastic-ssh-tunnel.service, httpd.service</span>
+  <span class="adf-home-card-list">
+    Confirm algosec-ms.service completed successfully and the top ms-* services are active.
+    Compare the routed microservice paths first: ms-batch-application, ms-bflow, ms-cloudlicensing.
+  </span>
+</a>
+<a class="adf-home-card" href="/playbooks/messaging-and-data/">
+  <p class="adf-panel-label">messaging-and-data</p>
+  <strong>Messaging and Data</strong>
+  <span>services: activemq.service, postgresql.service</span>
+  <span class="adf-home-card-list">
+    Confirm activemq.service is active and listener 61616 is present.
+    Confirm postgresql.service is active and local database access is healthy.
+  </span>
+</a>
+</div>
+
+## Symptom lookup
+
+<div class="adf-symptom-grid">
+<div class="adf-symptom-card">
+  <a class="adf-symptom-link" href="/playbooks/asms-ui-is-down/"><strong>ASMS UI is down</strong></a>
+  <p>Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.</p>
+  <span>Use ASMS UI is down.</span>
+</div>
+<div class="adf-symptom-card">
+  <a class="adf-symptom-link" href="/playbooks/asms-ui-is-down/"><strong>ASMS login page not loading</strong></a>
+  <p>Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.</p>
+  <span>Use ASMS UI is down.</span>
+</div>
+<div class="adf-symptom-card">
+  <a class="adf-symptom-link" href="/playbooks/fireflow-backend/"><strong>FireFlow action failing</strong></a>
+  <p>Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.</p>
+  <span>Use FireFlow Backend.</span>
+</div>
+<div class="adf-symptom-card">
+  <a class="adf-symptom-link" href="/playbooks/fireflow-backend/"><strong>FireFlow API error</strong></a>
+  <p>Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.</p>
+  <span>Use FireFlow Backend.</span>
+</div>
+<div class="adf-symptom-card">
+  <a class="adf-symptom-link" href="/playbooks/microservice-platform/"><strong>Feature failing behind UI</strong></a>
+  <p>Confirm algosec-ms.service completed successfully and the top ms-* services are active.</p>
+  <span>Use Microservice Platform.</span>
+</div>
+<div class="adf-symptom-card">
+  <a class="adf-symptom-link" href="/playbooks/microservice-platform/"><strong>Specific microservice path failing</strong></a>
+  <p>Confirm algosec-ms.service completed successfully and the top ms-* services are active.</p>
+  <span>Use Microservice Platform.</span>
+</div>
+<div class="adf-symptom-card">
+  <a class="adf-symptom-link" href="/playbooks/messaging-and-data/"><strong>Job stuck or not progressing</strong></a>
+  <p>Confirm activemq.service is active and listener 61616 is present.</p>
+  <span>Use Messaging and Data.</span>
+</div>
+<div class="adf-symptom-card">
+  <a class="adf-symptom-link" href="/playbooks/messaging-and-data/"><strong>Data-backed action failing</strong></a>
+  <p>Confirm activemq.service is active and listener 61616 is present.</p>
+  <span>Use Messaging and Data.</span>
+</div>
+</div>
+</div>
+

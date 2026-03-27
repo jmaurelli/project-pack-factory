@@ -2,7 +2,7 @@
   "artifact_refs": {
     "runtime_evidence": "runtime-evidence.json"
   },
-  "generated_at": "2026-03-25T20:14:52Z",
+  "generated_at": "2026-03-27T10:32:46Z",
   "schema_version": "adf-service-inventory/v1",
   "services": [
     {
@@ -1549,14 +1549,16 @@
       "inference": {
         "product_scope": "platform",
         "reasoning": [
+          "service is active",
+          "service is running",
           "service is enabled or static"
         ],
         "role_hint": "application or support service",
-        "support_importance_score": 1,
-        "support_importance_tier": "reference"
+        "support_importance_score": 6,
+        "support_importance_tier": "supporting"
       },
       "observed": {
-        "active_state": "unknown",
+        "active_state": "active",
         "config_refs": [],
         "control_refs": [
           "//fwupd.org/",
@@ -1571,16 +1573,17 @@
         "dependency_refs": [
           "dbus.service"
         ],
-        "description": "fwupd.service",
+        "description": "Firmware update daemon",
         "evidence_refs": [
-          "systemd_unit_files"
+          "systemd_unit_files",
+          "systemd_units"
         ],
         "http_routes": [],
         "listeners": [],
-        "load_state": "unknown",
+        "load_state": "loaded",
         "log_refs": [],
         "process_matches": [],
-        "sub_state": "unknown",
+        "sub_state": "running",
         "unit_file_path": "/usr/lib/systemd/system/fwupd.service",
         "unit_file_state": "static"
       },
@@ -8949,9 +8952,9 @@
     "critical_services": 1,
     "product_dependencies": 0,
     "product_services": 0,
-    "reference_services": 174,
+    "reference_services": 173,
     "services_with_http_routes": 0,
-    "supporting_services": 48,
+    "supporting_services": 49,
     "total_services": 223
   },
   "target": {

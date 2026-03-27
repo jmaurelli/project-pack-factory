@@ -10,7 +10,19 @@ HTML view for remote support sessions.
 ## Primary User
 
 Support engineers working live with customers over screen share or remote
-session.
+session, mostly at a junior level.
+
+The playbooks should assume:
+
+- the engineer can use basic Linux and network commands
+- the engineer follows explicit step-by-step instructions well
+- the engineer may not know deeper Linux internals
+- English may be the engineer's second language
+- the wording should stay plain, short, and direct
+- Linux terms should stay consistent across playbooks so engineers learn and
+  reuse the same support language with customers
+- when a Linux term may be unfamiliar, the playbook should give a brief plain
+  explanation close to the command instead of assuming deep OS knowledge
 
 ## V1 Scope
 
@@ -31,8 +43,8 @@ session.
 
 ## Success Criteria
 
-- The output gives support engineers a trusted lab baseline they can compare
-  against a customer environment.
+- The output gives support engineers a trusted baseline and clear diagnostic
+  steps they can use in a customer environment.
 - The baseline clearly separates observed facts, inference, and unknowns.
 - The first playbooks help narrow likely issue areas during live support.
 - HTML output is useful during a remote support session without becoming the
@@ -41,6 +53,6 @@ session.
 ## Working Priorities
 
 1. Collect trustworthy runtime evidence.
-2. Turn that evidence into support-ready comparison playbooks.
+2. Turn that evidence into simple support playbooks written in plain language.
 3. Keep the scope small enough to stay manageable.
 4. Keep testing minimal and high-signal.

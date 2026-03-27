@@ -1,0 +1,27 @@
+{
+    "schema_version": "adf-delegated-task-result/v1",
+    "delegation_run_id": "autodiscovery-502-observe-v1",
+    "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+    "delegation_tier": "observe_only",
+    "status": "completed",
+    "summary": "Observed the AutoDiscovery 502 path without mutating appliance state. Apache maps /ms-autodiscovery to 127.0.0.1:8095 and redirects that path into /AutoDiscovery, which currently returns 502 because Apache cannot resolve the ProxyPass host AutoDiscovery. Independently, ms-autodiscovery.service is inactive/dead and nothing is listening on 8095, so the backend itself is also down.",
+    "returned_artifact_paths": [
+        "artifacts/apache-autodiscovery-conf.txt",
+        "artifacts/ms-autodiscovery-service.txt",
+        "artifacts/ms-configuration-service.txt",
+        "artifacts/ms-autodiscovery-show.txt",
+        "artifacts/ms-configuration-show.txt",
+        "artifacts/port-8095.txt",
+        "artifacts/autodiscovery-http-checks.txt",
+        "artifacts/httpd-log-snippets.txt",
+        "artifacts/httpd-files.txt",
+        "artifacts/ssl_error_log-tail.txt",
+        "artifacts/ssl_error_log-matches.txt"
+    ],
+    "intentional_mutations": [],
+    "follow_up_recommendations": [
+        "Validate whether /AutoDiscovery should proxy through the AutoDiscovery hostname at all, or whether the ProxyPass target should be changed to a resolvable local endpoint.",
+        "Investigate why ms-autodiscovery.service is inactive/dead and confirm the expected startup relationship for the service that should own port 8095.",
+        "After fixing hostname resolution and restoring the 8095 backend, re-run direct and Apache-facing checks for /v2/api-docs to confirm the 502 path is cleared."
+    ]
+}

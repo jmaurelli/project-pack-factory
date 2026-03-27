@@ -20,7 +20,13 @@
     "Run the initial smoke benchmark when ready."
   ],
   "planning_summary": {
+    "capability_family": "config-drift-detection",
     "delivery_shape": "script",
+    "expected_build_pack_variants": [
+      "baseline drift checker",
+      "autonomy transfer proving ground"
+    ],
+    "first_materialization_purpose": "baseline drift checker",
     "initial_benchmark_intent": "Run a deterministic config-drift smoke path that confirms the template exposes its manifest, readiness state, and benchmark declaration cleanly for fresh-agent traversal.",
     "new_template_rationale": "The active smoke template should remain a neutral workflow baseline, and the JSON health checker stays a narrow schema-style utility. This new template expands the factory into a practical release-safety problem without leaving the current structured-data capability zone.",
     "project_goal": "Create a small PackFactory-native template for detecting configuration drift between a current JSON or YAML file and a declared baseline before promotion.",

@@ -1,0 +1,874 @@
+{
+  "generated_at": "2026-03-26T11:18:00Z",
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "Support Cockpit is documented as the selected prototype direction in pack-local state and specs.",
+        "The Starlight publishing path begins moving toward the Support Cockpit interaction model without changing the JSON-first artifact contract.",
+        "The next implementation cycle preserves the sticky quick-jump behavior, collapsible checkpoints, and command-first presentation."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Pack-local objective, backlog, work-state, and readiness files all reflect Support Cockpit as the chosen direction.",
+        "The remote Codex runtime is restaged with the updated build-pack state and given a concrete Support Cockpit implementation task.",
+        "Remote Codex invocation challenges and mitigations are documented in a pack-local note so the next implementation cycle starts from a cleaner launcher pattern."
+      ],
+      "dependencies": [
+        "prototype_starlight_publishing"
+      ],
+      "escalation_conditions": [
+        "The Support Cockpit direction starts to require account state, saved case state, or broader product platform work.",
+        "The next publishing iteration would replace the machine-readable baseline model instead of rendering it."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        "docs/specs/adf-support-cockpit-direction-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_prototypes.py"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Adopt Support Cockpit as the selected Starlight publishing direction and drive the next implementation cycle through that chassis.",
+      "task_id": "adopt_support_cockpit_direction",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack defines a canonical artifact model for runtime evidence, service inventory, and baseline output.",
+        "The first artifact model clearly separates observed facts, inference, and unknowns."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The CLI and source layout expose named surfaces for the first ADF artifact set.",
+        "The pack-local objective, backlog, and work-state files all point at the same first implementation slice."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The artifact model cannot stay small enough for the MVP without reopening product scope.",
+        "The required output set starts to imply broad test or fixture expansion."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Define the first bounded ADF artifact model for runtime evidence, service inventory, and baseline output.",
+      "task_id": "define_adf_artifact_model",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack can collect a safe first-pass AlgoSec runtime snapshot from the lab appliance.",
+        "The first collection path stays read-only and bounded to support-relevant evidence classes."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A runtime collection command exists for the first ADF slice.",
+        "The collection output includes service inventory and core platform checkpoints."
+      ],
+      "dependencies": [
+        "define_adf_artifact_model"
+      ],
+      "escalation_conditions": [
+        "The target appliance requires risky write actions or unsupported privilege changes to gather the first evidence set.",
+        "The first-pass evidence set expands beyond the MVP boundary of useful support diagnostics."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack",
+        "src/pack_export_runtime_evidence.py"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Implement the first safe runtime evidence collection path for the controlled AlgoSec lab appliance.",
+      "task_id": "implement_safe_runtime_collection",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack renders machine-readable baseline artifacts into a simple support-facing HTML view.",
+        "The HTML output remains a render of canonical JSON artifacts rather than a separate source of truth."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The first HTML-ready baseline output exists for the AlgoSec lab path.",
+        "Support-facing output is generated from the same artifact model used for machine-readable evidence."
+      ],
+      "dependencies": [
+        "define_adf_artifact_model",
+        "implement_safe_runtime_collection"
+      ],
+      "escalation_conditions": [
+        "The HTML layer starts to dominate the scope instead of remaining a thin render of machine-readable output.",
+        "The support-facing output requires broad UX work beyond a simple MVP render."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Generate the first HTML-ready support output from canonical ADF baseline artifacts.",
+      "task_id": "render_baseline_outputs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack can generate Astro Starlight site source from the canonical ADF baseline without replacing JSON as the source of truth.",
+        "The Rocky lab appliance can install and build the generated Astro Starlight site successfully with the system Node runtime.",
+        "The publishing direction stays portable so the long-term rendered site can later move to a separate Ubuntu host."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The build-pack exposes a generate-starlight-site command that writes package.json, Astro config, content collection files, markdown playbook pages, and renderer assets from support-baseline.json.",
+        "The lab appliance has a successful Astro Starlight build under the generated starlight-site artifact root."
+      ],
+      "dependencies": [
+        "render_baseline_outputs"
+      ],
+      "escalation_conditions": [
+        "The publishing layer starts to compete with the runtime evidence model instead of rendering it.",
+        "The Starlight path requires deep platform or hosting work before the support content is proven."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-artifact-model-v1.md",
+        "docs/specs/adf-publishing-direction-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Prototype Astro Starlight publishing from the canonical ADF baseline and verify the site can build on the Rocky lab appliance.",
+      "task_id": "prototype_starlight_publishing",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --artifact-root dist/candidates/benchmark-smoke-baseline --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The top support domains use language and sequencing that match how junior support engineers actually diagnose customer issues from an SSH session.",
+        "The highest-value decision playbooks are tuned for operator review without changing the canonical JSON-first model.",
+        "Priority playbooks use the current Check, Run, Verification, Linux note, and Known working example pattern.",
+        "The wording stays plain, short, and easy to follow for engineers using English as a second language."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "ASMS UI is down reflects the reviewed SSH-first four-step Linux-first flow inside the cleaned Support Cockpit chassis, and FireFlow Backend follows next.",
+        "HTML and JSON outputs remain aligned after the language tuning pass."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction",
+        "render_baseline_outputs",
+        "prototype_starlight_publishing"
+      ],
+      "escalation_conditions": [
+        "Requested wording changes imply a broader UX rewrite instead of playbook tuning.",
+        "Support guidance starts to require risky write actions instead of read-only diagnostics."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-language-standard-v1.md",
+        "docs/specs/adf-artifact-model-v1.md",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Continue tuning high-value support playbooks into final SSH-first operator language and decision flow, using the Support Cockpit chassis as the next operator-facing container.",
+      "task_id": "tune_operator_language_for_priority_domains",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Every major playbook can start from a shared host health pre-check pack before moving into subsystem-specific checks.",
+        "Priority playbooks embed service-status, listener, config, and log commands for more AlgoSec services and dependencies.",
+        "Each command remains read-only and includes a healthy signal plus failure interpretation.",
+        "Priority commands include short Linux note blocks, copy controls, and known working terminal examples where the target appliance can provide them.",
+        "Rare path or config checks stay deferred unless a playbook truly needs them."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A shared host health pre-check pack exists for disk, memory, OOM, and related host-resource checks used across major playbooks.",
+        "The command bundles extend beyond the current top-path checks and cover more service-specific failure paths.",
+        "Service ports, config checkpoints, and known working command output are surfaced more explicitly in the operator-facing output.",
+        "The ASMS UI path proves a reusable service-pack pattern with lab-backed status, listener, functional, and file-log checks for Keycloak and ms-metro."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction",
+        "render_baseline_outputs",
+        "prototype_starlight_publishing"
+      ],
+      "escalation_conditions": [
+        "The required command coverage implies broad appliance-specific scripting beyond the MVP boundary.",
+        "The next command set would require unsupported or risky write access on the target appliance."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/pack_export_runtime_evidence.py",
+        "docs/specs/adf-artifact-model-v1.md",
+        "docs/specs/adf-host-health-precheck-pack-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Expand service-specific diagnostic command coverage for priority services and dependencies, starting from the reusable ASMS UI service-pack pattern.",
+      "task_id": "expand_service_command_coverage",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "A fixed shared host health pre-check pack is now defined for every major playbook before subsystem-specific checks."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A fixed shared host health pre-check pack is now defined for every major playbook before subsystem-specific checks.",
+        "Disk, memory, OOM, and other host-resource checks are foundational Linux triage steps in every scenario. Defining them as a standard reusable pre-check keeps playbooks consistent and helps engineers start in the same place every time."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.007,
+      "status": "completed",
+      "summary": "A fixed shared host health pre-check pack is now defined for every major playbook before subsystem-specific checks.",
+      "task_id": "formalize_shared_host_health_precheck_pack",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Use one real authenticated GUI flow plus same-minute log correlation to prove that the ASMS UI playbook can be refined from observed runtime behavior instead of guessed service order."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Use one real authenticated GUI flow plus same-minute log correlation to prove that the ASMS UI playbook can be refined from observed runtime behavior instead of guessed service order.",
+        "This is the first strong proof that ADF's systems-thinking method reduces support ambiguity in a real GUI-down path. It shows that a bounded browser flow, module-aware log correlation, and careful observed-versus-inferred wording can produce a more trustworthy troubleshooting model than a service-first page."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.008,
+      "status": "completed",
+      "summary": "Use one real authenticated GUI flow plus same-minute log correlation to prove that the ASMS UI playbook can be refined from observed runtime behavior instead of guessed service order.",
+      "task_id": "prove_asms_ui_system_thinking_with_authenticated_flow",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Use the reproduced post-home browser minute to keep immediate home-shell follow-ups inside the ASMS playbook and defer later subsystem-looking routes until the evidence says they are the true first stop point."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Use the reproduced post-home browser minute to keep immediate home-shell follow-ups inside the ASMS playbook and defer later subsystem-looking routes until the evidence says they are the true first stop point.",
+        "This lowers troubleshooting effort after login succeeds. It keeps the engineer on the shortest next checks instead of jumping too early into every nearby subsystem and background route."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.009,
+      "status": "completed",
+      "summary": "Use the reproduced post-home browser minute to keep immediate home-shell follow-ups inside the ASMS playbook and defer later subsystem-looking routes until the evidence says they are the true first stop point.",
+      "task_id": "capture_asms_post_home_followups_before_subsystem_split",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Use the authenticated lab evidence to treat BusinessFlow as the first named operational checkpoint in the ASMS path and FireFlow as a later auth-coupled module with explicit support-useful checks."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Use the authenticated lab evidence to treat BusinessFlow as the first named operational checkpoint in the ASMS path and FireFlow as a later auth-coupled module with explicit support-useful checks.",
+        "This turns the ASMS UI model into a lower-effort troubleshooting path for support engineers. It gives the engineer a stronger named checkpoint than a generic Keycloak-first guess and keeps FireFlow present only where the observed login journey says it matters."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.01,
+      "status": "completed",
+      "summary": "Use the authenticated lab evidence to treat BusinessFlow as the first named operational checkpoint in the ASMS path and FireFlow as a later auth-coupled module with explicit support-useful checks.",
+      "task_id": "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Rebuild `ASMS UI is down` from scratch around useful-work questions instead of extending the current service-first structure."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Rebuild `ASMS UI is down` from scratch around useful-work questions instead of extending the current service-first structure.",
+        "The current ASMS UI page proved several valuable patterns, but it still reflects too much service thinking. The next real ADF win is a from-scratch playbook that helps an engineer decide whether the host, Apache/HTTPD serving the UI, auth branch, app branch, and overall path can do useful work."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.011,
+      "status": "completed",
+      "summary": "Rebuild `ASMS UI is down` from scratch around useful-work questions instead of extending the current service-first structure.",
+      "task_id": "rebuild_asms_ui_system_thinking_playbook",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Investigate each major ASMS UI dependency component more thoroughly so the rebuilt playbook uses stronger useful-work checks instead of mostly restructured status and grep commands."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Investigate each major ASMS UI dependency component more thoroughly so the rebuilt playbook uses stronger useful-work checks instead of mostly restructured status and grep commands.",
+        "The current ASMS UI rebuild improved the structure, but several checks still prove service presence more than productive work. To make system thinking real, each branch needs deeper component-level investigation and better functional surfaces."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.012,
+      "status": "in_progress",
+      "summary": "Investigate each major ASMS UI dependency component more thoroughly so the rebuilt playbook uses stronger useful-work checks instead of mostly restructured status and grep commands.",
+      "task_id": "investigate_asms_ui_components_for_useful_work_checks",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Keep the current shared host pre-check commands, but reframe them so they reveal the pressure signal being checked and help the engineer reach a quick current assessment of the system."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Keep the current shared host pre-check commands, but reframe them so they reveal the pressure signal being checked and help the engineer reach a quick current assessment of the system.",
+        "ADF is now optimizing for engineer effort during live support. The host pre-check should not only show raw resource values. It should help the engineer see disk pressure, inode pressure, memory pressure, CPU pressure, and similar system conditions quickly and consistently."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.013,
+      "status": "pending",
+      "summary": "Keep the current shared host pre-check commands, but reframe them so they reveal the pressure signal being checked and help the engineer reach a quick current assessment of the system.",
+      "task_id": "reframe_host_precheck_around_pressure_signals",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Consider whether ADF should gradually evolve from a documentation-style playbook surface into a small scenario-based clickable dashboard for support engineers."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Consider whether ADF should gradually evolve from a documentation-style playbook surface into a small scenario-based clickable dashboard for support engineers.",
+        "ADF is starting to feel like a support engineer's support engineer. A bounded dashboard model could help engineers choose a likely starting scenario quickly and then work through collapsible diagnostic paths with less friction during live cases."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 200.014,
+      "status": "pending",
+      "summary": "Consider whether ADF should gradually evolve from a documentation-style playbook surface into a small scenario-based clickable dashboard for support engineers.",
+      "task_id": "explore_scenario_based_dashboard_direction",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Use the memory and feedback-loop surfaces already present in the build-pack, then decide what additional iteration logic should remain pack-local versus be imported from the factory itself so the remote agent can iterate with less scenario-by-scenario manual steering."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Use the memory and feedback-loop surfaces already present in the build-pack, then decide what additional iteration logic should remain pack-local versus be imported from the factory itself so the remote agent can iterate with less scenario-by-scenario manual steering.",
+        "ADF is now moving into system-thinking playbooks, which are too deep to manage manually one scenario at a time. Much of the needed memory and feedback-loop foundation already exists in the build-pack, so the next design question is how to use that well and what should be inherited from factory-level logic."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.015,
+      "status": "pending",
+      "summary": "Use the memory and feedback-loop surfaces already present in the build-pack, then decide what additional iteration logic should remain pack-local versus be imported from the factory itself so the remote agent can iterate with less scenario-by-scenario manual steering.",
+      "task_id": "build_adf_autonomous_iteration_loop",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly.",
+        "This could become a powerful way to test whether a diagnostic playbook really works end to end instead of only reading well on the page. It would help prove that the dependency path, commands, and stopping points lead an agent or engineer to the right conclusion."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.016,
+      "status": "pending",
+      "summary": "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly.",
+      "task_id": "plan_controlled_fault_injection_playbook_validation",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Adjust the command palette styling so command text stays readable against the current code-block background and syntax-highlighting colors."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Adjust the command palette styling so command text stays readable against the current code-block background and syntax-highlighting colors.",
+        "Some command text is hard to see because the syntax highlighting and frame background are too close in value. That creates friction exactly where engineers need the clearest visual surface."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 200.017,
+      "status": "pending",
+      "summary": "Adjust the command palette styling so command text stays readable against the current code-block background and syntax-highlighting colors.",
+      "task_id": "refine_command_palette_contrast",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Expand the `ASMS UI services` step beyond simple service-up and port-open checks so Keycloak and ms-metro become real diagnostic command packs."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Expand the `ASMS UI services` step beyond simple service-up and port-open checks so Keycloak and ms-metro become real diagnostic command packs.",
+        "The current ASMS UI playbook is useful through host health and Apache edge, but the service-layer checks are still too shallow. Support engineers need service-specific commands that help explain why the UI is still failing, not only whether a process exists."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.018,
+      "status": "pending",
+      "summary": "Expand the `ASMS UI services` step beyond simple service-up and port-open checks so Keycloak and ms-metro become real diagnostic command packs.",
+      "task_id": "deepen_asms_ui_service_command_packs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Build a bounded dependency map for the ASMS UI subsystem from lab evidence, then validate a small set of common failure scenarios against that map."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Build a bounded dependency map for the ASMS UI subsystem from lab evidence, then validate a small set of common failure scenarios against that map.",
+        "The ASMS UI path likely depends on a small set of important services such as httpd, keycloak, ms-metro, and possibly activemq, but the relationship needs to be mapped from evidence instead of guessed. A bounded map plus a few high-value scenarios will make the playbook far more trustworthy than shallow service checks or unlimited speculative branching."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.019,
+      "status": "pending",
+      "summary": "Build a bounded dependency map for the ASMS UI subsystem from lab evidence, then validate a small set of common failure scenarios against that map.",
+      "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Confirm whether the ASMS UI path is truly ordered as host -> httpd -> keycloak -> ms-metro, or whether some of those services should remain peer first-pass checks instead of a strict serial chain."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Confirm whether the ASMS UI path is truly ordered as host -> httpd -> keycloak -> ms-metro, or whether some of those services should remain peer first-pass checks instead of a strict serial chain.",
+        "The current ASMS UI playbook now has effective service packs, but the exact dependency order is not fully proven yet. ADF should only claim a strict path after lab evidence and bounded experiments confirm it."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.02,
+      "status": "pending",
+      "summary": "Confirm whether the ASMS UI path is truly ordered as host -> httpd -> keycloak -> ms-metro, or whether some of those services should remain peer first-pass checks instead of a strict serial chain.",
+      "task_id": "validate_asms_ui_dependency_order_experimentally",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The Support Cockpit page no longer wastes meaningful horizontal space with the current right-side `On this page` rail.",
+        "The center reading pane has more horizontal room for command-first playbook content.",
+        "Any replacement or repositioned page-map behavior still keeps navigation useful without crowding the main content."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The build-pack has an explicit layout task for the right-side page map instead of treating it as an informal review note.",
+        "The next UI pass can redraw, reduce, relocate, or suppress the `On this page` rail in a deliberate way."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "The right-rail change starts to require broader site-navigation redesign outside the current Support Cockpit scope.",
+        "The change would remove useful playbook navigation without a clear operator benefit."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Redraw the Support Cockpit right-side `On this page` rail so it takes less space and allows the main content pane to expand horizontally.",
+      "task_id": "refine_support_cockpit_right_rail_layout",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF tracks one explicit launcher-stability task for remote Codex work on the lab appliance instead of leaving the issue scattered across notes and ad hoc terminal recovery.",
+        "The task defines a preferred launcher pattern that consistently bypasses the appliance interactive menu for both short control runs and longer investigation loops."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A single supported remote launcher pattern is documented and used consistently for prompt, launcher, result, stderr, and log-file handling.",
+        "Remote Codex can be relaunched cleanly after interrupted or stale runs without falling back to trial-and-error shell quoting.",
+        "The ADF pack-local notes and state no longer rely on multiple improvised menu-bypass variants to describe a successful remote run."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "The launcher fix would require changing appliance login policy or unsupported OS-level shell behavior outside the controlled lab boundaries.",
+        "The standardization effort starts to sprawl into broad factory-wide remote-runtime redesign before the ADF pack proves its bounded launcher path."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Standardize one remote Codex launcher path that consistently bypasses the appliance interactive menu and shell-wrapper drift for both short control runs and longer ADF investigation loops.",
+      "task_id": "stabilize_remote_codex_launcher_against_interactive_menu",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack explicitly tracks a future task to align the remote Codex persona and instructions with ADF's evolving role as a Linux troubleshooting specialist and diagnostic playbook author.",
+        "The task stays at planning level until the operator is ready to review pack-local agent guidance directly."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The persona-alignment idea is preserved as a real backlog item instead of only a conversational note.",
+        "A future cycle can review and revise the pack-local agent guidance with ADF-specific goals in mind."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "The persona change would conflict with PackFactory control-plane requirements or the pack-local traversal contract.",
+        "The task begins changing agent behavior broadly before the operator explicitly asks to review the pack-local agent guidance."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Review whether the ADF remote Codex persona and pack-local agent guidance should evolve toward a Linux troubleshooting expert and diagnostic playbook author profile.",
+      "task_id": "review_adf_agent_persona_alignment",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next playbook slice deepens dependency-aware checks for important AlgoSec paths without trying to cover every service equally.",
+        "The build-pack preserves the current minimal-testing boundary while extending real operator value."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Shared dependencies and deeper failure branches are clearer for the top customer-facing paths.",
+        "The next remote review can focus on specific unresolved service paths instead of the whole appliance."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction",
+        "tune_operator_language_for_priority_domains",
+        "expand_service_command_coverage"
+      ],
+      "escalation_conditions": [
+        "The dependency model starts to force full-system reverse engineering instead of bounded support diagnostics.",
+        "The next extension would require broad new tests or fixture matrices."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Deepen dependency-aware playbooks for the highest-value AlgoSec service paths.",
+      "task_id": "deepen_dependency_aware_playbooks",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The dependency path now renders horizontally within the center pane so it uses width instead of pushing the stepwise details farther down the page."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The dependency path now renders horizontally within the center pane so it uses width instead of pushing the stepwise details farther down the page.",
+        "This recovers vertical room for the detailed checks while preserving the path-map view at the top of the playbook."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 200.025,
+      "status": "completed",
+      "summary": "The dependency path now renders horizontally within the center pane so it uses width instead of pushing the stepwise details farther down the page.",
+      "task_id": "consider_horizontal_dependency_path_in_center_pane",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
+        "The current Linux notes are useful because they are optional. Engineers can skip them when they already know the concept, or open them when they need a quick explanation. This can build shared Linux troubleshooting language over time without turning the playbook into training material."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 200.026,
+      "status": "pending",
+      "summary": "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
+      "task_id": "enhance_linux_notes_as_optional_learning_layer",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up.",
+        "This is the deeper value behind the recent service-pack work. ADF is strongest when it helps engineers judge productive system behavior rather than memorize isolated service checks."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.027,
+      "status": "pending",
+      "summary": "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up.",
+      "task_id": "codify_system_thinking_as_adf_theme",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
+        "ADF is already trending toward Linux-first diagnostics, Linux-standard language, and Linux note clarifications. Formalizing that foundation would help align playbooks, terminology, discovery logic, and future agent guidance around the real operating context engineers face during triage."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if this task would require widening ADF scope, unsupported PackFactory mutations, or unreviewed risk."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 200.028,
+      "status": "pending",
+      "summary": "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
+      "task_id": "formalize_linux_foundation_as_adf_theme",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    }
+  ]
+}

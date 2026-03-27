@@ -46,7 +46,9 @@
   "identity_source": "pack.json",
   "notes": [
     "Materialized from template `algosec-diagnostic-framework-template-pack`.",
-    "materialization_id=materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z"
+    "materialization_id=materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z",
+    "autonomy_baseline_catch_up=Retrofitted on 2026-03-26 to align this legacy build-pack with the current PackFactory autonomy and agent-memory baseline.",
+    "factory_startup_compliance=Use PackFactory-local remote-session workflows from the factory root and treat external runtime-evidence import as factory-only."
   ],
   "owning_team": "orchadmin",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",

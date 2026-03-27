@@ -1,0 +1,15 @@
+{
+  "pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-26T12:02:33Z",
+  "selected_memory_id": "autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1.json",
+  "selected_memory_sha256": "78716c52943dc7eef625b3047bacf7d91c125197984d7f53996faa1bad71d4a3",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-26T12:02:33Z"
+}

@@ -174,7 +174,88 @@ prompts plus terminal logs.
   rehearsal artifact. It reads a multi-hop or startup-compliance rehearsal
   report, derives handoff, replay-avoidance, recovery, outcome, branch-choice,
   block-reporting, and startup-compliance quality where applicable, and writes
-  a score report under `.pack-state/autonomy-quality-scores/`.
+  a score report under `.pack-state/autonomy-quality-scores/`. When a matching
+  score report exists for the rehearsal selected during promotion,
+  `tools/promote_build_pack.py` now records that quality evidence as an
+  advisory signal in the promotion report. Packs can also opt into a bounded
+  hard gate through `contracts/project-objective.json.autonomy_quality_requirement`
+  when promotion should require explicit minimum quality thresholds.
+
+- `python3 tools/record_autonomy_run.py finalize-run ...`
+  Use this when you want the bounded operator-intervention learning handoff.
+  When an autonomy run records an applied operator hint in
+  `.pack-state/autonomy-runs/<run-id>/branch-selection.json`, finalization now
+  carries that guidance forward into
+  `autonomy-feedback-memory.operator_intervention_summary` so the next agent
+  can see which hint ids changed branch selection, which task was chosen, and
+  which branch-selection artifact explains the decision.
+  The same finalize step now also carries bounded blocker-resolution learning:
+  when the previously active feedback memory ended in a structured block and
+  the current run clears that boundary, the new feedback memory records
+  `resolved_block_summary` so the next agent can see the prior stop reason,
+  the old recovery instruction, and the new run evidence that resolved it.
+  The same feedback memory now also carries `memory_validity` with bounded
+  confidence, restart scope, and expiry semantics so the next agent can tell
+  whether a note is a fresh active-pack restart hint, a ready-boundary handoff,
+  or a low-confidence short-lived note that should be treated cautiously.
+  When a previously active feedback memory exists, finalization now also writes
+  `delta_summary` so the next agent can see which canonical fields changed,
+  which tasks were newly completed, and how the current run differs from the
+  last active restart note without diffing the artifacts by hand.
+  Finalization now also writes `negative_memory_summary` when the run shows a
+  concrete anti-pattern the next agent should avoid repeating, such as trusting
+  a run without canonical integrity, reusing stale memory, or replaying a
+  fail-closed blocked path without first resolving it.
+  Finalization now also writes `autonomy_budget` with explicit bounded run
+  limits, observed usage, and `within_budget` versus `budget_exceeded`
+  status, and autonomy quality scoring now uses those budgets to derive a
+  `budget_efficiency_quality` dimension.
+  Pack-local feedback memory now also declares `memory_tier.tier=restart_memory`
+  so the next agent can distinguish live restart context from other memory
+  kinds without inference.
+
+- `python3 tools/refresh_local_feedback_memory_pointer.py ...`
+  Use this when you want the pack-local `latest-memory.json` pointer to pick
+  the best compatible live feedback memory. The selector now ignores
+  otherwise-compatible memory notes whose `memory_validity.expires_at` is
+  already in the past, so expired restart context does not silently become the
+  active default. The pointer now also exposes `selected_memory_tier` so the
+  active tier is visible from the pointer alone.
+
+- `python3 tools/refresh_factory_autonomy_memory.py ...`
+  Use this when you want a fresh root-level PackFactory handoff after major
+  autonomy changes. Root memory now declares
+  `memory_tier.tier=promoted_factory_memory`, and the root
+  `.pack-state/agent-memory/latest-memory.json` pointer now exposes
+  `selected_memory_tier=promoted_factory_memory`.
+
+- `python3 tools/distill_autonomy_memory_across_build_packs.py ...`
+  Use this when you want to promote repeated autonomy lessons from multiple
+  build-packs into one factory-level memory artifact. It reads the latest
+  cross-template transfer matrix, the available autonomy-quality scores, and
+  the existing operator-guided branch-choice proofs, then writes a bounded
+  distillation report under `.pack-state/autonomy-memory-distillations/`.
+
+- `python3 tools/refresh_template_lineage_memory.py ...`
+  Use this when you want a compact template-family memory surface for one
+  active template. It reads derived build-pack lineage plus the latest
+  factory-level distillation report and writes template-local advisory memory
+  under `templates/<template-id>/.pack-state/template-lineage-memory/`.
+
+- `python3 tools/run_adversarial_restart_drills.py ...`
+  Use this when you want one bounded proof that the restart loop recovers from
+  adversarial conditions. It creates a fresh proving-ground build-pack, proves
+  local lost-pointer recovery, forces expired-memory fail-closed behavior,
+  restores the local pointer, and then reuses the degraded-connectivity path
+  to prove conflicting imported-memory preservation.
+
+- `python3 tools/run_post_autonomy_change_maintenance.py ...`
+  Use this after major autonomy tooling, promotion, or startup-surface
+  changes. It runs the bounded baseline-preservation path in one command:
+  refresh factory-level lesson distillation, refresh active-template lineage
+  memory, refresh root factory memory, and then fail closed until the
+  filtered validation slice for instruction surfaces, root memory,
+  template-lineage memory, and autonomy-memory distillation passes.
 
 - `python3 tools/run_factory_root_startup_benchmark.py ...`
   Use this when you want a deterministic benchmark of the root `load AGENTS.md`
@@ -182,11 +263,26 @@ prompts plus terminal logs.
   startup brief from canonical startup surfaces, checks environment consistency,
   and writes a bounded benchmark report under `.pack-state/startup-benchmarks/`.
 
+- `python3 tools/generate_factory_dashboard.py ...`
+  Use this when you want a local-first operator dashboard that turns the
+  current factory state, deployment assignments, recent motion, and advisory
+  root memory into a single static briefing page under
+  `.pack-state/factory-dashboard/latest/`.
+
 - `python3 tools/run_cross_template_transfer_matrix.py ...`
   Use this when you want one report that summarizes autonomy transfer proofs
   across multiple template lines. It reads existing multi-hop rehearsal
   reports, scores each transfer row, and writes a matrix report under
   `.pack-state/cross-template-transfer-matrices/`.
+
+- `python3 tools/distill_autonomy_memory_lessons.py ...`
+  Use this when you want one factory-level lesson report synthesized from
+  repeated proof artifacts instead of keeping the same autonomy pattern
+  scattered across individual build-packs. The first bounded use case is to
+  distill repeated lessons from cross-template transfer reports, autonomy
+  quality score reports, fail-closed import reports, and branch-choice
+  exercise reports into one report under
+  `.pack-state/autonomy-memory-distillations/`.
 
 - `python3 tools/run_operator_hint_status_surfacing_exercise.py ...`
   Use this when you want to prove that normal readiness state now carries
@@ -218,10 +314,26 @@ prompts plus terminal logs.
   an updated root memory handoff.
 
 - `python3 tools/record_autonomy_improvement_promotion.py ...`
-  Use this after a proving-ground build-pack demonstrates a new autonomy
-  pattern and you want a factory-level record of where that improvement has
-  actually been promoted: materializer defaults, source template tracking,
-  factory-root discoverability, or factory-root memory.
+  Use this when a proving-ground autonomy improvement has been promoted into
+  factory defaults and you want that inheritance state recorded explicitly.
+
+Active source templates now participate in bounded startup-compliance drift
+checking too. `tools/validate_factory.py` verifies a small marker set in each
+active template's `AGENTS.md`, `project-context.md`, and `pack.json` so the
+template inheritance layer stays aligned with the root startup baseline
+without forcing full text equality.
+
+Template creation now carries a bounded reusability gate as well.
+`tools/create_template_pack.py` requires the request planning summary to
+declare a reusable `capability_family`, at least two expected build-pack
+variants, and the `first_materialization_purpose` for the first proving-ground
+derivative. That keeps template creation aligned with the factory model of
+reusable source templates plus concrete build-pack proofs.
+
+Use this after a proving-ground build-pack demonstrates a new autonomy
+pattern and you want a factory-level record of where that improvement has
+actually been promoted: materializer defaults, source template tracking,
+factory-root discoverability, or factory-root memory.
 
 ## Current Factory Default
 
@@ -269,8 +381,8 @@ The current autonomy follow-up list is:
 
 - `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
 
-Current direction: pack-local operator-hint briefing is now proven. Keep the
-bounded semantic chooser and fail-closed ambiguity handling in place, and
-keep PackFactory startup and remote-session compliance synchronized as the
-tooling evolves so agents continue to use the local evidence and memory flows
+Current direction: the bounded memory and feedback frontier wave is closed.
+Keep PackFactory startup surfaces, template lineage memory, root memory, and
+distilled factory lessons synchronized through the fail-closed maintenance
+workflow so agents continue to use the local evidence and memory flows
 instead of drifting back toward ad hoc remote control.

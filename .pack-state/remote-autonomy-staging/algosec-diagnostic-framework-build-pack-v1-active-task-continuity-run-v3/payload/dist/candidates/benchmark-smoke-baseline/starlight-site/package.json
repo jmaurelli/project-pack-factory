@@ -1,0 +1,14 @@
+{
+  "name": "algosec-diagnostic-framework-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview --host 0.0.0.0 --port 18082"
+  },
+  "dependencies": {
+    "astro": "latest",
+    "@astrojs/starlight": "latest"
+  }
+}

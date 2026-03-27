@@ -1,55 +1,796 @@
 {
-  "active_task_id": "rebuild_asms_ui_system_thinking_playbook",
-  "autonomy_state": "ready_for_next_iteration",
+  "active_task_id": null,
+  "autonomy_state": "ready_for_review",
   "blocked_task_ids": [],
+  "branch_selection_hints": [],
   "completed_task_ids": [
-    "run_build_pack_validation",
-    "run_inherited_benchmarks",
+    "adopt_support_cockpit_direction",
     "define_adf_artifact_model",
     "implement_safe_runtime_collection",
     "render_baseline_outputs",
     "prototype_starlight_publishing",
-    "adopt_support_cockpit_direction",
-    "refine_support_cockpit_right_rail_layout",
     "formalize_shared_host_health_precheck_pack",
-    "formalize_controlled_lab_mutation_experiment_pattern",
-    "rename_appliance_ui_is_down_to_asms_ui_is_down",
     "prove_asms_ui_system_thinking_with_authenticated_flow",
-    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
     "capture_asms_post_home_followups_before_subsystem_split",
-    "prove_home_php_render_is_the_first_class_post_login_checkpoint"
-  ],
-  "escalation_state": "none",
-  "last_agent_action": "Folded the latest BusinessFlow seam evidence back into the main `ASMS UI is down` playbook. Step 3 now names `BusinessFlow -> AFA connection` and `BusinessFlow -> AFF connection` as explicit auth-branch stop points, Step 4 stays bounded to the first usable `/afa/php/home.php` shell plus immediate hydration, and Step 5 now branches out of `GUI down` once the customer crosses the devices-tree-plus-`REPORTS` boundary.",
-  "last_outcome": "asms_ui_main_stop_logic_refined_around_businessflow_child_seams_and_gui_up_boundary",
-  "last_outcome_at": "2026-03-26T11:18:00Z",
-  "last_validation_results": [
-    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260323t223935z/validation-result.json",
-    "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-benchmark-20260323t223939z/benchmark-result.json"
-  ],
-  "next_recommended_task_id": "rebuild_asms_ui_system_thinking_playbook",
-  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
-  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
-  "pending_task_ids": [
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
     "rebuild_asms_ui_system_thinking_playbook",
     "investigate_asms_ui_components_for_useful_work_checks",
     "reframe_host_precheck_around_pressure_signals",
-    "expand_service_command_coverage",
-    "deepen_dependency_aware_playbooks",
+    "clarify_adf_iteration_loop_completion_boundary",
     "build_adf_autonomous_iteration_loop",
-    "stabilize_remote_codex_launcher_against_interactive_menu",
+    "deepen_asms_ui_service_command_packs",
+    "define_adf_checkpointed_sync_model",
+    "decouple_codex_runtime_from_target_lab_environment",
+    "map_asms_ui_subsystem_and_validate_core_scenarios",
+    "validate_asms_ui_dependency_order_experimentally",
+    "refine_support_cockpit_right_rail_layout",
+    "consider_horizontal_dependency_path_in_center_pane"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Locked the approved Support Cockpit playbook layout in as the default plain-URL review surface by keeping the widened `124rem / 22rem / 88ch` layout in the generated site intent and making the staged `adf-dev` content server inject the same layout fail-closed into served HTML pages during normal navigation.",
+  "last_outcome": "task_completed",
+  "last_outcome_at": "2026-03-27T10:29:28Z",
+  "last_validation_results": [
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/serve_generated_content.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        ".pack-state/remote-autonomy-staging/algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1/target-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T10:29:28Z",
+      "status": "pass",
+      "summary": "Preserved the operator-approved Support Cockpit review layout as the default plain-URL surface on `adf-dev`. The current approved values stay `124rem` for the content shell, `22rem` for the left rail, and `88ch` for command blocks. The build pack now keeps no-cache headers on the preview server and injects the approved layout fail-closed into served HTML, so normal navigation on `http://10.167.2.151:18082/playbooks/asms-ui-is-down/` and sibling playbook pages keeps the widened review view without cache-busting query strings. The staged build pack was restaged to `adf-dev` through the PackFactory remote control plane before the live verification pass.",
+      "validation_id": "preserve_default_adf_playbook_layout_on_plain_review_urls_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "eval/history/asms-ui-businessflow-aff-usersession-bridge-correlation-20260327.md",
+        ".pack-state/remote-autonomy-staging/algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1/target-manifest.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-usersession-bridge-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-usersession-bridge-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-usersession-bridge-v1/target-bundle/artifacts/apache-aff-usersession-window.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-usersession-bridge-v1/target-bundle/artifacts/fireflow-usersession-window.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/businessflow-aff-usersession-bridge-v1/target-bundle/artifacts/businessflow-php-aff-context.txt",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T10:44:00Z",
+      "status": "pass",
+      "summary": "Used a local multi-agent swarm plus the official `adf-dev -> algosec-lab` delegation path to sharpen the follow-on `BusinessFlow -> AFF connection` stop from generic FireFlow to the FireFlow `UserSession` bridge and its AFA refresh fallback. The staged helper pass correlated the nearby Apache minute for `GET /BusinessFlow/deep_health_check` with `CommandsDispatcher`, `/FireFlow/api/session`, `/FireFlow/api/session/validate`, and `/FireFlow/api/session/extendSession`. The accepted delegated observe-only bundle `businessflow-aff-usersession-bridge-v1` then preserved same-window Apache and FireFlow evidence at `06:20` and `06:25` EDT showing `GET /FireFlow/api/session/validate`, `POST /FireFlow/api/session/extendSession`, `POST /fa/environment/getAFASessionInfo`, `POST /afa/external//bridge/refresh`, `UserSessionPersistenceEventHandler.java::requestUserDetails`, `LegacyRestRepository.java::sendRequest`, `UserSession::getUserSession`, `isUserSessionValid`, `ff-session`, and reused `FASessionId` values. The preserved BusinessFlow PHP context also showed `AFF_COOKIE` entering FireFlow SSO bootstrap, BusinessFlow receiving `BFCookie` on `/BusinessFlow`, and suite login intentionally falling back to AFA plus FireFlow validation because the BusinessFlow cookie path is not visible there.",
+      "validation_id": "validate_businessflow_aff_usersession_bridge_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "eval/history/asms-ui-businessflow-aff-session-seam-validation-20260327.md",
+        ".pack-state/remote-autonomy-staging/algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1/target-manifest.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T10:16:43Z",
+      "status": "pass",
+      "summary": "Deepened the generated ASMS auth-handoff playbook around the named `BusinessFlow -> AFF connection` stop and validated the live seam through the staged `adf-dev -> algosec-lab` helper path. `target-preflight` and `target-heartbeat` both passed, `httpd.service`, `ms-bflow.service`, and `aff-boot.service` were active on `10.167.2.150`, BusinessFlow deep health still reported `AFF connection` healthy, and the Apache-fronted plus direct `1989` session probes returned the same invalid-session JSON body. The same pass also sharpened the next readable backend seam: after route parity, stop on the FireFlow `UserSession` bridge with `getUserSession`, `isUserSessionValid`, `ff-session`, and a reused FA session id instead of a vaguer generic FireFlow or `aff-boot` runtime step.",
+      "validation_id": "validate_businessflow_aff_session_seam_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "eval/history/asms-ui-businessflow-afa-session-seam-validation-20260327.md",
+        ".pack-state/remote-autonomy-staging/algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1/target-manifest.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T10:06:46Z",
+      "status": "pass",
+      "summary": "Deepened the generated ASMS auth-handoff playbook around the named `BusinessFlow -> AFA connection` stop and validated the live seam through the staged `adf-dev -> algosec-lab` helper path. `target-preflight` and `target-heartbeat` both passed, `httpd.service` and `ms-bflow.service` were active on `10.167.2.150`, `GET https://localhost/afa/php/ws.php?wsdl` returned `HTTP 200` with valid WSDL XML, BusinessFlow deep health reported `AFA connection` healthy, and `.ht-fa-history` showed fresh `is_session_alive` evidence with live session ids. The same pass also showed that a HEAD-only WSDL probe is misleading here, so the playbook should keep using the GET-style probe.",
+      "validation_id": "validate_businessflow_afa_session_seam_v1"
+    },
+    {
+      "evidence_paths": [
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T01:59:49Z",
+      "status": "pass",
+      "summary": "Confirmed that `/home/afa/.fa/firewall_data.xml` exists on `10.167.2.150` and should be the next source for FireFlow ticket tree input. The first visible fields were firewall `name`, `display_name`, and a VR-style child name such as `case200201_default`. The same lab also exposes AFA-side report artifacts like `baseline_results.json`, `explore_policy.html`, `optimize_policy.html`, and `queries_results.zip` under `/data/algosec/firewalls/afa-3` through `afa-5`.",
+      "validation_id": "confirm_fireflow_ticket_tree_input_source_and_afa_report_artifacts_v1"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/target-bundle/artifacts/fireflow-activation-and-empty-ticket-window.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/target-bundle/artifacts/fireflow-2013-window.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/target-bundle/artifacts/correlated-http-aff-pg-evidence.txt",
+        "docs/specs/fireflow-internals-bounded-map-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T01:52:10Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` delegated slice for a real FireFlow ticket or progression branch after confirming the activation script-based enablement model. The returned bundle showed FireFlow activation, AFF or AFA polling, and recurring `syslog_ticket_changes.pl` lines reporting `Total tickets in DB: 0`, so the current lab now looks enabled but effectively empty from a ticket-workflow perspective rather than disabled.",
+      "validation_id": "classify_current_fireflow_lab_as_enabled_but_empty_for_ticket_progression_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/lab-target-inventory.json",
+        "docs/remote-targets/algosec-lab/README.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T01:43:36Z",
+      "status": "pass",
+      "summary": "Investigated the appliance-local FireFlow activation script `/usr/share/fireflow/local/sbin/fireflow_activation.sh` and corrected the lab-selection heuristic. On the current lab `10.167.2.150`, the script returned `true`, the activation marker `/usr/share/fireflow/local/etc/site/fireflow_enabled` was present, and `/home/afa/.fa/config` showed `FireFlow_configured=yes`, so FireFlow should be treated as enabled on this lab even though the older `fireflow_enable` parameter probe was missing.",
+      "validation_id": "investigate_fireflow_activation_script_and_correct_enablement_heuristic_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/lab-target-inventory.json",
+        "docs/remote-targets/algosec-lab/README.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T01:03:14Z",
+      "status": "pass",
+      "summary": "Corrected the FireFlow capability probe path to `/home/afa/.fa/config` and reran the sweep across the current lab plus all trusted alternate labs. Every checked host still returned `fireflow_enable=missing` on the corrected path, so the earlier high-level conclusion did not change even though the original probe path was wrong.",
+      "validation_id": "correct_fireflow_probe_path_and_rerun_across_known_labs_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/lab-target-inventory.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T01:03:14Z",
+      "status": "pass",
+      "summary": "Established SSH key trust from `adf-dev` to alternate labs `10.167.2.68`, `10.167.2.245`, `10.167.2.215`, `10.167.2.212`, `10.167.2.194`, and `10.167.2.188`, then ran the FireFlow capability probe. All six reachable alternates returned `fireflow_enable=missing` on `/home/afa/.fa/config`, so this second batch also does not yet provide an obvious FireFlow-enabled target.",
+      "validation_id": "establish_adf_dev_key_trust_and_probe_fireflow_enable_on_second_alternate_lab_batch_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/lab-target-inventory.json",
+        "docs/remote-targets/algosec-lab/README.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T00:49:50Z",
+      "status": "pass",
+      "summary": "Recorded alternate AlgoSec lab IPs for later retargeting and preserved the operator rule that `/home/afa/.fa/config` `fireflow_enable` is the quick FireFlow capability probe. The active helper flow still keeps `target-connection-profile.json` single-target while the inventory stores alternate labs and selection guidance.",
+      "validation_id": "record_algosec_lab_target_inventory_and_fireflow_probe_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/lab-target-inventory.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T00:49:50Z",
+      "status": "pass",
+      "summary": "Completed a swarm-backed FireFlow lab selection pass. The current target `10.167.2.150` did not expose a `fireflow_enable` setting on `/home/afa/.fa/config`, and alternate labs initially failed key auth from `adf-dev` after host-key acceptance.",
+      "validation_id": "probe_fireflow_enable_across_candidate_labs_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/lab-target-inventory.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T00:58:05Z",
+      "status": "pass",
+      "summary": "Established SSH key trust from `adf-dev` to alternate labs `10.167.2.132`, `10.167.2.177`, `10.167.2.192`, and `10.167.2.213`, then reran the FireFlow capability probe. All four reachable alternates returned `fireflow_enable=missing` on `/home/afa/.fa/config`, so none of the currently listed labs looks like an enabled FireFlow target yet.",
+      "validation_id": "establish_adf_dev_key_trust_and_probe_fireflow_enable_on_alternate_labs_v1"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-approval-progression-correlation-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-approval-progression-correlation-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-approval-progression-correlation-v1/target-bundle/artifacts/fireflow-2026-03-26-1020.log",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-approval-progression-correlation-v1/target-bundle/artifacts/httpd-2026-03-26-1019-1020.log",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-approval-progression-correlation-v1/target-bundle/artifacts/ms-config-and-initial-plan-2026-03-26-1019-1020.log",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-approval-progression-correlation-v1/target-bundle/artifacts/postgresql-2026-03-26-1019-1021.log",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-approval-progression-correlation-v1/target-bundle/artifacts/activemq-inventory.txt",
+        "docs/specs/fireflow-internals-bounded-map-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T00:34:50Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` delegated slice for a stronger FireFlow approval or progression candidate and recorded a tighter branch rule. The best in-scope non-`UserSession` branch still stayed config-propagation centered: `ms-configuration` broadcast `application-afaConfig.properties` changes, `ms-initial-plan` received the broadcast, FireFlow then showed `Authentication:authenticateUser` and `User:GetUserInfo`, and the branch still did not justify earlier ActiveMQ promotion for ticket progression.",
+      "validation_id": "classify_fireflow_non_usersession_branch_as_config_broadcast_plus_auth_bootstrap_v1"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/httpd-2026-03-21-0430-snippet.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/aff-boot-2026-03-21-0430-snippet.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/activemq-store-evidence.txt",
+        "docs/specs/fireflow-internals-bounded-map-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T00:18:30Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` delegated slice for a likely async FireFlow `CommandsDispatcher` branch and recorded a useful negative heuristic. The sampled branch stayed on journal refresh and `UserSession` maintenance rather than `ms-batch-application` or same-minute broker-backed progression, so ActiveMQ still should not be promoted earlier for that cadence.",
+      "validation_id": "rule_out_journal_and_session_commandsdispatcher_branch_as_async_fireflow_progression_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/asms-docpack-reference-note-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-27T00:06:00Z",
+      "status": "pass",
+      "summary": "Recorded the verified ASMS docpack on `adf-dev` as a supplementary reference surface and captured the operator caveat that the documentation is incomplete. The local note now treats the docpack as useful for conceptual subsystem naming and official vocabulary, while keeping live ADF target-backed evidence as the stronger source for runtime ownership and dependency mapping.",
+      "validation_id": "record_asms_docpack_as_supplementary_reference_surface_v1"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/apache-fireflow-minute.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/ms-configuration-correlation.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/pg-and-broker-correlation.txt",
+        "docs/specs/fireflow-internals-bounded-map-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T23:46:50Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` delegated slice for one later FireFlow workflow minute and folded the result into the FireFlow note and playbook. The selected `CommandsDispatcher` minute stayed Apache or AFF to FireFlow plus `ms-configuration` centered, showed a concrete downstream `AutoDiscovery` 502 during unified swagger refresh, and still did not justify promoting ActiveMQ earlier because same-minute broker log evidence was absent.",
+      "validation_id": "correlate_later_fireflow_workflow_minute_against_broker_and_configuration_v1"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/aff-boot.service.snapshot",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/aff.conf.snapshot",
+        "docs/specs/fireflow-internals-bounded-map-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T23:37:42Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` FireFlow-internals delegated slice and folded the result into a bounded FireFlow map note. The returned bundle separated classic FireFlow Apache/Mason ownership from the newer `aff-boot` API surfaces, promoted PostgreSQL as the nearest hard readable backend dependency, and kept ActiveMQ as later-supporting unless asynchronous or config-propagation symptoms are present.",
+      "validation_id": "map_fireflow_deeper_internals_v1"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/asms-ui-dependency-order-validation-v1.md",
+        "docs/specs/asms-ui-bounded-dependency-map-v1.md",
+        ".pack-state/remote-codex/asms-ui-authenticated-flow-pass-20260325.md",
+        ".pack-state/remote-codex/asms-ui-systems-pass-20260325.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/delegated-task-result.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T23:10:38Z",
+      "status": "pass",
+      "summary": "Recorded the ASMS dependency-order conclusion in a dedicated validation note and marked the top-level ordering task complete. The current lab evidence rejects the strict `host -> httpd -> keycloak -> ms-metro` chain and supports Apache-first useful work with auth and app branches instead.",
+      "validation_id": "validate_asms_ui_dependency_order_experimentally"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/failure-apache-window.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/baseline-apache-window.txt",
+        "docs/specs/asms-ui-bounded-dependency-map-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T23:10:38Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` delegated slice that compared the successful `SuiteLoginSessionValidation.php -> home.php` baseline against a recent failure. The first divergence is before shell bootstrap: the failed branch never requests `home.php` and falls back to `/algosec-ui/login?...SuiteLoginSessionValidation.php`, which matches the unauthenticated or rejected-auth branch in the PHP redirect logic.",
+      "validation_id": "compare_failed_asms_shell_transition_against_success_baseline_v1"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/apache_transition_window.log",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
+        "docs/specs/asms-ui-bounded-dependency-map-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T22:51:52Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` delegated slice that correlated one successful `SuiteLoginSessionValidation.php -> home.php` transition to AFA session `i88p8vb1s79p6nb0f4o2jkpb07`. The returned bundle separated the immediate shell-entry dependency set from adjacent suite traffic and was folded into the ASMS bounded dependency map.",
+      "validation_id": "correlate_successful_asms_home_shell_transition_v1"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/artifacts/seam-evidence.txt",
+        "docs/specs/asms-ui-bounded-dependency-map-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T22:45:30Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` target-local Codex delegation slice for the direct PHP-to-Metro home-shell config seam and captured the result in the bounded dependency map note. The returned bundle proved that login/session bootstrap fetches Metro config through `RestClient::getAllConfig()` before `home.php`, that Apache externally exposes the equivalent backend through `/afa/api/v1/config`, and that externally visible `/afa/config` is not the correct control surface on this appliance.",
+      "validation_id": "narrow_asms_home_shell_config_seam_v1"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/delegated-task-result.json",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/findings.md",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/apache-autodiscovery-conf.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-autodiscovery-show.txt",
+        ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/adf-remote-checkpoint-bundle.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T22:48:42Z",
+      "status": "pass",
+      "summary": "Completed an accepted `observe_only` target-local Codex delegation slice focused on the AutoDiscovery 502 path. The returned bundle proved two concurrent faults: Apache redirects `/ms-autodiscovery/*` into `/AutoDiscovery/*`, where the `/AutoDiscovery` ProxyPass target uses `https://AutoDiscovery/ms-autodiscovery` and fails DNS resolution, and `ms-autodiscovery.service` is inactive/dead with no listener on port `8095`.",
+      "validation_id": "narrow_autodiscovery_502_fault_chain_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/delegated_codex.py",
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "docs/remote-targets/adf-dev/README.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T22:19:18Z",
+      "status": "pass",
+      "summary": "Proved the first live PackFactory-managed target-local Codex delegation slice through `adf-dev` using `observe_only`. The target-local Codex worker returned a complete delegated bundle with `delegated-task-result.json`, `commands.jsonl`, `findings.md`, and Apache evidence artifacts, and the staged pack on `adf-dev` recorded an accepted delegated review in `.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/adf-remote-checkpoint-bundle.json`. The delegated result reported healthy Apache-backed AFA, FireFlow, BusinessFlow, AFF, and Map Diagnostics routes plus one follow-up clue: `/AutoDiscovery/v2/api-docs` returned HTTP 502.",
+      "validation_id": "prove_live_target_local_codex_delegation_slice_v1"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/delegated_codex.py",
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "docs/remote-targets/adf-dev/README.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T22:15:00Z",
+      "status": "pass",
+      "summary": "Implemented the first staged-pack helper path for PackFactory-managed target-local Codex delegation: `target-delegation-request`, `target-delegation-launch-codex`, `target-delegation-pull`, and `target-delegation-review`. The helper now writes delegated request artifacts, prepares a bounded target-side Codex prompt and launcher, pulls the returned bundle back to `adf-dev`, and records review output into the checkpoint bundle.",
+      "validation_id": "implement_packfactory_managed_target_local_codex_helper_flow"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:42:00Z",
+      "status": "pass",
+      "summary": "Extended the target-local Codex secondary mode for the disposable lab environment by defining two delegation tiers, `observe_only` and `guided_change_lab`, plus a concrete delegated bundle contract that must be pulled back to `adf-dev` and reviewed before it is checkpointed or exported.",
+      "validation_id": "define_target_local_codex_lab_delegation_tiers_and_bundle_contract"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:35:00Z",
+      "status": "pass",
+      "summary": "Recorded target-local Codex as a bounded secondary delegation mode. The canonical split-host rule still keeps `adf-dev` as the primary ADF runtime and web server, direct `adf-dev -> target` SSH as the baseline transport, and `adf-dev` as the review and checkpoint owner for any delegated target-local evidence.",
+      "validation_id": "define_target_local_codex_secondary_delegation_mode"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        "src/algosec_diagnostic_framework_template_pack/target_connection.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:27:17Z",
+      "status": "pass",
+      "summary": "Established SSH key trust from `adf-dev` to `root@10.167.2.150` and then verified the real helper path from the staged build pack on `adf-dev`: `target-preflight`, `target-heartbeat`, and `target-shell-command --command hostname` all passed non-interactively through the menu-safe non-login shell path, with the target reporting hostname `algosec`.",
+      "validation_id": "establish_and_verify_real_adf_dev_to_target_connection_path"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        "src/algosec_diagnostic_framework_template_pack/target_connection.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:22:39Z",
+      "status": "fail",
+      "summary": "Executed the new pack-local `target-preflight` and `target-heartbeat` helpers from the staged build pack on `adf-dev`. Both failed closed with `Permission denied (publickey,password,keyboard-interactive)` for `root@10.167.2.150`, which means the current blocker is missing non-interactive SSH identity on `adf-dev`, not the helper logic or the menu-safe shell contract.",
+      "validation_id": "verify_real_adf_dev_to_target_connection_path"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab/target-connection-profile.json",
+        "src/algosec_diagnostic_framework_template_pack/target_connection.py",
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/algosec-lab/README.md",
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:19:39Z",
+      "status": "pass",
+      "summary": "Added the first pack-local target connection infrastructure for the split-host model: a default target connection profile plus `target-preflight`, `target-heartbeat`, and `target-shell-command` helper commands that apply the current non-login shell, key-auth, timeout, and bounded retry rules for the `adf-dev -> algosec-lab` hop.",
+      "validation_id": "implement_pack_local_target_connection_helpers"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:11:54Z",
+      "status": "pass",
+      "summary": "Expanded the split-host connection rules into an explicit `adf-dev -> target` stability specification: non-interactive key auth, no-hang behavior, bounded timeouts and retries, recorded reachability changes, browser recovery rules, and checkpoint expectations for connection-state transitions while `adf-dev` is running the loop.",
+      "validation_id": "define_adf_target_connection_stability_specification"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/algosec-lab/README.md",
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:06:07Z",
+      "status": "pass",
+      "summary": "Recorded that the staged ADF build pack on `adf-dev` should use the existing key-based SSH path to the target appliance and treat the appliance interactive menu as a normal `adf-dev -> target` shell constraint, using non-login shell launch patterns instead of login-shell prompts.",
+      "validation_id": "record_target_ssh_key_and_interactive_menu_contract"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/serve_generated_content.py",
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:04:16Z",
+      "status": "pass",
+      "summary": "Defined the `adf-dev` execution contract around the three split-host items and added a bounded `serve-generated-content` command so the staged ADF build pack can publish generated human-facing content directly from the remote artifact root while still checkpointing evidence and serving metadata back through PackFactory.",
+      "validation_id": "define_adf_remote_execution_target_connection_and_serving_contract"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        ".pack-state/remote-autonomy-staging/algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1/target-manifest.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T19:00:46Z",
+      "status": "pass",
+      "summary": "Prepared `adf-dev` and staged the ADF build pack there through the PackFactory remote control plane. The remote request, canonical directories, and target manifest now exist for the split-host runtime, but the bounded `run_remote_autonomy_loop.py` runner remains a mismatch for ADF because this pack does not expose the starter-backlog task shape that runner expects.",
+      "validation_id": "stage_adf_on_adf_dev_via_packfactory_remote_control_plane"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-test-request.json",
+        "docs/remote-targets/algosec-lab/README.md",
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T18:59:58Z",
+      "status": "pass",
+      "summary": "Defined the concrete split-host request profile for `adf-dev`, documented the deterministic roundtrip wrapper request, and clarified that the AlgoSec appliance is now the downstream target context rather than the PackFactory remote runtime host.",
+      "validation_id": "define_concrete_adf_dev_split_host_request_profile"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "tools/prepare_remote_autonomy_target.py",
+        "tools/push_build_pack_to_remote.py",
+        "tools/run_remote_autonomy_loop.py",
+        "tools/pull_remote_runtime_evidence.py",
+        "tools/import_external_runtime_evidence.py",
+        "tools/reconcile_imported_runtime_state.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T18:52:48Z",
+      "status": "pass",
+      "summary": "Confirmed that PackFactory already provides the remote Codex roundtrip control plane for request validation, remote preparation, pack staging, remote execution, runtime-evidence pullback, import, and reconcile; the ADF checkpoint bundle now sits on top of that path as supplementary review metadata instead of inventing a second transport.",
+      "validation_id": "align_adf_remote_decoupling_with_existing_packfactory_roundtrip"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "src/pack_export_runtime_evidence.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T18:48:25Z",
+      "status": "pass",
+      "summary": "Defined the operational emit rule for `adf-remote-checkpoint-bundle.json`: write it in the remote run root, copy it into the runtime-evidence export bundle, and refresh it at the required checkpoint reasons so PackFactory root has a deterministic pull boundary.",
+      "validation_id": "operationalize_remote_checkpoint_manifest_emit_rule"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-EXTERNAL-BUILD-PACK-RUNTIME-EVIDENCE-EXPORT-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-EXTERNAL-RUNTIME-EVIDENCE-IMPORT-TECH-SPEC.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T18:41:39Z",
+      "status": "pass",
+      "summary": "Defined the concrete `adf-remote-checkpoint-bundle.json` format so a run on `adf-dev` can return one explicit manifest describing the export bundle, run artifacts, candidate source/docs changes, and exact control-plane fields proposed for local acceptance.",
+      "validation_id": "define_remote_checkpoint_bundle_format"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "eval/history/adf-root-build-pack-remote-reconciliation-plan-20260326.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T18:41:39Z",
+      "status": "pass",
+      "summary": "Recorded the exact local-to-`adf-dev` checkpoint contract so accepted local state is what gets pushed, remote runs return bounded artifacts and candidate changes at named checkpoints, and local PackFactory still keeps precedence until a checkpoint bundle explicitly accepts pulled remote state.",
+      "validation_id": "define_local_to_adf_dev_checkpoint_contract"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T18:41:39Z",
+      "status": "pass",
+      "summary": "Pinned `adf-dev` as the current remote Codex host over the existing SSH key path and recorded that the local PackFactory build-pack copy still takes precedence over the remote build-pack copy until a later explicit remote-canonical mode change.",
+      "validation_id": "pin_adf_dev_host_and_local_precedence_rule"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "src/pack_export_runtime_evidence.py",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T18:38:18Z",
+      "status": "pass",
+      "summary": "Refined the decoupling plan to reuse the existing runtime-evidence export path, keep long-running target communication on the remote build-pack host, and name the later remote-canonical mode where PackFactory becomes the orchestrator and runtime consumer.",
+      "validation_id": "refine_remote_runtime_decoupling_plan_for_continuous_loops"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "recorded_at": "2026-03-26T18:28:45Z",
+      "status": "pass",
+      "summary": "Recorded the split-host runtime model so PackFactory root manages the remote Codex host, the remote Codex host runs the ADF build pack, and that ADF runtime reaches the separate Rocky target only through bounded task-scoped network access.",
+      "validation_id": "decouple_codex_runtime_from_target_lab_environment"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/adf-root-build-pack-remote-reconciliation-plan-20260326.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T16:35:00Z",
+      "status": "pass",
+      "summary": "Recorded the checkpointed synchronization model and the first fail-closed checkpoint bundle proposal for Root, the ADF Build Pack, and ADF Remote.",
+      "validation_id": "define_adf_checkpointed_sync_model"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "adopt_support_cockpit_direction"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "define_adf_artifact_model"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "implement_safe_runtime_collection"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "render_baseline_outputs"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "prototype_starlight_publishing"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "formalize_shared_host_health_precheck_pack"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "prove_asms_ui_system_thinking_with_authenticated_flow"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "capture_asms_post_home_followups_before_subsystem_split"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "capture_businessflow_and_fireflow_as_asms_operational_checkpoints"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "rebuild_asms_ui_system_thinking_playbook"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "investigate_asms_ui_components_for_useful_work_checks"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "reframe_host_precheck_around_pressure_signals"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-autonomous-iteration-loop-completion-boundary-v1.md",
+        "docs/specs/adf-autonomous-iteration-loop-pilot-evidence-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py"
+      ],
+      "recorded_at": "2026-03-26T16:07:00Z",
+      "status": "pass",
+      "summary": "Recorded one pilot iteration evidence artifact tied to a real ADF-local source change and captured the boundary between local source edits and valid remote appliance-backed artifact refresh.",
+      "validation_id": "build_adf_autonomous_iteration_loop"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "docs/specs/adf-autonomous-iteration-loop-pilot-evidence-v1.md"
+      ],
+      "recorded_at": "2026-03-26T16:07:00Z",
+      "status": "pass",
+      "summary": "Expanded the ASMS UI service packs with a Keycloak-specific log clue and a Metro JVM-error clue in the canonical generator source.",
+      "validation_id": "deepen_asms_ui_service_command_packs"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-autonomous-iteration-loop-completion-boundary-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-26T15:34:57Z",
+      "status": "pass",
+      "summary": "Recorded the iteration-loop completion boundary, tightened the parent task exit criteria, and kept the active iteration-loop task open until a pilot evidence artifact exists.",
+      "validation_id": "clarify_adf_iteration_loop_completion_boundary"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "refine_support_cockpit_right_rail_layout"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json",
+        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/loop-events.jsonl"
+      ],
+      "recorded_at": "2026-03-26T14:46:10Z",
+      "status": "pass",
+      "summary": "Reconciled local canonical state from imported external runtime evidence.",
+      "validation_id": "consider_horizontal_dependency_path_in_center_pane"
+    }
+  ],
+  "next_recommended_task_id": "deepen_dependency_aware_playbooks",
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pending_task_ids": [
     "tune_operator_language_for_priority_domains",
+    "expand_service_command_coverage",
+    "explore_scenario_based_dashboard_direction",
+    "plan_controlled_fault_injection_playbook_validation",
+    "refine_command_palette_contrast",
+    "stabilize_remote_codex_launcher_against_interactive_menu",
     "review_adf_agent_persona_alignment",
+    "deepen_dependency_aware_playbooks",
     "enhance_linux_notes_as_optional_learning_layer",
+    "codify_system_thinking_as_adf_theme",
     "formalize_linux_foundation_as_adf_theme"
   ],
   "resume_instructions": [
     "Read the objective, backlog, and work-state files before editing code.",
+    "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Use `docs/specs/adf-autonomous-iteration-loop-completion-boundary-v1.md` as the current contract for what does and does not complete future iteration-loop work.",
+    "Use `docs/specs/adf-autonomous-iteration-loop-pilot-evidence-v1.md` as the recorded proof that one real ADF-local iteration happened beyond continuity bookkeeping.",
+    "Do not treat continuity bookkeeping, imported runtime-evidence reconcile, restaging, launcher health, or recorded next steps as enough to complete future iteration-loop work without the named pilot evidence artifact.",
+    "Do not run `generate-support-baseline` locally on this workspace host to refresh AlgoSec appliance-backed candidates. Use PackFactory-root remote/runtime workflows and preserved remote-backed artifacts for appliance-backed output refresh.",
+    "Use `docs/specs/adf-remote-runtime-decoupling-plan-v1.md` as the current split-host contract: PackFactory root orchestrates the remote Codex host, the remote Codex host runs the ADF build-pack runtime, and the remote ADF runtime reaches the separate Rocky target host only when the named task needs target-backed evidence.",
+    "Use `adf-dev` as the current remote Codex host through the existing SSH key authentication path, but keep the local PackFactory build-pack copy as the current precedence source of truth over the remote `adf-dev` build-pack copy until a later explicit remote-canonical mode change is recorded.",
+    "The latest accepted delegated AutoDiscovery slice proved two independent faults in the current 502 path: Apache proxies `/AutoDiscovery` through an unresolved `AutoDiscovery` hostname, and `ms-autodiscovery.service` is inactive/dead with no listener on `8095`. Treat that as a deferred follow-up rather than the next blocking step, and restart from `.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/` when AutoDiscovery work resumes.",
+    "Use `docs/specs/asms-ui-bounded-dependency-map-v1.md` as the current bounded map for the top-level `ASMS UI is down` path.",
+    "Use `docs/specs/fireflow-internals-bounded-map-v1.md` as the current bounded note for deeper FireFlow internals behind the first-pass playbook.",
+    "Use `docs/specs/asms-docpack-reference-note-v1.md` as the local reference for the verified ASMS docpack on `adf-dev`, but keep the documented caveat in force: the vendor docs are incomplete and should not override live target-backed evidence.",
+    "The latest accepted async-branch probe adds a useful negative heuristic: a repeated `CommandsDispatcher` cadence with `3055` and `3070` response sizes can still be journal refresh plus `UserSession` maintenance, not queue-backed FireFlow progression. Keep journal/session interpretation ahead of ActiveMQ for that branch unless a future minute shows a non-`UserSession` destination or same-minute `ms-batch-application` or broker evidence.",
+    "The latest accepted stronger FireFlow approval/progression candidate still did not reach ticket mutation. The best in-scope non-`UserSession` branch on `2026-03-26 10:19-10:20 EDT` stayed config-broadcast centered: `ms-configuration` broadcast `application-afaConfig.properties` changes, `ms-initial-plan` received the broadcast, and FireFlow then showed `Authentication:authenticateUser` and `User:GetUserInfo`. Treat that branch as config-propagation plus auth bootstrap, not approval progression, unless a future slice shows a ticket identifier, a dispatcher target beyond `Authentication` or `User`, or same-minute worker or broker evidence.",
+    "The latest accepted later FireFlow workflow correlation slice picked one `CommandsDispatcher` minute at `2026-03-26 19:40 EDT` and kept the branch Apache or AFF -> `aff-boot` first, then `ms-configuration` when the same minute rolled into unified swagger refresh and downstream `AutoDiscovery` 502 behavior. Keep ActiveMQ later-supporting for that branch unless future same-minute broker evidence lands on workflow-specific destinations.",
+    "The latest accepted home-shell seam slice proved that the hard Metro dependency behind the first usable shell is the backend login/session-bootstrap config fetch through `HandleConfigParams() -> GetConfigurationSettings() -> RestClient::getAllConfig()` against `http://127.0.0.1:8080/afa`, while externally visible `/afa/config` is not the correct appliance control surface.",
+    "The latest accepted successful shell-transition slice now gives a reusable baseline window for the next comparison pass: `SuiteLoginSessionValidation.php -> home.php -> dynamic.js -> home.js -> dashboard bootstrap commands -> tree bootstrap -> TopbarMenu.php -> prod_stat.php`. Use `.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/` as the preserved baseline evidence.",
+    "The latest accepted failure comparison slice now gives the matching failed branch: `SuiteLoginSessionValidation.php` on `2026-03-25 12:56:01 EDT` redirects but never reaches `home.php` and falls back to `/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php`. Use `.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/` as the preserved failed baseline.",
+    "Use `docs/specs/asms-ui-dependency-order-validation-v1.md` as the canonical conclusion for the top-level ordering claim: do not restate the ASMS path as a strict `host -> httpd -> keycloak -> ms-metro` chain unless future lab evidence disproves the current validation note.",
+    "The latest accepted FireFlow-internals slice proves the nearer FireFlow order as Apache route ownership -> `aff-boot` on `1989` -> PostgreSQL, with ActiveMQ and neighboring `algosec-ms.*` services treated as later-supporting unless the symptom is asynchronous, broker-like, or configuration-driven.",
+    "Follow the exact local-to-`adf-dev` checkpoint contract in `docs/specs/adf-remote-runtime-decoupling-plan-v1.md`: push accepted local source and instructions to `adf-dev`, pull back bounded run artifacts and candidate changes only at named checkpoints, and accept pulled remote state locally only when the checkpoint bundle explicitly says which work-state, backlog, source, docs, and target-backed artifacts are accepted.",
+    "Use one explicit `adf-remote-checkpoint-bundle.json` manifest at checkpoint time so the remote run on `adf-dev` can name the exported runtime-evidence bundle, raw run artifacts, candidate source/docs changes, and exact work-state or backlog fields proposed for local acceptance instead of relying on implicit whole-file comparison.",
+    "For the current phase, the remote loop on `adf-dev` should write `adf-remote-checkpoint-bundle.json` into `.pack-state/autonomy-runs/<run-id>/`, copy it into the exported runtime-evidence bundle under `artifacts/` when one exists, and refresh it at the required checkpoint reasons `paused_for_review`, `task_slice_complete`, `evidence_ready`, `blocked_boundary`, and `recovery_snapshot`.",
+    "Use the existing build-pack runtime-evidence export path as the default remote-to-root handoff: long-running loops stay on the remote build-pack host, and PackFactory root consumes exported run summaries, loop events, feedback memory, and accepted artifacts instead of acting like a live session proxy to the target host.",
+    "Treat the later remote-canonical build-pack mode as the target end state for this line: the remote build pack becomes the canonical runtime home only after the export, checkpoint, and source-of-truth rules are explicit enough to let PackFactory root stay in the orchestrator-and-consumer role.",
     "Start the next cycle from the selected Support Cockpit direction rather than the older reviewed webpage frame.",
     "Preserve the sticky quick-jump behavior because that is the operator-confirmed reason Support Cockpit won the prototype comparison.",
     "Use the cleaned Support Cockpit chassis as the next container for a real playbook iteration instead of reintroducing the older boxed legacy page structures.",
     "The command-first flow strip and the horizontal dependency path now sit above the main two-column layout, and Quick jump starts level with the first stepwise checkpoint content.",
-    "The current active content task is reviewing and tightening the rebuilt ASMS UI is down page, which now uses a from-scratch system-thinking layout instead of the older service-first page shape.",
+    "The next recommended content task is `deepen_dependency_aware_playbooks`, because the bounded ASMS map and the top-level ordering conclusion are now recorded well enough to shift from proving order to improving the playbooks that use it.",
     "The live ASMS UI page now uses five useful-work checkpoints: host support, Apache/HTTPD serving the UI, auth branch, app branch, and useful-work stop point.",
     "Keep treating the current ASMS UI page as a first real system-thinking reference playbook and tighten it through review rather than reverting to the older incremental patch model.",
     "The current ASMS UI service pack now uses real Keycloak readiness and OIDC path checks, a real ms-metro heartbeat check, and file-based Keycloak and ms-metro logs taken from the lab-backed appliance behavior.",
@@ -115,443 +856,32 @@
     "Read docs/specs/adf-remote-codex-invocation-notes-v1.md before the next remote Codex launch.",
     "For controlled lab seam mutations, follow docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md and prefer a temporary Apache override file over editing the base config inline.",
     "For the next ASMS narrowing cycle, start from `.pack-state/remote-codex/asms-ui-config-correlation-pass-20260326.md` and docs/specs/asms-ui-direct-config-seam-plan-v1.md instead of another Apache-family or browser-only mutation.",
-    "For the current ASMS investigative authoring phase, use PackFactory target prep and staging (`prepare_remote_autonomy_target.py` and `push_build_pack_to_remote.py`) before guided remote Codex work on the staged pack.",
+    "For the current ASMS investigative authoring phase, use the PackFactory-root remote request, staging, execution, export, pull, import, and reconcile workflows rather than inventing pack-local substitutes.",
     "Do not use `run_remote_autonomy_loop.py` as the default path for the current ASMS subsystem-investigation cycles. The bounded autonomy wrapper is right for starter-backlog autonomy proofs, but it will correctly stop when the work needs guided source edits or appliance-backed artifact regeneration.",
-    "Use a small remote shell script plus env -i and /bin/bash --noprofile --norc for the outer appliance launcher instead of a long inline SSH command.",
+    "Within that PackFactory-root workflow, keep the ADF-specific launcher preference narrow: use a small remote shell script plus env -i and /bin/bash --noprofile --norc for the outer appliance launcher instead of a long inline SSH command.",
     "For ASMS browser-backed investigation, do not wait on Playwright `networkidle` after login. Use bounded waits plus visible-shell checks like title `AlgoSec - Home`, final URL `/afa/php/home.php`, and visible home markers instead.",
     "Clear stale matching codex exec processes before relaunching, and confirm both the result file and rebuilt starlight-site timestamps before assuming the remote run finished cleanly.",
     "Keep machine-readable artifacts canonical, keep HTML as a thin render layer, and keep new commands read-only.",
     "Keep rare path and config checks deferred unless a playbook truly needs them.",
-    "Use the live Starlight review page at http://10.167.2.150:18082/playbooks/asms-ui-is-down/ as the current operator review surface for the first subsystem-specific pack.",
+    "Use the live Starlight review page at http://10.167.2.151:18082/playbooks/asms-ui-is-down/ as the current operator review surface for the first subsystem-specific pack.",
+    "Treat the plain adf-dev playbook URLs as the current approved review surface; the staged content server now injects the operator-approved `124rem / 22rem / 88ch` layout fail-closed into served HTML so navigation keeps the widened review view without cache-busting query strings.",
     "Use the saved lab target request and the prototype comparison ports 18083, 18084, and 18085 as the last reviewed prototype surfaces.",
-    "Use the generated site roots under dist/prototypes/starlight, dist/candidates/algosec-lab-baseline/starlight-site, and the current appliance-backed dist/candidates/adf-baseline/starlight-site when iterating on the Astro Starlight publisher."
+    "Use the generated site roots under dist/prototypes/starlight, dist/candidates/algosec-lab-baseline/starlight-site, and the current appliance-backed dist/candidates/adf-baseline/starlight-site when iterating on the Astro Starlight publisher.",
+    "Use `docs/remote-targets/algosec-lab/lab-target-inventory.json` as the local source for alternate downstream lab IPs before the next retargeted FireFlow mapping cycle.",
+    "Before choosing a new FireFlow-mapping lab, probe `/usr/share/fireflow/local/sbin/fireflow_activation.sh isEnabled` on the candidate target and treat the indicator file `/usr/share/fireflow/local/etc/site/fireflow_enabled` as the primary activation signal.",
+    "Use `grep -E '^FireFlow_configured=' /home/afa/.fa/config` as supporting context, not as the only FireFlow gate.",
+    "Use per-lab profile files plus `--profile-path` for later retargeting rather than rewriting the current active target profile.",
+    "For the next FireFlow-enabled lab, start with one tiny evidence pass: capture one real later FireFlow minute plus the matching `ms-configuration.log` and `ms-batch-application.log` window before widening into deeper mapping.",
+    "On the current lab `10.167.2.150`, FireFlow now looks enabled rather than disabled, but the latest accepted slice showed `Total tickets in DB: 0`, so treat this appliance as an empty workflow lab until a real FireFlow request is seeded or replayed.",
+    "For the next FireFlow ticket-seeding step on `10.167.2.150`, start from `/home/afa/.fa/firewall_data.xml`. The first visible candidate tree inputs are the firewall `name`, `display_name`, and a VR-style child name such as `case200201_default`, even though a literal `tree_name` attribute did not appear in the first pass.",
+    "Carry forward the AFA artifact clue too: `/data/algosec/firewalls/afa-3`, `afa-4`, and `afa-5` already contain `baseline_results.json`, `explore_policy.html`, `optimize_policy.html`, and `queries_results.zip`, so this lab is also useful for AFA-side report and policy-output mapping.",
+    "The currently listed alternate labs `10.167.2.132`, `10.167.2.177`, `10.167.2.192`, and `10.167.2.213` now trust the `adf-dev` key, so they are ready for later retargeting and scenario checks even though the older `fireflow_enable` quick probe returned missing on each.",
+    "Carry forward the current-lab correction too: on `10.167.2.150`, `/usr/share/fireflow/local/sbin/fireflow_activation.sh isEnabled` returned `true`, the marker file exists, and `/home/afa/.fa/config` shows `FireFlow_configured=yes`."
   ],
   "schema_version": "work-state/v1",
   "stop_conditions": [
     "Stop when the current operator-review slice is captured cleanly and the next work items are recorded in pack-local state.",
+    "Do not mark `build_adf_autonomous_iteration_loop` complete from continuity bookkeeping alone. Validation-only passes, imported-runtime reconcile, restaging, launcher result files, timestamp movement, rebuilt review artifacts, or recorded next steps are not sufficient without the named loop contract, split decision, and pilot evidence artifact.",
     "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
-  ],
-  "planning_items": [
-    {
-      "task_id": "formalize_controlled_lab_mutation_experiment_pattern",
-      "title": "Formalize a reusable controlled lab mutation experiment pattern",
-      "status": "completed",
-      "priority": "high",
-      "summary": "ADF now has a reusable lab-only mutation pattern for bounded, reversible seam experiments after read-only investigation has already narrowed the likely control surface.",
-      "why_it_matters": "The ASMS path has now reached questions that cannot be answered by observation alone. A reusable pattern keeps future seam experiments disciplined, reversible, and evidence-first instead of turning them into ad hoc break-fix work.",
-      "notes": [
-        "The canonical pattern now lives in `docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md`.",
-        "The default shape is one seam at a time, one bounded reproduction, same-minute log capture, immediate rollback, and explicit interpretation.",
-        "When Apache is the seam, prefer a temporary override include under `/etc/httpd/conf.d/zzzz_adf_*.conf` over editing the base config inline."
-      ]
-    },
-    {
-      "task_id": "run_apache_to_metro_proxy_family_isolation_variant_a",
-      "title": "Run the ASMS Apache-to-Metro proxy-family isolation experiment Variant A",
-      "status": "completed",
-      "priority": "high",
-      "summary": "A temporary Apache deny on `/afa/external` produced repeated `403` responses for that family, but the first usable ASMS home shell still survived.",
-      "why_it_matters": "This is the first bounded mutation proof at the Apache-to-Metro seam. It lowers support ambiguity by demoting `/afa/external` as a first-shell gate candidate instead of leaving it as a plausible but unproven path.",
-      "notes": [
-        "The canonical note is `.pack-state/remote-codex/asms-ui-apache-proxy-isolation-variant-a-pass-20260325.md`.",
-        "The mutation used a temporary Apache override include, one bounded fresh login, same-minute Apache and Metro evidence capture, immediate rollback, and one post-rollback recovery login.",
-        "The strongest next seam is now Variant B on `/afa/api/v1`."
-      ]
-    },
-    {
-      "task_id": "run_apache_to_metro_proxy_family_isolation_variant_b",
-      "title": "Run the ASMS Apache-to-Metro proxy-family isolation experiment Variant B",
-      "status": "completed",
-      "priority": "high",
-      "summary": "A temporary Apache deny on `/afa/api/v1` still left the first usable ASMS home shell intact, and it did not cleanly own the fresh-session `config` and `session/extend` path.",
-      "why_it_matters": "This closes out the top-level Apache proxy-family experiment. It shows that a family-wide deny on `/afa/api/v1` is not a precise enough control seam for the fresh-session config/session path, which saves future ADF work from repeating the same broad mutation.",
-      "notes": [
-        "The canonical note is `.pack-state/remote-codex/asms-ui-apache-proxy-isolation-variant-b-pass-20260325.md`.",
-        "Apache showed `403` for some `/afa/api/v1` requests such as `config/PRINT_TABLE_IN_NORMAL_VIEW` and `license`, but Metro still served fresh-session `/afa/api/v1/config?...` and `/afa/api/v1/session/extend?...` as `200`.",
-        "The narrowest remaining unknown is why those fresh-session routes still reached Metro under the deny window."
-      ]
-    },
-    {
-      "task_id": "run_apache_to_metro_proxy_family_isolation_experiment",
-      "title": "Run the ASMS Apache-to-Metro proxy-family isolation experiment",
-      "status": "completed",
-      "priority": "high",
-      "summary": "The top-level Apache proxy-family experiment is now complete: both `/afa/external` and `/afa/api/v1` were mutated in bounded lab passes, and neither family-wide deny broke the first usable ASMS home shell.",
-      "why_it_matters": "The read-only investigation has already shown that browser-side blocking is the wrong control point and that Apache exposes separate proxy families toward Metro. The next meaningful reduction in support ambiguity now requires one reversible seam mutation.",
-      "notes": [
-        "Use the exact plan in `docs/specs/asms-ui-apache-metro-proxy-isolation-plan-v1.md`.",
-        "Variant A demoted `/afa/external` as a first-shell gate candidate.",
-        "Variant B showed that a top-level Apache deny on `/afa/api/v1` is not a clean control lever for the fresh-session config/session path.",
-        "The next experiment should move one seam deeper than the family-wide Apache deny."
-      ]
-    },
-    {
-      "task_id": "separate_browser_owned_and_php_owned_asms_config_routes",
-      "title": "Separate browser-owned and PHP-owned ASMS config routes",
-      "status": "completed",
-      "priority": "high",
-      "summary": "A fresh-session correlation pass now separates the browser-facing `/afa/external` -> `/afa/api/v1` path from the unmatched internal direct `/afa/config/...` family.",
-      "why_it_matters": "This closes the owner-split question with concrete session evidence and keeps the next experiment aimed at the true remaining seam instead of repeating solved browser-proxy ground.",
-      "notes": [
-        "The owner-split setup note is `.pack-state/remote-codex/asms-ui-config-owner-split-pass-20260326.md`.",
-        "The fresh-session correlation result is `.pack-state/remote-codex/asms-ui-config-correlation-pass-20260326.md`.",
-        "Apache proxies `/afa/external` and `/afa/api/v1` to Metro, but PHP `RestClient` also talks directly to `http://127.0.0.1:8080/afa` and issues `/config/...` requests.",
-        "Fresh session `jkp0cnnf971ksgifu3k25jopiq` proved that `/afa/external//config...` and `/afa/external//session/extend...` line up with Metro `/afa/api/v1/...`, while direct `/afa/config/...` and `/afa/getStatus` lines had no Apache parent.",
-        "The next plan should target the internal direct `/afa/config/...` seam."
-      ]
-    },
-    {
-      "task_id": "plan_internal_php_to_metro_config_seam_experiment",
-      "title": "Plan the internal PHP-to-Metro `/afa/config/...` seam experiment",
-      "status": "pending",
-      "priority": "high",
-      "summary": "The next meaningful ASMS seam is now the direct `/afa/config/...` family behind PHP `RestClient`, and it needs its own bounded plan before any mutation is attempted.",
-      "why_it_matters": "This is the remaining unresolved owner after the browser-proxy path was explained by the fresh-session correlation pass. Planning it separately keeps the next experiment precise, reversible, and aligned with the real source of ambiguity.",
-      "notes": [
-        "Start from `.pack-state/remote-codex/asms-ui-config-correlation-pass-20260326.md` and `.pack-state/remote-codex/asms-ui-case-sensitive-username-read-pass-20260326.md`.",
-        "Use `docs/specs/asms-ui-direct-config-seam-plan-v1.md` as the working plan.",
-        "Treat `/afa/getStatus` as a nearby internal supporting clue, but keep `/afa/config/...` as the main direct-Metro seam.",
-        "Do not reuse the Apache family deny pattern for this step.",
-        "Treat `Case_Sensitive_Username` as already demoted on this lab and focus the next plan on the broader `GetConfigurationSettings()` bundle.",
-        "Do not use a host-level owner-based `iptables` block on user `apache` as the first broader-bundle mutation surface.",
-        "Prefer the first application-level variant in `AlgosecSessionManager::postLoginActions()` before considering a wider constructor-time bundle bypass.",
-        "Require a clear control point, rollback, evidence plan, and risk review before execution."
-      ]
-    },
-    {
-      "task_id": "prove_home_php_render_is_the_first_class_post_login_checkpoint",
-      "title": "Prove that `home.php` render is the first-class post-login checkpoint",
-      "status": "completed",
-      "priority": "high",
-      "summary": "The ASMS UI playbook now treats a meaningfully usable `/afa/php/home.php` render as the first-class post-login signal, while keeping nearby post-home requests as supporting clues.",
-      "why_it_matters": "This keeps the playbook centered on the customer-visible usability checkpoint that actually reduces support ambiguity. It prevents nearby requests from being promoted into hard stop points before the reproduced browser flow proves they gate initial ASMS home-shell availability.",
-      "notes": [
-        "A bounded authenticated browser comparison showed that blocking `FireFlowBridge.js` did not stop the initial home page from rendering with the normal menu and summary view.",
-        "The bounded comparison did not prove `/afa/api/v1/license`, `/afa/api/v1/config?...`, `/afa/api/v1/config/all/noauth?domain=0`, or `/afa/api/v1/session/extend?...` are required for the initial home-shell render, so those routes stay as supporting clues rather than first-class gates.",
-        "A later fresh-session pass tied `config` and `session/extend` more directly to the new `PHPSESSID`, which raises their value as supporting clues without proving they gate first-shell usability.",
-        "A later CDP browser-layer pass matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe and recorded no real block events for the fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` traffic, so browser-side blocking is not yet a trustworthy proof path for those routes.",
-        "The later route-ownership pass showed Apache exposing both `/afa/external` and `/afa/api/v1` proxy families toward Metro, while the fresh-session minute showed paired `/afa/config/...` and `/afa/api/v1/config?...` server-side surfaces around the same config family.",
-        "`GET /afa/getStatus` is now treated as the strongest immediate Metro clue after the first usable shell appears, but still not as a first-class gate for initial home-shell render.",
-        "The latest lab pass tied `/afa/api/v1/bridge/refresh?...` to a different long-lived session instead of the fresh login session, so it stays demoted as nearby background traffic unless a cleaner reproduction proves otherwise.",
-        "The appliance-backed ADF artifacts, remote note, and live review page on port 18082 were all regenerated from this stronger systems-thinking rule."
-      ]
-    },
-    {
-      "task_id": "capture_asms_post_home_followups_before_subsystem_split",
-      "title": "Capture ASMS post-home follow-ups before splitting into later subsystem paths",
-      "status": "completed",
-      "priority": "high",
-      "summary": "The ASMS UI playbook now treats the first traffic after `/afa/php/home.php` as immediate home-shell follow-ups and light Metro refresh work, while deferring later subsystem candidates until the reproduced browser minute proves they matter.",
-      "why_it_matters": "This keeps support engineers on the shortest useful next checks after login succeeds. It prevents the playbook from overreacting to every nearby route and instead separates the immediate ASMS home-shell path from later subsystem candidates like Notification Center or watchdog-linked issue counts.",
-      "notes": [
-        "The earliest observed post-home follow-ups were `FireFlowBridge.js`, `logo.php`, and nearby Metro clues such as `GET /afa/getStatus`, `GET /afa/api/v1/license`, `GET /afa/api/v1/config?...`, `GET /afa/api/v1/config/all/noauth?domain=0`, and `POST /afa/api/v1/session/extend?...`.",
-        "`GET /afa/getStatus` is now the strongest immediate Metro supporting clue after the first usable shell, while the other same-minute routes remain unproven first-shell requirements.",
-        "`GET /afa/api/v1/config?...` and `POST /afa/api/v1/session/extend?...` now have a stronger fresh-session tie because the latest pass matched them to the new `PHPSESSID` in the exact fresh-login minute.",
-        "The later CDP browser-layer pass still did not own those fresh-session routes. It matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe, which means the next meaningful isolation experiment should move closer to the proxy or server side.",
-        "The later route-ownership pass showed Apache exposing both `/afa/external` and `/afa/api/v1` proxy families toward Metro, which is the most likely next control seam for a clean isolation pass.",
-        "`POST /afa/api/v1/bridge/refresh?...` appeared in the same window but stayed tied to a different long-lived session, so it is now treated as nearby background traffic rather than the fresh home-shell gate.",
-        "Watchdog-linked issue-count traffic appeared in the same window but from a different client address, so it is now treated as a later subsystem candidate rather than the first reproduced stop point."
-      ]
-    },
-    {
-      "task_id": "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
-      "title": "Capture BusinessFlow and FireFlow as support-relevant ASMS operational checkpoints",
-      "status": "completed",
-      "priority": "high",
-      "summary": "The ASMS UI playbook now reflects that BusinessFlow is the first named operational checkpoint in the observed login path, while FireFlow is a later auth-coupled module with its own support-useful checks.",
-      "why_it_matters": "This keeps the troubleshooting model aligned with the real customer-visible path. It reduces support effort by giving the engineer a stronger first named stop point than a generic Keycloak-first guess and by keeping FireFlow in the path only where the evidence says it matters.",
-      "notes": [
-        "Remote Codex evidence plus appliance log correlation showed `/BusinessFlow` redirects before submit, `POST /BusinessFlow/rest/v1/login` during sign-in, and FireFlow auth signals around the final `/afa/php/home.php` handoff.",
-        "The playbook now encodes BusinessFlow shallow and deep health checks and FireFlow auth-coupled checks instead of treating both modules as vague later details.",
-        "The live review surface on port 18082 was rebuilt from `dist/candidates/adf-baseline` so the appliance-backed page now reflects this stronger subsystem model."
-      ]
-    },
-    {
-      "task_id": "prove_asms_ui_system_thinking_with_authenticated_flow",
-      "title": "Prove the ASMS UI system-thinking method with one authenticated lab flow",
-      "status": "completed",
-      "priority": "high",
-      "summary": "A real authenticated GUI flow plus same-minute log correlation proved that ADF can refine the ASMS UI playbook from observed system behavior instead of guessed service order.",
-      "why_it_matters": "This is the first strong proof that the build-pack can reduce support ambiguity by following the real customer-visible path across modules, keeping observed and inferred claims separate, and then folding that evidence back into the canonical playbook.",
-      "notes": [
-        "The effective loop was: reproduce one bounded browser flow, capture the first post-shell requests, correlate the same minute in Apache and downstream logs, then update the playbook only where the evidence justified it.",
-        "The discovery mattered more than any single request detail: the ASMS UI path included legacy setup and session checks plus later authenticated module handoffs that a service-first model would have hidden.",
-        "This confirms that systems thinking is not only a writing style in ADF. It is a practical troubleshooting method for reducing support-engineer effort during live GUI-down cases.",
-        "Use the same method when following the path through BusinessFlow, FireFlow, and later modules that materially affect customer-visible troubleshooting."
-      ]
-    },
-    {
-      "task_id": "formalize_shared_host_health_precheck_pack",
-      "title": "Formalize a shared host health pre-check pack",
-      "status": "completed",
-      "priority": "high",
-      "summary": "A fixed shared host health pre-check pack is now defined for every major playbook before subsystem-specific checks.",
-      "why_it_matters": "Disk, memory, OOM, and other host-resource checks are foundational Linux triage steps in every scenario. Defining them as a standard reusable pre-check keeps playbooks consistent and helps engineers start in the same place every time.",
-      "notes": [
-        "Treat this as a shared command pack that appears at the start of major playbooks.",
-        "Prefer human-readable command forms such as `-h` or `--human-readable` where supported.",
-        "Use the host pre-check pack before subsystem-specific commands for ASMS UI, FireFlow Backend, Messaging and Data, and similar playbooks.",
-        "The fixed v1 command set and wording now live in `docs/specs/adf-host-health-precheck-pack-v1.md`."
-      ]
-    },
-    {
-      "task_id": "explore_scenario_based_dashboard_direction",
-      "title": "Explore a scenario-based dashboard direction for ADF",
-      "status": "pending",
-      "priority": "medium",
-      "summary": "Consider whether ADF should gradually evolve from a documentation-style playbook surface into a small scenario-based clickable dashboard for support engineers.",
-      "why_it_matters": "ADF is starting to feel like a support engineer's support engineer. A bounded dashboard model could help engineers choose a likely starting scenario quickly and then work through collapsible diagnostic paths with less friction during live cases.",
-      "notes": [
-        "Treat this as a future design direction, not an immediate UI rewrite.",
-        "Keep the number of starting scenarios intentionally small, such as three to five high-value paths.",
-        "Preserve the command-first troubleshooting flow and avoid turning the page into a crowded control panel.",
-        "Use scenario descriptions that help an engineer decide whether the path matches the current case."
-      ]
-    },
-    {
-      "task_id": "plan_controlled_fault_injection_playbook_validation",
-      "title": "Plan controlled fault-injection playbook validation",
-      "status": "pending",
-      "priority": "low",
-      "summary": "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly.",
-      "why_it_matters": "This could become a powerful way to test whether a diagnostic playbook really works end to end instead of only reading well on the page. It would help prove that the dependency path, commands, and stopping points lead an agent or engineer to the right conclusion.",
-      "notes": [
-        "Keep this far-future and lab-only for now.",
-        "Treat this as controlled fault injection, not a normal support workflow.",
-        "Require clear safety boundaries so only approved non-production lab targets can be mutated.",
-        "Use one agent to create the failure scenario and another to follow the playbook independently."
-      ]
-    },
-    {
-      "task_id": "refine_command_palette_contrast",
-      "title": "Refine command palette contrast",
-      "status": "pending",
-      "priority": "medium",
-      "summary": "Adjust the command palette styling so command text stays readable against the current code-block background and syntax-highlighting colors.",
-      "why_it_matters": "Some command text is hard to see because the syntax highlighting and frame background are too close in value. That creates friction exactly where engineers need the clearest visual surface.",
-      "notes": [
-        "Keep this as a presentation-layer change, not a command-content change.",
-        "Review both the bash command blocks and the known working example blocks.",
-        "Prefer contrast improvements that keep the command area visually distinct without overpowering the rest of the page."
-      ]
-    },
-    {
-      "task_id": "distinguish_run_commands_from_output_across_adf_ui",
-      "title": "Make run commands and output clearly distinguishable across the ADF UI",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Adjust the ADF website and playbook UI so runnable command blocks and the resulting output blocks are easy for support engineers to tell apart at a glance across the full system, not only inside one playbook.",
-      "why_it_matters": "Right now the run commands and the generated output share too much of the same visual language, which increases reading friction exactly where support engineers need the clearest command-to-result mapping. ADF should make it immediately obvious what the engineer runs versus what the engineer expects to see next.",
-      "notes": [
-        "Treat this as an ADF-wide website and UI planning item, not an `ASMS UI is down` only change.",
-        "Keep syntax highlighting where it helps, but do not let highlighting make commands and output feel like the same content type.",
-        "Make the command block and the subsequent output block visually distinct through layout, labeling, framing, typography, or color treatment.",
-        "Preserve the command-first troubleshooting flow while helping the engineer scan from command to expected output with less ambiguity.",
-        "Review this pattern across all generated playbooks and shared command-pack surfaces, not just the current Starlight page."
-      ]
-    },
-    {
-      "task_id": "deepen_asms_ui_service_command_packs",
-      "title": "Deepen ASMS UI service command packs",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Expand the `ASMS UI services` step beyond simple service-up and port-open checks so Keycloak and ms-metro become real diagnostic command packs.",
-      "why_it_matters": "The current ASMS UI playbook is useful through host health and Apache edge, but the service-layer checks are still too shallow. Support engineers need service-specific commands that help explain why the UI is still failing, not only whether a process exists.",
-      "notes": [
-        "Treat the current Step 3 as the immediate command-coverage gap revealed by live review.",
-        "Build richer packs for `keycloak.service` and `ms-metro.service` with status, listener, recent logs, and one or more service-specific functional checks.",
-        "Keep the commands read-only, plain-language, and junior-support friendly.",
-        "Do this before moving on to FireFlow Backend so the first subsystem path becomes genuinely useful."
-      ]
-    },
-    {
-      "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
-      "title": "Map the ASMS UI subsystem and validate core scenarios",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Build a bounded dependency map for the ASMS UI subsystem from lab evidence, then validate a small set of common failure scenarios against that map.",
-      "why_it_matters": "The ASMS UI path likely depends on a small set of important services such as httpd, keycloak, ms-metro, and possibly activemq, but the relationship needs to be mapped from evidence instead of guessed. A bounded map plus a few high-value scenarios will make the playbook far more trustworthy than shallow service checks or unlimited speculative branching.",
-      "notes": [
-        "Start by mapping the ASMS UI subsystem from configs, listeners, service units, process relationships, and logs on the lab appliance.",
-        "Treat likely direct dependencies and likely supporting dependencies separately until the evidence is clearer.",
-        "After the map is stable, validate only a small scenario set such as host pressure, httpd down, keycloak down, ms-metro down, and one additional dependency case if the evidence supports it.",
-        "Keep this bounded to the reduced Rocky footprint and the ASMS UI subsystem rather than expanding into full-system reverse engineering."
-      ]
-    },
-    {
-      "task_id": "validate_asms_ui_dependency_order_experimentally",
-      "title": "Validate ASMS UI dependency order experimentally",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Confirm whether the ASMS UI path is truly ordered as host -> httpd -> keycloak -> ms-metro, or whether some of those services should remain peer first-pass checks instead of a strict serial chain.",
-      "why_it_matters": "The current ASMS UI playbook now has effective service packs, but the exact dependency order is not fully proven yet. ADF should only claim a strict path after lab evidence and bounded experiments confirm it.",
-      "notes": [
-        "Treat the current playbook order as a strong working hypothesis, not a final proven dependency chain.",
-        "Use live evidence, config mapping, functional checks, and small lab experiments to confirm which service is upstream or downstream in the real ASMS UI path.",
-        "Keep ActiveMQ out of the first-pass path unless the evidence shows it is a direct gate for the UI-down scenario.",
-        "If controlled service-disable scenarios are needed later, keep them lab-only and align them with the broader controlled fault-injection planning item."
-      ]
-    },
-    {
-      "task_id": "consider_horizontal_dependency_path_in_center_pane",
-      "title": "Consider a horizontal dependency path in the center pane",
-      "status": "completed",
-      "priority": "medium",
-      "summary": "The dependency path now renders horizontally within the center pane so it uses width instead of pushing the stepwise details farther down the page.",
-      "why_it_matters": "This recovers vertical room for the detailed checks while preserving the path-map view at the top of the playbook.",
-      "notes": [
-        "Keep the dependency path inside the main center content area.",
-        "Preserve click-to-jump behavior to the matching step or checkpoint.",
-        "The horizontal strip is now live on the lab review page and remains a candidate for further tuning after operator review."
-      ]
-    },
-    {
-      "task_id": "formalize_subsystem_level_command_coverage_model",
-      "title": "Formalize subsystem-level command coverage",
-      "status": "pending",
-      "priority": "medium",
-      "summary": "Capture the idea that ADF command coverage should expand and contract around subsystem-level dependency paths such as FireFlow Backend, not just isolated services.",
-      "why_it_matters": "The appliance and the application are both made of bounded modules and dependency paths. Support engineers diagnose those paths as subsystems, so command coverage and playbook structure should reflect that reality.",
-      "notes": [
-        "Keep the model bounded to the reduced Rocky footprint and the important application subsystems that run on it.",
-        "Allow command packs to group services, ports, logs, scripts, Java processes, and Linux checks that belong to one subsystem-level path.",
-        "Use this idea to guide both command coverage and deeper playbook design without broadening into full-system reverse engineering."
-      ]
-    },
-    {
-      "task_id": "rename_appliance_ui_is_down_to_asms_ui_is_down",
-      "title": "Rename Appliance UI is down to ASMS UI is down",
-      "status": "completed",
-      "priority": "medium",
-      "summary": "The operator-facing playbook label now uses `ASMS UI is down` instead of `Appliance UI is down`.",
-      "why_it_matters": "The support-facing subject is now aligned with AlgoSec Security Management Suite naming on the live review surface, the generated baseline, and the Starlight playbook path.",
-      "notes": [
-        "The rename is now applied in the generated baseline, symptom lookup, navigation labels, and the live Starlight playbook path.",
-        "Keep the meaning tied to the customer-visible ASMS user interface path."
-      ]
-    },
-    {
-      "task_id": "enhance_command_pack_language",
-      "title": "Enhance command-pack language",
-      "status": "pending",
-      "priority": "medium",
-      "summary": "Refine the operator-facing language used inside the command packs now being built so the checks, verification text, and Linux notes stay plain, consistent, and easy to scan.",
-      "why_it_matters": "As the shared host health pre-check pack and subsystem-level command packs grow, the wording inside those packs needs to stay as deliberate as the command selection itself.",
-      "notes": [
-        "Keep this focused on command-pack phrasing rather than the broader playbook narrative.",
-        "Use the ADF language standard as the base, but allow command-pack-specific refinements where they improve readability.",
-        "Apply this after or alongside the command coverage build-out so the language lands on the real command set."
-      ]
-    },
-    {
-      "task_id": "enhance_linux_notes_as_optional_learning_layer",
-      "title": "Enhance Linux notes as an optional learning layer",
-      "status": "pending",
-      "priority": "medium",
-      "summary": "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
-      "why_it_matters": "The current Linux notes are useful because they are optional. Engineers can skip them when they already know the concept, or open them when they need a quick explanation. This can build shared Linux troubleshooting language over time without turning the playbook into training material.",
-      "notes": [
-        "Keep Linux notes collapsible by default.",
-        "Prefer short plain-language explanations tied directly to the current check.",
-        "Use Linux notes to clarify terms like memory pressure, inode pressure, OOM, file locks, and similar concepts when they matter to triage."
-      ]
-    },
-    {
-      "task_id": "rebuild_asms_ui_system_thinking_playbook",
-      "title": "Rebuild ASMS UI is down around system thinking",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Reset `ASMS UI is down` and rebuild it from scratch around useful-work questions instead of continuing the current service-first shape.",
-      "why_it_matters": "The current page proved several valuable patterns, but it is still not aligned with the stronger system-thinking theme. Rebuilding it cleanly is the fastest way to turn those discoveries into the first true ADF reference playbook.",
-      "notes": [
-        "Start from the shared Host Health Pre-Check pack and then move through Apache/HTTPD serving the UI, auth branch, app branch, and useful-work stop point questions.",
-        "Treat Keycloak as an auth/login branch and `ms-metro` as an app branch rather than as isolated service rows.",
-        "Keep logs as supporting clue surfaces after the functional checks instead of as the main diagnostic destination.",
-        "Use the current ASMS UI page only as a discovery milestone and command-source reference during the rebuild."
-      ]
-    },
-    {
-      "task_id": "investigate_asms_ui_components_for_useful_work_checks",
-      "title": "Investigate ASMS UI components for stronger useful-work checks",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Investigate each major ASMS UI dependency component more thoroughly so the rebuilt playbook uses stronger useful-work checks instead of mostly restructured status and grep commands.",
-      "why_it_matters": "The current ASMS UI rebuild improved the structure, but several checks still prove service presence more than productive work. To make system thinking real, each branch now needs deeper component-level investigation and better functional surfaces.",
-      "notes": [
-        "Start with Apache/HTTPD, Keycloak, and ms-metro as the three main ASMS UI components.",
-        "Treat current curl checks as strong starting points and keep looking for better component-specific runtime surfaces.",
-        "Challenge the current ms-metro access-log and Catalina grep commands and replace them if stronger useful-work checks are found.",
-        "Use the lab to discover better application-path, JVM, or subsystem behavior checks before widening the playbook again."
-      ]
-    },
-    {
-      "task_id": "reframe_host_precheck_around_pressure_signals",
-      "title": "Reframe the host pre-check around pressure signals",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Keep the current shared host pre-check commands, but reframe them so they reveal the pressure signal being checked and help the engineer reach a quick current assessment of the system.",
-      "why_it_matters": "ADF is now optimizing for engineer effort during live support. The host pre-check should not only show raw resource values. It should help the engineer see disk pressure, inode pressure, memory pressure, CPU pressure, and similar system conditions quickly and consistently.",
-      "notes": [
-        "Keep the existing host pre-check command set as the starting surface.",
-        "Reorient verification and Linux-note language around the main pressure metric for each command.",
-        "Prefer the most meaningful pressure clues first, such as available memory, swap growth, highest filesystem use, lowest free space, or top CPU consumers.",
-        "Use this to help the engineer reach a current system assessment quickly at the start of any playbook."
-      ]
-    },
-    {
-      "task_id": "build_adf_autonomous_iteration_loop",
-      "title": "Build more autonomous agent iteration into ADF",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Use the memory and feedback-loop surfaces already present in the build-pack, then decide what additional iteration logic should remain pack-local versus be imported from the factory itself so the remote agent can iterate with less scenario-by-scenario manual steering.",
-      "why_it_matters": "System-thinking playbooks are too deep to manage manually one scenario at a time. Much of the needed memory and feedback-loop foundation already exists in the build-pack, so the next design question is how to use that well and what should be inherited from factory-level logic.",
-      "notes": [
-        "Keep this bounded to pack-local memory, approved lab evidence, and explicit planning state.",
-        "Treat factory imports as a possible source of shared iteration logic rather than assuming the loop must be rebuilt entirely inside ADF.",
-        "Treat this as build-pack logic and orchestration, not only as a remote runtime convenience.",
-        "Do not turn this into uncontrolled autonomy or open-ended scenario sprawl.",
-        "Keep human review in the loop for major design, scope, and validation decisions."
-      ]
-    },
-    {
-      "task_id": "stabilize_remote_codex_launcher_against_interactive_menu",
-      "title": "Stabilize the remote Codex launcher against interactive-menu and shell-wrapper drift",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Standardize one remote Codex launcher path that consistently bypasses the appliance interactive menu and shell-quoting drift for both short control runs and longer ADF investigation loops.",
-      "why_it_matters": "ADF now depends on repeated remote Codex investigation on the real appliance. If menu bypass or shell-wrapper behavior stays fragile, the systems-thinking loop loses repeatability and support-authoring effort gets wasted on launcher recovery instead of diagnostic progress.",
-      "notes": [
-        "Treat this as a build-pack planning item, not only as a shell convenience issue.",
-        "Define one supported launcher pattern with `env -i`, `/bin/bash --noprofile --norc`, a small remote shell script, and separate prompt, result, stderr, and launcher-log files under `/tmp`.",
-        "Make the path work consistently for quick control tasks, longer Codex investigation passes, and relaunch cases after interrupted runs or ad hoc shell recovery attempts.",
-        "Codify stale-process cleanup, success verification, and interactive-menu bypass so the remote path no longer depends on trial-and-error quoting variations like inline SSH strings, temporary control interruptions, or `bash -s` improvisation."
-      ]
-    },
-    {
-      "task_id": "codify_system_thinking_as_adf_theme",
-      "title": "Codify system thinking as an ADF theme",
-      "status": "pending",
-      "priority": "high",
-      "summary": "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up.",
-      "why_it_matters": "This is the deeper value behind the recent service-pack work. ADF is strongest when it helps engineers judge productive system behavior rather than memorize isolated service checks.",
-      "notes": [
-        "Use this theme to shape command coverage, dependency paths, Linux notes, and future playbook wording.",
-        "Prefer checks that prove useful work or functional health over checks that only prove process presence.",
-        "Keep this bounded to support diagnostics and avoid turning ADF into a generalized systems-theory product."
-      ]
-    },
-    {
-      "task_id": "formalize_linux_foundation_as_adf_theme",
-      "title": "Formalize the Linux foundation as an ADF project theme",
-      "status": "pending",
-      "priority": "medium",
-      "summary": "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
-      "why_it_matters": "ADF is already trending toward Linux-first diagnostics, Linux-standard language, and Linux note clarifications. Formalizing that foundation would help align playbooks, terminology, discovery logic, and future agent guidance around the real operating context engineers face during triage.",
-      "notes": [
-        "Consider whether this belongs in project context, operator language standards, and future agent guidance rather than only inside a persona note.",
-        "Preserve the distinction between troubleshooting the Linux host itself and troubleshooting the application stack that depends on Linux services, ports, filesystems, logs, and open source components.",
-        "Use this theme to guide future playbook structure, dependency mapping, and educational Linux notes without turning ADF into a generic Linux training product."
-      ]
-    }
   ]
 }

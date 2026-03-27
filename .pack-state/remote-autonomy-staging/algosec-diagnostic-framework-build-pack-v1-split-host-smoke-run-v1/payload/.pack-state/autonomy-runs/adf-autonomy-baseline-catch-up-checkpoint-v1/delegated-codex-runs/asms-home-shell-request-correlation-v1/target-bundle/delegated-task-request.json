@@ -1,0 +1,27 @@
+{
+  "allowed_targets": [
+    "/usr/share/fa/php",
+    "/var/log/httpd",
+    "/data/ms-metro/logs"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "asms-home-shell-request-correlation-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md"
+  ],
+  "generated_at": "2026-03-26T22:47:48Z",
+  "generated_by": "orchadmin",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+  "remote_target_label": "algosec-lab",
+  "run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "schema_version": "adf-delegated-task-request/v1",
+  "scope_summary": "Correlate one successful SuiteLoginSessionValidation-to-home.php transition with the exact Apache and Metro request set for the same session window. Use Apache ssl_access_log, Metro localhost_access_log.txt, and relevant PHP code paths to identify which requests are the hard first-shell dependency versus nearby suite-frame or external-shell traffic. Prefer concrete session or request correlation where possible. Do not mutate appliance state.",
+  "target_bundle_root": ".pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "time_budget_seconds": 900
+}

@@ -5,6 +5,7 @@ import argparse
 import json
 import subprocess
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Final, cast
 
@@ -67,6 +68,12 @@ READINESS_ORDER: Final[dict[str, int]] = {
 }
 TERMINAL_EVAL_STATUSES: Final[frozenset[str]] = frozenset({"pass", "fail", "waived"})
 TERMINAL_GATE_STATUSES: Final[frozenset[str]] = frozenset({"pass", "fail", "waived"})
+DEFAULT_AUTONOMY_BUDGET_LIMITS: Final[dict[str, int]] = {
+    "max_step_count": 6,
+    "max_failed_command_count": 0,
+    "max_escalation_count": 1,
+    "max_elapsed_minutes": 30,
+}
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -104,6 +111,30 @@ def _summary_path(pack_root: Path, run_id: str) -> Path:
 
 def _feedback_memory_path(pack_root: Path, run_id: str) -> Path:
     return pack_root / AGENT_MEMORY_DIR / f"autonomy-feedback-{run_id}.json"
+
+
+def _parse_datetime_utc(value: str) -> datetime | None:
+    normalized = value.strip()
+    if not normalized:
+        return None
+    if normalized.endswith("Z"):
+        normalized = normalized[:-1] + "+00:00"
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc).replace(microsecond=0)
+
+
+def _elapsed_minutes(started_at: str, ended_at: str) -> int:
+    start_dt = _parse_datetime_utc(started_at)
+    end_dt = _parse_datetime_utc(ended_at)
+    if start_dt is None or end_dt is None:
+        return 0
+    elapsed_seconds = max(0.0, (end_dt - start_dt).total_seconds())
+    return int((elapsed_seconds + 59) // 60)
 
 
 def _write_jsonl_line(path: Path, payload: dict[str, Any]) -> None:
@@ -503,18 +534,246 @@ def _feedback_handoff_summary(
     completed_task_ids: list[str],
     highest_risk_observation: str,
     recommended_next_action: str,
+    operator_intervention_summary: dict[str, Any] | None,
+    resolved_block_summary: dict[str, Any] | None,
+    delta_summary: dict[str, Any] | None,
+    negative_memory_summary: dict[str, Any] | None,
 ) -> list[str]:
     completed_summary = ", ".join(completed_task_ids) if completed_task_ids else "none"
-    return [
+    lines = [
         f"Run `{run_id}` ended with stop reason `{stop_reason}`.",
         (
             f"Readiness moved from `{baseline_snapshot['readiness_state']}` to "
             f"`{final_snapshot['readiness_state']}`; ready_for_deployment={final_snapshot['ready_for_deployment']}."
         ),
         f"Completed tasks: {completed_summary}.",
-        highest_risk_observation,
-        recommended_next_action,
     ]
+    if operator_intervention_summary is not None:
+        lines.append(cast(str, operator_intervention_summary["learning_summary"]))
+    if resolved_block_summary is not None:
+        lines.append(cast(str, resolved_block_summary["recovery_summary"]))
+    if delta_summary is not None:
+        lines.extend(cast(list[str], delta_summary["summary_lines"]))
+    if negative_memory_summary is not None:
+        lines.extend(cast(list[str], negative_memory_summary["summary_lines"]))
+    lines.extend([highest_risk_observation, recommended_next_action])
+    return lines
+
+
+def _operator_intervention_summary(pack_root: Path, run_id: str) -> tuple[dict[str, Any] | None, str | None]:
+    branch_selection_path = _run_root(pack_root, run_id) / "branch-selection.json"
+    if not branch_selection_path.exists():
+        return None, None
+    payload = _load_object(branch_selection_path)
+    applied_hint_ids = payload.get("applied_hint_ids")
+    if not isinstance(applied_hint_ids, list) or not applied_hint_ids:
+        return None, branch_selection_path.relative_to(pack_root).as_posix()
+    normalized_hint_ids = [hint_id for hint_id in applied_hint_ids if isinstance(hint_id, str) and hint_id]
+    if not normalized_hint_ids:
+        return None, branch_selection_path.relative_to(pack_root).as_posix()
+    selection_method = str(payload.get("selection_method", "operator_hint"))
+    chosen_task_id = payload.get("chosen_task_id")
+    hint_summary = str(payload.get("applied_hint_summary", "")).strip() or "Operator guidance changed the branch-selection outcome."
+    learning_summary = (
+        f"Operator intervention observed: hints {', '.join(normalized_hint_ids)} influenced "
+        f"selection method `{selection_method}` and chose `{chosen_task_id}`."
+        if isinstance(chosen_task_id, str) and chosen_task_id
+        else f"Operator intervention observed: hints {', '.join(normalized_hint_ids)} influenced selection method `{selection_method}`."
+    )
+    return {
+        "status": "observed",
+        "selection_method": selection_method,
+        "applied_hint_ids": normalized_hint_ids,
+        "applied_hint_summary": hint_summary,
+        "chosen_task_id": chosen_task_id if isinstance(chosen_task_id, str) and chosen_task_id else None,
+        "branch_selection_path": branch_selection_path.relative_to(pack_root).as_posix(),
+        "learning_summary": learning_summary,
+    }, branch_selection_path.relative_to(pack_root).as_posix()
+
+
+def _load_previous_feedback_memory(pack_root: Path) -> tuple[dict[str, Any] | None, str | None]:
+    pointer_path = pack_root / AGENT_MEMORY_DIR / "latest-memory.json"
+    if not pointer_path.exists():
+        return None, None
+    pointer_payload = _load_object(pointer_path)
+    selected_memory_path = pointer_payload.get("selected_memory_path")
+    if not isinstance(selected_memory_path, str) or not selected_memory_path:
+        return None, None
+    previous_memory_path = (pack_root / selected_memory_path).resolve()
+    if not previous_memory_path.exists():
+        return None, selected_memory_path
+    return _load_object(previous_memory_path), selected_memory_path
+
+
+def _resolved_block_summary(
+    *,
+    pack_root: Path,
+    baseline_snapshot: dict[str, Any],
+    final_snapshot: dict[str, Any],
+    completed_task_ids: list[str],
+    block_summary: dict[str, Any] | None,
+    artifacts: dict[str, Any],
+) -> tuple[dict[str, Any] | None, str | None]:
+    if block_summary is not None:
+        return None, None
+
+    previous_memory, selected_memory_path = _load_previous_feedback_memory(pack_root)
+    if previous_memory is None or selected_memory_path is None:
+        return None, selected_memory_path
+    previous_block_summary = previous_memory.get("block_summary")
+    if not isinstance(previous_block_summary, dict) or previous_block_summary.get("status") != "blocked":
+        return None, selected_memory_path
+
+    completed_summary = ", ".join(completed_task_ids) if completed_task_ids else "none"
+    recovery_summary = (
+        f"Resolved prior block `{previous_block_summary['reason']}` from `{selected_memory_path}`: "
+        f"readiness moved from `{baseline_snapshot['readiness_state']}` to "
+        f"`{final_snapshot['readiness_state']}` and completed tasks were {completed_summary}."
+    )
+    recovery_evidence_paths = [
+        cast(str, artifacts["loop_events_path"]),
+        cast(str, artifacts["run_summary_path"]),
+    ]
+    if artifacts.get("branch_selection_path"):
+        recovery_evidence_paths.append(cast(str, artifacts["branch_selection_path"]))
+    return {
+        "status": "resolved",
+        "prior_block_reason": previous_block_summary["reason"],
+        "prior_blocking_artifact_kind": previous_block_summary["blocking_artifact_kind"],
+        "prior_blocking_artifact_path": previous_block_summary["blocking_artifact_path"],
+        "prior_recommended_recovery_action": previous_block_summary["recommended_recovery_action"],
+        "prior_memory_path": selected_memory_path,
+        "recovery_summary": recovery_summary,
+        "recovery_evidence_paths": recovery_evidence_paths,
+    }, selected_memory_path
+
+
+def _canonical_state_delta_summary(
+    *,
+    pack_root: Path,
+    final_snapshot: dict[str, Any],
+    completed_task_ids: list[str],
+) -> tuple[dict[str, Any] | None, str | None]:
+    previous_memory, selected_memory_path = _load_previous_feedback_memory(pack_root)
+    if previous_memory is None or selected_memory_path is None:
+        return None, selected_memory_path
+
+    changed_fields: list[str] = []
+    summary_lines: list[str] = []
+    previous_readiness = previous_memory.get("final_readiness_state")
+    previous_ready = previous_memory.get("ready_for_deployment")
+    previous_active = previous_memory.get("active_task_id")
+    previous_next = previous_memory.get("next_recommended_task_id")
+    if previous_readiness != final_snapshot.get("readiness_state"):
+        changed_fields.append("final_readiness_state")
+        summary_lines.append(
+            f"Readiness changed from `{previous_readiness}` to `{final_snapshot.get('readiness_state')}`."
+        )
+    if previous_ready != final_snapshot.get("ready_for_deployment"):
+        changed_fields.append("ready_for_deployment")
+        summary_lines.append(
+            f"Deployability changed from `{previous_ready}` to `{final_snapshot.get('ready_for_deployment')}`."
+        )
+    if previous_active != final_snapshot.get("active_task_id"):
+        changed_fields.append("active_task_id")
+        summary_lines.append(
+            f"Active task changed from `{previous_active}` to `{final_snapshot.get('active_task_id')}`."
+        )
+    if previous_next != final_snapshot.get("next_recommended_task_id"):
+        changed_fields.append("next_recommended_task_id")
+        summary_lines.append(
+            f"Next recommended task changed from `{previous_next}` to `{final_snapshot.get('next_recommended_task_id')}`."
+        )
+
+    previous_completed = previous_memory.get("completed_task_ids")
+    previous_completed_set = {
+        task_id
+        for task_id in previous_completed
+        if isinstance(previous_completed, list) and isinstance(task_id, str) and task_id
+    }
+    completed_task_ids_added = [task_id for task_id in completed_task_ids if task_id not in previous_completed_set]
+    if completed_task_ids_added:
+        changed_fields.append("completed_task_ids")
+        summary_lines.append(
+            f"Newly completed tasks: {', '.join(completed_task_ids_added)}."
+        )
+
+    if not summary_lines:
+        summary_lines.append("Canonical state is unchanged from the previously active feedback memory.")
+
+    return {
+        "status": "changed" if changed_fields else "unchanged",
+        "previous_memory_path": selected_memory_path,
+        "previous_run_id": previous_memory.get("run_id") if isinstance(previous_memory.get("run_id"), str) else None,
+        "changed_fields": changed_fields,
+        "completed_task_ids_added": completed_task_ids_added,
+        "summary_lines": summary_lines,
+    }, selected_memory_path
+
+
+def _negative_memory_summary(
+    *,
+    metrics: dict[str, Any],
+    block_summary: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    avoidance_ids: list[str] = []
+    summary_lines: list[str] = []
+    canonical_integrity = cast(dict[str, Any], metrics.get("canonical_state_integrity", {})).get("status")
+    if canonical_integrity != "pass":
+        avoidance_ids.append("avoid_trusting_runs_without_canonical_integrity")
+        summary_lines.append(
+            "Avoid trusting autonomy memory from runs where canonical state integrity did not pass; rerun bounded validation first."
+        )
+    stale_memory_rate = metrics.get("stale_memory_rate")
+    if isinstance(stale_memory_rate, (int, float)) and stale_memory_rate > 0:
+        avoidance_ids.append("avoid_reusing_stale_memory_without_reconcile")
+        summary_lines.append(
+            "Avoid reusing stale memory without reconciling canonical state first."
+        )
+    if isinstance(block_summary, dict) and block_summary.get("status") == "blocked":
+        avoidance_ids.append(f"avoid_repeating_blocked_path:{block_summary['reason']}")
+        summary_lines.append(
+            f"Avoid repeating the blocked path `{block_summary['reason']}` without first completing the recorded recovery action."
+        )
+    if not avoidance_ids:
+        return None
+    return {
+        "status": "observed",
+        "avoidance_ids": avoidance_ids,
+        "summary_lines": summary_lines,
+    }
+
+
+def _autonomy_budget_summary(
+    *,
+    started_at: str,
+    ended_at: str,
+    step_count: int,
+    failed_command_count: int,
+    escalation_count: int,
+) -> dict[str, Any]:
+    observed = {
+        "max_step_count": step_count,
+        "max_failed_command_count": failed_command_count,
+        "max_escalation_count": escalation_count,
+        "max_elapsed_minutes": _elapsed_minutes(started_at, ended_at),
+    }
+    exceeded: list[str] = []
+    for key, limit in DEFAULT_AUTONOMY_BUDGET_LIMITS.items():
+        if observed[key] > limit:
+            exceeded.append(f"{key}={observed[key]}>{limit}")
+    status = "budget_exceeded" if exceeded else "within_budget"
+    summary = (
+        "Autonomy stayed within the default bounded run budget."
+        if not exceeded
+        else "Autonomy exceeded the default bounded run budget: " + ", ".join(exceeded) + "."
+    )
+    return {
+        "status": status,
+        "limits": dict(DEFAULT_AUTONOMY_BUDGET_LIMITS),
+        "observed": observed,
+        "summary": summary,
+    }
 
 
 def _build_feedback_memory(
@@ -527,18 +786,38 @@ def _build_feedback_memory(
     final_snapshot: dict[str, Any],
     completed_task_ids: list[str],
     artifacts: dict[str, Any],
+    metrics: dict[str, Any],
     operator_summary: str,
     highest_risk_observation: str,
     recommended_next_action: str,
+    autonomy_budget: dict[str, Any],
     block_summary: dict[str, Any] | None,
+    operator_intervention_summary: dict[str, Any] | None,
+    resolved_block_summary: dict[str, Any] | None,
+    delta_summary: dict[str, Any] | None,
+    negative_memory_summary: dict[str, Any] | None,
+    previous_memory_path: str | None,
 ) -> dict[str, Any]:
+    memory_validity = _memory_validity(
+        ended_at=ended_at,
+        final_snapshot=final_snapshot,
+        metrics=metrics,
+        block_summary=block_summary,
+        resolved_block_summary=resolved_block_summary,
+    )
     return {
         "schema_version": "autonomy-feedback-memory/v1",
         "memory_id": f"autonomy-feedback-{run_id}",
         "pack_id": pack_id,
         "run_id": run_id,
         "generated_at": ended_at,
+        "memory_tier": {
+            "status": "active",
+            "tier": "restart_memory",
+            "summary": "Pack-local restart memory for the next bounded autonomy run.",
+        },
         "summary": operator_summary,
+        "memory_validity": memory_validity,
         "handoff_summary": _feedback_handoff_summary(
             run_id=run_id,
             stop_reason=stop_reason,
@@ -547,25 +826,116 @@ def _build_feedback_memory(
             completed_task_ids=completed_task_ids,
             highest_risk_observation=highest_risk_observation,
             recommended_next_action=recommended_next_action,
+            operator_intervention_summary=operator_intervention_summary,
+            resolved_block_summary=resolved_block_summary,
+            delta_summary=delta_summary,
+            negative_memory_summary=negative_memory_summary,
         ),
         "highest_risk_observation": highest_risk_observation,
         "recommended_next_action": recommended_next_action,
+        "autonomy_budget": autonomy_budget,
         "block_summary": block_summary,
+        "resolved_block_summary": resolved_block_summary,
+        "delta_summary": delta_summary,
+        "negative_memory_summary": negative_memory_summary,
         "baseline_readiness_state": cast(str, baseline_snapshot["readiness_state"]),
         "final_readiness_state": cast(str, final_snapshot["readiness_state"]),
         "active_task_id": final_snapshot.get("active_task_id"),
         "next_recommended_task_id": final_snapshot.get("next_recommended_task_id"),
         "ready_for_deployment": bool(final_snapshot["ready_for_deployment"]),
         "completed_task_ids": completed_task_ids,
+        "operator_intervention_summary": operator_intervention_summary,
         "evidence_paths": [
             cast(str, artifacts["loop_events_path"]),
             cast(str, artifacts["run_summary_path"]),
+            *(
+                [cast(str, artifacts["branch_selection_path"])]
+                if artifacts.get("branch_selection_path")
+                else []
+            ),
+            *([previous_memory_path] if previous_memory_path else []),
         ],
         "source_artifacts": {
             "loop_events_path": artifacts["loop_events_path"],
             "run_summary_path": artifacts["run_summary_path"],
+            "branch_selection_path": artifacts.get("branch_selection_path"),
+            "previous_memory_path": previous_memory_path,
             "factory_validation_command": artifacts.get("factory_validation_command"),
         },
+    }
+
+
+def _memory_validity(
+    *,
+    ended_at: str,
+    final_snapshot: dict[str, Any],
+    metrics: dict[str, Any],
+    block_summary: dict[str, Any] | None,
+    resolved_block_summary: dict[str, Any] | None,
+) -> dict[str, Any]:
+    confidence_score = 0.9
+    basis: list[str] = []
+    canonical_integrity = cast(dict[str, Any], metrics.get("canonical_state_integrity", {})).get("status")
+    if canonical_integrity == "pass":
+        basis.append("canonical_state_integrity_passed")
+    else:
+        confidence_score = min(confidence_score, 0.35)
+        basis.append("canonical_state_integrity_not_passed")
+
+    stale_memory_rate = metrics.get("stale_memory_rate")
+    if isinstance(stale_memory_rate, (int, float)) and stale_memory_rate > 0:
+        confidence_score = min(confidence_score, 0.55)
+        basis.append("stale_memory_observed")
+
+    if block_summary is not None:
+        confidence_score = min(confidence_score, 0.6)
+        basis.append(f"blocked:{block_summary['reason']}")
+
+    if resolved_block_summary is not None:
+        basis.append(f"resolved_prior_block:{resolved_block_summary['prior_block_reason']}")
+
+    active_task_id = final_snapshot.get("active_task_id")
+    next_recommended_task_id = final_snapshot.get("next_recommended_task_id")
+    if block_summary is not None:
+        scope = "blocked_restart"
+        expires_after_hours = 24
+    elif final_snapshot.get("ready_for_deployment") and active_task_id is None and next_recommended_task_id is None:
+        scope = "ready_boundary_restart"
+        expires_after_hours = 168
+    elif active_task_id is not None or next_recommended_task_id is not None:
+        scope = "active_pack_restart"
+        expires_after_hours = 72
+    else:
+        scope = "pack_local_restart"
+        expires_after_hours = 48
+
+    if confidence_score < 0.5:
+        expires_after_hours = min(expires_after_hours, 12)
+    elif confidence_score < 0.8:
+        expires_after_hours = min(expires_after_hours, 48)
+
+    if confidence_score >= 0.8:
+        confidence_level = "high"
+    elif confidence_score >= 0.55:
+        confidence_level = "medium"
+    else:
+        confidence_level = "low"
+
+    ended_at_dt = _parse_datetime_utc(ended_at) or read_now()
+    expires_at = isoformat_z(ended_at_dt + timedelta(hours=expires_after_hours))
+    summary = (
+        f"{confidence_level.title()}-confidence {scope.replace('_', ' ')} memory "
+        f"with {expires_after_hours}h freshness window."
+    )
+    return {
+        "status": "active",
+        "confidence_level": confidence_level,
+        "confidence_score": round(confidence_score, 4),
+        "scope": scope,
+        "expires_at": expires_at,
+        "expires_after_hours": expires_after_hours,
+        "basis": basis or ["bounded_default"],
+        "summary": summary,
     }
 
 
@@ -767,10 +1137,21 @@ def finalize_run(
         metrics["consistent_memory_use_rate"] = round(len(consistent_memory_events) / len(memory_use_events), 4)
 
     stop_reason = _terminal_stop_reason(events)
+    started_at = str(first_event["recorded_at"])
+    ended_at = isoformat_z()
+    failed_command_count = sum(
+        1
+        for event in events
+        if event.get("event_type") == "command_completed"
+        and _outcome_is_failure(str(event.get("outcome", "")))
+    )
+    escalation_count = sum(1 for event in events if event.get("event_type") == "escalation_raised")
+    operator_intervention_summary, branch_selection_relative_path = _operator_intervention_summary(pack_root, run_id)
     artifacts = {
         "loop_events_path": str(events_path),
         "run_summary_path": str(_summary_path(pack_root, run_id)),
         "feedback_memory_path": str(_feedback_memory_path(pack_root, run_id)),
+        "branch_selection_path": branch_selection_relative_path,
         "factory_validation_command": validation_command,
     }
     operator_summary = _operator_summary(metrics, artifacts)
@@ -783,6 +1164,13 @@ def finalize_run(
         stop_reason=stop_reason,
         metrics=metrics,
     )
+    autonomy_budget = _autonomy_budget_summary(
+        started_at=started_at,
+        ended_at=ended_at,
+        step_count=len(events),
+        failed_command_count=failed_command_count,
+        escalation_count=escalation_count,
+    )
     block_summary = _block_summary(
         stop_reason=stop_reason,
         final_snapshot=final_snapshot,
@@ -790,29 +1178,44 @@ def finalize_run(
         recommended_next_action=recommended_next_action,
         artifacts=artifacts,
     )
+    resolved_block_summary, previous_memory_path = _resolved_block_summary(
+        pack_root=pack_root,
+        baseline_snapshot=cast(dict[str, Any], baseline_snapshot),
+        final_snapshot=final_snapshot,
+        completed_task_ids=completed_task_ids,
+        block_summary=block_summary,
+        artifacts=artifacts,
+    )
+    delta_summary, delta_previous_memory_path = _canonical_state_delta_summary(
+        pack_root=pack_root,
+        final_snapshot=final_snapshot,
+        completed_task_ids=completed_task_ids,
+    )
+    if previous_memory_path is None:
+        previous_memory_path = delta_previous_memory_path
+    negative_memory_summary = _negative_memory_summary(
+        metrics=metrics,
+        block_summary=block_summary,
+    )
     summary = {
         "schema_version": "autonomy-run-summary/v1",
         "run_id": run_id,
         "pack_id": pack_id,
-        "started_at": str(first_event["recorded_at"]),
-        "ended_at": isoformat_z(),
+        "started_at": started_at,
+        "ended_at": ended_at,
         "baseline_snapshot": baseline_snapshot,
         "final_snapshot": final_snapshot,
         "step_count": len(events),
         "resume_count": resume_count,
         "completed_task_ids": completed_task_ids,
-        "failed_command_count": sum(
-            1
-            for event in events
-            if event.get("event_type") == "command_completed"
-            and _outcome_is_failure(str(event.get("outcome", "")))
-        ),
-        "escalation_count": sum(1 for event in events if event.get("event_type") == "escalation_raised"),
+        "failed_command_count": failed_command_count,
+        "escalation_count": escalation_count,
         "stop_reason": stop_reason,
         "metrics": metrics,
         "operator_summary": operator_summary,
         "highest_risk_observation": highest_risk_observation,
         "recommended_next_action": recommended_next_action,
+        "autonomy_budget": autonomy_budget,
         "block_summary": block_summary,
         "artifacts": artifacts,
     }
@@ -827,10 +1230,17 @@ def finalize_run(
         final_snapshot=final_snapshot,
         completed_task_ids=completed_task_ids,
         artifacts=artifacts,
+        metrics=metrics,
         operator_summary=operator_summary,
         highest_risk_observation=highest_risk_observation,
         recommended_next_action=recommended_next_action,
+        autonomy_budget=autonomy_budget,
         block_summary=block_summary,
+        operator_intervention_summary=operator_intervention_summary,
+        resolved_block_summary=resolved_block_summary,
+        delta_summary=delta_summary,
+        negative_memory_summary=negative_memory_summary,
+        previous_memory_path=previous_memory_path,
     )
     _validate_payload(
         schema_factory_root,

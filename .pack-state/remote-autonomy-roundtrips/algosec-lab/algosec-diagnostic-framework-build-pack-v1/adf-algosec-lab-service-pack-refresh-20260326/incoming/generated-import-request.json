@@ -1,0 +1,7 @@
+{
+  "build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/algosec-lab/algosec-diagnostic-framework-build-pack-v1/adf-algosec-lab-service-pack-refresh-20260326/incoming/bundle/bundle.json",
+  "import_reason": "Import bounded appliance-backed ADF runtime evidence from the PackFactory-managed algosec-lab roundtrip for the ASMS UI service-pack refresh.",
+  "imported_by": "codex",
+  "schema_version": "external-runtime-evidence-import-request/v1"
+}

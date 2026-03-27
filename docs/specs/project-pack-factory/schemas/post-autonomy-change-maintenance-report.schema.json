@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Post Autonomy Change Maintenance Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "maintenance_id",
+    "generated_at",
+    "status",
+    "factory_root",
+    "distillation_result",
+    "template_lineage_results",
+    "factory_memory_result",
+    "validation_summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "post-autonomy-change-maintenance-report/v1"
+    },
+    "maintenance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed"
+      ]
+    },
+    "factory_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "distillation_result": {
+      "type": "object"
+    },
+    "template_lineage_results": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "factory_memory_result": {
+      "type": "object"
+    },
+    "validation_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "filtered_error_count",
+        "filtered_errors",
+        "unrelated_error_count"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "filtered_error_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "filtered_errors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unrelated_error_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

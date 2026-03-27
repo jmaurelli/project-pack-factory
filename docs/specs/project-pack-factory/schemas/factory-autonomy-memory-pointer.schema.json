@@ -11,6 +11,7 @@
     "selected_memory_id",
     "selected_generated_at",
     "selected_memory_path",
+    "selected_memory_tier",
     "selected_memory_sha256",
     "source_kind",
     "source_tool"
@@ -41,6 +42,15 @@
     "selected_memory_path": {
       "type": "string",
       "pattern": "^\\.pack-state/agent-memory/factory-autonomy-memory-[0-9]{8}t[0-9]{6}z\\.json$"
+    },
+    "selected_memory_tier": {
+      "type": "string",
+      "enum": [
+        "scratch_memory",
+        "restart_memory",
+        "promoted_factory_memory",
+        "retired_memory"
+      ]
     },
     "selected_memory_sha256": {
       "type": "string",

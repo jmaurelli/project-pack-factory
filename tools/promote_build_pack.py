@@ -39,6 +39,13 @@ ALLOWED_TRANSITIONS = {
     "staging": "production",
 }
 AUTONOMY_REHEARSAL_WORKFLOW_ID = "multi_hop_autonomy_rehearsal"
+AUTONOMY_QUALITY_SCORE_REPORT_VERSION = "autonomy-quality-score-report/v1"
+AUTONOMY_QUALITY_RATING_ORDER = {
+    "weak": 0,
+    "mixed": 1,
+    "good": 2,
+    "strong": 3,
+}
 LIFECYCLE_BY_ENV = {
     "testing": ("testing", "staging"),
     "staging": ("release_candidate", "production"),
@@ -214,12 +221,12 @@ def _resolve_autonomy_rehearsal_evidence(
     candidate_failures: list[str] = []
     for report_path in sorted(rehearsal_root.glob("*/rehearsal-report.json")):
         relative = relative_path(factory_root, report_path)
+        report = _load_object(report_path)
+        if report.get("target_build_pack_id") != pack_id:
+            continue
         errors = validate_json_document(report_path, rehearsal_schema)
         if errors:
             candidate_failures.append(f"{relative}: {errors[0]}")
-            continue
-        report = _load_object(report_path)
-        if report.get("target_build_pack_id") != pack_id:
             continue
         if report.get("status") != "completed":
             candidate_failures.append(f"{relative}: rehearsal status was not completed")
@@ -273,6 +280,183 @@ def _resolve_autonomy_rehearsal_evidence(
         "final_readiness_state": final_readiness["readiness_state"],
         "final_ready_for_deployment": final_readiness["ready_for_deployment"],
     }
+
+
+def _score_matches_rehearsal(
+    *,
+    factory_root: Path,
+    score_report: dict[str, Any],
+    selected_rehearsal_path: Path,
+    pack_id: str,
+) -> bool:
+    if score_report.get("schema_version") != AUTONOMY_QUALITY_SCORE_REPORT_VERSION:
+        return False
+    if score_report.get("target_build_pack_id") != pack_id:
+        return False
+
+    source_report_path = score_report.get("source_report_path")
+    if not isinstance(source_report_path, str) or not source_report_path:
+        return False
+    source_path = Path(source_report_path)
+    if not source_path.is_absolute():
+        source_path = (factory_root / source_report_path).resolve()
+    if source_path == selected_rehearsal_path:
+        return True
+
+    if score_report.get("source_report_kind") != "startup_compliance_rehearsal":
+        return False
+    if not source_path.exists():
+        return False
+    source_payload = _load_object(source_path)
+    multi_hop_result = source_payload.get("multi_hop_rehearsal_result")
+    if not isinstance(multi_hop_result, dict):
+        return False
+    embedded_report_path = multi_hop_result.get("report_path")
+    if not isinstance(embedded_report_path, str) or not embedded_report_path:
+        return False
+    embedded_path = Path(embedded_report_path)
+    if not embedded_path.is_absolute():
+        embedded_path = (factory_root / embedded_report_path).resolve()
+    return embedded_path == selected_rehearsal_path
+
+
+def _resolve_autonomy_quality_evidence(
+    *,
+    factory_root: Path,
+    pack_id: str,
+    autonomy_rehearsal_evidence: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    if autonomy_rehearsal_evidence is None:
+        return None
+
+    rehearsal_relative = autonomy_rehearsal_evidence.get("report_path")
+    if not isinstance(rehearsal_relative, str) or not rehearsal_relative:
+        return None
+    selected_rehearsal_path = (factory_root / rehearsal_relative).resolve()
+    score_root = factory_root / ".pack-state" / "autonomy-quality-scores"
+    if not score_root.exists():
+        return None
+
+    score_schema = schema_path(factory_root, "autonomy-quality-score-report.schema.json")
+    candidates: list[tuple[str, Path, dict[str, Any]]] = []
+    for report_path in sorted(score_root.glob("*/score-report.json")):
+        errors = validate_json_document(report_path, score_schema)
+        if errors:
+            continue
+        report = _load_object(report_path)
+        if not _score_matches_rehearsal(
+            factory_root=factory_root,
+            score_report=report,
+            selected_rehearsal_path=selected_rehearsal_path,
+            pack_id=pack_id,
+        ):
+            continue
+        candidates.append((str(report.get("generated_at", "")), report_path, report))
+
+    if not candidates:
+        return None
+
+    candidates.sort(key=lambda item: item[0])
+    _, selected_score_path, selected_score_report = candidates[-1]
+    return {
+        "report_path": relative_path(factory_root, selected_score_path),
+        "generated_at": selected_score_report["generated_at"],
+        "source_report_kind": selected_score_report["source_report_kind"],
+        "overall_score": selected_score_report["overall_score"],
+        "overall_rating": selected_score_report["overall_rating"],
+        "dimensions": selected_score_report["dimensions"],
+        "findings": selected_score_report["findings"],
+        "matched_rehearsal_report_path": rehearsal_relative,
+    }
+
+
+def _resolve_autonomy_quality_requirement(pack_root: Path) -> dict[str, Any] | None:
+    project_objective = _load_project_objective(pack_root)
+    if project_objective is None:
+        return None
+    requirement = project_objective.get("autonomy_quality_requirement")
+    if not isinstance(requirement, dict):
+        return None
+    return requirement
+
+
+def _evaluate_autonomy_quality_gate(
+    *,
+    quality_requirement: dict[str, Any] | None,
+    quality_evidence: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    if quality_requirement is None:
+        return None
+
+    gate: dict[str, Any] = {
+        "enforcement_mode": "required" if quality_requirement.get("required_for_promotion") is True else "advisory",
+        "status": "not_required",
+        "summary": str(quality_requirement.get("summary", "")).strip() or "Autonomy quality is advisory.",
+        "evaluated_report_path": quality_evidence.get("report_path") if isinstance(quality_evidence, dict) else None,
+        "min_overall_rating": quality_requirement.get("min_overall_rating"),
+        "min_overall_score": quality_requirement.get("min_overall_score"),
+        "minimum_dimension_scores": quality_requirement.get("minimum_dimension_scores"),
+    }
+
+    if quality_requirement.get("required_for_promotion") is not True:
+        return gate
+
+    if quality_evidence is None:
+        raise ValueError(
+            "build pack requires autonomy-quality evidence before promotion, "
+            "but no compatible score report was found for the selected autonomy rehearsal"
+        )
+
+    min_overall_rating = quality_requirement.get("min_overall_rating")
+    actual_overall_rating = quality_evidence.get("overall_rating")
+    if isinstance(min_overall_rating, str):
+        if AUTONOMY_QUALITY_RATING_ORDER.get(str(actual_overall_rating), -1) < AUTONOMY_QUALITY_RATING_ORDER[min_overall_rating]:
+            raise ValueError(
+                "build pack requires autonomy-quality overall rating "
+                f"`{min_overall_rating}` or better before promotion, but matched evidence was `{actual_overall_rating}`"
+            )
+
+    min_overall_score = quality_requirement.get("min_overall_score")
+    actual_overall_score = quality_evidence.get("overall_score")
+    if isinstance(min_overall_score, (int, float)):
+        actual_overall_score_text = (
+            f"{float(actual_overall_score):.1f}" if isinstance(actual_overall_score, (int, float)) else "missing"
+        )
+        if not isinstance(actual_overall_score, (int, float)) or float(actual_overall_score) < float(min_overall_score):
+            raise ValueError(
+                "build pack requires autonomy-quality overall score "
+                f">= {float(min_overall_score):.1f} before promotion, but matched evidence was {actual_overall_score_text}"
+            )
+
+    minimum_dimension_scores = quality_requirement.get("minimum_dimension_scores")
+    if isinstance(minimum_dimension_scores, dict):
+        dimensions = quality_evidence.get("dimensions")
+        if not isinstance(dimensions, dict):
+            raise ValueError("matched autonomy-quality evidence did not include dimension scores")
+        for dimension_id, minimum_score in minimum_dimension_scores.items():
+            dimension = dimensions.get(dimension_id)
+            if not isinstance(dimension, dict):
+                raise ValueError(
+                    "build pack requires autonomy-quality dimension "
+                    f"`{dimension_id}` >= {float(minimum_score):.1f} before promotion, but that dimension was missing"
+                )
+            if dimension.get("status") != "scored":
+                raise ValueError(
+                    "build pack requires autonomy-quality dimension "
+                    f"`{dimension_id}` >= {float(minimum_score):.1f} before promotion, but that dimension was not scored"
+                )
+            actual_dimension_score = dimension.get("score")
+            actual_dimension_score_text = (
+                f"{float(actual_dimension_score):.1f}" if isinstance(actual_dimension_score, (int, float)) else "missing"
+            )
+            if not isinstance(actual_dimension_score, (int, float)) or float(actual_dimension_score) < float(minimum_score):
+                raise ValueError(
+                    "build pack requires autonomy-quality dimension "
+                    f"`{dimension_id}` >= {float(minimum_score):.1f} before promotion, but matched evidence was {actual_dimension_score_text}"
+                )
+
+    gate["status"] = "pass"
+    return gate
 
 
 def _deployment_pointer(
@@ -693,6 +877,8 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
                 "promoted_by": promoted_by,
                 "promotion_reason": promotion_reason,
                 "autonomy_rehearsal_evidence": None,
+                "autonomy_quality_evidence": None,
+                "autonomy_quality_gate": None,
                 "reconcile_refresh": _refresh_metadata(
                     requested=True,
                     performed=True,
@@ -809,6 +995,8 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
             "promoted_by": promoted_by,
             "promotion_reason": promotion_reason,
             "autonomy_rehearsal_evidence": None,
+            "autonomy_quality_evidence": None,
+            "autonomy_quality_gate": None,
             "reconcile_refresh": None,
             "pre_promotion_state": pre_state,
             "post_promotion_state": _state_snapshot(lifecycle, deployment),
@@ -866,6 +1054,16 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         pack_root=pack_root,
         pack_id=pack_id,
         readiness=readiness,
+    )
+    autonomy_quality_evidence = _resolve_autonomy_quality_evidence(
+        factory_root=factory_root,
+        pack_id=pack_id,
+        autonomy_rehearsal_evidence=autonomy_rehearsal_evidence,
+    )
+    autonomy_quality_requirement = _resolve_autonomy_quality_requirement(pack_root)
+    autonomy_quality_gate = _evaluate_autonomy_quality_gate(
+        quality_requirement=autonomy_quality_requirement,
+        quality_evidence=autonomy_quality_evidence,
     )
 
     generated_at, promotion_id, report_relative = _reserve_promotion_identity(
@@ -988,6 +1186,8 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         "promoted_by": promoted_by,
         "promotion_reason": promotion_reason,
         "autonomy_rehearsal_evidence": autonomy_rehearsal_evidence,
+        "autonomy_quality_evidence": autonomy_quality_evidence,
+        "autonomy_quality_gate": autonomy_quality_gate,
         "reconcile_refresh": None,
         "pre_promotion_state": pre_state,
         "post_promotion_state": post_state,
@@ -1030,6 +1230,36 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
                 if autonomy_rehearsal_evidence is not None
                 else []
             ),
+            *(
+                [
+                    {
+                        "action_id": "verify_autonomy_quality_evidence",
+                        "status": "reconciled",
+                        "target_path": autonomy_quality_evidence["report_path"],
+                        "summary": (
+                            "Recorded bounded autonomy-quality evidence as an advisory promotion signal "
+                            f"with rating `{autonomy_quality_evidence['overall_rating']}`."
+                        ),
+                    }
+                ]
+                if autonomy_quality_evidence is not None
+                else []
+            ),
+            *(
+                [
+                    {
+                        "action_id": "verify_autonomy_quality_gate",
+                        "status": "completed",
+                        "target_path": autonomy_quality_evidence["report_path"],
+                        "summary": (
+                            "Verified that the matched autonomy-quality evidence satisfied the "
+                            "pack's bounded promotion-time autonomy-quality requirement."
+                        ),
+                    }
+                ]
+                if autonomy_quality_gate is not None and autonomy_quality_gate.get("enforcement_mode") == "required"
+                else []
+            ),
             *eviction_actions,
             *stale_actions,
             {
@@ -1060,6 +1290,7 @@ def promote_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[str,
         "evidence_paths": [
             f"build-packs/{pack_id}/{report_relative}",
             *( [autonomy_rehearsal_evidence["report_path"]] if autonomy_rehearsal_evidence is not None else [] ),
+            *( [autonomy_quality_evidence["report_path"]] if autonomy_quality_evidence is not None else [] ),
             *eviction_evidence_paths,
             pointer_relative,
             f"build-packs/{pack_id}/status/deployment.json",

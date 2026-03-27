@@ -71,6 +71,10 @@ DEPLOYMENT_ENVIRONMENTS = ("testing", "staging", "production")
 VALIDATION_GATE_ID = "validate_build_pack_contract"
 EVAL_LATEST_INDEX_PATH = "eval/latest/index.json"
 FACTORY_MEMORY_POINTER_PATH = Path(".pack-state/agent-memory/latest-memory.json")
+TEMPLATE_LINEAGE_MEMORY_POINTER_PATH = Path(".pack-state/template-lineage-memory/latest-memory.json")
+ROOT_PROJECT_OBJECTIVE_PATH = Path("contracts/project-objective.json")
+ROOT_TASK_BACKLOG_PATH = Path("tasks/active-backlog.json")
+ROOT_WORK_STATE_PATH = Path("status/work-state.json")
 AGENTS_PATH = Path("AGENTS.md")
 README_PATH = Path("README.md")
 AUTONOMY_OPS_NOTE_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md")
@@ -258,6 +262,58 @@ def _validate_instruction_surface_sync(factory_root: Path, errors: list[str]) ->
         for marker in markers:
             if marker not in text:
                 errors.append(f"{factory_root / relative_path}: instruction-surface drift detected; missing marker `{marker}`")
+
+
+def _validate_active_template_instruction_surface_sync(
+    factory_root: Path,
+    templates_registry: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    required_markers_by_relative_path: dict[Path, tuple[str, ...]] = {
+        Path("AGENTS.md"): (
+            "PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+            "PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+            "ad hoc `ssh` prompts",
+            "tools/import_external_runtime_evidence.py",
+        ),
+        Path("project-context.md"): (
+            "PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
+            "PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md",
+            "ad hoc `ssh` prompts",
+            "external runtime-evidence import",
+        ),
+        Path("pack.json"): (
+            "factory_autonomy_baseline=",
+            "factory_autonomy_tracking=",
+            "factory_startup_compliance=",
+        ),
+    }
+
+    for template_id, registry_entry in sorted(templates_registry.items()):
+        if registry_entry.get("active") is not True:
+            continue
+        pack_root_relative = registry_entry.get("pack_root")
+        if not isinstance(pack_root_relative, str) or not pack_root_relative:
+            errors.append(f"{factory_root / 'registry/templates.json'}: active template `{template_id}` is missing pack_root")
+            continue
+        template_root = factory_root / pack_root_relative
+        if not template_root.exists():
+            errors.append(f"{template_root}: active template root is missing")
+            continue
+        for relative_path, markers in required_markers_by_relative_path.items():
+            target_path = template_root / relative_path
+            text = _load_text_if_present(
+                target_path,
+                errors,
+                label=f"template instruction surface for active template `{template_id}`",
+            )
+            if text is None:
+                continue
+            for marker in markers:
+                if marker not in text:
+                    errors.append(
+                        f"{target_path}: template instruction-surface drift detected for active template `{template_id}`; missing marker `{marker}`"
+                    )
 
 
 def _extract_benchmark_artifact_result(payload: dict[str, Any], benchmark_id: str) -> dict[str, Any] | None:
@@ -494,7 +550,21 @@ def _validate_autonomy_documents(
 
     if task_backlog is None or work_state is None:
         return
+    _validate_task_backlog_and_work_state_consistency(
+        task_backlog=task_backlog,
+        work_state=work_state,
+        work_state_path=pack_root / contract["work_state_file"],
+        errors=errors,
+    )
 
+
+def _validate_task_backlog_and_work_state_consistency(
+    *,
+    task_backlog: dict[str, Any],
+    work_state: dict[str, Any],
+    work_state_path: Path,
+    errors: list[str],
+) -> None:
     tasks = task_backlog.get("tasks", [])
     if not isinstance(tasks, list):
         return
@@ -509,7 +579,7 @@ def _validate_autonomy_documents(
     if autonomy_state in ACTIVE_TASK_REQUIRED_AUTONOMY_STATES:
         if not isinstance(active_task_id, str) or active_task_id not in task_by_id:
             errors.append(
-                f"{pack_root / contract['work_state_file']}: active_task_id must reference a real task when autonomy_state is active"
+                f"{work_state_path}: active_task_id must reference a real task when autonomy_state is active"
             )
 
     next_task_id = work_state.get("next_recommended_task_id")
@@ -517,17 +587,17 @@ def _validate_autonomy_documents(
         next_task = task_by_id.get(next_task_id)
         if next_task is None:
             errors.append(
-                f"{pack_root / contract['work_state_file']}: next_recommended_task_id must reference a real task"
+                f"{work_state_path}: next_recommended_task_id must reference a real task"
             )
         else:
             next_status = next_task.get("status")
             if next_status in FINAL_TASK_STATUSES:
                 errors.append(
-                    f"{pack_root / contract['work_state_file']}: next_recommended_task_id must reference a non-final task"
+                    f"{work_state_path}: next_recommended_task_id must reference a non-final task"
                 )
             if next_status == "blocked" or next_task_id in set(work_state.get("blocked_task_ids", [])):
                 errors.append(
-                    f"{pack_root / contract['work_state_file']}: next_recommended_task_id must not reference a blocked task"
+                    f"{work_state_path}: next_recommended_task_id must not reference a blocked task"
                 )
 
     blocked_task_ids = work_state.get("blocked_task_ids", [])
@@ -537,12 +607,55 @@ def _validate_autonomy_documents(
         active_task = task_by_id.get(active_task_id)
         if active_task is not None and active_task.get("status") == "blocked":
             errors.append(
-                f"{pack_root / contract['work_state_file']}: blocked tasks must not also be marked as active"
+                f"{work_state_path}: blocked tasks must not also be marked as active"
             )
         if active_task_id in blocked_task_ids:
             errors.append(
-                f"{pack_root / contract['work_state_file']}: blocked_task_ids must not include the active task"
+                f"{work_state_path}: blocked_task_ids must not include the active task"
             )
+
+
+def _validate_factory_root_work_tracker(factory_root: Path, errors: list[str]) -> None:
+    schema_root = factory_root / "docs/specs/project-pack-factory/schemas"
+    root_documents = (
+        (ROOT_PROJECT_OBJECTIVE_PATH, "project-objective.schema.json"),
+        (ROOT_TASK_BACKLOG_PATH, "task-backlog.schema.json"),
+        (ROOT_WORK_STATE_PATH, "work-state.schema.json"),
+    )
+    for relative_path, schema_name in root_documents:
+        document_path = factory_root / relative_path
+        if not document_path.exists():
+            errors.append(f"{document_path}: required factory-root work tracker document is missing")
+            continue
+        errors.extend(validate_json_document(document_path, schema_root / schema_name))
+
+    objective_path = factory_root / ROOT_PROJECT_OBJECTIVE_PATH
+    backlog_path = factory_root / ROOT_TASK_BACKLOG_PATH
+    work_state_path = factory_root / ROOT_WORK_STATE_PATH
+    if not (objective_path.exists() and backlog_path.exists() and work_state_path.exists()):
+        return
+
+    objective = _load_object(objective_path)
+    task_backlog = _load_object(backlog_path)
+    work_state = _load_object(work_state_path)
+
+    objective_id = objective.get("objective_id")
+    pack_id = objective.get("pack_id")
+    if task_backlog.get("objective_id") != objective_id:
+        errors.append(f"{backlog_path}: objective_id must match {ROOT_PROJECT_OBJECTIVE_PATH.as_posix()}")
+    if work_state.get("objective_id") != objective_id:
+        errors.append(f"{work_state_path}: objective_id must match {ROOT_PROJECT_OBJECTIVE_PATH.as_posix()}")
+    if task_backlog.get("pack_id") != pack_id:
+        errors.append(f"{backlog_path}: pack_id must match {ROOT_PROJECT_OBJECTIVE_PATH.as_posix()}")
+    if work_state.get("pack_id") != pack_id:
+        errors.append(f"{work_state_path}: pack_id must match {ROOT_PROJECT_OBJECTIVE_PATH.as_posix()}")
+
+    _validate_task_backlog_and_work_state_consistency(
+        task_backlog=task_backlog,
+        work_state=work_state,
+        work_state_path=work_state_path,
+        errors=errors,
+    )
 
 
 def _iter_files(root: Path) -> list[Path]:
@@ -1045,6 +1158,47 @@ def _validate_factory_root_autonomy_memory(factory_root: Path, errors: list[str]
         errors.append(f"{resolved_memory_path}: factory_root must equal the validated factory root")
 
 
+def _validate_template_lineage_memory(factory_root: Path, pack_root: Path, manifest: dict[str, Any], errors: list[str]) -> None:
+    if manifest.get("pack_kind") != "template_pack":
+        return
+    pointer_path = pack_root / TEMPLATE_LINEAGE_MEMORY_POINTER_PATH
+    if not pointer_path.exists():
+        return
+
+    schema_root = factory_root / "docs/specs/project-pack-factory/schemas"
+    pointer_schema = schema_root / "template-lineage-memory-pointer.schema.json"
+    memory_schema = schema_root / "template-lineage-memory.schema.json"
+
+    errors.extend(validate_json_document(pointer_path, pointer_schema))
+    pointer = _load_object(pointer_path)
+    selected_memory_path = pointer.get("selected_memory_path")
+    if not isinstance(selected_memory_path, str):
+        errors.append(f"{pointer_path}: selected_memory_path must be a string")
+        return
+
+    resolved_memory_path = (pack_root / selected_memory_path).resolve()
+    if not path_is_relative_to(resolved_memory_path, pack_root.resolve()):
+        errors.append(f"{pointer_path}: selected_memory_path must stay within the template root")
+        return
+    if not resolved_memory_path.exists():
+        errors.append(f"{resolved_memory_path}: selected template lineage memory is missing")
+        return
+
+    errors.extend(validate_json_document(resolved_memory_path, memory_schema))
+    memory = _load_object(resolved_memory_path)
+
+    if memory.get("memory_id") != pointer.get("selected_memory_id"):
+        errors.append(f"{pointer_path}: selected_memory_id must match the selected template lineage memory")
+    if memory.get("generated_at") != pointer.get("selected_generated_at"):
+        errors.append(f"{pointer_path}: selected_generated_at must match the selected template lineage memory")
+    if _sha256(resolved_memory_path) != pointer.get("selected_memory_sha256"):
+        errors.append(f"{pointer_path}: selected_memory_sha256 must match the selected template lineage memory")
+    if memory.get("template_id") != manifest.get("pack_id"):
+        errors.append(f"{resolved_memory_path}: template_id must match the template pack id")
+    if memory.get("template_root") != str(pack_root):
+        errors.append(f"{resolved_memory_path}: template_root must equal the validated template root")
+
+
 def _check_active_registry(entry: dict[str, Any], registry_path: Path, errors: list[str]) -> None:
     if entry.get("active") is not True:
         errors.append(f"{registry_path}: active pack `{entry.get('pack_id')}` must set active=true")
@@ -1081,6 +1235,7 @@ def _validate_pack_state(
 ) -> None:
     manifest = _load_object(pack_root / "pack.json")
     pack_id = manifest.get("pack_id")
+    _validate_template_lineage_memory(factory_root, pack_root, manifest, errors)
     pack_kind = manifest.get("pack_kind")
     lifecycle, readiness, deployment, retirement = _state_snapshot(pack_root)
     _validate_contract_paths(pack_root, manifest, errors)
@@ -1310,8 +1465,10 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
 
     _validate_template_creation_events(factory_root, registry_templates, promotion_log, errors)
     _validate_environment_assignments(factory_root, registry_builds, promotion_log, errors)
+    _validate_factory_root_work_tracker(factory_root, errors)
     _validate_factory_root_autonomy_memory(factory_root, errors)
     _validate_instruction_surface_sync(factory_root, errors)
+    _validate_active_template_instruction_surface_sync(factory_root, registry_templates, errors)
 
     known_pack_ids = {pack_root.name for pack_root in _iter_pack_roots(factory_root)}
     for registry_path, registry_map in (

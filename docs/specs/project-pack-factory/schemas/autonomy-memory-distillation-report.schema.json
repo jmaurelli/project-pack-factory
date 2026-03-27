@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Autonomy Memory Distillation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lesson_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "lessons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "confidence_rating": {
+            "type": "string",
+            "enum": [
+              "moderate",
+              "strong"
+            ]
+          },
+          "evidence_paths": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "lesson_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pattern_kind": {
+            "type": "string",
+            "enum": [
+              "cross_template_transfer",
+              "memory_handoff_quality",
+              "fail_closed_import_recovery",
+              "operator_guided_branch_choice"
+            ]
+          },
+          "proof_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "recommended_default": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repeated_signals": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "source_build_pack_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "source_template_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "suggested_factory_fields": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "confidence_rating",
+          "evidence_paths",
+          "lesson_id",
+          "pattern_kind",
+          "proof_count",
+          "recommended_default",
+          "repeated_signals",
+          "source_build_pack_ids",
+          "source_template_ids",
+          "suggested_factory_fields",
+          "summary",
+          "title"
+        ]
+      }
+    },
+    "operator_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "overall_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_version": {
+      "const": "autonomy-memory-distillation-report/v1"
+    }
+  },
+  "required": [
+    "generated_at",
+    "lesson_count",
+    "lessons",
+    "operator_summary",
+    "overall_summary",
+    "report_id",
+    "schema_version"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "remote_export_dir": "~/packfactory-source__algosec-lab__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1/dist/exports/runtime-evidence",
+  "remote_host": "10.167.2.150",
+  "remote_pack_dir": "~/packfactory-source__algosec-lab__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1",
+  "remote_parent_dir": "~/packfactory-source__algosec-lab__autonomous-build-packs",
+  "remote_reason": "Guided ADF investigation to map backward ASMS dependencies through BusinessFlow, FireFlow, and supporting services from the staged pack workspace.",
+  "remote_run_dir": "~/packfactory-source__algosec-lab__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1/runs/algosec-diagnostic-framework-build-pack-v1-guided-investigation-run-v1",
+  "remote_runner": "python3 - <<'PY'\nimport json\nprint(json.dumps({\"status\": \"guided_investigation_staged_only\", \"message\": \"Use the staged pack workspace for operator-directed ADF investigation; do not use the bounded autonomy loop for this run.\"}, sort_keys=True))\nPY",
+  "remote_target_label": "algosec-lab",
+  "remote_user": "root",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-guided-investigation-run-v1",
+  "schema_version": "remote-autonomy-run-request/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1",
+  "source_factory_root": "/home/orchadmin/project-pack-factory",
+  "staged_by": "codex"
+}

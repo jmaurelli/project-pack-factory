@@ -9,6 +9,7 @@
     "schema_version",
     "generated_at",
     "memory_id",
+    "memory_tier",
     "producer",
     "factory_root",
     "summary",
@@ -39,6 +40,9 @@
     "memory_id": {
       "type": "string",
       "pattern": "^factory-autonomy-memory-[0-9]{8}t[0-9]{6}z$"
+    },
+    "memory_tier": {
+      "$ref": "#/$defs/memory_tier"
     },
     "producer": {
       "type": "string",
@@ -97,6 +101,7 @@
         "latest_rehearsal_report_path",
         "latest_promotion_report_path",
         "latest_testing_pointer_path",
+        "latest_distillation_report_path",
         "current_state_brief_path",
         "planning_list_path",
         "operations_note_path"
@@ -135,6 +140,17 @@
             }
           ]
         },
+        "latest_distillation_report_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "current_state_brief_path": {
           "type": "string",
           "minLength": 1
@@ -157,6 +173,33 @@
     }
   },
   "$defs": {
+    "memory_tier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "tier",
+        "summary"
+      ],
+      "properties": {
+        "status": {
+          "const": "active"
+        },
+        "tier": {
+          "type": "string",
+          "enum": [
+            "scratch_memory",
+            "restart_memory",
+            "promoted_factory_memory",
+            "retired_memory"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "string_array": {
       "type": "array",
       "minItems": 1,

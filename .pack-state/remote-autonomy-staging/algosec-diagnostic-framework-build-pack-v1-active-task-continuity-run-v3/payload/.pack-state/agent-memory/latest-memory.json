@@ -1,0 +1,15 @@
+{
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-26T14:41:54Z",
+  "selected_memory_id": "autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v2",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v2.json",
+  "selected_memory_sha256": "b758d1e494a52d5159d0d513dce55d1f8940f769c85902dcb2bbaff33954d402",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v2",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v2.json",
+  "source_import_id": "import-external-runtime-evidence-20260326t144157z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260326t144157z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-26T14:45:22Z"
+}

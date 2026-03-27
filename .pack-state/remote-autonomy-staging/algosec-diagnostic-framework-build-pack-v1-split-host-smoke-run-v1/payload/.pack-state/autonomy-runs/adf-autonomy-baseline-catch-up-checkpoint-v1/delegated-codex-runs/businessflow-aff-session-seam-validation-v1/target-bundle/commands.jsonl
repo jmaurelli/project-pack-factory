@@ -1,0 +1,33 @@
+{"cmd":"pwd","note":"attempted before exiting appliance menu; menu intercepted output"}
+{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1 && cat /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/delegated-task-request.json","note":"attempted before exiting appliance menu; menu intercepted output"}
+{"cmd":"bash","note":"opened interactive shell session on appliance menu"}
+{"cmd":"a","note":"exited appliance menu to shell"}
+{"cmd":"pwd"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/delegated-task-request.json"}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts"}
+{"cmd":"rg -n \"FireFlow/api/session|1989|aff/api/external/session|ProxyPass|aff-boot\" /etc/httpd/conf.d /usr/lib/systemd/system /usr/share/aff 2>/dev/null | head -n 200"}
+{"cmd":"sed -n '1,120p' /etc/httpd/conf.d/aff.conf"}
+{"cmd":"systemctl status aff-boot.service --no-pager -l || true"}
+{"cmd":"systemctl is-active aff-boot.service || true"}
+{"cmd":"sed -n '1,200p' /usr/lib/systemd/system/aff-boot.service"}
+{"cmd":"ls -la /usr/lib/systemd/system | grep aff-boot || true"}
+{"cmd":"curl -k -sS -D - https://localhost/FireFlow/api/session -o /tmp/apache_aff_session_body.txt | sed -n '1,40p'"}
+{"cmd":"sed -n '1,80p' /tmp/apache_aff_session_body.txt"}
+{"cmd":"curl -sS -D - http://localhost:1989/aff/api/external/session -o /tmp/direct_aff_session_body.txt | sed -n '1,40p'"}
+{"cmd":"sed -n '1,80p' /tmp/direct_aff_session_body.txt"}
+{"cmd":"cp /etc/httpd/conf.d/aff.conf /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/aff.conf.snapshot"}
+{"cmd":"curl -k -sS -D /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.headers.txt https://localhost/FireFlow/api/session -o /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.body.json"}
+{"cmd":"curl -sS -D /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.headers.txt http://localhost:1989/aff/api/external/session -o /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.body.json"}
+{"cmd":"systemctl status aff-boot.service --no-pager -l > /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/aff-boot.service.txt 2>&1 || true"}
+{"cmd":"cmp -s /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.body.json /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.body.json; echo $?"}
+{"cmd":"sha256sum /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.body.json /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.body.json"}
+{"cmd":"printf '=== HEADERS ===\\n' > /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.txt"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.headers.txt >> /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.txt"}
+{"cmd":"printf '\\n=== BODY ===\\n' >> /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.txt"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.body.json >> /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/apache-fireflow-session.txt"}
+{"cmd":"printf '=== HEADERS ===\\n' > /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.txt"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.headers.txt >> /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.txt"}
+{"cmd":"printf '\\n=== BODY ===\\n' >> /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.txt"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.body.json >> /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/direct-aff-session.txt"}
+{"cmd":"sed -n '1,40p' /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts/aff-boot.service.txt"}
+{"cmd":"ls -1 /root/.pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1/artifacts"}

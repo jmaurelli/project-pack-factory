@@ -20,6 +20,7 @@ SUPPORTED_SCHEMA_NAMES: Final[frozenset[str]] = frozenset(
         "eval-latest-index.schema.json",
         "autonomy-loop-event.schema.json",
         "autonomy-run-summary.schema.json",
+        "autonomy-feedback-memory.schema.json",
         "portable-runtime-helper-manifest.schema.json",
     }
 )
@@ -321,11 +322,47 @@ def _validate_autonomy_run_summary(payload: Mapping[str, Any]) -> None:
         raise ValueError("artifacts must be an object")
     _require_string(artifacts, "loop_events_path")
     _require_string(artifacts, "run_summary_path")
+    feedback_memory_path = artifacts.get("feedback_memory_path")
+    if feedback_memory_path is not None and (
+        not isinstance(feedback_memory_path, str) or not feedback_memory_path
+    ):
+        raise ValueError("artifacts.feedback_memory_path must be null or a non-empty string")
     factory_validation_command = artifacts.get("factory_validation_command")
     if factory_validation_command is not None and (
         not isinstance(factory_validation_command, str) or not factory_validation_command
     ):
         raise ValueError("artifacts.factory_validation_command must be null or a non-empty string")
+
+
+def _validate_autonomy_feedback_memory(payload: Mapping[str, Any]) -> None:
+    if payload.get("schema_version") != "autonomy-feedback-memory/v1":
+        raise ValueError("autonomy feedback memory must set schema_version=autonomy-feedback-memory/v1")
+    _require_string(payload, "memory_id")
+    _require_string(payload, "pack_id")
+    _require_string(payload, "run_id")
+    _require_string(payload, "generated_at")
+    _require_string(payload, "summary")
+    for key in ("handoff_summary", "completed_task_ids", "evidence_paths"):
+        values = _require_list(payload, key)
+        if not all(isinstance(item, str) and item for item in values):
+            raise ValueError(f"{key} entries must be non-empty strings")
+    for key in ("highest_risk_observation", "recommended_next_action", "baseline_readiness_state", "final_readiness_state"):
+        _require_string(payload, key)
+    for key in ("active_task_id", "next_recommended_task_id"):
+        value = payload.get(key)
+        if value is not None and (not isinstance(value, str) or not value):
+            raise ValueError(f"{key} must be null or a non-empty string")
+    _require_bool(payload, "ready_for_deployment")
+    artifacts = payload.get("source_artifacts")
+    if not isinstance(artifacts, dict):
+        raise ValueError("source_artifacts must be an object")
+    _require_string(artifacts, "loop_events_path")
+    _require_string(artifacts, "run_summary_path")
+    factory_validation_command = artifacts.get("factory_validation_command")
+    if factory_validation_command is not None and (
+        not isinstance(factory_validation_command, str) or not factory_validation_command
+    ):
+        raise ValueError("source_artifacts.factory_validation_command must be null or a non-empty string")
 
 
 def validate_named_payload(pack_root: Path, manifest: dict[str, Any], schema_name: str, payload: dict[str, Any]) -> None:
@@ -341,6 +378,9 @@ def validate_named_payload(pack_root: Path, manifest: dict[str, Any], schema_nam
         return
     if schema_name == "autonomy-run-summary.schema.json":
         _validate_autonomy_run_summary(payload)
+        return
+    if schema_name == "autonomy-feedback-memory.schema.json":
+        _validate_autonomy_feedback_memory(payload)
         return
     if schema_name == "portable-runtime-helper-manifest.schema.json":
         return

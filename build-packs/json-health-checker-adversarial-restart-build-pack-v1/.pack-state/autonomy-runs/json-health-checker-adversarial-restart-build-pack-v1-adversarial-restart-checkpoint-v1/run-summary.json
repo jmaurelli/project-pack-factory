@@ -1,0 +1,86 @@
+{
+  "artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": null,
+    "feedback_memory_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1.json",
+    "loop_events_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/loop-events.jsonl",
+    "run_summary_path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/run-summary.json"
+  },
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 0,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 5
+    },
+    "status": "within_budget",
+    "summary": "Autonomy stayed within the default bounded run budget."
+  },
+  "baseline_snapshot": {
+    "active_task_id": "run_build_pack_validation",
+    "eval_result_statuses": {
+      "json-health-checker-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "json_health_checker_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "not_run"
+    },
+    "next_recommended_task_id": "run_build_pack_validation",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false
+  },
+  "block_summary": null,
+  "completed_task_ids": [
+    "run_build_pack_validation"
+  ],
+  "ended_at": "2026-03-26T12:02:33Z",
+  "escalation_count": 0,
+  "failed_command_count": 0,
+  "final_snapshot": {
+    "active_task_id": "run_inherited_benchmarks",
+    "eval_result_statuses": {
+      "json-health-checker-template-pack-smoke-small-001": "not_run"
+    },
+    "gate_statuses": {
+      "json_health_checker_template_pack_smoke_small_001": "not_run",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "run_inherited_benchmarks",
+    "readiness_state": "in_progress",
+    "ready_for_deployment": false
+  },
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not pass; review whole-factory validation before trusting the run summary.",
+  "metrics": {
+    "benchmark_evidence_gain": false,
+    "canonical_state_integrity": {
+      "command": null,
+      "error_count": null,
+      "status": "not_run",
+      "valid": null
+    },
+    "iterations_to_first_evidence": 3,
+    "iterations_to_readiness_change": null,
+    "readiness_change_summary": {
+      "deployability_changed": false,
+      "gates_advanced_count": 1,
+      "state_advanced": false
+    },
+    "task_completion_rate": 0.5,
+    "validation_evidence_gain": true
+  },
+  "operator_summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/orchadmin/project-pack-factory/build-packs/json-health-checker-adversarial-restart-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json.",
+  "pack_id": "json-health-checker-adversarial-restart-build-pack-v1",
+  "recommended_next_action": "Recommended next action: continue with canonical next task `run_inherited_benchmarks` from status/work-state.json and use this summary as local measurement evidence only.",
+  "resume_count": 1,
+  "run_id": "json-health-checker-adversarial-restart-build-pack-v1-adversarial-restart-checkpoint-v1",
+  "schema_version": "autonomy-run-summary/v1",
+  "started_at": "2026-03-26T12:02:33Z",
+  "step_count": 5,
+  "stop_reason": "mid_backlog_checkpoint_created"
+}

@@ -44,3 +44,23 @@ session.
 2. Turn that evidence into support-ready comparison playbooks.
 3. Keep the scope small enough to stay manageable.
 4. Keep testing minimal and high-signal.
+
+## Factory-Level Inheritance Note
+
+This template is a source template, not the canonical home of the autonomy
+baseline.
+
+For inherited PackFactory defaults around agent memory, feedback loops,
+restart behavior, rehearsal evidence, and branch-choice policy, prefer the
+factory-level state brief and operations note:
+
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+
+That inherited baseline now also includes startup-compliance expectations for
+remote Codex session management and runtime-evidence flow:
+
+- prefer PackFactory-local remote-session workflows from the factory root
+- do not treat ad hoc `ssh` prompts or raw stdout/stderr logs as canonical
+  PackFactory evidence
+- return to the factory root for external runtime-evidence import

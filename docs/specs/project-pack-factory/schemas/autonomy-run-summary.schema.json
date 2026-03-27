@@ -22,6 +22,7 @@
     "operator_summary",
     "highest_risk_observation",
     "recommended_next_action",
+    "autonomy_budget",
     "block_summary",
     "artifacts"
   ],
@@ -93,6 +94,9 @@
       "type": "string",
       "minLength": 1
     },
+    "autonomy_budget": {
+      "$ref": "#/$defs/autonomy_budget"
+    },
     "block_summary": {
       "anyOf": [
         {
@@ -130,6 +134,17 @@
             }
           ]
         },
+        "branch_selection_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "factory_validation_command": {
           "anyOf": [
             {
@@ -145,6 +160,63 @@
     }
   },
   "$defs": {
+    "autonomy_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "limits",
+        "observed",
+        "summary"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "within_budget",
+            "budget_exceeded"
+          ]
+        },
+        "limits": {
+          "$ref": "#/$defs/autonomy_budget_values"
+        },
+        "observed": {
+          "$ref": "#/$defs/autonomy_budget_values"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "autonomy_budget_values": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_step_count",
+        "max_failed_command_count",
+        "max_escalation_count",
+        "max_elapsed_minutes"
+      ],
+      "properties": {
+        "max_step_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_failed_command_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_escalation_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_elapsed_minutes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
     "gate_statuses": {
       "type": "object",
       "propertyNames": {

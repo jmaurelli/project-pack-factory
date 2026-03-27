@@ -1,0 +1,14 @@
+{
+  "active_benchmarks": [
+    {
+      "benchmark_id": "algosec-diagnostic-framework-template-pack-smoke-small-001",
+      "declaration_path": "benchmarks/declarations/algosec-diagnostic-framework-template-pack-smoke-small-001.json",
+      "objective": "Prove the smallest end-to-end ADF path on one controlled lab-style fixture: bounded evidence in, canonical baseline and playbook JSON out, and a minimal HTML support view rendered without broad test expansion.",
+      "required_for_readiness": true
+    }
+  ],
+  "default_benchmark_id": "algosec-diagnostic-framework-template-pack-smoke-small-001",
+  "pack_id": "algosec-diagnostic-framework-template-pack",
+  "pack_kind": "template_pack",
+  "schema_version": "pack-benchmark-active-set/v1"
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adversarial Restart Drill Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "drill_id",
+    "generated_at",
+    "status",
+    "source_template_id",
+    "local_restart_pack_id",
+    "local_restart_pack_root",
+    "materialization_result",
+    "checkpoint_result",
+    "partial_pointer_recovery",
+    "expired_memory_fail_closed",
+    "restored_pointer_result",
+    "conflicting_memory_exercise_result"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "adversarial-restart-drill-report/v1"
+    },
+    "drill_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed"
+      ]
+    },
+    "source_template_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_restart_pack_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_restart_pack_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "materialization_result": {
+      "type": "object"
+    },
+    "checkpoint_result": {
+      "type": "object"
+    },
+    "partial_pointer_recovery": {
+      "type": "object"
+    },
+    "expired_memory_fail_closed": {
+      "type": "object"
+    },
+    "restored_pointer_result": {
+      "type": "object"
+    },
+    "conflicting_memory_exercise_result": {
+      "type": "object"
+    }
+  }
+}

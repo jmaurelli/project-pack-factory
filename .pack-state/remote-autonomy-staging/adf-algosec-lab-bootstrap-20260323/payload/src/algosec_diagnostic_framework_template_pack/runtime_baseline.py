@@ -312,77 +312,155 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     for item in support_baseline["symptom_lookup"]:
         symptoms_by_flow.setdefault(item["suggested_domain_id"], []).append(item)
 
-    quick_jump_items = "".join(
-        (
-            f'<a class="jump-card" href="#playbook-{html.escape(playbook["playbook_id"])}">'
-            f'<span class="jump-title">{html.escape(playbook["label"])}</span>'
-            f'<span class="jump-subtitle">{html.escape(playbook["steps"][0]["action"])}</span>'
-            "</a>"
-        )
-        for playbook in support_baseline["decision_playbooks"]
-    )
+    def nav_keywords(flow_id: str, symptom_label: str) -> list[str]:
+        if flow_id == "ui-and-proxy":
+            return ["UI down", "login", "httpd", "80/443", "keycloak", "metro"]
+        if flow_id == "core-aff":
+            return ["FireFlow", "/FireFlow/api", "1989", "aff-boot", "postgres"]
+        if flow_id == "microservice-platform":
+            return ["feature fails", "ms-*", "routes", "ms-configuration"]
+        if flow_id == "messaging-and-data":
+            return ["job stuck", "queue", "activemq", "61616", "postgres"]
+        return [symptom_label]
 
     symptom_lookup_items = "".join(
         (
             f'<a class="symptom-chip" href="#playbook-{html.escape(item["suggested_domain_id"])}">'
-            f'<strong>{html.escape(item["symptom_label"])}</strong>'
-            f'<span>{html.escape(item["suggested_domain_label"])}</span>'
+            f'<strong class="symptom-title">{html.escape(item["symptom_label"])}</strong>'
+            f'<span class="symptom-path">Open: {html.escape(item["suggested_domain_label"])}</span>'
+            f'<span class="symptom-start">Start here: {html.escape(item["first_action"])}</span>'
+            '<span class="symptom-tags">'
+            + "".join(
+                f'<span class="symptom-tag">{html.escape(keyword)}</span>'
+                for keyword in nav_keywords(item["suggested_domain_id"], item["symptom_label"])
+            )
+            + "</span>"
             "</a>"
         )
         for item in support_baseline["symptom_lookup"]
     )
 
-    def render_command(command: dict[str, str]) -> str:
+    def command_knowledge(command: dict[str, Any]) -> list[str]:
+        raw = command["command"]
+        label = command["label"]
+        if raw.startswith("systemctl status "):
+            return [
+                "This command asks systemd whether the service is known and running right now.",
+                "`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.",
+                "`Main PID` means systemd still sees a live main process for the service.",
+            ]
+        if raw.startswith("ss -lntp"):
+            return [
+                "This command shows whether Linux is listening on the expected port.",
+                "`LISTEN` means a process has opened the port and is waiting for connections.",
+                "If the port is missing, the service may be down, starting slowly, or bound to the wrong place.",
+            ]
+        if raw == "df -h":
+            return [
+                "This checks human-readable disk usage for the main filesystems.",
+                "Focus on `Use%` and `Avail`, especially for `/` and `/data`.",
+                "If disk is full, services can fail to write logs, temp files, or runtime data.",
+            ]
+        if raw == "df -ih":
+            return [
+                "This checks inode usage, which is different from normal disk space.",
+                "A filesystem can still have free space but fail because it has no free inodes left.",
+                "Focus on `IUse%` and whether `IFree` is close to zero.",
+            ]
+        if raw == "free -h":
+            return [
+                "This is the quick memory check for the host.",
+                "Focus on `available` memory and whether swap is starting to grow heavily.",
+                "Low available memory can slow down or crash Java services before the whole server looks down.",
+            ]
+        if raw.startswith("journalctl -k --since"):
+            return [
+                "This checks the Linux kernel log for memory-pressure kills.",
+                "OOM means Out Of Memory. Linux may kill a process to protect the server.",
+                "If you see OOM or `Killed process` lines, memory pressure is likely part of the failure.",
+            ]
+        if raw.startswith("journalctl -u "):
+            return [
+                "Recent service logs are often the fastest way to find the real failure clue.",
+                "Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.",
+                "Use this after the status check when the service looks up but still behaves badly.",
+            ]
+        if label.lower().startswith("check config mapping"):
+            return [
+                "This checks whether the expected mapping still exists in the service config.",
+                "Use it to confirm the route, port, or target value is still what the application expects.",
+            ]
+        return [
+            "This command gives a focused check for the current step.",
+            "Use the healthy example below as the main output reference for what good looks like.",
+        ]
+
+    def render_command(command: dict[str, Any]) -> str:
+        escaped_command = html.escape(command["command"], quote=True)
+        knowledge_block = (
+            '<div class="signal tip"><strong>Why this check matters</strong>'
+            '<ul class="knowledge-list">'
+            + "".join(f"<li>{html.escape(item)}</li>" for item in command_knowledge(command))
+            + "</ul></div>"
+        )
+        example_block = (
+            '<div class="signal example"><strong>Known-good example</strong>'
+            f'<pre class="example-output"><code>{html.escape(command["example_output"])}</code></pre></div>'
+            if command.get("example_output")
+            else ""
+        )
         return (
             '<div class="command-card">'
-            f'<div class="command-label">{html.escape(command["label"])}</div>'
-            f'<pre><code>{html.escape(command["command"])}</code></pre>'
-            f'<div class="signal ok"><strong>Healthy means:</strong> {html.escape(command["expected_signal"])}</div>'
-            f'<div class="signal warn"><strong>If not healthy:</strong> {html.escape(command["interpretation"])}</div>'
-            "</div>"
+            + '<div class="command-header">'
+            + f'<div class="command-label">{html.escape(command["label"])}</div>'
+            + (
+                '<button class="copy-button" type="button" '
+                f'data-command="{escaped_command}" '
+                'aria-label="Copy command">'
+                'Copy'
+                '</button>'
+            )
+            + "</div>"
+            + f'<pre><code>{html.escape(command["command"])}</code></pre>'
+            + f'<div class="signal ok"><strong>Healthy means:</strong> {html.escape(command["expected_signal"])}</div>'
+            + knowledge_block
+            + example_block
+            + "</div>"
         )
 
     def render_step(step: dict[str, Any]) -> str:
-        evidence_block = (
-            '<div class="step-panel evidence"><strong>Collect if this step fails</strong><ul>'
-            + "".join(f"<li>{html.escape(item)}</li>" for item in step["evidence_to_collect"])
-            + "</ul></div>"
-            if step["evidence_to_collect"]
-            else ""
+        intro_block = (
+            f'<div class="step-panel why"><strong>Step focus</strong><p>{html.escape(step["action"])}</p></div>'
         )
         commands_block = (
-            '<div class="step-panel"><strong>Run these commands</strong>'
+            '<div class="step-panel"><strong>Run</strong>'
             + "".join(render_command(command) for command in step["recommended_commands"])
             + "</div>"
             if step["recommended_commands"]
             else ""
         )
         return (
-            '<article class="step-card">'
+            f'<details class="step-card" id="{html.escape(step["step_id"])}">'
+            '<summary class="step-summary">'
             f'<div class="step-number">{html.escape(step["step_label"])}</div>'
-            f'<h4>{html.escape(step["action"])}</h4>'
-            '<div class="step-grid">'
-            f'<div class="step-panel pass"><strong>If healthy</strong><p>{html.escape(step["next_if_pass"])}</p></div>'
-            f'<div class="step-panel fail"><strong>Likely failure point</strong><p>{html.escape(step["failure_point"])}</p></div>'
-            f'<div class="step-panel next"><strong>Decision if this fails</strong><p>{html.escape(step["decision_if_fail"])}</p></div>'
-            "</div>"
+            + intro_block
+            + "</summary>"
+            + '<div class="step-body">'
             + commands_block
-            + evidence_block
-            + "</article>"
+            + "</div>"
+            + "</details>"
         )
 
     def render_playbook(playbook: dict[str, Any]) -> str:
-        flow = flow_lookup.get(playbook["playbook_id"], {})
-        symptom_items = symptoms_by_flow.get(playbook["playbook_id"], [])
-        symptom_list = "".join(f"<li>{html.escape(item['symptom_label'])}</li>" for item in symptom_items)
-        first_command_preview = ""
-        for step in playbook["steps"]:
-            if step["recommended_commands"]:
-                first_command_preview = step["recommended_commands"][0]["command"]
-                break
-        quick_path = "".join(
-            f'<div class="path-node">{html.escape(step["step_label"])}<span>{html.escape(step["failure_point"])}</span></div>'
-            for step in playbook["steps"]
+        dependency_path = "".join(
+            (
+                f'<a class="dependency-node" href="#{html.escape(item["step_id"])}">'
+                f'<span class="dependency-step">{html.escape(item["step_label"])}</span>'
+                f'<strong>{html.escape(item["label"])}</strong>'
+                f'<span>{html.escape(item["details"])}</span>'
+                "</a>"
+            )
+            for item in playbook.get("dependency_path", [])
         )
         return (
             f'<section class="playbook" id="playbook-{html.escape(playbook["playbook_id"])}">'
@@ -390,24 +468,12 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
             f'<p class="playbook-focus">{html.escape(playbook["symptom_focus"])}</p></div>'
             f'<a class="top-link" href="#top">Back to top</a></div>'
             + (
-                '<div class="playbook-meta"><div class="meta-card"><strong>Use this when</strong><ul>'
-                + symptom_list
-                + "</ul></div>"
-                if symptom_items
-                else '<div class="playbook-meta">'
+                '<div class="dependency-map"><div class="dependency-title">Dependency path</div><div class="dependency-steps">'
+                + dependency_path
+                + "</div></div>"
+                if dependency_path
+                else ""
             )
-            + (
-                f'<div class="meta-card"><strong>Start with</strong><p>{html.escape(first_command_preview)}</p></div>'
-                if first_command_preview
-                else '<div class="meta-card"><strong>Start with</strong><p>Use the first explicit step below.</p></div>'
-            )
-            + (
-                f'<div class="meta-card"><strong>Next dependency path</strong><p>{html.escape(flow.get("next_dependency_focus", "Stay inside this playbook until a step fails or passes cleanly."))}</p></div>'
-                "</div>"
-            )
-            + '<div class="quick-path">'
-            + quick_path
-            + "</div>"
             + "".join(render_step(step) for step in playbook["steps"])
             + "</section>"
         )
@@ -543,9 +609,41 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     .symptom-chip span {{
       color: var(--muted);
     }}
+    .symptom-chip {{
+      display: block;
+      background: linear-gradient(180deg, #fffdfa 0%, #f4fbfb 100%);
+      min-height: 126px;
+    }}
     .symptom-chip strong {{
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+    }}
+    .symptom-title {{
+      color: var(--accent);
+    }}
+    .symptom-path,
+    .symptom-start {{
+      display: block;
+      margin-bottom: 8px;
+    }}
+    .symptom-start {{
+      color: var(--ink);
+      font-weight: 600;
+    }}
+    .symptom-tags {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }}
+    .symptom-tag {{
+      display: inline-block;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.9rem;
     }}
     .playbook-header {{
       display: flex;
@@ -554,31 +652,94 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       align-items: start;
       margin-bottom: 14px;
     }}
+    .dependency-map {{
+      display: grid;
+      gap: 10px;
+      margin: 10px 0 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f7fbfb 0%, #eef6f7 100%);
+      border: 1px solid #cfe1e4;
+    }}
+    .dependency-title {{
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }}
+    .dependency-steps {{
+      display: grid;
+      gap: 10px;
+    }}
+    .dependency-node {{
+      display: grid;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid #d7e6e8;
+      position: relative;
+      color: inherit;
+      text-decoration: none;
+    }}
+    .dependency-node:not(:last-child)::after {{
+      content: "↓";
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      transform: translateX(-50%);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+    }}
+    .dependency-step {{
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }}
+    .dependency-node strong {{
+      font-size: 1rem;
+    }}
+    .dependency-node span:last-child {{
+      color: var(--muted);
+      font-size: 0.95rem;
+    }}
     .top-link {{
       color: var(--accent);
       font-weight: bold;
       white-space: nowrap;
     }}
-    .quick-path {{
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      margin: 18px 0;
-    }}
-    .path-node {{
-      border-left: 5px solid var(--accent);
-      background: #f8fcfc;
-      font-weight: bold;
-    }}
-    .path-node span {{
-      display: block;
-      font-weight: normal;
-      margin-top: 6px;
-    }}
     .step-card {{
       border-top: 1px solid var(--rule);
       padding-top: 18px;
       margin-top: 18px;
+    }}
+    .step-summary {{
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      list-style: none;
+    }}
+    .step-summary::-webkit-details-marker {{
+      display: none;
+    }}
+    .step-summary::marker {{
+      display: none;
+    }}
+    .step-summary::after {{
+      content: "Expand";
+      margin-left: auto;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+      padding-top: 6px;
+    }}
+    .step-card[open] > .step-summary::after {{
+      content: "Collapse";
     }}
     .step-number {{
       display: inline-block;
@@ -587,7 +748,8 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       font-weight: bold;
       border-radius: 999px;
       padding: 4px 10px;
-      margin-bottom: 10px;
+      margin-top: 4px;
+      flex: 0 0 auto;
     }}
     .step-grid {{
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -605,9 +767,51 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     .evidence {{
       background: #f7f3ea;
     }}
+    .why {{
+      background: #eef6f1;
+      color: #214a33;
+      margin-bottom: 0;
+      flex: 1 1 auto;
+    }}
+    .step-body {{
+      margin-top: 12px;
+    }}
     .command-card {{
       margin-top: 12px;
       background: #fbfcfe;
+    }}
+    .command-header {{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }}
+    .copy-button {{
+      border: 1px solid var(--rule);
+      background: #fffdfa;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+    }}
+    .copy-button:hover {{
+      background: var(--accent-soft);
+      border-color: #b7dadd;
+    }}
+    .copy-button.copied {{
+      background: var(--ok);
+      color: var(--ok-ink);
+      border-color: #b9dfc2;
+    }}
+    .knowledge-list {{
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }}
+    .knowledge-list li {{
+      margin: 6px 0;
+      line-height: 1.4;
     }}
     pre {{
       background: var(--code);
@@ -630,9 +834,21 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       background: var(--ok);
       color: var(--ok-ink);
     }}
+    .signal.tip {{
+      background: var(--accent-soft);
+      color: #184c55;
+    }}
+    .signal.example {{
+      background: #eef4fb;
+      color: #1a3550;
+    }}
     .signal.warn {{
       background: var(--warn);
       color: var(--warn-ink);
+    }}
+    .example-output {{
+      margin-top: 10px;
+      background: #101820;
     }}
     ul {{
       margin: 0;
@@ -677,11 +893,8 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
     </section>
     <section>
       <h2>Jump To The Right Playbook</h2>
+      <p class="step-order-note">Scan the symptom, read the start clue, and open the playbook that best matches what the customer is reporting.</p>
       <div class="symptom-grid">{symptom_lookup_items}</div>
-    </section>
-    <section>
-      <h2>Playbook Paths</h2>
-      <div class="jump-grid">{quick_jump_items}</div>
     </section>
     {playbook_sections}
     <section>
@@ -693,6 +906,63 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
       </details>
     </section>
   </main>
+  <script>
+    (function () {{
+      async function copyCommand(text) {{
+        if (navigator.clipboard && navigator.clipboard.writeText) {{
+          await navigator.clipboard.writeText(text);
+          return;
+        }}
+        const fallback = document.createElement('textarea');
+        fallback.value = text;
+        fallback.setAttribute('readonly', '');
+        fallback.style.position = 'absolute';
+        fallback.style.left = '-9999px';
+        document.body.appendChild(fallback);
+        fallback.select();
+        document.execCommand('copy');
+        document.body.removeChild(fallback);
+      }}
+
+      document.querySelectorAll('.copy-button').forEach((button) => {{
+        const defaultLabel = button.textContent;
+        button.addEventListener('click', async () => {{
+          try {{
+            await copyCommand(button.dataset.command || '');
+            button.textContent = 'Copied';
+            button.classList.add('copied');
+            setTimeout(() => {{
+              button.textContent = defaultLabel;
+              button.classList.remove('copied');
+            }}, 1400);
+          }} catch (error) {{
+            button.textContent = 'Copy failed';
+            setTimeout(() => {{
+              button.textContent = defaultLabel;
+            }}, 1400);
+          }}
+        }});
+      }});
+
+      function openHashTarget() {{
+        const rawHash = window.location.hash;
+        if (!rawHash || rawHash.length < 2) {{
+          return;
+        }}
+        const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));
+        if (!target) {{
+          return;
+        }}
+        const step = target.matches('details.step-card') ? target : target.closest('details.step-card');
+        if (step) {{
+          step.open = true;
+        }}
+      }}
+
+      window.addEventListener('hashchange', openHashTarget);
+      openHashTarget();
+    }})();
+  </script>
 </body>
 </html>"""
 
@@ -1241,7 +1511,7 @@ def _build_support_domains(service_inventory: dict[str, Any], service_paths: lis
     domains = [
         {
             "domain_id": "ui-and-proxy",
-            "label": "Appliance UI is down",
+            "label": "ASMS UI is down",
             "summary": "",
             "service_paths": [],
             "supporting_services": [],
@@ -1338,12 +1608,15 @@ def _domain_first_checks(
 ) -> list[str]:
     checks: list[str] = []
     if domain_id == "ui-and-proxy":
-        checks.append("Confirm httpd.service is active and ports 80 and 443 are listening.")
-        checks.append("Confirm the Apache login rewrite still sends /algosec/suite/login to /algosec-ui/login.")
+        checks.append("Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.")
+        checks.append("Confirm Apache/HTTPD can answer local UI traffic and still route toward the auth and app branches.")
+        checks.append("If the login journey gets past the legacy setup hop, confirm BusinessFlow can still answer its local health and login handoff paths before treating the failure as Keycloak-only.")
         if "keycloak.service" in supporting_services:
-            checks.append("Confirm keycloak.service is active and the /keycloak/ proxy path still points to localhost:8443.")
+            checks.append("Confirm Keycloak can still do useful auth work, not only that keycloak.service is active.")
         if "ms-metro.service" in supporting_services:
-            checks.append("Confirm ms-metro.service is active and the /afa/api/v1 route still maps to localhost:8080.")
+            checks.append("Confirm ms-metro can still do useful app work, not only that port 8080 is open.")
+        checks.append("Use FireFlow auth checks as later customer-visible signals in the same journey, especially when the browser reaches `/afa/php/home.php` and then stalls.")
+        checks.append("Use recent Apache, Keycloak, and Metro clues only after the host and edge checks narrow the first stop point.")
         return checks
 
     if domain_id == "core-aff":
@@ -1445,11 +1718,11 @@ def _build_diagnostic_flows(
 
 def _domain_symptom_focus(domain_id: str) -> str:
     return {
-        "ui-and-proxy": "Use this when the appliance UI does not load, the login page does not resolve, or the web shell is down before feature-specific troubleshooting can begin.",
-        "core-aff": "Use this when FireFlow actions fail, stall, or return backend-facing errors.",
-        "microservice-platform": "Use this when product features fail behind the UI, especially path-specific ms-* behavior.",
-        "messaging-and-data": "Use this when jobs back up, events do not move, or data-backed actions fail unexpectedly.",
-    }.get(domain_id, "Use this when symptoms cluster around this domain.")
+        "ui-and-proxy": "Use this when the ASMS UI is down and the engineer is checking the appliance from SSH.",
+        "core-aff": "Use this when a FireFlow action fails or FireFlow returns an error.",
+        "microservice-platform": "Use this when one product feature fails after login and the UI itself is still up.",
+        "messaging-and-data": "Use this when jobs stop, queues back up, or data actions fail.",
+    }.get(domain_id, "Use this when the problem matches this area.")
 
 
 def _supporting_service_details(
@@ -1500,8 +1773,8 @@ def _domain_supporting_evidence(
 def _build_symptom_lookup(diagnostic_flows: list[dict[str, Any]]) -> list[dict[str, str]]:
     flow_index = {flow["flow_id"]: flow for flow in diagnostic_flows}
     symptom_map = [
-        ("appliance-ui-down", "Appliance UI is down", "ui-and-proxy"),
-        ("appliance-login-not-loading", "Appliance login page not loading", "ui-and-proxy"),
+        ("asms-ui-down", "ASMS UI is down", "ui-and-proxy"),
+        ("asms-login-not-loading", "ASMS login page not loading", "ui-and-proxy"),
         ("fireflow-action-failing", "FireFlow action failing", "core-aff"),
         ("fireflow-api-error", "FireFlow API error", "core-aff"),
         ("feature-failing-behind-ui", "Feature failing behind UI", "microservice-platform"),
@@ -1537,11 +1810,10 @@ def _flow_evidence_to_collect_next(
 ) -> list[str]:
     evidence: list[str] = []
     if domain_id == "ui-and-proxy":
-        evidence.append("Customer browser error or screenshot for the failing UI or login path.")
-        evidence.append("Visible status of httpd.service and the current 80/443 listener state.")
-        evidence.append("Result of a local login-path probe to /algosec/suite/login and whether it redirects to /algosec-ui/login.")
-        evidence.append("Visible status of keycloak.service and whether localhost:8443 is listening.")
-        evidence.append("Visible status of ms-metro.service and whether localhost:8080 is listening.")
+        evidence.append("Host pressure signals from df -h, df -ih, free -h, uptime, journalctl -k, and top CPU output.")
+        evidence.append("Apache edge evidence from systemctl status, ss -lntp, local curl -I, and proxy route snippets under /etc/httpd/conf.d.")
+        evidence.append("Auth and app branch evidence from systemctl status, listener output, and local useful-work checks for Keycloak and Metro.")
+        evidence.append("Recent Apache, Keycloak, and Metro clues only after the host and edge checks narrow the likely stop point.")
         return evidence
 
     if domain_id == "core-aff":
@@ -1588,10 +1860,48 @@ def _build_decision_playbooks(diagnostic_flows: list[dict[str, Any]]) -> list[di
                 "symptom_focus": flow["symptom_focus"],
                 "decision_rule": decision_rule,
                 "likely_failing_services": flow["likely_failing_services"],
+                "dependency_path": _playbook_dependency_path(flow["flow_id"]),
                 "steps": steps,
             }
         )
     return playbooks
+
+
+def _playbook_dependency_path(flow_id: str) -> list[dict[str, str]]:
+    if flow_id == "ui-and-proxy":
+        return [
+            {
+                "step_label": "Step 1",
+                "step_id": "ui-and-proxy-step-1",
+                "label": "Host can support useful work",
+                "details": "Start here. Check storage, inode, memory, OOM, load, and CPU pressure to decide whether the Linux host can still support Apache, Keycloak, Metro, logging, and temp-file writes.",
+            },
+            {
+                "step_label": "Step 2",
+                "step_id": "ui-and-proxy-step-2",
+                "label": "Apache/HTTPD serving the UI",
+                "details": "If the host looks healthy, confirm Apache/HTTPD can answer local UI traffic and still route requests into the auth and app branches.",
+            },
+            {
+                "step_label": "Step 3",
+                "step_id": "ui-and-proxy-step-3",
+                "label": "Auth handoff can do useful work",
+                "details": "Check whether the legacy auth-trigger hop reaches BusinessFlow as the first named operational checkpoint, then confirm the later Keycloak and FireFlow handoff without pretending they are the first observed neighbor.",
+            },
+            {
+                "step_label": "Step 4",
+                "step_id": "ui-and-proxy-step-4",
+                "label": "App branch can do useful work",
+                "details": "Check whether ms-metro is serving useful app traffic and showing healthy JVM behavior, not only whether port 8080 is open.",
+            },
+            {
+                "step_label": "Step 5",
+                "step_id": "ui-and-proxy-step-5",
+                "label": "Useful work stops here",
+                "details": "If the host and both branches still look up, use Apache/HTTPD, Keycloak, and Metro clues to find the first clear stop point.",
+            },
+        ]
+    return []
 
 
 def _playbook_step(
@@ -1599,6 +1909,7 @@ def _playbook_step(
     step_id: str,
     step_number: int,
     action: str,
+    why_this_matters: str | None = None,
     next_if_pass: str,
     failure_point: str,
     decision_if_fail: str,
@@ -1609,6 +1920,7 @@ def _playbook_step(
         "step_id": step_id,
         "step_label": f"Step {step_number}",
         "action": action,
+        "why_this_matters": why_this_matters or "",
         "next_if_pass": next_if_pass,
         "failure_point": failure_point,
         "decision_if_fail": decision_if_fail,
@@ -1626,12 +1938,16 @@ def _command_entry(
     command: str,
     expected_signal: str,
     interpretation: str,
-) -> dict[str, str]:
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     return {
         "label": label,
         "command": command,
         "expected_signal": expected_signal,
         "interpretation": interpretation,
+        "healthy_markers": healthy_markers or [],
+        "example_output": example_output or "",
     }
 
 
@@ -1662,12 +1978,20 @@ def _flow_path_checkpoint(flow: dict[str, Any], service_name: str) -> dict[str, 
     return None
 
 
-def _service_status_command(service_name: str, *, interpretation: str) -> dict[str, str]:
+def _service_status_command(
+    service_name: str,
+    *,
+    interpretation: str,
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     return _command_entry(
         label=f"Check {service_name} status",
         command=f"systemctl status {shlex.quote(service_name)} --no-pager",
         expected_signal="Unit is loaded and active (running).",
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
     )
 
 
@@ -1676,7 +2000,9 @@ def _listener_command(
     *,
     interpretation: str,
     label: str = "Check listener state",
-) -> dict[str, str] | None:
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any] | None:
     normalized = [port for port in ports if port]
     if not normalized:
         return None
@@ -1692,6 +2018,106 @@ def _listener_command(
         command=f"ss -lntp | grep -E '{pattern}'",
         expected_signal=f"A listening socket is present for {port_label}.",
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
+    )
+
+
+def _host_health_precheck_commands() -> list[dict[str, Any]]:
+    return _command_bundle(
+        _command_entry(
+            label="Check storage pressure on runtime filesystems",
+            command="df -h",
+            expected_signal="Runtime filesystems still have enough free space for logs, temp files, and service work.",
+            interpretation="If /, /boot, or /data is close to full, Apache, Keycloak, Metro, installers, and log writers can all fail or behave unpredictably.",
+            healthy_markers=[
+                "Use% below 100%",
+                "Avail is not 0",
+                "/ and /data still have free space",
+            ],
+            example_output=_example_output(
+                "Filesystem           Size  Used Avail Use% Mounted on",
+                "/dev/mapper/rl-root   60G   16G   45G  27% /",
+                "/dev/mapper/rl-data  238G   21G  218G   9% /data",
+            ),
+        ),
+        _command_entry(
+            label="Check inode pressure on runtime filesystems",
+            command="df -ih",
+            expected_signal="Runtime filesystems still have free inodes for logs, temp files, sockets, and service output.",
+            interpretation="If inode use is high, the host can look like it has free disk while Apache, Keycloak, Metro, or log rotation still fail to create files.",
+            healthy_markers=[
+                "IUse% below 100%",
+                "IFree is not 0",
+                "/ and /data still have free inodes",
+            ],
+            example_output=_example_output(
+                "Filesystem          Inodes IUsed IFree IUse% Mounted on",
+                "/dev/mapper/rl-root    30M  343K   30M    2% /",
+                "/dev/mapper/rl-data   119M   21K  119M    1% /data",
+            ),
+        ),
+        _command_entry(
+            label="Check memory pressure on JVM-backed services",
+            command="free -h",
+            expected_signal="Available memory is still present and swap is not carrying active pressure for the host.",
+            interpretation="If available memory is very low or swap is heavily used, Java services like Keycloak and Metro may slow down, hang, fail health checks, or get killed later.",
+            healthy_markers=[
+                "available memory is present",
+                "swap is not exhausted",
+                "Mem and Swap are shown in GiB",
+            ],
+            example_output=_example_output(
+                "              total        used        free      shared  buff/cache   available",
+                "Mem:           32Gi        13Gi       8.6Gi       2.4Gi         9Gi        15Gi",
+                "Swap:          24Gi          0B        24Gi",
+            ),
+        ),
+        _command_entry(
+            label="Check current host load pressure",
+            command="uptime",
+            expected_signal="Load is not unexpectedly high for the host and does not already explain the UI symptom.",
+            interpretation="If load is unusually high, the system may be under CPU pressure, blocked work, or heavy I/O wait before you even reach the UI-specific branches.",
+            healthy_markers=[
+                "load average:",
+                "load values are not unexpectedly high",
+            ],
+            example_output=_example_output(
+                "14:42:03 up 17 days,  1:52,  1 user,  load average: 0.25, 0.18, 0.11",
+            ),
+        ),
+        _command_entry(
+            label="Check recent memory-kill pressure",
+            command="journalctl -k --since \"24 hours ago\" --no-pager | grep -i -E \"out of memory|oom|killed process\"",
+            expected_signal="No recent Out Of Memory lines are returned.",
+            interpretation="If OOM lines appear, the host has already been killing or starving processes under memory pressure, so downstream UI symptoms may only be the visible side effect.",
+            healthy_markers=[
+                "No output is normal",
+                "No 'Out of memory' lines",
+                "No 'Killed process' lines",
+            ],
+            example_output=_example_output(
+                "No output",
+            ),
+        ),
+        _command_entry(
+            label="Check which process owns CPU pressure right now",
+            command="ps -eo pid,comm,%cpu,%mem --sort=-%cpu | head -n 10",
+            expected_signal="No unexpected process is consuming enough CPU to starve the rest of the ASMS path.",
+            interpretation="If one process is consuming most of the CPU, treat that process as part of the current system pressure story before assuming the UI path itself is the root cause.",
+            healthy_markers=[
+                "PID",
+                "COMMAND",
+                "%CPU",
+                "%MEM",
+            ],
+            example_output=_example_output(
+                "  PID COMMAND         %CPU %MEM",
+                " 6012 java             8.1  7.4",
+                " 1018 httpd            1.2  0.4",
+                " 3758 algosec_keycloa  0.8  1.6",
+            ),
+        ),
     )
 
 
@@ -1701,7 +2127,9 @@ def _config_command(
     needle: str | None,
     interpretation: str,
     label: str = "Check config mapping",
-) -> dict[str, str]:
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     quoted_path = shlex.quote(config_path)
     if needle:
         command = f"grep -n {shlex.quote(needle)} {quoted_path}"
@@ -1714,15 +2142,25 @@ def _config_command(
         command=command,
         expected_signal=expected_signal,
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
     )
 
 
-def _journal_command(service_name: str, *, interpretation: str) -> dict[str, str]:
+def _journal_command(
+    service_name: str,
+    *,
+    interpretation: str,
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     return _command_entry(
         label=f"Review {service_name} logs",
         command=f"journalctl -u {shlex.quote(service_name)} -n 50 --no-pager",
         expected_signal="Recent lines show healthy startup or a clear error signature to classify.",
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
     )
 
 
@@ -1732,17 +2170,25 @@ def _curl_head_command(
     url: str,
     expected_signal: str,
     interpretation: str,
-) -> dict[str, str]:
+    healthy_markers: list[str] | None = None,
+    example_output: str | None = None,
+) -> dict[str, Any]:
     return _command_entry(
         label=label,
         command=f"curl -k -I --max-time 5 {shlex.quote(url)}",
         expected_signal=expected_signal,
         interpretation=interpretation,
+        healthy_markers=healthy_markers,
+        example_output=example_output,
     )
 
 
-def _command_bundle(*commands: dict[str, str] | None) -> list[dict[str, str]]:
+def _command_bundle(*commands: dict[str, Any] | None) -> list[dict[str, Any]]:
     return [command for command in commands if command]
+
+
+def _example_output(*lines: str) -> str:
+    return "\n".join(lines)
 
 
 def _decision_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
@@ -1784,123 +2230,400 @@ def _decision_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
     evidence = flow["evidence_to_collect_next"]
-    keycloak_detail = _flow_service_detail(flow, "keycloak.service")
-    metro_detail = _flow_service_detail(flow, "ms-metro.service")
     return [
         _playbook_step(
             step_id="ui-and-proxy-step-1",
             step_number=1,
-            action="Confirm the appliance UI itself is down or the login page is not loading, rather than a single feature failing behind an otherwise healthy UI.",
-            next_if_pass="Continue to Apache edge validation.",
-            failure_point="Domain mismatch",
-            decision_if_fail="If the UI shell loads and only one workflow fails after login, switch to the feature-specific playbook instead of staying here.",
-            evidence_to_collect=evidence[:2],
-            recommended_commands=[],
+            action="Check whether the host can support useful work for the ASMS UI path. Confirm storage, inode, memory, load, OOM, and CPU pressure are not already blocking Apache, Keycloak, Metro, log writing, or temp-file work.",
+            why_this_matters="Every major playbook starts with the Linux host. The first question is not whether a number looks high. It is whether current host pressure is already enough to break useful work in the UI system.",
+            next_if_pass="If the host looks healthy, move to the Apache edge checks.",
+            failure_point="Host health pre-check",
+            decision_if_fail="Stop here and treat disk, inode, memory, load, OOM, or CPU pressure on the host as the current failure point.",
+            evidence_to_collect=[
+                "Host pressure signals from df -h, df -ih, free -h, and uptime.",
+                "Any recent OOM lines and the process currently owning CPU pressure.",
+            ],
+            recommended_commands=_host_health_precheck_commands(),
         ),
         _playbook_step(
             step_id="ui-and-proxy-step-2",
             step_number=2,
-            action="Confirm Apache is up first: httpd.service must be active and ports 80 and 443 must be listening before any appliance UI path can work.",
-            next_if_pass="Continue to login rewrite validation.",
-            failure_point="httpd.service or edge listener state",
-            decision_if_fail="Treat httpd.service or the edge listener state as the current failure point.",
-            evidence_to_collect=evidence[:2],
+            action="Check whether Apache/HTTPD can do useful edge work for the ASMS UI path. Confirm httpd.service is running, 80 and 443 are listening, the suite login route still lands on the Apache-served UI page, representative /algosec-ui/ assets still load through Apache, and the proxy mapping still points toward the auth and app branches.",
+            why_this_matters="After host health, Apache/HTTPD is the system edge for the UI path. The real question is whether the edge can still serve browser-useful login content and hand auth and app requests to the right neighbors, not only whether a process exists.",
+            next_if_pass="If Apache still serves the login entry page, the representative UI assets, and the edge still points toward the auth and app branches, move to the first auth-trigger checks.",
+            failure_point="Apache/HTTPD edge or route mapping",
+            decision_if_fail="Stop here and treat the Apache edge, local response path, or proxy mapping as the current failure point.",
+            evidence_to_collect=[
+                "Apache service and listener state from systemctl status and ss -lntp.",
+                "The suite login redirect, the Apache-served UI login page, representative /algosec-ui/ assets, and a proxy route snippet that show where UI traffic goes next.",
+            ],
             recommended_commands=_command_bundle(
                 _service_status_command(
                     "httpd.service",
                     interpretation="If this is not active, treat the edge service itself as the failure point before going deeper.",
+                    healthy_markers=[
+                        "Loaded: loaded",
+                        "Active: active (running)",
+                        "Main PID:",
+                        "/usr/sbin/httpd",
+                    ],
+                    example_output=_example_output(
+                        "● httpd.service - The Apache HTTP Server",
+                        "   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)",
+                        "   Active: active (running) since Sat 2026-03-07 13:37:12 EST; 2 weeks 2 days ago",
+                        " Main PID: 1018 (/usr/sbin/httpd)",
+                    ),
                 ),
                 _listener_command(
                     ["80", "443"],
                     label="Check edge listeners",
                     interpretation="If 80/443 are missing, the UI path is failing at the listener or bind layer.",
+                    healthy_markers=["LISTEN", ":80", ":443", "httpd"],
+                    example_output=_example_output(
+                        'LISTEN 0 511 0.0.0.0:443 0.0.0.0:* users:(("/usr/sbin/httpd",pid=1018,fd=4),...)',
+                        'LISTEN 0 511 0.0.0.0:80  0.0.0.0:* users:(("/usr/sbin/httpd",pid=1018,fd=3),...)',
+                    ),
+                ),
+                _curl_head_command(
+                    label="Check the legacy suite login route",
+                    url="https://127.0.0.1/algosec/suite/login",
+                    expected_signal="Apache returns a redirect from the legacy suite login path into the current UI login page.",
+                    interpretation="If the suite login route stops redirecting here, the edge path is already broken before Keycloak or Metro have a chance to help.",
+                    healthy_markers=["HTTP/1.1 302", "Server: Apache", "Location: https://127.0.0.1/algosec-ui/login"],
+                    example_output=_example_output(
+                        "HTTP/1.1 302 Found",
+                        "Server: Apache",
+                        "Location: https://127.0.0.1/algosec-ui/login",
+                    ),
+                ),
+                _curl_head_command(
+                    label="Check the Apache-served UI login page",
+                    url="https://127.0.0.1/algosec-ui/login",
+                    expected_signal="Apache returns the current UI login page with HTTP 200.",
+                    interpretation="If Apache cannot serve the login page here, stop at the edge before chasing the auth or app neighbors.",
+                    healthy_markers=["HTTP/1.1 200", "Server: Apache", "Content-Type: text/html"],
+                    example_output=_example_output(
+                        "HTTP/1.1 200 OK",
+                        "Server: Apache",
+                        "Content-Type: text/html; charset=UTF-8",
+                    ),
+                ),
+                _command_entry(
+                    label="Check representative /algosec-ui/ assets through Apache",
+                    command="for path in /algosec-ui/styles.css /algosec-ui/runtime.js /algosec-ui/main.js; do echo \"=== $path ===\"; curl -k -sS -D - -o /tmp/asms-ui-asset.out \"https://127.0.0.1$path\" | sed -n '1,8p'; printf 'BODY_BYTES '; wc -c < /tmp/asms-ui-asset.out; done",
+                    expected_signal="Apache returns HTTP 200 for representative CSS and JS assets and each body is non-empty.",
+                    interpretation="If the login HTML works but these assets fail, return the wrong type, or come back empty, the edge is not yet browser-useful even before Keycloak or Metro are checked.",
+                    healthy_markers=["HTTP/1.1 200", "Server: Apache", "Content-Type: text/css", "Content-Type: application/javascript", "BODY_BYTES"],
+                    example_output=_example_output(
+                        "=== /algosec-ui/styles.css ===",
+                        "HTTP/1.1 200 OK",
+                        "Server: Apache",
+                        "Content-Type: text/css",
+                        "BODY_BYTES 758180",
+                        "=== /algosec-ui/runtime.js ===",
+                        "HTTP/1.1 200 OK",
+                        "Content-Type: application/javascript",
+                        "BODY_BYTES 2737",
+                    ),
+                ),
+                _command_entry(
+                    label="Check Apache routes for login, auth, and app branches",
+                    command="grep -R -n -E 'algosec-ui|algosec/suite|ProxyPass|ProxyPassReverse|keycloak|8443|afa/api/v1|8080' /etc/httpd/conf.d 2>/dev/null",
+                    expected_signal="Apache config still shows the login redirect, the UI alias, and the auth and app route mapping needed by the ASMS UI path.",
+                    interpretation="If the expected proxy targets are missing or wrong, the edge can look healthy while routing useful work to the wrong place or nowhere useful.",
+                    healthy_markers=["algosec/suite", "algosec-ui", "ProxyPass", "keycloak", "8443", "afa/api/v1", "8080"],
+                    example_output=_example_output(
+                        '78:RewriteRule "^/algosec/suite/login(.*)$" "/algosec-ui/login" [R]',
+                        "299:AliasMatch (?i)^/algosec-ui/(.*)$ /usr/share/fa/suite/client/app/suite-new-ui/$1",
+                        "1:<Location /keycloak/>",
+                        "2:        ProxyPass https://localhost:8443/ timeout=300",
+                        "139:<Location /afa/api/v1>",
+                        "140:  ProxyPass http://localhost:8080/afa/api/v1 timeout=18000 retry=0",
+                    ),
                 ),
             ),
         ),
         _playbook_step(
             step_id="ui-and-proxy-step-3",
             step_number=3,
-            action="Validate the appliance login route itself: Apache should redirect /algosec/suite/login to /algosec-ui/login and serve the UI shell path cleanly.",
-            next_if_pass="Continue to Keycloak authentication validation.",
-            failure_point="Apache login rewrite or UI shell path",
-            decision_if_fail="Treat the Apache login rewrite or appliance UI shell path as the current failure point.",
-            evidence_to_collect=evidence[1:3],
+            action="Check the first auth-triggering chain after the static shell. On this lab, the browser first touches legacy suite setup and session-validation paths, then reaches BusinessFlow as the first named operational checkpoint, then proxied Keycloak token paths and FireFlow auth checks before the final handoff into `/afa/php/home.php`.",
+            why_this_matters="The static shell alone does not prove the real auth order. On this lab the first JS-triggered request after the shell was `/seikan/login/setup`, the first session-validation hop was `POST /afa/php/SuiteLoginSessionValidation.php?clean=false`, BusinessFlow first appeared as a redirect and later `POST /BusinessFlow/rest/v1/login`, and FireFlow showed up as auth checks during sign-in plus `FireFlowBridge.js` after the PHP home page loaded.",
+            next_if_pass="If the first auth-triggering hop, the BusinessFlow checkpoint, and the later Keycloak and FireFlow handoff all look healthy, move to the app branch checks.",
+            failure_point="the first auth-triggering hop after the static shell, the BusinessFlow checkpoint behind it, or the later Keycloak and FireFlow-backed auth handoff",
+            decision_if_fail="Stop here and treat the first auth-triggering hop you actually reproduced as the current failure point. If the reproduced journey still never leaves the static shell, say the first auth neighbor remains unproven. If it reaches the legacy setup hop but never reaches BusinessFlow, stay on the earlier auth-trigger path. If it reaches BusinessFlow but not the later Keycloak or FireFlow handoff, keep the failure point on the BusinessFlow-to-auth transition instead of skipping ahead.",
+            evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
                 _command_entry(
-                    label="Check login rewrite config",
-                    command="grep -n -E 'algosec/suite/login|algosec-ui/login|FallbackResource' /etc/httpd/conf.d/zzz_fa.conf",
-                    expected_signal="The login rewrite and UI fallback lines are present in zzz_fa.conf.",
-                    interpretation="If the rewrite or UI fallback is missing, Apache may be up while the appliance UI entry path is broken.",
+                    label="Check the shipped login setup endpoint first",
+                    command="curl -k -sS -D - https://127.0.0.1/seikan/login/setup -o /tmp/asms-login-setup.json && sed -n '1,40p' /tmp/asms-login-setup.json",
+                    expected_signal="The setup endpoint returns JSON that shows the current login mode and whether SSO is enabled on this appliance.",
+                    interpretation="If this endpoint fails, the first auth-trigger path is already broken before credentials are submitted. If it shows `\"isSSOEnabled\" : false`, do not assume Keycloak is the first real auth hop for this journey.",
+                    healthy_markers=["HTTP/1.1 200", "Server: Apache-Coyote", "\"isSSOEnabled\" : false", "\"needsFirstTimeSetup\" : false"],
+                    example_output=_example_output(
+                        "HTTP/1.1 200",
+                        "Server: Apache-Coyote",
+                        '{  "isSSOEnabled" : false,',
+                        '  "needsFirstTimeSetup" : false,',
+                        '  "isAffEnabled" : true,',
+                    ),
                 ),
-                _curl_head_command(
-                    label="Probe the login path locally",
-                    url="https://127.0.0.1/algosec/suite/login",
-                    expected_signal="The local login path responds with an HTTP redirect to /algosec-ui/login, not a timeout or 5xx error.",
-                    interpretation="If the login path does not redirect cleanly, focus on Apache rewrite or local UI-path handling before moving deeper.",
+                _command_entry(
+                    label="Check the legacy suite session-validation hop with cookies",
+                    command="rm -f /tmp/asms-auth-hop.cookies /tmp/asms-auth-hop.headers /tmp/asms-auth-hop.body; curl -k -sS -L -c /tmp/asms-auth-hop.cookies -b /tmp/asms-auth-hop.cookies -A 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.9' -H 'Upgrade-Insecure-Requests: 1' -D /tmp/asms-auth-hop.headers -o /tmp/asms-auth-hop.body https://127.0.0.1/afa/php/SuiteLoginSessionValidation.php; sed -n '1,20p' /tmp/asms-auth-hop.headers; echo '--- cookies ---'; cat /tmp/asms-auth-hop.cookies 2>/dev/null",
+                    expected_signal="The legacy session-validation path either redirects back to `/algosec-ui/login` and sets a PHP session cookie, or returns a different concrete auth clue for the same reproduced journey.",
+                    interpretation="If this path is the first auth-triggering hop you can actually reproduce, treat it as stronger evidence than a guessed Keycloak-first model. On this lab the browser hit `POST /afa/php/SuiteLoginSessionValidation.php?clean=false` before the later Keycloak and BusinessFlow login activity. If it never appears in the reproduced journey, keep it inferred only.",
+                    healthy_markers=["HTTP/1.1 302", "Set-Cookie: PHPSESSID=", "Location: /algosec-ui/login?last_url=%2Fafa%2Fphp%2FSuiteLoginSessionValidation.php"],
+                    example_output=_example_output(
+                        "HTTP/1.1 302 Found",
+                        "Set-Cookie: PHPSESSID=pp3eujujutk0t1mrmvfd6jflrm; path=/; secure; HttpOnly; SameSite=Lax",
+                        "Location: /algosec-ui/login?last_url=%2Fafa%2Fphp%2FSuiteLoginSessionValidation.php",
+                    ),
+                ),
+                _command_entry(
+                    label="Check the BusinessFlow checkpoint through Apache",
+                    command="curl -k -sS -D - https://127.0.0.1/BusinessFlow/shallow_health_check -o /tmp/asms-bflow-shallow.json && sed -n '1,20p' /tmp/asms-bflow-shallow.json; echo '---'; curl -k -sS -D - https://127.0.0.1/BusinessFlow/deep_health_check -o /tmp/asms-bflow-deep.json && sed -n '1,40p' /tmp/asms-bflow-deep.json",
+                    expected_signal="BusinessFlow health endpoints return HTTP 200 and show that the local BusinessFlow, AFA, and AFF links are still healthy enough to support the login handoff.",
+                    interpretation="Use this after the legacy session-validation hop reaches the first named module. On this lab BusinessFlow appeared before the later Keycloak and FireFlow auth checks, so a failing BusinessFlow health response is a real stop point, not just background noise.",
+                    healthy_markers=["HTTP/1.1 200", '"status":true', '"name":"ABF connection"', '"name":"AFA connection"', '"name":"AFF connection"'],
+                    example_output=_example_output(
+                        "HTTP/1.1 200 OK",
+                        '{"healthChecks":[{"name":"ABF connection","status":true,"information":"BusinessFlow"}],"status":true}',
+                        "---",
+                        "HTTP/1.1 200 OK",
+                        '{"healthChecks":[{"name":"Postgres connection","status":true,"information":"postgres connection achieved"},{"name":"AFA connection","status":true,"information":"Firewall Analyzer"},{"name":"AFF connection","status":true,"information":"FireFlow"}],"status":true}',
+                    ),
+                ),
+                _command_entry(
+                    label="Check the FireFlow auth-coupled signals",
+                    command="curl -k -sS -D - 'https://127.0.0.1/FireFlow/SelfService/CheckAuthentication/?login=1' -o /tmp/asms-fireflow-auth.body && sed -n '1,20p' /tmp/asms-fireflow-auth.body; echo '--- apache ---'; grep -E '/FireFlow/SelfService/CheckAuthentication/|/FireFlow/XML/CommandsDispatcher|FireFlowBridge.js' /var/log/httpd/ssl_access_log | tail -n 20",
+                    expected_signal="FireFlow auth checks return HTTP 200 and recent Apache lines show CheckAuthentication, CommandsDispatcher, or FireFlowBridge activity in the same customer-visible login minute.",
+                    interpretation="Keep FireFlow inside the same auth handoff for now. On this lab it did not show up as the first named module, but it did appear during sign-in and immediately after `/afa/php/home.php`, which makes it a support-useful checkpoint when the browser reaches home and then stalls.",
+                    healthy_markers=["HTTP/1.1 200", "Set-Cookie: RT_SID_FireFlow.443=", "/FireFlow/SelfService/CheckAuthentication/", "FireFlowBridge.js"],
+                    example_output=_example_output(
+                        "HTTP/1.1 200 OK",
+                        "Set-Cookie: RT_SID_FireFlow.443=fd55857e44bdd59360ee3c2c12e7be45; path=/; secure; HttpOnly; SameSite=Lax",
+                        "--- apache ---",
+                        '127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1" 200 309',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] "GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1" 200 484',
+                    ),
+                ),
+                _command_entry(
+                    label="Correlate the authenticated auth handoff in Apache",
+                    command="grep -E '/seikan/login/setup|/afa/php/SuiteLoginSessionValidation.php|/BusinessFlow($|/|/rest/v1/login)|/FireFlow/SelfService/CheckAuthentication/|/FireFlow/XML/CommandsDispatcher|FireFlowBridge.js|/keycloak/|/afa/php/home.php' /var/log/httpd/ssl_access_log | tail -n 120",
+                    expected_signal="Recent Apache lines show whether the reproduced login moved from the legacy setup and session-validation paths into BusinessFlow as the first named module, then into Keycloak and FireFlow auth checks, and finally into the PHP home handoff.",
+                    interpretation="Use this to keep the auth model honest. On this lab BusinessFlow redirects appeared before submit, Keycloak token paths appeared after the legacy auth-trigger hop, and FireFlow auth checks plus `FireFlowBridge.js` showed up later around the PHP home handoff. If BusinessFlow never lights up for the reproduced minute, keep the failure point earlier. If BusinessFlow lights up but the later Keycloak or FireFlow signals do not, keep the stop point on that later handoff instead of skipping to Metro.",
+                    healthy_markers=["/seikan/login/setup", "/afa/php/SuiteLoginSessionValidation.php", "/BusinessFlow/login", "/BusinessFlow/rest/v1/login", "/keycloak/", "/FireFlow/SelfService/CheckAuthentication/", "/afa/php/home.php"],
+                    example_output=_example_output(
+                        '127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] "GET /seikan/login/setup HTTP/1.1" 200 217',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "GET /BusinessFlow/login HTTP/1.1" 302 30',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:02 -0400] "POST //keycloak/realms/master/protocol/openid-connect/token? HTTP/1.1" 200 1562',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:06 -0400] "POST /BusinessFlow/rest/v1/login HTTP/1.1" 200 49',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1" 200 309',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] "GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1" 200 484',
+                    ),
+                ),
+                _service_status_command(
+                    "keycloak.service",
+                    interpretation="If the reproduced journey lights up `/keycloak/` and this service is not running, the auth handoff is failing at Keycloak. On this lab `/keycloak/` appeared after the legacy setup hop and BusinessFlow checkpoint, not as the first post-shell request. If the journey has not reached `/keycloak/` yet, keep Keycloak as a reachable later auth neighbor, not the first proven hop.",
+                    healthy_markers=[
+                        "Loaded: loaded",
+                        "Active: active (running)",
+                        "Main PID:",
+                        "algosec_keycloak_start.sh",
+                    ],
+                    example_output=_example_output(
+                        "● keycloak.service - The authentication and authorization server",
+                        "   Loaded: loaded (/usr/lib/systemd/system/keycloak.service; enabled; vendor preset: disabled)",
+                        "   Active: active (running) since Sat 2026-03-07 13:38:32 EST; 2 weeks 2 days ago",
+                        " Main PID: 3758 (algosec_keycloa)",
+                    ),
+                ),
+                _command_entry(
+                    label="Check Keycloak ports",
+                    command="ss -lntp | grep -E ':(8443|9000)\\b'",
+                    expected_signal="Ports 8443 and 9000 are listening for Keycloak.",
+                    interpretation="If 8443 or 9000 is missing, focus on Keycloak startup, bind, or health-endpoint problems.",
+                    healthy_markers=["LISTEN", ":8443", ":9000", "java"],
+                    example_output=_example_output(
+                        'LISTEN 0 16384 0.0.0.0:8443 0.0.0.0:* users:(("java",pid=5129,fd=363))',
+                        'LISTEN 0 16384 127.0.0.1:9000 0.0.0.0:* users:(("java",pid=5129,fd=412))',
+                    ),
+                ),
+                _command_entry(
+                    label="Check Keycloak readiness",
+                    command="curl -k https://127.0.0.1:9000/health/ready --max-time 10",
+                    expected_signal='The JSON response shows `"status": "UP"`.',
+                    interpretation="If the readiness endpoint is not UP, Keycloak may be running but not healthy enough to serve login traffic.",
+                    healthy_markers=['"status": "UP"', "Keycloak database connections async health check", '"status": "UP"'],
+                    example_output=_example_output(
+                        "{",
+                        '    "status": "UP",',
+                        '    "checks": [',
+                        '        {',
+                        '            "name": "Keycloak database connections async health check",',
+                        '            "status": "UP"',
+                        "        }",
+                        "    ]",
+                        "}",
+                    ),
+                ),
+                _command_entry(
+                    label="Check Keycloak OIDC path",
+                    command="curl -k -I https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration --max-time 10",
+                    expected_signal="The local Keycloak OIDC path returns HTTP 200.",
+                    interpretation="If the OIDC path fails, Keycloak may be up but not reachable through the expected local path. If it works but your reproduced journey never hits `/keycloak/`, keep Keycloak as reachable and inferred, not observed as the first post-shell hop.",
+                    healthy_markers=["HTTP/1.1 200", "Server: Apache", "application/json"],
+                    example_output=_example_output(
+                        "HTTP/1.1 200 OK",
+                        "Server: Apache",
+                        "Content-Type: application/json;charset=UTF-8",
+                    ),
                 ),
             ),
         ),
         _playbook_step(
             step_id="ui-and-proxy-step-4",
             step_number=4,
-            action="Validate the authentication path next: keycloak.service must be active, localhost:8443 must be listening, and the /keycloak/ proxy path must answer locally.",
-            next_if_pass="Continue to Metro/API backend validation.",
-            failure_point="keycloak.service or /keycloak/ proxy path",
-            decision_if_fail="Treat keycloak.service or the /keycloak/ proxy path as the current failure point.",
+            action="Check whether the app branch can do useful work after the authenticated handoff. After login reaches `/afa/php/home.php`, treat the rendered home page itself as the main signal and use the immediate home-shell follow-ups and light Metro refresh traffic as supporting clues before assuming a broader subsystem failure.",
+            why_this_matters="The app branch can fail even when Apache/HTTPD and the auth chain look healthy. On this lab the first post-home activity was mostly home-shell wiring plus light Metro refresh traffic, not an immediate fan-out into every subsystem. The earliest observed follow-ups after `/afa/php/home.php` were `FireFlowBridge.js`, `logo.php`, `GET /afa/getStatus`, and the same-minute Metro `config`, `session/extend`, and `license` routes tied to the fresh login session. In a bounded client-side check, blocking `FireFlowBridge.js` did not stop the home page from rendering with normal menu and summary text, so these post-home routes are better treated as supporting clues than as first-class gates for initial home-page availability. A later CDP `Network.setBlockedURLs(...)` pass also failed to own the real fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` requests, so those routes still should not be promoted into hard stop points from browser-side blocking evidence alone.",
+            next_if_pass="If the app branch looks healthy, move to the stop-point clues.",
+            failure_point="ms-metro.service, Metro app traffic, or the Metro JVM",
+            decision_if_fail="Stop here only when the rendered home page itself is not meaningfully usable or when the supporting clues line up with the same stop point. If `/afa/php/home.php` renders the normal home view, treat `FireFlowBridge.js` and the light Metro refresh calls as supporting evidence, not the sole failure gate. If the page renders but Metro heartbeat and post-home refresh traffic are absent or unhealthy, stay on the Metro home-refresh path instead of jumping to broader subsystem guesses.",
             evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
                 _service_status_command(
-                    "keycloak.service",
-                    interpretation="If Keycloak is not active, the appliance login/auth path is failing before the UI can complete.",
-                ),
-                _listener_command(
-                    keycloak_detail.get("listener_ports", ["8443"]),
-                    label="Check Keycloak listener",
-                    interpretation="If the auth listener is missing, focus on Keycloak startup or bind issues.",
+                    "ms-metro.service",
+                    interpretation="If Metro is not running, the UI may open only partly or fail after the first page.",
+                    healthy_markers=[
+                        "Loaded: loaded",
+                        "Active: active (running)",
+                        "Main PID:",
+                        "java",
+                    ],
+                    example_output=_example_output(
+                        "● ms-metro.service - ms-metro Application Container",
+                        "   Loaded: loaded (/etc/systemd/system/ms-metro.service; disabled; vendor preset: disabled)",
+                        "   Active: active (running) since Sat 2026-03-07 13:39:32 EST; 2 weeks 2 days ago",
+                        " Main PID: 6012 (java)",
+                    ),
                 ),
                 _command_entry(
-                    label="Check keycloak proxy mapping",
-                    command="grep -R -n '/keycloak\\|8443' /etc/httpd/conf.d",
-                    expected_signal="A /keycloak proxy rule points at the expected local auth target.",
-                    interpretation="If the proxy mapping is missing or wrong, the login path may be routed incorrectly.",
+                    label="Check Metro listener",
+                    command="ss -lntp | grep -E ':8080\\b'",
+                    expected_signal="Port 8080 is listening for ms-metro.",
+                    interpretation="If port 8080 is missing, the UI backend route has no working target.",
+                    healthy_markers=["LISTEN", ":8080", "java"],
+                    example_output=_example_output(
+                        'LISTEN 0 100 0.0.0.0:8080 0.0.0.0:* users:(("java",pid=6012,fd=44))',
+                    ),
                 ),
-                _curl_head_command(
-                    label="Probe the Keycloak path locally",
-                    url="https://127.0.0.1/keycloak/",
-                    expected_signal="The local Keycloak path returns an HTTP auth response such as 302 or 401, not a timeout or 5xx error.",
-                    interpretation="If the local Keycloak probe fails, the appliance auth path is broken even if Apache is healthy.",
+                _command_entry(
+                    label="Check supporting post-home follow-up traffic",
+                    command="printf '=== apache ===\\n'; grep -E '/afa/php/home.php|FireFlowBridge.js|/afa/php/logo.php|/afa/api/v1/license|/ms-watchdog/v1/api/issues-center/issues/countAll' /var/log/httpd/ssl_access_log | tail -n 40; printf '=== metro ===\\n'; grep -E '/afa/getStatus|/afa/api/v1/bridge/refresh|/afa/api/v1/license|/afa/api/v1/config\\?|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth' /data/ms-metro/logs/localhost_access_log.txt | tail -n 30",
+                    expected_signal="Recent lines show `/afa/php/home.php`, immediate home-shell follow-ups such as `FireFlowBridge.js` and `logo.php`, and nearby Metro clues such as `GET /afa/getStatus`, `GET /afa/api/v1/license`, or the same-minute `config` and `session/extend` requests that surround the first usable shell.",
+                    interpretation="Use this to keep the post-home model honest. On this lab the first post-home activity was mostly home-shell wiring plus light Metro refresh traffic. Keep these routes inside the ASMS playbook as supporting clues, not as first-class gates by themselves. `GET /afa/getStatus` is the strongest immediate Metro clue after the home shell appears. `GET /afa/api/v1/config?...` and `POST /afa/api/v1/session/extend?...` are now more strongly tied to the fresh login session because the latest pass matched them to the new `PHPSESSID`, but they are still not proven first-shell requirements. `GET /afa/api/v1/license` and `GET /afa/api/v1/config/all/noauth?domain=0` also appeared in the same fresh-session minute and remain supporting clues rather than proven gates. `POST /afa/api/v1/bridge/refresh?...` stayed tied to a different long-lived session in this lab pass, so treat it as nearby background traffic unless a reproduced browser minute proves otherwise. In a later CDP browser-layer pass, the block rules matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe and did not record real block events for the fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` traffic, so do not treat browser-side blocking alone as proof that those routes gate the first usable shell. If `ms-watchdog` issue-count calls appear from another client address, treat them as a later subsystem candidate unless the reproduced browser minute proves they are your first stop point.",
+                    healthy_markers=["/afa/php/home.php", "FireFlowBridge.js", "/afa/php/logo.php", "GET /afa/getStatus", "GET /afa/api/v1/license", "POST /afa/api/v1/session/extend", "GET /afa/api/v1/config/all/noauth"],
+                    example_output=_example_output(
+                        "=== apache ===",
+                        '127.0.0.1 - - [25/Mar/2026:17:29:38 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35714',
+                        '127.0.0.1 - - [25/Mar/2026:17:29:39 -0400] "GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1" 200 484',
+                        '127.0.0.1 - - [25/Mar/2026:17:29:39 -0400] "GET /afa/php/logo.php HTTP/1.1" 200 -',
+                        '127.0.0.1 - - [25/Mar/2026:17:29:36 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 311',
+                        "=== metro ===",
+                        '127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-7] "POST /afa/api/v1/session/extend?session=abc123fresh&domain=0 HTTP/1.1" 200 - 246 33410 -',
+                        '127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 812 1543 33411 -',
+                        '127.0.0.1 [25/Mar/2026:17:29:43 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/getStatus HTTP/1.1" 200 33 506 33738 -',
+                        '127.0.0.1 [25/Mar/2026:17:29:44 -0400] [http-nio-0.0.0.0-8080-exec-8] "POST /afa/api/v1/bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 200 - 1739954 33412 -',
+                    ),
+                ),
+                _command_entry(
+                    label="Check Metro heartbeat",
+                    command="curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10",
+                    expected_signal='The JSON response shows `"isAlive" : true`.',
+                    interpretation="If the heartbeat hangs, errors, or returns a different value, Metro is not healthy enough for the ASMS UI path.",
+                    healthy_markers=['"isAlive" : true'],
+                    example_output=_example_output(
+                        "{",
+                        '  "isAlive" : true',
+                        "}",
+                    ),
+                ),
+                _command_entry(
+                    label="Check Metro app traffic",
+                    command="grep -E '/afa/getStatus|/afa/api/v1/config\\?|/afa/api/v1/license|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth' /data/ms-metro/logs/localhost_access_log.txt | tail -n 40",
+                    expected_signal="Recent access lines show normal 200 responses for the Metro heartbeat and the light authenticated `/afa/api/v1/...` paths that appear immediately after the home page loads.",
+                    interpretation="If heartbeat works but the same-minute `/afa/api/v1/...` lines stop, shift to 4xx or 5xx, or never appear around `/afa/php/home.php`, Metro may be up without serving real home-refresh work. Treat `GET /afa/getStatus` as the strongest immediate Metro clue after the first usable shell appears. Keep `license`, `config`, `config/all/noauth`, and `session/extend` as supporting same-minute clues until a fresh-session isolation pass proves one of them is a true first-shell gate. The strongest fresh-session tie now belongs to `config` and `session/extend`, because the latest pass matched them directly to the new `PHPSESSID`, but that still does not prove they gate the first usable shell. The later CDP browser-layer pass did not own the real fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` traffic, so the next meaningful experiment is proxy-side or server-side isolation rather than another browser-side guess. Do not elevate `bridge/refresh` from this check alone because the current lab evidence tied it to a different long-lived session.",
+                    healthy_markers=["GET /afa/getStatus", " 200 ", "/afa/api/v1/license", "/afa/api/v1/session/extend", "/afa/api/v1/config/all/noauth"],
+                ),
+                _command_entry(
+                    label="Check what Metro is busy doing",
+                    command="ps -p $(cat /var/run/ms-metro/ms-metro.pid) -o pid,etime,%cpu,%mem,nlwp,cmd --cols 160",
+                    expected_signal="The Metro JVM is present, has a stable elapsed runtime, and its CPU, memory, and thread count look reasonable for the current case.",
+                    interpretation="If CPU, memory, or thread count looks unexpectedly high or unstable, treat Metro resource pressure or a stuck JVM as part of the failure.",
+                    healthy_markers=["PID", "ELAPSED", "%CPU", "%MEM", "NLWP", "java"],
                 ),
             ),
         ),
         _playbook_step(
             step_id="ui-and-proxy-step-5",
             step_number=5,
-            action="Validate the first backend path behind the appliance UI: ms-metro.service should be active, localhost:8080 should be listening, and /afa/api/v1 should answer locally.",
-            next_if_pass="If these checks pass, the appliance UI shell is likely healthy and the issue should move to a narrower backend or feature-specific playbook.",
-            failure_point="ms-metro.service, localhost:8080, or the /afa/api/v1 route",
-            decision_if_fail="Treat Metro or the local API route as the current failure point for the appliance UI path.",
-            evidence_to_collect=evidence[3:5],
+            action="If useful work still stops here, use Apache/HTTPD, Keycloak, and Metro clues to find the first clear stop point.",
+            why_this_matters="Only move to logs after the host, edge, auth branch, and app branch checks. At this point the goal is to find where useful work stops, not to read every log from the bottom.",
+            next_if_pass="If the stop point is still unclear, move to a narrower service workflow or escalation path.",
+            failure_point="Recent service errors in Apache/HTTPD, Keycloak, or Metro",
+            decision_if_fail="Stop here and treat the first clear error source as the current failure point.",
+            evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
-                _service_status_command(
-                    "ms-metro.service",
-                    interpretation="If Metro is not active, the appliance UI may load partially while its main backend path remains unavailable.",
-                ),
-                _listener_command(
-                    metro_detail.get("listener_ports", ["8080"]),
-                    label="Check Metro listener",
-                    interpretation="If localhost:8080 is missing, the UI-facing backend route has no healthy target.",
+                _command_entry(
+                    label="Replay one browser-like login journey with cookies before chasing neighbors",
+                    command="rm -f /tmp/asms-journey.cookies /tmp/asms-journey.headers /tmp/asms-journey.body; curl -k -sS -L -c /tmp/asms-journey.cookies -b /tmp/asms-journey.cookies -A 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.9' -H 'Upgrade-Insecure-Requests: 1' -D /tmp/asms-journey.headers -o /tmp/asms-journey.body https://127.0.0.1/algosec/suite/login; printf '=== headers ===\\n'; sed -n '1,30p' /tmp/asms-journey.headers; printf '=== cookies ===\\n'; cat /tmp/asms-journey.cookies 2>/dev/null; printf '=== html markers ===\\n'; grep -E 'base href=|runtime.js|main.js|styles.css' /tmp/asms-journey.body | head -n 10",
+                    expected_signal="The replay proves the legacy suite redirect, the static shell markers, and whether the browser-like startup already picked up cookies before any deeper auth path is tested.",
+                    interpretation="Use this as the bounded reproduction anchor for one minute of Apache logs. If it only proves the redirect and static shell, the first real downstream auth or app hop is still unproven.",
+                    healthy_markers=["HTTP/1.1 302", "Location: https://127.0.0.1/algosec-ui/login", "<base href=\"/algosec-ui/\">", "runtime.js", "main.js"],
+                    example_output=_example_output(
+                        "HTTP/1.1 302 Found",
+                        "Location: https://127.0.0.1/algosec-ui/login",
+                        '<base href="/algosec-ui/">',
+                        '<script src="runtime.js?v=1768164271" type="module"></script>',
+                        '<script src="main.js?v=1768164271" type="module"></script>',
+                    ),
                 ),
                 _command_entry(
-                    label="Check Metro/API route mapping",
-                    command="grep -n -E '/afa/api/v1|localhost:8080|afa/external' /etc/httpd/conf.d/zzz_fa.conf",
-                    expected_signal="Apache routes the AFA/API path to localhost:8080 in zzz_fa.conf.",
-                    interpretation="If the route mapping is missing or wrong, the UI may be up while the application backend path is broken.",
+                    label="Correlate the reproduced minute in Apache access logs",
+                    command="grep -E '/algosec/suite/login|/algosec-ui/login|/algosec-ui/(styles.css|runtime.js|main.js)|/afa/php/commands.php\\?cmd=IS_SESSION_ACTIVE|/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|/seikan/login/setup|/aff/api/internal/noauth/getStatus|/BusinessFlow|/afa/php/SuiteLoginSessionValidation.php|/keycloak/|/FireFlow/SelfService/CheckAuthentication/|/afa/php/home.php|/afa/api/v1' /var/log/httpd/ssl_access_log | tail -n 120",
+                    expected_signal="Recent Apache access lines show the same reproduced journey and make it clear whether the request stopped at the shell, moved through the legacy setup and session-validation paths, reached BusinessFlow as the first named module, and only then handed off through Keycloak, FireFlow, the PHP home page, and Metro-backed app paths.",
+                    interpretation="If the reproduced journey only shows /algosec/suite/login and /algosec-ui/ lines, the first real downstream hop is still unproven. If `/seikan/login/setup` appears first, treat it as the first observed JS-triggered post-shell request. If `/afa/php/SuiteLoginSessionValidation.php` is the first auth-triggering line, keep the failure point there unless later BusinessFlow, Keycloak, or FireFlow lines appear. If `/BusinessFlow` lights up but `/afa/api/v1` only appears after `/afa/php/home.php`, treat Metro as a later post-login app branch, not the first auth hop.",
+                    healthy_markers=["/algosec/suite/login", "/algosec-ui/login", " 200 ", " 302 "],
+                    example_output=_example_output(
+                        '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "GET /algosec-ui/login HTTP/1.1" 200 13345',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] "GET /seikan/login/setup HTTP/1.1" 200 217',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "GET /BusinessFlow/login HTTP/1.1" 302 30',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:02 -0400] "POST //keycloak/realms/master/protocol/openid-connect/token? HTTP/1.1" 200 1562',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:06 -0400] "POST /BusinessFlow/rest/v1/login HTTP/1.1" 200 49',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35713',
+                    ),
                 ),
-                _curl_head_command(
-                    label="Probe the API path locally",
-                    url="https://127.0.0.1/afa/api/v1",
-                    expected_signal="The API path returns a local HTTP response such as 200, 302, or 401, not a timeout or 5xx error.",
-                    interpretation="If the API path does not answer locally, focus on Metro or the Apache route chain rather than the browser first.",
+                _command_entry(
+                    label="Review recent Apache/HTTPD logs",
+                    command="journalctl -u httpd.service -n 50 --no-pager",
+                    expected_signal="No obvious disk, permission, startup, or crash errors appear in recent lines.",
+                    interpretation="If recent Apache/HTTPD lines show errors, stay on that clue first.",
+                ),
+                _command_entry(
+                    label="Review recent Keycloak logs",
+                    command="tail -n 80 /var/log/keycloak/keycloak.log",
+                    expected_signal="Recent lines show healthy startup or a clear auth, database, TLS, or startup clue.",
+                    interpretation="If recent Keycloak lines show errors, stay on that clue first.",
+                    healthy_markers=["started", "Listening on", "https://0.0.0.0:8443", "hostname:"],
+                ),
+                _command_entry(
+                    label="Review Metro error clues",
+                    command="grep -n -i -E 'error|exception|failed|caused by|outofmemory|unable|refused|timed out' /data/ms-metro/logs/catalina.out | tail -n 40",
+                    expected_signal="No fresh Metro error signatures appear, or the returned lines clearly point to the real Java, dependency, or application failure.",
+                    interpretation="Use this only after the traffic and JVM checks if you still need a narrower Java clue.",
+                    healthy_markers=["No output is often normal", "Error", "Exception", "Caused by", "Failed"],
                 ),
             ),
         ),

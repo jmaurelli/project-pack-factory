@@ -1,0 +1,18 @@
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "businessflow-aff-usersession-bridge-v1",
+  "task_id": "businessflow-aff-usersession-bridge-v1",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Captured the March 27 Apache and FireFlow session-bridge window showing BusinessFlow health activity alongside FireFlow UserSession validation, getUserSession, bridge refresh, getAFASessionInfo, and retained FASessionId resolution.",
+  "returned_artifact_paths": [
+    "artifacts/apache-aff-usersession-window.txt",
+    "artifacts/fireflow-usersession-window.txt",
+    "artifacts/businessflow-php-aff-context.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "Compare the ff-session values in this window against the BusinessFlow-side caller or cookie issuer that triggers /FireFlow/api/session, especially the branch that falls back through /fa/environment/getAFASessionInfo.",
+    "Inspect the FireFlow AFF API request payloads or debug logs around FireFlowAffApi/NoAuth/CommandsDispatcher if a later delegated slice allows deeper tracing."
+  ]
+}

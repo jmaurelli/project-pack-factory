@@ -1,0 +1,30 @@
+{
+  "allowed_targets": [
+    "/var/log/httpd",
+    "/data/algosec-ms/logs",
+    "/data/pgsql",
+    "/opt/activemq",
+    "/usr/share/aff",
+    "/usr/share/fireflow"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "fireflow-approval-progression-correlation-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md"
+  ],
+  "generated_at": "2026-03-27T00:29:31Z",
+  "generated_by": "orchadmin",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+  "remote_target_label": "algosec-lab",
+  "run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "schema_version": "adf-delegated-task-request/v1",
+  "scope_summary": "Find one real later FireFlow approval, review, plan, implementation, or request-progression branch that is not just journal refresh or UserSession maintenance. Prefer a minute where POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher lines up with a non-UserSession destination in fireflow.log or stronger workflow evidence such as aff.job, config.topic0, StartWorker.pl, ms-batch-application, or ms-configuration reaction. Correlate the same minute across Apache FireFlow or AFF access, fireflow.log, aff-boot or neighboring microservice logs, PostgreSQL, and ActiveMQ broker log or store evidence. Decide whether this branch stays synchronous, becomes config-propagation centered, or finally justifies earlier ActiveMQ promotion for an approval or progression workflow branch. Capture exact timestamps, destination names, and artifact evidence. Do not mutate appliance state.",
+  "target_bundle_root": ".pack-state/delegated-codex-runs/fireflow-approval-progression-correlation-v1",
+  "task_id": "deepen_dependency_aware_playbooks",
+  "time_budget_seconds": 900
+}

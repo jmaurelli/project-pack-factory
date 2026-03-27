@@ -12,6 +12,13 @@ It does not create the autonomy or evidence features themselves. Those now
 exist in PackFactory. The gap is that the agent instructions do not yet teach
 the runtime agent how to find or use them consistently.
 
+This spec now also sits inside the dashboard era of PackFactory startup:
+
+- the published dashboard is now the normal fast operator briefing surface
+- root `load AGENTS.md` behavior should stay concise by default
+- instruction-surface changes should optimize scan order and comprehension
+  instead of rebuilding longer executive summaries in chat
+
 ## Spec Link Tags
 
 ```json
@@ -130,12 +137,31 @@ Interpretation:
 - this example shows drift on autonomy guidance; it does not by itself prove
   export discoverability drift
 
+### Evidence F: The Operator Dashboard Now Exists As The Normal Fast Briefing Surface
+
+PackFactory now ships a published dashboard path under
+`.pack-state/factory-dashboard/latest/`, with the canonical Astro publication
+wrapper at `tools/build_factory_dashboard_astro.py` and the local operator
+viewing path at `tools/serve_factory_dashboard.py`.
+
+Interpretation:
+
+- root startup no longer needs to reconstruct a long executive summary by
+  default
+- instruction work should optimize for quick orientation, exact fallback
+  verification, and lower prompt overhead
+- the dashboard should shorten root startup rather than compete with the truth
+  layer
+
 ## Design Goals
 
 - make the autonomy handoff surfaces explicitly discoverable to runtime agents
 - make the export capability explicitly discoverable to eligible build-packs
 - make the factory-level import workflow explicitly discoverable to factory
   agents
+- make root startup behavior dashboard-first and concise by default
+- optimize scan order around project purpose, current state, and current
+  trajectory rather than duplicating a long executive summary in chat
 - preserve the control-plane/data-plane split in the instruction layer
 - keep the instruction changes small and precise
 
@@ -148,6 +174,7 @@ This spec does not:
 - make imported runtime evidence canonical control-plane state
 - require every pack-local AGENTS file to become a full operational manual
 - add new runtime workflows beyond the ones already implemented
+- authorize new tests outside the existing PackFactory testing policy
 
 ## Required Root Instruction Changes
 

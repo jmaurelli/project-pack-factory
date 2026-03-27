@@ -98,6 +98,7 @@ def _pack_manifest(
     module_name: str,
     creation_id: str,
     project_goal: str,
+    capability_family: str,
 ) -> dict[str, Any]:
     return {
         "schema_version": "pack-manifest/v2",
@@ -130,6 +131,11 @@ def _pack_manifest(
             "Created through the PackFactory template creation workflow.",
             f"creation_id={creation_id}",
             f"project_goal={project_goal}",
+            f"capability_family={capability_family}",
+            "factory_autonomy_baseline=This source template inherits the PackFactory autonomy baseline from docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md and docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md.",
+            "factory_autonomy_tracking=Template-level autonomy notes are pointers to factory defaults; the factory root remains the canonical baseline for inherited memory, feedback, restart, branch-choice behavior, and remote-session compliance.",
+            "template_lineage_memory=When present, template-family lessons live under .pack-state/template-lineage-memory/latest-memory.json and remain advisory template-level context rather than canonical factory truth.",
+            "factory_startup_compliance=Inherited startup guidance requires PackFactory-local remote-session workflows and treats external runtime-evidence import as factory-only.",
         ],
     }
 
@@ -338,6 +344,41 @@ This is a PackFactory-native template created through the template creation work
 8. `benchmarks/active-set.json`
 9. `eval/latest/index.json`
 
+## Factory Autonomy Baseline
+
+This template inherits the PackFactory autonomy baseline from the factory root.
+
+Read these factory-level surfaces when the task concerns inherited agent
+memory, feedback loops, autonomy rehearsal, stop-and-restart behavior, or
+branch-choice policy:
+
+1. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+2. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+3. `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md`
+4. `.pack-state/agent-memory/latest-memory.json`
+
+Treat the factory-level autonomy baseline as canonical for inherited default
+behavior. Use this template only for template-specific source guidance and
+runtime shape.
+
+When `.pack-state/template-lineage-memory/latest-memory.json` exists, read it
+after the factory-level baseline when you need a compact view of what this
+template family has already taught the factory across derived build-packs.
+Treat that template lineage memory as advisory template-family context, not as
+canonical factory truth.
+
+For remote Codex session management and external runtime-evidence handling,
+follow the factory-root control plane rather than inventing template-local
+remote workflows:
+
+- use PackFactory-local remote-session, continuity, rehearsal, export, pull,
+  and import workflows from the factory root when an official workflow exists
+- do not improvise ad hoc `ssh` prompts, handcrafted remote-session runners,
+  or raw stdout/stderr logging loops as substitutes for PackFactory evidence
+- treat external runtime-evidence import as factory-only through
+  `tools/import_external_runtime_evidence.py` or a higher-level PackFactory
+  workflow that wraps that import
+
 ## Working Rules
 
 - Treat this pack as an active source template.
@@ -373,6 +414,32 @@ This template was created to support the following project goal:
 ## Local State
 
 - local scratch state: `.pack-state/`
+- optional template lineage memory: `.pack-state/template-lineage-memory/latest-memory.json`
+
+## Factory-Level Inheritance Note
+
+This template is a source template, not the canonical home of the autonomy
+baseline.
+
+For inherited PackFactory defaults around agent memory, feedback loops,
+restart behavior, rehearsal evidence, and branch-choice policy, prefer the
+factory-level state brief and operations note:
+
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`
+- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`
+
+When present, the template-local lineage memory at
+`.pack-state/template-lineage-memory/latest-memory.json` is the shortest path
+to template-family learning that has already been distilled from derived
+build-packs.
+
+That inherited baseline now also includes startup-compliance expectations for
+remote Codex session management and runtime-evidence flow:
+
+- prefer PackFactory-local remote-session workflows from the factory root
+- do not treat ad hoc `ssh` prompts or raw stdout/stderr logs as canonical
+  PackFactory evidence
+- return to the factory root for external runtime-evidence import
 """
 
 
@@ -615,6 +682,25 @@ def _validate_request_semantics(request: dict[str, Any]) -> None:
     rationale = planning.get("new_template_rationale")
     if not isinstance(rationale, str) or not rationale.strip():
         raise ValueError("new_template_rationale is required when creating a new template")
+    capability_family = planning.get("capability_family")
+    if not isinstance(capability_family, str) or not capability_family.strip():
+        raise ValueError("capability_family is required for template creation reusability planning")
+    expected_variants = planning.get("expected_build_pack_variants")
+    if not isinstance(expected_variants, list) or len(expected_variants) < 2:
+        raise ValueError(
+            "expected_build_pack_variants must describe at least two meaningful build-pack variants "
+            "so the template stays a reusable capability pattern"
+        )
+    normalized_variants: list[str] = []
+    for item in expected_variants:
+        if not isinstance(item, str) or not item.strip():
+            raise ValueError("expected_build_pack_variants must contain only non-empty strings")
+        normalized_variants.append(item.strip())
+    if len(set(normalized_variants)) < 2:
+        raise ValueError("expected_build_pack_variants must contain at least two distinct variant descriptions")
+    first_materialization_purpose = planning.get("first_materialization_purpose")
+    if not isinstance(first_materialization_purpose, str) or not first_materialization_purpose.strip():
+        raise ValueError("first_materialization_purpose is required so the first proving-ground build-pack is explicit")
 
 
 def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
@@ -630,6 +716,7 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
     requested_by = str(request["requested_by"])
     planning = dict(request["planning_summary"])
     project_goal = str(planning["project_goal"])
+    capability_family = str(planning["capability_family"])
     benchmark_intent = str(planning["initial_benchmark_intent"])
     reason = str(planning["new_template_rationale"])
 
@@ -684,6 +771,7 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
                 module_name=module_name,
                 creation_id=creation_id,
                 project_goal=project_goal,
+                capability_family=capability_family,
             ),
         )
         write_json(
@@ -796,6 +884,7 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
                 "Inspect the new template pack.",
                 "Run validate-project-pack inside the new template.",
                 "Run the initial smoke benchmark when ready.",
+                f"Materialize the first build-pack proving ground for `{planning['first_materialization_purpose']}`.",
             ],
         }
         write_json(report_full_path, report)

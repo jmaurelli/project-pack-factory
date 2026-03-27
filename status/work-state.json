@@ -1,14 +1,19 @@
 {
   "active_task_id": null,
   "autonomy_state": "awaiting_operator",
-  "blocked_task_ids": [],
+  "blocked_task_ids": [
+    "define_build_pack_source_of_truth_mode"
+  ],
   "completed_task_ids": [
-    "seed_factory_root_work_tracker"
+    "seed_factory_root_work_tracker",
+    "plan_astro_dashboard_upgrade",
+    "design_operator_dashboard_surface",
+    "optimize_agent_instruction_surfaces"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Seeded the PackFactory root objective, backlog, and work-state files and wired root memory, validation, and startup guidance to use them.",
+  "last_agent_action": "Shifted root startup guidance to a shorter dashboard-first path, aligned the README and instruction-performance specs with that direction, and verified the new startup behavior with the factory-root startup benchmark.",
   "last_outcome": "task_completed",
-  "last_outcome_at": "2026-03-26T17:58:39Z",
+  "last_outcome_at": "2026-03-26T22:39:22Z",
   "last_validation_results": [
     {
       "evidence_paths": [
@@ -24,17 +29,56 @@
       "status": "pass",
       "summary": "Seeded the PackFactory root task tracker and updated root tooling and guidance to use it.",
       "validation_id": "seed_factory_root_work_tracker"
+    },
+    {
+      "evidence_paths": [
+        "apps/factory-dashboard/package.json",
+        "apps/factory-dashboard/package-lock.json",
+        "apps/factory-dashboard/src/pages/index.astro",
+        "apps/factory-dashboard/src/lib/loadDashboardSnapshot.ts",
+        "tools/build_factory_dashboard_astro.py",
+        "tools/serve_factory_dashboard.py",
+        ".pack-state/factory-dashboard/history/factory-dashboard-build-20260326t221745z/dashboard-report.json"
+      ],
+      "recorded_at": "2026-03-26T22:18:48Z",
+      "status": "pass",
+      "summary": "Verified `npm ci`, a direct Astro app build, and the PackFactory Astro wrapper publication build for the checked-in dashboard app.",
+      "validation_id": "plan_astro_dashboard_upgrade"
+    },
+    {
+      "evidence_paths": [
+        "AGENTS.md",
+        "README.md",
+        ".pack-state/factory-dashboard/latest/dashboard-report.json",
+        ".pack-state/factory-dashboard/latest/dashboard-snapshot.json",
+        ".pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/benchmark-report.json",
+        ".pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/startup-brief.md"
+      ],
+      "recorded_at": "2026-03-26T22:39:22Z",
+      "status": "pass",
+      "summary": "Verified the dashboard-first operator briefing path and root startup behavior through the published dashboard artifacts and a fresh root startup benchmark.",
+      "validation_id": "design_operator_dashboard_surface"
+    },
+    {
+      "evidence_paths": [
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-INSTRUCTION-DISCOVERABILITY-FOR-AUTONOMY-AND-EXTERNAL-RUNTIME-EVIDENCE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        ".pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/benchmark-report.json",
+        ".pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/startup-brief.md"
+      ],
+      "recorded_at": "2026-03-26T22:39:22Z",
+      "status": "pass",
+      "summary": "Reduced root startup verbosity, optimized the read order around the dashboard and root tracker, and validated the bounded instruction-surface rewrite with the existing startup benchmark.",
+      "validation_id": "optimize_agent_instruction_surfaces"
     }
   ],
-  "next_recommended_task_id": "design_operator_dashboard_surface",
+  "next_recommended_task_id": "design_agent_personality_template_system",
   "objective_id": "project_pack_factory_root_objective",
   "pack_id": "project-pack-factory",
   "pending_task_ids": [
-    "design_operator_dashboard_surface",
-    "define_build_pack_source_of_truth_mode",
-    "plan_astro_dashboard_upgrade",
-    "design_agent_personality_template_system",
-    "optimize_agent_instruction_surfaces"
+    "design_agent_personality_template_system"
   ],
   "resume_instructions": [
     "Read contracts/project-objective.json, tasks/active-backlog.json, and status/work-state.json before changing PackFactory root tooling or docs.",

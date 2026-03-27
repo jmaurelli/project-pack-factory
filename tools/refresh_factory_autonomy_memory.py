@@ -18,9 +18,13 @@ from factory_ops import isoformat_z, load_json, read_now, relative_path, resolve
 
 MEMORY_ROOT = Path(".pack-state") / "agent-memory"
 POINTER_NAME = "latest-memory.json"
+ROOT_PROJECT_OBJECTIVE = Path("contracts/project-objective.json")
+ROOT_TASK_BACKLOG = Path("tasks/active-backlog.json")
+ROOT_WORK_STATE = Path("status/work-state.json")
 PLANNING_LIST = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md")
 OPERATIONS_NOTE = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md")
 STATE_BRIEF = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md")
+DISTILLATION_ROOT = Path(".pack-state") / "autonomy-memory-distillations"
 SOURCE_TOOL = "tools/refresh_factory_autonomy_memory.py"
 CHECKLIST_PATTERN = re.compile(r"^- \[(?P<done>[ xX])\] (?P<text>.+)$")
 
@@ -77,6 +81,25 @@ def _find_testing_pointer(factory_root: Path) -> str | None:
     if not pointers:
         return None
     return relative_path(factory_root, pointers[0])
+
+
+def _find_latest_distillation_report(factory_root: Path) -> str | None:
+    distillation_root = factory_root / DISTILLATION_ROOT
+    if not distillation_root.exists():
+        return None
+    candidates: list[tuple[str, str]] = []
+    for report_path in distillation_root.glob("*/distillation-report.json"):
+        try:
+            report = _load_object(report_path)
+        except Exception:
+            continue
+        generated_at = report.get("generated_at")
+        if isinstance(generated_at, str):
+            candidates.append((generated_at, relative_path(factory_root, report_path)))
+    if not candidates:
+        return None
+    candidates.sort(key=lambda item: item[0])
+    return candidates[-1][1]
 
 
 def _parse_planning_list(factory_root: Path) -> dict[str, Any]:
@@ -157,11 +180,74 @@ def _format_checklist_item(item: dict[str, Any]) -> str:
     return f"{item['section']}: {item['text']}"
 
 
+def _load_root_task_tracker(factory_root: Path) -> dict[str, Any] | None:
+    objective_path = factory_root / ROOT_PROJECT_OBJECTIVE
+    backlog_path = factory_root / ROOT_TASK_BACKLOG
+    work_state_path = factory_root / ROOT_WORK_STATE
+    if not (objective_path.exists() and backlog_path.exists() and work_state_path.exists()):
+        return None
+    return {
+        "objective": _load_object(objective_path),
+        "task_backlog": _load_object(backlog_path),
+        "work_state": _load_object(work_state_path),
+    }
+
+
+def _ordered_open_root_tasks(root_tracker: dict[str, Any]) -> list[dict[str, Any]]:
+    task_backlog = root_tracker["task_backlog"]
+    work_state = root_tracker["work_state"]
+    tasks = task_backlog.get("tasks", [])
+    if not isinstance(tasks, list):
+        return []
+    pending_ids = work_state.get("pending_task_ids", [])
+    blocked_ids = set(work_state.get("blocked_task_ids", []))
+    next_task_id = work_state.get("next_recommended_task_id")
+    ordered: list[tuple[tuple[int, float, str], dict[str, Any]]] = []
+    for task in tasks:
+        if not isinstance(task, dict):
+            continue
+        task_id = task.get("task_id")
+        summary = task.get("summary")
+        if not isinstance(task_id, str) or not isinstance(summary, str):
+            continue
+        if task_id not in pending_ids and task_id not in blocked_ids:
+            continue
+        status = task.get("status")
+        if status not in {"pending", "in_progress", "blocked", "escalated"}:
+            continue
+        priority = task.get("selection_priority")
+        if not isinstance(priority, (int, float)):
+            priority = 9999
+        ordered.append(
+            (
+                (
+                    0 if task_id == next_task_id else 1,
+                    float(priority),
+                    task_id,
+                ),
+                task,
+            )
+        )
+    ordered.sort(key=lambda item: item[0])
+    return [item[1] for item in ordered]
+
+
+def _root_task_items(root_tracker: dict[str, Any]) -> dict[str, list[str]]:
+    ordered_open_tasks = _ordered_open_root_tasks(root_tracker)
+    open_summaries = [str(task["summary"]) for task in ordered_open_tasks]
+    blocked = [str(task["summary"]) for task in ordered_open_tasks if task.get("status") == "blocked"]
+    return {
+        "next_action_items": open_summaries[:3],
+        "pending_items": open_summaries,
+        "blocked_items": blocked,
+    }
+
+
 def _default_recommended_next_steps() -> list[str]:
     return [
-        "Surface hint audit status directly in operator-facing summaries.",
-        "Keep the hint audit report available when stale operator guidance needs cleanup.",
-        "Keep this root-level memory updated after major autonomy workflow or promotion changes.",
+        "Run the post-autonomy-change maintenance workflow after major autonomy tooling, promotion, or documentation updates.",
+        "Refresh template lineage memory when a template family meaningfully changes.",
+        "Keep this root-level memory and the factory startup surfaces aligned before ending the session.",
     ]
 
 
@@ -186,31 +272,45 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
     latest_rehearsal = _find_latest_rehearsal_report(factory_root)
     latest_promotion = _find_latest_promotion_report(factory_root)
     testing_pointer = _find_testing_pointer(factory_root)
+    latest_distillation = _find_latest_distillation_report(factory_root)
     planning = _parse_planning_list(factory_root)
+    root_tracker = _load_root_task_tracker(factory_root)
     checklist_items = planning["checklist_items"]
-    pending_items = [_format_checklist_item(item) for item in checklist_items if item["done"] is False]
+    fallback_pending_items = [_format_checklist_item(item) for item in checklist_items if item["done"] is False]
     overdue_items = [_format_checklist_item(item) for item in checklist_items if item["done"] is False and item["overdue"]]
-    next_action_items = pending_items[:3]
+    tracker_task_items = _root_task_items(root_tracker) if root_tracker is not None else None
+    pending_items = tracker_task_items["pending_items"] if tracker_task_items is not None else fallback_pending_items
+    next_action_items = tracker_task_items["next_action_items"] if tracker_task_items is not None else pending_items[:3]
     known_limits = planning["sections"].get("Current Limits", [])
     recommended_next_steps = next_action_items[:]
-    if "Keep this root-level memory updated after major autonomy workflow or promotion changes." not in recommended_next_steps:
-        recommended_next_steps.append("Keep this root-level memory updated after major autonomy workflow or promotion changes.")
+    maintenance_step = (
+        "Run the post-autonomy-change maintenance workflow after major autonomy tooling, promotion, or documentation updates."
+    )
+    if maintenance_step not in recommended_next_steps:
+        recommended_next_steps.append(maintenance_step)
     if not recommended_next_steps:
         recommended_next_steps = _default_recommended_next_steps()
-    blockers = [
-        known_limits[0],
-        pending_items[0] if pending_items else "No open autonomy planning items are currently recorded.",
-    ]
+    blocked_items = tracker_task_items["blocked_items"] if tracker_task_items is not None else []
+    blockers = [known_limits[0] if known_limits else None]
+    if blocked_items:
+        blockers.append(blocked_items[0])
+    elif pending_items:
+        blockers.append(pending_items[0])
+    else:
+        blockers.append("No open autonomy planning items are currently recorded.")
     blockers = [item for item in blockers if item]
 
     key_artifacts = [
+        str(ROOT_PROJECT_OBJECTIVE),
+        str(ROOT_TASK_BACKLOG),
+        str(ROOT_WORK_STATE),
         str(PLANNING_LIST),
         str(OPERATIONS_NOTE),
         str(STATE_BRIEF),
         "AGENTS.md",
         "README.md",
     ]
-    for candidate in (latest_rehearsal, latest_promotion, testing_pointer):
+    for candidate in (latest_rehearsal, latest_promotion, testing_pointer, latest_distillation):
         if isinstance(candidate, str):
             key_artifacts.append(candidate)
 
@@ -218,6 +318,11 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
         "schema_version": "factory-autonomy-memory/v1",
         "generated_at": generated_at,
         "memory_id": memory_id,
+        "memory_tier": {
+            "status": "active",
+            "tier": "promoted_factory_memory",
+            "summary": "Promoted factory-level operating memory for PackFactory root continuation work.",
+        },
         "producer": actor,
         "factory_root": str(factory_root),
         "summary": (
@@ -227,15 +332,22 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "explicit operator branch-selection hints, including preferred-task and avoid-task guidance, and use "
             "bounded semantic tie-breaking when objective, resume context, and task selection signals make one "
             "candidate clearly stronger. It now has a proven conflict ladder for that broader operator-support "
-            "surface plus bounded hint lifetime through `remaining_applications`, so the next highest-value "
-            "work is to surface hint audit state more directly in normal operator-facing summaries while keeping "
-            "the branch-choice ladder explainable."
+            "surface plus bounded hint lifetime through `remaining_applications`, and it can distill repeated "
+            "autonomy lessons across multiple build-packs into one factory-level memory artifact instead of "
+            "leaving those lessons scattered across proving-ground reports."
         ),
-        "current_focus": [
-            "Keep factory-level autonomy discoverable from the root startup surfaces.",
-            "Keep root-level restart memory current so the next agent can recover the current autonomy toolset quickly.",
-            "Improve operator visibility around the richer operator-support surface without broadening into open-ended semantic choice by default.",
-        ],
+        "current_focus": (
+            [
+                "Track PackFactory root work through canonical objective, backlog, and work-state files.",
+                *next_action_items[:2],
+            ]
+            if root_tracker is not None
+            else [
+                "Keep factory-level autonomy discoverable from the root startup surfaces.",
+                "Keep root-level restart memory current so the next agent can recover the current autonomy toolset quickly.",
+                "Promote repeated autonomy lessons from multiple build-packs into one reusable factory-level memory layer.",
+            ]
+        ),
         "next_action_items": next_action_items,
         "pending_items": pending_items,
         "overdue_items": overdue_items,
@@ -254,6 +366,7 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "Consume one-shot operator hints through `remaining_applications` so bounded guidance can expire automatically after first use.",
             "Audit active, exhausted, and cleanup-candidate hints through a bounded operator-facing report and prune exhausted inactive hints when requested.",
             "Use bounded semantic alignment to break a next-task tie when the project objective, resume instructions, and task selection signals make one candidate clearly stronger.",
+            "Distill repeated strong autonomy lessons across multiple build-packs into one factory-level memory artifact.",
         ],
         "known_limits": known_limits or [
             "A completed multi-hop rehearsal can still require a local canonical readiness refresh before promotion succeeds cleanly in one pass.",
@@ -280,20 +393,27 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
             "python3 tools/audit_branch_selection_hints.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --cleanup-exhausted --output json",
             "python3 tools/run_operator_hint_audit_cleanup_exercise.py --factory-root /home/orchadmin/project-pack-factory --target-build-pack-id <pack-id> --target-display-name \"<name>\" --output json",
             "python3 tools/promote_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json",
+            "python3 tools/distill_autonomy_memory_across_build_packs.py --factory-root /home/orchadmin/project-pack-factory --output json",
+            "python3 tools/run_post_autonomy_change_maintenance.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json",
             "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json",
         ],
         "discovery_entrypoints": [
             "AGENTS.md",
             "README.md",
+            str(ROOT_PROJECT_OBJECTIVE),
+            str(ROOT_TASK_BACKLOG),
+            str(ROOT_WORK_STATE),
             str(STATE_BRIEF),
             str(OPERATIONS_NOTE),
             str(PLANNING_LIST),
             ".pack-state/agent-memory/latest-memory.json",
+            ".pack-state/autonomy-memory-distillations/",
         ],
         "status_snapshot": {
             "latest_rehearsal_report_path": latest_rehearsal,
             "latest_promotion_report_path": latest_promotion,
             "latest_testing_pointer_path": testing_pointer,
+            "latest_distillation_report_path": latest_distillation,
             "current_state_brief_path": str(STATE_BRIEF),
             "planning_list_path": str(PLANNING_LIST),
             "operations_note_path": str(OPERATIONS_NOTE),
@@ -301,11 +421,12 @@ def _memory_payload(*, factory_root: Path, actor: str, generated_at: str, memory
         "key_artifact_paths": key_artifacts,
         "notes": [
             "This root memory is advisory restart context for the PackFactory repo itself; registry, deployment, readiness, and promotion surfaces remain canonical.",
+            "When the root objective, backlog, and work-state files exist, they are the canonical PackFactory work tracker for factory-level continuation work.",
             "The strongest current proof path is the JSON health checker proving-ground line, especially the promotion-gate pack promoted into testing on 2026-03-25.",
             "Use the autonomy state brief when you need one stable repo-level snapshot of the current memory, restart, branch-choice, and proof baseline.",
-            "Pending and overdue items are derived from the autonomy planning list so executive-summary memory stays tied to an explicit planning surface.",
-            "Priority-driven choice, explicit operator hint overrides, operator avoid-task guidance, bounded semantic branch choice, operator-hint conflict resolution, bounded hint lifetime through `remaining_applications`, and operator-hint audit plus cleanup are now proven capabilities; the next planned expansion is surfacing that hint status more directly in normal summaries.",
-            "Refresh this memory after significant autonomy tooling, rehearsal, or promotion-gate changes so the next agent inherits current factory capabilities and limits.",
+            "Pending and next-action items are derived from the root backlog and work-state files when present; the autonomy planning list remains the broader planning surface and overdue fallback.",
+            "Priority-driven choice, explicit operator hint overrides, operator avoid-task guidance, bounded semantic branch choice, operator-hint conflict resolution, bounded hint lifetime through `remaining_applications`, operator-hint audit plus cleanup, and factory-level autonomy lesson distillation are now proven capabilities.",
+            "After major autonomy changes, run the post-autonomy-change maintenance workflow so root memory, template lineage memory, distilled lessons, and filtered validation all refresh together.",
         ],
     }
 
@@ -341,6 +462,7 @@ def refresh_factory_autonomy_memory(*, factory_root: Path, actor: str) -> dict[s
         "selected_memory_id": memory_id,
         "selected_generated_at": generated_at,
         "selected_memory_path": relative_path(factory_root, memory_path),
+        "selected_memory_tier": "promoted_factory_memory",
         "selected_memory_sha256": memory_sha256,
         "source_kind": "factory_memory_refresh",
         "source_tool": SOURCE_TOOL,

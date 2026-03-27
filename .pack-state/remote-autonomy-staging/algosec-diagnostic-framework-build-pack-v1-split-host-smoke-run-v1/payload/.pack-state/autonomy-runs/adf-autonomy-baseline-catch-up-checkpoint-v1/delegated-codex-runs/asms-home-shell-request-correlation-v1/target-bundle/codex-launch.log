@@ -1,0 +1,1413 @@
+OpenAI Codex v0.116.0 (research preview)
+--------
+workdir: /root
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 019d2c55-3127-7610-8313-4609d5d892c5
+--------
+user
+You are Codex CLI running on the target appliance for a bounded delegated ADF task.
+Read the delegated request JSON at `.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json`.
+Keep all output inside `.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1`.
+
+Rules:
+- Stay within the delegated scope and allowed targets from the request.
+- Do not modify files outside the delegated bundle root unless the request tier explicitly allows bounded lab changes.
+- Always write `delegated-task-result.json` even if blocked or partially complete.
+- Record the shell commands you ran in `commands.jsonl` as one JSON object per line.
+- Write a short operator-facing summary in `findings.md`.
+- Put any captured artifacts under `artifacts/`.
+- For `observe_only`, leave `intentional_mutations` as an empty array unless you truly changed the target.
+
+Required output files:
+- `.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json`
+- `.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl`
+- `.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md`
+- `.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/`
+
+Suggested result schema:
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "asms-home-shell-request-correlation-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Short operator-facing result summary.",
+  "returned_artifact_paths": [
+    "artifacts/example.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "Optional next step."
+  ]
+}
+
+Begin by reading the request file and then complete the delegated slice.
+
+mcp startup: no servers
+codex
+Reading the delegated request first, then I’ll stay inside that bundle root and produce the required result files plus a command log.
+exec
+/bin/bash -lc pwd in /rootexec
+/bin/bash -lc 'ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1' in /rootexec
+/bin/bash -lc 'cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json' in /root succeeded in 14.31s:
+[H[2JPlease select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+codex
+The shell is dropping into the appliance menu under login semantics. I’m switching to non-login commands so I can read the delegated bundle directly without leaving scope.
+exec
+/bin/bash -c 'cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json' in /root succeeded in 0ms:
+{
+  "allowed_targets": [
+    "/usr/share/fa/php",
+    "/var/log/httpd",
+    "/data/ms-metro/logs"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "asms-home-shell-request-correlation-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md"
+  ],
+  "generated_at": "2026-03-26T22:47:48Z",
+  "generated_by": "orchadmin",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+  "remote_target_label": "algosec-lab",
+ succeeded in 14.49s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+exec
+/bin/bash -c 'ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1' in /root succeeded in 0ms:
+total 20
+drwxr-xr-x 3 root root  136 Mar 26 18:47 .
+drwxr-xr-x 7 root root  186 Mar 26 18:47 ..
+drwxr-xr-x 2 root root    6 Mar 26 18:47 artifacts
+-rw-r--r-- 1 root root 4640 Mar 26 18:48 codex-launch.log
+-rw-r--r-- 1 root root 1855 Mar 26 18:47 codex-prompt.txt
+-rw-r--r-- 1 root root 1510 Mar 26 18:47 delegated-task-request.json
+-rwxr-xr-x 1 root root  747 Mar 26 18:47 run-delegated-codex.sh
+ succeeded in 16.08s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+codex
+I have the scope: observe-only correlation of one successful `SuiteLoginSessionValidation -> home.php` transition using Apache, Metro, and PHP paths. Next I’m locating the relevant log lines and the PHP entry points so I can tie a single session window to the exact request set.
+exec
+/bin/bash -c "ls -R /var/log/httpd /data/ms-metro/logs /usr/share/fa/php | sed -n '1,240p'" in /root succeeded in 0ms:
+/data/ms-metro/logs:
+catalina.out
+catalina.out-20260214.gz
+catalina.out-20260219.gz
+catalina.out-20260224.gz
+catalina.out-20260301.gz
+catalina.out-20260306.gz
+catalina.out-20260311.gz
+catalina.out-20260316.gz
+localhost_access_log.txt
+localhost_access_log.txt-20260306.gz
+localhost_access_log.txt-20260309.gz
+localhost_access_log.txt-20260312.gz
+localhost_access_log.txt-20260315.gz
+localhost_access_log.txt-20260318.gz
+localhost_access_log.txt-20260321.gz
+localhost_access_log.txt-20260324.gz
+
+/usr/share/fa/php:
+3rdParty
+exec
+/bin/bash -c "rg -n \"SuiteLoginSessionValidation|home\\.php|SuiteLogin|session\" /var/log/httpd /data/ms-metro/logs /usr/share/fa/php --glob '"'!*.gz'"'" in /root succeeded in 569ms:
+"GET /afa/external//brandConfig/properties/byBrandName/Juniper%20JUNOS?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 962
+/var/log/httpd/ssl_request_log:36106:[25/Mar/2026:18:38:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//brandConfig/properties/byBrandName/panorama?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 1440
+/var/log/httpd/ssl_request_log:36108:[25/Mar/2026:18:38:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//allowedDevices?session=kk4msqvndoc0c8lmjka8i93vj4&onlyFireflowSupportedDevices=yes&includeBlueCoat=yes&domain=0 HTTP/1.1" 3078
+/var/log/httpd/ssl_request_log:36109:[25/Mar/2026:18:38:12 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:36110:[25/Mar/2026:18:38:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//session/kk4msqvndoc0c8lmjka8i93vj4?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 710
+/var/log/httpd/ssl_request_log:36163:[25/Mar/2026:18:38:52 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:36220:[25/Mar/2026:18:40:02 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log:36225:[25/Mar/2026:18:40:09 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log:36259:[25/Mar/2026:18:40:20 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 65
+/var/log/httpd/ssl_request_log:36269:[25/Mar/2026:18:40:25 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=g232nu3lpehpui9tc1107k149k HTTP/1.1" -
+/var/log/httpd/ssl_request_log:36270:[25/Mar/2026:18:40:25 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?session=g232nu3lpehpui9tc1107k149k&domain=0 HTTP/1.1" 3125
+/var/log/httpd/ssl_request_log:36271:[25/Mar/2026:18:40:25 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?domain=0&session=g232nu3lpehpui9tc1107k149k HTTP/1.1" 3125
+/var/log/httpd/ssl_request_log:36273:[25/Mar/2026:18:40:26 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?domain=0&session=g232nu3lpehpui9tc1107k149k HTTP/1.1" 3125
+/var/log/httpd/ssl_request_log:36275:[25/Mar/2026:18:40:26 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//session/extend?session=g232nu3lpehpui9tc1107k149k&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:36282:[25/Mar/2026:18:40:28 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//session/extend?session=g232nu3lpehpui9tc1107k149k&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:36284:[25/Mar/2026:18:40:29 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?session=g232nu3lpehpui9tc1107k149k&domain=0 HTTP/1.1" 3125
+/var/log/httpd/ssl_request_log:36286:[25/Mar/2026:18:40:28 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" -
+/var/log/httpd/ssl_request_log:36334:[25/Mar/2026:18:40:29 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/php/home.php HTTP/1.1" 35712
+/var/log/httpd/ssl_request_log:36403:[25/Mar/2026:18:40:31 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:36407:[25/Mar/2026:18:40:35 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external/journal/getChangesInOrigRulesByDate?startDate=1774478135000&endDate=1774478435373&session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 3
+codex
+The broad search is noisy because it hits bundled JS and unrelated session code. I’m narrowing to the live Apache and Metro logs plus the three PHP files that look like the shell transition path: `SuiteLoginSessionValidation.php`, `home.php`, and session helpers.
+exec
+/bin/bash -c "sed -n '1,220p' /usr/share/fa/php/SuiteLoginSessionValidation.php" in /root succeeded in 0ms:
+<?php
+require_once("RequireHeaders.php");
+require_once("AlgosecSession.php");
+
+// if suite login is called with last_url param we want to clean all cookies
+// to force login with username and password
+if (isset($_GET['clean']) && $_GET['clean'] == "true") {
+	utils::PrintLog("Info", "login page was accessed with last_url parameter (clear all products cookies)");
+	redirectOrRespond();
+}
+
+$AlgosecSession = utils::GetAlgosecSession();
+session_write_close();
+
+/*
+In the context of this file we have the cookies of afa and fireflow, but not businessflow, because businessflow's cookie has the path "/BusinessFlow"
+After discussing with Linor Cohen, I understood from her that businessflow's authentication strictly relies on the other products' authentications.
+In other words, if fireflow is installed, businessflow validates against both afa and fireflow, and if only afa is installed, it validates against afa.
+Fireflow is different in that it has it's own authentication system that "communicates" with afa's, but does not depend or rely on it.
+Therefor, in order to validate a session, we do not need to check businessflow (and can't because we can't get the cookie here), but checking afa and
+exec
+/bin/bash -c "rg -n \"SuiteLoginSessionValidation|home\\.php\" /var/log/httpd /data/ms-metro/logs --glob '"'!*.gz'"'" in /root succeeded in 0ms:
+/var/log/httpd/ssl_error_log:148:[Mon Nov 17 21:54:52.733121 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Array to string conversion in /usr/share/fa/php/commands/keycloak.cmd.php on line 19, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:149:[Mon Nov 17 21:54:52.733256 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Undefined index: cmd in /usr/share/fa/php/commands/keycloak.cmd.php on line 23, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:150:[Mon Nov 17 21:54:52.733264 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Undefined index: cmd in /usr/share/fa/php/commands/keycloak.cmd.php on line 37, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:151:[Mon Nov 17 21:54:52.733268 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Undefined index: cmd in /usr/share/fa/php/commands/keycloak.cmd.php on line 37, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:178:[Mon Nov 17 21:57:35.089374 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:196:[Mon Nov 17 22:07:44.174122 2025] [php7:notice] [pid 43793] [client 172.27.221.73:56701] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:7838:[Fri Nov 21 14:58:17.288203 2025] [php7:notice] [pid 61859] [client 172.27.221.73:52558] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:7921:[Fri Nov 21 15:53:02.953216 2025] [php7:notice] [pid 43883] [client 172.27.221.73:54385] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:14168:[Mon Nov 24 16:20:01.282732 2025] [php7:notice] [pid 3600957] [client 172.27.124.13:56232] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:14328:[Mon Nov 24 18:10:11.851624 2025] [php7:notice] [pid 261890] [client 172.27.124.13:59864] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php?segment=DASHBOARDS
+/var/log/httpd/ssl_error_log:30873:[Thu Jan 08 12:09:08.321936 2026] [php7:notice] [pid 281547] [client 172.27.176.98:58831] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:30876:[Thu Jan 08 12:12:45.818051 2026] [php7:notice] [pid 297077] [client 172.27.176.98:51893] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php?segment=DEVICES
+/var/log/httpd/ssl_error_log:30878:[Thu Jan 08 12:13:41.073557 2026] [php7:notice] [pid 281547] [client 172.27.176.98:57700] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php?segment=DEVICES
+/var/log/httpd/ssl_error_log:30884:[Thu Jan 08 12:32:42.238126 2026] [php7:notice] [pid 376662] [client 192.168.12.106:64390] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:31987:[Mon Jan 12 08:28:41.101362 2026] [php7:notice] [pid 1806851] [client 172.27.203.224:54880] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:31990:[Mon Jan 12 08:33:28.085473 2026] [php7:notice] [pid 1885957] [client 172.27.203.224:64224] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:32560:[Wed Jan 14 07:15:29.318940 2026] [php7:notice] [pid 2465518] [client 172.27.144.136:54358] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:34388:[Tue Jan 20 14:37:55.879559 2026] [php7:notice] [pid 1246004] [client 172.27.52.165:62513] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php
+/var/log/httpd/ssl_error_log:34391:[Tue Jan 20 14:40:45.173134 2026] [php7:notice] [pid 1246054] [client 172.27.52.165:61952] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php?segment=DEVICES
+/var/log/httpd/ssl_error_log:34399:[Tue Jan 20 15:12:56.593582 2026] [php7:notice] [pid 1257606] [client 172.27.52.165:60270] PHP Notice:  Undefined variable: license_has_expired in /usr/share/fa/php/prod_stat.php on line 118, referer: https://10.167.2.150/afa/php/home.php?segment=DEVICES
+exec
+/bin/bash -c "sed -n '1,240p' /usr/share/fa/php/home.php" in /root succeeded in 0ms:
+<?php
+/*---------------------------------------------------------------------------
+// This software is Copyright (c) 2015 AlgoSec Inc.
+//---------------------------------------------------------------------------
+*/
+
+$g_arrExecTimes['START_SCRIPT'] = microtime();
+require_once("RequireHeaders.php");
+require_once("AlgosecSession.php");
+require_once("inc/users_prefs.inc.php");
+require_once("inc/data_collection.inc.php");
+$userName  = '';
+$sessionId = '';
+
+
+//needed for licenes not to be red:
+$AlgosecSession = utils::SetSession();
+
+if (empty($AlgosecSession)) {
+    utils::PrintLog("Warning", "Could not find AlgosecSession");
+exec
+/bin/bash -c "sed -n '1,260p' /usr/share/fa/php/AlgosecSession.php" in /root succeeded in 0ms:
+<?php
+/*
+|**********************************************************************|
+|  			algosecsession.php - Copyright AlgoSec(C)                  |
+|**********************************************************************|
+*/
+
+require_once("RequireHeaders.php");
+if(!defined('REPORT_FILE')){
+	require_once("Report.php");
+}
+require_once('inc/xml_parsers.inc.php');
+require_once("AlgosecSessionManager.php");
+
+/**
+ * class AlgosecSession
+ * This class responsible for managing the session it contains all the session data,
+ */
+class AlgosecSession
+{
+exec
+/bin/bash -c 'tail -n 40 /var/log/httpd/ssl_access_log' in /root succeeded in 0ms:
+127.0.0.1 - - [26/Mar/2026:18:46:53 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+127.0.0.1 - - [26/Mar/2026:18:47:03 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+127.0.0.1 - - [26/Mar/2026:18:47:03 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:18:47:13 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:18:47:13 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+127.0.0.1 - - [26/Mar/2026:18:47:23 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:18:47:23 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+127.0.0.1 - - [26/Mar/2026:18:47:33 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+127.0.0.1 - - [26/Mar/2026:18:47:33 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:18:47:43 -0400] "GET / HTTP/1.1" 200 164
+127.0.0.1 - - [26/Mar/2026:18:47:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [26/Mar/2026:18:47:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [26/Mar/2026:18:47:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [26/Mar/2026:18:47:43 -0400] "GET / HTTP/1.1" 200 164
+127.0.0.1 - - [26/Mar/2026:18:47:43 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+127.0.0.1 - - [26/Mar/2026:18:47:43 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:18:47:53 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+127.0.0.1 - - [26/Mar/2026:18:47:53 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:18:48:03 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+127.0.0.1 - - [26/Mar/2026:18:48:03 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+exec
+/bin/bash -c 'ls -1 /var/log/httpd' in /root succeeded in 0ms:
+access_log
+error_log
+ssl_access_log
+ssl_access_log-20260222.gz
+ssl_access_log-20260227.gz
+ssl_access_log-20260304.gz
+ssl_access_log-20260310.gz
+ssl_access_log-20260315.gz
+ssl_access_log-20260320.gz
+ssl_access_log-20260325
+ssl_error_log
+ssl_request_log
+ssl_request_log-20260228.gz
+ssl_request_log-20260304.gz
+ssl_request_log-20260309.gz
+ssl_request_log-20260313.gz
+ssl_request_log-20260317.gz
+ssl_request_log-20260321.gz
+ssl_request_log-20260325
+exec
+/bin/bash -c 'tail -n 40 /data/ms-metro/logs/localhost_access_log.txt' in /root succeeded in 0ms:
+127.0.0.1 [26/Mar/2026:18:46:09 -0400] [http-nio-0.0.0.0-8080-exec-5] "GET /afa/v2/api-docs HTTP/1.1" 200 540285 16709 57492 -
+127.0.0.1 [26/Mar/2026:18:46:13 -0400] [http-nio-0.0.0.0-8080-exec-6] "GET /afa/getStatus HTTP/1.1" 200 33 902 57494 -
+127.0.0.1 [26/Mar/2026:18:46:15 -0400] [http-nio-0.0.0.0-8080-exec-1] "DELETE /afa/UsersInfo?domain=0 HTTP/1.1" 204 - 1209 54092 1141433
+127.0.0.1 [26/Mar/2026:18:46:15 -0400] [http-nio-0.0.0.0-8080-exec-3] "GET /afa/UsersInfo?domain=0 HTTP/1.1" 200 2476 705 54092 1141433
+127.0.0.1 [26/Mar/2026:18:46:15 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/UsersInfo/roles?domain=0 HTTP/1.1" 200 32 385 54092 1141433
+127.0.0.1 [26/Mar/2026:18:46:15 -0400] [http-nio-0.0.0.0-8080-exec-7] "GET /afa/firewallData/getAllFirewallDataEntitiesNames?domain=0 HTTP/1.1" 200 119 856 54092 1141433
+127.0.0.1 [26/Mar/2026:18:46:16 -0400] [http-nio-0.0.0.0-8080-exec-2] "GET /afa/license/Modules_?domain=0 HTTP/1.1" 200 111 2356 54092 1141433
+127.0.0.1 [26/Mar/2026:18:46:16 -0400] [http-nio-0.0.0.0-8080-exec-5] "GET /afa/setup/fireflow/is_enabled?domain=0 HTTP/1.1" 200 14 2080 54092 1141433
+127.0.0.1 [26/Mar/2026:18:46:16 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/setup/businessflow_enabled?domain=0 HTTP/1.1" 200 14 575 54092 1141433
+127.0.0.1 [26/Mar/2026:18:46:16 -0400] [http-nio-0.0.0.0-8080-exec-6] "DELETE /afa/session/uimmr6u9e8jesn20npbldjnk6k?domain=0 HTTP/1.1" 204 - 3749 54092 1141433
+127.0.0.1 [26/Mar/2026:18:46:14 -0400] [http-nio-0.0.0.0-8080-exec-10] "POST /afa/api/v1/bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 - 1617318 64980 -
+127.0.0.1 [26/Mar/2026:18:46:23 -0400] [http-nio-0.0.0.0-8080-exec-1] "GET /afa/getStatus HTTP/1.1" 200 33 871 54098 -
+127.0.0.1 [26/Mar/2026:18:46:33 -0400] [http-nio-0.0.0.0-8080-exec-7] "GET /afa/getStatus HTTP/1.1" 200 33 905 53158 -
+127.0.0.1 [26/Mar/2026:18:46:43 -0400] [http-nio-0.0.0.0-8080-exec-5] "GET /afa/getStatus HTTP/1.1" 200 33 990 10822 -
+127.0.0.1 [26/Mar/2026:18:46:43 -0400] [http-nio-0.0.0.0-8080-exec-6] "GET /afa/getStatus HTTP/1.1" 200 33 546 10832 -
+127.0.0.1 [26/Mar/2026:18:46:43 -0400] [http-nio-0.0.0.0-8080-exec-10] "GET /afa/getStatus HTTP/1.1" 200 33 600 10840 -
+127.0.0.1 [26/Mar/2026:18:46:53 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/getStatus HTTP/1.1" 200 33 896 12372 -
+127.0.0.1 [26/Mar/2026:18:47:03 -0400] [http-nio-0.0.0.0-8080-exec-5] "GET /afa/getStatus HTTP/1.1" 200 33 1027 36746 -
+127.0.0.1 [26/Mar/2026:18:47:13 -0400] [http-nio-0.0.0.0-8080-exec-4] "GET /afa/getStatus HTTP/1.1" 200 33 861 65012 -
+127.0.0.1 [26/Mar/2026:18:47:23 -0400] [http-nio-0.0.0.0-8080-exec-3] "GET /afa/getStatus HTTP/1.1" 200 33 1021 64348 -
+codex
+I’ve confirmed the path in code: `SuiteLoginSessionValidation.php` validates cookies and redirects to `/afa/php/home.php`, and `home.php` then seeds the AFA shell session and frontend bootstrap. Now I’m pulling a tight log window around one concrete success case so I can separate first-shell requests from adjacent health checks and other shell traffic.
+exec
+/bin/bash -c "grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_access_log | sed -n '1,220p'" in /root succeeded in 0ms:
+72855:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 123
+72856:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 -
+72857:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "GET /afa/external//config?session=i88p8vb1s79p6nb0f4o2jkpb07&domain=0 HTTP/1.1" 200 3125
+72858:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "GET /afa/external//config?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 3125
+72859:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+72860:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 123
+72861:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "POST /afa/external//session/extend?session=i88p8vb1s79p6nb0f4o2jkpb07&domain=0 HTTP/1.1" 200 -
+72862:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 381
+72863:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 368
+72864:127.0.0.1 - - [26/Mar/2026:05:29:52 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 3431
+72865:127.0.0.1 - - [26/Mar/2026:05:29:53 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+72866:127.0.0.1 - - [26/Mar/2026:05:29:53 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+72867:127.0.0.1 - - [26/Mar/2026:05:29:52 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 311
+72868:127.0.0.1 - - [26/Mar/2026:05:29:51 -0400] "POST /BusinessFlow/rest/v1/login HTTP/1.1" 200 49
+72869:127.0.0.1 - - [26/Mar/2026:05:29:53 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 123
+72870:127.0.0.1 - - [26/Mar/2026:05:29:53 -0400] "POST /afa/external//session/extend?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 -
+72872:127.0.0.1 - - [26/Mar/2026:05:29:54 -0400] "GET /afa/external//config?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 3125
+72873:127.0.0.1 - - [26/Mar/2026:05:29:53 -0400] "GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1" 200 309
+72874:127.0.0.1 - - [26/Mar/2026:05:29:53 -0400] "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" 302 -
+72875:127.0.0.1 - - [26/Mar/2026:05:29:54 -0400] "GET /afa/php/themes/algosec_01__1768164240/css/normalize.css HTTP/1.1" 200 2641
+exec
+/bin/bash -c "grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_request_log | sed -n '1,220p'" in /root succeeded in 0ms:
+72855:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 123
+72856:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" -
+72857:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?session=i88p8vb1s79p6nb0f4o2jkpb07&domain=0 HTTP/1.1" 3125
+72858:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 3125
+72859:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+72860:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 123
+72861:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//session/extend?session=i88p8vb1s79p6nb0f4o2jkpb07&domain=0 HTTP/1.1" -
+72862:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 381
+72863:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/commands.php HTTP/1.1" 368
+72864:[26/Mar/2026:05:29:52 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 3431
+72865:[26/Mar/2026:05:29:53 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+72866:[26/Mar/2026:05:29:53 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+72867:[26/Mar/2026:05:29:52 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/api/v1/license HTTP/1.1" 311
+72868:[26/Mar/2026:05:29:51 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /BusinessFlow/rest/v1/login HTTP/1.1" 49
+72869:[26/Mar/2026:05:29:53 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 123
+72870:[26/Mar/2026:05:29:53 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//session/extend?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" -
+72872:[26/Mar/2026:05:29:54 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 3125
+72873:[26/Mar/2026:05:29:53 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1" 309
+72874:[26/Mar/2026:05:29:53 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" -
+72875:[26/Mar/2026:05:29:54 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/php/themes/algosec_01__1768164240/css/normalize.css HTTP/1.1" 2641
+exec
+/bin/bash -c "grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,220p'" in /root succeeded in 0ms:
+114684:127.0.0.1 [26/Mar/2026:05:29:50 -0400] [http-nio-0.0.0.0-8080-exec-18] "GET /afa/setup/fireflow/is_enabled?domain=0 HTTP/1.1" 200 14 2161 53162 255709
+114685:127.0.0.1 [26/Mar/2026:05:29:50 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/setup/businessflow_enabled?domain=0 HTTP/1.1" 200 14 875 53162 255709
+114686:127.0.0.1 [26/Mar/2026:05:29:50 -0400] [http-nio-0.0.0.0-8080-exec-14] "GET /afa/noauth/device/ HTTP/1.1" 200 15251 6242 53182 -
+114687:127.0.0.1 [26/Mar/2026:05:29:50 -0400] [http-nio-0.0.0.0-8080-exec-3] "GET /afa/config/?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 7948 6293 53192 -
+114688:127.0.0.1 [26/Mar/2026:05:29:50 -0400] [http-nio-0.0.0.0-8080-exec-8] "POST /afa/password/decrypt?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 20 1117 53196 -
+114689:127.0.0.1 [26/Mar/2026:05:29:51 -0400] [http-nio-0.0.0.0-8080-exec-5] "POST /afa/api/v1/bridge/storeFireflowCookie?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 - 28595 53208 -
+114690:127.0.0.1 [26/Mar/2026:05:29:51 -0400] [http-nio-0.0.0.0-8080-exec-12] "GET /afa/api/v1/config?session=i88p8vb1s79p6nb0f4o2jkpb07&domain=0 HTTP/1.1" 200 7948 1476 53080 -
+114691:127.0.0.1 [26/Mar/2026:05:29:51 -0400] [http-nio-0.0.0.0-8080-exec-18] "GET /afa/api/v1/config?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 7948 1188 53086 -
+114692:127.0.0.1 [26/Mar/2026:05:29:51 -0400] [http-nio-0.0.0.0-8080-exec-9] "POST /afa/api/v1/session/extend?session=i88p8vb1s79p6nb0f4o2jkpb07&domain=0 HTTP/1.1" 200 - 11113 53080 -
+114693:127.0.0.1 [26/Mar/2026:05:29:52 -0400] [http-nio-0.0.0.0-8080-exec-2] "DELETE /afa/UsersInfo?domain=0 HTTP/1.1" 204 - 1791 53216 255886
+114694:127.0.0.1 [26/Mar/2026:05:29:52 -0400] [http-nio-0.0.0.0-8080-exec-14] "GET /afa/UsersInfo?domain=0 HTTP/1.1" 200 2476 930 53216 255886
+114695:127.0.0.1 [26/Mar/2026:05:29:52 -0400] [http-nio-0.0.0.0-8080-exec-4] "GET /afa/UsersInfo/roles?domain=0 HTTP/1.1" 200 32 792 53216 255886
+114696:127.0.0.1 [26/Mar/2026:05:29:52 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/config/?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 7948 3360 53226 -
+114697:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-12] "GET /afa/getStatus HTTP/1.1" 200 33 673 53240 -
+114698:127.0.0.1 [26/Mar/2026:05:29:52 -0400] [http-nio-0.0.0.0-8080-exec-5] "GET /afa/api/v1/license HTTP/1.1" 200 506 815235 53080 -
+114699:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-9] "POST /afa/api/v1/session/extend?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 - 6916 53252 -
+114700:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-2] "GET /afa/setup/products_versions_and_domains/?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 436 6119 53266 -
+114701:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-14] "GET /afa/config/FIREFLOW_ADDRESS?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 49 3508 53268 -
+114702:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-4] "GET /afa/config/FIREFLOW_ADDRESS?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 49 1391 53276 -
+114703:127.0.0.1 [26/Mar/2026:05:29:54 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/api/v1/config?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 7948 2053 53282 -
+codex
+The useful session is visible now: at `2026-03-26 05:29:53-05:29:54 EDT`, `SuiteLoginSessionValidation.php` redirects into a shell backed by session `i88p8vb1s79p6nb0f4o2jkpb07`. I’m extracting a smaller artifact around that window and checking which post-redirect requests come from `home.php` itself versus suite branding, health checks, or FireFlow side traffic.
+exec
+/bin/bash -c "grep -n \"SuiteLoginSessionValidation.php\\|home.php\\|TopbarMenu.php\\|prod_stat.php\\|dynamic.js.php\\|home.js\\|commands.php\\|fa/tree/create\" /var/log/httpd/ssl_access_log | tail -n 120" in /root succeeded in 0ms:
+71188:127.0.0.1 - - [26/Mar/2026:05:06:21 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65
+71207:127.0.0.1 - - [26/Mar/2026:05:06:29 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 373
+71217:127.0.0.1 - - [26/Mar/2026:05:06:31 -0400] "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" 302 -
+71265:127.0.0.1 - - [26/Mar/2026:05:06:32 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35707
+71274:127.0.0.1 - - [26/Mar/2026:05:06:33 -0400] "GET /afa/php/JSlib1768164240/dynamic.js.php?sid=r1lpbj0rtsuv7evhae4n1su4fn HTTP/1.1" 200 508
+71282:127.0.0.1 - - [26/Mar/2026:05:06:33 -0400] "GET /afa/php/JSlib1768164240/home.js HTTP/1.1" 200 51580
+71326:127.0.0.1 - - [26/Mar/2026:05:06:33 -0400] "GET /afa/php/commands.php?cmd=DISPLAY_ISSUES_CENTER HTTP/1.1" 200 30
+71327:127.0.0.1 - - [26/Mar/2026:05:06:33 -0400] "POST /fa/tree/create HTTP/1.1" 200 1400
+71328:127.0.0.1 - - [26/Mar/2026:05:06:33 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 720
+71329:127.0.0.1 - - [26/Mar/2026:05:06:34 -0400] "GET /AFA/php/TopbarMenu.php HTTP/1.1" 200 386
+71330:127.0.0.1 - - [26/Mar/2026:05:06:33 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 257
+71333:127.0.0.1 - - [26/Mar/2026:05:06:34 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 515
+71335:127.0.0.1 - - [26/Mar/2026:05:06:34 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 103
+71342:127.0.0.1 - - [26/Mar/2026:05:06:34 -0400] "GET /afa/php/prod_stat.php HTTP/1.1" 200 150
+71386:127.0.0.1 - - [26/Mar/2026:05:07:21 -0400] "GET /afa/php/commands.php?cmd=IS_SESSION_ACTIVE&extended=true HTTP/1.1" 200 27
+71406:127.0.0.1 - - [26/Mar/2026:05:07:21 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65
+71424:127.0.0.1 - - [26/Mar/2026:05:07:28 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 374
+71434:127.0.0.1 - - [26/Mar/2026:05:07:31 -0400] "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" 302 -
+71482:127.0.0.1 - - [26/Mar/2026:05:07:31 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35708
+71492:127.0.0.1 - - [26/Mar/2026:05:07:32 -0400] "GET /afa/php/JSlib1768164240/dynamic.js.php?sid=rucnfj0h4ehafj4ted19ibn8jc HTTP/1.1" 200 508
+exec
+/bin/bash -c "sed -n '1,240p' /usr/share/fa/php/JSlib1768164240/home.js" in /root succeeded in 0ms:
+
+
+
+
+if ((typeof g_bIsDevEnv === 'boolean') && g_bIsDevEnv ) {
+    require.config({
+        urlArgs: "bust=" + (new Date()).getTime()
+    });
+}
+
+
+
+var g_sBaseIconsFolder = '/algosec-ui/brands/brands-icons';
+var g_mapBaseIconsFolder = 'themes/'+g_ALGOSEC_THEME+'/images/tree_icons';
+var sLastSelectedItem = null;
+var g_DevicesCheckIsRunning = false;
+var g_sLastUpdateTime = '';
+var g_sLastXMLUpdateTime = '';
+var g_sLastSessionUpdateTime = '';
+var g_isInButtonsAction = false;
+exec
+/bin/bash -c "rg -n \"getAFASessionInfo|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo|tree/create|TopbarMenu|prod_stat|DISPLAY_ISSUES_CENTER\" /usr/share/fa/php /usr/share/fa/php/JSlib /usr/share/fa/php/JSlib1768164240 --glob '"'!*.min.js'"'" in /root succeeded in 0ms:
+/usr/share/fa/php/JSlib1768164240/home.js:1315:        url      : "/fa/tree/create",
+/usr/share/fa/php/JSlib/home.js:1315:        url      : "/fa/tree/create",
+/usr/share/fa/php/JSlib1768164240/home.js:1315:        url      : "/fa/tree/create",
+/usr/share/fa/php/inc/rest-client.inc.php:376:        return self::getPest()->get('/deviceInfo/getDeviceSummarizedInfo' . $param . self::httpBuildQuery($arrParams));
+/usr/share/fa/php/inc/rest-client.inc.php:495:        curl http://localhost:8080/afa/UsersInfo/allowedFirewalls/<user_name>?session=<SESS_ID>
+/usr/share/fa/php/inc/rest-client.inc.php:498:        curl http://localhost:8080/afa/UsersInfo/allowedFirewalls/<user>?session=<SESS_ID>?profile=<standard/readonly/none>
+/usr/share/fa/php/inc/rest-client.inc.php:509:        return self::getPest()->get("/UsersInfo/allowedFirewalls/" . $sUser . self::httpBuildQuery($arrMergedParams));
+/usr/share/fa/php/inc/rest-client.inc.php:1018:        return self::getPest()->get("/monitor/folders" . self::httpBuildQuery());
+/usr/share/fa/php/inc/rest-client.inc.php:1023:        return self::getPest()->get("/monitor/folders/$treeName" . self::httpBuildQuery());
+/usr/share/fa/php/inc/rest-client.inc.php:1099:	public static function findLatestReportPerDevice() {
+/usr/share/fa/php/inc/rest-client.inc.php:1100:        return self::getPest()->get("/report/search/findLatestReportPerDevice" . self::httpBuildQuery());
+/usr/share/fa/php/utils.php:2336:            "menu" => "/AFA/php/TopbarMenu.php"
+/usr/share/fa/php/ci/application/controllers/Environment.php:42:	public function getAFASessionInfo()
+/usr/share/fa/php/ci/application/controllers/Environment.php:65:		utils::PrintLog("Debug","getAFASessionInfo -  result: " .json_encode($result), true);
+/usr/share/fa/php/ci/application/libraries/Algosec.php:38:			if ($_SERVER['REQUEST_URI'] == "/fa/environment/getAFASessionInfo") {
+/usr/share/fa/php/ci/application/models/tree/Tree_model.php:984:		$metroResponse['findLatestReportPerDevice'] = RestClient::findLatestReportPerDevice();
+/usr/share/fa/php/ci/application/models/tree/Tree_model.php:990:		$this->iNewReportsUpdateDate = $this->getReportsInfo($arrTreeData, $metroResponse['findLatestReportPerDevice']);
+exec
+/bin/bash -c "sed -n '1280,1365p' /usr/share/fa/php/JSlib1768164240/home.js" in /root succeeded in 0ms:
+    chart_node['data']['group'] = chart_data['@attributes']['group'];
+
+    return chart_node;
+}
+
+
+function LazyLoadTrees_initialize(params, targetSegment) {
+    if (g_bInLogout) {
+       
+        return;
+    }
+
+    if (g_DevicesCheckIsRunning) {
+       
+        return;
+    }
+    else {
+        g_DevicesCheckIsRunning = true;
+    }
+
+exec
+/bin/bash -c 'rg -n "DISPLAY_ISSUES_CENTER|getAFASessionInfo|prod_stat|TopbarMenu|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo" /usr/share/fa/php/JSlib1768164240/home.js /usr/share/fa/php/JSlib1768164240/*.js /usr/share/fa/php/inc/*.php' in /root succeeded in 0ms:
+/usr/share/fa/php/inc/rest-client.inc.php:376:        return self::getPest()->get('/deviceInfo/getDeviceSummarizedInfo' . $param . self::httpBuildQuery($arrParams));
+/usr/share/fa/php/inc/rest-client.inc.php:495:        curl http://localhost:8080/afa/UsersInfo/allowedFirewalls/<user_name>?session=<SESS_ID>
+/usr/share/fa/php/inc/rest-client.inc.php:498:        curl http://localhost:8080/afa/UsersInfo/allowedFirewalls/<user>?session=<SESS_ID>?profile=<standard/readonly/none>
+/usr/share/fa/php/inc/rest-client.inc.php:509:        return self::getPest()->get("/UsersInfo/allowedFirewalls/" . $sUser . self::httpBuildQuery($arrMergedParams));
+/usr/share/fa/php/inc/rest-client.inc.php:1018:        return self::getPest()->get("/monitor/folders" . self::httpBuildQuery());
+/usr/share/fa/php/inc/rest-client.inc.php:1023:        return self::getPest()->get("/monitor/folders/$treeName" . self::httpBuildQuery());
+/usr/share/fa/php/inc/rest-client.inc.php:1099:	public static function findLatestReportPerDevice() {
+/usr/share/fa/php/inc/rest-client.inc.php:1100:        return self::getPest()->get("/report/search/findLatestReportPerDevice" . self::httpBuildQuery());
+exec
+/bin/bash -c "grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\" /var/log/httpd/ssl_access_log" in /root succeeded in 0ms:
+72922:127.0.0.1 - - [26/Mar/2026:05:29:54 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35716
+72926:127.0.0.1 - - [26/Mar/2026:05:29:55 -0400] "GET /afa/php/JSlib1768164240/dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 508
+72941:127.0.0.1 - - [26/Mar/2026:05:29:55 -0400] "GET /afa/php/JSlib1768164240/home.js HTTP/1.1" 200 51580
+72981:127.0.0.1 - - [26/Mar/2026:05:29:55 -0400] "GET /afa/php/commands.php?cmd=DISPLAY_ISSUES_CENTER HTTP/1.1" 200 30
+72982:127.0.0.1 - - [26/Mar/2026:05:29:55 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 720
+72983:127.0.0.1 - - [26/Mar/2026:05:29:55 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 257
+72984:127.0.0.1 - - [26/Mar/2026:05:29:55 -0400] "POST /fa/tree/create HTTP/1.1" 200 1401
+72985:127.0.0.1 - - [26/Mar/2026:05:29:56 -0400] "GET /AFA/php/TopbarMenu.php HTTP/1.1" 200 386
+72988:127.0.0.1 - - [26/Mar/2026:05:29:56 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 515
+72990:127.0.0.1 - - [26/Mar/2026:05:29:56 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 103
+72997:127.0.0.1 - - [26/Mar/2026:05:29:56 -0400] "GET /afa/php/prod_stat.php HTTP/1.1" 200 150
+codex
+I’ve pinned the first-shell Apache sequence tightly enough to distinguish it from the noise. The remaining gap is interpreting the anonymous `commands.php` posts, so I’m checking the client bootstrap code to avoid over-claiming what each of those calls does.
+exec
+/bin/bash -c "rg -n \"commands\\.php|DISPLAY_ISSUES_CENTER|TopbarMenu|prod_stat|LazyLoadTrees_initialize|document\\.ready|window\\.addEventListener\\('load'|\\"'$'"\\(document\\)\\.ready|issues center\" /usr/share/fa/php/JSlib1768164240/home.js" in /root succeeded in 0ms:
+258:            url      : "commands.php",
+474:            url      : "commands.php",
+877:    fetch("commands.php?cmd=NAT_IP_VALIDATION", {
+942:        url: `commands.php?cmd=GET_NAT_DISCOVERY`,
+1128:        url      : "commands.php",
+1184:        url      : "commands.php",
+1286:function LazyLoadTrees_initialize(params, targetSegment) {
+1376:                console.log('LazyLoadTrees_initialize - Page Unload Started - Aborting');
+1381:            msg = "\n<br \/>\n" + 'Request error at LazyLoadTrees_initialize()';
+1383:            console.log("LazyLoadTrees_initialize fail");
+2375:            LazyLoadTrees_initialize({ 'callback': GetRiskProfilesList }, targetSegment);
+2464:                url      : "commands.php",
+3770:                fetch("/afa/php/commands.php?cmd=GET_DEVICE_LAST_MONITORING_TIME", {
+4234:            window.location = 'commands.php?' + $.param(params);
+4560:                    'url': 'commands.php',
+4757:                    'url': 'commands.php',
+4859:            url      : "commands.php",
+4930:            url      : "commands.php",
+5622:        url      : "commands.php",
+5936:        url      : "commands.php",
+exec
+/bin/bash -c "sed -n '1,240p' /usr/share/fa/php/TopbarMenu.php" in /root succeeded in 0ms:
+<?php
+require_once("RequireHeaders.php");
+require_once("AlgosecSession.php");
+session_start();
+
+$loggedIn = isset($_SESSION['AlgosecSession']);
+if ($loggedIn) {
+	$AlgosecSession = $_SESSION['AlgosecSession'];
+}
+
+$mainLinks = array();
+if ($loggedIn) {
+	if ($AlgosecSession->IsLoggedInToDomainsManagement()) {
+		array_push($mainLinks, array( "text" => "Domains", "href" => "/afa/php/domains_mng_home.php" ));
+		array_push($mainLinks, array( "text" => "Reports", "href" => "/afa/php/domains_reports.php", "icon" => "af-ic_reports" ));
+	}
+	if (!$AlgosecSession->IsLoggedInToDomain() && $AlgosecSession->m_bIsDomainsAdmin && !$AlgosecSession->IsUserManager()) {
+	    
+        array_push($mainLinks, array( "text" => "Analysis Status", "href" => "/afa/php/status.php", "icon" => "af-ic_status" ));
+	}
+exec
+/bin/bash -c "sed -n '2640,2825p' /usr/share/fa/php/JSlib1768164240/home.js" in /root succeeded in 0ms:
+                }
+            }
+
+            return true;
+        },
+
+        ExitMapTab: function(nextTab) {
+            var self = this;
+            var isUnsavedChanges = CheckGraphChanges(function() {
+                self.MoveToTab(nextTab);
+            });
+
+           
+            if (isUnsavedChanges) {
+                return false;
+            }
+
+            StoreMapSelectedNodes();
+
+            return true;
+exec
+/bin/bash -c "sed -n '1,220p' /usr/share/fa/php/prod_stat.php" in /root succeeded in 0ms:
+<?php
+require_once("RequireHeaders.php");
+require_once("AlgosecSession.php");
+header('Content-Type: application/json');
+session_start();
+
+// Impotant to release the lock from the session since there are no more session writes after this action
+session_write_close();
+
+$emptyAlgosecSession = empty($_SESSION['AlgosecSession']);
+$machineSetup = getMachineSetup();
+$isNoAuthUrl = isNoAuthUrl();
+$fireflowAuth = utils::checkFireFlowAuth();
+
+// NoAuth urls don't require any authentication
+if($isNoAuthUrl)
+{
+    utils::PrintLog("Debug", "Allowing No Auth urls without validated session, URL=[".$_SERVER['HTTP_REFERER']."].");
+}
+else
+exec
+/bin/bash -c "sed -n '2320,2425p' /usr/share/fa/php/JSlib1768164240/home.js" in /root succeeded in 0ms:
+
+    g_sToolBarButtonSelected = null;
+
+    WorkAreaDisplay.SetBlocksVisibility();
+    WorkAreaDisplay.ShowDevice(sDevice, bIsAutoClick);
+}
+
+
+(function() {
+    var WorkAreaDisplay = function() {
+       
+        this.focusedTabId = 'OverviewTab';
+
+       
+        this.objDevice = null;
+        this.sDevice = '';
+        this.sLastRepName = '';
+        this.sLastSucRepName = '';
+        this.sType = '';
+        this.brandId = '';
+exec
+/bin/bash -c "sed -n '240,520p' /usr/share/fa/php/JSlib1768164240/home.js" in /root succeeded in 0ms:
+        {
+            params += 'SelectedReportsForGroup=' + encodeURIComponent(selectedFirewalls);
+        }
+        else {
+            params += 'SelectedFirewalls=' + encodeURIComponent(selectedFirewalls);
+            selectedFirewallsName = empty(selectedFirewallsName) ? selectedFirewalls : selectedFirewallsName;
+            params += '&SelectedFirewallsName=' + encodeURIComponent(selectedFirewallsName);
+        }
+
+        params += '&SelectedType='     + encodeURIComponent(sSelectedItemType);
+
+        openAnalysisDialog(selectedFirewalls, sSelectedItemType, selectedFirewallsName);
+
+        $.ajax({
+            type     : "POST",
+            async    : true,
+            cache    : false,
+            dataType : "html",
+            url      : "commands.php",
+            data     : '&TOKEN='+g_sSessionToken+'&cmd=GET_ANALYSIS_OPTIONS&' + params,
+exec
+/bin/bash -c "sed -n '1080,1215p' /usr/share/fa/php/JSlib1768164240/home.js" in /root succeeded in 0ms:
+};
+
+
+function SetScreenAction(sURL, sTargetIframeBlock) {
+    GeneratePleaseWait(false);
+    var sTarget = sTargetIframeBlock || 'OverviewContent';
+    if (sURL.indexOf('trusted') > -1) {
+        window.g_objTrustedTrafficHandlers.setTrustedTrafficAngularApp(sTarget);
+        console.log('window.g_arrSelectedReports:', window.g_arrSelectedReports);
+    } else {
+       
+        $('#main-content').removeClass('trusted-traffic');
+        var freshIframe = $('<iframe><\/iframe>').attr('id', 'FrmPageAction').on('load', function() {
+            var iframeInner = this;
+            freshIframe.height(iframeInner.contentWindow.document.body.scrollHeight);
+            $(document).off('iframe-height-resize').on('iframe-height-resize', function() {
+                freshIframe.height(iframeInner.contentWindow.document.body.scrollHeight);
+            });
+        });
+        $("#"+sTarget).empty().append(freshIframe);
+codex
+The anonymous `commands.php` posts are starting to resolve: `home.js` immediately fires two `GET_DASHBOARDS_DATA` requests on init, and it separately triggers the tree bootstrap. I’m tracing the other early calls (`TopbarMenu`, `prod_stat`, issues center) so the final write-up can classify them cleanly.
+exec
+/bin/bash -c "sed -n '2320,2365p' /usr/share/fa/php/utils.php" in /root succeeded in 0ms:
+                if ($session->IsLoggedInToDomain()) {
+                    $username .= '@' . $session->GetDomain();
+                } else {
+                    $username .= '@' . "Management"; // TODO text (this remark was here before the UX revamp)
+                }
+            }
+        }
+        return $username;
+    }
+
+    public static function PrintTopbar()
+    {
+        $username = utils::create_user_display_name($_SESSION['AlgosecSession']);
+
+        $topbarData = array(
+            "user" => $username,
+            "menu" => "/AFA/php/TopbarMenu.php"
+        );
+
+        echo '<script place-topbar-here> Algosec.topbar.init(' . json_encode($topbarData) . '); </script>';
+exec
+/bin/bash -c "rg -n \"TopbarMenu\\.php|prod_stat\\.php|DISPLAY_ISSUES_CENTER|issues center|getAFASessionInfo\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php/JSlib /usr/share/fa/php --glob '"'!*.min.js'"'" in /root succeeded in 0ms:
+/usr/share/fa/php/utils.php:2336:            "menu" => "/AFA/php/TopbarMenu.php"
+/usr/share/fa/php/help/Data/SearchTopic_Chunk5.js:1:define({"368":{i:0.000484698166178036,u:"../Content/afa-admin/Adding-Documentation-Fields.htm",a:"Each documentation field appears as a column at the far-right side of the device policy. Note: Documentation fields cannot be deleted, only disabled. See Enabling/Disabling Documentation Fields (see  Enabling/Disabling Documentation Fields ). To add a documentation field Open a terminal and log in ...",t:"Adding Documentation Fields"},"369":{i:0.000896693558621508,u:"../Content/afa-admin/Enabling-Disabling-Documentation.htm",a:"To enable a documentation field Open a terminal and log in using the username \"afa\" and the related password. Enter the following command: update_document_fields ENABLE \"field_name\" Where field_name is the name of the field. The field is enabled for all device polices in AFA. Note: When re-enabling ...",t:"Enabling/Disabling Documentation Fields"},"370":{i:0.00056709724466673,u:"../Content/afa-admin/Creating-Custom-Dashboards.htm",a:"You can create custom dashboards in AFA that include built-in charts, custom charts, or both, by defining them directly in XML.  Note: To create dashboards using the AlgoSec Reporting Tool web interface, see the AlgoSec Firewall Analyzer User Guide. When creating a dashboard with custom charts, you ...",t:"Creating Custom Dashboards and Charts in XML"},"371":{i:0.00112239907228992,u:"../Content/afa-admin/Configuring-a-Custom-Chart.htm",a:"When configuring a custom chart, you configure the following characteristics of the chart: You specify the title of the chart. You specify the type of chart. You specify the variable for which the chart displays data. You specify the Y-axis values the chart displays. For bar charts, you also specify ...",t:"Configuring a Custom Chart"},"372":{i:0.00112239907228992,u:"../Content/afa-admin/Configuring-a-Custom-Dashboard.htm",a:"When configuring a custom dashboard, you configure the structure of the dashboard in the following ways: You specify the charts the dashboard includes. These can be custom charts that you defined, or built-in charts. You specify the device group for which the chart displays data. You specify how ...",t:"Configuring a Custom Dashboard"},"373":{i:0.00112239907228992,u:"../Content/afa-admin/Built-In-Charts.htm",a:"Built-In Charts AFA provides the following built-in charts, used in the built-in dashboards: * GLBA is just an example. A different chart exists for each regulatory compliance report (HIPAA, BASEL, NIST_800-41, NIST_800-53, ISO27001, NERC4, GLBA, TRM, DSD, SOX, PCI).",t:"Built-In Charts"},"374":{i:0.000748653359604013,u:"../Content/afa-admin/Customizing-the-Regulatory_1.htm",a:"AFA provides the ability to customize the Regulatory Compliance page for each AFA report in the CLI. The CLI supports the following actions: Adding or removing compliance reports. Creating custom reports by modifying existing reports. For descriptions of all built-in regulatory compliance reports, ...",t:"Customizing the Regulatory Compliance Page in the CLI"},"375":{i:0.000484698166178036,u:"../Content/afa-admin/Adding-Removing-and-Customizing.htm",a:"To add, remove, and/or customize compliance reports Open a terminal and log in using the username \"afa\" and the related password. Create a new directory /home/afa/.fa/compliance_reports/. This is the override directory. Copy /usr/share/fa/data/compliance_reports/compliance_reports.xml to ...",t:"Adding, Removing and Customizing Compliance Reports"},"376":{i:0.000587697014288904,u:"../Content/afa-admin/Appendix-G-Integrating-ASMS.htm",a:"Appendix G: Integrating ASMS with SIEM Systems This section explains how to configure AlgoSec\u0027s SIEM add-ons: the Splunk and the IBM QRadar applications for security incident response.  ",t:"Appendix G: Integrating ASMS with SIEM Systems"},"377":{i:0.000609584398575465,u:"../Content/afa-admin/Overview_9.htm",a:"Security information and event management (SIEM) solutions, such as Splunk and IBM QRadar, detect and analyze potential security breaches. The AlgoSec Security Management Suite (ASMS) manages security policies and augments them with business context. AlgoSec supports directly integrating with Splunk ...",t:"Overview"},"378":{i:0.000609584398575465,u:"../Content/afa-admin/Licensing.htm",a:"The AlgoSec Splunk and IBM QRadar add-ons for Security Incident Response are distributed under the following license: Copyright (c) 2019 \u003cAlgoSec Systems Ltd.\u003e Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ...",t:"Licensing"},"379":{i:0.000609584398575465,u:"../Content/afa-admin/Integrating-ASMS-with-Splunk.htm",a:"Integrating ASMS with Splunk Supported Versions The AlgoSec Splunk App v1.0.5 was tested with Splunk v6.4.2 and AlgoSec Security Management Suite v6.9, v6.10, and v6.11. ",t:"Integrating ASMS with Splunk"},"380":{i:0.000484698166178036,u:"../Content/afa-admin/Installing-the-AlgoSec-App.htm",a:"To Install the AlgoSec App Download the App from Splunkbase, or install it directly from Splunk (Browse more Apps then search for \"AlgoSec\"). Configure the AlgoSec App, by doing the following: Under Manage Applications look for the AlgoSec App line and click set up. Provide the AlgoSec server IP ...",t:"Installing the AlgoSec App"},"381":{i:0.000484698166178036,u:"../Content/afa-admin/Viewing-Business-Impact-and.htm",a:"The AlgoSec App provides the ability to retrieve business application information and internet exposure information for a specific server. This information includes: Business Application context from AlgoSec BusinessFlow: names of affected applications, indication as to whether the application is ...",t:"Viewing Business Impact and Internet Exposure Information"},"382":{i:0.000484698166178036,u:"../Content/afa-admin/Isolating-a-Server.htm",a:"You can open a FireFlow change request to block all traffic to and from a risky server. To customize the change request, see Customizing the Isolate Server Change Request (see  Customizing the Isolate Server Change Request ). There are two different ways to access the AlgoSec App: from the IP ...",t:"Isolating a Server"},"383":{i:0.00130868895106498,u:"../Content/afa-admin/Customizing-the-AlgoSec-App.htm",a:"The AlgoSec App supports the following customizations. Customizing the Fields Supporting AlgoSec Workflow Actions To customize the fields supporting AlgoSec workflow actions Go to Settings -\u003e Fields and choose Workflow actions. Click one of the AlgoSec actions (ABFAppLookup, ...",t:"Customizing the AlgoSec App"},"384":{i:0.000484698166178036,u:"../Content/afa-admin/Using-AlgoSec-Capabilities.htm",a:"AlgoSec capabilities can be activated from within other Splunk Apps (built-in or custom) by using the Workflow Actions. By default, these actions will appear in the Action menus of IP addresses in the following field names:  source_ip dest_ip ip src_ip dst_ip source destination server_ip The IP ...",t:"Using AlgoSec Capabilities in Other Splunk Apps"},"385":{i:0.000609584398575465,u:"../Content/afa-admin/Integrating-ASMS-with-IBM.htm",a:"Integrating ASMS with IBM QRadar Supported Versions The AlgoSec IBM QRadar App v1.0.1 was tested with IBM QRadar v7.2.8 and AlgoSec Security Management Suite v6.9, v6.10 and v6.11. ",t:"Integrating ASMS with IBM QRadar"},"386":{i:0.000484698166178036,u:"../Content/afa-admin/Installing-the-AlgoSec-App_1.htm",a:"To Install the AlgoSec App Download the App from IBM Security App Exchange.  Install the App using the Extensions Management tool in the Admin area. Configure the AlgoSec App, by doing the following: Go to the Admin tab. Under the Plug-ins section, find AlgoSec Security Incident Response, and click ...",t:"Installing the AlgoSec App"},"387":{i:0.000484698166178036,u:"../Content/afa-admin/Viewing-Business-Impact-and_1.htm",a:"The AlgoSec App provides the ability to retrieve business application information and internet exposure information for a specific server. The information includes: Business Application context from AlgoSec BusinessFlow: names of affected applications, indication as to whether the application is ...",t:"Viewing Business Impact and Internet Exposure Information"},"388":{i:0.000484698166178036,u:"../Content/afa-admin/Isolating-a-Server_1.htm",a:"You can open a FireFlow change request to isolate a risky server. There are two different ways to access the AlgoSec App: from the IP address or directly for the App. Accessing the App from the IP address will pre-populate the server field. To isolate the server from the IP address Search the logs ...",t:"Isolating a Server"},"389":{i:0.000484698166178036,u:"../Content/afa-admin/Customizing-Default-Field.htm",a:"You can optionally customize the default value for any of the input fields or customize the logic of a functionality of the AlgoSec App using the IBM QRadar SDK. The App\u0027s functionalities and each of their input fields are listed below. Business Impact: Server IP Exposure to the Internet: Source IP ...",t:"Customizing Default Field Values and Logic"},"390":{i:0.000484698166178036,u:"../Content/api-guide/Introduction.htm",a:"AlgoSec Security Management Suite offers access to many features via web services, which are APIs that can be accessed and executed over the network. Web service APIs enable you to perform remote operations in ASMS without using the product interface directly. Web service APIs are supported via ...",t:"Introduction"},"391":{i:0.00059077632319903,u:"../Content/api-guide/AFA-REST-Web-Services.htm",a:"AFA offers a REST API which allows you to integrate AFA functionality into external applications. To view vulnerability data in AFA device reports, you must either have vulnerability scanners configured in BusinessFlow, or import your vulnerability data manually.  For more details, see  Manage ...",t:"AFA REST Web Services"},"392":{i:0.000501436911471055,u:"../Content/api-guide/Requests.htm",a:"The base URL for most REST requests is the following: https://\u003calgosec_server\u003e/fa/server where \u003calgosec_server\u003e is the AFA/FireFlow server URL. For  Retrieving Risk Profiles List  and  Retrieving Security Zones  requests, the base URL is https:://\u003calgosec_servers\u003e/afa/external. For a list of ...",t:"Requests"},"393":{i:0.000525115990003355,u:"../Content/api-guide/Logging-In.htm",a:"The AFA REST API uses sessions to avoid re-authenticating with every request. You obtain a session ID with the login request, which is used in all other REST API requests. Resource Name: /fa/server/connection/login Request Method: POST Request: Response: Request Example curl -H \"Accept: ...",t:"Logging In"},"394":{i:0.000525115990003355,u:"../Content/api-guide/Logging-Out.htm",a:"The logout request terminates the session, invalidating the session ID for any additional requests. Resource Name: /fa/server/connection/logout Request Method: POST Request: Response:  Request Example curl -k --data \"session=061e25b659d75ac22255133feb628cc2\" ...",t:"Logging Out"},"395":{i:0.000887687211912939,u:"../Content/api-guide/getting_risk_profiles_list.htm",a:"Use the sessionID to retrieve a list of risk profile Excel files for the session user. Pass the name of an Excel file in  get_zones  to retrieve the list of the security zones in each risk profile. If you have the name of the risk profile Excel file, it is not necessary to execute this API. Resource ...",t:"Retrieving Risk Profiles List"},"396":{i:0.00127965478485758,u:"../Content/api-guide/getting_security_zones.htm",a:"The get_zones method retrieves a list of the Security Zone names and IP ranges for each zone listed in the Networks tab of the passed risk profile Excel spreadsheet. If the spreadsheet name is known, it is not necessary to call  get_profiles_list. Related screens in ASMS are the Security Zones ...",t:"Retrieving Security Zones"},"397":{i:0.000525115990003355,u:"../Content/api-guide/Retrieving-Network-Objects.htm",a:"The get_network_objects request retrieves all the network objects of a device or a group of devices, along with the IP addresses contained in each object.  The input will be the active session ID and the name of a device or a device group. The output will be a list of all the network objects of all ...",t:"Retrieving Network Objects"},"398":{i:0.000525115990003355,u:"../Content/api-guide/Retrieving-Service-Objects.htm",a:"The get_service_objects request retrieves all the service objects of a device or a group of devices, along with the protocol and ports contained in each object. The input will be the active session ID and the name of a device or a device group. The output will be a list of all the service objects of ...",t:"Retrieving Service Objects"},"399":{i:0.000501436911471055,u:"../Content/api-guide/afa-import-risks-xml.htm",a:"Import risks from XML The import_risks_from_xml request imports risks to a custom risk profile from an XML file. Request Method: PUT Request URL Parameters: Response:",t:"Import risks from XML"},"400":{i:0.000501436911471055,u:"../Content/api-guide/afa-import-risks-spreadsheet.htm",a:"Import risks from spreadsheet The import_risks_from_spreadsheet request imports risks to a custom risk profile from a spreadsheet file. Request Method: PUT Request URL Parameters: Response:",t:"Import risks from spreadsheet"},"401":{i:0.000501436911471055,u:"../Content/api-guide/afa-ret-containing-obj.htm",a:"Retrieve containing objects The get_containing_objects request retrieves a list of containing objects for a specified object. Request Method: GET Request URL Parameters: Response:",t:"Retrieve containing objects"},"402":{i:0.000501436911471055,u:"../Content/api-guide/afa-ret-license.htm",a:"Retrieve license The get_license request retrieves details about the current ASMS license installed. Request Method: GET Response:",t:"Retrieve license"},"403":{i:0.000501436911471055,u:"../Content/api-guide/afa-ret-parent-obj.htm",a:"Retrieve parent object The get_parent_device request retrieves the parent object of a specified device. Request Method: GET Request URL Parameters: Response:",t:"Retrieve parent object"},"404":{i:0.000501436911471055,u:"../Content/api-guide/afa-search-by-ip.htm",a:"Search for object by IP The search_object_by_ip request performs a search in AFA for all objects that match the details provided in the request. Request Method: GET Request URL Parameters: Response:",t:"Search for object by IP"},"405":{i:0.000525115990003355,u:"../Content/api-guide/Retrieving-Rules.htm",a:"The get_rules request retrieves all the rules in a device\u0027s or group\u0027s policy. The input will be the active session ID and the name of the device, group, or matrix. The output will be a list of all the rules of all the policies that apply to each device, including the value of each rule field. ...",t:"Retrieving Rules"},"406":{i:0.000525115990003355,u:"../Content/api-guide/Retrieving-Risky-Rules.htm",a:"The riskyRules_get request retrieves all the risky rules in a device\u0027s or group\u0027s policy. The input will be the active session ID and the name of the device, group, or matrix. The output will be a list of all risky rules of all the policies that apply to each device, including the risk severity of ...",t:"Retrieving Risky Rules"},"407":{i:0.000525115990003355,u:"../Content/api-guide/Retrieving-Interfaces.htm",a:"The get_interfaces request retrieves the interfaces of a device or a group/matrix of devices, along with their IP addresses.  The input will be the active session ID and the name of a device, group, or matrix. The output will be a list of all the interfaces of all the devices in the selected group ...",t:"Retrieving Interfaces"},"408":{i:0.000501436911471055,u:"../Content/api-guide/retrieving_users.htm",a:"The get_users request retrieves AFA users data.  The input will be the active session ID and a domain ID (optional) for multi-domain environments. The output will be only the users of the input domain (if there is a domain ID). Resource Name: /afa/external/users/getUsers Request Method: GET Request ...",t:"Retrieve user data"},"409":{i:0.000501436911471055,u:"../Content/api-guide/retrieving_roles.htm",a:"The get_roles request retrieves AFA roles data.  The input will be the active session ID and a domain ID (optional) for multi-domain environments. The output will be only the roles of the input domain (if there is a domain ID). Resource Name: /afa/external/users/getRoles Request Method: GET ...",t:"Retrieving Roles Data"},"410":{i:0.000525115990003355,u:"../Content/api-guide/Starting-an-Analysis.htm",a:"The start_analysis request initiates an analysis on a device, group, or matrix.  The input will be the active session ID and the name of the device, group, or matrix. The output will include a status and message which indicates success or failure. Resource Name: /fa/server/analysis/start Request ...",t:"Starting an Analysis"},"411":{i:0.000525115990003355,u:"../Content/api-guide/Retrieving-an-Analysis-Status.htm",a:"The get_analysis_status request retrieves the current status of an analysis.  The input will be the active session ID and the device, group or matrix. The output will indicate the status of the analysis. Resource Name: /fa/server/analysis/status Request Method: GET Request URL Parameters: Response: ...",t:"Retrieving an Analysis Status"},"412":{i:0.000525115990003355,u:"../Content/api-guide/retrieving_a_base_compliance_report.htm",a:"The baseline_compliance request retrieves the baseline compliance report for a device.  The input will be the active session ID and the device name. The output will be the Baseline Compliance Report in JSON format. Resource Name: /afa/external/baseline_compliance Request Method: GET Request URL ...",t:"Retrieving a Baseline Compliance Report"},"413":{i:0.000525115990003355,u:"../Content/api-guide/Assigning-Zone-Types-to-Interfaces.htm",a:"The update_interfaces request assigns a zone type to each of a device\u0027s interfaces. The input will be the active session ID, the name of the device, and the zone type for each interface. The output will include a status and message which indicates success or failure. Note: This request requires ...",t:"Assigning Zone Types to Interfaces"},"414":{i:0.000525115990003355,u:"../Content/api-guide/Identifying-Missing-Routers.htm",a:"The following requests allow you to identify routers in the AFA graphic network map that should be defined as devices in AFA. For more information about this tool, see the AlgoSec Firewall Analyzer Administrator Guide, Completing the Map. Executing the Map Completeness Tool (see  Executing the Map ...",t:"Identifying Missing Routers"},"415":{i:0.00057396831622034,u:"../Content/api-guide/Executing-the-Map-Completeness.htm",a:"The execute method runs the map completeness tool. This tool searches for routers missing from the AFA graphic network map. The input will be the network\u0027s SNMP key, internal networks, external networks, and the maximum number of queries the tool should run. The output is a status message. To ...",t:"Executing the Map Completeness Tool"},"416":{i:0.000817906054681474,u:"../Content/api-guide/Retrieving-Missing-Routers.htm",a:"The missingStubRouters request provides the results of the execute request: a list of routers missing from the graphic network map. The input will be the page number you want to retrieve. You can optionally filter the result that you want to retrieve by providing the name of a router, the name of ...",t:"Retrieving Missing Routers Results"},"417":{i:0.00057396831622034,u:"../Content/api-guide/Retrieving-the-Configuration.htm",a:"The lastExecution request provides the parameters that were used the last time the map completeness tool was executed. Resource Name: ms-mapDiagnostics/v1/api/mapCompleteness/lastExecution*/ Request Method: GET Authentication: Cookie with session ID. Response: Response Example { \"score\": 43, ...",t:"Retrieving the Configuration of the Last Execution"},"418":{i:0.00057396831622034,u:"../Content/api-guide/Aborting-a-Map-Completeness.htm",a:"Aborting a Map Completeness Job The abort request stops an execution that is in progress. Resource Name: ms-mapDiagnostics/v1/api/mapCompleteness/abort*/ Request Method: POST Authentication: Cookie with session ID. Response:",t:"Aborting a Map Completeness Job"},"419":{i:0.000817906054681474,u:"../Content/api-guide/Retrieving-Map-Completeness.htm",a:"The defaultValues request provides the default values of the map completeness tool parameters for the specific AFA environment.  By default, the maximum number of paths that will be simulated (queries that will be run) is 400. The default external networks used in the calculation is 8.8.8.8. If a ...",t:"Retrieving Map Completeness Default Values"},"420":{i:0.000525115990003355,u:"../Content/api-guide/Merging-Routers.htm",a:"Following are the Public AFA APIs available for Merged Routers Management: POST - Merge routers (see  Merging Routers ) GET - Retrieve a list of merged routers (see  Retrieving a List of Merged Routers ) GET - Retrieve the status of merged router process (see  Retrieving Status of Merged Routers )  ...",t:"Merging Routers"},"421":{i:0.000596285853730916,u:"../Content/api-guide/Retrieving-a-List-of-Merged.htm",a:"Retrieves a list of merged routers with the status \"MERGED\" only. Merged routers with the status \"OUTDATED_MERGED\" are excluded. Resource URL: /mergeRouters/list Resource Method: GET Authentication: Cookie with session ID. Response: Response Example: [    {       \"id\":35,       \"name\":\"router1\", ...",t:"Retrieving a List of Merged Routers"},"422":{i:0.000596285853730916,u:"../Content/api-guide/Retrieving-Status-of-Merged.htm",a:"Retrieving Status of Merged Routers Retrieve the status of the current or the last running process of merged stubs. This request is usually used for an asynchronous process. Resource URL: /mergeRouters/status Resource Method: GET Authentication: Cookie with session ID. Response:",t:"Retrieving Status of Merged Routers"},"423":{i:0.000596285853730916,u:"../Content/api-guide/Merging-Routers_1.htm",a:"Merges routers: Stub routers into a merged router. Merges merged routers into another merged router. Adds stub routers and/or merged routers into a merged router. Routers that are merged with the API are stored in the DB table \u0027merge_router_job\u0027 and can only be unmerged using the /unmerge API. ...",t:"Merging Routers"},"424":{i:0.000596285853730916,u:"../Content/api-guide/Unmerging-Routers.htm",a:"Unmerges a merged router. Only routers merged by the API and stored in the merged_router_job table can be unmerged with the API. Resource URL: /mergeRouters/unmerge Resource Method: POST Authentication: Cookie with session ID. Request Body: Response: Request Example: { \"name:\"router1\" }",t:"Unmerging Routers"},"425":{i:0.000525115990003355,u:"../Content/api-guide/Running-the-Query-Troubleshooting.htm",a:"The troubleshoot method helps to determine why a group traffic simulation query produced an inaccurate traffic path. The input is the ID of the query ran in the online wizard and a list of the expected devices on the query path. The output is a response message with the found paths, detected ...",t:"Running the Query Troubleshooting Tool"},"426":{i:0.000525115990003355,u:"../Content/api-guide/Managing-Issues.htm",a:"Managing Issues Use the following request methods to manage issues in the AFA issues center. All of the API requests for managing issues can only be run by administrators. In a distributed architecture environment, they can only be run on the central manager / master appliance.",t:"Managing Issues"},"427":{i:0.00130868895106498,u:"../Content/api-guide/Retrieving-Unresolved-Issues.htm",a:"The get_issues request retrieves all the unresolved issues in the AFA issues center. This includes both acknowledged and active issues.  Resource Name:/ms-watchdog/v1/api/issues-center/issues Request Method: POST Authentication: Cookie with session ID. Request URL Parameters:  Request Body:  ...",t:"Retrieving Unresolved Issues"},"428":{i:0.000484698166178036,u:"../Content/api-guide/Acknowledging-an-Issue.htm",a:"The acknowledge request marks active issues in the AFA issues center as acknowledged. Issues marked as acknowledged will appear in the list of acknowledged issues and will no longer appear in the list of active issues.  Resource Name:/ms-watchdog/v1/api/issues-center/issues/acknowledge Request ...",t:"Acknowledging an Issue"},"429":{i:0.000484698166178036,u:"../Content/api-guide/Activating-an-Issue.htm",a:"The activate request marks acknowledged issues in the AFA issues center as active. Issues marked as active will appear in the list of active issues and will no longer appear in the list of acknowledged issues.  Resource Name:/ms-watchdog/v1/api/issues-center/issues/activate Request Method: POST ...",t:"Activating an Issue"},"430":{i:0.0013941384118941,u:"../Content/api-guide/Data-Types_1.htm",a:"Data Types EntitiesResponse Type",t:"Data Types"},"431":{i:0.00114724197193228,u:"../Content/api-guide/action_type.htm",a:"Action Type",t:"Action Type"},"432":{i:0.000484698166178036,u:"../Content/api-guide/addobjectstoGroup_type.htm",a:"AddObjectsToGroup Type",t:"AddObjectsToGroup Type"},"433":{i:0.000931048916389558,u:"../Content/api-guide/BaselineRequirementsResult_Type.htm",a:"BaselineRequirementResult Type",t:"BaselineRequirementResult Type"},"434":{i:0.00127609398101549,u:"../Content/api-guide/BaselineRequirementTestResult_Type.htm",a:"BaselineRequirementTestResult Type  ",t:"BaselineRequirementTestResult Type"},"435":{i:0.000484698166178036,u:"../Content/api-guide/create_type.htm",a:"Create Type",t:"Create Type"},"436":{i:0.000484698166178036,u:"../Content/api-guide/delete_type.htm",a:"Delete Type",t:"Delete Type"},"437":{i:0.000559089957879956,u:"../Content/api-guide/ExpectedDevice-Type.htm",a:"ExpectedDevice Type",t:"ExpectedDevice Type"},"438":{i:0.000559089957879956,u:"../Content/api-guide/ExpectedQueryDevice-Type.htm",a:"ExpectedQueryDevice Type",t:"ExpectedQueryDevice Type"},"439":{i:0.00277095371084505,u:"../Content/api-guide/fields_type.htm",a:"Fields Type",t:"Fields Type"},"440":{i:0.000484698166178036,u:"../Content/api-guide/FirstUnexpectedDevice-Type.htm",a:"FirstUnexpectedDevice Type",t:"FirstUnexpectedDevice Type"},"441":{i:0.00159708985579146,u:"../Content/api-guide/Issue-Type.htm",a:"IssueAttributes Type",t:"IssueAttributes Type"},"442":{i:0.000991543664220003,u:"../Content/api-guide/MergedRoutersData-Type.htm",a:"MergedRoutersData Type",t:"MergedRoutersData Type"},"443":{i:0.000653646665525358,u:"../Content/api-guide/MergedRoutersToMerge-Type.htm",a:"MergedRoutersToMerge Type",t:"MergedRoutersToMerge Type"},"444":{i:0.00232482215278064,u:"../Content/api-guide/messagedetails_type.htm",a:"MessageDetails Type",t:"MessageDetails Type"},"445":{i:0.000653646665525358,u:"../Content/api-guide/MixedMergedRouters-Type.htm",a:"MixedMergedRouters Type",t:"MixedMergedRouters Type"},"446":{i:0.000622029963659193,u:"../Content/api-guide/natdetails_type.htm",a:"NatDetails Type",t:"NatDetails Type"},"447":{i:0.000931048916389558,u:"../Content/api-guide/Interface-Type.htm",a:"Interface Type",t:"Interface Type"},"448":{i:0.0018027436978678,u:"../Content/api-guide/Network-Type.htm",a:"Network Type",t:"Network Type"},"449":{i:0.000484698166178036,u:"../Content/api-guide/objectchangerequestdetails_type1.htm",a:"ObjectChangeRequestDetails Type",t:"ObjectChangeRequestDetails Type"},"450":{i:0.000559089957879956,u:"../Content/api-guide/QueryNetworkObject-Type.htm",a:"QueryNetworkObject Type",t:"QueryNetworkObject Type"},"451":{i:0.000559089957879956,u:"../Content/api-guide/QueryTroubleshootingInconsistencyCause.htm",a:"QueryTroubleshootingInconsistencyCause Type",t:"QueryTroubleshootingInconsistencyCause Type"},"452":{i:0.000559089957879956,u:"../Content/api-guide/QueryTroubleshootingPathItem.htm",a:"QueryTroubleshootingPathItem Type",t:"QueryTroubleshootingPathItem Type"},"453":{i:0.000559089957879956,u:"../Content/api-guide/QueryTroubleshootingScenario.htm",a:"QueryTroubleshootingScenario Type",t:"QueryTroubleshootingScenario Type"},"454":{i:0.000484698166178036,u:"../Content/api-guide/removeobjectsfromgroup_type.htm",a:"RemoveObjectsFromGroup Type",t:"RemoveObjectsFromGroup Type"},"455":{i:0.000931048916389558,u:"../Content/api-guide/RiskyRules.htm",a:"RiskyRules JSON Format CSV Format",t:"RiskyRules"},"456":{i:0.001179921995187,u:"../Content/api-guide/Stub-Type.htm",a:"Stub Type",t:"Stub Type"},"457":{i:0.000847269388087619,u:"../Content/api-guide/securityzoneobject_type.htm",a:"SecurityZoneObject Type",t:"SecurityZoneObject Type"},"458":{i:0.000653646665525358,u:"../Content/api-guide/StubsToMerge-Type.htm",a:"StubsToMerge Type",t:"StubsToMerge Type"},"459":{i:0.000735246579488807,u:"../Content/api-guide/trafficchangerequest_type.htm",a:"TrafficChangeRequest Type  ",t:"TrafficChangeRequest Type"},"460":{i:0.000622029963659193,u:"../Content/api-guide/trafficfielddetails_type.htm",a:"TrafficFieldDetails Type",t:"TrafficFieldDetails Type"},"461":{i:0.0010134262748165,u:"../Content/api-guide/trafficitemdetails_type.htm",a:"TrafficItemDetails Type",t:"TrafficItemDetails Type"},"462":{i:0.000484698166178036,u:"../Content/api-guide/trafficlinedetails_type.htm",a:"TrafficLineDetails Type",t:"TrafficLineDetails Type"},"463":{i:0.00166972242454739,u:"../Content/api-guide/Value-Type.htm",a:"Value Type There is a value object type for network objects, and a value object type for service objects. Value Type for Network Objects   Value Type for Service Objects",t:"Value Type"},"464":{i:0.000501436911471055,u:"../Content/api-guide/AFA-Search-Rule-Fields.htm",a:"AFA Search Rule Fields The following are lists of possible search field values based on the devices searched.  Note: If no device is selected, the search is run on all devices.",t:"AFA Search Rule Fields"},});
+/usr/share/fa/php/help/Data/SearchTopic_Chunk3.js:1:define({"221":{i:0.000484698166178036,u:"../Content/afa-admin/Customizing-Risk-and-Compliance.htm",a:"AFA supports many risk and compliance customizations, allowing you to define your organization\u0027s specific needs. Note: For information on how to customize the network topology and/or specify traffic that should always be treated as non-threatening, see the AlgoSec Firewall Analyzer User Guide, ...",t:"Customizing Risk and Compliance Management"},"222":{i:0.00063426993270247,u:"../Content/afa-admin/Customizing-Risk-Profiles.htm",a:"AFAanalyzes device configuration ans reports security risks using risk profiles, which define sets of security risk items and their security levels. By default, AFA uses a Standard Risk Profile for all devices, which includes a set of standard risk items. Each risk item represents an XQL query that ...",t:"Customize risk profiles"},"223":{i:0.0022985149386845,u:"../Content/afa-admin/Viewing-Risk-Profiles.htm",a:"This procedure describes how to view a specific risk profile in the AFA Administration area, as well as the details shown. Do the following: Access the AFA Administration area. Click your username in the toolbar and select Administration. Click the Compliance \u003e Risk Profiles tab, displaying the ...",t:"View a risk profile"},"224":{i:0.00140688628365092,u:"../Content/afa-admin/Adding-Risk-Profiles.htm",a:"Add a new risk profile by creating one from scratch, modifying an existing profile and saving it under a new name, or importing a spreadsheet that specifies safe traffic. In this topic: /* */ Create a new risk profile from scratch Create a new risk profile from scratch when you want to start with ...",t:"Add a new risk profile"},"225":{i:0.0011079203390432,u:"../Content/afa-admin/Deleting-Risk-Profiles.htm",a:"Delete any unused risk profiles to declutter your system. Do the following: View the specific risk profile you want to delete in the Risk Profiles tab in the AFA Administration area. For details, see  View a risk profile . Below the Risk Profile table, click  Delete this profile. Click OK to ...",t:"Delete a custom risk profile"},"226":{i:0.00168365328015786,u:"../Content/afa-admin/Setting-the-Default-Risk-Profile.htm",a:"By default, the risk profile used when running an analysis is always the Standard risk profile. Set a custom risk profile as the default, as needed. Do the following; Access the AFA Administration area. Click your username in the toolbar and select Administration. Click the Compliance \u003e Compliance ...",t:"Set a default risk profile"},"227":{i:0.00257837200576353,u:"../Content/afa-admin/Customizing-Risk-Items.htm",a:"In addition to creating a custom risk profile, you can customize individual risk items or add new ones from scratch. In this topic: /* */ Edit, duplicate, or add a custom risk item Edit risk items, duplicate them to create new items based on existing risk items, or add a new custom risk item from ...",t:"Customize risk items"},"228":{i:0.00053619759023347,u:"../Content/afa-admin/Customizing-Zone-Types.htm",a:"Device and matrix topologies are defined in AFA using zone types. Each of the network\u0027s zones is assigned a zone type, and the zone is represented in the zone type\u0027s color in all AFA diagrams and reports. To customize the topology (including which zones are assigned to which zone type), see the ...",t:"Customizing Zone Types"},"229":{i:0.000484698166178036,u:"../Content/afa-admin/Adding-and-Editing-Zone-Types.htm",a:"To add or edit a zone type In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click the Compliance tab. The Compliance tab appears, displaying the Risk Profiles sub-tab. Click  . The Edit and define zone ...",t:"Adding and Editing Zone Types"},"230":{i:0.000484698166178036,u:"../Content/afa-admin/Deleting-Zone-Types.htm",a:"Note: You cannot delete a zone type if it appears in a defined device\u0027s topology. Note: You cannot delete the built-in zone types (EXTERNAL, INTERNAL, or DMZ). To delete a zone type In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, ...",t:"Deleting Zone Types"},"231":{i:0.00053619759023347,u:"../Content/afa-admin/Customizing-Hostgroups.htm",a:"Customizing Hostgroups You can define hostgroups to use when performing tasks such as running traffic simulation queries and/or configuring the trusted traffic you want to view.",t:"Customizing Hostgroups"},"232":{i:0.000484698166178036,u:"../Content/afa-admin/Adding-and-Editing-Host-Groups.htm",a:"To add or edit a host group In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click the Compliance tab. The Compliance tab appears, displaying the Risk Profiles sub-tab. Click  . The Edit and define ...",t:"Adding and Editing Host Groups"},"233":{i:0.000484698166178036,u:"../Content/afa-admin/Deleting-Host-Groups.htm",a:"To delete a host group In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click the Compliance tab. The Compliance tab appears, displaying the Risk Profiles sub-tab. Click  . The Edit and define ...",t:"Deleting Host Groups"},"234":{i:0.000974525325524849,u:"../Content/afa-admin/Customizing-Services.htm",a:"Customizing Services You can define service groups that contain one or more services to use when performing tasks such as running traffic simulation queries and/or configuring the trusted traffic you want to view.",t:"Customizing Services"},"235":{i:0.000484698166178036,u:"../Content/afa-admin/Adding-and-Editing-Service.htm",a:"Note: To define a single custom service, add a service group that contains only the desired service. To add or edit a service group In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click the Compliance ...",t:"Adding and Editing Service Groups"},"236":{i:0.000484698166178036,u:"../Content/afa-admin/Deleting-Service-Groups.htm",a:"To delete a service group In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click the Compliance tab. The Compliance tab appears, displaying the Risk Profiles sub-tab. Click  . The User-defined Services ...",t:"Deleting Service Groups"},"237":{i:0.00053619759023347,u:"../Content/afa-admin/Setting-Whether-Private-IP.htm",a:"By default AFA treats private IP addresses like 10.0.0.1 as non-threatening. Since these IP addresses are not routed on the public Internet, they typically represent machines that are owned by your corporation and are therefore not threatening. If desired, you can change this behavior. To set the ...",t:"Setting Whether Private IP Addresses are Trusted"},"238":{i:0.00053619759023347,u:"../Content/afa-admin/Customizing-Security-Rating.htm",a:"Note: It is possible for a device with more risks to have a higher security rating than a device with fewer risks. The Security Rating is calculated as the ratio of the number of risks detected vs. the number of risks searched for, and the total number of risks searched for differs per device. If a ...",t:"Customizing Security Rating Settings"},"239":{i:0.000854376982718707,u:"../Content/afa-admin/Customizing-the-Regulatory.htm",a:"AFA provides regulatory compliance reports for a variety of regulatory compliance standards. These reports can be accessed from the Regulatory Compliance report page of each AFA report. You can customize the Regulatory Compliance page in the following ways:  Removing and adding compliance reports. ...",t:"Customizing the Regulatory Compliance Report Page"},"240":{i:0.00171206749418262,u:"../Content/afa-admin/Removing-and-Adding-Compliance.htm",a:"To enable/disable Regulatory Compliance reports In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click the Compliance tab. The Compliance page appears, displaying the Risk Profiles sub-tab.  Click the ...",t:"Removing and Adding Compliance Reports"},"241":{i:0.000666254281115319,u:"../Content/afa-admin/Customizing-the-Compliance.htm",a:"AFA reports\u0027 Regulatory Compliance page displays a compliance score which indicates the device\u0027s degree of compliance with each compliance report. AFA calculates the compliance score with the following formula: Compliance score = (X1 + WX2)/(X1 + X2 + X3) Compliance Score Formula Variables You can ...",t:"Customizing the Compliance Score Value"},"242":{i:0.000666254281115319,u:"../Content/afa-admin/Customizing-the-Compliance_1.htm",a:"AFA provides the ability to customize the compliance score severity thresholds. By default, a bad score is 55% and below (red), a moderate score is between 55% and 70% (yellow), and a good score is 70% and above (green). To customize the compliance score severity thresholds In the toolbar, click ...",t:"Customizing the Compliance Score Severity Thresholds"},"243":{i:0.0012123319867601,u:"../Content/afa-admin/Configuring-the-PCI-Zone.htm",a:"Specifying the servers in the PCI zone enables AFA to specify the vulnerability of PCI applications in the PCI regulatory compliance report. Additionally, configuring these servers enables BusinessFlow to tag which network objects intersect the PCI Zone and the applications that use these servers.  ...",t:"Configuring the PCI Zone"},"244":{i:0.00336364295910489,u:"../Content/afa-admin/Customizing-Baseline-Configuration.htm",a:"A baseline configuration compliance profile contains a set of commands to be run on the device upon analysis and the desired output for the commands, allowing you to determine the device\u0027s compliance with a certain basic configuration. In order for a device\u0027s report to include a baseline ...",t:"Customizing Baseline Configuration Compliance Profiles"},"245":{i:0.00437867137602053,u:"../Content/afa-admin/Accessing-the-Baseline-Profiles.htm",a:"To access the Baseline Profiles configuration area In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click the Compliance tab. The Compliance tab appears, displaying the Risk Profiles sub-tab. Click the ...",t:"Accessing the Baseline Profiles Configuration Area"},"246":{i:0.00105652553679442,u:"../Content/afa-admin/Adding-a-New-Custom-Baseline.htm",a:"To add a new custom baseline configuration compliance profile Access the Baseline Profile configuration area. See Accessing the Baseline Profiles Configuration Area (see  Accessing the Baseline Profiles Configuration Area ). Click New.  The baseline profile form appears.  Complete the fields using ...",t:"Adding a New Custom Baseline Configuration Compliance Profile"},"247":{i:0.00105652553679442,u:"../Content/afa-admin/Duplicating-a-Baseline-Configuration.htm",a:"You can create a custom baseline configuration compliance profile by duplicating an existing baseline profile and editing the duplicate. To duplicate a baseline configuration compliance profile Access the Baseline Profile configuration area. See Accessing the Baseline Profiles Configuration Area ...",t:"Duplicating a Baseline Configuration Compliance Profile"},"248":{i:0.00105652553679442,u:"../Content/afa-admin/Editing-a-Baseline-Configuration.htm",a:"You can create a custom baseline configuration compliance profile by editing an existing baseline profile. Note: The original baseline profile will not be over-written, but it will not be available to use unless you delete the new custom baseline profile.  To edit a baseline configuration compliance ...",t:"Editing a Baseline Configuration Compliance Profile"},"249":{i:0.000484698166178036,u:"../Content/afa-admin/Deleting-a-Custom-Baseline.htm",a:"Note: You can only delete custom baseline profiles. Custom baseline profiles are indicated with a   in the Customized field. To delete a custom baseline configuration compliance profile Access the Baseline Profile configuration area. See Accessing the Baseline Profiles Configuration Area (see  ...",t:"Deleting a Custom Baseline Configuration Compliance Profile"},"250":{i:0.00183178402747663,u:"../Content/afa-admin/Example-Customizing-a-Baseline.htm",a:"The following is an example of adding an additional command and baseline requirement to an existing Cisco baseline profile.  Access the Baseline Profile configuration area. See Accessing the Baseline Profiles Configuration Area (see  Accessing the Baseline Profiles Configuration Area ). Select a ...",t:"Example: Customizing a Baseline Configuration Compliance Profile"},"251":{i:0.00319141749289485,u:"../Content/afa-admin/Customizing-Baseline-Configuration_1.htm",a:"If desired, you can create or edit custom baseline configuration compliance profiles using XML. Working in XML provides greater flexibility. Creating/Editing Baseline Configuration Compliance Profiles in XML To create/edit a baseline configuration compliance profile in XML Access the Baseline ...",t:"Customizing Baseline Configuration Compliance Profiles in XML"},"252":{i:0.00247266563460859,u:"../Content/afa-admin/Setting-AlgoSec-Firewall-Analyzer.htm",a:"Setting AlgoSec Firewall Analyzer Preferences This section explains how to configure application-wide options.   ",t:"Setting AlgoSec Firewall Analyzer Preferences"},"253":{i:0.000738542620112267,u:"../Content/afa-admin/Setting-Preferences.htm",a:"Use the following procedure to set preferences when domains are not enabled or when setting preferences in a specific domain. To set preferences In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab and the ...",t:"Setting Preferences"},"254":{i:0.000712161076047934,u:"../Content/afa-admin/General.htm",a:"General Use the General tab to set the following options. General Fields",t:"General"},"255":{i:0.000790856428611455,u:"../Content/afa-admin/Language.htm",a:"Language In the Language tab, select the language for risk titles in reports. Currently only English and Japanese are supported.",t:"Language"},"256":{i:0.000790856428611455,u:"../Content/afa-admin/Display.htm",a:"Display In the Display tab, set the display options described below. Display Fields",t:"Display"},"257":{i:0.000712161076047934,u:"../Content/afa-admin/Log-Analysis.htm",a:"Log Analysis In the Log analysis tab, set the log analysis options described below. Log Analysis Fields",t:"Log Analysis"},"258":{i:0.00126486660159891,u:"../Content/afa-admin/Proxy.htm",a:"Proxy In the Proxy tab, set the proxy options described below.  Note: If you do not know the proxy settings in your organization, contact your local network administrator. Proxy Fields",t:"Proxy"},"259":{i:0.000790856428611455,u:"../Content/afa-admin/Mail.htm",a:"Mail In the Mail tab, configure a mail server for sending automatic e-mail notifications. For information about AFA e-mail notifications, see Configuring Event-Triggered Notifications (see  Configuring Event-Triggered Notifications ).",t:"Mail"},"260":{i:0.000790856428611455,u:"../Content/afa-admin/Storage.htm",a:"Whenever AFA generates a report, the report is stored on the AFA server. Each AFA report may consume significant amounts of storage (about 75 MB* per report on average, though this can greatly vary). For example, if you have four devices whose policies are changed and analyzed daily, then AFA ...",t:"Storage"},"261":{i:0.0032310857950082,u:"../Content/afa-admin/Configuring-Report-Cleanup.htm",a:"To configure report cleanup In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click Storage. The Storage tab appears. Complete the fields using the information in Storage Fields (see  Storage Fields ). ...",t:"Configuring Report Cleanup"},"262":{i:0.000712161076047934,u:"../Content/afa-admin/Workflow.htm",a:"In the Workflow tab, define the parameters for integration with an external corporate Change Management System (CMS). AFA supports integration with AlgoSec FireFlow, BMC Remedy, HP ServiceCenter (ServiceNow), or any other system supporting Web-based access. When implementing a requested change in ...",t:"Workflow"},"263":{i:0.000790856428611455,u:"../Content/afa-admin/Authentication.htm",a:"In the Authentication tab, configure the methods AFA uses for authenticating users and authenticating devices. Refer to Configuring User Authentication (see  Configuring User Authentication ) or Configuring CyberArk Integration (see  Configuring CyberArk Integration ) for more details.",t:"Authentication"},"264":{i:0.00616798373957594,u:"../Content/afa-admin/Backup-Restore.htm",a:"This section describes how to back up and restore your AlgoSec Security Management Suite from AFA using both automatic scheduling and manual processes. Backup files include ASMS users, devices, and other configurations and optional content, and can be saved locally or on a remote server. Only one ...",t:"Backup/Restore"},"265":{i:0.000484698166178036,u:"../Content/afa-admin/Backup_Restore-Details.htm",a:"Special Considerations for Distributed Architecture Environments The backup and restore functionality handles the information / settings on the appliance, only. When restoring an environment with a distributed architecture, the information will be restored to each node, but the topological ...",t:"Backup/Restore Details"},"266":{i:0.000712161076047934,u:"../Content/afa-admin/Advanced-Configuration.htm",a:"In the Advanced Configuration tab, set advanced configuration parameters, using the procedure below. Note: For information about specific configuration parameters to set, see Overriding AFA System Defaults (see  Appendix D: Overriding AFA System Defaults ). Click Add.  The Add New Configuration ...",t:"Advanced Configuration"},"267":{i:0.000484698166178036,u:"../Content/afa-admin/Managing-the-Environment.htm",a:"Managing the Environment This section describes the tasks required to maintain the AFA enviornment. For details about installing and managing licenses, see the ASMS Installation and Setup Guide.",t:"Managing the Environment"},"268":{i:0.000622029963659193,u:"../Content/afa-admin/Viewing-Information-about.htm",a:"You can view information about your AFA installation, including version and build number. To view information about your AFA installation In the toolbar, click your username. A drop-down menu appears. Select Info. The Info window appears. Click About. The About AlgoSec Firewall Analyzer window ...",t:"Viewing Information about AFA"},"269":{i:0.00196793161591999,u:"../Content/afa-admin/Managing-Issues.htm",a:"The Issues Center includes notifications for problems and potential problems in AFA. These notifications refer to AFA system issues, such as dwindling disk space, and device specific issues, such as a failed analysis. Each notification that appears in the issues center provides the details of the ...",t:"Managing Issues"},"270":{i:0.00427558618816468,u:"../Content/afa-admin/Configuring-System-Notifications.htm",a:"ASMS tracks various system metrics that trigger notifications when thresholds are exceeded. These notifications can be triggered as syslog messages, or events in the issues center.  AFA admins can modify the thresholds for each metric and the types of notifications triggered. For more details, see ...",t:"System metric notifications"},"271":{i:0.000609584398575465,u:"../Content/afa-admin/Managing-Domains.htm",a:"Managing Domains This sections describes the tasks required to manage an ASMS environment with domains enabled. This section is intended for domain management users. For more information about domains, see the AlgoSec Security Management Suite Installation and Setup Guide.  ",t:"Managing Domains"},"272":{i:0.00160997903644664,u:"../Content/afa-admin/Logging-in-to-the-Management.htm",a:"For information on logging in as a domain user, see Logging into AFA in the AlgoSec Firewall Analyzer User Guide. To log in to the management interface In your browser\u0027s Address field, type https://\u003calgosec_server\u003e/algosec/ where \u003calgosec_server\u003e is the AlgoSec server IP address or DNS name. If a ...",t:"Logging in to the Management Interface"},"273":{i:0.000688344301149473,u:"../Content/afa-admin/Adding-and-Editing-Domains.htm",a:"To add or edit a domain In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, displaying the Options tab. Click the Domains tab. The Domains tab appears, displaying a list of domains. Note: When the AFA Provider Edition license enables ...",t:"Adding and Editing Domains"},"274":{i:0.000740658109648662,u:"../Content/afa-admin/Setting-Global-Preferences.htm",a:"From the management interface, AFA users can set preferences that affect every domain and preferences that affect management interface itself. Note: To set preferences per domain, see Setting Preferences (see  Setting Preferences ). Note that some settings cannot be set globally, but only per ...",t:"Setting Global Preferences"},"275":{i:0.000688344301149473,u:"../Content/afa-admin/Deleting-Domains.htm",a:"Important: This will delete all the devices, users, and reports defined in the domain. This action cannot be undone! Note: You cannot delete the domain1 domain.  To delete a domain In the toolbar, click your username. A drop-down menu appears. Select Administration. The Administration page appears, ...",t:"Deleting Domains"},"276":{i:0.000588328034752292,u:"../Content/afa-admin/Managing-Users-and-Roles_1.htm",a:"When Domains are enabled, users and roles are split into two categories: Management users/roles and Domain users/roles. Both management users and domain users can be administrators, privileged users (AFA users), or unprivileged (FireFlow Requestors). Management users have access to the management ...",t:"Managing Users and Roles"},"277":{i:0.00102612643348663,u:"../Content/afa-admin/Adding-and-Editing-Management.htm",a:"Note: Management users can use their username and password to log in to both the management interface and to all specific domain interfaces for which they have permissions.  To add or edit a management user or role Log into the the management interface. See Logging in to the Management Interface ...",t:"Adding and Editing Management Users/Roles"},"278":{i:0.00099670982501869,u:"../Content/afa-admin/Deleting-Management-Users.htm",a:"To delete a management user or role Log into the the management interface. See Logging in to the Management Interface (see  Logging in to the Management Interface ). In the toolbar, click your username.  A drop-down menu appears. Select Administration. The Administration page appears, displaying the ...",t:"Deleting Management Users and Roles"},"279":{i:0.000484698166178036,u:"../Content/afa-admin/Integrating-AFA-with-External.htm",a:"AFA enables integration with external systems with the following features: Direct Links to the AFA Administration pages CLI tools to run batch operations SOAP and REST Web Services. See the AlgoSec Security Management Suite API Guide.  Applications to integrate with SIEM systems. See Integrating ...",t:"Integrate AFA with external systems"},"280":{i:0.000587697014288904,u:"../Content/afa-admin/Linking-Directly-to-AFA-Administration.htm",a:"Linking Directly to AFA Administration Pages AFA provides direct URLs to the AFA Administration pages. These URLs can be used to navigate to specific AFA administration pages from an external system. Direct Links to AFA Administration Pages",t:"Linking Directly to AFA Administration Pages"},"281":{i:0.00958333220199596,u:"../Content/afa-admin/Integrating-ASMS-with-Watchdog.htm",a:"ASMS can send monitoring messages using the syslog system, which is a standard for forwarding log messages in an IP network. When adding a device, you can configure ASMS to send these messages to a local system, or to an external system. External systems can read ASMS\u0027s monitoring messages and act ...",t:"Integrate ASMS with monitoring systems"},"282":{i:0.00288041979857242,u:"../Content/afa-admin/AFA-Syslog-Messages.htm",a:"AFA generates syslog messages for each analysis run, as well as additional information and administrative syslog messages as needed. In this topic: /* */ AFA analysis syslog message reference The following table provides a basic description of the syslog messages generated for AFA analysis and links ...",t:"AFA analysis syslog messages"},"283":{i:0.00380383756414291,u:"../Content/afa-admin/Understanding-Login-and-Logout.htm",a:"Each time a user logs in or out of ASMS, a log entry is created in the /var/log/messages directory. This includes internal logins, such as when FireFlow opens a session to run a traffic simulation query in AFA. When real-time monitoring is enabled, log events detailing policy changes are also logged ...",t:"AFA login and logout Syslog messages"},"284":{i:0.00380383756414291,u:"../Content/afa-admin/Policy-Change-Log-Events.htm",a:"Each time AFA detects a change via real-time monitoring, a log entry is created in the /var/log/messages directory. For more details, see  Configuring Real-Time Monitoring . AFA can also send syslog messages to a remote server. Configure the remote server in the AFA Administration area.  For more ...",t:"AFA policy change syslog messages"},"285":{i:0.000587697014288904,u:"../Content/afa-admin/Running-Batch-Operations-from.htm",a:"AFA CLI batch operations provide lower-level control over automation. This enables you to integrate AFA with other systems, for instance, an existing device backup procedure or existing change-management system.  AFA supports the following batch operations from the CLI: Running Batch Device Analyses ...",t:"Running Batch Operations from the CLI"},"286":{i:0.000651213142707941,u:"../Content/afa-admin/Running-Batch-Device-Analyses.htm",a:"The AFA multi-run utility allows you analyze several devices from the command line. With additional Unix shell scripts (not provided by AlgoSec), the AFA multi-run utility gives you the ability to integrate AFA into your automatic device backup system. The AFA multi-run utility also supports bulk ...",t:"Running Batch Device Analyses and Comparisons"},"287":{i:0.000651213142707941,u:"../Content/afa-admin/Running-Batch-Traffic-Simulation.htm",a:"AFA provides a script for running batch traffic simulation queries. The script runs each query in both directions. To run batch traffic simulation queries Create a text file containing the desired queries in the following format: source1,source2,...;destination1,destination2...;service For example: ...",t:"Running Batch Traffic Simulation Queries"},"288":{i:0.000651213142707941,u:"../Content/afa-admin/Running-Batch-IP-Address-Searches.htm",a:"AFA provides a script for executing batch IP address searches on rules. This script can be used when performing such tasks as handling shutdown or migrating a large number of servers. To run a batch IP address search Create a text file containing the desired IP addresses or ranges. The IP addresses ...",t:"Running Batch IP Address Searches"},"289":{i:0.0015917661522058,u:"../Content/afa-admin/Converting-Batch-Operation.htm",a:"AFA provides an XSLT transformation file for converting the results of batch traffic simulation queries or batch IP address operations from XML to CSV format, for easy import into Microsoft Excel or other table-based applications. Note: The output CSV file will include only those columns that exist ...",t:"Converting Batch Operation Results to CSV Format"},"290":{i:0.000484698166178036,u:"../Content/afa-admin/Troubleshooting.htm",a:"This section describes all troubleshooting options. To view a training video that follows an Information Security Officer troubleshooting common issues that may be  preventing him from monitoring and analyzing several types of security devices, see Performing Basic AFA Troubleshooting ( ...",t:"Troubleshooting"},"291":{i:0.000587697014288904,u:"../Content/afa-admin/Permissions-Required-for-Daily.htm",a:"The following is a list of actions users may need to perform while performing basic troubleshooting, accommodating common requests from AlgoSec’s support team, or performing general day-to-day maintenance of the AlgoSec Security Management Suite.  Stop/Start/Restart Services Users may need to ...",t:"Permissions Required for Daily Maintenance and Troubleshooting"},"292":{i:0.000908125694322724,u:"../Content/afa-admin/Accessing-Log-and-Configuration.htm",a:"Note: In order to access the device configuration and log files, the AFA user must have \"configuration and logs\" privileges. For more information, see Managing AlgoSec Firewall Analyzer Users in the AlgoSec Firewall Analyzer Administrator Guide.  Log and configuration files are useful for ...",t:"Accessing Log and Configuration Files"},"293":{i:0.000639080417513892,u:"../Content/afa-admin/Viewing-Reports-Log-Files.htm",a:"To view a report\u0027s log file View the report. See the AlgoSec Firewall Analyzer User Guide. In the report menu, click Policy. In the Report Information area, click the Log File link. The log file appears. All messages are prefixed with a severity tag, which indicates the severity of the information ...",t:"Viewing Reports\u0027 Log Files"},"294":{i:0.000959509097547712,u:"../Content/afa-admin/Downloading-Reports-Log-Files.htm",a:"Downloading Reports\u0027 Log Files To download a report\u0027s log file View the report. See the AlgoSec Firewall Analyzer User Guide. In the report menu, click Policy. In the Report Information area, click AlgoSec Support File. The zip file is downloaded to your computer.",t:"Downloading Reports\u0027 Log Files"},});
+/usr/share/fa/php/help/Content/api-guide/Retrieving-Unresolved-Issues.htm:114:            <p>The<span class="monospace"> get_issues</span> request retrieves all the unresolved issues in the AFA&#160;issues center. This includes both acknowledged and active issues. </p>
+/usr/share/fa/php/help/Content/api-guide/Managing-Issues.htm:114:            <p>Use the following request methods to manage issues in the AFA issues center.</p>
+/usr/share/fa/php/help/Content/api-guide/Activating-an-Issue.htm:114:            <p>The<span class="monospace"> activate</span> request marks acknowledged issues in the AFA&#160;issues center as active. Issues marked as active will appear in the list of active issues and will no longer appear in the list of acknowledged issues. </p>
+/usr/share/fa/php/help/Content/api-guide/Acknowledging-an-Issue.htm:114:            <p>The<span class="monospace"> acknowledge</span> request marks active issues in the AFA&#160;issues center as acknowledged. Issues marked as acknowledged will appear in the list of acknowledged issues and will no longer appear in the list of active issues. </p>
+/usr/share/fa/php/ci/application/libraries/Algosec.php:38:			if ($_SERVER['REQUEST_URI'] == "/fa/environment/getAFASessionInfo") {
+/usr/share/fa/php/ci/application/controllers/Environment.php:42:	public function getAFASessionInfo()
+/usr/share/fa/php/ci/application/controllers/Environment.php:65:		utils::PrintLog("Debug","getAFASessionInfo -  result: " .json_encode($result), true);
+/usr/share/fa/php/help/Content/afa-admin/Storage.htm:116:            <p class="note"><a name="kanchor717"></a><span class="SpecialBold">Note</span>: AFA checks the amount of local disk space remaining after running each report. If the remaining space is less than 10 GB, or if more than 95% of the disk is already used, AFA sends a warning e-mail to the users configured to receive error messages via e-mail notifications. See <span class="HotSpot">Configuring Event-Triggered Notifications</span> (see <a href="Configuring-Event-Triggered.htm#O_5640" class="PageNumberOnly MCXref xref xrefPageNumberOnly">Configuring Event-Triggered Notifications</a>). In addition, AFA also sends notifications via the issues center and Syslog messages. See <span class="HotSpot">Managing Issues</span> (see <a href="Managing-Issues.htm#O_9093" class="PageNumberOnly MCXref xref xrefPageNumberOnly">Managing Issues</a>) or <span class="HotSpot">Configuring System Notifications</span> (see <a href="Configuring-System-Notifications.htm#O_9074" class="PageNumberOnly MCXref xref xrefPageNumberOnly">System metric notifications</a>). </p>
+/usr/share/fa/php/help/Content/afa-admin/Managing-Issues.htm:114:            <p>The <span class="SpecialBold">Issues Center</span> includes notifications for problems and potential problems in AFA. These notifications refer to AFA system issues, such as dwindling disk space, and device specific issues, such as a failed analysis. Each notification that appears in the issues center provides the details of the issue and the information needed to solve the problem.</p>
+/usr/share/fa/php/help/Content/afa-admin/Managing-Issues.htm:115:            <p>The issues center allows you to acknowledge unresolved issues, moving them from the list of active issues to the list of acknowledged issues. As soon as an issue is resolved, it is automatically removed from the issues center completely.</p>
+/usr/share/fa/php/help/Content/afa-admin/Managing-Issues.htm:117:                <p class="note"><span class="SpecialBold">Note:</span> When a system issue has occurred (as opposed to a device specific issue), a red notification appears in the toolbar and next to the issues center option in the toolbar menu.</p>
+/usr/share/fa/php/help/Content/afa-admin/Managing-Issues.htm:254:                <li value="8">To refresh the issues center, click <img src="../Resources/Images/afa-admin/refreshicon.png" style="visibility: visible;width: 68px;height: 23px;" />.</li>
+/usr/share/fa/php/help/Content/afa-admin/Configuring-System-Notifications.htm:114:            <p><span class="GeneralProductName-Short">ASMS</span> tracks various system metrics that trigger notifications when thresholds are exceeded. These notifications can be triggered as syslog messages, or events in the issues center. </p>
+/usr/share/fa/php/help/Content/afa-admin/Configuring-System-Notifications.htm:197:                        <p class="noteInDiv" data-mc-autonum="&lt;b&gt;Note: &lt;/b&gt;"><span class="autonumber"><span><b>Note: </b></span></span>While all metrics can trigger syslog messages, only some can trigger messages in the <span class="Generalafa-short">AFA</span> issues center. </p>
+exec
+/bin/bash -c "grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,160p'" in /root succeeded in 0ms:
+114687:127.0.0.1 [26/Mar/2026:05:29:50 -0400] [http-nio-0.0.0.0-8080-exec-3] "GET /afa/config/?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 7948 6293 53192 -
+114688:127.0.0.1 [26/Mar/2026:05:29:50 -0400] [http-nio-0.0.0.0-8080-exec-8] "POST /afa/password/decrypt?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 20 1117 53196 -
+114689:127.0.0.1 [26/Mar/2026:05:29:51 -0400] [http-nio-0.0.0.0-8080-exec-5] "POST /afa/api/v1/bridge/storeFireflowCookie?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 - 28595 53208 -
+114690:127.0.0.1 [26/Mar/2026:05:29:51 -0400] [http-nio-0.0.0.0-8080-exec-12] "GET /afa/api/v1/config?session=i88p8vb1s79p6nb0f4o2jkpb07&domain=0 HTTP/1.1" 200 7948 1476 53080 -
+114691:127.0.0.1 [26/Mar/2026:05:29:51 -0400] [http-nio-0.0.0.0-8080-exec-18] "GET /afa/api/v1/config?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 7948 1188 53086 -
+114692:127.0.0.1 [26/Mar/2026:05:29:51 -0400] [http-nio-0.0.0.0-8080-exec-9] "POST /afa/api/v1/session/extend?session=i88p8vb1s79p6nb0f4o2jkpb07&domain=0 HTTP/1.1" 200 - 11113 53080 -
+114696:127.0.0.1 [26/Mar/2026:05:29:52 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/config/?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 7948 3360 53226 -
+114699:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-9] "POST /afa/api/v1/session/extend?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 - 6916 53252 -
+114700:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-2] "GET /afa/setup/products_versions_and_domains/?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 436 6119 53266 -
+114701:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-14] "GET /afa/config/FIREFLOW_ADDRESS?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 49 3508 53268 -
+114702:127.0.0.1 [26/Mar/2026:05:29:53 -0400] [http-nio-0.0.0.0-8080-exec-4] "GET /afa/config/FIREFLOW_ADDRESS?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 49 1391 53276 -
+114703:127.0.0.1 [26/Mar/2026:05:29:54 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/api/v1/config?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 7948 2053 53282 -
+114704:127.0.0.1 [26/Mar/2026:05:29:54 -0400] [http-nio-0.0.0.0-8080-exec-17] "GET /afa/config/Case_Sensitive_Username?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 404 64 4003 53292 -
+114705:127.0.0.1 [26/Mar/2026:05:29:54 -0400] [http-nio-0.0.0.0-8080-exec-18] "GET /afa/UsersInfo/landing_page/admin?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 15 2851 53300 -
+114707:127.0.0.1 [26/Mar/2026:05:29:54 -0400] [http-nio-0.0.0.0-8080-exec-14] "GET /afa/UsersInfo/allowedFirewalls/admin?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 2288 4663 53324 -
+114708:127.0.0.1 [26/Mar/2026:05:29:54 -0400] [http-nio-0.0.0.0-8080-exec-4] "GET /afa/installHistory/journalRefacoringUpdateTime?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 11 3257 53334 -
+114709:127.0.0.1 [26/Mar/2026:05:29:54 -0400] [http-nio-0.0.0.0-8080-exec-3] "GET /afa/UsersInfo/admin?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 805 2709 53340 -
+114711:127.0.0.1 [26/Mar/2026:05:29:56 -0400] [http-nio-0.0.0.0-8080-exec-18] "GET /afa/firewallData/getAllFirewalls/?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 3958 3219 26096 -
+114712:127.0.0.1 [26/Mar/2026:05:29:56 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/UsersInfo/allowedFirewalls/admin?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 2288 12171 26112 -
+114713:127.0.0.1 [26/Mar/2026:05:29:56 -0400] [http-nio-0.0.0.0-8080-exec-2] "GET /afa/device/?domain=0&session=i88p8vb1s79p6nb0f4o2jkpb07 HTTP/1.1" 200 15251 11159 26128 -
+codex
+I have enough to write the delegated result: one successful redirect window, the correlated Metro session traffic, and a defensible split between hard first-shell dependencies and nearby non-core traffic. I’m generating compact artifacts and then writing the operator-facing summary plus the result JSON.
+exec
+/bin/bash -c 'mkdir -p /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts' in /root succeeded in 0ms:
+
+exec
+/bin/bash -c "grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\\|26/Mar/2026:05:29:5[3-6].*SuiteLoginSessionValidation.php\\|26/Mar/2026:05:29:5[3-6].*FireFlow/SelfService/CheckAuthentication\\|26/Mar/2026:05:29:5[3-6].*shallow_health_check\\|26/Mar/2026:05:29:5[3-6].*health/shallow\" /var/log/httpd/ssl_access_log > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/apache_transition_window.log" in /root succeeded in 0ms:
+
+exec
+/bin/bash -c "sed -n '1,140p' /usr/share/fa/php/SuiteLoginSessionValidation.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/SuiteLoginSessionValidation.php.snippet && sed -n '1,180p' /usr/share/fa/php/home.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.php.snippet && sed -n '1,120p' /usr/share/fa/php/TopbarMenu.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/TopbarMenu.php.snippet && sed -n '1,140p' /usr/share/fa/php/prod_stat.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/prod_stat.php.snippet && sed -n '1110,1365p' /usr/share/fa/php/JSlib1768164240/home.js > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.js.init.snippet" in /root succeeded in 0ms:
+
+exec
+/bin/bash -c 'grep -n "i88p8vb1s79p6nb0f4o2jkpb07" /data/ms-metro/logs/localhost_access_log.txt > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log' in /root succeeded in 0ms:
+
+codex
+I’m writing the three required files now. The result will stay strictly observe-only, with no target mutations reported and only bundle-local artifacts returned.
+file update
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+Successful correlation window: `2026-03-26 05:29:53-05:29:56 EDT`.
+
+Observed successful shell transition:
+- Apache shows `GET /afa/php/SuiteLoginSessionValidation.php` returning `302` at `05:29:53`, followed by `GET /afa/php/home.php` `200` at `05:29:54`.
+- The resulting AFA session is visible immediately after in Apache as `dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07` and in Metro as repeated `session=i88p8vb1s79p6nb0f4o2jkpb07`.
+
+Code-path correlation:
+- `SuiteLoginSessionValidation.php` validates AFA and FireFlow auth, then redirects default AFA landing traffic to `/afa/php/home.php`.
+- `home.php` creates the shell page, sets the session, emits `dynamic.js.php?sid=<session>`, and loads `home.js`.
+- `home.js` immediately issues dashboard bootstrap requests and `POST /fa/tree/create`.
+- `utils::PrintTopbar()` points the shell to `/AFA/php/TopbarMenu.php`.
+- `prod_stat.php` returns product usability state and is shell-adjacent, not the redirect gate itself.
+
+Hard first-shell dependency set from this window:
+- `GET /afa/php/SuiteLoginSessionValidation.php` -> `302`
+- `GET /afa/php/home.php` -> `200`
+- `GET /afa/php/JSlib1768164240/dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07`
+- `GET /afa/php/JSlib1768164240/home.js`
+- `POST /afa/php/commands.php` x2 at `05:29:55`
+  These align with `home.js` startup calls for dashboard data (`GET_DASHBOARDS_DATA` for default and all dashboards).
+- `POST /fa/tree/create`
+  This is the tree bootstrap call issued by `LazyLoadTrees_initialize()`.
+- `GET /AFA/php/TopbarMenu.php`
+- `GET /afa/php/prod_stat.php`
+
+Correlated Metro requests for the same session window:
+- Pre-redirect auth/session-support traffic already exists for the same session and continues through the redirect:
+  `storeFireflowCookie`, `config`, `session/extend`, landing-page lookup, `allowedFirewalls`, user lookup.
+- Immediately after `home.php`, Metro receives shell data requests carrying the same session:
+  `getAllFirewalls`, `device`, `findLatestReportPerDevice`, `monitor/folders`, `deviceInfo/getDeviceSummarizedInfo`, `nameToDevicesCount`, `brandConfig/getByDeviceName`, and repeated `allowedFirewalls`.
+
+Classification of nearby but non-core traffic:
+- `GET /FireFlow/SelfService/CheckAuthentication/?login=1` is adjacent suite traffic, not required to enter AFA `home.php`.
+- `GET /aff/api/internal/noauth/health/shallow` and `GET /BusinessFlow/shallow_health_check` are periodic health probes and should not be treated as first-shell dependencies.
+- Additional static assets under `/algosec-ui/` and `/algosec/suite/` are suite-frame branding and shared shell assets, not the AFA shell gate.
+
+Bottom line:
+- The hard transition into the AFA first shell is the `SuiteLoginSessionValidation.php -> home.php` redirect plus the immediate `dynamic.js`, `home.js`, dashboard bootstrap, tree bootstrap, topbar, and product-status requests.
+- The Metro calls with `session=i88p8vb1s79p6nb0f4o2jkpb07` are the backend data plane that populates the shell after entry, not the redirect decision itself.
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "asms-home-shell-request-correlation-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Correlated a successful 2026-03-26 05:29:53-05:29:56 EDT SuiteLoginSessionValidation-to-home.php transition to AFA session i88p8vb1s79p6nb0f4o2jkpb07. The hard first-shell dependency set is the redirect into home.php plus dynamic.js, home.js, dashboard bootstrap commands, tree bootstrap, topbar, and prod_stat; nearby FireFlow auth checks, BusinessFlow/aff shallow health checks, and suite static assets are adjacent but not the redirect gate.",
+  "returned_artifact_paths": [
+    "artifacts/apache_transition_window.log",
+    "artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
+    "artifacts/SuiteLoginSessionValidation.php.snippet",
+    "artifacts/home.php.snippet",
+    "artifacts/TopbarMenu.php.snippet",
+    "artifacts/prod_stat.php.snippet",
+    "artifacts/home.js.init.snippet"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If the operator wants payload-level attribution for the anonymous commands.php POSTs, capture request bodies or enable a higher-fidelity Apache/Tomcat request log for one more bounded repro.",
+    "If the operator wants a stricter shell dependency set, compare this successful window against a failed SuiteLoginSessionValidation path and diff the missing Apache and Metro requests."
+  ]
+}
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+{"cmd":"pwd","login":true,"workdir":"/root"}
+{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":true,"workdir":"/root"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":true,"workdir":"/root"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":false,"workdir":"/root"}
+{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":false,"workdir":"/root"}
+{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php|SuiteLogin|session\" /var/log/httpd /data/ms-metro/logs /usr/share/fa/php --glob '!*.gz'","login":false,"workdir":"/root"}
+{"cmd":"ls -R /var/log/httpd /data/ms-metro/logs /usr/share/fa/php | sed -n '1,240p'","login":false,"workdir":"/root"}
+{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php\" /var/log/httpd /data/ms-metro/logs --glob '!*.gz'","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1,220p' /usr/share/fa/php/SuiteLoginSessionValidation.php","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1,240p' /usr/share/fa/php/home.php","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSession.php","login":false,"workdir":"/root"}
+{"cmd":"ls -1 /var/log/httpd","login":false,"workdir":"/root"}
+{"cmd":"tail -n 40 /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
+{"cmd":"tail -n 40 /data/ms-metro/logs/localhost_access_log.txt","login":false,"workdir":"/root"}
+{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_access_log | sed -n '1,220p'","login":false,"workdir":"/root"}
+{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_request_log | sed -n '1,220p'","login":false,"workdir":"/root"}
+{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,220p'","login":false,"workdir":"/root"}
+{"cmd":"grep -n \"SuiteLoginSessionValidation.php\\|home.php\\|TopbarMenu.php\\|prod_stat.php\\|dynamic.js.php\\|home.js\\|commands.php\\|fa/tree/create\" /var/log/httpd/ssl_access_log | tail -n 120","login":false,"workdir":"/root"}
+{"cmd":"rg -n \"getAFASessionInfo|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo|tree/create|TopbarMenu|prod_stat|DISPLAY_ISSUES_CENTER\" /usr/share/fa/php /usr/share/fa/php/JSlib /usr/share/fa/php/JSlib1768164240 --glob '!*.min.js'","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1,240p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1280,1365p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
+{"cmd":"rg -n \"DISPLAY_ISSUES_CENTER|getAFASessionInfo|prod_stat|TopbarMenu|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo\" /usr/share/fa/php/JSlib1768164240/home.js /usr/share/fa/php/JSlib1768164240/*.js /usr/share/fa/php/inc/*.php","login":false,"workdir":"/root"}
+{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\" /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
+{"cmd":"rg -n \"commands\\.php|DISPLAY_ISSUES_CENTER|TopbarMenu|prod_stat|LazyLoadTrees_initialize|document\\.ready|window\\.addEventListener\\('load'|\\$\\(document\\)\\.ready|issues center\" /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
+{"cmd":"sed -n '2640,2825p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1,240p' /usr/share/fa/php/TopbarMenu.php","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1,220p' /usr/share/fa/php/prod_stat.php","login":false,"workdir":"/root"}
+{"cmd":"sed -n '2320,2425p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
+{"cmd":"sed -n '240,520p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1080,1215p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
+{"cmd":"rg -n \"TopbarMenu\\.php|prod_stat\\.php|DISPLAY_ISSUES_CENTER|issues center|getAFASessionInfo\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php/JSlib /usr/share/fa/php --glob '!*.min.js'","login":false,"workdir":"/root"}
+{"cmd":"sed -n '2320,2365p' /usr/share/fa/php/utils.php","login":false,"workdir":"/root"}
+{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,160p'","login":false,"workdir":"/root"}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts","login":false,"workdir":"/root"}
+{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\\|26/Mar/2026:05:29:5[3-6].*SuiteLoginSessionValidation.php\\|26/Mar/2026:05:29:5[3-6].*FireFlow/SelfService/CheckAuthentication\\|26/Mar/2026:05:29:5[3-6].*shallow_health_check\\|26/Mar/2026:05:29:5[3-6].*health/shallow\" /var/log/httpd/ssl_access_log > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/apache_transition_window.log","login":false,"workdir":"/root"}
+{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log","login":false,"workdir":"/root"}
+{"cmd":"sed -n '1,140p' /usr/share/fa/php/SuiteLoginSessionValidation.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/SuiteLoginSessionValidation.php.snippet && sed -n '1,180p' /usr/share/fa/php/home.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.php.snippet && sed -n '1,120p' /usr/share/fa/php/TopbarMenu.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/TopbarMenu.php.snippet && sed -n '1,140p' /usr/share/fa/php/prod_stat.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/prod_stat.php.snippet && sed -n '1110,1365p' /usr/share/fa/php/JSlib1768164240/home.js > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.js.init.snippet","login":false,"workdir":"/root"}
+apply_patch(auto_approved=true) exited 0 in 13ms:
+Success. Updated the following files:
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..cc6d04c1fe88022d5b86dba4ca08ff02f7a9bd0f
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+@@ -0,0 +1,37 @@
++{"cmd":"pwd","login":true,"workdir":"/root"}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":true,"workdir":"/root"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":true,"workdir":"/root"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":false,"workdir":"/root"}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php|SuiteLogin|session\" /var/log/httpd /data/ms-metro/logs /usr/share/fa/php --glob '!*.gz'","login":false,"workdir":"/root"}
++{"cmd":"ls -R /var/log/httpd /data/ms-metro/logs /usr/share/fa/php | sed -n '1,240p'","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php\" /var/log/httpd /data/ms-metro/logs --glob '!*.gz'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,220p' /usr/share/fa/php/SuiteLoginSessionValidation.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/home.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSession.php","login":false,"workdir":"/root"}
++{"cmd":"ls -1 /var/log/httpd","login":false,"workdir":"/root"}
++{"cmd":"tail -n 40 /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
++{"cmd":"tail -n 40 /data/ms-metro/logs/localhost_access_log.txt","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_access_log | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_request_log | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"SuiteLoginSessionValidation.php\\|home.php\\|TopbarMenu.php\\|prod_stat.php\\|dynamic.js.php\\|home.js\\|commands.php\\|fa/tree/create\" /var/log/httpd/ssl_access_log | tail -n 120","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"getAFASessionInfo|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo|tree/create|TopbarMenu|prod_stat|DISPLAY_ISSUES_CENTER\" /usr/share/fa/php /usr/share/fa/php/JSlib /usr/share/fa/php/JSlib1768164240 --glob '!*.min.js'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1280,1365p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"DISPLAY_ISSUES_CENTER|getAFASessionInfo|prod_stat|TopbarMenu|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo\" /usr/share/fa/php/JSlib1768164240/home.js /usr/share/fa/php/JSlib1768164240/*.js /usr/share/fa/php/inc/*.php","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\" /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"commands\\.php|DISPLAY_ISSUES_CENTER|TopbarMenu|prod_stat|LazyLoadTrees_initialize|document\\.ready|window\\.addEventListener\\('load'|\\$\\(document\\)\\.ready|issues center\" /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2640,2825p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/TopbarMenu.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,220p' /usr/share/fa/php/prod_stat.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2320,2425p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '240,520p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1080,1215p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"TopbarMenu\\.php|prod_stat\\.php|DISPLAY_ISSUES_CENTER|issues center|getAFASessionInfo\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php/JSlib /usr/share/fa/php --glob '!*.min.js'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2320,2365p' /usr/share/fa/php/utils.php","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,160p'","login":false,"workdir":"/root"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\\|26/Mar/2026:05:29:5[3-6].*SuiteLoginSessionValidation.php\\|26/Mar/2026:05:29:5[3-6].*FireFlow/SelfService/CheckAuthentication\\|26/Mar/2026:05:29:5[3-6].*shallow_health_check\\|26/Mar/2026:05:29:5[3-6].*health/shallow\" /var/log/httpd/ssl_access_log > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/apache_transition_window.log","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,140p' /usr/share/fa/php/SuiteLoginSessionValidation.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/SuiteLoginSessionValidation.php.snippet && sed -n '1,180p' /usr/share/fa/php/home.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.php.snippet && sed -n '1,120p' /usr/share/fa/php/TopbarMenu.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/TopbarMenu.php.snippet && sed -n '1,140p' /usr/share/fa/php/prod_stat.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/prod_stat.php.snippet && sed -n '1110,1365p' /usr/share/fa/php/JSlib1768164240/home.js > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.js.init.snippet","login":false,"workdir":"/root"}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..b21f4ea3d2c4a78e9987f45a399b2000432e6a5e
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+@@ -0,0 +1,22 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-request-correlation-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Correlated a successful 2026-03-26 05:29:53-05:29:56 EDT SuiteLoginSessionValidation-to-home.php transition to AFA session i88p8vb1s79p6nb0f4o2jkpb07. The hard first-shell dependency set is the redirect into home.php plus dynamic.js, home.js, dashboard bootstrap commands, tree bootstrap, topbar, and prod_stat; nearby FireFlow auth checks, BusinessFlow/aff shallow health checks, and suite static assets are adjacent but not the redirect gate.",
++  "returned_artifact_paths": [
++    "artifacts/apache_transition_window.log",
++    "artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
++    "artifacts/SuiteLoginSessionValidation.php.snippet",
++    "artifacts/home.php.snippet",
++    "artifacts/TopbarMenu.php.snippet",
++    "artifacts/prod_stat.php.snippet",
++    "artifacts/home.js.init.snippet"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If the operator wants payload-level attribution for the anonymous commands.php POSTs, capture request bodies or enable a higher-fidelity Apache/Tomcat request log for one more bounded repro.",
++    "If the operator wants a stricter shell dependency set, compare this successful window against a failed SuiteLoginSessionValidation path and diff the missing Apache and Metro requests."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc6c9725093e8d898084c28b9a8b6e90cab56710
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+@@ -0,0 +1,39 @@
++Successful correlation window: `2026-03-26 05:29:53-05:29:56 EDT`.
++
++Observed successful shell transition:
++- Apache shows `GET /afa/php/SuiteLoginSessionValidation.php` returning `302` at `05:29:53`, followed by `GET /afa/php/home.php` `200` at `05:29:54`.
++- The resulting AFA session is visible immediately after in Apache as `dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07` and in Metro as repeated `session=i88p8vb1s79p6nb0f4o2jkpb07`.
++
++Code-path correlation:
++- `SuiteLoginSessionValidation.php` validates AFA and FireFlow auth, then redirects default AFA landing traffic to `/afa/php/home.php`.
++- `home.php` creates the shell page, sets the session, emits `dynamic.js.php?sid=<session>`, and loads `home.js`.
++- `home.js` immediately issues dashboard bootstrap requests and `POST /fa/tree/create`.
++- `utils::PrintTopbar()` points the shell to `/AFA/php/TopbarMenu.php`.
++- `prod_stat.php` returns product usability state and is shell-adjacent, not the redirect gate itself.
++
++Hard first-shell dependency set from this window:
++- `GET /afa/php/SuiteLoginSessionValidation.php` -> `302`
++- `GET /afa/php/home.php` -> `200`
++- `GET /afa/php/JSlib1768164240/dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07`
++- `GET /afa/php/JSlib1768164240/home.js`
++- `POST /afa/php/commands.php` x2 at `05:29:55`
++  These align with `home.js` startup calls for dashboard data (`GET_DASHBOARDS_DATA` for default and all dashboards).
++- `POST /fa/tree/create`
++  This is the tree bootstrap call issued by `LazyLoadTrees_initialize()`.
++- `GET /AFA/php/TopbarMenu.php`
++- `GET /afa/php/prod_stat.php`
++
++Correlated Metro requests for the same session window:
++- Pre-redirect auth/session-support traffic already exists for the same session and continues through the redirect:
++  `storeFireflowCookie`, `config`, `session/extend`, landing-page lookup, `allowedFirewalls`, user lookup.
++- Immediately after `home.php`, Metro receives shell data requests carrying the same session:
++  `getAllFirewalls`, `device`, `findLatestReportPerDevice`, `monitor/folders`, `deviceInfo/getDeviceSummarizedInfo`, `nameToDevicesCount`, `brandConfig/getByDeviceName`, and repeated `allowedFirewalls`.
++
++Classification of nearby but non-core traffic:
++- `GET /FireFlow/SelfService/CheckAuthentication/?login=1` is adjacent suite traffic, not required to enter AFA `home.php`.
++- `GET /aff/api/internal/noauth/health/shallow` and `GET /BusinessFlow/shallow_health_check` are periodic health probes and should not be treated as first-shell dependencies.
++- Additional static assets under `/algosec-ui/` and `/algosec/suite/` are suite-frame branding and shared shell assets, not the AFA shell gate.
++
++Bottom line:
++- The hard transition into the AFA first shell is the `SuiteLoginSessionValidation.php -> home.php` redirect plus the immediate `dynamic.js`, `home.js`, dashboard bootstrap, tree bootstrap, topbar, and product-status requests.
++- The Metro calls with `session=i88p8vb1s79p6nb0f4o2jkpb07` are the backend data plane that populates the shell after entry, not the redirect decision itself.
+
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..cc6d04c1fe88022d5b86dba4ca08ff02f7a9bd0f
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+@@ -0,0 +1,37 @@
++{"cmd":"pwd","login":true,"workdir":"/root"}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":true,"workdir":"/root"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":true,"workdir":"/root"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":false,"workdir":"/root"}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php|SuiteLogin|session\" /var/log/httpd /data/ms-metro/logs /usr/share/fa/php --glob '!*.gz'","login":false,"workdir":"/root"}
++{"cmd":"ls -R /var/log/httpd /data/ms-metro/logs /usr/share/fa/php | sed -n '1,240p'","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php\" /var/log/httpd /data/ms-metro/logs --glob '!*.gz'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,220p' /usr/share/fa/php/SuiteLoginSessionValidation.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/home.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSession.php","login":false,"workdir":"/root"}
++{"cmd":"ls -1 /var/log/httpd","login":false,"workdir":"/root"}
++{"cmd":"tail -n 40 /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
++{"cmd":"tail -n 40 /data/ms-metro/logs/localhost_access_log.txt","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_access_log | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_request_log | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"SuiteLoginSessionValidation.php\\|home.php\\|TopbarMenu.php\\|prod_stat.php\\|dynamic.js.php\\|home.js\\|commands.php\\|fa/tree/create\" /var/log/httpd/ssl_access_log | tail -n 120","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"getAFASessionInfo|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo|tree/create|TopbarMenu|prod_stat|DISPLAY_ISSUES_CENTER\" /usr/share/fa/php /usr/share/fa/php/JSlib /usr/share/fa/php/JSlib1768164240 --glob '!*.min.js'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1280,1365p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"DISPLAY_ISSUES_CENTER|getAFASessionInfo|prod_stat|TopbarMenu|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo\" /usr/share/fa/php/JSlib1768164240/home.js /usr/share/fa/php/JSlib1768164240/*.js /usr/share/fa/php/inc/*.php","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\" /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"commands\\.php|DISPLAY_ISSUES_CENTER|TopbarMenu|prod_stat|LazyLoadTrees_initialize|document\\.ready|window\\.addEventListener\\('load'|\\$\\(document\\)\\.ready|issues center\" /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2640,2825p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/TopbarMenu.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,220p' /usr/share/fa/php/prod_stat.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2320,2425p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '240,520p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1080,1215p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"TopbarMenu\\.php|prod_stat\\.php|DISPLAY_ISSUES_CENTER|issues center|getAFASessionInfo\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php/JSlib /usr/share/fa/php --glob '!*.min.js'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2320,2365p' /usr/share/fa/php/utils.php","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,160p'","login":false,"workdir":"/root"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\\|26/Mar/2026:05:29:5[3-6].*SuiteLoginSessionValidation.php\\|26/Mar/2026:05:29:5[3-6].*FireFlow/SelfService/CheckAuthentication\\|26/Mar/2026:05:29:5[3-6].*shallow_health_check\\|26/Mar/2026:05:29:5[3-6].*health/shallow\" /var/log/httpd/ssl_access_log > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/apache_transition_window.log","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,140p' /usr/share/fa/php/SuiteLoginSessionValidation.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/SuiteLoginSessionValidation.php.snippet && sed -n '1,180p' /usr/share/fa/php/home.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.php.snippet && sed -n '1,120p' /usr/share/fa/php/TopbarMenu.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/TopbarMenu.php.snippet && sed -n '1,140p' /usr/share/fa/php/prod_stat.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/prod_stat.php.snippet && sed -n '1110,1365p' /usr/share/fa/php/JSlib1768164240/home.js > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.js.init.snippet","login":false,"workdir":"/root"}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..b21f4ea3d2c4a78e9987f45a399b2000432e6a5e
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+@@ -0,0 +1,22 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-request-correlation-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Correlated a successful 2026-03-26 05:29:53-05:29:56 EDT SuiteLoginSessionValidation-to-home.php transition to AFA session i88p8vb1s79p6nb0f4o2jkpb07. The hard first-shell dependency set is the redirect into home.php plus dynamic.js, home.js, dashboard bootstrap commands, tree bootstrap, topbar, and prod_stat; nearby FireFlow auth checks, BusinessFlow/aff shallow health checks, and suite static assets are adjacent but not the redirect gate.",
++  "returned_artifact_paths": [
++    "artifacts/apache_transition_window.log",
++    "artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
++    "artifacts/SuiteLoginSessionValidation.php.snippet",
++    "artifacts/home.php.snippet",
++    "artifacts/TopbarMenu.php.snippet",
++    "artifacts/prod_stat.php.snippet",
++    "artifacts/home.js.init.snippet"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If the operator wants payload-level attribution for the anonymous commands.php POSTs, capture request bodies or enable a higher-fidelity Apache/Tomcat request log for one more bounded repro.",
++    "If the operator wants a stricter shell dependency set, compare this successful window against a failed SuiteLoginSessionValidation path and diff the missing Apache and Metro requests."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc6c9725093e8d898084c28b9a8b6e90cab56710
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+@@ -0,0 +1,39 @@
++Successful correlation window: `2026-03-26 05:29:53-05:29:56 EDT`.
++
++Observed successful shell transition:
++- Apache shows `GET /afa/php/SuiteLoginSessionValidation.php` returning `302` at `05:29:53`, followed by `GET /afa/php/home.php` `200` at `05:29:54`.
++- The resulting AFA session is visible immediately after in Apache as `dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07` and in Metro as repeated `session=i88p8vb1s79p6nb0f4o2jkpb07`.
++
++Code-path correlation:
++- `SuiteLoginSessionValidation.php` validates AFA and FireFlow auth, then redirects default AFA landing traffic to `/afa/php/home.php`.
++- `home.php` creates the shell page, sets the session, emits `dynamic.js.php?sid=<session>`, and loads `home.js`.
++- `home.js` immediately issues dashboard bootstrap requests and `POST /fa/tree/create`.
++- `utils::PrintTopbar()` points the shell to `/AFA/php/TopbarMenu.php`.
++- `prod_stat.php` returns product usability state and is shell-adjacent, not the redirect gate itself.
++
++Hard first-shell dependency set from this window:
++- `GET /afa/php/SuiteLoginSessionValidation.php` -> `302`
++- `GET /afa/php/home.php` -> `200`
++- `GET /afa/php/JSlib1768164240/dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07`
++- `GET /afa/php/JSlib1768164240/home.js`
++- `POST /afa/php/commands.php` x2 at `05:29:55`
++  These align with `home.js` startup calls for dashboard data (`GET_DASHBOARDS_DATA` for default and all dashboards).
++- `POST /fa/tree/create`
++  This is the tree bootstrap call issued by `LazyLoadTrees_initialize()`.
++- `GET /AFA/php/TopbarMenu.php`
++- `GET /afa/php/prod_stat.php`
++
++Correlated Metro requests for the same session window:
++- Pre-redirect auth/session-support traffic already exists for the same session and continues through the redirect:
++  `storeFireflowCookie`, `config`, `session/extend`, landing-page lookup, `allowedFirewalls`, user lookup.
++- Immediately after `home.php`, Metro receives shell data requests carrying the same session:
++  `getAllFirewalls`, `device`, `findLatestReportPerDevice`, `monitor/folders`, `deviceInfo/getDeviceSummarizedInfo`, `nameToDevicesCount`, `brandConfig/getByDeviceName`, and repeated `allowedFirewalls`.
++
++Classification of nearby but non-core traffic:
++- `GET /FireFlow/SelfService/CheckAuthentication/?login=1` is adjacent suite traffic, not required to enter AFA `home.php`.
++- `GET /aff/api/internal/noauth/health/shallow` and `GET /BusinessFlow/shallow_health_check` are periodic health probes and should not be treated as first-shell dependencies.
++- Additional static assets under `/algosec-ui/` and `/algosec/suite/` are suite-frame branding and shared shell assets, not the AFA shell gate.
++
++Bottom line:
++- The hard transition into the AFA first shell is the `SuiteLoginSessionValidation.php -> home.php` redirect plus the immediate `dynamic.js`, `home.js`, dashboard bootstrap, tree bootstrap, topbar, and product-status requests.
++- The Metro calls with `session=i88p8vb1s79p6nb0f4o2jkpb07` are the backend data plane that populates the shell after entry, not the redirect decision itself.
+
+exec
+/bin/bash -c 'cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json' in /root succeeded in 0ms:
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "asms-home-shell-request-correlation-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Correlated a successful 2026-03-26 05:29:53-05:29:56 EDT SuiteLoginSessionValidation-to-home.php transition to AFA session i88p8vb1s79p6nb0f4o2jkpb07. The hard first-shell dependency set is the redirect into home.php plus dynamic.js, home.js, dashboard bootstrap commands, tree bootstrap, topbar, and prod_stat; nearby FireFlow auth checks, BusinessFlow/aff shallow health checks, and suite static assets are adjacent but not the redirect gate.",
+  "returned_artifact_paths": [
+    "artifacts/apache_transition_window.log",
+    "artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
+    "artifacts/SuiteLoginSessionValidation.php.snippet",
+    "artifacts/home.php.snippet",
+    "artifacts/TopbarMenu.php.snippet",
+    "artifacts/prod_stat.php.snippet",
+    "artifacts/home.js.init.snippet"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If the operator wants payload-level attribution for the anonymous commands.php POSTs, capture request bodies or enable a higher-fidelity Apache/Tomcat request log for one more bounded repro.",
+    "If the operator wants a stricter shell dependency set, compare this successful window against a failed SuiteLoginSessionValidation path and diff the missing Apache and Metro requests."
+exec
+/bin/bash -c 'ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1 /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts' in /root succeeded in 0ms:
+/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1:
+total 228
+drwxr-xr-x 3 root root   4096 Mar 26 18:51 .
+drwxr-xr-x 7 root root    186 Mar 26 18:47 ..
+drwxr-xr-x 2 root root   4096 Mar 26 18:50 artifacts
+-rw-r--r-- 1 root root 160067 Mar 26 18:51 codex-launch.log
+-rw-r--r-- 1 root root   1855 Mar 26 18:47 codex-prompt.txt
+-rw-r--r-- 1 root root   6829 Mar 26 18:51 commands.jsonl
+-rw-r--r-- 1 root root   1510 Mar 26 18:47 delegated-task-request.json
+-rw-r--r-- 1 root root   1517 Mar 26 18:51 delegated-task-result.json
+-rw-r--r-- 1 root root   3033 Mar 26 18:51 findings.md
+-rwxr-xr-x 1 root root    747 Mar 26 18:47 run-delegated-codex.sh
+
+/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts:
+total 68
+drwxr-xr-x 2 root root  4096 Mar 26 18:50 .
+drwxr-xr-x 3 root root  4096 Mar 26 18:51 ..
+-rw-r--r-- 1 root root  5173 Mar 26 18:50 SuiteLoginSessionValidation.php.snippet
+-rw-r--r-- 1 root root  3858 Mar 26 18:50 TopbarMenu.php.snippet
+-rw-r--r-- 1 root root  1696 Mar 26 18:50 apache_transition_window.log
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..cc6d04c1fe88022d5b86dba4ca08ff02f7a9bd0f
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+@@ -0,0 +1,37 @@
++{"cmd":"pwd","login":true,"workdir":"/root"}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":true,"workdir":"/root"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":true,"workdir":"/root"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":false,"workdir":"/root"}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php|SuiteLogin|session\" /var/log/httpd /data/ms-metro/logs /usr/share/fa/php --glob '!*.gz'","login":false,"workdir":"/root"}
++{"cmd":"ls -R /var/log/httpd /data/ms-metro/logs /usr/share/fa/php | sed -n '1,240p'","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php\" /var/log/httpd /data/ms-metro/logs --glob '!*.gz'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,220p' /usr/share/fa/php/SuiteLoginSessionValidation.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/home.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSession.php","login":false,"workdir":"/root"}
++{"cmd":"ls -1 /var/log/httpd","login":false,"workdir":"/root"}
++{"cmd":"tail -n 40 /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
++{"cmd":"tail -n 40 /data/ms-metro/logs/localhost_access_log.txt","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_access_log | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_request_log | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"SuiteLoginSessionValidation.php\\|home.php\\|TopbarMenu.php\\|prod_stat.php\\|dynamic.js.php\\|home.js\\|commands.php\\|fa/tree/create\" /var/log/httpd/ssl_access_log | tail -n 120","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"getAFASessionInfo|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo|tree/create|TopbarMenu|prod_stat|DISPLAY_ISSUES_CENTER\" /usr/share/fa/php /usr/share/fa/php/JSlib /usr/share/fa/php/JSlib1768164240 --glob '!*.min.js'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1280,1365p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"DISPLAY_ISSUES_CENTER|getAFASessionInfo|prod_stat|TopbarMenu|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo\" /usr/share/fa/php/JSlib1768164240/home.js /usr/share/fa/php/JSlib1768164240/*.js /usr/share/fa/php/inc/*.php","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\" /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"commands\\.php|DISPLAY_ISSUES_CENTER|TopbarMenu|prod_stat|LazyLoadTrees_initialize|document\\.ready|window\\.addEventListener\\('load'|\\$\\(document\\)\\.ready|issues center\" /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2640,2825p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/TopbarMenu.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,220p' /usr/share/fa/php/prod_stat.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2320,2425p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '240,520p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1080,1215p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"TopbarMenu\\.php|prod_stat\\.php|DISPLAY_ISSUES_CENTER|issues center|getAFASessionInfo\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php/JSlib /usr/share/fa/php --glob '!*.min.js'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2320,2365p' /usr/share/fa/php/utils.php","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,160p'","login":false,"workdir":"/root"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\\|26/Mar/2026:05:29:5[3-6].*SuiteLoginSessionValidation.php\\|26/Mar/2026:05:29:5[3-6].*FireFlow/SelfService/CheckAuthentication\\|26/Mar/2026:05:29:5[3-6].*shallow_health_check\\|26/Mar/2026:05:29:5[3-6].*health/shallow\" /var/log/httpd/ssl_access_log > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/apache_transition_window.log","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,140p' /usr/share/fa/php/SuiteLoginSessionValidation.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/SuiteLoginSessionValidation.php.snippet && sed -n '1,180p' /usr/share/fa/php/home.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.php.snippet && sed -n '1,120p' /usr/share/fa/php/TopbarMenu.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/TopbarMenu.php.snippet && sed -n '1,140p' /usr/share/fa/php/prod_stat.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/prod_stat.php.snippet && sed -n '1110,1365p' /usr/share/fa/php/JSlib1768164240/home.js > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.js.init.snippet","login":false,"workdir":"/root"}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..b21f4ea3d2c4a78e9987f45a399b2000432e6a5e
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+@@ -0,0 +1,22 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-request-correlation-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Correlated a successful 2026-03-26 05:29:53-05:29:56 EDT SuiteLoginSessionValidation-to-home.php transition to AFA session i88p8vb1s79p6nb0f4o2jkpb07. The hard first-shell dependency set is the redirect into home.php plus dynamic.js, home.js, dashboard bootstrap commands, tree bootstrap, topbar, and prod_stat; nearby FireFlow auth checks, BusinessFlow/aff shallow health checks, and suite static assets are adjacent but not the redirect gate.",
++  "returned_artifact_paths": [
++    "artifacts/apache_transition_window.log",
++    "artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
++    "artifacts/SuiteLoginSessionValidation.php.snippet",
++    "artifacts/home.php.snippet",
++    "artifacts/TopbarMenu.php.snippet",
++    "artifacts/prod_stat.php.snippet",
++    "artifacts/home.js.init.snippet"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If the operator wants payload-level attribution for the anonymous commands.php POSTs, capture request bodies or enable a higher-fidelity Apache/Tomcat request log for one more bounded repro.",
++    "If the operator wants a stricter shell dependency set, compare this successful window against a failed SuiteLoginSessionValidation path and diff the missing Apache and Metro requests."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc6c9725093e8d898084c28b9a8b6e90cab56710
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+@@ -0,0 +1,39 @@
++Successful correlation window: `2026-03-26 05:29:53-05:29:56 EDT`.
++
++Observed successful shell transition:
++- Apache shows `GET /afa/php/SuiteLoginSessionValidation.php` returning `302` at `05:29:53`, followed by `GET /afa/php/home.php` `200` at `05:29:54`.
++- The resulting AFA session is visible immediately after in Apache as `dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07` and in Metro as repeated `session=i88p8vb1s79p6nb0f4o2jkpb07`.
++
++Code-path correlation:
++- `SuiteLoginSessionValidation.php` validates AFA and FireFlow auth, then redirects default AFA landing traffic to `/afa/php/home.php`.
++- `home.php` creates the shell page, sets the session, emits `dynamic.js.php?sid=<session>`, and loads `home.js`.
++- `home.js` immediately issues dashboard bootstrap requests and `POST /fa/tree/create`.
++- `utils::PrintTopbar()` points the shell to `/AFA/php/TopbarMenu.php`.
++- `prod_stat.php` returns product usability state and is shell-adjacent, not the redirect gate itself.
++
++Hard first-shell dependency set from this window:
++- `GET /afa/php/SuiteLoginSessionValidation.php` -> `302`
++- `GET /afa/php/home.php` -> `200`
++- `GET /afa/php/JSlib1768164240/dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07`
++- `GET /afa/php/JSlib1768164240/home.js`
++- `POST /afa/php/commands.php` x2 at `05:29:55`
++  These align with `home.js` startup calls for dashboard data (`GET_DASHBOARDS_DATA` for default and all dashboards).
++- `POST /fa/tree/create`
++  This is the tree bootstrap call issued by `LazyLoadTrees_initialize()`.
++- `GET /AFA/php/TopbarMenu.php`
++- `GET /afa/php/prod_stat.php`
++
++Correlated Metro requests for the same session window:
++- Pre-redirect auth/session-support traffic already exists for the same session and continues through the redirect:
++  `storeFireflowCookie`, `config`, `session/extend`, landing-page lookup, `allowedFirewalls`, user lookup.
++- Immediately after `home.php`, Metro receives shell data requests carrying the same session:
++  `getAllFirewalls`, `device`, `findLatestReportPerDevice`, `monitor/folders`, `deviceInfo/getDeviceSummarizedInfo`, `nameToDevicesCount`, `brandConfig/getByDeviceName`, and repeated `allowedFirewalls`.
++
++Classification of nearby but non-core traffic:
++- `GET /FireFlow/SelfService/CheckAuthentication/?login=1` is adjacent suite traffic, not required to enter AFA `home.php`.
++- `GET /aff/api/internal/noauth/health/shallow` and `GET /BusinessFlow/shallow_health_check` are periodic health probes and should not be treated as first-shell dependencies.
++- Additional static assets under `/algosec-ui/` and `/algosec/suite/` are suite-frame branding and shared shell assets, not the AFA shell gate.
++
++Bottom line:
++- The hard transition into the AFA first shell is the `SuiteLoginSessionValidation.php -> home.php` redirect plus the immediate `dynamic.js`, `home.js`, dashboard bootstrap, tree bootstrap, topbar, and product-status requests.
++- The Metro calls with `session=i88p8vb1s79p6nb0f4o2jkpb07` are the backend data plane that populates the shell after entry, not the redirect decision itself.
+
+codex
+Wrote the delegated outputs under `/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1`.
+
+Result: one successful window at `2026-03-26 05:29:53-05:29:56 EDT` correlated `SuiteLoginSessionValidation.php -> home.php` to AFA session `i88p8vb1s79p6nb0f4o2jkpb07`. The write-up classifies `home.php`, `dynamic.js`, `home.js`, dashboard bootstrap, tree bootstrap, topbar, and `prod_stat` as the hard first-shell path, and separates FireFlow auth checks, shallow health probes, and suite static assets as adjacent/non-gating.
+
+Files:
+- [`delegated-task-result.json`](/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json)
+- [`findings.md`](/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md)
+- [`commands.jsonl`](/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl)
+- [`artifacts/`](/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts)
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..cc6d04c1fe88022d5b86dba4ca08ff02f7a9bd0f
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl
+@@ -0,0 +1,37 @@
++{"cmd":"pwd","login":true,"workdir":"/root"}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":true,"workdir":"/root"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":true,"workdir":"/root"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-request.json","login":false,"workdir":"/root"}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php|SuiteLogin|session\" /var/log/httpd /data/ms-metro/logs /usr/share/fa/php --glob '!*.gz'","login":false,"workdir":"/root"}
++{"cmd":"ls -R /var/log/httpd /data/ms-metro/logs /usr/share/fa/php | sed -n '1,240p'","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"SuiteLoginSessionValidation|home\\.php\" /var/log/httpd /data/ms-metro/logs --glob '!*.gz'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,220p' /usr/share/fa/php/SuiteLoginSessionValidation.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/home.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSession.php","login":false,"workdir":"/root"}
++{"cmd":"ls -1 /var/log/httpd","login":false,"workdir":"/root"}
++{"cmd":"tail -n 40 /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
++{"cmd":"tail -n 40 /data/ms-metro/logs/localhost_access_log.txt","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_access_log | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /var/log/httpd/ssl_request_log | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[0-9].*\\|26/Mar/2026:05:30:0[0-9].*\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,220p'","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"SuiteLoginSessionValidation.php\\|home.php\\|TopbarMenu.php\\|prod_stat.php\\|dynamic.js.php\\|home.js\\|commands.php\\|fa/tree/create\" /var/log/httpd/ssl_access_log | tail -n 120","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"getAFASessionInfo|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo|tree/create|TopbarMenu|prod_stat|DISPLAY_ISSUES_CENTER\" /usr/share/fa/php /usr/share/fa/php/JSlib /usr/share/fa/php/JSlib1768164240 --glob '!*.min.js'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1280,1365p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"DISPLAY_ISSUES_CENTER|getAFASessionInfo|prod_stat|TopbarMenu|allowedFirewalls|findLatestReportPerDevice|monitor/folders|deviceInfo/getDeviceSummarizedInfo\" /usr/share/fa/php/JSlib1768164240/home.js /usr/share/fa/php/JSlib1768164240/*.js /usr/share/fa/php/inc/*.php","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\" /var/log/httpd/ssl_access_log","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"commands\\.php|DISPLAY_ISSUES_CENTER|TopbarMenu|prod_stat|LazyLoadTrees_initialize|document\\.ready|window\\.addEventListener\\('load'|\\$\\(document\\)\\.ready|issues center\" /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2640,2825p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,240p' /usr/share/fa/php/TopbarMenu.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,220p' /usr/share/fa/php/prod_stat.php","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2320,2425p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '240,520p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1080,1215p' /usr/share/fa/php/JSlib1768164240/home.js","login":false,"workdir":"/root"}
++{"cmd":"rg -n \"TopbarMenu\\.php|prod_stat\\.php|DISPLAY_ISSUES_CENTER|issues center|getAFASessionInfo\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php/JSlib /usr/share/fa/php --glob '!*.min.js'","login":false,"workdir":"/root"}
++{"cmd":"sed -n '2320,2365p' /usr/share/fa/php/utils.php","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt | sed -n '1,160p'","login":false,"workdir":"/root"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"26/Mar/2026:05:29:5[3-6].*home.php\\|26/Mar/2026:05:29:5[3-6].*dynamic.js.php\\|26/Mar/2026:05:29:5[3-6].*home.js\\|26/Mar/2026:05:29:5[3-6].*TopbarMenu.php\\|26/Mar/2026:05:29:5[3-6].*prod_stat.php\\|26/Mar/2026:05:29:5[3-6].*commands.php\\|26/Mar/2026:05:29:5[3-6].*fa/tree/create\\|26/Mar/2026:05:29:5[3-6].*SuiteLoginSessionValidation.php\\|26/Mar/2026:05:29:5[3-6].*FireFlow/SelfService/CheckAuthentication\\|26/Mar/2026:05:29:5[3-6].*shallow_health_check\\|26/Mar/2026:05:29:5[3-6].*health/shallow\" /var/log/httpd/ssl_access_log > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/apache_transition_window.log","login":false,"workdir":"/root"}
++{"cmd":"grep -n \"i88p8vb1s79p6nb0f4o2jkpb07\" /data/ms-metro/logs/localhost_access_log.txt > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log","login":false,"workdir":"/root"}
++{"cmd":"sed -n '1,140p' /usr/share/fa/php/SuiteLoginSessionValidation.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/SuiteLoginSessionValidation.php.snippet && sed -n '1,180p' /usr/share/fa/php/home.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.php.snippet && sed -n '1,120p' /usr/share/fa/php/TopbarMenu.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/TopbarMenu.php.snippet && sed -n '1,140p' /usr/share/fa/php/prod_stat.php > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/prod_stat.php.snippet && sed -n '1110,1365p' /usr/share/fa/php/JSlib1768164240/home.js > /root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts/home.js.init.snippet","login":false,"workdir":"/root"}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..b21f4ea3d2c4a78e9987f45a399b2000432e6a5e
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json
+@@ -0,0 +1,22 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-request-correlation-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Correlated a successful 2026-03-26 05:29:53-05:29:56 EDT SuiteLoginSessionValidation-to-home.php transition to AFA session i88p8vb1s79p6nb0f4o2jkpb07. The hard first-shell dependency set is the redirect into home.php plus dynamic.js, home.js, dashboard bootstrap commands, tree bootstrap, topbar, and prod_stat; nearby FireFlow auth checks, BusinessFlow/aff shallow health checks, and suite static assets are adjacent but not the redirect gate.",
++  "returned_artifact_paths": [
++    "artifacts/apache_transition_window.log",
++    "artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
++    "artifacts/SuiteLoginSessionValidation.php.snippet",
++    "artifacts/home.php.snippet",
++    "artifacts/TopbarMenu.php.snippet",
++    "artifacts/prod_stat.php.snippet",
++    "artifacts/home.js.init.snippet"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If the operator wants payload-level attribution for the anonymous commands.php POSTs, capture request bodies or enable a higher-fidelity Apache/Tomcat request log for one more bounded repro.",
++    "If the operator wants a stricter shell dependency set, compare this successful window against a failed SuiteLoginSessionValidation path and diff the missing Apache and Metro requests."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc6c9725093e8d898084c28b9a8b6e90cab56710
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md
+@@ -0,0 +1,39 @@
++Successful correlation window: `2026-03-26 05:29:53-05:29:56 EDT`.
++
++Observed successful shell transition:
++- Apache shows `GET /afa/php/SuiteLoginSessionValidation.php` returning `302` at `05:29:53`, followed by `GET /afa/php/home.php` `200` at `05:29:54`.
++- The resulting AFA session is visible immediately after in Apache as `dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07` and in Metro as repeated `session=i88p8vb1s79p6nb0f4o2jkpb07`.
++
++Code-path correlation:
++- `SuiteLoginSessionValidation.php` validates AFA and FireFlow auth, then redirects default AFA landing traffic to `/afa/php/home.php`.
++- `home.php` creates the shell page, sets the session, emits `dynamic.js.php?sid=<session>`, and loads `home.js`.
++- `home.js` immediately issues dashboard bootstrap requests and `POST /fa/tree/create`.
++- `utils::PrintTopbar()` points the shell to `/AFA/php/TopbarMenu.php`.
++- `prod_stat.php` returns product usability state and is shell-adjacent, not the redirect gate itself.
++
++Hard first-shell dependency set from this window:
++- `GET /afa/php/SuiteLoginSessionValidation.php` -> `302`
++- `GET /afa/php/home.php` -> `200`
++- `GET /afa/php/JSlib1768164240/dynamic.js.php?sid=i88p8vb1s79p6nb0f4o2jkpb07`
++- `GET /afa/php/JSlib1768164240/home.js`
++- `POST /afa/php/commands.php` x2 at `05:29:55`
++  These align with `home.js` startup calls for dashboard data (`GET_DASHBOARDS_DATA` for default and all dashboards).
++- `POST /fa/tree/create`
++  This is the tree bootstrap call issued by `LazyLoadTrees_initialize()`.
++- `GET /AFA/php/TopbarMenu.php`
++- `GET /afa/php/prod_stat.php`
++
++Correlated Metro requests for the same session window:
++- Pre-redirect auth/session-support traffic already exists for the same session and continues through the redirect:
++  `storeFireflowCookie`, `config`, `session/extend`, landing-page lookup, `allowedFirewalls`, user lookup.
++- Immediately after `home.php`, Metro receives shell data requests carrying the same session:
++  `getAllFirewalls`, `device`, `findLatestReportPerDevice`, `monitor/folders`, `deviceInfo/getDeviceSummarizedInfo`, `nameToDevicesCount`, `brandConfig/getByDeviceName`, and repeated `allowedFirewalls`.
++
++Classification of nearby but non-core traffic:
++- `GET /FireFlow/SelfService/CheckAuthentication/?login=1` is adjacent suite traffic, not required to enter AFA `home.php`.
++- `GET /aff/api/internal/noauth/health/shallow` and `GET /BusinessFlow/shallow_health_check` are periodic health probes and should not be treated as first-shell dependencies.
++- Additional static assets under `/algosec-ui/` and `/algosec/suite/` are suite-frame branding and shared shell assets, not the AFA shell gate.
++
++Bottom line:
++- The hard transition into the AFA first shell is the `SuiteLoginSessionValidation.php -> home.php` redirect plus the immediate `dynamic.js`, `home.js`, dashboard bootstrap, tree bootstrap, topbar, and product-status requests.
++- The Metro calls with `session=i88p8vb1s79p6nb0f4o2jkpb07` are the backend data plane that populates the shell after entry, not the redirect decision itself.
+
+tokens used
+99,218
+Wrote the delegated outputs under `/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1`.
+
+Result: one successful window at `2026-03-26 05:29:53-05:29:56 EDT` correlated `SuiteLoginSessionValidation.php -> home.php` to AFA session `i88p8vb1s79p6nb0f4o2jkpb07`. The write-up classifies `home.php`, `dynamic.js`, `home.js`, dashboard bootstrap, tree bootstrap, topbar, and `prod_stat` as the hard first-shell path, and separates FireFlow auth checks, shallow health probes, and suite static assets as adjacent/non-gating.
+
+Files:
+- [`delegated-task-result.json`](/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/delegated-task-result.json)
+- [`findings.md`](/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/findings.md)
+- [`commands.jsonl`](/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/commands.jsonl)
+- [`artifacts/`](/root/.pack-state/delegated-codex-runs/asms-home-shell-request-correlation-v1/artifacts)

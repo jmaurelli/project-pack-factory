@@ -1,0 +1,310 @@
+/var/log/httpd/access_log:43524:127.0.0.1 - - [26/Mar/2026:10:19:00 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43525:127.0.0.1 - - [26/Mar/2026:10:19:00 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43526:127.0.0.1 - - [26/Mar/2026:10:19:01 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43527:127.0.0.1 - - [26/Mar/2026:10:19:01 -0400] "GET /config/ms-devicemanager/prod HTTP/1.1" 200 4204 "-" "Apache-HttpClient/5.3.1 (Java/17.0.10)"
+/var/log/httpd/access_log:43528:127.0.0.1 - - [26/Mar/2026:10:19:01 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43529:127.0.0.1 - - [26/Mar/2026:10:19:02 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43530:127.0.0.1 - - [26/Mar/2026:10:19:02 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43531:127.0.0.1 - - [26/Mar/2026:10:19:03 -0400] "GET / HTTP/1.1" 302 - "-" "curl/7.61.1"
+/var/log/httpd/access_log:43532:127.0.0.1 - - [26/Mar/2026:10:19:03 -0400] "GET / HTTP/1.1" 302 - "-" "curl/7.61.1"
+/var/log/httpd/access_log:43533:127.0.0.1 - - [26/Mar/2026:10:19:03 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43534:127.0.0.1 - - [26/Mar/2026:10:19:04 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43535:127.0.0.1 - - [26/Mar/2026:10:19:04 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43536:127.0.0.1 - - [26/Mar/2026:10:19:05 -0400] "GET /info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43537:127.0.0.1 - - [26/Mar/2026:10:19:05 -0400] "GET /info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43538:127.0.0.1 - - [26/Mar/2026:10:19:06 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43539:127.0.0.1 - - [26/Mar/2026:10:19:06 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43540:127.0.0.1 - - [26/Mar/2026:10:19:07 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43541:127.0.0.1 - - [26/Mar/2026:10:19:07 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43542:127.0.0.1 - - [26/Mar/2026:10:19:08 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43543:127.0.0.1 - - [26/Mar/2026:10:19:08 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43544:127.0.0.1 - - [26/Mar/2026:10:19:09 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43545:127.0.0.1 - - [26/Mar/2026:10:19:09 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43546:127.0.0.1 - - [26/Mar/2026:10:19:11 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43547:127.0.0.1 - - [26/Mar/2026:10:19:12 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43548:127.0.0.1 - - [26/Mar/2026:10:19:13 -0400] "GET /config/ms-watchdog/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 41669 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43549:127.0.0.1 - - [26/Mar/2026:10:19:13 -0400] "GET /config/ms-vulnerabilities/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 48392 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43550:127.0.0.1 - - [26/Mar/2026:10:19:13 -0400] "GET /config/ms-batch-application/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 40310 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43551:127.0.0.1 - - [26/Mar/2026:10:19:14 -0400] "GET /config/ms-initial-plan/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 35779 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43552:127.0.0.1 - - [26/Mar/2026:10:19:14 -0400] "GET /config/ms-mapDiagnostics/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 47831 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43553:127.0.0.1 - - [26/Mar/2026:10:19:14 -0400] "GET /config/ms-devicedriver-azure/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 33665 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43554:127.0.0.1 - - [26/Mar/2026:10:19:14 -0400] "GET /config/ms-multipush/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 35308 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43555:127.0.0.1 - - [26/Mar/2026:10:19:15 -0400] "GET /config/ms-devicemanager/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 34548 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43556:127.0.0.1 - - [26/Mar/2026:10:19:15 -0400] "GET /config/ms-devicedriver-aws/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 33643 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43557:127.0.0.1 - - [26/Mar/2026:10:19:16 -0400] "GET /config/ms-cloudlicensing/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 33185 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43558:127.0.0.1 - - [26/Mar/2026:10:19:16 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43559:127.0.0.1 - - [26/Mar/2026:10:19:16 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43560:127.0.0.1 - - [26/Mar/2026:10:19:30 -0400] "GET /config/ms-devicemanager/prod HTTP/1.1" 200 4204 "-" "Apache-HttpClient/5.3.1 (Java/17.0.10)"
+/var/log/httpd/access_log:43561:127.0.0.1 - - [26/Mar/2026:10:19:30 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43562:127.0.0.1 - - [26/Mar/2026:10:19:31 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43563:127.0.0.1 - - [26/Mar/2026:10:19:32 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43564:127.0.0.1 - - [26/Mar/2026:10:19:33 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43565:127.0.0.1 - - [26/Mar/2026:10:19:23 -0400] "GET /getStatus HTTP/1.1" 200 22 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43566:127.0.0.1 - - [26/Mar/2026:10:19:35 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43567:127.0.0.1 - - [26/Mar/2026:10:19:35 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43568:127.0.0.1 - - [26/Mar/2026:10:19:35 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43569:127.0.0.1 - - [26/Mar/2026:10:19:36 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43570:127.0.0.1 - - [26/Mar/2026:10:19:36 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43571:127.0.0.1 - - [26/Mar/2026:10:19:38 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43572:127.0.0.1 - - [26/Mar/2026:10:19:38 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43573:127.0.0.1 - - [26/Mar/2026:10:19:39 -0400] "GET /config/ms-watchdog/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 41669 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43574:127.0.0.1 - - [26/Mar/2026:10:19:39 -0400] "GET /config/ms-vulnerabilities/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 48392 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43575:127.0.0.1 - - [26/Mar/2026:10:19:39 -0400] "GET /config/ms-mapDiagnostics/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 47831 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43576:127.0.0.1 - - [26/Mar/2026:10:19:40 -0400] "GET /config/ms-batch-application/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 40310 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43577:127.0.0.1 - - [26/Mar/2026:10:19:40 -0400] "GET /config/ms-initial-plan/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 35779 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43578:127.0.0.1 - - [26/Mar/2026:10:19:40 -0400] "GET /config/ms-multipush/prod,machine,afaConfig,native,MASTER HTTP/1.1" 200 35308 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43579:127.0.0.1 - - [26/Mar/2026:10:19:41 -0400] "GET /config/ms-devicedriver-azure/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 33665 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43580:127.0.0.1 - - [26/Mar/2026:10:19:41 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43581:127.0.0.1 - - [26/Mar/2026:10:19:41 -0400] "GET /config/ms-cloudlicensing/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 33185 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43582:127.0.0.1 - - [26/Mar/2026:10:19:42 -0400] "GET /config/ms-devicedriver-aws/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 33643 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43583:127.0.0.1 - - [26/Mar/2026:10:19:43 -0400] "GET /config/ms-devicemanager/afaConfig,default,prod,machine,MASTER,native HTTP/1.1" 200 34548 "-" "Java/17.0.10"
+/var/log/httpd/access_log:43584:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43585:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43586:127.0.0.1 - - [26/Mar/2026:10:19:45 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43587:127.0.0.1 - - [26/Mar/2026:10:19:45 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43588:127.0.0.1 - - [26/Mar/2026:10:19:46 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43589:127.0.0.1 - - [26/Mar/2026:10:19:46 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43590:127.0.0.1 - - [26/Mar/2026:10:19:56 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43591:127.0.0.1 - - [26/Mar/2026:10:19:57 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43592:127.0.0.1 - - [26/Mar/2026:10:19:58 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43593:127.0.0.1 - - [26/Mar/2026:10:19:59 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43594:127.0.0.1 - - [26/Mar/2026:10:20:00 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43595:127.0.0.1 - - [26/Mar/2026:10:20:01 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43596:127.0.0.1 - - [26/Mar/2026:10:20:02 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43597:127.0.0.1 - - [26/Mar/2026:10:20:03 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43598:127.0.0.1 - - [26/Mar/2026:10:20:06 -0400] "GET /config/ms-devicemanager/prod HTTP/1.1" 200 4204 "-" "Apache-HttpClient/5.3.1 (Java/17.0.10)"
+/var/log/httpd/access_log:43599:127.0.0.1 - - [26/Mar/2026:10:20:15 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43600:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43601:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43602:127.0.0.1 - - [26/Mar/2026:10:20:17 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43603:127.0.0.1 - - [26/Mar/2026:10:20:17 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43604:127.0.0.1 - - [26/Mar/2026:10:20:17 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43605:127.0.0.1 - - [26/Mar/2026:10:20:18 -0400] "GET / HTTP/1.1" 302 - "-" "curl/7.61.1"
+/var/log/httpd/access_log:43606:127.0.0.1 - - [26/Mar/2026:10:20:18 -0400] "GET / HTTP/1.1" 302 - "-" "curl/7.61.1"
+/var/log/httpd/access_log:43607:127.0.0.1 - - [26/Mar/2026:10:20:19 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43608:127.0.0.1 - - [26/Mar/2026:10:20:20 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43609:127.0.0.1 - - [26/Mar/2026:10:20:20 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43610:127.0.0.1 - - [26/Mar/2026:10:20:20 -0400] "GET /info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43611:127.0.0.1 - - [26/Mar/2026:10:20:20 -0400] "GET /info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43612:127.0.0.1 - - [26/Mar/2026:10:20:21 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43613:127.0.0.1 - - [26/Mar/2026:10:20:21 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43614:127.0.0.1 - - [26/Mar/2026:10:20:22 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43615:127.0.0.1 - - [26/Mar/2026:10:20:22 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43616:127.0.0.1 - - [26/Mar/2026:10:20:23 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43617:127.0.0.1 - - [26/Mar/2026:10:20:23 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43618:127.0.0.1 - - [26/Mar/2026:10:20:24 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43619:127.0.0.1 - - [26/Mar/2026:10:20:24 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43620:127.0.0.1 - - [26/Mar/2026:10:20:25 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43621:127.0.0.1 - - [26/Mar/2026:10:20:25 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43622:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43623:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43624:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "POST /v1/api/issues-center/issues/record HTTP/1.1" 200 76 "-" "Apache-HttpClient/5.3.1 (Java/17.0.10)"
+/var/log/httpd/access_log:43625:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "GET /getStatus HTTP/1.1" 200 22 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43626:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "GET /getStatus HTTP/1.1" 200 22 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43627:127.0.0.1 - - [26/Mar/2026:10:20:27 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43628:127.0.0.1 - - [26/Mar/2026:10:20:27 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43629:127.0.0.1 - - [26/Mar/2026:10:20:28 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43630:127.0.0.1 - - [26/Mar/2026:10:20:28 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43631:127.0.0.1 - - [26/Mar/2026:10:20:29 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43632:127.0.0.1 - - [26/Mar/2026:10:20:29 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43633:127.0.0.1 - - [26/Mar/2026:10:20:30 -0400] "GET /actuator/info HTTP/1.1" 503 299 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43634:127.0.0.1 - - [26/Mar/2026:10:20:30 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43635:127.0.0.1 - - [26/Mar/2026:10:20:30 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43636:127.0.0.1 - - [26/Mar/2026:10:20:31 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43637:127.0.0.1 - - [26/Mar/2026:10:20:31 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43638:127.0.0.1 - - [26/Mar/2026:10:20:32 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43639:127.0.0.1 - - [26/Mar/2026:10:20:32 -0400] "GET /actuator/info HTTP/1.1" 200 2 "-" "curl/7.61.1"
+/var/log/httpd/access_log:43640:127.0.0.1 - - [26/Mar/2026:10:20:42 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/access_log:43641:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "OPTIONS * HTTP/1.0" 200 - "-" "Apache/2.4.37 (Rocky Linux) OpenSSL/1.1.1k Phusion_Passenger/6.0.10 mod_perl/2.0.12 Perl/v5.26.3 (internal dummy connection)"
+/var/log/httpd/ssl_access_log:85183:127.0.0.1 - - [26/Mar/2026:10:19:34 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85184:127.0.0.1 - - [26/Mar/2026:10:19:34 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+/var/log/httpd/ssl_access_log:85185:127.0.0.1 - - [26/Mar/2026:10:19:34 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85186:127.0.0.1 - - [26/Mar/2026:10:19:34 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85187:127.0.0.1 - - [26/Mar/2026:10:19:34 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85188:127.0.0.1 - - [26/Mar/2026:10:19:34 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+/var/log/httpd/ssl_access_log:85189:127.0.0.1 - - [26/Mar/2026:10:19:34 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85190:127.0.0.1 - - [26/Mar/2026:10:19:35 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85191:127.0.0.1 - - [26/Mar/2026:10:19:35 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85192:127.0.0.1 - - [26/Mar/2026:10:19:35 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85193:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "GET / HTTP/1.1" 200 164
+/var/log/httpd/ssl_access_log:85194:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85195:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85196:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85197:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85198:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85199:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85200:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "GET / HTTP/1.1" 200 164
+/var/log/httpd/ssl_access_log:85201:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85202:127.0.0.1 - - [26/Mar/2026:10:19:44 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85203:127.0.0.1 - - [26/Mar/2026:10:19:53 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85204:127.0.0.1 - - [26/Mar/2026:10:19:53 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85205:127.0.0.1 - - [26/Mar/2026:10:19:59 -0400] "GET / HTTP/1.1" 200 164
+/var/log/httpd/ssl_access_log:85206:127.0.0.1 - - [26/Mar/2026:10:20:03 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85207:127.0.0.1 - - [26/Mar/2026:10:20:03 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85208:127.0.0.1 - - [26/Mar/2026:10:20:05 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+/var/log/httpd/ssl_access_log:85209:127.0.0.1 - - [26/Mar/2026:10:19:26 -0400] "GET /afa/v2/api-docs HTTP/1.1" 200 52688
+/var/log/httpd/ssl_access_log:85210:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /ms-vulnerabilities/v2/api-docs HTTP/1.1" 200 3108
+/var/log/httpd/ssl_access_log:85211:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /ms-policy-optimizations/v2/api-docs HTTP/1.1" 200 5142
+/var/log/httpd/ssl_access_log:85212:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /ms-watchdog/v2/api-docs HTTP/1.1" 200 1061
+/var/log/httpd/ssl_access_log:85213:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /ms-mapDiagnostics/v2/api-docs HTTP/1.1" 200 3251
+/var/log/httpd/ssl_access_log:85214:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+/var/log/httpd/ssl_access_log:85215:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85216:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /FireFlow/api/swagger/v2/api-docs HTTP/1.1" 200 7041
+/var/log/httpd/ssl_access_log:85217:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /BusinessFlow/v2/api-docs HTTP/1.1" 200 11974
+/var/log/httpd/ssl_access_log:85218:127.0.0.1 - - [26/Mar/2026:10:20:13 -0400] "GET /AutoDiscovery/v2/api-docs HTTP/1.1" 502 346
+/var/log/httpd/ssl_access_log:85219:127.0.0.1 - - [26/Mar/2026:10:20:05 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
+/var/log/httpd/ssl_access_log:85220:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+/var/log/httpd/ssl_access_log:85221:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=87809vce36fj9169nbl6vuvm79 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85222:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "GET /afa/external//config?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 200 3131
+/var/log/httpd/ssl_access_log:85223:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "GET /afa/external//config?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 200 3131
+/var/log/httpd/ssl_access_log:85224:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85225:127.0.0.1 - - [26/Mar/2026:10:20:17 -0400] "GET /afa/external//config?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 200 3131
+/var/log/httpd/ssl_access_log:85226:127.0.0.1 - - [26/Mar/2026:10:20:17 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+/var/log/httpd/ssl_access_log:85227:127.0.0.1 - - [26/Mar/2026:10:20:17 -0400] "POST /afa/external//session/extend?domain=0&session=87809vce36fj9169nbl6vuvm79 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85228:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 398
+/var/log/httpd/ssl_access_log:85229:127.0.0.1 - - [26/Mar/2026:10:20:17 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 415
+/var/log/httpd/ssl_access_log:85230:127.0.0.1 - - [26/Mar/2026:10:20:18 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 3431
+/var/log/httpd/ssl_access_log:85231:127.0.0.1 - - [26/Mar/2026:10:20:18 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 311
+/var/log/httpd/ssl_access_log:85232:127.0.0.1 - - [26/Mar/2026:10:20:16 -0400] "POST /BusinessFlow/rest/v1/login HTTP/1.1" 200 49
+/var/log/httpd/ssl_access_log:85233:127.0.0.1 - - [26/Mar/2026:10:20:19 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+/var/log/httpd/ssl_access_log:85234:127.0.0.1 - - [26/Mar/2026:10:20:19 -0400] "POST /afa/external//session/extend?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85235:127.0.0.1 - - [26/Mar/2026:10:20:05 -0400] "POST /FireFlow/SelfService/CheckAuthentication HTTP/1.1" 200 315
+/var/log/httpd/ssl_access_log:85236:127.0.0.1 - - [26/Mar/2026:10:20:05 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 149
+/var/log/httpd/ssl_access_log:85237:127.0.0.1 - - [26/Mar/2026:10:20:05 -0400] "POST /FireFlow/api/authentication/authenticate HTTP/1.1" 200 177
+/var/log/httpd/ssl_access_log:85238:127.0.0.1 - - [26/Mar/2026:10:20:23 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85239:127.0.0.1 - - [26/Mar/2026:10:20:23 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85240:127.0.0.1 - - [26/Mar/2026:10:20:25 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3055
+/var/log/httpd/ssl_access_log:85241:127.0.0.1 - - [26/Mar/2026:10:20:25 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 135
+/var/log/httpd/ssl_access_log:85242:127.0.0.1 - - [26/Mar/2026:10:20:25 -0400] "GET /afa/external/journal/getChangesInOrigRulesByDate?startDate=1774534525000&endDate=1774534825212&session=du15gcigkvvrehbj1bb4g2045m&domain=0 HTTP/1.1" 200 3
+/var/log/httpd/ssl_access_log:85243:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "GET /fa/environment/isSessionAlive HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85244:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 28
+/var/log/httpd/ssl_access_log:85245:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 200 29
+/var/log/httpd/ssl_access_log:85246:127.0.0.1 - - [26/Mar/2026:10:20:26 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 160
+/var/log/httpd/ssl_access_log:85247:127.0.0.1 - - [26/Mar/2026:10:20:33 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85248:127.0.0.1 - - [26/Mar/2026:10:20:33 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85249:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "GET / HTTP/1.1" 200 164
+/var/log/httpd/ssl_access_log:85250:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85251:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85252:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85253:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85254:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85255:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85256:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85257:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "GET / HTTP/1.1" 200 164
+/var/log/httpd/ssl_access_log:85258:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85259:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85260:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
+/var/log/httpd/ssl_access_log:85261:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+/var/log/httpd/ssl_access_log:85262:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "GET /afa/external//config?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0 HTTP/1.1" 200 3131
+/var/log/httpd/ssl_access_log:85263:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "GET /afa/external//config?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0 HTTP/1.1" 200 3125
+/var/log/httpd/ssl_access_log:85264:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+/var/log/httpd/ssl_access_log:85265:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /afa/external//session/extend?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85266:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
+/var/log/httpd/ssl_access_log:85267:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+/var/log/httpd/ssl_access_log:85268:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85269:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85270:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
+/var/log/httpd/ssl_access_log:85271:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+/var/log/httpd/ssl_access_log:85272:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+/var/log/httpd/ssl_access_log:85273:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
+/var/log/httpd/ssl_access_log:85274:127.0.0.1 - - [26/Mar/2026:10:20:44 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+/var/log/httpd/ssl_access_log:85275:127.0.0.1 - - [26/Mar/2026:10:20:43 -0400] "GET /BusinessFlow/deep_health_check HTTP/1.1" 200 160
+/var/log/httpd/ssl_access_log:85276:127.0.0.1 - - [26/Mar/2026:10:20:53 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:85277:127.0.0.1 - - [26/Mar/2026:10:20:53 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 103
+/var/log/httpd/ssl_access_log:85278:127.0.0.1 - - [26/Mar/2026:10:20:55 -0400] "POST /afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0 HTTP/1.1" 200 -
+/var/log/httpd/ssl_request_log:85183:[26/Mar/2026:10:19:34 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85184:[26/Mar/2026:10:19:34 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 109
+/var/log/httpd/ssl_request_log:85185:[26/Mar/2026:10:19:34 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85186:[26/Mar/2026:10:19:34 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85187:[26/Mar/2026:10:19:34 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85188:[26/Mar/2026:10:19:34 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 109
+/var/log/httpd/ssl_request_log:85189:[26/Mar/2026:10:19:34 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85190:[26/Mar/2026:10:19:35 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85191:[26/Mar/2026:10:19:35 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85192:[26/Mar/2026:10:19:35 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85193:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET / HTTP/1.1" 164
+/var/log/httpd/ssl_request_log:85194:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85195:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85196:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85197:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85198:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85199:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85200:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET / HTTP/1.1" 164
+/var/log/httpd/ssl_request_log:85201:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85202:[26/Mar/2026:10:19:44 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85203:[26/Mar/2026:10:19:53 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85204:[26/Mar/2026:10:19:53 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85205:[26/Mar/2026:10:19:59 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET / HTTP/1.1" 164
+/var/log/httpd/ssl_request_log:85206:[26/Mar/2026:10:20:03 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85207:[26/Mar/2026:10:20:03 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85208:[26/Mar/2026:10:20:05 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 282
+/var/log/httpd/ssl_request_log:85209:[26/Mar/2026:10:19:26 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/v2/api-docs HTTP/1.1" 52688
+/var/log/httpd/ssl_request_log:85210:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /ms-vulnerabilities/v2/api-docs HTTP/1.1" 3108
+/var/log/httpd/ssl_request_log:85211:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /ms-policy-optimizations/v2/api-docs HTTP/1.1" 5142
+/var/log/httpd/ssl_request_log:85212:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /ms-watchdog/v2/api-docs HTTP/1.1" 1061
+/var/log/httpd/ssl_request_log:85213:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /ms-mapDiagnostics/v2/api-docs HTTP/1.1" 3251
+/var/log/httpd/ssl_request_log:85214:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 109
+/var/log/httpd/ssl_request_log:85215:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85216:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/swagger/v2/api-docs HTTP/1.1" 7041
+/var/log/httpd/ssl_request_log:85217:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /BusinessFlow/v2/api-docs HTTP/1.1" 11974
+/var/log/httpd/ssl_request_log:85218:[26/Mar/2026:10:20:13 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /AutoDiscovery/v2/api-docs HTTP/1.1" 346
+/var/log/httpd/ssl_request_log:85219:[26/Mar/2026:10:20:05 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/server/connection/login HTTP/1.1" 94
+/var/log/httpd/ssl_request_log:85220:[26/Mar/2026:10:20:16 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 129
+/var/log/httpd/ssl_request_log:85221:[26/Mar/2026:10:20:16 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=87809vce36fj9169nbl6vuvm79 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85222:[26/Mar/2026:10:20:16 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 3131
+/var/log/httpd/ssl_request_log:85223:[26/Mar/2026:10:20:16 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 3131
+/var/log/httpd/ssl_request_log:85224:[26/Mar/2026:10:20:16 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85225:[26/Mar/2026:10:20:17 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 3131
+/var/log/httpd/ssl_request_log:85226:[26/Mar/2026:10:20:17 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 129
+/var/log/httpd/ssl_request_log:85227:[26/Mar/2026:10:20:17 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//session/extend?domain=0&session=87809vce36fj9169nbl6vuvm79 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85228:[26/Mar/2026:10:20:16 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 398
+/var/log/httpd/ssl_request_log:85229:[26/Mar/2026:10:20:17 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/commands.php HTTP/1.1" 415
+/var/log/httpd/ssl_request_log:85230:[26/Mar/2026:10:20:18 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 3431
+/var/log/httpd/ssl_request_log:85231:[26/Mar/2026:10:20:18 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/api/v1/license HTTP/1.1" 311
+/var/log/httpd/ssl_request_log:85232:[26/Mar/2026:10:20:16 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /BusinessFlow/rest/v1/login HTTP/1.1" 49
+/var/log/httpd/ssl_request_log:85233:[26/Mar/2026:10:20:19 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 129
+/var/log/httpd/ssl_request_log:85234:[26/Mar/2026:10:20:19 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//session/extend?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85235:[26/Mar/2026:10:20:05 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/SelfService/CheckAuthentication HTTP/1.1" 315
+/var/log/httpd/ssl_request_log:85236:[26/Mar/2026:10:20:05 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 149
+/var/log/httpd/ssl_request_log:85237:[26/Mar/2026:10:20:05 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/api/authentication/authenticate HTTP/1.1" 177
+/var/log/httpd/ssl_request_log:85238:[26/Mar/2026:10:20:23 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85239:[26/Mar/2026:10:20:23 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85240:[26/Mar/2026:10:20:25 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 3055
+/var/log/httpd/ssl_request_log:85241:[26/Mar/2026:10:20:25 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 135
+/var/log/httpd/ssl_request_log:85242:[26/Mar/2026:10:20:25 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external/journal/getChangesInOrigRulesByDate?startDate=1774534525000&endDate=1774534825212&session=du15gcigkvvrehbj1bb4g2045m&domain=0 HTTP/1.1" 3
+/var/log/httpd/ssl_request_log:85243:[26/Mar/2026:10:20:26 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /fa/environment/isSessionAlive HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85244:[26/Mar/2026:10:20:26 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 28
+/var/log/httpd/ssl_request_log:85245:[26/Mar/2026:10:20:26 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log:85246:[26/Mar/2026:10:20:26 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 160
+/var/log/httpd/ssl_request_log:85247:[26/Mar/2026:10:20:33 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85248:[26/Mar/2026:10:20:33 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85249:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET / HTTP/1.1" 164
+/var/log/httpd/ssl_request_log:85250:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85251:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85252:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85253:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85254:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85255:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85256:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85257:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET / HTTP/1.1" 164
+/var/log/httpd/ssl_request_log:85258:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85259:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85260:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 120
+/var/log/httpd/ssl_request_log:85261:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 129
+/var/log/httpd/ssl_request_log:85262:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0 HTTP/1.1" 3131
+/var/log/httpd/ssl_request_log:85263:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/external//config?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0 HTTP/1.1" 3125
+/var/log/httpd/ssl_request_log:85264:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 129
+/var/log/httpd/ssl_request_log:85265:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//session/extend?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85266:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 3070
+/var/log/httpd/ssl_request_log:85267:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session HTTP/1.1" 49
+/var/log/httpd/ssl_request_log:85268:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85269:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85270:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 3070
+/var/log/httpd/ssl_request_log:85271:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session HTTP/1.1" 49
+/var/log/httpd/ssl_request_log:85272:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/ws.php HTTP/1.1" 188
+/var/log/httpd/ssl_request_log:85273:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 3070
+/var/log/httpd/ssl_request_log:85274:[26/Mar/2026:10:20:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session HTTP/1.1" 49
+/var/log/httpd/ssl_request_log:85275:[26/Mar/2026:10:20:43 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/deep_health_check HTTP/1.1" 160
+/var/log/httpd/ssl_request_log:85276:[26/Mar/2026:10:20:53 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" -
+/var/log/httpd/ssl_request_log:85277:[26/Mar/2026:10:20:53 -0400] 127.0.0.1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /BusinessFlow/shallow_health_check HTTP/1.1" 103
+/var/log/httpd/ssl_request_log:85278:[26/Mar/2026:10:20:55 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0 HTTP/1.1" -

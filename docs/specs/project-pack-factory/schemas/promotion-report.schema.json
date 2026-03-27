@@ -135,6 +135,169 @@
         }
       ]
     },
+    "autonomy_quality_evidence": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "report_path",
+            "generated_at",
+            "source_report_kind",
+            "overall_score",
+            "overall_rating",
+            "dimensions",
+            "findings",
+            "matched_rehearsal_report_path"
+          ],
+          "properties": {
+            "report_path": {
+              "type": "string",
+              "pattern": "^\\.pack-state/autonomy-quality-scores/[^/]+/score-report\\.json$"
+            },
+            "generated_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "source_report_kind": {
+              "type": "string",
+              "enum": [
+                "multi_hop_autonomy_rehearsal",
+                "startup_compliance_rehearsal"
+              ]
+            },
+            "overall_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "overall_rating": {
+              "type": "string",
+              "enum": [
+                "strong",
+                "good",
+                "mixed",
+                "weak"
+              ]
+            },
+            "dimensions": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "$ref": "#/$defs/autonomy_quality_dimension"
+              }
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "matched_rehearsal_report_path": {
+              "type": "string",
+              "pattern": "^\\.pack-state/multi-hop-autonomy-rehearsals/[^/]+/rehearsal-report\\.json$"
+            }
+          }
+        }
+      ]
+    },
+    "autonomy_quality_gate": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enforcement_mode",
+            "status",
+            "summary",
+            "evaluated_report_path",
+            "min_overall_rating",
+            "min_overall_score",
+            "minimum_dimension_scores"
+          ],
+          "properties": {
+            "enforcement_mode": {
+              "type": "string",
+              "enum": [
+                "advisory",
+                "required"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "not_required",
+                "pass"
+              ]
+            },
+            "summary": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evaluated_report_path": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\.pack-state/autonomy-quality-scores/[^/]+/score-report\\.json$"
+                }
+              ]
+            },
+            "min_overall_rating": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "good",
+                    "strong"
+                  ]
+                }
+              ]
+            },
+            "min_overall_score": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              ]
+            },
+            "minimum_dimension_scores": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "minProperties": 1,
+                  "additionalProperties": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
     "reconcile_refresh": {
       "anyOf": [
         {
@@ -345,6 +508,56 @@
     }
   },
   "$defs": {
+    "autonomy_quality_dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "score",
+        "summary",
+        "evidence_paths",
+        "details"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "scored",
+            "not_applicable"
+          ]
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
     "state": {
       "type": "object",
       "additionalProperties": false,
@@ -455,6 +668,8 @@
             "update_registry_entry",
             "append_operation_log",
             "verify_autonomy_rehearsal_evidence",
+            "verify_autonomy_quality_evidence",
+            "verify_autonomy_quality_gate",
             "write_promotion_report"
           ]
         },

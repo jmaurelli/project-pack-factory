@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/template-lineage-memory.schema.json",
+  "title": "Template Lineage Memory",
+  "description": "Template-local memory that summarizes what a template family has taught the factory across derived build-packs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "memory_id",
+    "template_id",
+    "template_root",
+    "producer",
+    "capability_family",
+    "summary",
+    "source_build_pack_ids",
+    "active_build_pack_ids",
+    "retired_build_pack_ids",
+    "distilled_lessons",
+    "latest_distillation_report_path",
+    "recommended_next_step",
+    "discovery_entrypoints",
+    "relevant_artifact_paths",
+    "status_snapshot",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "template-lineage-memory/v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "memory_id": {
+      "type": "string",
+      "pattern": "^template-lineage-memory-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+    },
+    "template_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "template_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability_family": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_build_pack_ids": {
+      "$ref": "#/$defs/string_array_maybe_empty"
+    },
+    "active_build_pack_ids": {
+      "$ref": "#/$defs/string_array_maybe_empty"
+    },
+    "retired_build_pack_ids": {
+      "$ref": "#/$defs/string_array_maybe_empty"
+    },
+    "distilled_lessons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/distilled_lesson"
+      }
+    },
+    "latest_distillation_report_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recommended_next_step": {
+      "type": "string",
+      "minLength": 1
+    },
+    "discovery_entrypoints": {
+      "$ref": "#/$defs/string_array"
+    },
+    "relevant_artifact_paths": {
+      "$ref": "#/$defs/string_array"
+    },
+    "status_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "template_registry_path",
+        "build_registry_path",
+        "build_pack_count",
+        "active_build_pack_count",
+        "retired_build_pack_count"
+      ],
+      "properties": {
+        "template_registry_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "build_registry_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "build_pack_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "active_build_pack_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retired_build_pack_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "notes": {
+      "$ref": "#/$defs/string_array"
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "string_array_maybe_empty": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "distilled_lesson": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lesson_id",
+        "title",
+        "summary",
+        "supporting_build_pack_ids",
+        "evidence_paths"
+      ],
+      "properties": {
+        "lesson_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supporting_build_pack_ids": {
+          "$ref": "#/$defs/string_array"
+        },
+        "evidence_paths": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    }
+  }
+}

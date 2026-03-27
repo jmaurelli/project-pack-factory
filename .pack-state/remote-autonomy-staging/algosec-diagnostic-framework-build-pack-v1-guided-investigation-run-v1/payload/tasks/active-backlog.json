@@ -1,0 +1,669 @@
+{
+  "generated_at": "2026-03-25T21:55:58Z",
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "Support Cockpit is documented as the selected prototype direction in pack-local state and specs.",
+        "The Starlight publishing path begins moving toward the Support Cockpit interaction model without changing the JSON-first artifact contract.",
+        "The next implementation cycle preserves the sticky quick-jump behavior, collapsible checkpoints, and command-first presentation."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Pack-local objective, backlog, work-state, and readiness files all reflect Support Cockpit as the chosen direction.",
+        "The remote Codex runtime is restaged with the updated build-pack state and given a concrete Support Cockpit implementation task.",
+        "Remote Codex invocation challenges and mitigations are documented in a pack-local note so the next implementation cycle starts from a cleaner launcher pattern."
+      ],
+      "dependencies": [
+        "prototype_starlight_publishing"
+      ],
+      "escalation_conditions": [
+        "The Support Cockpit direction starts to require account state, saved case state, or broader product platform work.",
+        "The next publishing iteration would replace the machine-readable baseline model instead of rendering it."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        "docs/specs/adf-support-cockpit-direction-v1.md",
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_prototypes.py"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Adopt Support Cockpit as the selected Starlight publishing direction and drive the next implementation cycle through that chassis.",
+      "task_id": "adopt_support_cockpit_direction",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack defines a canonical artifact model for runtime evidence, service inventory, and baseline output.",
+        "The first artifact model clearly separates observed facts, inference, and unknowns."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The CLI and source layout expose named surfaces for the first ADF artifact set.",
+        "The pack-local objective, backlog, and work-state files all point at the same first implementation slice."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The artifact model cannot stay small enough for the MVP without reopening product scope.",
+        "The required output set starts to imply broad test or fixture expansion."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Define the first bounded ADF artifact model for runtime evidence, service inventory, and baseline output.",
+      "task_id": "define_adf_artifact_model",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack can collect a safe first-pass AlgoSec runtime snapshot from the lab appliance.",
+        "The first collection path stays read-only and bounded to support-relevant evidence classes."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A runtime collection command exists for the first ADF slice.",
+        "The collection output includes service inventory and core platform checkpoints."
+      ],
+      "dependencies": [
+        "define_adf_artifact_model"
+      ],
+      "escalation_conditions": [
+        "The target appliance requires risky write actions or unsupported privilege changes to gather the first evidence set.",
+        "The first-pass evidence set expands beyond the MVP boundary of useful support diagnostics."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack",
+        "src/pack_export_runtime_evidence.py"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Implement the first safe runtime evidence collection path for the controlled AlgoSec lab appliance.",
+      "task_id": "implement_safe_runtime_collection",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack renders machine-readable baseline artifacts into a simple support-facing HTML view.",
+        "The HTML output remains a render of canonical JSON artifacts rather than a separate source of truth."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The first HTML-ready baseline output exists for the AlgoSec lab path.",
+        "Support-facing output is generated from the same artifact model used for machine-readable evidence."
+      ],
+      "dependencies": [
+        "define_adf_artifact_model",
+        "implement_safe_runtime_collection"
+      ],
+      "escalation_conditions": [
+        "The HTML layer starts to dominate the scope instead of remaining a thin render of machine-readable output.",
+        "The support-facing output requires broad UX work beyond a simple MVP render."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Generate the first HTML-ready support output from canonical ADF baseline artifacts.",
+      "task_id": "render_baseline_outputs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack can generate Astro Starlight site source from the canonical ADF baseline without replacing JSON as the source of truth.",
+        "The Rocky lab appliance can install and build the generated Astro Starlight site successfully with the system Node runtime.",
+        "The publishing direction stays portable so the long-term rendered site can later move to a separate Ubuntu host."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The build-pack exposes a generate-starlight-site command that writes package.json, Astro config, content collection files, markdown playbook pages, and renderer assets from support-baseline.json.",
+        "The lab appliance has a successful Astro Starlight build under the generated starlight-site artifact root."
+      ],
+      "dependencies": [
+        "render_baseline_outputs"
+      ],
+      "escalation_conditions": [
+        "The publishing layer starts to compete with the runtime evidence model instead of rendering it.",
+        "The Starlight path requires deep platform or hosting work before the support content is proven."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-artifact-model-v1.md",
+        "docs/specs/adf-publishing-direction-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Prototype Astro Starlight publishing from the canonical ADF baseline and verify the site can build on the Rocky lab appliance.",
+      "task_id": "prototype_starlight_publishing",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --artifact-root dist/candidates/benchmark-smoke-baseline --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The top support domains use language and sequencing that match how junior support engineers actually diagnose customer issues from an SSH session.",
+        "The highest-value decision playbooks are tuned for operator review without changing the canonical JSON-first model.",
+        "Priority playbooks use the current Check, Run, Verification, Linux note, and Known working example pattern.",
+        "The wording stays plain, short, and easy to follow for engineers using English as a second language."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "ASMS UI is down reflects the reviewed SSH-first four-step Linux-first flow inside the cleaned Support Cockpit chassis, and FireFlow Backend follows next.",
+        "HTML and JSON outputs remain aligned after the language tuning pass."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction",
+        "render_baseline_outputs",
+        "prototype_starlight_publishing"
+      ],
+      "escalation_conditions": [
+        "Requested wording changes imply a broader UX rewrite instead of playbook tuning.",
+        "Support guidance starts to require risky write actions instead of read-only diagnostics."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-language-standard-v1.md",
+        "docs/specs/adf-artifact-model-v1.md",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Continue tuning high-value support playbooks into final SSH-first operator language and decision flow, using the Support Cockpit chassis as the next operator-facing container.",
+      "task_id": "tune_operator_language_for_priority_domains",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Every major playbook can start from a shared host health pre-check pack before moving into subsystem-specific checks.",
+        "Priority playbooks embed service-status, listener, config, and log commands for more AlgoSec services and dependencies.",
+        "Each command remains read-only and includes a healthy signal plus failure interpretation.",
+        "Priority commands include short Linux note blocks, copy controls, and known working terminal examples where the target appliance can provide them.",
+        "Rare path or config checks stay deferred unless a playbook truly needs them."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A shared host health pre-check pack exists for disk, memory, OOM, and related host-resource checks used across major playbooks.",
+        "The command bundles extend beyond the current top-path checks and cover more service-specific failure paths.",
+        "Service ports, config checkpoints, and known working command output are surfaced more explicitly in the operator-facing output.",
+        "The ASMS UI path proves a reusable service-pack pattern with lab-backed status, listener, functional, and file-log checks for Keycloak and ms-metro."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction",
+        "render_baseline_outputs",
+        "prototype_starlight_publishing"
+      ],
+      "escalation_conditions": [
+        "The required command coverage implies broad appliance-specific scripting beyond the MVP boundary.",
+        "The next command set would require unsupported or risky write access on the target appliance."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/pack_export_runtime_evidence.py",
+        "docs/specs/adf-artifact-model-v1.md",
+        "docs/specs/adf-host-health-precheck-pack-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "in_progress",
+      "summary": "Expand service-specific diagnostic command coverage for priority services and dependencies, starting from the reusable ASMS UI service-pack pattern.",
+      "task_id": "expand_service_command_coverage",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "task_id": "formalize_shared_host_health_precheck_pack",
+      "title": "Formalize a shared host health pre-check pack",
+      "status": "completed",
+      "priority": "high",
+      "summary": "A fixed shared host health pre-check pack is now defined for every major playbook before subsystem-specific checks.",
+      "why_it_matters": "Disk, memory, OOM, and other host-resource checks are foundational Linux triage steps in every scenario. Defining them as a standard reusable pre-check keeps playbooks consistent and helps engineers start in the same place every time.",
+      "notes": [
+        "Treat this as a shared command pack that appears at the start of major playbooks.",
+        "Prefer human-readable command forms such as `-h` or `--human-readable` where supported.",
+        "Use the host pre-check pack before subsystem-specific commands for ASMS UI, FireFlow Backend, Messaging and Data, and similar playbooks.",
+        "The fixed v1 command set and wording now live in `docs/specs/adf-host-health-precheck-pack-v1.md`."
+      ]
+    },
+    {
+      "task_id": "prove_asms_ui_system_thinking_with_authenticated_flow",
+      "title": "Prove the ASMS UI system-thinking method with one authenticated lab flow",
+      "status": "completed",
+      "priority": "high",
+      "summary": "Use one real authenticated GUI flow plus same-minute log correlation to prove that the ASMS UI playbook can be refined from observed runtime behavior instead of guessed service order.",
+      "why_it_matters": "This is the first strong proof that ADF's systems-thinking method reduces support ambiguity in a real GUI-down path. It shows that a bounded browser flow, module-aware log correlation, and careful observed-versus-inferred wording can produce a more trustworthy troubleshooting model than a service-first page.",
+      "notes": [
+        "Treat the method as the durable result: reproduce one bounded browser flow, capture the first post-shell requests, correlate the same minute in Apache and downstream logs, then update the playbook only where the evidence supports it.",
+        "The important discovery is structural rather than only endpoint-specific: the customer-visible path can cross legacy setup checks, later auth handoffs, and post-login module traffic before the engineer reaches the true next failure point.",
+        "This task proved that systems thinking is operationally effective inside ADF, not only a documentation preference.",
+        "Use the same loop as the next path follows BusinessFlow, FireFlow, and other operational modules that materially affect customer-visible troubleshooting."
+      ]
+    },
+    {
+      "task_id": "capture_asms_post_home_followups_before_subsystem_split",
+      "title": "Capture ASMS post-home follow-ups before splitting into later subsystem paths",
+      "status": "completed",
+      "priority": "high",
+      "summary": "Use the reproduced post-home browser minute to keep immediate home-shell follow-ups inside the ASMS playbook and defer later subsystem-looking routes until the evidence says they are the true first stop point.",
+      "why_it_matters": "This lowers troubleshooting effort after login succeeds. It keeps the engineer on the shortest next checks instead of jumping too early into every nearby subsystem and background route.",
+      "notes": [
+        "The durable result is structural: after `/afa/php/home.php`, the first checks stay on home-shell follow-ups such as `FireFlowBridge.js`, basic home assets, Metro heartbeat, and light bridge-refresh traffic.",
+        "Treat routes like Notification Center or watchdog-linked issue counts as later subsystem candidates unless the reproduced browser minute proves they are the first real stop point.",
+        "The appliance-backed ADF artifacts and live review page were regenerated from this post-home model so the playbook and machine-readable baseline both reflect the tighter stop-point logic."
+      ]
+    },
+    {
+      "task_id": "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+      "title": "Capture BusinessFlow and FireFlow as support-relevant ASMS operational checkpoints",
+      "status": "completed",
+      "priority": "high",
+      "summary": "Use the authenticated lab evidence to treat BusinessFlow as the first named operational checkpoint in the ASMS path and FireFlow as a later auth-coupled module with explicit support-useful checks.",
+      "why_it_matters": "This turns the ASMS UI model into a lower-effort troubleshooting path for support engineers. It gives the engineer a stronger named checkpoint than a generic Keycloak-first guess and keeps FireFlow present only where the observed login journey says it matters.",
+      "notes": [
+        "The durable result is structural: BusinessFlow now deserves explicit treatment in the ASMS playbook because it appears as the first named operational checkpoint in the observed customer-visible login flow.",
+        "FireFlow should stay in the ASMS path for now as a later auth-coupled module, with support-useful checks such as `CheckAuthentication`, `CommandsDispatcher`, and `FireFlowBridge.js` correlation.",
+        "The appliance-backed ADF artifacts and live review page were regenerated from this stronger subsystem model so the playbook, machine-readable baseline, and operator review surface all match."
+      ]
+    },
+    {
+      "task_id": "rebuild_asms_ui_system_thinking_playbook",
+      "title": "Rebuild ASMS UI is down around system thinking",
+      "status": "in_progress",
+      "priority": "high",
+      "summary": "Rebuild `ASMS UI is down` from scratch around useful-work questions instead of extending the current service-first structure.",
+      "why_it_matters": "The current ASMS UI page proved several valuable patterns, but it still reflects too much service thinking. The next real ADF win is a from-scratch playbook that helps an engineer decide whether the host, Apache/HTTPD serving the UI, auth branch, app branch, and overall path can do useful work.",
+      "notes": [
+        "Treat this as a reset of the playbook structure, not another incremental patch cycle.",
+        "Start from the shared Host Health Pre-Check pack, then move to Apache/HTTPD serving the UI, auth branch, app branch, and useful-work stop point questions.",
+        "Frame Keycloak as the auth/login branch and `ms-metro` as the application branch rather than as isolated running services.",
+        "Keep logs as supporting clue surfaces after the functional checks instead of as the main diagnostic destination.",
+        "Use the authenticated browser-backed result as proof that the systems-thinking method works: bounded browser reproduction plus same-minute log correlation finds a more accurate path than service-first guessing.",
+        "As the map deepens, treat BusinessFlow as the first named operational checkpoint in the greater ASMS path and keep FireFlow as a later auth-coupled module unless stronger evidence warrants a separate branch.",
+        "Use the refined top-level auth stop logic too: if BusinessFlow deep health names a failing child seam, stop at `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection` instead of leaving the failure point at generic BusinessFlow.",
+        "After `/afa/php/home.php`, treat the rendered home shell as the first-class post-login checkpoint and keep the immediate home-shell follow-ups inside the ASMS playbook as supporting clues before splitting anything into a later subsystem path.",
+        "Keep Step 4 bounded to first usable home-shell plus immediate hydration only; do not let later `POLICY`, `CHANGES`, `REPORTS`, or `Analyze` branches leak back into the main `GUI down` gate.",
+        "Treat `GET /afa/getStatus` as the strongest immediate Metro supporting clue after the first usable shell appears, but do not promote it to a first-class stop point without stronger proof.",
+        "Treat `/afa/api/v1/config?...` and `/afa/api/v1/session/extend?...` as the strongest of the still-unproven same-minute Metro clues because the latest pass tied them to the fresh `PHPSESSID`.",
+        "Do not promote `FireFlowBridge.js`, `/afa/api/v1/license`, `/afa/api/v1/config?...`, `/afa/api/v1/config/all/noauth?domain=0`, `/afa/api/v1/session/extend?...`, or `/afa/api/v1/bridge/refresh?...` into first-class stop points unless a reproduced browser flow or a stronger proxy-side or server-side isolation pass proves that suppressing them breaks initial ASMS home-shell usability.",
+        "Carry forward the CDP boundary result: the browser-layer `Network.setBlockedURLs(...)` pass matched only the early `config/PRINT_TABLE_IN_NORMAL_VIEW` probe and did not own the real fresh-session `license`, `config`, `config/all/noauth`, or `session/extend` traffic.",
+        "Carry forward the route-ownership result too: Apache exposes separate `/afa/external` and `/afa/api/v1` proxy families toward Metro, and the fresh-session minute showed paired `/afa/config/...` and `/afa/api/v1/config?...` server-side surfaces around the same config family.",
+        "Carry forward the owner-split result as well: PHP `RestClient` also talks directly to `http://127.0.0.1:8080/afa` and issues `/config/...` requests, so the remaining `config` question is browser-owned versus PHP-owned rather than another family-wide Apache deny problem.",
+        "Carry forward the fresh-session correlation result too: for `PHPSESSID=jkp0cnnf971ksgifu3k25jopiq`, Apache `/afa/external//config...` and `/afa/external//session/extend...` lined up with Metro `/afa/api/v1/...`, while direct `/afa/config/...` and same-minute `/afa/getStatus` lines had no Apache parent.",
+        "Carry forward the auth-side named-read result too: `GET /afa/config/Case_Sensitive_Username?...` already returns `404` on this lab, and `SuiteLoginSessionValidation.php` already falls back when that value is missing, so this is not the next mutation target.",
+        "Carry forward the broader-bundle control-surface result too: the constructor and post-login path clearly use `reloadConfig()` and `GetConfigurationSettings()`, but a host-level owner-based `iptables` block on user `apache` would be too coarse because Apache proxy traffic to Metro shares the same worker user.",
+        "Carry forward the login-bootstrap control-path result too: `home.php` mostly consumes an existing `AlgosecSession`, while `AlgosecSessionManager::executeLogin()` and `postLoginActions()` own the first broader-bundle loads.",
+        "Variant A of the Apache seam mutation has now demoted `/afa/external` as a first-shell gate candidate because repeated `403` responses there still left `/afa/php/home.php` fully usable.",
+        "Variant B of the Apache seam mutation also left `/afa/php/home.php` fully usable and still did not cleanly own the fresh-session `config` and `session/extend` path, so the next useful seam is narrower than a family-wide Apache deny.",
+        "Use `docs/specs/asms-ui-config-owner-split-plan-v1.md` as the next narrowing plan, but treat the browser-facing owner split as solved enough for now.",
+        "The next meaningful seam is the internal direct `/afa/config/...` family behind PHP `RestClient`, not another browser-proxy mutation.",
+        "Use `docs/specs/asms-ui-direct-config-seam-plan-v1.md` when planning the next bounded experiment so the candidate callers stay concrete: the auth-side `Case_Sensitive_Username` read is already demoted, so the broader `GetConfigurationSettings()` bundle is the next real target.",
+        "Use `docs/specs/asms-ui-login-bootstrap-config-isolation-plan-v1.md` for the current bounded bootstrap experiment flow.",
+        "Treat Variant C1 in `AlgosecSessionManager::postLoginActions()` as reduced and use `.pack-state/remote-codex/asms-ui-postlogin-handleconfigparams-variant-c1-pass-20260326.md` as the canonical result.",
+        "Treat Variant C2 in `AlgosecSession::__construct()` as reduced and use `.pack-state/remote-codex/asms-ui-constructor-config-bypass-variant-c2-pass-20260326.md` as the canonical result.",
+        "Treat Variant C3 as reduced too and use `.pack-state/remote-codex/asms-ui-combined-bootstrap-variant-c3-pass-20260326.md` as the canonical result.",
+        "Move the next deeper experiment away from bootstrap mutation and toward later demand-loaded home-shell behavior.",
+        "Use `.pack-state/remote-codex/asms-ui-dashboard-demand-load-pass-20260326.md` as the current reduced model for that later-shell path: after login the first usable shell hydrates dashboard and issue-center routes before a deeper operator action is isolated.",
+        "Treat `DEVICES` as a shell-context and tree-refresh step in the bounded pass, not yet as the first clearly separate backend seam.",
+        "Treat `Analyze` as the first clean deeper operator action isolated so far because it produced `GET_ANALYSIS_OPTIONS` only after the landing shell and device context were already visible.",
+        "Treat the real `Start Analysis` action as a later workflow branch, not as part of the first usable-shell gate, because the submit path posts `cmd=ANALYZE` and launches `RunFaServer(...)` on the appliance.",
+        "Treat the device-context `POLICY` tab as a later content branch too, not as part of the first usable-shell gate, because it posts `GET_POLICY_TAB` and `GET_DEVICE_POLICY`, fills rule-documentation content, and can depend on analyzed report data.",
+        "Use `.pack-state/remote-codex/asms-ui-gui-up-classification-note-20260326.md` as the operator-facing boundary for this playbook: once the customer can navigate the devices tree and open `REPORTS` to view a report, stop classifying the case as `GUI down`; reaching `Analyze` is optional extra confirmation rather than a required boundary.",
+        "Use `.pack-state/remote-codex/asms-ui-backward-dependency-trajectory-note-20260326.md` as the next mapping rule: keep the core `ASMS UI is down` path bounded, then walk backward through BusinessFlow first, FireFlow second, and only then through supporting dependencies.",
+        "Treat the immediate backend seams behind `ms-bflow.service` on `8081` and `aff-boot.service` on `1989` as the next module-level dependency map for this trajectory.",
+        "Keep ActiveMQ out of the first-pass ASMS path, but no longer treat it as only an edge-case rumor. The latest staged FireFlow pass proved aff-boot holds live broker connections on 61616, which promotes ActiveMQ to a concrete later supporting dependency behind the closer FireFlow seam checks.",
+        "Use `.pack-state/remote-codex/asms-ui-businessflow-fireflow-dependency-seams-pass-20260326.md` as the staged seam note: BusinessFlow's closest readable neighbors are Postgres, AFA, and AFF, while FireFlow's closest readable neighbors are Apache proxying, aff-boot, and database-backed runtime behavior.",
+        "Use `.pack-state/remote-codex/asms-ui-businessflow-health-implementation-pass-20260326.md` as the deeper BusinessFlow seam note: the `AFA connection` and `AFF connection` checks land on local HTTPS session-liveness surfaces, not raw direct 8080 or 1989 probes.",
+        "Use `.pack-state/remote-codex/asms-ui-businessflow-local-https-ownership-pass-20260326.md` as the local-HTTPS ownership note: the AFF side is now reduced to Apache `443` -> `aff-boot` `1989`.",
+        "Use `.pack-state/remote-codex/asms-ui-afa-local-ownership-pass-20260326.md` as the AFA local-ownership note: `/afa/php/...` is Apache-fronted local PHP, while `/afa/external` and `/afa/api/v1` are Metro-backed proxy families.",
+        "Use `.pack-state/remote-codex/asms-ui-businessflow-afa-soap-path-pass-20260326.md` as the final AFA path note: the BusinessFlow `AFA connection` deep-health check lands on `https://localhost/afa/php/ws.php` and uses SOAP `isSessionAlive`, not `/afa/php/commands.php`.",
+        "Use `.pack-state/remote-codex/asms-ui-afa-soap-runtime-correlation-pass-20260326.md` as the runtime seam note: Apache only gives timing for `ws.php`, while `.ht-fa-history` provides the request hash, `SESSION / TOKEN / COOKIE` triple, and the `is_session_alive` result, and the next direct seam is the PHP session file plus `.ht-LastActionTime` for that same session id.",
+        "Use `.pack-state/remote-codex/asms-ui-main-stop-logic-refinement-pass-20260326.md` as the top-level stop-logic note when editing the main playbook again.",
+        "Do not reuse a host-level owner-based `iptables` block on user `apache` as that broader-bundle mutation surface; it is already known to be too coarse.",
+        "Use `docs/specs/adf-controlled-lab-mutation-experiment-pattern-v1.md` as the reusable template when the next deeper seam is finally ready."
+      ]
+    },
+    {
+      "task_id": "investigate_asms_ui_components_for_useful_work_checks",
+      "title": "Investigate ASMS UI components for stronger useful-work checks",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Investigate each major ASMS UI dependency component more thoroughly so the rebuilt playbook uses stronger useful-work checks instead of mostly restructured status and grep commands.",
+      "why_it_matters": "The current ASMS UI rebuild improved the structure, but several checks still prove service presence more than productive work. To make system thinking real, each branch needs deeper component-level investigation and better functional surfaces.",
+      "notes": [
+        "Start with the current ASMS UI dependency branches: Apache/HTTPD, Keycloak, and ms-metro.",
+        "Prefer checks that prove useful work, useful traffic, or meaningful runtime behavior over simple service-up or port-open checks.",
+        "Treat current curl checks such as Keycloak readiness, OIDC, and Metro heartbeat as good starting points, not the final answer.",
+        "Investigate whether ms-metro has better runtime or application surfaces than the current access-log grep and Java-clue grep commands.",
+        "Use the lab to discover stronger component-specific checks before widening the playbook again."
+      ]
+    },
+    {
+      "task_id": "reframe_host_precheck_around_pressure_signals",
+      "title": "Reframe the host pre-check around pressure signals",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Keep the current shared host pre-check commands, but reframe them so they reveal the pressure signal being checked and help the engineer reach a quick current assessment of the system.",
+      "why_it_matters": "ADF is now optimizing for engineer effort during live support. The host pre-check should not only show raw resource values. It should help the engineer see disk pressure, inode pressure, memory pressure, CPU pressure, and similar system conditions quickly and consistently.",
+      "notes": [
+        "Keep the existing host pre-check command set as the starting surface.",
+        "Reorient verification and Linux-note language around the main pressure metric for each command.",
+        "Prefer the most meaningful pressure clues first, such as available memory, swap growth, highest filesystem use, lowest free space, or top CPU consumers.",
+        "Use this to help the engineer reach a current system assessment quickly at the start of any playbook."
+      ]
+    },
+    {
+      "task_id": "explore_scenario_based_dashboard_direction",
+      "title": "Explore a scenario-based dashboard direction for ADF",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Consider whether ADF should gradually evolve from a documentation-style playbook surface into a small scenario-based clickable dashboard for support engineers.",
+      "why_it_matters": "ADF is starting to feel like a support engineer's support engineer. A bounded dashboard model could help engineers choose a likely starting scenario quickly and then work through collapsible diagnostic paths with less friction during live cases.",
+      "notes": [
+        "Treat this as a future design direction, not an immediate UI rewrite.",
+        "Keep the number of starting scenarios intentionally small, such as three to five high-value paths.",
+        "Preserve the command-first troubleshooting flow and avoid turning the page into a crowded control panel.",
+        "Use scenario descriptions that help an engineer decide whether the path matches the current case."
+      ]
+    },
+    {
+      "task_id": "build_adf_autonomous_iteration_loop",
+      "title": "Build more autonomous agent iteration into ADF",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Use the memory and feedback-loop surfaces already present in the build-pack, then decide what additional iteration logic should remain pack-local versus be imported from the factory itself so the remote agent can iterate with less scenario-by-scenario manual steering.",
+      "why_it_matters": "ADF is now moving into system-thinking playbooks, which are too deep to manage manually one scenario at a time. Much of the needed memory and feedback-loop foundation already exists in the build-pack, so the next design question is how to use that well and what should be inherited from factory-level logic.",
+      "notes": [
+        "Keep this bounded to pack-local memory surfaces, approved lab evidence, and explicit planning state.",
+        "Treat factory imports as a possible source of shared iteration logic rather than assuming the loop must be rebuilt entirely inside ADF.",
+        "Do not turn this into uncontrolled autonomy or broad self-directed scenario expansion.",
+        "Treat this as a build-pack logic and orchestration concern, not only as a remote runtime convenience.",
+        "Keep human review in the loop for major design, scope, and validation decisions."
+      ]
+    },
+    {
+      "task_id": "plan_controlled_fault_injection_playbook_validation",
+      "title": "Plan controlled fault-injection playbook validation",
+      "status": "pending",
+      "priority": "low",
+      "summary": "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly.",
+      "why_it_matters": "This could become a powerful way to test whether a diagnostic playbook really works end to end instead of only reading well on the page. It would help prove that the dependency path, commands, and stopping points lead an agent or engineer to the right conclusion.",
+      "notes": [
+        "Keep this far-future and lab-only for now.",
+        "Treat this as controlled fault injection, not a normal support workflow.",
+        "Require clear safety boundaries so only approved non-production lab targets can be mutated.",
+        "Use one agent to create the failure scenario and another to follow the playbook independently."
+      ]
+    },
+    {
+      "task_id": "refine_command_palette_contrast",
+      "title": "Refine command palette contrast",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Adjust the command palette styling so command text stays readable against the current code-block background and syntax-highlighting colors.",
+      "why_it_matters": "Some command text is hard to see because the syntax highlighting and frame background are too close in value. That creates friction exactly where engineers need the clearest visual surface.",
+      "notes": [
+        "Keep this as a presentation-layer change, not a command-content change.",
+        "Review both the bash command blocks and the known working example blocks.",
+        "Prefer contrast improvements that keep the command area visually distinct without overpowering the rest of the page."
+      ]
+    },
+    {
+      "task_id": "deepen_asms_ui_service_command_packs",
+      "title": "Deepen ASMS UI service command packs",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Expand the `ASMS UI services` step beyond simple service-up and port-open checks so Keycloak and ms-metro become real diagnostic command packs.",
+      "why_it_matters": "The current ASMS UI playbook is useful through host health and Apache edge, but the service-layer checks are still too shallow. Support engineers need service-specific commands that help explain why the UI is still failing, not only whether a process exists.",
+      "notes": [
+        "Treat the current Step 3 as the immediate command-coverage gap revealed by live review.",
+        "Build richer packs for `keycloak.service` and `ms-metro.service` with status, listener, recent logs, and one or more service-specific functional checks.",
+        "Keep the commands read-only, plain-language, and junior-support friendly.",
+        "Do this before moving on to FireFlow Backend so the first subsystem path becomes genuinely useful."
+      ]
+    },
+    {
+      "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+      "title": "Map the ASMS UI subsystem and validate core scenarios",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Build a bounded dependency map for the ASMS UI subsystem from lab evidence, then validate a small set of common failure scenarios against that map.",
+      "why_it_matters": "The ASMS UI path likely depends on a small set of important services such as httpd, keycloak, ms-metro, and possibly activemq, but the relationship needs to be mapped from evidence instead of guessed. A bounded map plus a few high-value scenarios will make the playbook far more trustworthy than shallow service checks or unlimited speculative branching.",
+      "notes": [
+        "Start by mapping the ASMS UI subsystem from configs, listeners, service units, process relationships, and logs on the lab appliance.",
+        "Treat likely direct dependencies and likely supporting dependencies separately until the evidence is clearer.",
+        "After the map is stable, validate only a small scenario set such as host pressure, httpd down, keycloak down, ms-metro down, and one additional dependency case if the evidence supports it.",
+        "Keep this bounded to the reduced Rocky footprint and the ASMS UI subsystem rather than expanding into full-system reverse engineering.",
+        "Carry forward the new authenticated-flow result: BusinessFlow is now a proven explicit operational checkpoint in the customer-visible ASMS path, while FireFlow is a later auth-coupled module that may grow into a richer subsystem branch if later evidence supports it.",
+        "Use the new post-home result to keep Notification Center or watchdog-linked issue counts outside the immediate ASMS path until the reproduced browser minute proves they are the first real failing stop point.",
+        "Treat the immediate backend seams behind `ms-bflow.service` on `8081` and `aff-boot.service` on `1989` as the next direct dependency surfaces to inspect for ASMS-looking failures.",
+        "Keep ActiveMQ as a supporting or edge-case dependency in this map unless the live flow or module runtime clearly proves a broker or JMS tie.",
+        "For the BusinessFlow seam, treat Postgres plus the local HTTPS AFA and FireFlow session-liveness surfaces as the closest readable neighbors surfaced by deep health before promoting Keycloak or ActiveMQ.",
+        "Treat the BusinessFlow seam as reduced enough for the current playbook because `AFA connection` is now mapped to Apache-served local PHP SOAP `/afa/php/ws.php`, and `AFF connection` is mapped to Apache `443` -> `aff-boot` `1989` via `/FireFlow/api/session`.",
+        "For the AFA side, stop the next support step at `.ht-fa-history` and the PHP session backing files before jumping outward to Metro. The first useful follow-on seam is `ws.php` -> `.ht-fa-history` -> `/var/lib/php/session/sess_<id>` -> `.ht-LastActionTime`.",
+        "For the FireFlow seam, treat Apache proxying, aff-boot, and database-backed runtime behavior as the closer checks, then keep ActiveMQ as a concrete later supporting dependency using `.pack-state/remote-codex/asms-ui-fireflow-broker-dependency-pass-20260326.md` and `.pack-state/remote-codex/asms-ui-fireflow-broker-correlation-pass-20260326.md`.",
+        "The reproduced ASMS login-handoff minute still centered on auth, session, and REST work rather than broker-side signals, so do not promote ActiveMQ into the immediate handoff path."
+      ]
+    },
+    {
+      "task_id": "validate_asms_ui_dependency_order_experimentally",
+      "title": "Validate ASMS UI dependency order experimentally",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Confirm whether the ASMS UI path is truly ordered as host -> httpd -> keycloak -> ms-metro, or whether some of those services should remain peer first-pass checks instead of a strict serial chain.",
+      "why_it_matters": "The current ASMS UI playbook now has effective service packs, but the exact dependency order is not fully proven yet. ADF should only claim a strict path after lab evidence and bounded experiments confirm it.",
+      "notes": [
+        "Treat the current playbook order as a strong working hypothesis, not a final proven dependency chain.",
+        "Use live evidence, config mapping, functional checks, and small lab experiments to confirm which service is upstream or downstream in the real ASMS UI path.",
+        "Keep ActiveMQ out of the first-pass path unless the evidence shows it is a direct gate for the UI-down scenario.",
+        "If controlled service-disable scenarios are needed later, keep them lab-only and align them with the broader controlled fault-injection planning item."
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The Support Cockpit page no longer wastes meaningful horizontal space with the current right-side `On this page` rail.",
+        "The center reading pane has more horizontal room for command-first playbook content.",
+        "Any replacement or repositioned page-map behavior still keeps navigation useful without crowding the main content."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The build-pack has an explicit layout task for the right-side page map instead of treating it as an informal review note.",
+        "The next UI pass can redraw, reduce, relocate, or suppress the `On this page` rail in a deliberate way."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "The right-rail change starts to require broader site-navigation redesign outside the current Support Cockpit scope.",
+        "The change would remove useful playbook navigation without a clear operator benefit."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Redraw the Support Cockpit right-side `On this page` rail so it takes less space and allows the main content pane to expand horizontally.",
+      "task_id": "refine_support_cockpit_right_rail_layout",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF tracks one explicit launcher-stability task for remote Codex work on the lab appliance instead of leaving the issue scattered across notes and ad hoc terminal recovery.",
+        "The task defines a preferred launcher pattern that consistently bypasses the appliance interactive menu for both short control runs and longer investigation loops."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A single supported remote launcher pattern is documented and used consistently for prompt, launcher, result, stderr, and log-file handling.",
+        "Remote Codex can be relaunched cleanly after interrupted or stale runs without falling back to trial-and-error shell quoting.",
+        "The ADF pack-local notes and state no longer rely on multiple improvised menu-bypass variants to describe a successful remote run."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "The launcher fix would require changing appliance login policy or unsupported OS-level shell behavior outside the controlled lab boundaries.",
+        "The standardization effort starts to sprawl into broad factory-wide remote-runtime redesign before the ADF pack proves its bounded launcher path."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Standardize one remote Codex launcher path that consistently bypasses the appliance interactive menu and shell-wrapper drift for both short control runs and longer ADF investigation loops.",
+      "task_id": "stabilize_remote_codex_launcher_against_interactive_menu",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack explicitly tracks a future task to align the remote Codex persona and instructions with ADF's evolving role as a Linux troubleshooting specialist and diagnostic playbook author.",
+        "The task stays at planning level until the operator is ready to review pack-local agent guidance directly."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The persona-alignment idea is preserved as a real backlog item instead of only a conversational note.",
+        "A future cycle can review and revise the pack-local agent guidance with ADF-specific goals in mind."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "The persona change would conflict with PackFactory control-plane requirements or the pack-local traversal contract.",
+        "The task begins changing agent behavior broadly before the operator explicitly asks to review the pack-local agent guidance."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Review whether the ADF remote Codex persona and pack-local agent guidance should evolve toward a Linux troubleshooting expert and diagnostic playbook author profile.",
+      "task_id": "review_adf_agent_persona_alignment",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next playbook slice deepens dependency-aware checks for important AlgoSec paths without trying to cover every service equally.",
+        "The build-pack preserves the current minimal-testing boundary while extending real operator value."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Shared dependencies and deeper failure branches are clearer for the top customer-facing paths.",
+        "The next remote review can focus on specific unresolved service paths instead of the whole appliance."
+      ],
+      "dependencies": [
+        "adopt_support_cockpit_direction",
+        "tune_operator_language_for_priority_domains",
+        "expand_service_command_coverage"
+      ],
+      "escalation_conditions": [
+        "The dependency model starts to force full-system reverse engineering instead of bounded support diagnostics.",
+        "The next extension would require broad new tests or fixture matrices."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Deepen dependency-aware playbooks for the highest-value AlgoSec service paths.",
+      "task_id": "deepen_dependency_aware_playbooks",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "task_id": "consider_horizontal_dependency_path_in_center_pane",
+      "title": "Consider a horizontal dependency path in the center pane",
+      "status": "completed",
+      "priority": "medium",
+      "summary": "The dependency path now renders horizontally within the center pane so it uses width instead of pushing the stepwise details farther down the page.",
+      "why_it_matters": "This recovers vertical room for the detailed checks while preserving the path-map view at the top of the playbook.",
+      "notes": [
+        "Keep the dependency path inside the main center content area.",
+        "Preserve click-to-jump behavior to the matching step or checkpoint.",
+        "The horizontal strip is now live on the lab review page and remains a candidate for further tuning after operator review."
+      ]
+    },
+    {
+      "task_id": "enhance_linux_notes_as_optional_learning_layer",
+      "title": "Enhance Linux notes as an optional learning layer",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
+      "why_it_matters": "The current Linux notes are useful because they are optional. Engineers can skip them when they already know the concept, or open them when they need a quick explanation. This can build shared Linux troubleshooting language over time without turning the playbook into training material.",
+      "notes": [
+        "Keep Linux notes collapsible by default.",
+        "Prefer short plain-language explanations tied directly to the current check.",
+        "Use Linux notes to clarify terms like memory pressure, inode pressure, OOM, file locks, and similar concepts when they matter to triage."
+      ]
+    },
+    {
+      "task_id": "codify_system_thinking_as_adf_theme",
+      "title": "Codify system thinking as an ADF theme",
+      "status": "pending",
+      "priority": "high",
+      "summary": "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up.",
+      "why_it_matters": "This is the deeper value behind the recent service-pack work. ADF is strongest when it helps engineers judge productive system behavior rather than memorize isolated service checks.",
+      "notes": [
+        "Use this theme to shape command coverage, dependency paths, Linux notes, and future playbook wording.",
+        "Prefer checks that prove useful work or functional health over checks that only prove process presence.",
+        "Keep this bounded to support diagnostics and avoid turning ADF into a generalized systems-theory product."
+      ]
+    },
+    {
+      "task_id": "formalize_linux_foundation_as_adf_theme",
+      "title": "Formalize the Linux foundation as an ADF project theme",
+      "status": "pending",
+      "priority": "medium",
+      "summary": "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
+      "why_it_matters": "ADF is already trending toward Linux-first diagnostics, Linux-standard language, and Linux note clarifications. Formalizing that foundation would help align playbooks, terminology, discovery logic, and future agent guidance around the real operating context engineers face during triage.",
+      "notes": [
+        "Consider whether this belongs in project context, operator language standards, and future agent guidance rather than only inside a persona note.",
+        "Preserve the distinction between troubleshooting the Linux host itself and troubleshooting the application stack that depends on Linux services, ports, filesystems, logs, and open source components.",
+        "Use this theme to guide future playbook structure, dependency mapping, and educational Linux notes without turning ADF into a generic Linux training product."
+      ]
+    }
+  ]
+}

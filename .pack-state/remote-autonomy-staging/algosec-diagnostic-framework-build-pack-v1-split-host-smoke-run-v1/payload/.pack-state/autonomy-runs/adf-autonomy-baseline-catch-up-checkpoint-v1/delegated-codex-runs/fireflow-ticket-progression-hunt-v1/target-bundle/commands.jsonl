@@ -1,0 +1,33 @@
+{"cmd":"pwd","note":"initial attempt via login shell dropped into appliance menu instead of returning shell output"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/delegated-task-request.json","note":"initial attempt via login shell dropped into appliance menu instead of returning shell output"}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/artifacts","note":"initial attempt via login shell dropped into appliance menu instead of returning shell output"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/delegated-task-request.json","exit_code":0}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/artifacts","exit_code":0}
+{"cmd":"pwd","exit_code":0}
+{"cmd":"cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","exit_code":1}
+{"cmd":"find /var/log/httpd /data/algosec-ms/logs /data/pgsql /opt/activemq /usr/share/aff /usr/share/fireflow /usr/share/fireflow/local -maxdepth 2 -type f | sort","exit_code":0}
+{"cmd":"date -u +%Y-%m-%dT%H:%M:%SZ","exit_code":0}
+{"cmd":"find /usr/share/fireflow /usr/share/fireflow/local /data/algosec-ms/logs /var/log/httpd /data/pgsql /opt/activemq -type f \\( -name '*fireflow*.log*' -o -name '*aff-boot*.log*' -o -name '*access_log*' -o -name '*postgresql*' -o -name '*pg_log*' -o -name '*activemq*' -o -name '*broker*' \\) | sort","exit_code":0}
+{"cmd":"rg -n -i --max-count 200 'ticket|request id|requestid|approval|implement|review|change request|workflow|queue|SubmitRequest|CreateTicket|ChangeRequest|Request #|Ticket #' /usr/share/fireflow /data/algosec-ms/logs /var/log/httpd /data/pgsql /opt/activemq","exit_code":0}
+{"cmd":"find /usr/share/fireflow /data/algosec-ms/logs /var/log/httpd /data/pgsql /opt/activemq -type f | rg 'fireflow\\.log|aff-boot|postgres|pgsql|access_log|error_log|catalina|wrapper|active'","exit_code":0}
+{"cmd":"tail -n 400 /usr/share/fireflow/var/log/fireflow.log","exit_code":0}
+{"cmd":"tail -n 200 /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","exit_code":0}
+{"cmd":"tail -n 200 /var/log/httpd/ssl_access_log","exit_code":0}
+{"cmd":"rg -n -i 'CreateTicket|ModifyTicket|TakeTicket|AssignTicket|CommentOnTicket|AllowApprove|AllowReview|AllowImplementationDone|approval|approved|review|implementation|ticket id|request id|requestId|request number|ticket number|Create request|new ticket|ticket created|status change|workflow' /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.[1-9]","exit_code":0}
+{"cmd":"rg -n 'CommandsDispatcher|api/ticket|api/request|/FireFlow/api/|/BusinessFlow/|ticket|request' /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","exit_code":0}
+{"cmd":"ls -ltr /usr/share/fireflow/var/log/fireflow.log*","exit_code":0}
+{"cmd":"rg -n 'Database(Name|User|Password)|dbi:Pg|Pg' /usr/share/fireflow/etc/RT_SiteConfig.pm /usr/share/fireflow/local/etc/FireFlow_Config.pm /usr/share/fireflow/etc/RT_Config.pm","exit_code":0}
+{"cmd":"rg -n -i 'fireflow|ticket|request|rt_' /data/pgsql/15/data/pg_log/postgresql-Thu.log","exit_code":0}
+{"cmd":"which psql","exit_code":0}
+{"cmd":"psql -U postgres -d rt3 -Atqc \"select count(*) from Tickets;\"","exit_code":2}
+{"cmd":"psql -U rt_user -d rt3 -Atqc \"select count(*) from Tickets;\"","exit_code":2}
+{"cmd":"psql -U postgres -d rt3 -Atqc \"select id, EffectiveId, Queue, Status, Subject from Tickets order by id desc limit 10;\"","exit_code":2}
+{"cmd":"rg -o 'Destination module: \\[[^]]+\\], Command: \\[[^]]+\\]' /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.[1-9] | sort | uniq -c | sort -nr | head -n 200","exit_code":0}
+{"cmd":"rg -n 'Ticket|Approval|Implement|Review|Request|Workflow|Plan|RePlan|RiskCheck|ManualCheck|ChangeValidation|ImplementationPlan|InitialPlan|RelatedTickets' /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.[1-9] | head -n 400","exit_code":0}
+{"cmd":"rg -n 'module: \\[(?!UserSession|GetUserInfo|Settings|SystemStatus|ApplicationConfig|GetVersion)[^]]+' -P /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.[1-9] | head -n 300","exit_code":0}
+{"cmd":"rg -n 'syslog_ticket_changes|Total tickets in DB|tickets updated in the last 10 minutes|journal/updateLastChanges|allowedDevices|setup/fireflow/is_enabled|config/all/noauth|brand-config/isRuleDisableSupported|bridge/refresh' /usr/share/fireflow/var/log/fireflow.log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt /data/pgsql/15/data/pg_log/postgresql-Thu.log","exit_code":0}
+{"cmd":"sed -n '5468,5548p' /usr/share/fireflow/var/log/fireflow.log","exit_code":0}
+{"cmd":"sed -n '1,120p' /usr/share/fireflow/var/log/fireflow.log","exit_code":0}
+{"cmd":"sed -n '1,80p' /usr/share/fireflow/var/log/fireflow.log > /root/.pack-state/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/artifacts/fireflow-activation-and-empty-ticket-window.txt","exit_code":0}
+{"cmd":"sed -n '5468,5548p' /usr/share/fireflow/var/log/fireflow.log > /root/.pack-state/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/artifacts/fireflow-2013-window.txt","exit_code":0}
+{"cmd":"rg -n 'config/all/noauth|setup/fireflow/is_enabled|allowedDevices|bridge/refresh|journal/updateLastChanges' /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt /data/pgsql/15/data/pg_log/postgresql-Thu.log > /root/.pack-state/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/artifacts/correlated-http-aff-pg-evidence.txt","exit_code":0}

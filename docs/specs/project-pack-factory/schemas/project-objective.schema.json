@@ -80,6 +80,9 @@
     },
     "autonomy_rehearsal_requirement": {
       "$ref": "#/$defs/autonomy_rehearsal_requirement"
+    },
+    "autonomy_quality_requirement": {
+      "$ref": "#/$defs/autonomy_quality_requirement"
     }
   },
   "$defs": {
@@ -141,6 +144,73 @@
           "$ref": "#/$defs/non_empty_string"
         }
       }
+    },
+    "autonomy_quality_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_for_promotion",
+        "summary"
+      ],
+      "properties": {
+        "required_for_promotion": {
+          "type": "boolean"
+        },
+        "summary": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "min_overall_rating": {
+          "type": "string",
+          "enum": [
+            "good",
+            "strong"
+          ]
+        },
+        "min_overall_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "minimum_dimension_scores": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "required_for_promotion": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "required": [
+                  "min_overall_rating"
+                ]
+              },
+              {
+                "required": [
+                  "min_overall_score"
+                ]
+              },
+              {
+                "required": [
+                  "minimum_dimension_scores"
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   }
 }

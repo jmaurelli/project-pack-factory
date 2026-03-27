@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "6b896f91d5cbce4f305867652b880fdfed254f2620d2b7521fdfd02adb8bef66",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1/json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "ac62032dce72ab93048582634bc50fc886fc9bfeb71275a540dbe9e635f3752b",
+  "portable_helper_manifest_sha256": "87d2b699f492af8887803b1d3e14eabcb9e056dec782abd3308c36e7ba2dbd05",
+  "pulled_at": "2026-03-26T12:02:48Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1/json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "6d6c96920c50ccc9a1642d6e27678383a1e7bfe32064a9e30c59b421049337cb",
+  "remote_run_request_sha256": "6e869297c0a90a43148c36c5fc7235b517ce3af914bd3ede11ac1fcb9ccc1730",
+  "remote_target_label": "adf-dev",
+  "run_id": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1",
+  "target_manifest_sha256": "1044b1657668bf7975fa7c443cb9b28de7e32a8d0372ff6ce9d954ded9d18bef",
+  "wrapper_request_sha256": "762c46db36ab89aef07e17c699b70ddefd094241c67d0ead36f5659d1e2a7932"
+}

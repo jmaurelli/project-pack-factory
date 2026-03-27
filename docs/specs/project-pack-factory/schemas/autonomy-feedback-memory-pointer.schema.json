@@ -12,6 +12,7 @@
     "selected_run_id",
     "selected_generated_at",
     "selected_memory_path",
+    "selected_memory_tier",
     "selected_memory_sha256",
     "source_kind",
     "source_import_id",
@@ -52,6 +53,15 @@
     "selected_memory_path": {
       "type": "string",
       "minLength": 1
+    },
+    "selected_memory_tier": {
+      "type": "string",
+      "enum": [
+        "scratch_memory",
+        "restart_memory",
+        "promoted_factory_memory",
+        "retired_memory"
+      ]
     },
     "selected_memory_sha256": {
       "type": "string",

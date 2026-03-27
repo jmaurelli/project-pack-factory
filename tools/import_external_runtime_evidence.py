@@ -6,7 +6,7 @@ import hashlib
 import json
 import shutil
 import sys
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Final, cast
 
@@ -50,6 +50,21 @@ def _load_object(path: Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise ValueError(f"{path}: JSON document must contain an object")
     return cast(dict[str, Any], payload)
+
+
+def _parse_datetime_utc(value: str) -> datetime | None:
+    normalized = value.strip()
+    if not normalized:
+        return None
+    if normalized.endswith("Z"):
+        normalized = normalized[:-1] + "+00:00"
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc).replace(microsecond=0)
 
 
 def _manual_validate_request(payload: dict[str, Any]) -> list[str]:
@@ -391,6 +406,7 @@ def _memory_block_summary(
 def _select_active_memory_candidate(pack_root: Path, pack_id: str) -> tuple[Path, dict[str, Any], str] | None:
     memory_root = pack_root / LIVE_MEMORY_ROOT
     canonical_alignment = _canonical_memory_alignment(pack_root)
+    now = read_now()
     candidates: list[tuple[str, str, Path, dict[str, Any], str]] = []
     for path in sorted(memory_root.glob("autonomy-feedback-*.json")):
         payload = _load_object(path)
@@ -400,6 +416,13 @@ def _select_active_memory_candidate(pack_root: Path, pack_id: str) -> tuple[Path
             continue
         if not _memory_matches_canonical(payload, canonical_alignment):
             continue
+        validity = payload.get("memory_validity")
+        if isinstance(validity, dict):
+            expires_at = validity.get("expires_at")
+            if isinstance(expires_at, str):
+                expires_at_dt = _parse_datetime_utc(expires_at)
+                if expires_at_dt is not None and now > expires_at_dt:
+                    continue
         generated_at = payload.get("generated_at")
         if not isinstance(generated_at, str) or not generated_at:
             continue
@@ -438,6 +461,7 @@ def _refresh_latest_memory_pointer(
         "selected_run_id": selected_payload.get("run_id"),
         "selected_generated_at": selected_payload.get("generated_at"),
         "selected_memory_path": selected_memory_relpath,
+        "selected_memory_tier": selected_payload.get("memory_tier", {}).get("tier", "restart_memory"),
         "selected_memory_sha256": selected_sha256,
         "source_kind": "imported_external_runtime_evidence" if selected_path == promoted_memory_path else "local_autonomy_run",
         "source_import_id": import_id if selected_path == promoted_memory_path else None,

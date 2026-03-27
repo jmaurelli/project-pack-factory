@@ -217,6 +217,19 @@ def _seed_autonomy_rehearsal_evidence(factory_root: Path, pack_root: Path) -> No
                 "build_pack_id": pack_id,
                 "run_id": run_id,
             },
+            "canonical_readiness_refresh_result": {
+                "status": "completed",
+                "validation_result": {
+                    "status": "completed",
+                    "mode": "validation-only",
+                },
+                "benchmark_result": {
+                    "status": "completed",
+                    "mode": "benchmark-only",
+                },
+                "post_refresh_readiness_state": readiness["readiness_state"],
+                "post_refresh_ready_for_deployment": readiness["ready_for_deployment"],
+            },
             "final_state": {
                 "readiness": readiness,
                 "work_state": work_state,
@@ -224,6 +237,71 @@ def _seed_autonomy_rehearsal_evidence(factory_root: Path, pack_root: Path) -> No
             },
         },
     )
+
+
+def _seed_autonomy_quality_evidence(
+    factory_root: Path,
+    pack_root: Path,
+    *,
+    overall_score: float = 92.5,
+    overall_rating: str = "strong",
+    dimensions: dict[str, object] | None = None,
+) -> None:
+    generated_at = "2026-03-20T00:00:00Z"
+    pack_id = pack_root.name
+    rehearsal_id = f"multi-hop-autonomy-rehearsal-{pack_id}-20260320t000000z"
+    rehearsal_report_path = factory_root / ".pack-state" / "multi-hop-autonomy-rehearsals" / rehearsal_id / "rehearsal-report.json"
+    score_id = f"autonomy-quality-score-{rehearsal_id}-20260320t000100z"
+    score_root = factory_root / ".pack-state" / "autonomy-quality-scores" / score_id
+    score_root.mkdir(parents=True, exist_ok=True)
+    write_json(
+        score_root / "score-report.json",
+        {
+            "schema_version": "autonomy-quality-score-report/v1",
+            "score_id": score_id,
+            "generated_at": "2026-03-20T00:01:00Z",
+            "source_report_kind": "multi_hop_autonomy_rehearsal",
+            "source_report_path": str(rehearsal_report_path),
+            "target_build_pack_id": pack_id,
+            "target_build_pack_root": str(pack_root),
+            "overall_score": overall_score,
+            "overall_rating": overall_rating,
+            "dimensions": dimensions
+            or {
+                "handoff_quality": {
+                    "status": "scored",
+                    "score": 95.0,
+                    "summary": "Seeded quality evidence.",
+                    "evidence_paths": [str(rehearsal_report_path)],
+                    "details": [],
+                }
+            },
+            "findings": [],
+        },
+    )
+
+
+def _require_autonomy_quality_gate(
+    pack_root: Path,
+    *,
+    min_overall_rating: str | None = None,
+    min_overall_score: float | None = None,
+    minimum_dimension_scores: dict[str, float] | None = None,
+) -> None:
+    project_objective_path = pack_root / "contracts/project-objective.json"
+    project_objective = load_json(project_objective_path)
+    requirement = {
+        "required_for_promotion": True,
+        "summary": "Promotion requires bounded autonomy-quality evidence.",
+    }
+    if min_overall_rating is not None:
+        requirement["min_overall_rating"] = min_overall_rating
+    if min_overall_score is not None:
+        requirement["min_overall_score"] = min_overall_score
+    if minimum_dimension_scores is not None:
+        requirement["minimum_dimension_scores"] = minimum_dimension_scores
+    project_objective["autonomy_quality_requirement"] = requirement
+    write_json(project_objective_path, project_objective)
 
 
 def _normalize_active_build_pack_evidence(factory_root: Path) -> None:
@@ -367,6 +445,7 @@ def test_promote_build_pack_happy_path_writes_pointer_and_updates_registry(tmp_p
     assert next(entry for entry in registry["entries"] if entry["pack_id"] == "promo-pack")["deployment_pointer"] == "deployments/testing/promo-pack.json"
     report = load_json(Path(result["promotion_report_path"]))
     assert report["autonomy_rehearsal_evidence"]["workflow_id"] == "multi_hop_autonomy_rehearsal"
+    assert report["autonomy_quality_evidence"] is None
 
 
 def test_promote_build_pack_rejects_when_required_autonomy_rehearsal_is_missing(tmp_path: Path) -> None:
@@ -382,6 +461,91 @@ def test_promote_build_pack_rejects_when_required_autonomy_rehearsal_is_missing(
         assert "multi-hop autonomy rehearsal evidence" in str(exc)
     else:
         raise AssertionError("expected promotion to fail when required autonomy rehearsal evidence is missing")
+
+
+def test_promote_build_pack_records_autonomy_quality_evidence_when_available(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    pack_root = _materialize(factory_root)
+    _seed_autonomy_quality_evidence(factory_root, pack_root)
+
+    result = promote_build_pack(factory_root, _request("testing"))
+
+    report = load_json(Path(result["promotion_report_path"]))
+    assert report["autonomy_quality_evidence"]["overall_rating"] == "strong"
+    assert report["autonomy_quality_evidence"]["overall_score"] == 92.5
+    assert report["autonomy_quality_evidence"]["source_report_kind"] == "multi_hop_autonomy_rehearsal"
+    assert report["autonomy_quality_gate"]["enforcement_mode"] == "advisory"
+    assert report["autonomy_quality_gate"]["status"] == "not_required"
+    assert any(
+        action["action_id"] == "verify_autonomy_quality_evidence"
+        for action in report["actions"]
+        if isinstance(action, dict)
+    )
+
+
+def test_promote_build_pack_enforces_opt_in_autonomy_quality_gate(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    pack_root = _materialize(factory_root)
+    _require_autonomy_quality_gate(
+        pack_root,
+        min_overall_rating="good",
+        minimum_dimension_scores={"handoff_quality": 90.0},
+    )
+    _seed_autonomy_quality_evidence(factory_root, pack_root)
+
+    result = promote_build_pack(factory_root, _request("testing"))
+
+    report = load_json(Path(result["promotion_report_path"]))
+    assert report["autonomy_quality_gate"]["enforcement_mode"] == "required"
+    assert report["autonomy_quality_gate"]["status"] == "pass"
+    assert report["autonomy_quality_gate"]["min_overall_rating"] == "good"
+    assert report["autonomy_quality_gate"]["minimum_dimension_scores"] == {"handoff_quality": 90.0}
+    assert any(
+        action["action_id"] == "verify_autonomy_quality_gate"
+        for action in report["actions"]
+        if isinstance(action, dict)
+    )
+
+
+def test_promote_build_pack_rejects_when_required_autonomy_quality_evidence_is_missing(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    pack_root = _materialize(factory_root)
+    _require_autonomy_quality_gate(pack_root, min_overall_rating="good")
+
+    try:
+        promote_build_pack(factory_root, _request("testing"))
+    except ValueError as exc:
+        assert "requires autonomy-quality evidence" in str(exc)
+    else:
+        raise AssertionError("expected promotion to fail when required autonomy-quality evidence is missing")
+
+
+def test_promote_build_pack_rejects_when_autonomy_quality_rating_is_too_low(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    pack_root = _materialize(factory_root)
+    _require_autonomy_quality_gate(pack_root, min_overall_rating="good")
+    _seed_autonomy_quality_evidence(factory_root, pack_root, overall_score=72.0, overall_rating="mixed")
+
+    try:
+        promote_build_pack(factory_root, _request("testing"))
+    except ValueError as exc:
+        assert "overall rating `good` or better" in str(exc)
+    else:
+        raise AssertionError("expected promotion to fail when autonomy-quality rating is too low")
+
+
+def test_promote_build_pack_rejects_when_required_dimension_score_is_too_low(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    pack_root = _materialize(factory_root)
+    _require_autonomy_quality_gate(pack_root, minimum_dimension_scores={"handoff_quality": 97.0})
+    _seed_autonomy_quality_evidence(factory_root, pack_root)
+
+    try:
+        promote_build_pack(factory_root, _request("testing"))
+    except ValueError as exc:
+        assert "`handoff_quality` >= 97.0" in str(exc)
+    else:
+        raise AssertionError("expected promotion to fail when autonomy-quality dimension score is too low")
 
 
 def test_validate_factory_allows_ready_for_deploy_without_active_task(tmp_path: Path) -> None:

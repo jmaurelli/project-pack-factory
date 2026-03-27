@@ -20,7 +20,13 @@
     "Run the initial smoke benchmark when ready."
   ],
   "planning_summary": {
+    "capability_family": "support-oriented appliance diagnostics",
     "delivery_shape": "application",
+    "expected_build_pack_variants": [
+      "baseline lab evidence collector",
+      "support playbook proving ground"
+    ],
+    "first_materialization_purpose": "baseline lab evidence collector",
     "initial_benchmark_intent": "Prove the smallest end-to-end ADF path on one controlled lab-style fixture: bounded evidence in, canonical baseline and playbook JSON out, and a minimal HTML support view rendered without broad test expansion.",
     "new_template_rationale": "The current active templates cover release summarization, JSON validation, config drift detection, API contract checks, and smoke scaffolding. None are centered on evidence-first runtime mapping of a multi-service appliance, support-playbook generation for lab-versus-customer comparison, or HTML rendering from machine-readable baseline artifacts, so this work needs a dedicated template.",
     "project_goal": "Deploy Codex into a controlled AlgoSec Security Management Suite lab appliance on Rocky Linux 8, collect bounded runtime evidence, generate a trustworthy machine-readable baseline and support comparison playbooks, and render a simple HTML view for remote support sessions.",

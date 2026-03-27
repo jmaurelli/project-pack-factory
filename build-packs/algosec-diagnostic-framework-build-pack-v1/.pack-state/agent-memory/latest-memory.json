@@ -1,0 +1,15 @@
+{
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-27T02:07:30Z",
+  "selected_memory_id": "autonomy-feedback-adf-canonical-state-save-20260327",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-adf-canonical-state-save-20260327.json",
+  "selected_memory_sha256": "f2e5e0903736cb3176e2d16e7f877d8d05dc22413b306f1d36bede281ef630f1",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "adf-canonical-state-save-20260327",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-adf-canonical-state-save-20260327.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-27T02:08:15Z"
+}

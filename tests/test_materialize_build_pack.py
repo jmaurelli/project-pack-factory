@@ -93,6 +93,7 @@ def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: P
     assert project_objective["objective_id"] == "slim-build-pack_objective"
     assert project_objective["autonomy_rehearsal_requirement"]["required_for_promotion"] is True
     assert project_objective["autonomy_rehearsal_requirement"]["workflow_id"] == "multi_hop_autonomy_rehearsal"
+    assert project_objective["autonomy_quality_requirement"]["required_for_promotion"] is False
 
     task_backlog = load_json(target_root / "tasks/active-backlog.json")
     task_ids = [task["task_id"] for task in task_backlog["tasks"]]

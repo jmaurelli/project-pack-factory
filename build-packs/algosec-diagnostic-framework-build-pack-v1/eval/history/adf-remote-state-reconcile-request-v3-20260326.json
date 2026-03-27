@@ -1,0 +1,7 @@
+{
+  "schema_version": "imported-runtime-state-reconcile-request/v1",
+  "build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/import-external-runtime-evidence-20260326t144613z/import-report.json",
+  "reconcile_reason": "Adopt returned ADF remote continuity state after the v3 managed roundtrip preserved newer memory as promoted_only.",
+  "reconciled_by": "codex"
+}

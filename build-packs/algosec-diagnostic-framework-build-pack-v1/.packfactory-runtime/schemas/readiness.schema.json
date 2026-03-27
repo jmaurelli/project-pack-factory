@@ -62,6 +62,9 @@
         "minLength": 1
       }
     },
+    "operator_hint_status": {
+      "$ref": "#/$defs/operator_hint_status"
+    },
     "required_gates": {
       "type": "array",
       "minItems": 1,
@@ -168,6 +171,63 @@
           }
         }
       ]
+    },
+    "operator_hint_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hint_count",
+        "active_hint_ids",
+        "inactive_hint_ids",
+        "exhausted_hint_ids",
+        "cleanup_candidate_hint_ids",
+        "recent_consumed_hint_ids",
+        "recent_deactivated_hint_ids",
+        "latest_audit_report_path"
+      ],
+      "properties": {
+        "hint_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "active_hint_ids": {
+          "$ref": "#/$defs/taskish_id_array"
+        },
+        "inactive_hint_ids": {
+          "$ref": "#/$defs/taskish_id_array"
+        },
+        "exhausted_hint_ids": {
+          "$ref": "#/$defs/taskish_id_array"
+        },
+        "cleanup_candidate_hint_ids": {
+          "$ref": "#/$defs/taskish_id_array"
+        },
+        "recent_consumed_hint_ids": {
+          "$ref": "#/$defs/taskish_id_array"
+        },
+        "recent_deactivated_hint_ids": {
+          "$ref": "#/$defs/taskish_id_array"
+        },
+        "latest_audit_report_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "taskish_id_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9_-]*$"
+      }
     }
   },
   "allOf": [

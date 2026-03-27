@@ -1,0 +1,1922 @@
+{
+  "agent_memory": {
+    "items": [
+      {
+        "id": "agent-memory-current_focus-1",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Keep factory-level autonomy discoverable from the root startup surfaces.",
+        "title": "Current Focus",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-current_focus-2",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Keep root-level restart memory current so the next agent can recover the current autonomy toolset quickly.",
+        "title": "Current Focus",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-current_focus-3",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Promote repeated autonomy lessons from multiple build-packs into one reusable factory-level memory layer.",
+        "title": "Current Focus",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-next_action_items-1",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Near-Future Design: Top-priority operator dashboard for factory state. Scope: promote the existing Python-generated local-first dashboard into the normal fast operator briefing surface, then refine it so it clearly surfaces the PackFactory executive-summary layer, current portfolio state, active/testing/deployed assignments, recent promotions/materializations/retirements, and root agent memory highlights without requiring a long `load AGENTS.md` startup brief in the chat context. Why it matters: root startup is currently consuming too much context and too much wall-clock time just to reconstruct operator-facing state. A lightweight dashboard can move that high-frequency executive-summary path out of the prompt channel, reduce token burn, and let `AGENTS.md` become much smaller and more agent-optimized over time. Success signal: an operator can open the PackFactory dashboard and reliably see the current portfolio, environment assignments, recent factory motion, and brief root-memory guidance with materially less token use than the current concierge startup path, and the dashboard becomes the normal first stop for high-frequency operator status checks. Early design notes:",
+        "title": "Next Action Items",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-next_action_items-2",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Near-Future Design: Build-pack source-of-truth mode: local vs remote-managed. Scope: add PackFactory-native support for declaring whether a build-pack is locally sourced from the PackFactory repo or is a remote-managed build-pack whose working source of truth lives on the remote destination and should be operated through PackFactory remote autonomy, continuity, export, pull, and import workflows. Why it matters: the current model can leave local and remote copies behaving like competing writable primaries. The ADF build-pack exposed this clearly: local and remote drift created real overhead and forced extensive reconcile work to recover a clean canonical state. PackFactory should be able to say clearly whether a build-pack is local-first or remote-managed-first. Success signal: PackFactory can represent and enforce source-of-truth mode for build-packs so operators and agents know whether to maintain the pack locally in the factory or treat the remote destination as the managed working location with PackFactory roundtrip evidence as the canonical integration path. Early design notes:",
+        "title": "Next Action Items",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-next_action_items-3",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Near-Future Design: Astro installation and dashboard build plan. Scope: define the concrete install, directory layout, build flow, and wrapper-command plan for an Astro-based PackFactory dashboard that consumes the canonical Python-generated dashboard snapshot. Why it matters: the operator expectation is a real web dashboard experience, and Astro gives us a clearer UI authoring model without forcing a live backend or replacing the PackFactory snapshot contract. Success signal: PackFactory has a concrete Astro planning spec covering app location, snapshot consumption, static build output, local dev-server usage, and how the built site will publish into the existing dashboard `history/` and `latest/` layout. Early design notes:",
+        "title": "Next Action Items",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-pending_items-1",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Near-Future Design: Top-priority operator dashboard for factory state. Scope: promote the existing Python-generated local-first dashboard into the normal fast operator briefing surface, then refine it so it clearly surfaces the PackFactory executive-summary layer, current portfolio state, active/testing/deployed assignments, recent promotions/materializations/retirements, and root agent memory highlights without requiring a long `load AGENTS.md` startup brief in the chat context. Why it matters: root startup is currently consuming too much context and too much wall-clock time just to reconstruct operator-facing state. A lightweight dashboard can move that high-frequency executive-summary path out of the prompt channel, reduce token burn, and let `AGENTS.md` become much smaller and more agent-optimized over time. Success signal: an operator can open the PackFactory dashboard and reliably see the current portfolio, environment assignments, recent factory motion, and brief root-memory guidance with materially less token use than the current concierge startup path, and the dashboard becomes the normal first stop for high-frequency operator status checks. Early design notes:",
+        "title": "Pending Items",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-pending_items-2",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Near-Future Design: Build-pack source-of-truth mode: local vs remote-managed. Scope: add PackFactory-native support for declaring whether a build-pack is locally sourced from the PackFactory repo or is a remote-managed build-pack whose working source of truth lives on the remote destination and should be operated through PackFactory remote autonomy, continuity, export, pull, and import workflows. Why it matters: the current model can leave local and remote copies behaving like competing writable primaries. The ADF build-pack exposed this clearly: local and remote drift created real overhead and forced extensive reconcile work to recover a clean canonical state. PackFactory should be able to say clearly whether a build-pack is local-first or remote-managed-first. Success signal: PackFactory can represent and enforce source-of-truth mode for build-packs so operators and agents know whether to maintain the pack locally in the factory or treat the remote destination as the managed working location with PackFactory roundtrip evidence as the canonical integration path. Early design notes:",
+        "title": "Pending Items",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-pending_items-3",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Near-Future Design: Astro installation and dashboard build plan. Scope: define the concrete install, directory layout, build flow, and wrapper-command plan for an Astro-based PackFactory dashboard that consumes the canonical Python-generated dashboard snapshot. Why it matters: the operator expectation is a real web dashboard experience, and Astro gives us a clearer UI authoring model without forcing a live backend or replacing the PackFactory snapshot contract. Success signal: PackFactory has a concrete Astro planning spec covering app location, snapshot consumption, static build output, local dev-server usage, and how the built site will publish into the existing dashboard `history/` and `latest/` layout. Early design notes:",
+        "title": "Pending Items",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "agent-memory-pending_items-4",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Near-Future Design: Optional agent-personality template system. Scope: add a PackFactory-native way to define reusable agent personality templates that can be selected when a build-pack is created or materialized, without hard-linking one personality permanently to one source template or one build-pack line. Why it matters: this builds directly on the clarified template-versus-build-pack distinction. A source template should stay reusable across multiple build-packs, and personality should become an optional composable layer rather than something implicitly fused into one template/build-pack pair. Success signal: PackFactory has a clear design for personality templates, selection during template creation or build-pack materialization, and a bounded inheritance model showing how personality guidance enters `AGENTS.md` and related startup surfaces without collapsing template reuse. Early design notes:",
+        "title": "Pending Items",
+        "truth_layer": "advisory"
+      }
+    ],
+    "source_kind": "root_memory",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+    ],
+    "title": "Agent Memory",
+    "truth_layer": "advisory",
+    "warnings": []
+  },
+  "automation_now": {
+    "items": [
+      {
+        "details": [
+          "pack_id=json-health-checker-autonomy-to-promotion-build-pack-v1",
+          "active_release_id=json-health-checker-autonomy-to-promotion-build-pack-v1-r1"
+        ],
+        "id": "automation-current-testing-path",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/deployment.json",
+          "/home/orchadmin/project-pack-factory/deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "testing",
+        "summary": "json-health-checker-autonomy-to-promotion-build-pack-v1 is currently assigned to testing.",
+        "title": "Current Testing Path",
+        "truth_layer": "canonical"
+      },
+      {
+        "id": "automation-capability-1",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Materialize fresh proving-ground build-packs that inherit feedback-memory and autonomy guidance by default.",
+        "title": "Current Capability",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "automation-capability-2",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Run local mid-backlog checkpoints and activate pack-local latest-memory pointers.",
+        "title": "Current Capability",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "automation-capability-3",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Run remote active-task continuity and ready-boundary continuity against a remote target.",
+        "title": "Current Capability",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "automation-capability-4",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Import, compatibility-gate, and activate returned feedback memory automatically when it still matches canonical state.",
+        "title": "Current Capability",
+        "truth_layer": "advisory"
+      }
+    ],
+    "source_kind": "derived",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/deployment.json",
+      "/home/orchadmin/project-pack-factory/deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+      "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+    ],
+    "title": "Automation Now",
+    "truth_layer": "derived",
+    "warnings": []
+  },
+  "dashboard_build_id": "factory-dashboard-build-20260326t172408z",
+  "environment_board": {
+    "cards": [
+      {
+        "details": [
+          "pack_id=release-evidence-summarizer-build-pack-v3",
+          "active_release_id=release-evidence-summarizer-v3-r1"
+        ],
+        "environment": "production",
+        "id": "environment-production",
+        "label": "Production",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/deployments/production/release-evidence-summarizer-build-pack-v3.json",
+          "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/status/deployment.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json",
+          "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/eval/history/promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z/promotion-report.json"
+        ],
+        "status": "production",
+        "summary": "release-evidence-summarizer-build-pack-v3 is currently assigned to production.",
+        "title": "Production",
+        "truth_layer": "canonical"
+      },
+      {
+        "details": [
+          "The environment board has no current deployment pointer."
+        ],
+        "environment": "not_assigned",
+        "id": "environment-staging",
+        "label": "Staging",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/deployments/staging",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_assigned",
+        "summary": "No pack is currently assigned to staging.",
+        "title": "Staging",
+        "truth_layer": "canonical"
+      },
+      {
+        "details": [
+          "pack_id=json-health-checker-autonomy-to-promotion-build-pack-v1",
+          "active_release_id=json-health-checker-autonomy-to-promotion-build-pack-v1-r1"
+        ],
+        "environment": "testing",
+        "id": "environment-testing",
+        "label": "Testing",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/deployments/testing/json-health-checker-autonomy-to-promotion-build-pack-v1.json",
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/deployment.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json",
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/history/promote-json-health-checker-autonomy-to-promotion-build-pack-v1-testing-20260325t173309z/promotion-report.json"
+        ],
+        "status": "testing",
+        "summary": "json-health-checker-autonomy-to-promotion-build-pack-v1 is currently assigned to testing.",
+        "title": "Testing",
+        "truth_layer": "canonical"
+      }
+    ],
+    "not_assigned_pack_ids": [
+      "algosec-diagnostic-framework-build-pack-v1",
+      "api-contract-autonomy-transfer-build-pack-v1",
+      "api-contract-sentinel-build-pack",
+      "config-drift-autonomy-transfer-build-pack-v1",
+      "json-health-checker-active-task-continuity-build-pack-v1",
+      "json-health-checker-adversarial-restart-build-pack-v1",
+      "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1",
+      "json-health-checker-ambiguous-branch-build-pack-v2",
+      "json-health-checker-block-reporting-build-pack-v1",
+      "json-health-checker-branching-build-pack-v1",
+      "json-health-checker-degraded-connectivity-build-pack-v1",
+      "json-health-checker-drift-exercise-build-pack-v1",
+      "json-health-checker-feedback-baseline-build-pack-v1",
+      "json-health-checker-hint-audit-cleanup-build-pack-v1",
+      "json-health-checker-hint-audit-cleanup-build-pack-v2",
+      "json-health-checker-hint-audit-cleanup-build-pack-v3",
+      "json-health-checker-hint-briefing-build-pack-v1",
+      "json-health-checker-hint-status-surfacing-build-pack-v1",
+      "json-health-checker-hint-status-surfacing-build-pack-v2",
+      "json-health-checker-live-roundtrip-build-pack-v1",
+      "json-health-checker-longer-backlog-build-pack-v4",
+      "json-health-checker-memory-block-reporting-build-pack-v1",
+      "json-health-checker-memory-resume-build-pack-v1",
+      "json-health-checker-memory-resume-build-pack-v2",
+      "json-health-checker-multi-hop-autonomy-build-pack-v1",
+      "json-health-checker-operator-avoid-branch-build-pack-v1",
+      "json-health-checker-operator-avoid-branch-build-pack-v2",
+      "json-health-checker-operator-hint-branch-build-pack-v1",
+      "json-health-checker-operator-hint-conflict-build-pack-v1",
+      "json-health-checker-ordered-hint-lifecycle-build-pack-v1",
+      "json-health-checker-resume-correctness-build-pack-v1",
+      "json-health-checker-resume-success-build-pack-v1",
+      "json-health-checker-semantic-branch-build-pack-v1",
+      "json-health-checker-startup-compliance-build-pack-v1",
+      "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+      "json-health-checker-unified-memory-resume-build-pack-v1",
+      "release-evidence-autonomy-transfer-build-pack-v1",
+      "release-evidence-summarizer-build-pack",
+      "release-evidence-summarizer-build-pack-v2",
+      "release-evidence-summarizer-build-pack-v4"
+    ],
+    "ready_unassigned_pack_ids": [
+      "config-drift-checker-build-pack",
+      "factory-native-smoke-build-pack",
+      "json-health-checker-build-pack",
+      "json-health-checker-one-pass-promotion-proof-build-pack-v1",
+      "json-health-checker-promotion-gate-build-pack-v1"
+    ],
+    "source_kind": "canonical",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/deployments",
+      "/home/orchadmin/project-pack-factory/registry/build-packs.json",
+      "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+    ],
+    "title": "Environment Board",
+    "truth_layer": "canonical"
+  },
+  "factory_learning": {
+    "items": [
+      {
+        "id": "factory-learning-current_focus-1",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Keep factory-level autonomy discoverable from the root startup surfaces.",
+        "title": "Current Focus",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "factory-learning-current_focus-2",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Keep root-level restart memory current so the next agent can recover the current autonomy toolset quickly.",
+        "title": "Current Focus",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "factory-learning-current_focus-3",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Promote repeated autonomy lessons from multiple build-packs into one reusable factory-level memory layer.",
+        "title": "Current Focus",
+        "truth_layer": "advisory"
+      },
+      {
+        "id": "factory-learning-recommended_next_step",
+        "source_kind": "root_memory",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+        ],
+        "status": "advisory",
+        "summary": "Near-Future Design: Top-priority operator dashboard for factory state. Scope: promote the existing Python-generated local-first dashboard into the normal fast operator briefing surface, then refine it so it clearly surfaces the PackFactory executive-summary layer, current portfolio state, active/testing/deployed assignments, recent promotions/materializations/retirements, and root agent memory highlights without requiring a long `load AGENTS.md` startup brief in the chat context. Why it matters: root startup is currently consuming too much context and too much wall-clock time just to reconstruct operator-facing state. A lightweight dashboard can move that high-frequency executive-summary path out of the prompt channel, reduce token burn, and let `AGENTS.md` become much smaller and more agent-optimized over time. Success signal: an operator can open the PackFactory dashboard and reliably see the current portfolio, environment assignments, recent factory motion, and brief root-memory guidance with materially less token use than the current concierge startup path, and the dashboard becomes the normal first stop for high-frequency operator status checks. Early design notes:",
+        "title": "Recommended Next Step",
+        "truth_layer": "advisory"
+      }
+    ],
+    "source_kind": "derived",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json"
+    ],
+    "title": "Factory Learning",
+    "truth_layer": "derived",
+    "warnings": []
+  },
+  "focused_portfolio": {
+    "high_priority": [
+      {
+        "deployment_state": "production",
+        "details": [
+          "lifecycle_stage=maintained",
+          "deployment_state=production",
+          "ready_for_deployment=true"
+        ],
+        "id": "portfolio-release-evidence-summarizer-build-pack-v3",
+        "lifecycle_stage": "maintained",
+        "ready_for_deployment": true,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "production",
+        "summary": "Assigned to production now.",
+        "title": "release-evidence-summarizer-build-pack-v3",
+        "truth_layer": "canonical"
+      }
+    ],
+    "historical_baseline": [
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=retired",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-ai-native-codex-build-pack",
+        "lifecycle_stage": "retired",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Current lifecycle stage is `retired`.",
+        "title": "ai-native-codex-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=retired",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-agent-memory-first-build-pack",
+        "lifecycle_stage": "retired",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Current lifecycle stage is `retired`.",
+        "title": "agent-memory-first-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=retired",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-one-pass-promotion-build-pack-v1",
+        "lifecycle_stage": "retired",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Current lifecycle stage is `retired`.",
+        "title": "json-health-checker-one-pass-promotion-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=retired",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-longer-backlog-build-pack-v1",
+        "lifecycle_stage": "retired",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Current lifecycle stage is `retired`.",
+        "title": "json-health-checker-longer-backlog-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=retired",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-longer-backlog-build-pack-v2",
+        "lifecycle_stage": "retired",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Current lifecycle stage is `retired`.",
+        "title": "json-health-checker-longer-backlog-build-pack-v2",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=retired",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-longer-backlog-build-pack-v3",
+        "lifecycle_stage": "retired",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Current lifecycle stage is `retired`.",
+        "title": "json-health-checker-longer-backlog-build-pack-v3",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=retired",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-ambiguous-branch-build-pack-v1",
+        "lifecycle_stage": "retired",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Current lifecycle stage is `retired`.",
+        "title": "json-health-checker-ambiguous-branch-build-pack-v1",
+        "truth_layer": "canonical"
+      }
+    ],
+    "medium_priority": [
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=maintained",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=true"
+        ],
+        "id": "portfolio-factory-native-smoke-build-pack",
+        "lifecycle_stage": "maintained",
+        "ready_for_deployment": true,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Ready for the next step but not assigned.",
+        "title": "factory-native-smoke-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=maintained",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=true"
+        ],
+        "id": "portfolio-json-health-checker-build-pack",
+        "lifecycle_stage": "maintained",
+        "ready_for_deployment": true,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Ready for the next step but not assigned.",
+        "title": "json-health-checker-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=maintained",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=true"
+        ],
+        "id": "portfolio-config-drift-checker-build-pack",
+        "lifecycle_stage": "maintained",
+        "ready_for_deployment": true,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Ready for the next step but not assigned.",
+        "title": "config-drift-checker-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=true"
+        ],
+        "id": "portfolio-json-health-checker-promotion-gate-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": true,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Ready for the next step but not assigned.",
+        "title": "json-health-checker-promotion-gate-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=true"
+        ],
+        "id": "portfolio-json-health-checker-one-pass-promotion-proof-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": true,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Ready for the next step but not assigned.",
+        "title": "json-health-checker-one-pass-promotion-proof-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "testing",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=testing",
+          "ready_for_deployment=true"
+        ],
+        "id": "portfolio-json-health-checker-autonomy-to-promotion-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": true,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "testing",
+        "summary": "Assigned to testing now.",
+        "title": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+        "truth_layer": "canonical"
+      }
+    ],
+    "source_kind": "canonical",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/registry/build-packs.json",
+      "/home/orchadmin/project-pack-factory/registry/templates.json"
+    ],
+    "title": "Focused Portfolio",
+    "truth_layer": "canonical",
+    "worth_watching": [
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-release-evidence-summarizer-build-pack",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "release-evidence-summarizer-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-api-contract-sentinel-build-pack",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "api-contract-sentinel-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-release-evidence-summarizer-build-pack-v2",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "release-evidence-summarizer-build-pack-v2",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-release-evidence-summarizer-build-pack-v4",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "release-evidence-summarizer-build-pack-v4",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-live-roundtrip-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-live-roundtrip-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-memory-resume-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-memory-resume-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-memory-resume-build-pack-v2",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-memory-resume-build-pack-v2",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-resume-correctness-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-resume-correctness-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-unified-memory-resume-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-unified-memory-resume-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-resume-success-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-resume-success-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-algosec-diagnostic-framework-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "algosec-diagnostic-framework-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-feedback-baseline-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-feedback-baseline-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-active-task-continuity-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-active-task-continuity-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-multi-hop-autonomy-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-multi-hop-autonomy-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-memory-block-reporting-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-memory-block-reporting-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-block-reporting-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-block-reporting-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-drift-exercise-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-drift-exercise-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-longer-backlog-build-pack-v4",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-longer-backlog-build-pack-v4",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-branching-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-branching-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-degraded-connectivity-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-degraded-connectivity-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-ambiguous-branch-build-pack-v2",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-ambiguous-branch-build-pack-v2",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-semantic-branch-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-semantic-branch-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-operator-hint-branch-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-operator-hint-branch-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-operator-avoid-branch-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-operator-avoid-branch-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-operator-avoid-branch-build-pack-v2",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-operator-avoid-branch-build-pack-v2",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-operator-hint-conflict-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-operator-hint-conflict-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-ordered-hint-lifecycle-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-ordered-hint-lifecycle-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-hint-audit-cleanup-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-hint-audit-cleanup-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-hint-audit-cleanup-build-pack-v2",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-hint-audit-cleanup-build-pack-v2",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-hint-audit-cleanup-build-pack-v3",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-hint-audit-cleanup-build-pack-v3",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-hint-status-surfacing-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-hint-status-surfacing-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-hint-status-surfacing-build-pack-v2",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-hint-status-surfacing-build-pack-v2",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-hint-briefing-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-hint-briefing-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-startup-compliance-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-startup-compliance-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-config-drift-autonomy-transfer-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "config-drift-autonomy-transfer-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-release-evidence-autonomy-transfer-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "release-evidence-autonomy-transfer-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-api-contract-autonomy-transfer-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "api-contract-autonomy-transfer-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-adversarial-restart-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-adversarial-restart-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "deployment_state": "not_deployed",
+        "details": [
+          "lifecycle_stage=testing",
+          "deployment_state=not_deployed",
+          "ready_for_deployment=false"
+        ],
+        "id": "portfolio-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1",
+        "lifecycle_stage": "testing",
+        "ready_for_deployment": false,
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "not_deployed",
+        "summary": "Still proving itself in testing.",
+        "title": "json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1",
+        "truth_layer": "canonical"
+      }
+    ]
+  },
+  "generated_at": "2026-03-26T17:24:08Z",
+  "ideas_lab": {
+    "items": [
+      {
+        "details": [
+          "bucket=candidate"
+        ],
+        "id": "idea-1",
+        "source_kind": "planning_list",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+        ],
+        "status": "candidate",
+        "summary": "[candidate] Top-priority operator dashboard for factory state. Scope: promote the existing Python-generated local-first dashboard into the normal fast operator briefing surface, then refine it so it clearly surfaces the PackFactory executive-summary layer, current portfolio state, active/testing/deployed assignments, recent promotions/materializations/retirements, and root agent memory highlights without requiring a long `load AGENTS.md` startup brief in the chat context. Why it matters: root startup is currently consuming too much context and too much wall-clock time just to reconstruct operator-facing state. A lightweight dashboard can move that high-frequency executive-summary path out of the prompt channel, reduce token burn, and let `AGENTS.md` become much smaller and more agent-optimized over time. Success signal: an operator can open the PackFactory dashboard and reliably see the current portfolio, environment assignments, recent factory motion, and brief root-memory guidance with materially less token use than the current concierge startup path, and the dashboard becomes the normal first stop for high-frequency operator status checks. Early design notes: - the current Python-generated dashboard baseline already exists and should remain the truth-preserving starting point - keep the current operator path simple and local-first - prioritize factory registry state, deployment pointers, promotion history, and root memory summary fields - treat the dashboard as the fast operator-facing briefing surface - use this to support a later reduction and simplification of root `AGENTS.md` - connect this work directly to the agent-instruction performance review rather than treating them as unrelated tracks",
+        "title": "Near-Future Design",
+        "truth_layer": "advisory"
+      },
+      {
+        "details": [
+          "bucket=candidate"
+        ],
+        "id": "idea-2",
+        "source_kind": "planning_list",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+        ],
+        "status": "candidate",
+        "summary": "[candidate] Build-pack source-of-truth mode: local vs remote-managed. Scope: add PackFactory-native support for declaring whether a build-pack is locally sourced from the PackFactory repo or is a remote-managed build-pack whose working source of truth lives on the remote destination and should be operated through PackFactory remote autonomy, continuity, export, pull, and import workflows. Why it matters: the current model can leave local and remote copies behaving like competing writable primaries. The ADF build-pack exposed this clearly: local and remote drift created real overhead and forced extensive reconcile work to recover a clean canonical state. PackFactory should be able to say clearly whether a build-pack is local-first or remote-managed-first. Success signal: PackFactory can represent and enforce source-of-truth mode for build-packs so operators and agents know whether to maintain the pack locally in the factory or treat the remote destination as the managed working location with PackFactory roundtrip evidence as the canonical integration path. Early design notes: - support at least two explicit modes: `local_factory_managed` and `remote_managed` - support managed mode transitions in both directions: `local_factory_managed` -> `remote_managed` and `remote_managed` -> `local_factory_managed` - for `remote_managed`, prefer PackFactory request, continuity, export, pull, import, and reconcile workflows over manual local/remote sync habits - make the mode visible in startup surfaces and pack metadata - define which mutations remain allowed locally when a pack is marked `remote_managed` - define a bounded conversion workflow so a pack can be promoted from local to remote-managed or brought back from remote-managed to local without ambiguous dual-primary state - use the ADF drift/reconcile experience as the motivating proof case - keep the rule simple: a build-pack is either local to the PackFactory or remote-managed through PackFactory autonomy and memory-loop tooling - keep the Python dashboard snapshot generator as the canonical data-preparation layer described in `PROJECT-PACK-FACTORY-PYTHON-GENERATED-STATIC-DASHBOARD-SPEC.md` - treat the remaining work here as adoption, refinement, and operator workflow reduction rather than pretending the dashboard baseline does not exist yet - move the next presentation-layer planning step to the Astro dashboard upgrade spec in `PROJECT-PACK-FACTORY-ASTRO-DASHBOARD-UPGRADE-SPEC.md` - organize the page around the operator goals of building quality software, automating more of the factory, self-improving the baseline, and keeping an intentional space for ideas and experiments",
+        "title": "Near-Future Design",
+        "truth_layer": "advisory"
+      },
+      {
+        "details": [
+          "bucket=candidate"
+        ],
+        "id": "idea-3",
+        "source_kind": "planning_list",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+        ],
+        "status": "candidate",
+        "summary": "[candidate] Astro installation and dashboard build plan. Scope: define the concrete install, directory layout, build flow, and wrapper-command plan for an Astro-based PackFactory dashboard that consumes the canonical Python-generated dashboard snapshot. Why it matters: the operator expectation is a real web dashboard experience, and Astro gives us a clearer UI authoring model without forcing a live backend or replacing the PackFactory snapshot contract. Success signal: PackFactory has a concrete Astro planning spec covering app location, snapshot consumption, static build output, local dev-server usage, and how the built site will publish into the existing dashboard `history/` and `latest/` layout. Early design notes: - keep the Python snapshot generator as the canonical data-preparation layer - use Astro for the presentation layer only - keep the build static and local-first - prefer a bounded app root such as `apps/factory-dashboard/` - plan for an operator-friendly PackFactory wrapper command rather than exposing only raw Astro environment wiring - follow `PROJECT-PACK-FACTORY-ASTRO-DASHBOARD-UPGRADE-SPEC.md`",
+        "title": "Near-Future Design",
+        "truth_layer": "advisory"
+      },
+      {
+        "details": [
+          "bucket=candidate"
+        ],
+        "id": "idea-4",
+        "source_kind": "planning_list",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+        ],
+        "status": "candidate",
+        "summary": "[candidate] Optional agent-personality template system. Scope: add a PackFactory-native way to define reusable agent personality templates that can be selected when a build-pack is created or materialized, without hard-linking one personality permanently to one source template or one build-pack line. Why it matters: this builds directly on the clarified template-versus-build-pack distinction. A source template should stay reusable across multiple build-packs, and personality should become an optional composable layer rather than something implicitly fused into one template/build-pack pair. Success signal: PackFactory has a clear design for personality templates, selection during template creation or build-pack materialization, and a bounded inheritance model showing how personality guidance enters `AGENTS.md` and related startup surfaces without collapsing template reuse. Early design notes: - keep personality optional, not mandatory - treat personality as a reusable overlay layer, not as the identity of the source template itself - support choosing a personality template when creating a new template-pack or materializing a build-pack - preserve the ability for one source template to feed multiple build-packs with different personalities - define where personality lives canonically: likely a dedicated personality template catalog plus explicit selection metadata in template/build-pack requests",
+        "title": "Near-Future Design",
+        "truth_layer": "advisory"
+      },
+      {
+        "details": [
+          "bucket=candidate"
+        ],
+        "id": "idea-5",
+        "source_kind": "planning_list",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+        ],
+        "status": "candidate",
+        "summary": "[candidate] Agent-instruction performance review and optimization. Scope: review PackFactory instruction surfaces such as root `AGENTS.md`, template `AGENTS.md`, and related startup/context files for LLM readability, scan speed, and comprehension efficiency, then redesign the syntax and structure using more agent-optimized language and layout. Why it matters: the current instructions are rich, but they have grown large and layered over time. A more agent-optimized Markdown structure could improve startup quality, reduce instruction miss rate, and lower the chance that an agent overlooks critical workflow rules such as managed remote-session control-plane usage. Success signal: PackFactory has a bounded research-backed plan for how to restructure instruction files for faster LLM parsing and more reliable rule retention, with the resulting changes preserving meaning while improving startup performance and compliance. Early design notes: - research examples of agent-optimized Markdown instruction structures - compare current PackFactory instruction surfaces against those patterns - focus on syntax, hierarchy, density, repetition, and scan order - preserve critical policy content while shortening the path to the highest priority rules - treat this as instruction-performance work, not a prose-polish exercise",
+        "title": "Near-Future Design",
+        "truth_layer": "advisory"
+      }
+    ],
+    "source_kind": "derived",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json",
+      "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+    ],
+    "title": "Ideas Lab",
+    "truth_layer": "advisory",
+    "warnings": []
+  },
+  "mismatch_warnings": [],
+  "quality_now": {
+    "items": [
+      {
+        "details": [
+          "ready_for_deployment=true",
+          "validation_status=pass",
+          "benchmark_status=pass",
+          "freshness_status=stale",
+          "Quality evidence is stale."
+        ],
+        "id": "quality-config-drift-checker-build-pack",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack/eval/latest/index.json",
+          "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack/status/readiness.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "stale",
+        "summary": "Validation pass, benchmark/workflow pass, readiness `ready_for_deploy`, evidence stale (2026-03-23T00:14:41Z).",
+        "title": "config-drift-checker-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "details": [
+          "ready_for_deployment=true",
+          "validation_status=pass",
+          "benchmark_status=pass",
+          "freshness_status=stale",
+          "Quality evidence is stale."
+        ],
+        "id": "quality-factory-native-smoke-build-pack",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack/eval/latest/index.json",
+          "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack/status/readiness.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "stale",
+        "summary": "Validation pass, benchmark/workflow pass, readiness `ready_for_deploy`, evidence stale (2026-03-22T20:04:27Z).",
+        "title": "factory-native-smoke-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "details": [
+          "ready_for_deployment=true",
+          "validation_status=pass",
+          "benchmark_status=pass",
+          "freshness_status=fresh"
+        ],
+        "id": "quality-json-health-checker-autonomy-to-promotion-build-pack-v1",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/latest/index.json",
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/readiness.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "healthy",
+        "summary": "Validation pass, benchmark/workflow pass, readiness `ready_for_deploy`, evidence fresh (2026-03-25T17:33:08Z).",
+        "title": "json-health-checker-autonomy-to-promotion-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "details": [
+          "ready_for_deployment=true",
+          "validation_status=pass",
+          "benchmark_status=pass",
+          "freshness_status=stale",
+          "Quality evidence is stale."
+        ],
+        "id": "quality-json-health-checker-build-pack",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack/eval/latest/index.json",
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack/status/readiness.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "stale",
+        "summary": "Validation pass, benchmark/workflow pass, readiness `ready_for_deploy`, evidence stale (2026-03-22T19:27:44Z).",
+        "title": "json-health-checker-build-pack",
+        "truth_layer": "canonical"
+      },
+      {
+        "details": [
+          "ready_for_deployment=true",
+          "validation_status=pass",
+          "benchmark_status=pass",
+          "freshness_status=aging"
+        ],
+        "id": "quality-json-health-checker-one-pass-promotion-proof-build-pack-v1",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/eval/latest/index.json",
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/status/readiness.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "healthy",
+        "summary": "Validation pass, benchmark/workflow pass, readiness `ready_for_deploy`, evidence aging (2026-03-25T17:20:33Z).",
+        "title": "json-health-checker-one-pass-promotion-proof-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "details": [
+          "ready_for_deployment=true",
+          "validation_status=pass",
+          "benchmark_status=pass",
+          "freshness_status=aging"
+        ],
+        "id": "quality-json-health-checker-promotion-gate-build-pack-v1",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-promotion-gate-build-pack-v1/eval/latest/index.json",
+          "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-promotion-gate-build-pack-v1/status/readiness.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "healthy",
+        "summary": "Validation pass, benchmark/workflow pass, readiness `ready_for_deploy`, evidence aging (2026-03-25T16:33:28Z).",
+        "title": "json-health-checker-promotion-gate-build-pack-v1",
+        "truth_layer": "canonical"
+      },
+      {
+        "details": [
+          "ready_for_deployment=true",
+          "validation_status=pass",
+          "benchmark_status=pass",
+          "freshness_status=stale",
+          "Quality evidence is stale."
+        ],
+        "id": "quality-release-evidence-summarizer-build-pack-v3",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/eval/latest/index.json",
+          "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/status/readiness.json",
+          "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+        ],
+        "status": "stale",
+        "summary": "Validation pass, benchmark/workflow pass, readiness `ready_for_deploy`, evidence stale (2026-03-23T10:47:38Z).",
+        "title": "release-evidence-summarizer-build-pack-v3",
+        "truth_layer": "canonical"
+      }
+    ],
+    "source_kind": "canonical",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack/eval/latest/index.json",
+      "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack/status/readiness.json",
+      "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack/eval/latest/index.json",
+      "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack/status/readiness.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/latest/index.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/readiness.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack/eval/latest/index.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack/status/readiness.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/eval/latest/index.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/status/readiness.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-promotion-gate-build-pack-v1/eval/latest/index.json",
+      "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-promotion-gate-build-pack-v1/status/readiness.json",
+      "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/eval/latest/index.json",
+      "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/status/readiness.json",
+      "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+    ],
+    "title": "Quality Now",
+    "truth_layer": "canonical",
+    "warnings": [
+      "Quality evidence is stale."
+    ]
+  },
+  "recent_motion": {
+    "items": [
+      {
+        "id": "motion-materialized-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-1",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/eval/history/materialize-json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1-20260326t120234z/materialization-report.json",
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ],
+        "status": "materialized",
+        "summary": "2026-03-26T12:02:34Z: `materialized` `json-health-checker-adversarial-restart-conflicting-memory-build-pack-v1`.",
+        "title": "Materialized",
+        "truth_layer": "canonical"
+      },
+      {
+        "id": "motion-materialized-json-health-checker-adversarial-restart-build-pack-v1-2",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/eval/history/materialize-json-health-checker-adversarial-restart-build-pack-v1-20260326t120233z/materialization-report.json",
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ],
+        "status": "materialized",
+        "summary": "2026-03-26T12:02:33Z: `materialized` `json-health-checker-adversarial-restart-build-pack-v1`.",
+        "title": "Materialized",
+        "truth_layer": "canonical"
+      },
+      {
+        "id": "motion-materialized-api-contract-autonomy-transfer-build-pack-v1-3",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/eval/history/materialize-api-contract-autonomy-transfer-build-pack-v1-20260325t231545z/materialization-report.json",
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ],
+        "status": "materialized",
+        "summary": "2026-03-25T23:15:45Z: `materialized` `api-contract-autonomy-transfer-build-pack-v1`.",
+        "title": "Materialized",
+        "truth_layer": "canonical"
+      },
+      {
+        "id": "motion-materialized-release-evidence-autonomy-transfer-build-pack-v1-4",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/eval/history/materialize-release-evidence-autonomy-transfer-build-pack-v1-20260325t231544z/materialization-report.json",
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ],
+        "status": "materialized",
+        "summary": "2026-03-25T23:15:44Z: `materialized` `release-evidence-autonomy-transfer-build-pack-v1`.",
+        "title": "Materialized",
+        "truth_layer": "canonical"
+      },
+      {
+        "id": "motion-materialized-config-drift-autonomy-transfer-build-pack-v1-5",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/eval/history/materialize-config-drift-autonomy-transfer-build-pack-v1-20260325t224550z/materialization-report.json",
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ],
+        "status": "materialized",
+        "summary": "2026-03-25T22:45:50Z: `materialized` `config-drift-autonomy-transfer-build-pack-v1`.",
+        "title": "Materialized",
+        "truth_layer": "canonical"
+      },
+      {
+        "id": "motion-materialized-json-health-checker-startup-compliance-rehearsal-build-pack-v1-6",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/eval/history/materialize-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z/materialization-report.json",
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ],
+        "status": "materialized",
+        "summary": "2026-03-25T22:44:06Z: `materialized` `json-health-checker-startup-compliance-rehearsal-build-pack-v1`.",
+        "title": "Materialized",
+        "truth_layer": "canonical"
+      },
+      {
+        "id": "motion-materialized-json-health-checker-startup-compliance-build-pack-v1-7",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/eval/history/materialize-json-health-checker-startup-compliance-build-pack-v1-20260325t223042z/materialization-report.json",
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ],
+        "status": "materialized",
+        "summary": "2026-03-25T22:30:42Z: `materialized` `json-health-checker-startup-compliance-build-pack-v1`.",
+        "title": "Materialized",
+        "truth_layer": "canonical"
+      },
+      {
+        "id": "motion-materialized-json-health-checker-hint-briefing-build-pack-v1-8",
+        "source_kind": "canonical",
+        "source_path": [
+          "/home/orchadmin/project-pack-factory/eval/history/materialize-json-health-checker-hint-briefing-build-pack-v1-20260325t221807z/materialization-report.json",
+          "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+        ],
+        "status": "materialized",
+        "summary": "2026-03-25T22:18:07Z: `materialized` `json-health-checker-hint-briefing-build-pack-v1`.",
+        "title": "Materialized",
+        "truth_layer": "canonical"
+      }
+    ],
+    "source_kind": "canonical",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/registry/promotion-log.json"
+    ],
+    "title": "Recent Motion",
+    "truth_layer": "canonical"
+  },
+  "schema_version": "factory-dashboard-snapshot/v1",
+  "source_trace": [
+    {
+      "kind": "registry",
+      "path": "/home/orchadmin/project-pack-factory/registry/templates.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "registry",
+      "path": "/home/orchadmin/project-pack-factory/registry/build-packs.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "promotion_log",
+      "path": "/home/orchadmin/project-pack-factory/registry/promotion-log.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "root_memory_pointer",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/latest-memory.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "root_memory",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t170954z.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "planning_list",
+      "path": "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+      "status": "loaded"
+    },
+    {
+      "kind": "startup_benchmark_root",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks",
+      "status": "loaded"
+    },
+    {
+      "kind": "startup_benchmark_report",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260325t231514z/benchmark-report.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "startup_benchmark_report",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260325t231447z/benchmark-report.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "deployment_pointer_dir",
+      "path": "/home/orchadmin/project-pack-factory/deployments/production",
+      "status": "loaded"
+    },
+    {
+      "kind": "deployment_pointer_dir",
+      "path": "/home/orchadmin/project-pack-factory/deployments/staging",
+      "status": "loaded"
+    },
+    {
+      "kind": "deployment_pointer_dir",
+      "path": "/home/orchadmin/project-pack-factory/deployments/testing",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/config-drift-checker-build-pack/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/factory-native-smoke-build-pack/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-autonomy-to-promotion-build-pack-v1/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-build-pack/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-one-pass-promotion-proof-build-pack-v1/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-promotion-gate-build-pack-v1/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/json-health-checker-promotion-gate-build-pack-v1/eval/latest/index.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_readiness",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/status/readiness.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "pack_eval_latest",
+      "path": "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/eval/latest/index.json",
+      "status": "loaded"
+    }
+  ],
+  "what_matters_most": {
+    "details": [
+      "pack_id=release-evidence-summarizer-build-pack-v3",
+      "active_release_id=release-evidence-summarizer-v3-r1"
+    ],
+    "id": "release-evidence-summarizer-build-pack-v3",
+    "source_kind": "canonical",
+    "source_path": [
+      "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/eval/history/promote-release-evidence-summarizer-build-pack-v3-production-20260323t104740z/promotion-report.json",
+      "/home/orchadmin/project-pack-factory/build-packs/release-evidence-summarizer-build-pack-v3/status/deployment.json",
+      "/home/orchadmin/project-pack-factory/deployments/production/release-evidence-summarizer-build-pack-v3.json",
+      "/home/orchadmin/project-pack-factory/registry/build-packs.json"
+    ],
+    "status": "production",
+    "summary": "release-evidence-summarizer-build-pack-v3 is currently assigned to production.",
+    "title": "Production Is The Main Active Path",
+    "truth_layer": "canonical"
+  }
+}

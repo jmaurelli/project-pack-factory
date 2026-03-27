@@ -1,0 +1,27 @@
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/delegated-task-request.json","cwd":"/root"}
+{"cmd":"cat /etc/httpd/conf.d/algosec-ms.ms-autodiscovery.conf > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/apache-autodiscovery-conf.txt","cwd":"/root"}
+{"cmd":"systemctl status ms-autodiscovery.service --no-pager -l > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ms-autodiscovery-service.txt","cwd":"/root"}
+{"cmd":"systemctl status ms-configuration.service --no-pager -l > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ms-configuration-service.txt","cwd":"/root"}
+{"cmd":"sed -n '1,240p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/apache-autodiscovery-conf.txt","cwd":"/root"}
+{"cmd":"sed -n '1,220p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ms-autodiscovery-service.txt","cwd":"/root"}
+{"cmd":"sed -n '1,220p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ms-configuration-service.txt","cwd":"/root"}
+{"cmd":"ss -ltnp '( sport = :8095 )' > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/port-8095.txt","cwd":"/root"}
+{"cmd":"sh -c '{ echo \"## direct backend: http://127.0.0.1:8095/v2/api-docs\"; curl -sv --max-time 10 http://127.0.0.1:8095/v2/api-docs; echo; echo \"## apache-facing: https://127.0.0.1/AutoDiscovery/v2/api-docs\"; curl -skv --max-time 10 https://127.0.0.1/AutoDiscovery/v2/api-docs; }' > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/autodiscovery-http-checks.txt 2>&1","cwd":"/root"}
+{"cmd":"sh -c 'for f in /var/log/httpd/*; do if [ -f \"$f\" ]; then echo \"## $f\"; rg -n \"AutoDiscovery|ms-autodiscovery|8095|502\" \"$f\" || true; echo; fi; done' > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/httpd-log-snippets.txt","cwd":"/root"}
+{"cmd":"sed -n '1,120p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/port-8095.txt","cwd":"/root"}
+{"cmd":"sed -n '1,260p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/autodiscovery-http-checks.txt","cwd":"/root"}
+{"cmd":"sed -n '1,260p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/httpd-log-snippets.txt","cwd":"/root"}
+{"cmd":"rg --files /var/log/httpd > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/httpd-files.txt","cwd":"/root"}
+{"cmd":"systemctl show ms-autodiscovery.service -p LoadState -p ActiveState -p SubState -p UnitFileState -p FragmentPath -p ExecMainStatus -p ExecMainCode > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ms-autodiscovery-show.txt","cwd":"/root"}
+{"cmd":"systemctl show ms-configuration.service -p LoadState -p ActiveState -p SubState -p UnitFileState -p FragmentPath -p MainPID > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ms-configuration-show.txt","cwd":"/root"}
+{"cmd":"sed -n '1,120p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/httpd-files.txt","cwd":"/root"}
+{"cmd":"sed -n '1,120p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ms-autodiscovery-show.txt","cwd":"/root"}
+{"cmd":"sed -n '1,120p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ms-configuration-show.txt","cwd":"/root"}
+{"cmd":"tail -n 120 /var/log/httpd/ssl_error_log > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ssl_error_log-tail.txt","cwd":"/root"}
+{"cmd":"rg -n \"AutoDiscovery|ms-autodiscovery|autodiscovery|8095|proxy\" /var/log/httpd/ssl_error_log > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ssl_error_log-matches.txt","cwd":"/root"}
+{"cmd":"sed -n '1,200p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ssl_error_log-tail.txt","cwd":"/root"}
+{"cmd":"sed -n '1,200p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/ssl_error_log-matches.txt","cwd":"/root"}
+{"cmd":"sh -c '{ echo; echo \"## apache-facing direct alias: https://127.0.0.1/ms-autodiscovery/v2/api-docs\"; curl -skv --max-time 10 https://127.0.0.1/ms-autodiscovery/v2/api-docs; }' >> /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/autodiscovery-http-checks.txt 2>&1","cwd":"/root"}
+{"cmd":"sed -n '1,360p' /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/autodiscovery-http-checks.txt","cwd":"/root"}
+{"cmd":"ls -1 /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1 && ls -1 /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts && jq . /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/delegated-task-result.json > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/delegated-task-result.pretty.json","cwd":"/root"}
+{"cmd":"python -m json.tool /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/delegated-task-result.json > /root/.pack-state/delegated-codex-runs/autodiscovery-502-observe-v1/artifacts/delegated-task-result.pretty.json","cwd":"/root"}

@@ -281,6 +281,61 @@ def score_autonomy_quality(*, factory_root: Path, report_path: Path) -> dict[str
             evidence_paths=block_evidence_paths,
         )
 
+    budget_values: list[float] = []
+    budget_details: list[str] = []
+    budget_evidence_paths = [
+        str(checkpoint_summary_path),
+        str(active_run_summary_path),
+        str(ready_run_summary_path),
+    ]
+    for name, summary in (
+        ("checkpoint", checkpoint_summary),
+        ("active_task_remote", active_run_summary),
+        ("ready_boundary_remote", ready_run_summary),
+    ):
+        autonomy_budget = summary.get("autonomy_budget")
+        if not isinstance(autonomy_budget, dict):
+            continue
+        budget_status = autonomy_budget.get("status")
+        limits = autonomy_budget.get("limits", {})
+        observed = autonomy_budget.get("observed", {})
+        if not isinstance(limits, dict) or not isinstance(observed, dict):
+            continue
+        components: list[float] = []
+        for key in ("max_step_count", "max_failed_command_count", "max_escalation_count", "max_elapsed_minutes"):
+            limit = limits.get(key)
+            used = observed.get(key)
+            if not isinstance(limit, (int, float)) or not isinstance(used, (int, float)):
+                continue
+            if float(limit) <= 0:
+                components.append(100.0 if float(used) <= 0 else 0.0)
+            else:
+                overage = max(0.0, float(used) - float(limit))
+                components.append(max(0.0, 100.0 - (overage / float(limit) * 100.0)))
+        if budget_status == "budget_exceeded":
+            components.append(50.0)
+        elif budget_status == "within_budget":
+            components.append(100.0)
+        budget_score = _average(components)
+        if budget_score is not None:
+            budget_values.append(budget_score)
+            budget_details.append(
+                f"{name}: status={budget_status}, observed_steps={observed.get('max_step_count')}, "
+                f"observed_failed_commands={observed.get('max_failed_command_count')}, "
+                f"observed_escalations={observed.get('max_escalation_count')}, "
+                f"observed_elapsed_minutes={observed.get('max_elapsed_minutes')}"
+            )
+    budget_score = _average(budget_values)
+    if budget_score is not None:
+        scored_values.append(budget_score)
+    dimensions["budget_efficiency_quality"] = _dimension(
+        score=budget_score,
+        status="scored" if budget_score is not None else "not_applicable",
+        summary="Scores whether the checkpoint and remote continuity hops stayed within the default bounded autonomy run budget for steps, failed commands, escalations, and elapsed time.",
+        evidence_paths=budget_evidence_paths,
+        details=budget_details,
+    )
+
     if source_kind == "startup_compliance_rehearsal":
         root_checks = cast(dict[str, Any], source_payload.get("root_marker_checks", {}))
         template_checks = cast(dict[str, Any], source_payload.get("template_marker_checks", {}))

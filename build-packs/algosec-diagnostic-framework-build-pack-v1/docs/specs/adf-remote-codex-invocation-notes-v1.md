@@ -6,6 +6,77 @@ These notes capture what happened while invoking the remote Codex runtime on
 the AlgoSec lab appliance during the first `Support Cockpit` implementation
 cycle.
 
+These notes now apply to the remote Codex host side of the ADF split-host
+model.
+
+Use `docs/specs/adf-remote-runtime-decoupling-plan-v1.md` as the current
+runtime-topology note when the ADF build-pack runtime host and the target
+application host are different systems. This note is narrower: it records how
+to launch and manage remote Codex on the host that runs the staged ADF build
+pack.
+
+For the current split-host model, prefer the existing PackFactory remote
+autonomy control plane rather than building a new ADF-specific launcher path.
+
+Use these PackFactory-root tools first:
+
+- `tools/prepare_remote_autonomy_target.py`
+- `tools/push_build_pack_to_remote.py`
+- `tools/run_remote_autonomy_loop.py`
+- `tools/pull_remote_runtime_evidence.py`
+- `tools/import_external_runtime_evidence.py`
+- `tools/reconcile_imported_runtime_state.py`
+
+Treat the ADF-specific `adf-remote-checkpoint-bundle.json` as supplementary
+review metadata that rides alongside the existing PackFactory request,
+staging, execution, export, pull, import, and reconcile workflow.
+
+The appliance-shell observations later in this note remain useful as
+historical debugging guidance, but they are not the primary control path for
+the current `adf-dev` split-host model.
+
+Current remote Codex host assignment:
+
+- use `adf-dev` as the remote Codex host
+- use the existing PackFactory-to-`adf-dev` SSH key authentication path as the
+  default launcher transport
+- treat the remote staged build-pack copy on `adf-dev` as the live execution
+  workspace, while the local PackFactory build-pack copy remains the current
+  precedence source of truth
+
+In that split-host model, long-running ADF loops should stay on the remote
+Codex host. When a bounded checkpoint, pause, or completed run is reached, use
+the existing build-pack runtime-evidence export surface to hand back
+`run-summary.json`, `loop-events.jsonl`, feedback memory, and accepted
+artifacts to PackFactory root instead of depending on one continuously open
+root-to-target session.
+
+Use `docs/specs/adf-remote-runtime-decoupling-plan-v1.md` for the exact
+current local-to-`adf-dev` checkpoint contract:
+
+- local PackFactory pushes accepted source and instructions to `adf-dev`
+- `adf-dev` returns bounded run artifacts and candidate changes at named
+  checkpoints
+- local PackFactory keeps precedence unless the checkpoint bundle explicitly
+  accepts the pulled remote state
+
+Use the named checkpoint manifest shape in that same note when a remote run is
+ready to hand back candidate state:
+
+- `adf-remote-checkpoint-bundle.json`
+
+That manifest should point to the exported runtime-evidence bundle, raw run
+artifacts, candidate source/docs changes, and the exact work-state or backlog
+fields proposed for local acceptance.
+
+Current emit rule:
+
+- write it first under `.pack-state/autonomy-runs/<run-id>/`
+- copy it into the export bundle under `artifacts/` when a runtime-evidence
+  bundle is emitted
+- refresh it on `paused_for_review`, `task_slice_complete`, `evidence_ready`,
+  `blocked_boundary`, and `recovery_snapshot`
+
 Target appliance:
 
 - `10.167.2.150`
@@ -148,6 +219,28 @@ Current preference:
 - keep the prompt file, launcher log, and result file separated so retries are
   easier to reason about
 
+## Not Sufficient For Task Completion
+
+These signals are orchestration evidence, not iteration-loop completion proof:
+
+- launcher success
+- result-file creation
+- moved file timestamps
+- rebuilt review artifacts
+- live page checks
+- clean restaging and relaunch
+
+Those signals only prove that the remote path is usable.
+
+For `build_adf_autonomous_iteration_loop`, they are not sufficient on their
+own unless they are paired with:
+
+- the loop contract note at
+  `docs/specs/adf-autonomous-iteration-loop-completion-boundary-v1.md`
+- the recorded pack-local versus future factory split
+- a pilot iteration evidence artifact that records a real ADF-local outcome
+  beyond bookkeeping
+
 ## Revised Workflow For ASMS Investigative Authoring
 
 During the March 25, 2026 ASMS UI system-thinking cycle, ADF also tried the
@@ -174,13 +267,19 @@ the following:
 
 So the revised workflow for the current ADF phase is:
 
-1. use PackFactory remote tooling for target prep and clean staging:
-   - `python3 tools/prepare_remote_autonomy_target.py ...`
-   - `python3 tools/push_build_pack_to_remote.py ...`
+1. use the PackFactory-root remote request, staging, execution, export, pull,
+   import, and reconcile workflows rather than inventing pack-local substitutes
 2. use the staged remote workspace for a guided remote Codex investigation run
-   against the named ADF task
-3. sync back the appliance-backed artifacts and notes that matter
-4. update local pack state and validate locally
+   against the named ADF task when the current slice needs appliance-backed
+   investigation and pack-local authoring
+3. keep ADF notes focused on launcher, browser, and artifact-shape constraints,
+   while PackFactory root remains the owner of control-plane workflow semantics
+4. update local pack state and validate locally after the PackFactory-root
+   workflow returns evidence
+
+Do not treat this note as authority for remote-session control-plane policy.
+If it ever diverges from PackFactory-root request/export/pull/import/reconcile
+workflows, PackFactory root wins and this note should be updated.
 
 Do not use `run_remote_autonomy_loop.py` as the primary execution path for the
 current ASMS investigative authoring cycles unless the goal is explicitly a

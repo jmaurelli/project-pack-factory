@@ -1,0 +1,158 @@
+{
+  "generated_at": "2026-03-26T11:24:42Z",
+  "lesson_count": 4,
+  "lessons": [
+    {
+      "confidence_rating": "strong",
+      "evidence_paths": [
+        ".pack-state/cross-template-transfer-matrices/cross-template-transfer-matrix-20260325t231701z/matrix-report.json",
+        ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-api-contract-autonomy-transfer-build-pack-v1-20260325t231545z/rehearsal-report.json",
+        ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-config-drift-autonomy-transfer-build-pack-v1-20260325t224550z/rehearsal-report.json",
+        ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-release-evidence-autonomy-transfer-build-pack-v1-20260325t231544z/rehearsal-report.json"
+      ],
+      "lesson_id": "cross-template-memory-transfer",
+      "pattern_kind": "cross_template_transfer",
+      "proof_count": 3,
+      "recommended_default": "Treat multi-template transfer success as promotable factory knowledge and keep the transfer row summary visible in factory-level restart memory.",
+      "repeated_signals": [
+        "completed_row_count=3",
+        "ready_row_count=3",
+        "overall_rating=strong",
+        "overall_score=100.0",
+        "latest_memory_run_ids=api-contract-autonomy-transfer-build-pack-v1-continuity-run-v1, config-drift-autonomy-transfer-build-pack-v1-continuity-run-v1, release-evidence-autonomy-transfer-build-pack-v1-continuity-run-v1",
+        "all rows finished ready_for_deploy with ready_for_deployment=true across multiple templates"
+      ],
+      "source_build_pack_ids": [
+        "api-contract-autonomy-transfer-build-pack-v1",
+        "config-drift-autonomy-transfer-build-pack-v1",
+        "release-evidence-autonomy-transfer-build-pack-v1"
+      ],
+      "source_template_ids": [
+        "api-contract-sentinel-template-pack",
+        "config-drift-checker-template-pack",
+        "release-evidence-summarizer-template-pack"
+      ],
+      "suggested_factory_fields": [
+        "source_template_id",
+        "target_build_pack_id",
+        "latest_memory_run_id",
+        "final_readiness_state",
+        "final_ready_for_deployment"
+      ],
+      "summary": "Cross-template transfer reports now show the same autonomy baseline reaching `ready_for_deploy` across multiple active template lines instead of staying trapped inside one proving-ground family.",
+      "title": "Cross-template memory transfer holds across active template lines."
+    },
+    {
+      "confidence_rating": "moderate",
+      "evidence_paths": [
+        ".pack-state/autonomy-quality-scores/autonomy-quality-score-multi-hop-autonomy-rehearsal-config-drift-autonomy-transfer-build-pack-v1-20260325t224550z-20260325t230634z/score-report.json",
+        ".pack-state/autonomy-quality-scores/autonomy-quality-score-startup-compliance-rehearsal-json-health-checker-startup-compliance-rehearsal-build-pack-v1-20260325t224406z-20260325t230634z/score-report.json"
+      ],
+      "lesson_id": "bounded-memory-handoff-quality",
+      "pattern_kind": "memory_handoff_quality",
+      "proof_count": 2,
+      "recommended_default": "Preserve handoff, recovery, replay-avoidance, and outcome scoring as the core factory lesson for restart-memory quality.",
+      "repeated_signals": [
+        "overall_ratings=strong",
+        "min_handoff_quality=100.0",
+        "min_recovery_quality=100.0",
+        "min_replay_avoidance_quality=100.0",
+        "min_outcome_quality=100.0",
+        "min_overall_score=100.0"
+      ],
+      "source_build_pack_ids": [
+        "config-drift-autonomy-transfer-build-pack-v1",
+        "json-health-checker-startup-compliance-rehearsal-build-pack-v1"
+      ],
+      "source_template_ids": [],
+      "suggested_factory_fields": [
+        "resume_correctness",
+        "consistent_memory_use_rate",
+        "stale_memory_rate",
+        "handoff_quality.score",
+        "recovery_quality.score",
+        "replay_avoidance_quality.score",
+        "outcome_quality.score"
+      ],
+      "summary": "Multiple autonomy-quality score reports now show the same bounded loop qualities: memory reuse stays correct, replay stays low, imports reconcile cleanly, and the pack finishes ready for the next promotion step.",
+      "title": "Memory handoff quality is repeatedly strong across bounded autonomy loops."
+    },
+    {
+      "confidence_rating": "strong",
+      "evidence_paths": [
+        "build-packs/config-drift-autonomy-transfer-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224558z/import-report.json",
+        "build-packs/json-health-checker-degraded-connectivity-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t182912z/import-report.json",
+        "build-packs/json-health-checker-startup-compliance-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260325t224415z/import-report.json"
+      ],
+      "lesson_id": "fail-closed-import-reconcile",
+      "pattern_kind": "fail_closed_import_recovery",
+      "proof_count": 3,
+      "recommended_default": "Keep fail-closed import preservation plus explicit reconcile guidance as a promoted factory lesson for remote-memory recovery.",
+      "repeated_signals": [
+        "memory_intake_statuses=promoted_only",
+        "block_reasons=memory_not_activated_due_to_canonical_mismatch",
+        "recommended_recovery_actions=Run the imported runtime-state reconcile workflow if you want to adopt the returned remote state; otherwise continue from the current active latest-memory pointer."
+      ],
+      "source_build_pack_ids": [
+        "config-drift-autonomy-transfer-build-pack-v1",
+        "json-health-checker-degraded-connectivity-build-pack-v1",
+        "json-health-checker-startup-compliance-rehearsal-build-pack-v1"
+      ],
+      "source_template_ids": [],
+      "suggested_factory_fields": [
+        "memory_intake.status",
+        "memory_intake.block_summary.reason",
+        "memory_intake.block_summary.recommended_recovery_action",
+        "memory_intake.selected_run_id",
+        "memory_intake.latest_pointer_path"
+      ],
+      "summary": "Across multiple imports, PackFactory keeps returned memory fail-closed when it no longer matches canonical local state, preserves the evidence, and points the operator at reconcile instead of silently overriding local truth.",
+      "title": "Imported memory is preserved first, then reconciled deliberately."
+    },
+    {
+      "confidence_rating": "strong",
+      "evidence_paths": [
+        ".pack-state/branching-autonomy-exercises/branching-autonomy-exercise-json-health-checker-branching-build-pack-v1-20260325t181934z/exercise-report.json",
+        ".pack-state/operator-hint-branch-choice-exercises/operator-hint-branch-choice-exercise-json-health-checker-operator-hint-branch-build-pack-v1-20260325t191844z/exercise-report.json",
+        ".pack-state/operator-hint-conflict-exercises/operator-hint-conflict-exercise-json-health-checker-operator-hint-conflict-build-pack-v1-20260325t214301z/exercise-report.json",
+        ".pack-state/semantic-branch-choice-exercises/semantic-branch-choice-exercise-json-health-checker-semantic-branch-build-pack-v1-20260325t185146z/exercise-report.json",
+        "build-packs/json-health-checker-branching-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-branching-build-pack-v1-branching-checkpoint-v1/branch-selection.json",
+        "build-packs/json-health-checker-operator-hint-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-operator-hint-branch-build-pack-v1-operator-hint-branch-checkpoint-v1/branch-selection.json",
+        "build-packs/json-health-checker-operator-hint-conflict-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-operator-hint-conflict-build-pack-v1-operator-hint-conflict-checkpoint-v1/branch-selection.json",
+        "build-packs/json-health-checker-semantic-branch-build-pack-v1/.pack-state/autonomy-runs/json-health-checker-semantic-branch-build-pack-v1-semantic-branch-checkpoint-v1/branch-selection.json"
+      ],
+      "lesson_id": "operator-guided-branch-choice-ladder",
+      "pattern_kind": "operator_guided_branch_choice",
+      "proof_count": 4,
+      "recommended_default": "Keep branch-selection artifacts as first-class restart evidence and distill the shared selection ladder into factory memory for future autonomy work.",
+      "repeated_signals": [
+        "selection_methods=operator_hint, operator_hint_plus_semantic_alignment, semantic_alignment",
+        "distinct_applied_hint_ids=avoid_reporting_refinement, prefer_reporting_refinement",
+        "selection_rule_variants=4",
+        "selection_priority_metadata_present=true"
+      ],
+      "source_build_pack_ids": [
+        "json-health-checker-branching-build-pack-v1",
+        "json-health-checker-operator-hint-branch-build-pack-v1",
+        "json-health-checker-operator-hint-conflict-build-pack-v1",
+        "json-health-checker-semantic-branch-build-pack-v1"
+      ],
+      "source_template_ids": [],
+      "suggested_factory_fields": [
+        "selection_method",
+        "selection_rule",
+        "applied_hint_ids",
+        "filtered_out_task_ids",
+        "semantic_context_sources",
+        "semantic_scores",
+        "chosen_task_id"
+      ],
+      "summary": "Across branching exercises, PackFactory now shows the same explainable decision policy: explicit priority first, operator guidance next, bounded semantic alignment after that, and fail-closed review when the choice still is not defensible.",
+      "title": "Branch choice now follows one explainable ladder instead of backlog order."
+    }
+  ],
+  "operator_summary": "Recorded 4 factory-level autonomy memory lessons from repeated proof artifacts spanning continuity, import recovery, branch choice, and transfer evidence.",
+  "overall_summary": "Distilled 4 repeated autonomy lessons from existing PackFactory proof artifacts so the factory can promote shared memory patterns instead of keeping them scattered across individual build-packs.",
+  "report_id": "autonomy-memory-distillation-20260326t112442z",
+  "schema_version": "autonomy-memory-distillation-report/v1"
+}

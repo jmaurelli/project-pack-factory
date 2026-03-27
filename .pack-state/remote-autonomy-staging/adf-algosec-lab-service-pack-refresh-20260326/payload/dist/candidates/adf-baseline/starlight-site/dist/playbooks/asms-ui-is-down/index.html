@@ -1,0 +1,1237 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-sidebar class="astro-kmjr7myb"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>ASMS UI is down | AlgoSec Diagnostic Framework</title><link rel="canonical"/><link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v5.12.8"/><meta name="generator" content="Starlight v0.36.0"/><meta property="og:title" content="ASMS UI is down"/><meta property="og:type" content="article"/><meta property="og:url"/><meta property="og:locale" content="en"/><meta property="og:description" content="Use this when the ASMS UI is down and the engineer is checking the appliance from SSH."/><meta property="og:site_name" content="AlgoSec Diagnostic Framework"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Use this when the ASMS UI is down and the engineer is checking the appliance from SSH."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="/_astro/index.DEaJhjwO.css"><script type="module" src="/_astro/page.7qqag-5g.js"></script></head> <body class="astro-kmjr7myb"> <a href="#_top" class="astro-6yakrkra">Skip to content</a>  <div class="page sl-flex astro-l2hudpz2"> <header class="header astro-l2hudpz2"><div class="header astro-sjh6sxj5"> <div class="title-wrapper sl-flex astro-sjh6sxj5"> <a href="/" class="site-title sl-flex astro-vmbw3f2n">  <span class="astro-vmbw3f2n" translate="no"> AlgoSec Diagnostic Framework </span> </a>  </div> <div class="sl-flex print:hidden astro-sjh6sxj5"> <site-search class="astro-sjh6sxj5 astro-gzs75272" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-gzs75272"> <svg aria-hidden="true" class="astro-gzs75272 astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-gzs75272" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-gzs75272" style="display: none;"> <kbd class="astro-gzs75272">Ctrl</kbd><kbd class="astro-gzs75272">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-gzs75272"> <div class="dialog-frame sl-flex astro-gzs75272">  <button data-close-modal class="sl-flex md:sl-hidden astro-gzs75272"> Cancel </button> <div class="search-container astro-gzs75272"> <div id="starlight__search" class="astro-gzs75272"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.cjYDvRdi.js"></script>   </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-sjh6sxj5"> <div class="sl-flex social-icons astro-sjh6sxj5">  </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-x4phq57m"> <span class="sr-only astro-x4phq57m">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-x4phq57m astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-x4phq57m"> <option value="dark" class="astro-x4phq57m">Dark</option><option value="light" class="astro-x4phq57m">Light</option><option value="auto" selected class="astro-x4phq57m">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-x4phq57m astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script> <script type="module">const r="starlight-theme",o=e=>e==="auto"||e==="dark"||e==="light"?e:"auto",c=()=>o(typeof localStorage<"u"&&localStorage.getItem(r));function n(e){typeof localStorage<"u"&&localStorage.setItem(r,e==="light"||e==="dark"?e:"")}const l=()=>matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";function t(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e==="auto"?l():e,n(e)}matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{c()==="auto"&&t("auto")});class s extends HTMLElement{constructor(){super(),t(c()),this.querySelector("select")?.addEventListener("change",a=>{a.currentTarget instanceof HTMLSelectElement&&t(o(a.currentTarget.value))})}}customElements.define("starlight-theme-select",s);</script> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> </header> <nav class="sidebar print:hidden astro-l2hudpz2" aria-label="Main"> <starlight-menu-button class="print:hidden astro-v2gwtb7e"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-v2gwtb7e"> <svg aria-hidden="true" class="open-menu astro-v2gwtb7e astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-v2gwtb7e astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>   <div id="starlight__sidebar" class="sidebar-pane astro-l2hudpz2"> <div class="sidebar-content sl-flex astro-l2hudpz2"> <sl-sidebar-state-persist data-hash="1b9otmc" class="astro-42z32p2c"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-ftumufzb"> <li class="astro-ftumufzb"> <details open class="astro-ftumufzb"> <summary class="astro-ftumufzb"> <span class="group-label astro-ftumufzb"> <span class="large astro-ftumufzb">Start Here</span>  </span> <svg aria-hidden="true" class="caret astro-ftumufzb astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-ftumufzb"> <li class="astro-ftumufzb"> <a href="/" aria-current="false" class="astro-ftumufzb"> <span class="astro-ftumufzb">Overview</span>  </a> </li> </ul>  </details> </li><li class="astro-ftumufzb"> <details open class="astro-ftumufzb"> <summary class="astro-ftumufzb"> <span class="group-label astro-ftumufzb"> <span class="large astro-ftumufzb">Current Focus</span>  </span> <svg aria-hidden="true" class="caret astro-ftumufzb astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-ftumufzb"> <li class="astro-ftumufzb"> <a href="/playbooks/asms-ui-is-down/" aria-current="page" class="astro-ftumufzb"> <span class="astro-ftumufzb">ASMS UI is down</span>  </a> </li> </ul>  </details> </li><li class="astro-ftumufzb"> <details open class="astro-ftumufzb"> <summary class="astro-ftumufzb"> <span class="group-label astro-ftumufzb"> <span class="large astro-ftumufzb">Playbooks</span>  </span> <svg aria-hidden="true" class="caret astro-ftumufzb astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-ftumufzb"> <li class="astro-ftumufzb"> <a href="/playbooks/asms-ui-is-down/" aria-current="false" class="astro-ftumufzb"> <span class="astro-ftumufzb">ASMS UI is down</span>  </a> </li><li class="astro-ftumufzb"> <a href="/playbooks/fireflow-backend/" aria-current="false" class="astro-ftumufzb"> <span class="astro-ftumufzb">FireFlow Backend</span>  </a> </li><li class="astro-ftumufzb"> <a href="/playbooks/microservice-platform/" aria-current="false" class="astro-ftumufzb"> <span class="astro-ftumufzb">Microservice Platform</span>  </a> </li><li class="astro-ftumufzb"> <a href="/playbooks/messaging-and-data/" aria-current="false" class="astro-ftumufzb"> <span class="astro-ftumufzb">Messaging and Data</span>  </a> </li> </ul>  </details> </li> </ul>   <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist>  <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-vw2iafig"> <div class="social-icons astro-vw2iafig">  </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-x4phq57m"> <span class="sr-only astro-x4phq57m">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-x4phq57m astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-x4phq57m"> <option value="dark" class="astro-x4phq57m">Dark</option><option value="light" class="astro-x4phq57m">Light</option><option value="auto" selected class="astro-x4phq57m">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-x4phq57m astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script>   </div>  </div> </div> </div> </nav> <div class="main-frame astro-l2hudpz2">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-6wghaiyc">  <div class="main-pane astro-6wghaiyc">  <main data-pagefind-body class="astro-kmjr7myb" lang="en" dir="ltr">    <div class="content-panel astro-chn2qfsm"> <div class="sl-container astro-chn2qfsm"> <h1 id="_top" class="astro-pfzq4okv">ASMS UI is down</h1>  </div> </div>  <div class="content-panel astro-chn2qfsm"> <div class="sl-container astro-chn2qfsm"> <div class="sl-markdown-content"> <p>Use this when the ASMS UI is down and the engineer is checking the appliance from SSH.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="asms-ui-working-map">ASMS UI Working Map</h2><a class="sl-anchor-link" href="#asms-ui-working-map"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only">Section titled “ASMS UI Working Map”</span></a></div>
+<div class="adf-system-shell">
+  <div class="adf-system-topbar">
+    <div class="adf-panel">
+      <p class="adf-panel-label">Working rule</p>
+      <p>Start at the host, move into Apache/HTTPD serving the UI, then split into auth and app branches. Stop at the first place where useful work no longer happens.</p>
+    </div>
+    <div class="adf-panel">
+      <p class="adf-panel-label">What this page is proving</p>
+      <p>The goal is not to prove that services merely exist. The goal is to prove whether the ASMS UI path can do useful work for the current customer scenario.</p>
+    </div>
+  </div>
+  <div class="adf-system-map adf-panel">
+    <p class="adf-panel-label">Useful-work path</p>
+    <ol class="adf-system-map-list">
+      <li class="adf-system-map-item">
+        <a class="adf-system-map-link" href="#ui-and-proxy-step-1">
+          <span class="adf-route-step">Step 1</span>
+          <strong>Host can support useful work</strong>
+          <span>Start here. Check storage, inode, memory, OOM, load, and CPU pressure to decide whether the Linux host can still support Apache, Keycloak, Metro, logging, and temp-file writes.</span>
+        </a>
+      </li>
+      <li class="adf-system-map-item">
+        <a class="adf-system-map-link" href="#ui-and-proxy-step-2">
+          <span class="adf-route-step">Step 2</span>
+          <strong>Apache/HTTPD serving the UI</strong>
+          <span>If the host looks healthy, confirm Apache/HTTPD can answer local UI traffic and still route requests into the auth and app branches.</span>
+        </a>
+      </li>
+      <li class="adf-system-map-item">
+        <a class="adf-system-map-link" href="#ui-and-proxy-step-3">
+          <span class="adf-route-step">Step 3</span>
+          <strong>Auth handoff can do useful work</strong>
+          <span>Check whether the legacy auth-trigger hop reaches BusinessFlow as the first named operational checkpoint, then confirm the later Keycloak and FireFlow handoff without pretending they are the first observed neighbor.</span>
+        </a>
+      </li>
+      <li class="adf-system-map-item">
+        <a class="adf-system-map-link" href="#ui-and-proxy-step-4">
+          <span class="adf-route-step">Step 4</span>
+          <strong>App branch can do useful work</strong>
+          <span>Check whether ms-metro is serving useful app traffic and showing healthy JVM behavior, not only whether port 8080 is open.</span>
+        </a>
+      </li>
+      <li class="adf-system-map-item">
+        <a class="adf-system-map-link" href="#ui-and-proxy-step-5">
+          <span class="adf-route-step">Step 5</span>
+          <strong>Useful work stops here</strong>
+          <span>If the host and both branches still look up, use Apache/HTTPD, Keycloak, and Metro clues to find the first clear stop point.</span>
+        </a>
+      </li>
+    </ol>
+  </div>
+  <div class="adf-system-grid">
+    <aside class="adf-system-nav adf-panel">
+      <p class="adf-panel-label">Quick jump</p>
+      <div class="adf-system-jumps">
+<a class="adf-system-jump" href="#ui-and-proxy-step-1">
+  <span class="adf-route-step">Step 1</span>
+  <strong>Host can support useful work</strong>
+  <span>Start here. Check storage, inode, memory, OOM, load, and CPU pressure to decide whether the Linux host can still support Apache, Keycloak, Metro, logging, and temp-file writes.</span>
+</a>
+<a class="adf-system-jump" href="#ui-and-proxy-step-2">
+  <span class="adf-route-step">Step 2</span>
+  <strong>Apache/HTTPD serving the UI</strong>
+  <span>If the host looks healthy, confirm Apache/HTTPD can answer local UI traffic and still route requests into the auth and app branches.</span>
+</a>
+<a class="adf-system-jump" href="#ui-and-proxy-step-3">
+  <span class="adf-route-step">Step 3</span>
+  <strong>Auth handoff can do useful work</strong>
+  <span>Check whether the legacy auth-trigger hop reaches BusinessFlow as the first named operational checkpoint, then confirm the later Keycloak and FireFlow handoff without pretending they are the first observed neighbor.</span>
+</a>
+<a class="adf-system-jump" href="#ui-and-proxy-step-4">
+  <span class="adf-route-step">Step 4</span>
+  <strong>App branch can do useful work</strong>
+  <span>Check whether ms-metro is serving useful app traffic and showing healthy JVM behavior, not only whether port 8080 is open.</span>
+</a>
+<a class="adf-system-jump" href="#ui-and-proxy-step-5">
+  <span class="adf-route-step">Step 5</span>
+  <strong>Useful work stops here</strong>
+  <span>If the host and both branches still look up, use Apache/HTTPD, Keycloak, and Metro clues to find the first clear stop point.</span>
+</a>
+      </div>
+      <div class="adf-system-sideblock">
+        <p class="adf-panel-label">Symptoms that fit here</p>
+        <ul>
+          <li>ASMS UI is down</li>
+          <li>ASMS login page not loading</li>
+        </ul>
+      </div>
+    </aside>
+    <div class="adf-system-main">
+<details id="ui-and-proxy-step-1" class="adf-system-checkpoint">
+<summary class="adf-system-summary">
+  <span class="adf-step-badge">Step 1</span>
+  <span class="adf-system-heading">
+    <strong>Host can support useful work</strong>
+    <span>Check whether the host can support useful work for the ASMS UI path. Confirm storage, inode, memory, load, OOM, and CPU pressure are not already blocking Apache, Keycloak, Metro, log writing, or temp-file work.</span>
+  </span>
+  <span class="adf-step-toggle" aria-hidden="true"></span>
+</summary>
+<div class="adf-system-body">
+<div class="adf-system-brief adf-panel">
+  <p class="adf-panel-label">Why this checkpoint exists</p>
+  <p>Every major playbook starts with the Linux host. The first question is not whether a number looks high. It is whether current host pressure is already enough to break useful work in the UI system.</p>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check storage pressure on runtime filesystems</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.v4551.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">df</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-h</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="df -h"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Runtime filesystems still have enough free space for logs, temp files, and service work.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: disk pressure</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks human-readable disk usage for the main filesystems.</li>
+<li>Focus on <code dir="auto">Use%</code> and <code dir="auto">Avail</code>, especially for <code dir="auto">/</code> and <code dir="auto">/data</code>.</li>
+<li>Disk pressure means the filesystem is close to full. When that happens, services can fail to write logs, temp files, or runtime data.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: Use% below 100%, Avail is not 0, / and /data still have free space
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If /, /boot, or /data is close to full, Apache, Keycloak, Metro, installers, and log writers can all fail or behave unpredictably.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Filesystem           Size  Used Avail Use% Mounted on</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">/dev/mapper/rl-root   60G   16G   45G  27% /</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">/dev/mapper/rl-data  238G   21G  218G   9% /data</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Filesystem           Size  Used Avail Use% Mounted on/dev/mapper/rl-root   60G   16G   45G  27% //dev/mapper/rl-data  238G   21G  218G   9% /data"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check inode pressure on runtime filesystems</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">df</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-ih</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="df -ih"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Runtime filesystems still have free inodes for logs, temp files, sockets, and service output.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: inode pressure</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks inode usage, which is different from normal disk space.</li>
+<li>A filesystem can still have free space but fail because it has no free inodes left.</li>
+<li>Inode pressure means the server has too many files or directory entries. Focus on <code dir="auto">IUse%</code> and whether <code dir="auto">IFree</code> is close to zero.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: IUse% below 100%, IFree is not 0, / and /data still have free inodes
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If inode use is high, the host can look like it has free disk while Apache, Keycloak, Metro, or log rotation still fail to create files.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Filesystem          Inodes IUsed IFree IUse% Mounted on</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">/dev/mapper/rl-root    30M  343K   30M    2% /</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">/dev/mapper/rl-data   119M   21K  119M    1% /data</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="Filesystem          Inodes IUsed IFree IUse% Mounted on/dev/mapper/rl-root    30M  343K   30M    2% //dev/mapper/rl-data   119M   21K  119M    1% /data"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check memory pressure on JVM-backed services</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">free</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-h</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="free -h"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Available memory is still present and swap is not carrying active pressure for the host.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: memory pressure</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This is the quick memory check for the host.</li>
+<li>Focus on <code dir="auto">available</code> memory and whether swap is starting to grow heavily.</li>
+<li>Memory pressure means the server is low on available memory. When that happens, the server slows down, swap grows, or Linux may kill a process to protect itself.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: available memory is present, swap is not exhausted, Mem and Swap are shown in GiB
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If available memory is very low or swap is heavily used, Java services like Keycloak and Metro may slow down, hang, fail health checks, or get killed later.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">              </span></span><span style="--0:#d6deeb;--1:#403f53">total        used        free      shared  buff/cache   available</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Mem:           32Gi        13Gi       8.6Gi       2.4Gi         9Gi        15Gi</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Swap:          24Gi          0B        24Gi</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="              total        used        free      shared  buff/cache   availableMem:           32Gi        13Gi       8.6Gi       2.4Gi         9Gi        15GiSwap:          24Gi          0B        24Gi"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check current host load pressure</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">uptime</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="uptime"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Load is not unexpectedly high for the host and does not already explain the UI symptom.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: system load</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This is the quick load check for the host.</li>
+<li>Focus on the <code dir="auto">load average</code> values and whether they look unexpectedly high for the server.</li>
+<li>High load can mean CPU pressure, blocked work, or heavy I/O wait.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: load average:, load values are not unexpectedly high
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If load is unusually high, the system may be under CPU pressure, blocked work, or heavy I/O wait before you even reach the UI-specific branches.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">14:42:03 up 17 days,  1:52,  1 user,  load average: 0.25, 0.18, 0.11</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="14:42:03 up 17 days,  1:52,  1 user,  load average: 0.25, 0.18, 0.11"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check recent memory-kill pressure</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">journalctl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--since</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">24 hours ago</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--no-pager</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-i</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">out of memory|oom|killed process</span><span style="--0:#D9F5DD;--1:#111111">"</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="journalctl -k --since &#x22;24 hours ago&#x22; --no-pager | grep -i -E &#x22;out of memory|oom|killed process&#x22;"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+No recent Out Of Memory lines are returned.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: OOM pressure</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks the Linux kernel log for memory-pressure kills.</li>
+<li>OOM means Out Of Memory. Linux may kill a process to protect the server.</li>
+<li>If you see OOM or <code dir="auto">Killed process</code> lines, memory pressure is likely part of the failure.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: No output is normal, No 'Out of memory' lines, No 'Killed process' lines
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If OOM lines appear, the host has already been killing or starving processes under memory pressure, so downstream UI symptoms may only be the visible side effect.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">No output</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="No output"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check which process owns CPU pressure right now</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">ps</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-eo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pid,comm,%cpu,%mem</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--sort=-%cpu</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">head</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">10</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="ps -eo pid,comm,%cpu,%mem --sort=-%cpu | head -n 10"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+No unexpected process is consuming enough CPU to starve the rest of the ASMS path.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: top CPU consumers</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This shows which processes are using the most CPU right now.</li>
+<li>Focus on whether one process is dominating CPU and whether that process matches the current symptom.</li>
+<li>A single runaway process can starve the rest of the server and make higher-level application failures look worse than they are.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: PID, COMMAND, %CPU, %MEM
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If one process is consuming most of the CPU, treat that process as part of the current system pressure story before assuming the UI path itself is the root cause.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">PID COMMAND         %CPU %MEM</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53"> </span></span><span style="--0:#d6deeb;--1:#403f53">6012 java             8.1  7.4</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53"> </span></span><span style="--0:#d6deeb;--1:#403f53">1018 httpd            1.2  0.4</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53"> </span></span><span style="--0:#d6deeb;--1:#403f53">3758 algosec_keycloa  0.8  1.6</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="  PID COMMAND         %CPU %MEM 6012 java             8.1  7.4 1018 httpd            1.2  0.4 3758 algosec_keycloa  0.8  1.6"><div></div></button></div></figure></div>
+</div>
+</div>
+</details>
+<details id="ui-and-proxy-step-2" class="adf-system-checkpoint">
+<summary class="adf-system-summary">
+  <span class="adf-step-badge">Step 2</span>
+  <span class="adf-system-heading">
+    <strong>Apache/HTTPD serving the UI</strong>
+    <span>Check whether Apache/HTTPD can do useful edge work for the ASMS UI path. Confirm httpd.service is running, 80 and 443 are listening, the suite login route still lands on the Apache-served UI page, representative /algosec-ui/ assets still load through Apache, and the proxy mapping still points toward the auth and app branches.</span>
+  </span>
+  <span class="adf-step-toggle" aria-hidden="true"></span>
+</summary>
+<div class="adf-system-body">
+<div class="adf-system-brief adf-panel">
+  <p class="adf-panel-label">Why this checkpoint exists</p>
+  <p>After host health, Apache/HTTPD is the system edge for the UI path. The real question is whether the edge can still serve browser-useful login content and hand auth and app requests to the right neighbors, not only whether a process exists.</p>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check httpd.service status</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">systemctl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">status</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">httpd.service</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--no-pager</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="systemctl status httpd.service --no-pager"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Unit is loaded and active (running).
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: service status</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This asks systemd whether the service is known and running now.</li>
+<li><code dir="auto">Loaded</code> means the service unit exists on the server.</li>
+<li><code dir="auto">Active (running)</code> means the service is up now. <code dir="auto">Main PID</code> means systemd still sees the main process.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: Loaded: loaded, Active: active (running), Main PID:, /usr/sbin/httpd
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If this is not active, treat the edge service itself as the failure point before going deeper.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">● httpd.service - The Apache HTTP Server</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Active: active (running) since Sat 2026-03-07 13:37:12 EST; 2 weeks 2 days ago</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53"> </span></span><span style="--0:#d6deeb;--1:#403f53">Main PID: 1018 (/usr/sbin/httpd)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="● httpd.service - The Apache HTTP Server   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)   Active: active (running) since Sat 2026-03-07 13:37:12 EST; 2 weeks 2 days ago Main PID: 1018 (/usr/sbin/httpd)"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check edge listeners</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">ss</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-lntp</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">:(80|443)\b</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="ss -lntp | grep -E &#x27;:(80|443)\b&#x27;"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+A listening socket is present for 80, 443.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: listening port</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks whether Linux is listening on the expected port.</li>
+<li><code dir="auto">LISTEN</code> means a process has opened the port and is waiting for connections.</li>
+<li>If the port is missing, the service may be down, slow to start, or bound to the wrong place.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: LISTEN, :80, :443, httpd
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If 80/443 are missing, the UI path is failing at the listener or bind layer.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">LISTEN 0 511 0.0.0.0:443 0.0.0.0:* users:(("/usr/sbin/httpd",pid=1018,fd=4),...)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">LISTEN 0 511 0.0.0.0:80  0.0.0.0:* users:(("/usr/sbin/httpd",pid=1018,fd=3),...)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="LISTEN 0 511 0.0.0.0:443 0.0.0.0:* users:((&#x22;/usr/sbin/httpd&#x22;,pid=1018,fd=4),...)LISTEN 0 511 0.0.0.0:80  0.0.0.0:* users:((&#x22;/usr/sbin/httpd&#x22;,pid=1018,fd=3),...)"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check the legacy suite login route</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-I</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--max-time</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">5</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1/algosec/suite/login</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl -k -I --max-time 5 https://127.0.0.1/algosec/suite/login"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Apache returns a redirect from the legacy suite login path into the current UI login page.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This command gives a focused check for the current step.</li>
+<li>Use the healthy example below as the main output reference for what good looks like.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 302, Server: Apache, Location: https://127.0.0.1/algosec-ui/login
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If the suite login route stops redirecting here, the edge path is already broken before Keycloak or Metro have a chance to help.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 302 Found</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Server: Apache</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Location: https://127.0.0.1/algosec-ui/login</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="HTTP/1.1 302 FoundServer: ApacheLocation: https://127.0.0.1/algosec-ui/login"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check the Apache-served UI login page</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-I</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--max-time</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">5</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1/algosec-ui/login</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl -k -I --max-time 5 https://127.0.0.1/algosec-ui/login"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Apache returns the current UI login page with HTTP 200.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This command gives a focused check for the current step.</li>
+<li>Use the healthy example below as the main output reference for what good looks like.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 200, Server: Apache, Content-Type: text/html
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If Apache cannot serve the login page here, stop at the edge before chasing the auth or app neighbors.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 200 OK</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Server: Apache</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Content-Type: text/html; charset=UTF-8</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="HTTP/1.1 200 OKServer: ApacheContent-Type: text/html; charset=UTF-8"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check representative /algosec-ui/ assets through Apache</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">for</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">path</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C792EA;--1:#8844AE">in</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/algosec-ui/styles.css</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/algosec-ui/runtime.js</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/algosec-ui/main.js</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C792EA;--1:#8844AE">do</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">echo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">=== </span><span style="--0:#C5E478;--1:#3B61B0">$path</span><span style="--0:#ECC48D;--1:#984E4D"> ===</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-sS</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-D</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-ui-asset.out</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#ECC48D;--1:#984E4D">https://127.0.0.1</span><span style="--0:#C5E478;--1:#3B61B0">$path</span><span style="--0:#D9F5DD;--1:#111111">"</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">sed</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">1,8p</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">printf</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">BODY_BYTES </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">wc</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">&#x3C;</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-ui-asset.out</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C792EA;--1:#8844AE">done</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="for path in /algosec-ui/styles.css /algosec-ui/runtime.js /algosec-ui/main.js; do echo &#x22;=== $path ===&#x22;; curl -k -sS -D - -o /tmp/asms-ui-asset.out &#x22;https://127.0.0.1$path&#x22; | sed -n &#x27;1,8p&#x27;; printf &#x27;BODY_BYTES &#x27;; wc -c < /tmp/asms-ui-asset.out; done"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Apache returns HTTP 200 for representative CSS and JS assets and each body is non-empty.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: browser-useful edge assets</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks whether Apache is serving real UI assets, not only the login HTML shell.</li>
+<li>Non-empty CSS and JavaScript bodies are a stronger edge proof because a browser needs them before sign-in can do useful work.</li>
+<li>If the HTML is up but these assets fail, stay on Apache and the static UI path before chasing Keycloak or Metro.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 200, Server: Apache, Content-Type: text/css, Content-Type: application/javascript, BODY_BYTES
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If the login HTML works but these assets fail, return the wrong type, or come back empty, the edge is not yet browser-useful even before Keycloak or Metro are checked.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">=== /algosec-ui/styles.css ===</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 200 OK</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Server: Apache</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Content-Type: text/css</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">BODY_BYTES 758180</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">=== /algosec-ui/runtime.js ===</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 200 OK</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Content-Type: application/javascript</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">BODY_BYTES 2737</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="=== /algosec-ui/styles.css ===HTTP/1.1 200 OKServer: ApacheContent-Type: text/cssBODY_BYTES 758180=== /algosec-ui/runtime.js ===HTTP/1.1 200 OKContent-Type: application/javascriptBODY_BYTES 2737"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check Apache routes for login, auth, and app branches</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-R</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">algosec-ui|algosec/suite|ProxyPass|ProxyPassReverse|keycloak|8443|afa/api/v1|8080</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/etc/httpd/conf.d</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">2></span><span style="--0:#ECC48D;--1:#3B61B0">/dev/null</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="grep -R -n -E &#x27;algosec-ui|algosec/suite|ProxyPass|ProxyPassReverse|keycloak|8443|afa/api/v1|8080&#x27; /etc/httpd/conf.d 2>/dev/null"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Apache config still shows the login redirect, the UI alias, and the auth and app route mapping needed by the ASMS UI path.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This command gives a focused check for the current step.</li>
+<li>Use the healthy example below as the main output reference for what good looks like.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: algosec/suite, algosec-ui, ProxyPass, keycloak, 8443, afa/api/v1, 8080
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If the expected proxy targets are missing or wrong, the edge can look healthy while routing useful work to the wrong place or nowhere useful.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">78:RewriteRule "^/algosec/suite/login(.*)$" "/algosec-ui/login" [R]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">299:AliasMatch (?i)^/algosec-ui/(.*)$ /usr/share/fa/suite/client/app/suite-new-ui/$1</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">1:&#x3C;Location /keycloak/></span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">2:        ProxyPass https://localhost:8443/ timeout=300</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">139:&#x3C;Location /afa/api/v1></span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">140:  ProxyPass http://localhost:8080/afa/api/v1 timeout=18000 retry=0</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="78:RewriteRule &#x22;^/algosec/suite/login(.*)$&#x22; &#x22;/algosec-ui/login&#x22; [R]299:AliasMatch (?i)^/algosec-ui/(.*)$ /usr/share/fa/suite/client/app/suite-new-ui/$11:<Location /keycloak/>2:        ProxyPass https://localhost:8443/ timeout=300139:<Location /afa/api/v1>140:  ProxyPass http://localhost:8080/afa/api/v1 timeout=18000 retry=0"><div></div></button></div></figure></div>
+</div>
+</div>
+</details>
+<details id="ui-and-proxy-step-3" class="adf-system-checkpoint">
+<summary class="adf-system-summary">
+  <span class="adf-step-badge">Step 3</span>
+  <span class="adf-system-heading">
+    <strong>Auth handoff can do useful work</strong>
+    <span>Check the first auth-triggering chain after the static shell. On this lab, the browser first touches legacy suite setup and session-validation paths, then reaches BusinessFlow as the first named operational checkpoint, then proxied Keycloak token paths and FireFlow auth checks before the final handoff into `/afa/php/home.php`.</span>
+  </span>
+  <span class="adf-step-toggle" aria-hidden="true"></span>
+</summary>
+<div class="adf-system-body">
+<div class="adf-system-brief adf-panel">
+  <p class="adf-panel-label">Why this checkpoint exists</p>
+  <p>The static shell alone does not prove the real auth order. On this lab the first JS-triggered request after the shell was `/seikan/login/setup`, the first session-validation hop was `POST /afa/php/SuiteLoginSessionValidation.php?clean=false`, BusinessFlow first appeared as a redirect and later `POST /BusinessFlow/rest/v1/login`, and FireFlow showed up as auth checks during sign-in plus `FireFlowBridge.js` after the PHP home page loaded.</p>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check the shipped login setup endpoint first</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-sS</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-D</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1/seikan/login/setup</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-login-setup.json</span><span style="--0:#D6DEEB;--1:#403F53"> &#x26;&#x26; </span><span style="--0:#82AAFF;--1:#3B61B0">sed</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">1,40p</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-login-setup.json</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl -k -sS -D - https://127.0.0.1/seikan/login/setup -o /tmp/asms-login-setup.json &#x26;&#x26; sed -n &#x27;1,40p&#x27; /tmp/asms-login-setup.json"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+The setup endpoint returns JSON that shows the current login mode and whether SSO is enabled on this appliance.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: login setup mode</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks the login setup endpoint that the shipped UI uses before credentials are submitted.</li>
+<li>Use it to see whether this appliance is advertising SSO or a different login mode for the current journey.</li>
+<li>If <code dir="auto">isSSOEnabled</code> is false here, do not assume Keycloak is the first observed auth hop without stronger request evidence.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 200, Server: Apache-Coyote, "isSSOEnabled" : false, "needsFirstTimeSetup" : false
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If this endpoint fails, the first auth-trigger path is already broken before credentials are submitted. If it shows `"isSSOEnabled" : false`, do not assume Keycloak is the first real auth hop for this journey.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 200</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Server: Apache-Coyote</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">{  "isSSOEnabled" : false,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">"needsFirstTimeSetup" : false,</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">"isAffEnabled" : true,</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="HTTP/1.1 200Server: Apache-Coyote{  &#x22;isSSOEnabled&#x22; : false,  &#x22;needsFirstTimeSetup&#x22; : false,  &#x22;isAffEnabled&#x22; : true,"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check the legacy suite session-validation hop with cookies</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">rm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-f</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.cookies</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.headers</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.body</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-sS</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-L</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.cookies</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-b</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.cookies</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-A</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-H</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-H</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Accept-Language: en-US,en;q=0.9</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-H</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Upgrade-Insecure-Requests: 1</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-D</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.headers</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.body</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1/afa/php/SuiteLoginSessionValidation.php</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">sed</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">1,20p</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.headers</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">echo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">--- cookies ---</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">cat</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-auth-hop.cookies</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">2></span><span style="--0:#ECC48D;--1:#3B61B0">/dev/null</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="rm -f /tmp/asms-auth-hop.cookies /tmp/asms-auth-hop.headers /tmp/asms-auth-hop.body; curl -k -sS -L -c /tmp/asms-auth-hop.cookies -b /tmp/asms-auth-hop.cookies -A &#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36&#x27; -H &#x27;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#x27; -H &#x27;Accept-Language: en-US,en;q=0.9&#x27; -H &#x27;Upgrade-Insecure-Requests: 1&#x27; -D /tmp/asms-auth-hop.headers -o /tmp/asms-auth-hop.body https://127.0.0.1/afa/php/SuiteLoginSessionValidation.php; sed -n &#x27;1,20p&#x27; /tmp/asms-auth-hop.headers; echo &#x27;--- cookies ---&#x27;; cat /tmp/asms-auth-hop.cookies 2>/dev/null"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+The legacy session-validation path either redirects back to `/algosec-ui/login` and sets a PHP session cookie, or returns a different concrete auth clue for the same reproduced journey.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: legacy session validation</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks a legacy suite login endpoint with a cookie jar so one reproduced journey stays connected.</li>
+<li>A redirect back to <code dir="auto">/algosec-ui/login</code> with a new PHP session cookie is a real auth-path clue, even without credentials.</li>
+<li>If this path lights up before <code dir="auto">/BusinessFlow</code> or <code dir="auto">/keycloak/</code>, treat it as the first observed auth-trigger hop for this journey and keep the later named modules behind it.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 302, Set-Cookie: PHPSESSID=, Location: /algosec-ui/login?last_url=%2Fafa%2Fphp%2FSuiteLoginSessionValidation.php
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If this path is the first auth-triggering hop you can actually reproduce, treat it as stronger evidence than a guessed Keycloak-first model. On this lab the browser hit `POST /afa/php/SuiteLoginSessionValidation.php?clean=false` before the later Keycloak and BusinessFlow login activity. If it never appears in the reproduced journey, keep it inferred only.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 302 Found</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Set-Cookie: PHPSESSID=pp3eujujutk0t1mrmvfd6jflrm; path=/; secure; HttpOnly; SameSite=Lax</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Location: /algosec-ui/login?last_url=%2Fafa%2Fphp%2FSuiteLoginSessionValidation.php</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="HTTP/1.1 302 FoundSet-Cookie: PHPSESSID=pp3eujujutk0t1mrmvfd6jflrm; path=/; secure; HttpOnly; SameSite=LaxLocation: /algosec-ui/login?last_url=%2Fafa%2Fphp%2FSuiteLoginSessionValidation.php"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check the BusinessFlow checkpoint through Apache</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-sS</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-D</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1/BusinessFlow/shallow_health_check</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-bflow-shallow.json</span><span style="--0:#D6DEEB;--1:#403F53"> &#x26;&#x26; </span><span style="--0:#82AAFF;--1:#3B61B0">sed</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">1,20p</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-bflow-shallow.json</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">echo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">---</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-sS</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-D</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1/BusinessFlow/deep_health_check</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-bflow-deep.json</span><span style="--0:#D6DEEB;--1:#403F53"> &#x26;&#x26; </span><span style="--0:#82AAFF;--1:#3B61B0">sed</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">1,40p</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-bflow-deep.json</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl -k -sS -D - https://127.0.0.1/BusinessFlow/shallow_health_check -o /tmp/asms-bflow-shallow.json &#x26;&#x26; sed -n &#x27;1,20p&#x27; /tmp/asms-bflow-shallow.json; echo &#x27;---&#x27;; curl -k -sS -D - https://127.0.0.1/BusinessFlow/deep_health_check -o /tmp/asms-bflow-deep.json &#x26;&#x26; sed -n &#x27;1,40p&#x27; /tmp/asms-bflow-deep.json"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+BusinessFlow health endpoints return HTTP 200 and show that the local BusinessFlow, AFA, and AFF links are still healthy enough to support the login handoff.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: BusinessFlow checkpoint</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks the first named operational module we have observed in the customer-visible ASMS login path.</li>
+<li>Use the shallow check to prove BusinessFlow is answering through Apache, then the deep check to confirm its AFA, AFF, and database links still look healthy.</li>
+<li>If these checks fail after the legacy setup hop worked, stop on the BusinessFlow checkpoint before blaming Keycloak or Metro.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 200, "status":true, "name":"ABF connection", "name":"AFA connection", "name":"AFF connection"
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+Use this after the legacy session-validation hop reaches the first named module. On this lab BusinessFlow appeared before the later Keycloak and FireFlow auth checks, so a failing BusinessFlow health response is a real stop point, not just background noise.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 200 OK</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">{"healthChecks":[{"name":"ABF connection","status":true,"information":"BusinessFlow"}],"status":true}</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">---</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 200 OK</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">{"healthChecks":[{"name":"Postgres connection","status":true,"information":"postgres connection achieved"},{"name":"AFA connection","status":true,"information":"Firewall Analyzer"},{"name":"AFF connection","status":true,"information":"FireFlow"}],"status":true}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="HTTP/1.1 200 OK{&#x22;healthChecks&#x22;:[{&#x22;name&#x22;:&#x22;ABF connection&#x22;,&#x22;status&#x22;:true,&#x22;information&#x22;:&#x22;BusinessFlow&#x22;}],&#x22;status&#x22;:true}---HTTP/1.1 200 OK{&#x22;healthChecks&#x22;:[{&#x22;name&#x22;:&#x22;Postgres connection&#x22;,&#x22;status&#x22;:true,&#x22;information&#x22;:&#x22;postgres connection achieved&#x22;},{&#x22;name&#x22;:&#x22;AFA connection&#x22;,&#x22;status&#x22;:true,&#x22;information&#x22;:&#x22;Firewall Analyzer&#x22;},{&#x22;name&#x22;:&#x22;AFF connection&#x22;,&#x22;status&#x22;:true,&#x22;information&#x22;:&#x22;FireFlow&#x22;}],&#x22;status&#x22;:true}"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check the FireFlow auth-coupled signals</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-sS</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-D</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">-</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">https://127.0.0.1/FireFlow/SelfService/CheckAuthentication/?login=1</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-fireflow-auth.body</span><span style="--0:#D6DEEB;--1:#403F53"> &#x26;&#x26; </span><span style="--0:#82AAFF;--1:#3B61B0">sed</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">1,20p</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-fireflow-auth.body</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">echo</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">--- apache ---</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">/FireFlow/SelfService/CheckAuthentication/|/FireFlow/XML/CommandsDispatcher|FireFlowBridge.js</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/var/log/httpd/ssl_access_log</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">tail</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">20</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl -k -sS -D - &#x27;https://127.0.0.1/FireFlow/SelfService/CheckAuthentication/?login=1&#x27; -o /tmp/asms-fireflow-auth.body &#x26;&#x26; sed -n &#x27;1,20p&#x27; /tmp/asms-fireflow-auth.body; echo &#x27;--- apache ---&#x27;; grep -E &#x27;/FireFlow/SelfService/CheckAuthentication/|/FireFlow/XML/CommandsDispatcher|FireFlowBridge.js&#x27; /var/log/httpd/ssl_access_log | tail -n 20"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+FireFlow auth checks return HTTP 200 and recent Apache lines show CheckAuthentication, CommandsDispatcher, or FireFlowBridge activity in the same customer-visible login minute.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: FireFlow auth bridge</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks the FireFlow signals that appear during sign-in and immediately after the PHP home page loads.</li>
+<li>Treat FireFlow here as an auth-coupled module, not as the first branch in the login journey.</li>
+<li>If these checks fail while BusinessFlow and Keycloak looked healthy, the stop point is later in the authenticated handoff, not at the static shell.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 200, Set-Cookie: RT_SID_FireFlow.443=, /FireFlow/SelfService/CheckAuthentication/, FireFlowBridge.js
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+Keep FireFlow inside the same auth handoff for now. On this lab it did not show up as the first named module, but it did appear during sign-in and immediately after `/afa/php/home.php`, which makes it a support-useful checkpoint when the browser reaches home and then stalls.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 200 OK</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Set-Cookie: RT_SID_FireFlow.443=fd55857e44bdd59360ee3c2c12e7be45; path=/; secure; HttpOnly; SameSite=Lax</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">--- apache ---</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1" 200 309</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] "GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1" 200 484</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="HTTP/1.1 200 OKSet-Cookie: RT_SID_FireFlow.443=fd55857e44bdd59360ee3c2c12e7be45; path=/; secure; HttpOnly; SameSite=Lax--- apache ---127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] &#x22;GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1&#x22; 200 309127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] &#x22;GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1&#x22; 200 484"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Correlate the authenticated auth handoff in Apache</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">/seikan/login/setup|/afa/php/SuiteLoginSessionValidation.php|/BusinessFlow($|/|/rest/v1/login)|/FireFlow/SelfService/CheckAuthentication/|/FireFlow/XML/CommandsDispatcher|FireFlowBridge.js|/keycloak/|/afa/php/home.php</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/var/log/httpd/ssl_access_log</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">tail</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">120</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="grep -E &#x27;/seikan/login/setup|/afa/php/SuiteLoginSessionValidation.php|/BusinessFlow($|/|/rest/v1/login)|/FireFlow/SelfService/CheckAuthentication/|/FireFlow/XML/CommandsDispatcher|FireFlowBridge.js|/keycloak/|/afa/php/home.php&#x27; /var/log/httpd/ssl_access_log | tail -n 120"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Recent Apache lines show whether the reproduced login moved from the legacy setup and session-validation paths into BusinessFlow as the first named module, then into Keycloak and FireFlow auth checks, and finally into the PHP home handoff.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: login setup mode</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks the login setup endpoint that the shipped UI uses before credentials are submitted.</li>
+<li>Use it to see whether this appliance is advertising SSO or a different login mode for the current journey.</li>
+<li>If <code dir="auto">isSSOEnabled</code> is false here, do not assume Keycloak is the first observed auth hop without stronger request evidence.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: /seikan/login/setup, /afa/php/SuiteLoginSessionValidation.php, /BusinessFlow/login, /BusinessFlow/rest/v1/login, /keycloak/, /FireFlow/SelfService/CheckAuthentication/, /afa/php/home.php
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+Use this to keep the auth model honest. On this lab BusinessFlow redirects appeared before submit, Keycloak token paths appeared after the legacy auth-trigger hop, and FireFlow auth checks plus `FireFlowBridge.js` showed up later around the PHP home handoff. If BusinessFlow never lights up for the reproduced minute, keep the failure point earlier. If BusinessFlow lights up but the later Keycloak or FireFlow signals do not, keep the stop point on that later handoff instead of skipping to Metro.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] "GET /seikan/login/setup HTTP/1.1" 200 217</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "GET /BusinessFlow/login HTTP/1.1" 302 30</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:02 -0400] "POST //keycloak/realms/master/protocol/openid-connect/token? HTTP/1.1" 200 1562</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:06 -0400] "POST /BusinessFlow/rest/v1/login HTTP/1.1" 200 49</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1" 200 309</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] "GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1" 200 484</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] &#x22;GET /seikan/login/setup HTTP/1.1&#x22; 200 217127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &#x22;GET /BusinessFlow/login HTTP/1.1&#x22; 302 30127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &#x22;POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1&#x22; 200 65127.0.0.1 - - [25/Mar/2026:16:09:02 -0400] &#x22;POST //keycloak/realms/master/protocol/openid-connect/token? HTTP/1.1&#x22; 200 1562127.0.0.1 - - [25/Mar/2026:16:09:06 -0400] &#x22;POST /BusinessFlow/rest/v1/login HTTP/1.1&#x22; 200 49127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] &#x22;GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1&#x22; 200 309127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] &#x22;GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1&#x22; 200 484"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check keycloak.service status</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">systemctl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">status</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">keycloak.service</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--no-pager</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="systemctl status keycloak.service --no-pager"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Unit is loaded and active (running).
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: service status</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This asks systemd whether the service is known and running now.</li>
+<li><code dir="auto">Loaded</code> means the service unit exists on the server.</li>
+<li><code dir="auto">Active (running)</code> means the service is up now. <code dir="auto">Main PID</code> means systemd still sees the main process.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: Loaded: loaded, Active: active (running), Main PID:, algosec_keycloak_start.sh
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If the reproduced journey lights up `/keycloak/` and this service is not running, the auth handoff is failing at Keycloak. On this lab `/keycloak/` appeared after the legacy setup hop and BusinessFlow checkpoint, not as the first post-shell request. If the journey has not reached `/keycloak/` yet, keep Keycloak as a reachable later auth neighbor, not the first proven hop.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">● keycloak.service - The authentication and authorization server</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Loaded: loaded (/usr/lib/systemd/system/keycloak.service; enabled; vendor preset: disabled)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Active: active (running) since Sat 2026-03-07 13:38:32 EST; 2 weeks 2 days ago</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53"> </span></span><span style="--0:#d6deeb;--1:#403f53">Main PID: 3758 (algosec_keycloa)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="● keycloak.service - The authentication and authorization server   Loaded: loaded (/usr/lib/systemd/system/keycloak.service; enabled; vendor preset: disabled)   Active: active (running) since Sat 2026-03-07 13:38:32 EST; 2 weeks 2 days ago Main PID: 3758 (algosec_keycloa)"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check Keycloak ports</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">ss</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-lntp</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">:(8443|9000)\b</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="ss -lntp | grep -E &#x27;:(8443|9000)\b&#x27;"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Ports 8443 and 9000 are listening for Keycloak.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: listening port</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks whether Linux is listening on the expected port.</li>
+<li><code dir="auto">LISTEN</code> means a process has opened the port and is waiting for connections.</li>
+<li>If the port is missing, the service may be down, slow to start, or bound to the wrong place.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: LISTEN, :8443, :9000, java
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If 8443 or 9000 is missing, focus on Keycloak startup, bind, or health-endpoint problems.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">LISTEN 0 16384 0.0.0.0:8443 0.0.0.0:* users:(("java",pid=5129,fd=363))</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">LISTEN 0 16384 127.0.0.1:9000 0.0.0.0:* users:(("java",pid=5129,fd=412))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="LISTEN 0 16384 0.0.0.0:8443 0.0.0.0:* users:((&#x22;java&#x22;,pid=5129,fd=363))LISTEN 0 16384 127.0.0.1:9000 0.0.0.0:* users:((&#x22;java&#x22;,pid=5129,fd=412))"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check Keycloak readiness</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1:9000/health/ready</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--max-time</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">10</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl -k https://127.0.0.1:9000/health/ready --max-time 10"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+The JSON response shows `"status": "UP"`.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: service readiness</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks a local readiness endpoint instead of only checking whether the service process exists.</li>
+<li>A readiness endpoint helps prove the service is healthy enough to answer real traffic.</li>
+<li>Use the expected JSON value below as the main reference, not just the HTTP connection itself.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: "status": "UP", Keycloak database connections async health check, "status": "UP"
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If the readiness endpoint is not UP, Keycloak may be running but not healthy enough to serve login traffic.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">"status": "UP",</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">"checks": [</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">        </span></span><span style="--0:#d6deeb;--1:#403f53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">"name": "Keycloak database connections async health check",</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">            </span></span><span style="--0:#d6deeb;--1:#403f53">"status": "UP"</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">        </span></span><span style="--0:#d6deeb;--1:#403f53">}</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">    </span></span><span style="--0:#d6deeb;--1:#403f53">]</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{    &#x22;status&#x22;: &#x22;UP&#x22;,    &#x22;checks&#x22;: [        {            &#x22;name&#x22;: &#x22;Keycloak database connections async health check&#x22;,            &#x22;status&#x22;: &#x22;UP&#x22;        }    ]}"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check Keycloak OIDC path</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-I</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--max-time</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">10</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl -k -I https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration --max-time 10"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+The local Keycloak OIDC path returns HTTP 200.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: OIDC path</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks a real Keycloak OpenID Connect path that the local login flow depends on.</li>
+<li>An HTTP 200 here is a stronger proof than a simple port check because it confirms the local path is answering correctly.</li>
+<li>If this path fails while the service still looks up, treat it as an application-path problem instead of a simple process problem.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 200, Server: Apache, application/json
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If the OIDC path fails, Keycloak may be up but not reachable through the expected local path. If it works but your reproduced journey never hits `/keycloak/`, keep Keycloak as reachable and inferred, not observed as the first post-shell hop.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 200 OK</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Server: Apache</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Content-Type: application/json;charset=UTF-8</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="HTTP/1.1 200 OKServer: ApacheContent-Type: application/json;charset=UTF-8"><div></div></button></div></figure></div>
+</div>
+</div>
+</details>
+<details id="ui-and-proxy-step-4" class="adf-system-checkpoint">
+<summary class="adf-system-summary">
+  <span class="adf-step-badge">Step 4</span>
+  <span class="adf-system-heading">
+    <strong>App branch can do useful work</strong>
+    <span>Check whether the app branch can do useful work after the authenticated handoff. After login reaches `/afa/php/home.php`, treat the rendered home page itself as the main signal and use the immediate home-shell follow-ups and light Metro refresh traffic as supporting clues before assuming a broader subsystem failure.</span>
+  </span>
+  <span class="adf-step-toggle" aria-hidden="true"></span>
+</summary>
+<div class="adf-system-body">
+<div class="adf-system-brief adf-panel">
+  <p class="adf-panel-label">Why this checkpoint exists</p>
+  <p>The app branch can fail even when Apache/HTTPD and the auth chain look healthy. On this lab the first post-home activity was mostly home-shell wiring plus light Metro refresh traffic, not an immediate fan-out into every subsystem. The earliest observed follow-ups after `/afa/php/home.php` were `FireFlowBridge.js`, `logo.php`, `GET /afa/getStatus`, `POST /afa/api/v1/bridge/refresh`, and `GET /afa/api/v1/license`. In a bounded client-side check, blocking `FireFlowBridge.js` did not stop the home page from rendering with normal menu and summary text, so these post-home routes are better treated as supporting clues than as first-class gates for initial home-page availability.</p>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check ms-metro.service status</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">systemctl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">status</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">ms-metro.service</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--no-pager</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="systemctl status ms-metro.service --no-pager"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Unit is loaded and active (running).
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: service status</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This asks systemd whether the service is known and running now.</li>
+<li><code dir="auto">Loaded</code> means the service unit exists on the server.</li>
+<li><code dir="auto">Active (running)</code> means the service is up now. <code dir="auto">Main PID</code> means systemd still sees the main process.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: Loaded: loaded, Active: active (running), Main PID:, java
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If Metro is not running, the UI may open only partly or fail after the first page.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">● ms-metro.service - ms-metro Application Container</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Loaded: loaded (/etc/systemd/system/ms-metro.service; disabled; vendor preset: disabled)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">   </span></span><span style="--0:#d6deeb;--1:#403f53">Active: active (running) since Sat 2026-03-07 13:39:32 EST; 2 weeks 2 days ago</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53"> </span></span><span style="--0:#d6deeb;--1:#403f53">Main PID: 6012 (java)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="● ms-metro.service - ms-metro Application Container   Loaded: loaded (/etc/systemd/system/ms-metro.service; disabled; vendor preset: disabled)   Active: active (running) since Sat 2026-03-07 13:39:32 EST; 2 weeks 2 days ago Main PID: 6012 (java)"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check Metro listener</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">ss</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-lntp</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">:8080\b</span><span style="--0:#D9F5DD;--1:#111111">'</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="ss -lntp | grep -E &#x27;:8080\b&#x27;"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Port 8080 is listening for ms-metro.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: listening port</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks whether Linux is listening on the expected port.</li>
+<li><code dir="auto">LISTEN</code> means a process has opened the port and is waiting for connections.</li>
+<li>If the port is missing, the service may be down, slow to start, or bound to the wrong place.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: LISTEN, :8080, java
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If port 8080 is missing, the UI backend route has no working target.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">LISTEN 0 100 0.0.0.0:8080 0.0.0.0:* users:(("java",pid=6012,fd=44))</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="LISTEN 0 100 0.0.0.0:8080 0.0.0.0:* users:((&#x22;java&#x22;,pid=6012,fd=44))"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check supporting post-home follow-up traffic</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">printf</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">=== apache ===\n</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">/afa/php/home.php|FireFlowBridge.js|/afa/php/logo.php|/afa/api/v1/license|/ms-watchdog/v1/api/issues-center/issues/countAll</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/var/log/httpd/ssl_access_log</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">tail</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">40</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">printf</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">=== metro ===\n</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">/afa/getStatus|/afa/api/v1/bridge/refresh|/afa/api/v1/license</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/data/ms-metro/logs/localhost_access_log.txt</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">tail</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">20</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="printf &#x27;=== apache ===\n&#x27;; grep -E &#x27;/afa/php/home.php|FireFlowBridge.js|/afa/php/logo.php|/afa/api/v1/license|/ms-watchdog/v1/api/issues-center/issues/countAll&#x27; /var/log/httpd/ssl_access_log | tail -n 40; printf &#x27;=== metro ===\n&#x27;; grep -E &#x27;/afa/getStatus|/afa/api/v1/bridge/refresh|/afa/api/v1/license&#x27; /data/ms-metro/logs/localhost_access_log.txt | tail -n 20"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Recent lines show `/afa/php/home.php`, immediate home-shell follow-ups such as `FireFlowBridge.js` and `logo.php`, and light Metro refresh traffic such as `GET /afa/getStatus`, `POST /afa/api/v1/bridge/refresh`, or `GET /afa/api/v1/license`.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: service heartbeat</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks a real ms-metro heartbeat path instead of only checking whether the Java process exists.</li>
+<li>A heartbeat response helps prove the service is alive enough to answer application traffic.</li>
+<li>Use this after the listener check when port 8080 is open but the UI still behaves badly.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: /afa/php/home.php, FireFlowBridge.js, /afa/php/logo.php, GET /afa/getStatus, POST /afa/api/v1/bridge/refresh, GET /afa/api/v1/license
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+Use this to keep the post-home model honest. On this lab the first post-home activity was mostly home-shell wiring plus light Metro refresh traffic. Keep these routes inside the ASMS playbook as supporting clues, not as first-class gates by themselves. In a bounded browser-side check, blocking `FireFlowBridge.js` did not prevent the initial home page from rendering with the normal menu and summary view. If `ms-watchdog` issue-count calls appear from another client address, treat them as a later subsystem candidate unless the reproduced browser minute proves they are your first stop point.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">=== apache ===</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:17:29:38 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35714</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:17:29:39 -0400] "GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1" 200 484</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:17:29:39 -0400] "GET /afa/php/logo.php HTTP/1.1" 200 -</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:17:29:36 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 311</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">=== metro ===</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 [25/Mar/2026:17:29:43 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/getStatus HTTP/1.1" 200 33 506 33738 -</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 [25/Mar/2026:17:29:44 -0400] [http-nio-0.0.0.0-8080-exec-8] "POST /afa/api/v1/bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&#x26;domain=0 HTTP/1.1" 200 - 1739954 33412 -</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="=== apache ===127.0.0.1 - - [25/Mar/2026:17:29:38 -0400] &#x22;GET /afa/php/home.php HTTP/1.1&#x22; 200 35714127.0.0.1 - - [25/Mar/2026:17:29:39 -0400] &#x22;GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1&#x22; 200 484127.0.0.1 - - [25/Mar/2026:17:29:39 -0400] &#x22;GET /afa/php/logo.php HTTP/1.1&#x22; 200 -127.0.0.1 - - [25/Mar/2026:17:29:36 -0400] &#x22;GET /afa/api/v1/license HTTP/1.1&#x22; 200 311=== metro ===127.0.0.1 [25/Mar/2026:17:29:43 -0400] [http-nio-0.0.0.0-8080-exec-9] &#x22;GET /afa/getStatus HTTP/1.1&#x22; 200 33 506 33738 -127.0.0.1 [25/Mar/2026:17:29:44 -0400] [http-nio-0.0.0.0-8080-exec-8] &#x22;POST /afa/api/v1/bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&#x26;domain=0 HTTP/1.1&#x22; 200 - 1739954 33412 -"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check Metro heartbeat</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-sS</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">http://127.0.0.1:8080/afa/getStatus</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--max-time</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">10</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+The JSON response shows `"isAlive" : true`.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: service heartbeat</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks a real ms-metro heartbeat path instead of only checking whether the Java process exists.</li>
+<li>A heartbeat response helps prove the service is alive enough to answer application traffic.</li>
+<li>Use this after the listener check when port 8080 is open but the UI still behaves badly.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: "isAlive" : true
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If the heartbeat hangs, errors, or returns a different value, Metro is not healthy enough for the ASMS UI path.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">{</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#d6deeb;--1:#403f53">  </span></span><span style="--0:#d6deeb;--1:#403f53">"isAlive" : true</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">}</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="{  &#x22;isAlive&#x22; : true}"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check Metro app traffic</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">/afa/getStatus|/afa/api/v1/config\?|/afa/api/v1/license|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/data/ms-metro/logs/localhost_access_log.txt</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">tail</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">40</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="grep -E &#x27;/afa/getStatus|/afa/api/v1/config\?|/afa/api/v1/license|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth&#x27; /data/ms-metro/logs/localhost_access_log.txt | tail -n 40"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Recent access lines show normal 200 responses for the Metro heartbeat and the light authenticated `/afa/api/v1/...` paths that appear immediately after the home page loads.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: service heartbeat</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks a real ms-metro heartbeat path instead of only checking whether the Java process exists.</li>
+<li>A heartbeat response helps prove the service is alive enough to answer application traffic.</li>
+<li>Use this after the listener check when port 8080 is open but the UI still behaves badly.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: GET /afa/getStatus,  200 , /afa/api/v1/license, /afa/api/v1/bridge/refresh
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If heartbeat works but the post-home `/afa/api/v1/...` lines stop, shift to 4xx or 5xx, or never appear after `/afa/php/home.php`, Metro may be up without serving real home-refresh work. Keep these as stronger clues than `FireFlowBridge.js`, but still do not assume that every later subsystem route has to appear in the first post-home second.
+</p>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Check what Metro is busy doing</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">ps</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-p</span><span style="--0:#D6DEEB;--1:#403F53"> $(</span><span style="--0:#82AAFF;--1:#3B61B0">cat</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/var/run/ms-metro/ms-metro.pid</span><span style="--0:#D6DEEB;--1:#403F53">) </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">pid,etime,%cpu,%mem,nlwp,cmd</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--cols</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">160</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="ps -p $(cat /var/run/ms-metro/ms-metro.pid) -o pid,etime,%cpu,%mem,nlwp,cmd --cols 160"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+The Metro JVM is present, has a stable elapsed runtime, and its CPU, memory, and thread count look reasonable for the current case.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: JVM activity</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This shows the live Metro JVM process with elapsed runtime, CPU, memory, and thread count.</li>
+<li>Focus on whether CPU, memory, or thread count looks unexpectedly high for the current case.</li>
+<li>This is a stronger answer to ‘what is Metro busy doing’ than reading random Java log lines first.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: PID, ELAPSED, %CPU, %MEM, NLWP, java
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If CPU, memory, or thread count looks unexpectedly high or unstable, treat Metro resource pressure or a stuck JVM as part of the failure.
+</p>
+</div>
+</div>
+</details>
+<details id="ui-and-proxy-step-5" class="adf-system-checkpoint">
+<summary class="adf-system-summary">
+  <span class="adf-step-badge">Step 5</span>
+  <span class="adf-system-heading">
+    <strong>Useful work stops here</strong>
+    <span>If useful work still stops here, use Apache/HTTPD, Keycloak, and Metro clues to find the first clear stop point.</span>
+  </span>
+  <span class="adf-step-toggle" aria-hidden="true"></span>
+</summary>
+<div class="adf-system-body">
+<div class="adf-system-brief adf-panel">
+  <p class="adf-panel-label">Why this checkpoint exists</p>
+  <p>Only move to logs after the host, edge, auth branch, and app branch checks. At this point the goal is to find where useful work stops, not to read every log from the bottom.</p>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Replay one browser-like login journey with cookies before chasing neighbors</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">rm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-f</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.cookies</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.headers</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.body</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-k</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-sS</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-L</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-c</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.cookies</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-b</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.cookies</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-A</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-H</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-H</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Accept-Language: en-US,en;q=0.9</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-H</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">Upgrade-Insecure-Requests: 1</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-D</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.headers</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-o</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.body</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">https://127.0.0.1/algosec/suite/login</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">printf</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">=== headers ===\n</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">sed</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">1,30p</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.headers</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">printf</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">=== cookies ===\n</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">cat</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.cookies</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">2></span><span style="--0:#ECC48D;--1:#3B61B0">/dev/null</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#C5E478;--1:#3B61B0">printf</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">=== html markers ===\n</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53">; </span><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">base href=|runtime.js|main.js|styles.css</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/tmp/asms-journey.body</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">head</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">10</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="rm -f /tmp/asms-journey.cookies /tmp/asms-journey.headers /tmp/asms-journey.body; curl -k -sS -L -c /tmp/asms-journey.cookies -b /tmp/asms-journey.cookies -A &#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36&#x27; -H &#x27;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#x27; -H &#x27;Accept-Language: en-US,en;q=0.9&#x27; -H &#x27;Upgrade-Insecure-Requests: 1&#x27; -D /tmp/asms-journey.headers -o /tmp/asms-journey.body https://127.0.0.1/algosec/suite/login; printf &#x27;=== headers ===\n&#x27;; sed -n &#x27;1,30p&#x27; /tmp/asms-journey.headers; printf &#x27;=== cookies ===\n&#x27;; cat /tmp/asms-journey.cookies 2>/dev/null; printf &#x27;=== html markers ===\n&#x27;; grep -E &#x27;base href=|runtime.js|main.js|styles.css&#x27; /tmp/asms-journey.body | head -n 10"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+The replay proves the legacy suite redirect, the static shell markers, and whether the browser-like startup already picked up cookies before any deeper auth path is tested.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: browser-like replay</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This replays one login journey with browser-like headers and a cookie jar so the follow-up log check has one clear anchor.</li>
+<li>Use the headers, cookies, and HTML markers together instead of looking at only one response line.</li>
+<li>If this replay still stops at the static shell, say the first downstream auth or app hop is still unproven.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: HTTP/1.1 302, Location: https://127.0.0.1/algosec-ui/login, <base href="/algosec-ui/">, runtime.js, main.js
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+Use this as the bounded reproduction anchor for one minute of Apache logs. If it only proves the redirect and static shell, the first real downstream auth or app hop is still unproven.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">HTTP/1.1 302 Found</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">Location: https://127.0.0.1/algosec-ui/login</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">&#x3C;base href="/algosec-ui/"></span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">&#x3C;script src="runtime.js?v=1768164271" type="module">&#x3C;/script></span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">&#x3C;script src="main.js?v=1768164271" type="module">&#x3C;/script></span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="HTTP/1.1 302 FoundLocation: https://127.0.0.1/algosec-ui/login<base href=&#x22;/algosec-ui/&#x22;><script src=&#x22;runtime.js?v=1768164271&#x22; type=&#x22;module&#x22;></script><script src=&#x22;main.js?v=1768164271&#x22; type=&#x22;module&#x22;></script>"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Correlate the reproduced minute in Apache access logs</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">/algosec/suite/login|/algosec-ui/login|/algosec-ui/(styles.css|runtime.js|main.js)|/afa/php/commands.php\?cmd=IS_SESSION_ACTIVE|/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|/seikan/login/setup|/aff/api/internal/noauth/getStatus|/BusinessFlow|/afa/php/SuiteLoginSessionValidation.php|/keycloak/|/FireFlow/SelfService/CheckAuthentication/|/afa/php/home.php|/afa/api/v1</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/var/log/httpd/ssl_access_log</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">tail</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">120</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="grep -E &#x27;/algosec/suite/login|/algosec-ui/login|/algosec-ui/(styles.css|runtime.js|main.js)|/afa/php/commands.php\?cmd=IS_SESSION_ACTIVE|/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|/seikan/login/setup|/aff/api/internal/noauth/getStatus|/BusinessFlow|/afa/php/SuiteLoginSessionValidation.php|/keycloak/|/FireFlow/SelfService/CheckAuthentication/|/afa/php/home.php|/afa/api/v1&#x27; /var/log/httpd/ssl_access_log | tail -n 120"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Recent Apache access lines show the same reproduced journey and make it clear whether the request stopped at the shell, moved through the legacy setup and session-validation paths, reached BusinessFlow as the first named module, and only then handed off through Keycloak, FireFlow, the PHP home page, and Metro-backed app paths.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: login setup mode</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This checks the login setup endpoint that the shipped UI uses before credentials are submitted.</li>
+<li>Use it to see whether this appliance is advertising SSO or a different login mode for the current journey.</li>
+<li>If <code dir="auto">isSSOEnabled</code> is false here, do not assume Keycloak is the first observed auth hop without stronger request evidence.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: /algosec/suite/login, /algosec-ui/login,  200 ,  302 
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If the reproduced journey only shows /algosec/suite/login and /algosec-ui/ lines, the first real downstream hop is still unproven. If `/seikan/login/setup` appears first, treat it as the first observed JS-triggered post-shell request. If `/afa/php/SuiteLoginSessionValidation.php` is the first auth-triggering line, keep the failure point there unless later BusinessFlow, Keycloak, or FireFlow lines appear. If `/BusinessFlow` lights up but `/afa/api/v1` only appears after `/afa/php/home.php`, treat Metro as a later post-login app branch, not the first auth hop.
+</p>
+<p class="adf-inline-label">Known working example</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "GET /algosec-ui/login HTTP/1.1" 200 13345</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] "GET /seikan/login/setup HTTP/1.1" 200 217</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "GET /BusinessFlow/login HTTP/1.1" 302 30</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:02 -0400] "POST //keycloak/realms/master/protocol/openid-connect/token? HTTP/1.1" 200 1562</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:06 -0400] "POST /BusinessFlow/rest/v1/login HTTP/1.1" 200 49</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35713</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &#x22;GET /algosec-ui/login HTTP/1.1&#x22; 200 13345127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] &#x22;GET /seikan/login/setup HTTP/1.1&#x22; 200 217127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &#x22;GET /BusinessFlow/login HTTP/1.1&#x22; 302 30127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &#x22;POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1&#x22; 200 65127.0.0.1 - - [25/Mar/2026:16:09:02 -0400] &#x22;POST //keycloak/realms/master/protocol/openid-connect/token? HTTP/1.1&#x22; 200 1562127.0.0.1 - - [25/Mar/2026:16:09:06 -0400] &#x22;POST /BusinessFlow/rest/v1/login HTTP/1.1&#x22; 200 49127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] &#x22;GET /afa/php/home.php HTTP/1.1&#x22; 200 35713"><div></div></button></div></figure></div>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Review recent Apache/HTTPD logs</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">journalctl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-u</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">httpd.service</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">50</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--no-pager</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="journalctl -u httpd.service -n 50 --no-pager"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+No obvious disk, permission, startup, or crash errors appear in recent lines.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: service logs</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>Recent service logs are often the fastest way to find the real failure clue.</li>
+<li>Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.</li>
+<li>Use this after the status check when the service looks up but still behaves badly.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If recent Apache/HTTPD lines show errors, stay on that clue first.
+</p>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Review recent Keycloak logs</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">tail</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">80</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/var/log/keycloak/keycloak.log</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="tail -n 80 /var/log/keycloak/keycloak.log"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+Recent lines show healthy startup or a clear auth, database, TLS, or startup clue.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: file-based service logs</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>This appliance writes the useful service clues to log files, not only to systemd journal output.</li>
+<li>Focus on startup errors, dependency failures, auth errors, heap errors, and repeated retries.</li>
+<li>Use the most specific log for the service you are checking before widening the search.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: started, Listening on, https://0.0.0.0:8443, hostname:
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+If recent Keycloak lines show errors, stay on that clue first.
+</p>
+</div>
+<div class="adf-check">
+<p class="adf-check-label">Review Metro error clues</p>
+<p class="adf-inline-label">Run</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">grep</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-i</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-E</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#ECC48D;--1:#984E4D">error|exception|failed|caused by|outofmemory|unable|refused|timed out</span><span style="--0:#D9F5DD;--1:#111111">'</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/data/ms-metro/logs/catalina.out</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#7FDBCA;--1:#096E72">|</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">tail</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-n</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#F78C6C;--1:#AA0982">40</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="grep -n -i -E &#x27;error|exception|failed|caused by|outofmemory|unable|refused|timed out&#x27; /data/ms-metro/logs/catalina.out | tail -n 40"><div></div></button></div></figure></div>
+<p class="adf-check-signal">
+  <span class="adf-inline-label">Verification:</span> 
+No fresh Metro error signatures appear, or the returned lines clearly point to the real Java, dependency, or application failure.
+</p>
+<details class="adf-check-note">
+  <summary class="adf-check-note-summary">
+    <span>Linux note: Java log anomalies</span>
+  </summary>
+  <div class="adf-check-knowledge">
+<ul>
+<li>Large Java logs are often noisy when read from the bottom alone.</li>
+<li>This check pulls likely error signatures first so the engineer can find the useful anomaly faster.</li>
+<li>Use the line numbers and error keywords here as the first clue, then widen into the full log only if needed.
+</li></ul></div>
+
+
+</details>
+<p class="adf-check-reference">
+Look for: No output is often normal, Error, Exception, Caused by, Failed
+</p>
+<p class="adf-check-failure">
+  <span class="adf-inline-label">If not healthy:</span> 
+Use this only after the traffic and JVM checks if you still need a narrower Java clue.
+</p>
+</div>
+</div>
+</details>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">&#x3C;/div></span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="</div>"><div></div></button></div></figure></div>
+  </div>
+</div>
+<script>
+(() => {
+  const openHashTarget = () => {
+    const rawHash = window.location.hash;
+    if (!rawHash || rawHash.length < 2) return;
+    const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));
+    if (!target) return;
+    const details = target.matches('details') ? target : target.closest('details');
+    if (details) details.open = true;
+  };
+  window.addEventListener('hashchange', openHashTarget);
+  openHashTarget();
+})();
+</script></div> </div> <footer class="sl-flex astro-hfpcilkk"> <div class="meta sl-flex astro-hfpcilkk">   </div> <div class="pagination-links print:hidden astro-63hpogu2" dir="ltr"> <a href="/" rel="prev" class="astro-63hpogu2"> <svg aria-hidden="true" class="astro-63hpogu2 astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-63hpogu2"> Previous <br class="astro-63hpogu2"> <span class="link-title astro-63hpogu2">Overview</span> </span> </a> <a href="/playbooks/asms-ui-is-down/" rel="next" class="astro-63hpogu2"> <svg aria-hidden="true" class="astro-63hpogu2 astro-w4guj34j" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-63hpogu2"> Next <br class="astro-63hpogu2"> <span class="link-title astro-63hpogu2">ASMS UI is down</span> </span> </a> </div>   </footer>  </div> </div>   </main> </div> </div>  </div> </div>  </body></html>
