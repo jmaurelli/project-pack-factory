@@ -35,6 +35,12 @@ html:not([data-has-sidebar]) { --sl-content-width: 124rem; }
   grid-template-columns: 22rem minmax(0, 1fr) !important;
   align-items: start !important;
 }
+.adf-check {
+  display: grid !important;
+  gap: 0.7rem !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
 .adf-check pre,
 .adf-check .expressive-code,
 .adf-check .frame,
@@ -42,8 +48,8 @@ html:not([data-has-sidebar]) { --sl-content-width: 124rem; }
 .adf-system-checkpoint .expressive-code,
 .adf-system-checkpoint .frame {
   --ec-brdRad: 0.8rem !important;
-  width: min(100%, 88ch) !important;
-  max-width: 88ch !important;
+  width: 100% !important;
+  max-width: none !important;
   margin-left: 0 !important;
   margin-right: auto !important;
 }
@@ -112,13 +118,22 @@ html:not([data-has-sidebar]) { --sl-content-width: 124rem; }
   white-space: pre-wrap !important;
   overflow-wrap: anywhere !important;
   min-width: 0 !important;
-  padding-inline-end: calc(var(--ec-codePadInl) + 2.8rem) !important;
+  padding-inline-end: calc(var(--ec-codePadInl) + 6.2rem) !important;
 }
 .adf-check .expressive-code .frame.is-terminal .copy,
 .adf-system-checkpoint .expressive-code .frame.is-terminal .copy {
   inset-block-start: 0.9rem !important;
-  inset-inline-end: 1.6rem !important;
+  inset-inline-end: 6rem !important;
   z-index: 3 !important;
+}
+.adf-check .expressive-code .frame.is-terminal .copy [aria-live],
+.adf-system-checkpoint .expressive-code .frame.is-terminal .copy [aria-live] {
+  position: absolute !important;
+  inset-inline-start: calc(100% + 0.45rem) !important;
+  inset-block-start: 50% !important;
+  transform: translateY(-50%) !important;
+  display: block !important;
+  pointer-events: none !important;
 }
 .adf-check .expressive-code .frame:not(.is-terminal) .copy,
 .adf-system-checkpoint .expressive-code .frame:not(.is-terminal) .copy {
@@ -142,6 +157,18 @@ html:not([data-has-sidebar]) { --sl-content-width: 124rem; }
 .adf-system-checkpoint .expressive-code .frame.is-terminal:focus-within .copy button {
   opacity: 0.96 !important;
   pointer-events: auto !important;
+}
+.adf-check .expressive-code .copy .feedback,
+.adf-system-checkpoint .expressive-code .copy .feedback {
+  margin-inline: 0 !important;
+  white-space: nowrap !important;
+}
+.adf-check .expressive-code .copy .feedback::after,
+.adf-system-checkpoint .expressive-code .copy .feedback::after {
+  inset-inline-end: auto !important;
+  inset-inline-start: calc(-2 * (var(--tooltip-arrow-size) - 0.5px)) !important;
+  border-inline-start-color: transparent !important;
+  border-inline-end-color: var(--tooltip-bg) !important;
 }
 </style>
 """.strip()

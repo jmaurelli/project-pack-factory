@@ -15,18 +15,9 @@ export default defineConfig({
           items: [{ label: 'Overview', slug: 'index' }],
         },
         {
-        label: 'Current Focus',
+        label: 'Canonical Template',
         items: [
-          { label: "ASMS UI is down", slug: "playbooks/asms-ui-is-down" }
-        ],
-      },
-        {
-        label: 'Playbooks',
-        items: [
-          { label: "ASMS UI is down", slug: "playbooks/asms-ui-is-down" },
-          { label: "FireFlow Backend", slug: "playbooks/fireflow-backend" },
-          { label: "Microservice Platform", slug: "playbooks/microservice-platform" },
-          { label: "Messaging and Data", slug: "playbooks/messaging-and-data" }
+          { label: "Field Manual", slug: "canonical-playbook-template" }
         ],
       }
       ],
