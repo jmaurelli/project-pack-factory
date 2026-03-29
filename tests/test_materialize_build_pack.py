@@ -31,8 +31,12 @@ def _copy_factory(tmp_path: Path) -> Path:
     return destination
 
 
-def _request(target_build_pack_id: str) -> dict[str, object]:
-    return {
+def _request(
+    target_build_pack_id: str,
+    *,
+    personality_template_selection: dict[str, object] | None = None,
+) -> dict[str, object]:
+    request: dict[str, object] = {
         "schema_version": "build-pack-materialization-request/v1",
         "source_template_id": SOURCE_TEMPLATE_ID,
         "target_build_pack_id": target_build_pack_id,
@@ -44,6 +48,9 @@ def _request(target_build_pack_id: str) -> dict[str, object]:
         "copy_mode": "copy_pack_root",
         "include_benchmark_declarations": True,
     }
+    if personality_template_selection is not None:
+        request["personality_template_selection"] = personality_template_selection
+    return request
 
 
 def test_materialize_build_pack_happy_path_creates_pack_and_registry(tmp_path: Path) -> None:
@@ -191,3 +198,50 @@ def test_validate_factory_rejects_invalid_autonomy_task_reference(tmp_path: Path
 
     assert result["valid"] is False
     assert any("next_recommended_task_id must reference a real task" in error for error in result["errors"])
+
+
+def test_materialize_build_pack_can_apply_catalog_personality_selection(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+
+    materialize_build_pack(
+        factory_root,
+        _request(
+            "personality-selected-build-pack",
+            personality_template_selection={
+                "selection_mode": "catalog_template",
+                "personality_template_id": "business-partner-concierge",
+                "selection_reason": "Use the warmer operator-facing overlay for this proving ground.",
+            },
+        ),
+    )
+
+    manifest = load_json(factory_root / "build-packs/personality-selected-build-pack/pack.json")
+    assert manifest["personality_template"]["template_id"] == "business-partner-concierge"
+    assert manifest["personality_template"]["selection_origin"] == "materialization_selected"
+    agents_text = (
+        factory_root / "build-packs/personality-selected-build-pack/AGENTS.md"
+    ).read_text(encoding="utf-8")
+    assert "optional personality overlay" in agents_text
+    assert "business-partner-concierge" in agents_text
+
+
+def test_materialize_build_pack_inherits_template_default_personality(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    source_manifest_path = factory_root / f"templates/{SOURCE_TEMPLATE_ID}/pack.json"
+    source_manifest = load_json(source_manifest_path)
+    source_manifest["personality_template"] = {
+        "template_id": "calm-delivery-lead",
+        "display_name": "Calm Delivery Lead",
+        "summary": "Steady delivery-lead posture for concise operator briefings, release coordination, and practical next-step framing.",
+        "selection_origin": "template_selected",
+        "selection_reason": "Make the smoke template concise by default.",
+        "catalog_path": "docs/specs/project-pack-factory/agent-personality-template-catalog.json",
+        "apply_to_derived_build_packs_by_default": True,
+    }
+    source_manifest_path.write_text(f"{json.dumps(source_manifest, indent=2)}\n", encoding="utf-8")
+
+    materialize_build_pack(factory_root, _request("personality-inherited-build-pack"))
+
+    manifest = load_json(factory_root / "build-packs/personality-inherited-build-pack/pack.json")
+    assert manifest["personality_template"]["template_id"] == "calm-delivery-lead"
+    assert manifest["personality_template"]["selection_origin"] == "materialization_inherited_default"

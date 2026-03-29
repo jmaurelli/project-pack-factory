@@ -477,3 +477,30 @@ This spec does not:
   business ownership
 - require hype, exaggerated enthusiasm, or role-play
 - replace the concierge model with a casual or sloppy tone
+
+## Optional Personality Template System
+
+PackFactory now also needs a reusable way to apply this style as an optional
+overlay rather than fusing one personality permanently into one source
+template.
+
+The bounded implementation model is:
+
+- keep the canonical personality catalog in
+  `docs/specs/project-pack-factory/agent-personality-template-catalog.json`
+- allow template creation to record an optional
+  `planning_summary.personality_template_selection`
+- store the resolved overlay in `pack.json.personality_template`
+- let template creation declare whether that overlay should apply to derived
+  build-packs by default
+- let build-pack materialization inherit the template default, override it
+  with another catalog template, or clear it explicitly for one derivative
+
+This keeps personality composable:
+
+- one source template can still feed multiple build-packs with different
+  operator-facing personalities
+- personality remains guidance for startup voice, recommendation framing, and
+  collaboration style
+- the overlay must not replace the project goal, capability family, runtime
+  shape, or canonical lifecycle and deployment truth

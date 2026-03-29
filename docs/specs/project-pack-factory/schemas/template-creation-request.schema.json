@@ -97,6 +97,28 @@
         "first_materialization_purpose": {
           "type": "string",
           "minLength": 1
+        },
+        "personality_template_selection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "personality_template_id",
+            "selection_reason",
+            "apply_to_derived_build_packs_by_default"
+          ],
+          "properties": {
+            "personality_template_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9_-]*$"
+            },
+            "selection_reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "apply_to_derived_build_packs_by_default": {
+              "type": "boolean"
+            }
+          }
         }
       },
       "allOf": [

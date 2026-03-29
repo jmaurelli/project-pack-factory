@@ -345,10 +345,27 @@ The request must include:
 The `planning_summary` must include:
 
 - `project_goal`
+- `capability_family`
 - `delivery_shape`
 - `reuse_active_template`
 - `new_template_rationale`
 - `initial_benchmark_intent`
+- `expected_build_pack_variants`
+- `first_materialization_purpose`
+
+The `planning_summary` may also include:
+
+- `personality_template_selection`
+
+When present, `personality_template_selection` must point at a catalog entry
+from:
+
+- `docs/specs/project-pack-factory/agent-personality-template-catalog.json`
+
+That selection is optional. It records a reusable overlay for startup tone and
+recommendation framing, not a permanent identity lock on the source template.
+Template creation may also declare whether the selected overlay should apply to
+derived build-packs by default.
 
 ## Report Schema
 
@@ -365,6 +382,7 @@ The report must include:
 - `created_at`
 - `created_by`
 - `planning_summary`
+- optional `resolved_personality_template`
 - `scaffold_strategy`
 - `artifact_paths`
 - `factory_mutations`

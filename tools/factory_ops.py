@@ -17,6 +17,9 @@ except Exception:  # pragma: no cover - handled deterministically at runtime
 
 
 FACTORY_SCHEMA_DIRNAME: Final = Path("docs/specs/project-pack-factory/schemas")
+PERSONALITY_TEMPLATE_CATALOG_PATH: Final = Path(
+    "docs/specs/project-pack-factory/agent-personality-template-catalog.json"
+)
 REGISTRY_TEMPLATE_PATH: Final = Path("registry/templates.json")
 REGISTRY_BUILD_PATH: Final = Path("registry/build-packs.json")
 PROMOTION_LOG_PATH: Final = Path("registry/promotion-log.json")
@@ -201,6 +204,10 @@ def schema_path(factory_root: Path, filename: str) -> Path:
     return schema_dir(factory_root) / filename
 
 
+def personality_template_catalog_path(factory_root: Path) -> Path:
+    return factory_root / PERSONALITY_TEMPLATE_CATALOG_PATH
+
+
 def _validator_for_schema(schema: dict[str, Any]):
     if validator_for is None or FormatChecker is None:
         raise RuntimeError("jsonschema is required for schema validation")
@@ -228,6 +235,46 @@ def validate_json_document(document_path: Path, schema_path_: Path) -> list[str]
         prefix = f"{document_path}: " if not location else f"{document_path} [{location}]: "
         errors.append(f"{prefix}{error.message}")
     return errors
+
+
+def load_personality_template_catalog(factory_root: Path) -> dict[str, dict[str, Any]]:
+    catalog_path = personality_template_catalog_path(factory_root)
+    schema_errors = validate_json_document(
+        catalog_path,
+        schema_path(factory_root, "agent-personality-template-catalog.schema.json"),
+    )
+    if schema_errors:
+        raise ValueError("; ".join(schema_errors))
+
+    payload = load_json(catalog_path)
+    if not isinstance(payload, dict):
+        raise ValueError(f"{catalog_path}: catalog file must contain a JSON object")
+    templates = payload.get("templates", [])
+    if not isinstance(templates, list):
+        raise ValueError(f"{catalog_path}: templates must be an array")
+
+    resolved: dict[str, dict[str, Any]] = {}
+    for entry in templates:
+        if not isinstance(entry, dict):
+            raise ValueError(f"{catalog_path}: template entries must be objects")
+        template_id = entry.get("template_id")
+        if not isinstance(template_id, str) or not template_id.strip():
+            raise ValueError(f"{catalog_path}: template entries must include a non-empty template_id")
+        if template_id in resolved:
+            raise ValueError(f"{catalog_path}: duplicate personality template_id `{template_id}`")
+        resolved[template_id] = cast(dict[str, Any], entry)
+    return resolved
+
+
+def resolve_personality_template(factory_root: Path, template_id: str) -> dict[str, Any]:
+    catalog = load_personality_template_catalog(factory_root)
+    if template_id in catalog:
+        return catalog[template_id]
+    available = ", ".join(sorted(catalog)) or "<none>"
+    raise ValueError(
+        f"{personality_template_catalog_path(factory_root)}: unknown personality template "
+        f"`{template_id}`; available templates: {available}"
+    )
 
 
 def validate_schema_file(schema_path_: Path) -> list[str]:

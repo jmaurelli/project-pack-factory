@@ -98,7 +98,27 @@ def _copy_factory(tmp_path: Path) -> Path:
     return destination
 
 
-def _request(template_pack_id: str, *, reuse_active_template: bool = False) -> dict[str, object]:
+def _request(
+    template_pack_id: str,
+    *,
+    reuse_active_template: bool = False,
+    personality_template_selection: dict[str, object] | None = None,
+) -> dict[str, object]:
+    planning_summary: dict[str, object] = {
+        "project_goal": "Create a fresh template for testing.",
+        "capability_family": "template-creation-test-family",
+        "delivery_shape": "component",
+        "reuse_active_template": reuse_active_template,
+        "new_template_rationale": "" if reuse_active_template else "The active template should remain a separate smoke baseline.",
+        "initial_benchmark_intent": "Minimal created-template smoke benchmark.",
+        "expected_build_pack_variants": [
+            "baseline proving ground",
+            "transfer proving ground",
+        ],
+        "first_materialization_purpose": "baseline proving ground",
+    }
+    if personality_template_selection is not None:
+        planning_summary["personality_template_selection"] = personality_template_selection
     return {
         "schema_version": "template-creation-request/v1",
         "template_pack_id": template_pack_id,
@@ -107,19 +127,7 @@ def _request(template_pack_id: str, *, reuse_active_template: bool = False) -> d
         "requested_by": "pytest",
         "runtime": "python",
         "scaffold_strategy": "minimal_python_text_pack",
-        "planning_summary": {
-            "project_goal": "Create a fresh template for testing.",
-            "capability_family": "template-creation-test-family",
-            "delivery_shape": "component",
-            "reuse_active_template": reuse_active_template,
-            "new_template_rationale": "" if reuse_active_template else "The active template should remain a separate smoke baseline.",
-            "initial_benchmark_intent": "Minimal created-template smoke benchmark.",
-            "expected_build_pack_variants": [
-                "baseline proving ground",
-                "transfer proving ground",
-            ],
-            "first_materialization_purpose": "baseline proving ground",
-        },
+        "planning_summary": planning_summary,
     }
 
 
@@ -230,6 +238,31 @@ def test_create_template_pack_rejects_request_when_first_materialization_purpose
         raise AssertionError("expected create_template_pack to reject a missing first materialization purpose")
 
 
+def test_create_template_pack_records_optional_personality_template_selection(tmp_path: Path) -> None:
+    factory_root = _copy_factory(tmp_path)
+    request = _request(
+        "personality-template-pack",
+        personality_template_selection={
+            "personality_template_id": "business-partner-concierge",
+            "selection_reason": "Use the warmer operator-facing overlay for this template line.",
+            "apply_to_derived_build_packs_by_default": True,
+        },
+    )
+
+    result = create_template_pack(factory_root, request)
+
+    manifest = load_json(factory_root / "templates/personality-template-pack/pack.json")
+    assert manifest["personality_template"]["template_id"] == "business-partner-concierge"
+    assert manifest["personality_template"]["selection_origin"] == "template_selected"
+    assert manifest["personality_template"]["apply_to_derived_build_packs_by_default"] is True
+    agents_text = (factory_root / "templates/personality-template-pack/AGENTS.md").read_text(encoding="utf-8")
+    assert "optional personality overlay" in agents_text
+    assert "business-partner-concierge" in agents_text
+
+    report = load_json(Path(result["template_creation_report_path"]))
+    assert report["resolved_personality_template"]["template_id"] == "business-partner-concierge"
+
+
 def test_generated_template_surfaces_include_autonomy_marker_set() -> None:
     agents_text = _pack_agents("Example Template Pack")
     assert "PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md" in agents_text
@@ -255,6 +288,7 @@ def test_generated_template_surfaces_include_autonomy_marker_set() -> None:
         creation_id="create-template-example-template-pack-20260326t000000z",
         project_goal="Create an example template.",
         capability_family="example-template-family",
+        personality_template=None,
     )
     notes = manifest["notes"]
     assert any("factory_autonomy_baseline=" in note for note in notes)

@@ -15,11 +15,13 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from factory_ops import (
+    PERSONALITY_TEMPLATE_CATALOG_PATH,
     PROMOTION_LOG_PATH,
     REGISTRY_BUILD_PATH,
     discover_pack,
     isoformat_z,
     load_json,
+    resolve_personality_template,
     read_now,
     relative_path,
     resolve_factory_root,
@@ -532,6 +534,7 @@ def _build_pack_agents_text(
     display_name: str,
     source_template_id: str,
     runtime_is_python: bool,
+    personality_template: dict[str, Any] | None,
 ) -> str:
     lines = [
         f"# {display_name} Build Pack Agent Context",
@@ -558,14 +561,30 @@ def _build_pack_agents_text(
                 "From the factory root, use `python3 tools/run_remote_active_task_continuity_test.py ...` when the pack is already at a compatible active-task boundary and you want to verify the next task resumes remotely from feedback memory.",
                 "From the factory root, use `python3 tools/run_remote_memory_continuity_test.py ...` after the pack reaches `ready_for_deploy` and `.pack-state/agent-memory/latest-memory.json` is active if you want to verify default feedback-memory continuity on a remote target.",
                 "For remote Codex session management, use the PackFactory-local workflows from the factory root. Do not improvise ad hoc `ssh` prompts, handcrafted remote-session runners, or raw stdout/stderr logging loops when an official PackFactory workflow exists for the same job.",
+                "If this newly materialized build-pack itself may later need promotion-ready remote evidence, do not skip the fresh-pack rehearsal step: run the official fresh-pack autonomy workflow before this pack diverges into long-lived day-to-day use.",
                 "When multiple next tasks are eligible, prefer lower `selection_priority` first. If the top candidates remain tied, honor any operator branch-selection hints recorded in `status/work-state.json.branch_selection_hints` in canonical hint order: apply active avoid-task guidance first so it can narrow the tied set safely, then apply active preferred-task guidance within the remaining tied set, then use bounded semantic alignment to `contracts/project-objective.json`, `status/work-state.json.resume_instructions`, and optional task `selection_signals`; otherwise stop fail-closed for operator review. Hints may also declare `remaining_applications` when they should expire automatically after bounded use.",
                 "From the factory root, use `python3 tools/audit_branch_selection_hints.py ...` when you need one bounded view of active, exhausted, and cleanup-candidate hints plus recent consumed/deactivated hint evidence.",
                 "Export bounded runtime evidence from the pack when needed, but import it only from the factory root through `python3 tools/import_external_runtime_evidence.py ...` or a higher-level PackFactory workflow that wraps that import.",
-                "For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer.",
+                "For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer. Treat that workflow as fresh-pack certification, not as a retrofit certifier for an already-evolving pack.",
                 "Autonomy quality remains advisory by default, but `contracts/project-objective.json.autonomy_quality_requirement` can opt this build-pack into bounded promotion-time quality thresholds when stronger promotion discipline is required.",
                 "Export bundles remain supplementary runtime evidence only, and raw remote stdout/stderr is supplementary debugging rather than canonical PackFactory evidence.",
             ]
         )
+    if personality_template is not None:
+        lines.extend(
+            [
+                "",
+                "This build-pack also applies an optional personality overlay.",
+                (
+                    f"Selected overlay: `{personality_template['template_id']}` "
+                    f"({personality_template['display_name']})."
+                ),
+                personality_template["summary"],
+                "Use it to shape tone, recommendation framing, and operator-facing collaboration without weakening canonical lifecycle, readiness, deployment, or promotion truth.",
+            ]
+        )
+        for line in personality_template.get("agent_context_lines", []):
+            lines.append(f"- {line}")
     lines.extend(
         [
             "",
@@ -591,6 +610,93 @@ def _copy_template_content(template_root: Path, target_root: Path) -> tuple[list
             shutil.copy2(source, target)
         copied_paths.append(name)
     return copied_paths, skipped_paths
+
+
+def _manifest_personality_template(personality_template: dict[str, Any] | None) -> dict[str, Any] | None:
+    if personality_template is None:
+        return None
+    return {
+        "template_id": personality_template["template_id"],
+        "display_name": personality_template["display_name"],
+        "summary": personality_template["summary"],
+        "selection_origin": personality_template["selection_origin"],
+        "selection_reason": personality_template["selection_reason"],
+        "catalog_path": personality_template["catalog_path"],
+        "apply_to_derived_build_packs_by_default": personality_template[
+            "apply_to_derived_build_packs_by_default"
+        ],
+    }
+
+
+def _resolve_materialized_personality_template(
+    factory_root: Path,
+    template_manifest: dict[str, Any],
+    request: dict[str, Any],
+) -> dict[str, Any] | None:
+    selection = request.get("personality_template_selection")
+    selection_mode = "inherit_template_default"
+    if selection is not None:
+        if not isinstance(selection, dict):
+            raise ValueError("personality_template_selection must be an object when present")
+        raw_mode = selection.get("selection_mode")
+        if not isinstance(raw_mode, str) or not raw_mode.strip():
+            raise ValueError("personality_template_selection.selection_mode must be a non-empty string")
+        selection_mode = raw_mode.strip()
+
+    if selection_mode == "inherit_template_default":
+        template_personality = template_manifest.get("personality_template")
+        if not isinstance(template_personality, dict):
+            return None
+        if template_personality.get("apply_to_derived_build_packs_by_default") is not True:
+            return None
+        template_id = template_personality.get("template_id")
+        if not isinstance(template_id, str) or not template_id.strip():
+            raise ValueError("template pack personality_template.template_id must be a non-empty string")
+        catalog_entry = resolve_personality_template(factory_root, template_id.strip())
+        return {
+            "template_id": catalog_entry["template_id"],
+            "display_name": catalog_entry["display_name"],
+            "summary": catalog_entry["summary"],
+            "selection_origin": "materialization_inherited_default",
+            "selection_reason": "Inherited the source template default personality overlay.",
+            "catalog_path": PERSONALITY_TEMPLATE_CATALOG_PATH.as_posix(),
+            "agent_context_lines": list(catalog_entry.get("agent_context_lines", [])),
+            "apply_to_derived_build_packs_by_default": False,
+        }
+
+    if selection_mode == "catalog_template":
+        if not isinstance(selection, dict):
+            raise ValueError("personality_template_selection must be an object for catalog_template selection")
+        template_id = selection.get("personality_template_id")
+        if not isinstance(template_id, str) or not template_id.strip():
+            raise ValueError("catalog personality selection requires personality_template_id")
+        selection_reason = selection.get("selection_reason")
+        if not isinstance(selection_reason, str) or not selection_reason.strip():
+            raise ValueError("catalog personality selection requires selection_reason")
+        catalog_entry = resolve_personality_template(factory_root, template_id.strip())
+        return {
+            "template_id": catalog_entry["template_id"],
+            "display_name": catalog_entry["display_name"],
+            "summary": catalog_entry["summary"],
+            "selection_origin": "materialization_selected",
+            "selection_reason": selection_reason.strip(),
+            "catalog_path": PERSONALITY_TEMPLATE_CATALOG_PATH.as_posix(),
+            "agent_context_lines": list(catalog_entry.get("agent_context_lines", [])),
+            "apply_to_derived_build_packs_by_default": False,
+        }
+
+    if selection_mode == "no_personality_template":
+        if not isinstance(selection, dict):
+            raise ValueError("personality_template_selection must be an object for no_personality_template")
+        selection_reason = selection.get("selection_reason")
+        if not isinstance(selection_reason, str) or not selection_reason.strip():
+            raise ValueError("no_personality_template selection requires selection_reason")
+        return None
+
+    raise ValueError(
+        "personality_template_selection.selection_mode must be one of "
+        "`inherit_template_default`, `catalog_template`, or `no_personality_template`"
+    )
 
 
 def _synthesize_build_pack(
@@ -623,6 +729,11 @@ def _synthesize_build_pack(
     reason = str(request["materialization_reason"])
     source_template_id = str(request["source_template_id"])
     project_goal = _extract_project_goal(template_manifest, project_context_text)
+    resolved_personality_template = _resolve_materialized_personality_template(
+        factory_root,
+        template_manifest,
+        request,
+    )
 
     pack_manifest = {
         "schema_version": "pack-manifest/v2",
@@ -657,6 +768,11 @@ def _synthesize_build_pack(
             f"materialization_id={materialization_id}",
         ],
     }
+    if resolved_personality_template is not None:
+        pack_manifest["personality_template"] = _manifest_personality_template(resolved_personality_template)
+        pack_manifest["notes"].append(
+            f"personality_template_id={resolved_personality_template['template_id']}"
+        )
 
     objective_id = _objective_id(pack_id)
     objective_summary = _project_context_summary(
@@ -852,12 +968,13 @@ def _synthesize_build_pack(
             "Inherited required benchmark gates must pass or be waived.",
             "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
             "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
+            "If this build-pack itself is expected to carry promotion-ready remote proof, the fresh-pack rehearsal step must happen before the pack diverges into long-lived day-to-day use.",
             "Autonomy quality remains advisory by default unless this build-pack later declares a bounded promotion-time autonomy-quality requirement.",
         ],
         "autonomy_rehearsal_requirement": {
             "required_for_promotion": True,
             "workflow_id": "multi_hop_autonomy_rehearsal",
-            "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state.",
+            "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state. This is a fresh-pack certification step, not a retrofit certifier for an already-evolving build-pack.",
         },
         "autonomy_quality_requirement": {
             "required_for_promotion": False,
@@ -969,6 +1086,8 @@ def _synthesize_build_pack(
         "project_objective": project_objective,
         "task_backlog": task_backlog,
         "work_state": work_state,
+        "resolved_personality_template": _manifest_personality_template(resolved_personality_template),
+        "agent_personality_template": resolved_personality_template,
     }
 
 
@@ -1139,6 +1258,7 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                 display_name=display_name,
                 source_template_id=source_template_id,
                 runtime_is_python=runtime_is_python,
+                personality_template=state["agent_personality_template"],
             ),
             encoding="utf-8",
         )
@@ -1171,6 +1291,10 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
             "retirement_state": "active",
             "retired_at": None,
         }
+        if state["resolved_personality_template"] is not None:
+            registry_entry["notes"].append(
+                f"personality_template_id={state['resolved_personality_template']['template_id']}"
+            )
         entries.append(registry_entry)
         build_registry["updated_at"] = generated_at
         write_json(build_registry_path, build_registry)
@@ -1295,6 +1419,8 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                 ),
             ],
         }
+        if state["resolved_personality_template"] is not None:
+            report["resolved_personality_template"] = state["resolved_personality_template"]
 
         events.append(
             {

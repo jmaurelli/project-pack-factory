@@ -9,7 +9,7 @@ memory and feedback loops, then carry those improvements back into PackFactory
 itself so the factory becomes a better default starting point for every future
 build-pack.
 
-Last updated: 2026-03-26
+Last updated: 2026-03-29
 
 ## Current State Snapshot
 
@@ -1080,7 +1080,8 @@ Proof plan for this pass:
   - follow
     `PROJECT-PACK-FACTORY-ASTRO-DASHBOARD-UPGRADE-SPEC.md`
 
-- [ ] Optional agent-personality template system.
+- [x] Optional agent-personality template system.
+  Completed on 2026-03-29.
   Scope: add a PackFactory-native way to define reusable agent personality
   templates that can be selected when a build-pack is created or materialized,
   without hard-linking one personality permanently to one source template or
@@ -1104,6 +1105,12 @@ Proof plan for this pass:
   - define where personality lives canonically: likely a dedicated personality
     template catalog plus explicit selection metadata in template/build-pack
     requests
+  Current bounded baseline: personality templates now live in
+  `docs/specs/project-pack-factory/agent-personality-template-catalog.json`,
+  template creation can record an optional default overlay in
+  `pack.json.personality_template`, and build-pack materialization can inherit,
+  override, or clear that overlay explicitly through the materialization
+  request.
 
 - [x] Agent-instruction performance review and optimization.
   Scope: review PackFactory instruction surfaces such as root `AGENTS.md`,

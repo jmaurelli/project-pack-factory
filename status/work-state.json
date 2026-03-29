@@ -8,12 +8,13 @@
     "seed_factory_root_work_tracker",
     "plan_astro_dashboard_upgrade",
     "design_operator_dashboard_surface",
-    "optimize_agent_instruction_surfaces"
+    "optimize_agent_instruction_surfaces",
+    "design_agent_personality_template_system"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Shifted root startup guidance to a shorter dashboard-first path, aligned the README and instruction-performance specs with that direction, and verified the new startup behavior with the factory-root startup benchmark.",
-  "last_outcome": "task_completed",
-  "last_outcome_at": "2026-03-26T22:39:22Z",
+  "last_agent_action": "Recorded the ADF operator-playbook publication milestone at the factory root so PackFactory now carries the live `ASMS UI is down` route, the separate canonical template route, and the linked ADF pack evidence in a root-visible note.",
+  "last_outcome": "adf_playbook_publication_note_recorded",
+  "last_outcome_at": "2026-03-29T17:04:45Z",
   "last_validation_results": [
     {
       "evidence_paths": [
@@ -72,14 +73,43 @@
       "status": "pass",
       "summary": "Reduced root startup verbosity, optimized the read order around the dashboard and root tracker, and validated the bounded instruction-surface rewrite with the existing startup benchmark.",
       "validation_id": "optimize_agent_instruction_surfaces"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/agent-personality-template-catalog.json",
+        "docs/specs/project-pack-factory/schemas/agent-personality-template-catalog.schema.json",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-BUSINESS-PARTNER-PERSONALITY-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TEMPLATE-PLANNING-AND-CREATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BUILD-PACK-MATERIALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        "tools/create_template_pack.py",
+        "tools/materialize_build_pack.py",
+        "tools/factory_ops.py",
+        "tools/validate_factory.py",
+        ".pack-state/agent-memory/latest-memory.json"
+      ],
+      "recorded_at": "2026-03-29T17:04:45Z",
+      "status": "pass",
+      "summary": "Added a bounded optional personality-template catalog plus explicit template-creation and materialization overlay selection, then refreshed root memory and revalidated the factory.",
+      "validation_id": "design_agent_personality_template_system"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-PLAYBOOK-PUBLICATION-NOTE-20260329.md",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/asms-ui-canonical-template-and-live-playbook-split-20260329.md",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/status/work-state.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/status/readiness.json"
+      ],
+      "recorded_at": "2026-03-29T17:04:45Z",
+      "status": "pass",
+      "summary": "Recorded the ADF publication milestone at the factory root: the canonical template is now placeholder-only and the real `ASMS UI is down` playbook is published as its own live review route.",
+      "validation_id": "record_adf_playbook_publication_milestone"
     }
   ],
-  "next_recommended_task_id": "design_agent_personality_template_system",
+  "next_recommended_task_id": null,
   "objective_id": "project_pack_factory_root_objective",
   "pack_id": "project-pack-factory",
-  "pending_task_ids": [
-    "design_agent_personality_template_system"
-  ],
+  "pending_task_ids": [],
   "resume_instructions": [
     "Read contracts/project-objective.json, tasks/active-backlog.json, and status/work-state.json before changing PackFactory root tooling or docs.",
     "Treat registry/, deployments/, and other machine-readable control-plane state as canonical truth for live pack state; root memory remains advisory restart context.",

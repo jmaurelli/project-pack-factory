@@ -69,6 +69,26 @@ This spec does not define:
 - cloud deployment behavior
 - environment promotion after materialization
 
+## Immediate Post-Materialization Process Rule
+
+Materialization creates a build-pack that is ready for bounded evaluation, not
+yet an officially certified remote-ready working pack.
+
+When the newly materialized build-pack is expected to become the operator's
+long-lived working or daily-driver instance and may later need
+promotion-compatible remote evidence, the next workflow step must be chosen
+deliberately:
+
+- either run the official fresh-pack autonomy workflow before the pack
+  diverges into long-lived day-to-day use
+- or accept that PackFactory's current official remote-proof workflow will
+  later need a separate fresh proving-ground build-pack because it does not
+  retroactively certify an already-evolving pack in place
+
+This rule exists because the current `run_multi_hop_autonomy_rehearsal.py` and
+`run_autonomy_to_promotion_workflow.py` flows begin from fresh-pack
+materialization.
+
 ## Operator Interface
 
 The canonical tool is:
@@ -195,6 +215,10 @@ After a successful materialization:
 
 The build pack starts as an active but non-deployed derivative that still
 requires evaluation before promotion.
+
+When remote-proof or promotion-proof continuity matters, operators should treat
+this state as the point to schedule the fresh-pack rehearsal rather than
+waiting until the pack has already become the long-lived working instance.
 
 ### Full State Synthesis Contract
 
@@ -372,6 +396,18 @@ The tool must fail before mutation when:
 The tool writes files sequentially with per-file atomic replacement. It does
 not claim cross-file transactional rollback in v1.
 
+The materialization request may also include an optional
+`personality_template_selection` object. That gives the operator three bounded
+choices:
+
+- inherit the source template default overlay when one exists
+- select a different catalog personality template for this build-pack
+- clear personality overlay inheritance for this one build-pack
+
+The canonical personality template catalog lives at:
+
+- `docs/specs/project-pack-factory/agent-personality-template-catalog.json`
+
 If a write fails after the build-pack root has been created, the tool must:
 
 - exit non-zero
@@ -391,6 +427,11 @@ If a write fails after the build-pack root has been created, the tool must:
   "target_revision": "materialize-20260320t120000z",
   "materialized_by": "orchadmin",
   "materialization_reason": "Create a fresh active build-pack derivative from the canonical template.",
+  "personality_template_selection": {
+    "selection_mode": "catalog_template",
+    "personality_template_id": "business-partner-concierge",
+    "selection_reason": "Use the warmer operator-facing overlay for this proving-ground derivative."
+  },
   "copy_mode": "copy_pack_root",
   "include_benchmark_declarations": true
 }
@@ -410,6 +451,15 @@ If a write fails after the build-pack root has been created, the tool must:
   "materialized_by": "orchadmin",
   "target_version": "0.2.0",
   "target_revision": "materialize-20260320t120000z",
+  "resolved_personality_template": {
+    "template_id": "business-partner-concierge",
+    "display_name": "Business Partner Concierge",
+    "summary": "Warm, collaborative, outcome-aware operator posture that explains why the work matters while staying fail-closed on evidence.",
+    "selection_origin": "materialization_selected",
+    "selection_reason": "Use the warmer operator-facing overlay for this proving-ground derivative.",
+    "catalog_path": "docs/specs/project-pack-factory/agent-personality-template-catalog.json",
+    "apply_to_derived_build_packs_by_default": false
+  },
   "copy_summary": {
     "copied_paths": [
       "AGENTS.md",

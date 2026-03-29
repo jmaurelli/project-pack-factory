@@ -48,6 +48,62 @@
       "type": "string",
       "minLength": 1
     },
+    "personality_template_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selection_mode"
+      ],
+      "properties": {
+        "selection_mode": {
+          "type": "string",
+          "enum": [
+            "inherit_template_default",
+            "catalog_template",
+            "no_personality_template"
+          ]
+        },
+        "personality_template_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "selection_reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "selection_mode": {
+                "const": "catalog_template"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "personality_template_id",
+              "selection_reason"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "selection_mode": {
+                "const": "no_personality_template"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "selection_reason"
+            ]
+          }
+        }
+      ]
+    },
     "copy_mode": {
       "type": "string",
       "const": "copy_pack_root"

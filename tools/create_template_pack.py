@@ -13,10 +13,12 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from factory_ops import (
+    PERSONALITY_TEMPLATE_CATALOG_PATH,
     PROMOTION_LOG_PATH,
     REGISTRY_TEMPLATE_PATH,
     isoformat_z,
     load_json,
+    resolve_personality_template,
     read_now,
     relative_path,
     resolve_factory_root,
@@ -99,8 +101,9 @@ def _pack_manifest(
     creation_id: str,
     project_goal: str,
     capability_family: str,
+    personality_template: dict[str, Any] | None,
 ) -> dict[str, Any]:
-    return {
+    manifest = {
         "schema_version": "pack-manifest/v2",
         "pack_id": template_pack_id,
         "pack_kind": "template_pack",
@@ -138,6 +141,15 @@ def _pack_manifest(
             "factory_startup_compliance=Inherited startup guidance requires PackFactory-local remote-session workflows and treats external runtime-evidence import as factory-only.",
         ],
     }
+    if personality_template is not None:
+        manifest["personality_template"] = personality_template
+        manifest["notes"].extend(
+            [
+                f"personality_template_id={personality_template['template_id']}",
+                f"personality_template_default_for_derivatives={str(personality_template['apply_to_derived_build_packs_by_default']).lower()}",
+            ]
+        )
+    return manifest
 
 
 def _lifecycle_state(
@@ -327,7 +339,52 @@ def _benchmark_declaration(
     }
 
 
-def _pack_agents(display_name: str) -> str:
+def _personality_overlay_section(
+    personality_template: dict[str, Any] | None,
+    *,
+    template_default: bool,
+) -> str:
+    if personality_template is None:
+        return ""
+    inherited_text = (
+        "Derived build-packs inherit this overlay by default unless materialization explicitly clears it or selects another personality template."
+        if template_default
+        else "Derived build-packs do not inherit this overlay automatically; materialization must select it explicitly when the overlay should follow downstream."
+    )
+    lines = [
+        "## Optional Personality Overlay",
+        "",
+        (
+            "This template currently carries the optional personality overlay "
+            f"`{personality_template['template_id']}` ({personality_template['display_name']})."
+        ),
+        personality_template["summary"],
+        inherited_text,
+        "Treat the overlay as briefing and recommendation-framing guidance only. It does not override canonical factory policy, lifecycle state, deployment truth, or pack-local control-plane files.",
+    ]
+    for line in personality_template.get("agent_context_lines", []):
+        lines.append(f"- {line}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def _manifest_personality_template(personality_template: dict[str, Any] | None) -> dict[str, Any] | None:
+    if personality_template is None:
+        return None
+    return {
+        "template_id": personality_template["template_id"],
+        "display_name": personality_template["display_name"],
+        "summary": personality_template["summary"],
+        "selection_origin": personality_template["selection_origin"],
+        "selection_reason": personality_template["selection_reason"],
+        "catalog_path": personality_template["catalog_path"],
+        "apply_to_derived_build_packs_by_default": personality_template[
+            "apply_to_derived_build_packs_by_default"
+        ],
+    }
+
+
+def _pack_agents(display_name: str, personality_template: dict[str, Any] | None = None) -> str:
     return f"""# {display_name}
 
 This is a PackFactory-native template created through the template creation workflow.
@@ -378,6 +435,13 @@ remote workflows:
 - treat external runtime-evidence import as factory-only through
   `tools/import_external_runtime_evidence.py` or a higher-level PackFactory
   workflow that wraps that import
+
+{_personality_overlay_section(
+    personality_template,
+    template_default=bool(
+        personality_template and personality_template.get("apply_to_derived_build_packs_by_default") is True
+    ),
+)}
 
 ## Working Rules
 
@@ -440,6 +504,20 @@ remote Codex session management and runtime-evidence flow:
 - do not treat ad hoc `ssh` prompts or raw stdout/stderr logs as canonical
   PackFactory evidence
 - return to the factory root for external runtime-evidence import
+
+## Optional Personality Overlay
+
+When `pack.json.personality_template` exists, treat it as an optional overlay
+for briefing tone, recommendation framing, and operator-facing collaboration.
+
+That overlay should stay composable with the template itself:
+
+- one source template can still feed multiple build-packs with different
+  personality overlays
+- the overlay should not replace the project goal, runtime surfaces, or
+  control-plane files
+- canonical lifecycle, readiness, deployment, and promotion state always win
+  over personality guidance when they point in different directions
 """
 
 
@@ -669,7 +747,43 @@ def _ensure_new_template_id(factory_root: Path, template_pack_id: str) -> None:
         raise ValueError(f"template pack already registered: {template_pack_id}")
 
 
-def _validate_request_semantics(request: dict[str, Any]) -> None:
+def _resolve_template_personality_selection(
+    factory_root: Path,
+    planning: dict[str, Any],
+) -> dict[str, Any] | None:
+    selection = planning.get("personality_template_selection")
+    if selection is None:
+        return None
+    if not isinstance(selection, dict):
+        raise ValueError("personality_template_selection must be an object when present")
+
+    template_id = selection.get("personality_template_id")
+    if not isinstance(template_id, str) or not template_id.strip():
+        raise ValueError("personality_template_selection.personality_template_id must be a non-empty string")
+    selection_reason = selection.get("selection_reason")
+    if not isinstance(selection_reason, str) or not selection_reason.strip():
+        raise ValueError("personality_template_selection.selection_reason must be a non-empty string")
+    apply_to_derived = selection.get("apply_to_derived_build_packs_by_default")
+    if not isinstance(apply_to_derived, bool):
+        raise ValueError(
+            "personality_template_selection.apply_to_derived_build_packs_by_default must be a boolean"
+        )
+
+    catalog_entry = resolve_personality_template(factory_root, template_id.strip())
+    return {
+        "template_id": catalog_entry["template_id"],
+        "display_name": catalog_entry["display_name"],
+        "summary": catalog_entry["summary"],
+        "selection_origin": "template_selected",
+        "selection_reason": selection_reason.strip(),
+        "catalog_path": PERSONALITY_TEMPLATE_CATALOG_PATH.as_posix(),
+        "agent_context_lines": list(catalog_entry.get("agent_context_lines", [])),
+        "project_context_lines": list(catalog_entry.get("project_context_lines", [])),
+        "apply_to_derived_build_packs_by_default": apply_to_derived,
+    }
+
+
+def _validate_request_semantics(factory_root: Path, request: dict[str, Any]) -> dict[str, Any] | None:
     if request.get("runtime") != "python":
         raise ValueError("template creation currently supports runtime=python only")
     if request.get("scaffold_strategy") != "minimal_python_text_pack":
@@ -701,10 +815,11 @@ def _validate_request_semantics(request: dict[str, Any]) -> None:
     first_materialization_purpose = planning.get("first_materialization_purpose")
     if not isinstance(first_materialization_purpose, str) or not first_materialization_purpose.strip():
         raise ValueError("first_materialization_purpose is required so the first proving-ground build-pack is explicit")
+    return _resolve_template_personality_selection(factory_root, planning)
 
 
 def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
-    _validate_request_semantics(request)
+    resolved_personality_template = _validate_request_semantics(factory_root, request)
 
     preflight = validate_factory(factory_root)
     if not preflight["valid"]:
@@ -738,7 +853,10 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
     try:
         pack_root_relative = f"templates/{template_pack_id}"
 
-        _write_text(template_root / "AGENTS.md", _pack_agents(display_name))
+        _write_text(
+            template_root / "AGENTS.md",
+            _pack_agents(display_name, resolved_personality_template),
+        )
         _write_text(
             template_root / "project-context.md",
             _project_context(module_name, benchmark_id, project_goal),
@@ -772,6 +890,7 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
                 creation_id=creation_id,
                 project_goal=project_goal,
                 capability_family=capability_family,
+                personality_template=_manifest_personality_template(resolved_personality_template),
             ),
         )
         write_json(
@@ -887,6 +1006,9 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
                 f"Materialize the first build-pack proving ground for `{planning['first_materialization_purpose']}`.",
             ],
         }
+        manifest_personality_template = _manifest_personality_template(resolved_personality_template)
+        if manifest_personality_template is not None:
+            report["resolved_personality_template"] = manifest_personality_template
         write_json(report_full_path, report)
         report_errors = validate_json_document(
             report_full_path,

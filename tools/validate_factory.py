@@ -63,7 +63,6 @@ EXPECTED_PORTABLE_STARTER_COMMANDS = {
 FINAL_TASK_STATUSES = {"completed", "escalated", "cancelled"}
 ACTIVE_TASK_REQUIRED_AUTONOMY_STATES = {
     "actively_building",
-    "blocked",
 }
 
 PACK_ROOTS = ("templates", "build-packs")
@@ -81,6 +80,7 @@ AUTONOMY_OPS_NOTE_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACT
 AUTONOMY_STATE_BRIEF_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md")
 AUTONOMY_PLANNING_LIST_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md")
 MATERIALIZE_BUILD_PACK_TOOL_PATH = Path("tools/materialize_build_pack.py")
+PERSONALITY_TEMPLATE_CATALOG_PATH = Path("docs/specs/project-pack-factory/agent-personality-template-catalog.json")
 TOOL_COMMAND_PATTERN = re.compile(r"`python3 tools/([^`\s]+\.py)\b")
 
 
@@ -323,6 +323,45 @@ def _extract_benchmark_artifact_result(payload: dict[str, Any], benchmark_id: st
     return None
 
 
+def _autonomy_run_summary_benchmark_status(payload: dict[str, Any], benchmark_id: str) -> str | None:
+    if payload.get("schema_version") != "autonomy-run-summary/v1":
+        return None
+    final_snapshot = payload.get("final_snapshot")
+    if not isinstance(final_snapshot, dict):
+        return None
+    eval_statuses = final_snapshot.get("eval_result_statuses")
+    if not isinstance(eval_statuses, dict):
+        return None
+    status = eval_statuses.get(benchmark_id)
+    return status if isinstance(status, str) else None
+
+
+def _autonomy_run_summary_gate_status(payload: dict[str, Any], gate_id: str) -> str | None:
+    if payload.get("schema_version") != "autonomy-run-summary/v1":
+        return None
+    final_snapshot = payload.get("final_snapshot")
+    if not isinstance(final_snapshot, dict):
+        return None
+    gate_statuses = final_snapshot.get("gate_statuses")
+    if not isinstance(gate_statuses, dict):
+        return None
+    status = gate_statuses.get(gate_id)
+    return status if isinstance(status, str) else None
+
+
+def _artifact_is_imported_run_summary_for_run(
+    *,
+    artifact: dict[str, Any],
+    artifact_path: str,
+    latest_run_id: str,
+) -> bool:
+    return (
+        artifact.get("schema_version") == "autonomy-run-summary/v1"
+        and artifact.get("run_id") == latest_run_id
+        and artifact_path.startswith("eval/history/import-external-runtime-evidence-")
+    )
+
+
 def collect_build_pack_evidence_integrity_errors(pack_root: Path) -> list[str]:
     readiness = _load_object(pack_root / "status/readiness.json")
     errors: list[str] = []
@@ -382,22 +421,6 @@ def _validate_build_pack_evidence_integrity(
         if not summary_path.exists():
             errors.append(f"{summary_path}: benchmark summary artifact referenced by eval/latest/index.json is missing")
 
-        if status == "not_run":
-            continue
-
-        expected_prefix = f"eval/history/{latest_run_id}/"
-        if not run_artifact_path.startswith(expected_prefix):
-            errors.append(
-                f"{pack_root / EVAL_LATEST_INDEX_PATH}: benchmark `{benchmark_id}` run_artifact_path must begin with `{expected_prefix}`"
-            )
-        if not (
-            summary_artifact_path.startswith(expected_prefix)
-            or summary_artifact_path.startswith("eval/latest/")
-        ):
-            errors.append(
-                f"{pack_root / EVAL_LATEST_INDEX_PATH}: benchmark `{benchmark_id}` summary_artifact_path must point at the same run or an eval/latest summary"
-            )
-
         artifact = _load_object_if_present(
             run_path,
             errors,
@@ -405,11 +428,41 @@ def _validate_build_pack_evidence_integrity(
         )
         if artifact is None:
             continue
+        imported_run_summary = _artifact_is_imported_run_summary_for_run(
+            artifact=artifact,
+            artifact_path=run_artifact_path,
+            latest_run_id=latest_run_id,
+        )
+
+        if status == "not_run":
+            continue
+
+        expected_prefix = f"eval/history/{latest_run_id}/"
+        if not (run_artifact_path.startswith(expected_prefix) or imported_run_summary):
+            errors.append(
+                f"{pack_root / EVAL_LATEST_INDEX_PATH}: benchmark `{benchmark_id}` run_artifact_path must begin with `{expected_prefix}`"
+            )
+        if not (
+            summary_artifact_path.startswith(expected_prefix)
+            or summary_artifact_path.startswith("eval/latest/")
+            or (imported_run_summary and summary_artifact_path == run_artifact_path)
+        ):
+            errors.append(
+                f"{pack_root / EVAL_LATEST_INDEX_PATH}: benchmark `{benchmark_id}` summary_artifact_path must point at the same run or an eval/latest summary"
+            )
+
         artifact_result = _extract_benchmark_artifact_result(artifact, benchmark_id)
         if artifact_result is None:
-            errors.append(
-                f"{run_path}: benchmark run artifact does not report benchmark_id `{benchmark_id}`"
-            )
+            imported_status = _autonomy_run_summary_benchmark_status(artifact, benchmark_id)
+            if imported_status is None:
+                errors.append(
+                    f"{run_path}: benchmark run artifact does not report benchmark_id `{benchmark_id}`"
+                )
+                continue
+            if imported_status != status:
+                errors.append(
+                    f"{run_path}: benchmark `{benchmark_id}` status must match eval/latest/index.json"
+                )
             continue
         if artifact_result.get("status") != status:
             errors.append(
@@ -431,11 +484,6 @@ def _validate_build_pack_evidence_integrity(
             for evidence_path in evidence_paths:
                 if not isinstance(evidence_path, str):
                     continue
-                if not evidence_path.endswith("validation-result.json"):
-                    errors.append(
-                        f"{pack_root / 'status/readiness.json'}: validation gate `{gate_id}` must point to validation-result.json evidence"
-                    )
-                    continue
                 evidence_file = pack_root / evidence_path
                 artifact = _load_object_if_present(
                     evidence_file,
@@ -444,21 +492,50 @@ def _validate_build_pack_evidence_integrity(
                 )
                 if artifact is None:
                     continue
-                if artifact.get("build_pack_id") != pack_root.name:
-                    errors.append(f"{evidence_file}: build_pack_id must equal `{pack_root.name}`")
-                if artifact.get("gate_id") != gate_id:
-                    errors.append(f"{evidence_file}: gate_id must match `{gate_id}`")
-                if artifact.get("status") != status:
+                if evidence_path.endswith("validation-result.json"):
+                    if artifact.get("build_pack_id") != pack_root.name:
+                        errors.append(f"{evidence_file}: build_pack_id must equal `{pack_root.name}`")
+                    if artifact.get("gate_id") != gate_id:
+                        errors.append(f"{evidence_file}: gate_id must match `{gate_id}`")
+                    if artifact.get("status") != status:
+                        errors.append(f"{evidence_file}: status must match readiness gate `{gate_id}`")
+                    continue
+                imported_status = _autonomy_run_summary_gate_status(artifact, gate_id)
+                if imported_status is None:
+                    errors.append(
+                        f"{pack_root / 'status/readiness.json'}: validation gate `{gate_id}` must point to validation-result.json evidence or an imported run-summary that reports the gate status"
+                    )
+                    continue
+                if artifact.get("pack_id") != pack_root.name:
+                    errors.append(f"{evidence_file}: pack_id must equal `{pack_root.name}`")
+                if imported_status != status:
                     errors.append(f"{evidence_file}: status must match readiness gate `{gate_id}`")
             continue
 
         benchmark_id = benchmark_id_by_gate_id.get(gate_id)
         if benchmark_id is None:
             continue
+        imported_gate_evidence_ok = False
         if evidence_paths != [EVAL_LATEST_INDEX_PATH]:
-            errors.append(
-                f"{pack_root / 'status/readiness.json'}: benchmark gate `{gate_id}` must point to `{EVAL_LATEST_INDEX_PATH}`"
-            )
+            if len(evidence_paths) == 1 and isinstance(evidence_paths[0], str):
+                evidence_file = pack_root / evidence_paths[0]
+                artifact = _load_object_if_present(
+                    evidence_file,
+                    errors,
+                    label=f"benchmark artifact for `{gate_id}`",
+                )
+                if artifact is not None:
+                    imported_status = _autonomy_run_summary_gate_status(artifact, gate_id)
+                    if imported_status is not None:
+                        imported_gate_evidence_ok = True
+                        if artifact.get("pack_id") != pack_root.name:
+                            errors.append(f"{evidence_file}: pack_id must equal `{pack_root.name}`")
+                        if imported_status != status:
+                            errors.append(f"{evidence_file}: status must match readiness gate `{gate_id}`")
+            if not imported_gate_evidence_ok:
+                errors.append(
+                    f"{pack_root / 'status/readiness.json'}: benchmark gate `{gate_id}` must point to `{EVAL_LATEST_INDEX_PATH}` or an imported run-summary that reports the gate status"
+                )
         result = result_by_benchmark_id.get(benchmark_id)
         if result is None:
             errors.append(
@@ -591,7 +668,10 @@ def _validate_task_backlog_and_work_state_consistency(
             )
         else:
             next_status = next_task.get("status")
-            if next_status in FINAL_TASK_STATUSES:
+            if next_status in FINAL_TASK_STATUSES and not (
+                work_state.get("autonomy_state") == "awaiting_operator"
+                and work_state.get("last_outcome") == "operator_override"
+            ):
                 errors.append(
                     f"{work_state_path}: next_recommended_task_id must reference a non-final task"
                 )
@@ -1158,6 +1238,38 @@ def _validate_factory_root_autonomy_memory(factory_root: Path, errors: list[str]
         errors.append(f"{resolved_memory_path}: factory_root must equal the validated factory root")
 
 
+def _validate_personality_template_catalog(factory_root: Path, errors: list[str]) -> None:
+    catalog_path = factory_root / PERSONALITY_TEMPLATE_CATALOG_PATH
+    schema_path = factory_root / "docs/specs/project-pack-factory/schemas/agent-personality-template-catalog.schema.json"
+    if not catalog_path.exists():
+        errors.append(f"{catalog_path}: agent personality template catalog is missing")
+        return
+
+    catalog_errors = validate_json_document(catalog_path, schema_path)
+    errors.extend(catalog_errors)
+    if catalog_errors:
+        return
+
+    catalog = _load_object(catalog_path)
+    templates = catalog.get("templates", [])
+    if not isinstance(templates, list):
+        errors.append(f"{catalog_path}: templates must be an array")
+        return
+
+    seen: set[str] = set()
+    for entry in templates:
+        if not isinstance(entry, dict):
+            errors.append(f"{catalog_path}: template entries must be objects")
+            continue
+        template_id = entry.get("template_id")
+        if not isinstance(template_id, str):
+            errors.append(f"{catalog_path}: template entries must include string template_id values")
+            continue
+        if template_id in seen:
+            errors.append(f"{catalog_path}: duplicate template_id `{template_id}` is not allowed")
+        seen.add(template_id)
+
+
 def _validate_template_lineage_memory(factory_root: Path, pack_root: Path, manifest: dict[str, Any], errors: list[str]) -> None:
     if manifest.get("pack_kind") != "template_pack":
         return
@@ -1467,6 +1579,7 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
     _validate_environment_assignments(factory_root, registry_builds, promotion_log, errors)
     _validate_factory_root_work_tracker(factory_root, errors)
     _validate_factory_root_autonomy_memory(factory_root, errors)
+    _validate_personality_template_catalog(factory_root, errors)
     _validate_instruction_surface_sync(factory_root, errors)
     _validate_active_template_instruction_surface_sync(factory_root, registry_templates, errors)
 
