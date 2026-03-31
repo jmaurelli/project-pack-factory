@@ -2,7 +2,7 @@
   "blocking_issues": [
     "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary."
   ],
-  "last_evaluated_at": "2026-03-27T13:31:30Z",
+  "last_evaluated_at": "2026-03-31T16:32:52Z",
   "operator_hint_status": {
     "active_hint_ids": [],
     "cleanup_candidate_hint_ids": [],
@@ -18,32 +18,42 @@
   "readiness_state": "ready_for_review",
   "ready_for_deployment": false,
   "recommended_next_actions": [
-    "Recommended next action: continue with canonical next task `deepen_dependency_aware_playbooks` from status/work-state.json and use `docs/specs/asms-ui-bounded-dependency-map-v1.md`, `docs/specs/asms-ui-dependency-order-validation-v1.md`, `docs/specs/fireflow-internals-bounded-map-v1.md`, and `docs/specs/adf-remote-runtime-decoupling-plan-v1.md` for the next bounded remote investigation runs.",
-    "Keep the live review surface on `http://10.167.2.151:18082/playbooks/asms-ui-is-down/` as the current operator baseline while deepening content. The approved `124rem / 22rem / 88ch` layout is now preserved on plain playbook URLs through the staged `adf-dev` content server.",
-    "Use the pinned `pnpm` publication path for future static ADF playbook rebuilds. The generator now emits `pnpm-lock.yaml`, and clean local plus remote `pnpm install --frozen-lockfile && pnpm build` passes for the current four-playbook set."
+    "Immediate next action: use the completed flow-first publication contract wave as the new publication baseline. The new contract plus the revised page-type and support-language notes now match the real support workflow better, so the next pass should judge Keycloak and the remaining boundary playbooks against that tighter baseline instead of the older wrapper-heavy assumptions.",
+    "Target-helper note: the saved `algosec-lab` profile remains the working bounded proof path under `dist/candidates/adf-target-profile-baseline/`. In the latest slice the target-backed site renders 5 playbooks and 3 guides, including the generated `asms-runtime-taxonomy` guide, on top of the already-proven 4 diagnostic flows, 6 page records, 4 generated decision playbooks, and 8 symptom routes.",
+    "Taxonomy note: `docs/specs/adf-cross-playbook-system-layer-taxonomy-v1.md` is now the canonical shared ADF layer map. Use it to keep the next content pass ASMS-runtime-first, and treat host integration plus Linux operating evidence as supporting surfaces rather than the first architectural layer.",
+    "Code-anchor note: the five session-created refinement specs now explicitly name the current `runtime_baseline.py` and `starlight_site.py` functions expected to change first, so the next implementation pass should start from those code anchors instead of re-deriving migration surfaces.",
+    "Recommended next action: keep `deepen_dependency_aware_playbooks` active, but drive the next content pass through the page-type, support-language translation, symptom-to-boundary mapping, support-safe scientific-method, and backend map-and-render specs before refining more operator-facing Starlight content.",
+    "Adversarial review note: the refinement specs were tightened to fail closed on page-type mixing, internal architecture jargon in the frontline flow, and open-ended lab walks. Keep those tightenings in force when touching generator or content code next, and use `eval/history/adf-frontline-refinement-adversarial-review-20260330.md` as the summary note.",
+    "Second adversarial review note: the scientific-method and backend-map notes were tightened to fail closed on theory-heavy drift, service-only bias, renderer guessing, and unsafe schema migration shortcuts. Use `eval/history/adf-scientific-method-and-backend-map-adversarial-review-20260330.md` as the summary note for those two contracts.",
+    "Method note: use `docs/specs/adf-support-safe-scientific-method-contract-v1.md` so ADF content keeps a clear observe -> hypothesis -> test -> result -> next branch loop instead of drifting into broad subsystem theory.",
+    "Backend note: use `docs/specs/adf-backend-map-and-render-contract-v1.md` so the Codex/backend path builds structured mapping rows and page records before Starlight rendering instead of improvising support pages from free-form analysis.",
+    "Pilot note: the official staged observe-only slice against target `10.167.2.150` now validates the imported-module boundary packet method, but only as a pilot. Keep it easy to pivot away from if later modules need too much special branching.",
+    "Contract note: use `docs/specs/adf-flow-first-operator-publishing-contract-v1.md`, `docs/specs/adf-frontline-page-types-and-entry-contract-v1.md`, `docs/specs/adf-frontline-support-language-translation-contract-v1.md`, and `docs/specs/adf-symptom-to-boundary-mapping-workflow-v1.md` together so systems thinking stays in the discovery model while frontline pages stay fast and readable for support engineers.",
+    "Workflow caveat: the remote slice produced a real checkpoint bundle and run summary, but the current wrapper/export step did not emit a local runtime-evidence bundle. Treat the preserved local review copy under `.pack-state/local-scratch/remote-autonomy-roundtrips/.../incoming/remote-run-audit-only/` as audit-only scratch until a canonical import path succeeds.",
+    "Remote-loop note: `docs/specs/adf-remote-autonomy-testing-workflow-v1.md` now treats `starter_backlog_incomplete` as retired wording. Judge future `adf-dev` terminal records in current-task terms such as `current_task_incomplete`, `task_slice_complete`, and `blocked_boundary`.",
+    "Validation contract reminder: use `docs/specs/adf-imported-module-drilldown-pilot-v1.md` together with the existing ADF mapping and validation notes so Keycloak follow-up stays evidence-first, general enough to reuse, and easy to abandon if the pilot does not pay off.",
+    "Planning note: the adf-dev execution transition is now a named planning line in `docs/specs/adf-three-node-autonomy-contract-v1.md`, and the future remote-canonical mode remains explicitly future-only in `docs/specs/adf-remote-canonical-home-transition-spec-v1.md`."
   ],
   "required_gates": [
     {
       "evidence_paths": [
-        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
-        "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260326t145200z/validation-result.json",
-        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json"
+        "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260326t145200z/validation-result.json"
       ],
       "gate_id": "validate_build_pack_contract",
-      "last_run_at": "2026-03-26T18:28:45Z",
+      "last_run_at": "2026-03-28T19:47:54Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Build-pack contract validation remains passing after the split-host remote runtime model was recorded for ADF."
+      "summary": "Build-pack contract validation still passes after the recovered v3 shell-versus-Metro checkpoint was pulled through manifest recovery, imported canonically, and followed by the exporter/importer fix for checkpoint-declared delegated artifacts."
     },
     {
       "evidence_paths": [
-        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json"
+        "eval/latest/index.json"
       ],
       "gate_id": "algosec_diagnostic_framework_template_pack_smoke_small_001",
-      "last_run_at": "2026-03-26T15:19:22Z",
+      "last_run_at": "2026-03-28T19:47:54Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "The existing smoke benchmark still passes while the build-pack adds the Support Cockpit prototype direction and refreshed Starlight prototype generation path."
+      "summary": "The existing smoke benchmark still passes after the recovered v3 shell-versus-Metro checkpoint was pulled through manifest recovery, imported canonically, and followed by the exporter/importer fix for checkpoint-declared delegated artifacts."
     }
   ],
   "schema_version": "pack-readiness/v2"

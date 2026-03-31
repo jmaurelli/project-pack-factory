@@ -12,8 +12,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from .target_connection import target_shell_capture
+
 
 DEFAULT_ARTIFACT_ROOT = Path("dist/candidates/adf-baseline")
+TARGET_PROFILE_ARTIFACT_ROOT = Path("dist/candidates/adf-target-profile-baseline")
 RUNTIME_EVIDENCE_NAME = "runtime-evidence.json"
 SERVICE_INVENTORY_NAME = "service-inventory.json"
 SUPPORT_BASELINE_NAME = "support-baseline.json"
@@ -59,11 +62,23 @@ def generate_support_baseline(
     project_root: Path,
     target_label: str,
     artifact_root: str | Path | None = None,
+    profile_path: str | Path | None = None,
 ) -> dict[str, Any]:
-    root = project_root / (Path(artifact_root) if artifact_root else DEFAULT_ARTIFACT_ROOT)
+    selected_root = (
+        Path(artifact_root)
+        if artifact_root
+        else TARGET_PROFILE_ARTIFACT_ROOT
+        if profile_path is not None
+        else DEFAULT_ARTIFACT_ROOT
+    )
+    root = project_root / selected_root
     root.mkdir(parents=True, exist_ok=True)
 
-    runtime_evidence = collect_runtime_evidence(target_label=target_label)
+    runtime_evidence = collect_runtime_evidence(
+        target_label=target_label,
+        project_root=project_root,
+        profile_path=profile_path,
+    )
     service_inventory = build_service_inventory(runtime_evidence=runtime_evidence, target_label=target_label)
     support_baseline = build_support_baseline(
         runtime_evidence=runtime_evidence,
@@ -95,36 +110,89 @@ def generate_support_baseline(
     }
 
 
-def collect_runtime_evidence(*, target_label: str) -> dict[str, Any]:
-    os_release = _load_os_release()
-    command_results = [
-        _run_command(
-            command_id="systemd_units",
-            argv=["systemctl", "list-units", "--type=service", "--all", "--no-pager", "--plain", "--no-legend"],
-            max_preview_lines=400,
-        ),
-        _run_command(
-            command_id="systemd_unit_files",
-            argv=["systemctl", "list-unit-files", "--type=service", "--no-pager", "--plain", "--no-legend"],
-            max_preview_lines=400,
-        ),
-        _run_command(
-            command_id="listening_tcp_ports",
-            argv=["ss", "-lntHp"],
-            max_preview_lines=400,
-        ),
-        _run_command(
-            command_id="process_inventory",
-            argv=["ps", "-eo", "pid=,ppid=,user=,comm=,args="],
-            max_preview_lines=200,
-        ),
-    ]
+def collect_runtime_evidence(
+    *,
+    target_label: str,
+    project_root: Path | None = None,
+    profile_path: str | Path | None = None,
+) -> dict[str, Any]:
+    if profile_path is None:
+        os_release = _load_os_release()
+        hostname = socket.gethostname()
+        command_results = [
+            _run_command(
+                command_id="systemd_units",
+                argv=["systemctl", "list-units", "--type=service", "--all", "--no-pager", "--plain", "--no-legend"],
+                max_preview_lines=400,
+            ),
+            _run_command(
+                command_id="systemd_unit_files",
+                argv=["systemctl", "list-unit-files", "--type=service", "--no-pager", "--plain", "--no-legend"],
+                max_preview_lines=400,
+            ),
+            _run_command(
+                command_id="listening_tcp_ports",
+                argv=["ss", "-lntHp"],
+                max_preview_lines=400,
+            ),
+            _run_command(
+                command_id="process_inventory",
+                argv=["ps", "-eo", "pid=,ppid=,user=,comm=,args="],
+                max_preview_lines=200,
+            ),
+        ]
+        observed_note = "Runtime identity, service-manager output, TCP listeners, and process inventory were collected from local read-only sources."
+        target_connection = {
+            "collection_mode": "local_host",
+            "profile_path": None,
+        }
+    else:
+        if project_root is None:
+            raise ValueError("project_root is required when profile_path is provided")
+        os_release = _load_target_os_release(project_root=project_root, profile_path=profile_path)
+        hostname = _load_target_hostname(project_root=project_root, profile_path=profile_path)
+        kernel_release = _load_target_kernel_release(project_root=project_root, profile_path=profile_path)
+        command_results = [
+            _run_target_command(
+                project_root=project_root,
+                profile_path=profile_path,
+                command_id="systemd_units",
+                command="systemctl list-units --type=service --all --no-pager --plain --no-legend",
+                max_preview_lines=400,
+            ),
+            _run_target_command(
+                project_root=project_root,
+                profile_path=profile_path,
+                command_id="systemd_unit_files",
+                command="systemctl list-unit-files --type=service --no-pager --plain --no-legend",
+                max_preview_lines=400,
+            ),
+            _run_target_command(
+                project_root=project_root,
+                profile_path=profile_path,
+                command_id="listening_tcp_ports",
+                command="ss -lntHp",
+                max_preview_lines=400,
+            ),
+            _run_target_command(
+                project_root=project_root,
+                profile_path=profile_path,
+                command_id="process_inventory",
+                command="ps -eo 'pid=,ppid=,user=,comm=,args='",
+                max_preview_lines=200,
+            ),
+        ]
+        observed_note = "Runtime identity, service-manager output, TCP listeners, and process inventory were collected from the target connection profile through bounded read-only SSH commands."
+        target_connection = {
+            "collection_mode": "target_profile",
+            "profile_path": str(profile_path),
+        }
 
     observed_facts = {
-        "hostname": socket.gethostname(),
+        "hostname": hostname,
         "os_release": os_release,
-        "kernel_release": platform.release(),
-        "platform": platform.platform(),
+        "kernel_release": platform.release() if profile_path is None else kernel_release,
+        "platform": platform.platform() if profile_path is None else "remote_target_via_target_connection",
     }
     unavailable_classes = []
     if command_results[0]["status"] != "completed":
@@ -139,6 +207,7 @@ def collect_runtime_evidence(*, target_label: str) -> dict[str, Any]:
             "target_label": target_label,
             "execution_host": observed_facts["hostname"],
         },
+        "target_connection": target_connection,
         "collection_policy": {
             "mode": "read_only",
             "canonical_source_of_truth": "machine_readable_json",
@@ -154,7 +223,7 @@ def collect_runtime_evidence(*, target_label: str) -> dict[str, Any]:
         "command_results": command_results,
         "observation_boundaries": {
             "observed": [
-                "Runtime identity, service-manager output, TCP listeners, and process inventory were collected from local read-only sources.",
+                observed_note,
             ],
             "inferred": [
                 "Support-priority hints and service roles are derived from command output heuristics in the build-pack.",
@@ -170,7 +239,8 @@ def collect_runtime_evidence(*, target_label: str) -> dict[str, Any]:
 
 def build_service_inventory(*, runtime_evidence: dict[str, Any], target_label: str) -> dict[str, Any]:
     results = {entry["command_id"]: entry for entry in runtime_evidence["command_results"]}
-    services = _services_from_runtime_results(results)
+    collect_local_checkpoints = runtime_evidence.get("target_connection", {}).get("collection_mode") != "target_profile"
+    services = _services_from_runtime_results(results, collect_local_checkpoints=collect_local_checkpoints)
 
     critical_services = sum(1 for service in services if service["inference"]["support_importance_tier"] == "critical")
     supporting_services = sum(1 for service in services if service["inference"]["support_importance_tier"] == "supporting")
@@ -210,6 +280,9 @@ def build_support_baseline(
     service_paths = _build_service_paths(service_inventory)
     support_domains = _build_support_domains(service_inventory, service_paths)
     diagnostic_flows = _build_diagnostic_flows(service_inventory, service_paths, support_domains)
+    page_records = _build_page_records(diagnostic_flows, support_domains)
+    operator_rows = _build_operator_rows(page_records)
+    page_routes = _build_page_routes(page_records)
     decision_playbooks = _build_decision_playbooks(diagnostic_flows)
     priority_candidates = [
         service for service in service_inventory["services"] if service["inference"]["product_scope"] != "platform"
@@ -291,6 +364,9 @@ def build_support_baseline(
         "service_paths": service_paths,
         "support_domains": support_domains,
         "diagnostic_flows": diagnostic_flows,
+        "page_records": page_records,
+        "operator_rows": operator_rows,
+        "page_routes": page_routes,
         "decision_playbooks": decision_playbooks,
         "symptom_lookup": _build_symptom_lookup(diagnostic_flows),
         "unknowns": runtime_evidence["observation_boundaries"]["unknown"],
@@ -974,10 +1050,14 @@ def _dump_json(path: Path, payload: dict[str, Any]) -> None:
 
 def _load_os_release() -> dict[str, str]:
     path = Path("/etc/os-release")
-    payload: dict[str, str] = {}
     if not path.exists():
-        return payload
-    for line in path.read_text(encoding="utf-8").splitlines():
+        return {}
+    return _parse_os_release_lines(path.read_text(encoding="utf-8").splitlines())
+
+
+def _parse_os_release_lines(lines: list[str]) -> dict[str, str]:
+    payload: dict[str, str] = {}
+    for line in lines:
         if not line or "=" not in line:
             continue
         key, raw_value = line.split("=", 1)
@@ -1015,7 +1095,98 @@ def _run_command(*, command_id: str, argv: list[str], max_preview_lines: int = 6
     }
 
 
-def _services_from_runtime_results(results: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+def _run_target_command(
+    *,
+    project_root: Path,
+    profile_path: str | Path,
+    command_id: str,
+    command: str,
+    max_preview_lines: int = 60,
+) -> dict[str, Any]:
+    observed_at = _isoformat_z()
+    result = target_shell_capture(
+        project_root=project_root,
+        profile_path=profile_path,
+        command=command,
+        preview_line_limit=max_preview_lines,
+    )
+    command_result = result.get("command_result", {})
+    attempts = command_result.get("attempts", [])
+    last_attempt = attempts[-1] if attempts else {}
+    stdout_lines = list(command_result.get("stdout_lines", []))[:max_preview_lines]
+    stderr_lines = list(command_result.get("stderr_lines", []))[:max_preview_lines]
+    attempt_status = str(last_attempt.get("status", ""))
+    if result.get("status") == "pass":
+        status = "completed"
+    elif attempt_status in {"nonzero_exit", "timeout"}:
+        status = attempt_status
+    else:
+        status = "unavailable"
+    payload: dict[str, Any] = {
+        "command_id": command_id,
+        "argv": ["target-shell-command", command],
+        "status": status,
+        "observed_at": observed_at,
+        "stdout_line_count": len(stdout_lines),
+        "stderr_line_count": len(stderr_lines),
+        "stdout_preview": stdout_lines,
+        "stderr_preview": stderr_lines,
+        "target_label": result.get("target_label"),
+    }
+    if "exit_code" in last_attempt:
+        payload["exit_code"] = last_attempt.get("exit_code")
+    reason = command_result.get("reason")
+    if isinstance(reason, str) and reason:
+        payload["reason"] = reason
+    return payload
+
+
+def _load_target_os_release(*, project_root: Path, profile_path: str | Path) -> dict[str, str]:
+    result = _run_target_command(
+        project_root=project_root,
+        profile_path=profile_path,
+        command_id="target_os_release",
+        command="cat /etc/os-release",
+        max_preview_lines=80,
+    )
+    if result["status"] != "completed":
+        return {}
+    return _parse_os_release_lines(result.get("stdout_preview", []))
+
+
+def _load_target_hostname(*, project_root: Path, profile_path: str | Path) -> str:
+    result = _run_target_command(
+        project_root=project_root,
+        profile_path=profile_path,
+        command_id="target_hostname",
+        command="hostname -f || hostname",
+        max_preview_lines=10,
+    )
+    if result["status"] != "completed":
+        return "target-host-unavailable"
+    lines = result.get("stdout_preview", [])
+    return lines[0].strip() if lines else "target-host-unavailable"
+
+
+def _load_target_kernel_release(*, project_root: Path, profile_path: str | Path) -> str:
+    result = _run_target_command(
+        project_root=project_root,
+        profile_path=profile_path,
+        command_id="target_kernel_release",
+        command="uname -r",
+        max_preview_lines=10,
+    )
+    if result["status"] != "completed":
+        return "unknown"
+    lines = result.get("stdout_preview", [])
+    return lines[0].strip() if lines else "unknown"
+
+
+def _services_from_runtime_results(
+    results: dict[str, dict[str, Any]],
+    *,
+    collect_local_checkpoints: bool = True,
+) -> list[dict[str, Any]]:
     unit_rows = _parse_systemd_units(results.get("systemd_units", {}).get("stdout_preview", []))
     unit_file_rows = _parse_unit_files(results.get("systemd_unit_files", {}).get("stdout_preview", []))
     listeners = _parse_listeners(results.get("listening_tcp_ports", {}).get("stdout_preview", []))
@@ -1134,15 +1305,21 @@ def _services_from_runtime_results(results: dict[str, dict[str, Any]]) -> list[d
     final_services = []
     for service_name in sorted(services):
         service = services[service_name]
-        service["observed"].update(_collect_service_checkpoints(service_name))
+        if collect_local_checkpoints:
+            service["observed"].update(_collect_service_checkpoints(service_name))
         service["observed"]["evidence_refs"] = sorted(set(service["observed"]["evidence_refs"]))
         service["inference"] = _score_service(service)
         service["unknowns"] = [
             "No direct dependency graph collection in this first slice.",
         ]
-        if service["observed"]["config_refs"]:
+        if collect_local_checkpoints and service["observed"]["config_refs"]:
             service["unknowns"] = [
                 "Config checkpoints are first-pass only and may not capture every product override or generated file.",
+                "No direct dependency graph collection in this first slice.",
+            ]
+        if not collect_local_checkpoints:
+            service["unknowns"] = [
+                "This target-profile slice has runtime state, listeners, and processes, but it does not yet collect remote unit files, proxy configs, or log checkpoints directly.",
                 "No direct dependency graph collection in this first slice.",
             ]
         final_services.append(service)
@@ -1206,6 +1383,10 @@ def _split_host_port(value: str) -> tuple[str, str]:
         return candidate, ""
     host, port = candidate.rsplit(":", 1)
     return host, port
+
+
+def _first_or(items: list[Any] | tuple[Any, ...], default: Any) -> Any:
+    return items[0] if items else default
 
 
 def _parse_processes(lines: list[str]) -> list[dict[str, str]]:
@@ -1677,11 +1858,41 @@ def _build_diagnostic_flows(
         if dependency_names:
             next_dependency_focus = f"Inspect dependency services next: {', '.join(dependency_names[:4])}."
 
+        page_metadata = _flow_page_metadata(domain["domain_id"])
+        operator_row_id = f"{page_metadata['page_id']}-operator-row"
+
         flows.append(
             {
                 "flow_id": domain["domain_id"],
                 "label": domain["label"],
                 "symptom_focus": _domain_symptom_focus(domain["domain_id"]),
+                "page_metadata": page_metadata,
+                "page_type": page_metadata["page_type"],
+                "page_role": page_metadata["page_role"],
+                "page_id": page_metadata["page_id"],
+                "handoff_target": page_metadata["handoff_target"],
+                "handoff_target_type": page_metadata["handoff_target_type"],
+                "route_kind": page_metadata["route_kind"],
+                "entry_question": page_metadata["entry_question"],
+                "operator_row_id": operator_row_id,
+                "routing": {
+                    "from_page_id": page_metadata["page_id"],
+                    "from_page_type": page_metadata["page_type"],
+                    "to_page_id": page_metadata["handoff_target"],
+                    "to_page_type": page_metadata["handoff_target_type"],
+                    "route_kind": page_metadata["route_kind"],
+                },
+                "customer_symptom": domain["label"] if page_metadata["page_type"] == "symptom_entry" else "",
+                "use_this_when": _domain_symptom_focus(domain["domain_id"])
+                if page_metadata["page_type"] == "boundary_confirmation"
+                else "",
+                "service_name": _boundary_service_name_for_flow(
+                    {
+                        "flow_id": domain["domain_id"],
+                        "label": domain["label"],
+                        "likely_failing_services": likely_services,
+                    }
+                ),
                 "likely_failing_services": likely_services,
                 "path_checkpoints": [
                     {
@@ -1796,6 +2007,18 @@ def _build_symptom_lookup(diagnostic_flows: list[dict[str, Any]]) -> list[dict[s
                 "suggested_domain_id": flow["flow_id"],
                 "suggested_domain_label": flow["label"],
                 "suggested_flow_label": flow["label"],
+                "suggested_page_id": flow["page_id"],
+                "suggested_page_type": flow["page_type"],
+                "page_type": flow["page_type"],
+                "page_role": flow["page_role"],
+                "page_id": flow["page_id"],
+                "handoff_target": flow["handoff_target"],
+                "handoff_target_type": flow["handoff_target_type"],
+                "route_kind": flow["route_kind"],
+                "operator_row_id": flow["operator_row_id"],
+                "entry_question": flow["entry_question"],
+                "next_page_id": flow["handoff_target"],
+                "next_page_type": flow["handoff_target_type"],
                 "first_action": first_action,
             }
         )
@@ -1854,11 +2077,29 @@ def _build_decision_playbooks(diagnostic_flows: list[dict[str, Any]]) -> list[di
             "If a step fails, stop the happy-path sequence, record that step as the current failure point, "
             "and collect the matching evidence before moving on."
         )
+        page_record = _page_record_for_flow(flow)
         playbooks.append(
             {
                 "playbook_id": flow["flow_id"],
                 "label": flow["label"],
                 "symptom_focus": flow["symptom_focus"],
+                "page_id": flow["page_id"],
+                "page_type": flow["page_type"],
+                "page_role": flow["page_role"],
+                "entry_question": flow["entry_question"],
+                "handoff_target": flow["handoff_target"],
+                "handoff_target_type": flow["handoff_target_type"],
+                "route_kind": flow["route_kind"],
+                "operator_row_id": flow["operator_row_id"],
+                "page_record": page_record,
+                "operator_row": _operator_row_for_page_record(page_record),
+                "routing": {
+                    "from_page_id": flow["page_id"],
+                    "from_page_type": flow["page_type"],
+                    "to_page_id": flow["handoff_target"],
+                    "to_page_type": flow["handoff_target_type"],
+                    "route_kind": flow["route_kind"],
+                },
                 "decision_rule": decision_rule,
                 "likely_failing_services": flow["likely_failing_services"],
                 "dependency_path": _playbook_dependency_path(flow["flow_id"]),
@@ -1868,38 +2109,478 @@ def _build_decision_playbooks(diagnostic_flows: list[dict[str, Any]]) -> list[di
     return playbooks
 
 
-def _playbook_dependency_path(flow_id: str) -> list[dict[str, str]]:
+def _flow_page_metadata(domain_id: str) -> dict[str, str]:
+    if domain_id == "ui-and-proxy":
+        return {
+            "page_type": "symptom_entry",
+            "page_role": "symptom_entry",
+            "page_id": "ui-and-proxy",
+            "handoff_target": "keycloak-auth",
+            "handoff_target_type": "boundary_confirmation",
+            "route_kind": "symptom_entry",
+            "entry_question": "Where should I start from this customer symptom",
+        }
+    if domain_id == "core-aff":
+        return {
+            "page_type": "boundary_confirmation",
+            "page_role": "boundary_confirmation",
+            "page_id": "core-aff",
+            "handoff_target": "asms-runtime-taxonomy",
+            "handoff_target_type": "deep_guide",
+            "route_kind": "boundary_confirmation",
+            "entry_question": "Is this named service or module the reason for the symptom",
+        }
+    if domain_id == "microservice-platform":
+        return {
+            "page_type": "boundary_confirmation",
+            "page_role": "boundary_confirmation",
+            "page_id": "microservice-platform",
+            "handoff_target": "asms-runtime-taxonomy",
+            "handoff_target_type": "deep_guide",
+            "route_kind": "boundary_confirmation",
+            "entry_question": "Is this named service or module the reason for the symptom",
+        }
+    if domain_id == "messaging-and-data":
+        return {
+            "page_type": "boundary_confirmation",
+            "page_role": "boundary_confirmation",
+            "page_id": "messaging-and-data",
+            "handoff_target": "asms-runtime-taxonomy",
+            "handoff_target_type": "deep_guide",
+            "route_kind": "boundary_confirmation",
+            "entry_question": "Is this named service or module the reason for the symptom",
+        }
+    return {
+        "page_type": "boundary_confirmation",
+        "page_role": "boundary_confirmation",
+        "page_id": domain_id,
+        "handoff_target": "asms-runtime-taxonomy",
+        "handoff_target_type": "deep_guide",
+        "route_kind": "boundary_confirmation",
+        "entry_question": "Is this named service or module the reason for the symptom",
+    }
+
+
+def _page_entry_question(page_type: str) -> str:
+    return {
+        "symptom_entry": "Where should I start from this customer symptom",
+        "boundary_confirmation": "Is this named service or module the reason for the symptom",
+        "deep_guide": "What should I understand before or after escalation",
+    }.get(page_type, "What should I do next")
+
+
+def _page_rendering_metadata(page_id: str) -> dict[str, Any]:
+    if page_id == "keycloak-auth":
+        return {
+            "supplement_id": "keycloak-auth",
+            "related_guides": [
+                {
+                    "guide_id": "keycloak-integration",
+                    "label": "ASMS / Keycloak integration guide",
+                    "slug": "guides/asms-keycloak-integration-guide",
+                    "summary": "Technical map of where Keycloak sits in the ASMS path, backed by the current boundary contract.",
+                    "detail": "Open this for architecture, handoff, and evidence context.",
+                },
+                {
+                    "guide_id": "keycloak-tier-2-support",
+                    "label": "ASMS / Keycloak Tier 2 support guide",
+                    "slug": "guides/asms-keycloak-tier-2-support-guide",
+                    "summary": "Support-first triage sheet derived from the current Keycloak boundary contract.",
+                    "detail": "Open this during a live customer session.",
+                },
+            ],
+        }
+    if page_id == "core-aff":
+        return {
+            "supplement_id": "core-aff",
+        }
+    return {}
+
+
+def _handoff_target_type(handoff_target: str) -> str:
+    return {
+        "keycloak-auth": "boundary_confirmation",
+        "asms-runtime-taxonomy": "deep_guide",
+        "escalate_or_review": "escalation_stop",
+    }.get(handoff_target, "boundary_confirmation")
+
+
+def _boundary_service_name_for_flow(flow: dict[str, Any]) -> str:
+    likely_services = flow.get("likely_failing_services") or []
+    if likely_services:
+        return likely_services[0]
+    if flow["flow_id"] == "ui-and-proxy":
+        return "httpd.service"
+    return flow["label"]
+
+
+def _page_record_for_flow(flow: dict[str, Any]) -> dict[str, Any]:
+    page_metadata = flow["page_metadata"]
+    first_action = flow["check_sequence"][0] if flow["check_sequence"] else "Start with the first domain check."
+    checks = flow["check_sequence"][:4]
+    page_type = page_metadata["page_type"]
+    steps = [
+        {
+            "step_id": f"{page_metadata['page_id']}-page-step-{index + 1}",
+            "step_label": f"Step {index + 1}",
+            "page_type": page_type,
+            "action": action,
+            "next_page": page_metadata["handoff_target"] if index == len(checks) - 1 else "",
+            "next_page_type": page_metadata["handoff_target_type"] if index == len(checks) - 1 else page_type,
+            "handoff_target": page_metadata["handoff_target"] if index == len(checks) - 1 else "",
+            "handoff_target_type": page_metadata["handoff_target_type"] if index == len(checks) - 1 else page_type,
+            "route_kind": page_metadata["route_kind"],
+        }
+        for index, action in enumerate(checks)
+    ]
+    if not steps:
+        steps = [
+            {
+                "step_id": f"{page_metadata['page_id']}-page-step-1",
+                "step_label": "Step 1",
+                "page_type": page_type,
+                "action": "Start with the first domain check.",
+                "next_page": page_metadata["handoff_target"],
+                "next_page_type": page_metadata["handoff_target_type"],
+                "handoff_target": page_metadata["handoff_target"],
+                "handoff_target_type": page_metadata["handoff_target_type"],
+                "route_kind": page_metadata["route_kind"],
+            }
+        ]
+
+    page_record = {
+        "page_type": page_type,
+        "page_role": page_metadata["page_role"],
+        "page_id": page_metadata["page_id"],
+        "label": flow["label"],
+        "symptom_focus": flow["symptom_focus"],
+        "entry_question": page_metadata["entry_question"],
+        "first_action": first_action,
+        "handoff_target": page_metadata["handoff_target"],
+        "handoff_target_type": page_metadata["handoff_target_type"],
+        "route_kind": page_metadata["route_kind"],
+        "routing": {
+            "from_page_id": page_metadata["page_id"],
+            "from_page_type": page_type,
+            "to_page_id": page_metadata["handoff_target"],
+            "to_page_type": page_metadata["handoff_target_type"],
+            "route_kind": page_metadata["route_kind"],
+        },
+        "operator_row_id": flow["operator_row_id"],
+        "source_flow_id": flow["flow_id"],
+        "decision_rule": (
+            "If a step fails, stop the happy-path sequence, record that step as the current failure point, "
+            "and collect the matching evidence before moving on."
+        ),
+        "checks": checks,
+        "what_to_save": flow["evidence_to_collect_next"][:4] or flow["supporting_evidence"][:4],
+        "steps": steps,
+        "supporting_topics": [
+            flow["label"],
+            page_type,
+            flow["handoff_target"],
+        ],
+    }
+    if page_type == "symptom_entry":
+        page_record.update(
+            {
+                "customer_symptom": flow["label"],
+                "branch_if_pass": f"Move to {page_metadata['handoff_target']}.",
+                "branch_if_fail": "Stay on the symptom-entry page and save the output before widening.",
+            }
+        )
+    elif page_type == "boundary_confirmation":
+        page_record.update(
+            {
+                "use_this_when": flow["symptom_focus"],
+                "service_name": flow["service_name"],
+                "branch_if_pass": f"Move to {page_metadata['handoff_target']}.",
+                "branch_if_fail": "Stop on this boundary and escalate with the saved evidence.",
+            }
+        )
+    else:
+        page_record.update(
+            {
+                "title": flow["label"],
+                "purpose": flow["symptom_focus"],
+                "branch_if_pass": "Use the guide to prepare escalation or a later boundary check.",
+                "branch_if_fail": "Stop and save the shared layer map before widening.",
+            }
+        )
+    rendering = _page_rendering_metadata(page_record["page_id"])
+    if rendering:
+        page_record["rendering"] = rendering
+    return page_record
+
+
+def _operator_row_for_page_record(page_record: dict[str, Any]) -> dict[str, Any]:
+    customer_symptom = (
+        page_record.get("customer_symptom")
+        or page_record.get("use_this_when")
+        or page_record.get("symptom_focus")
+        or page_record.get("label")
+        or page_record["page_id"]
+    )
+    first_action = page_record.get("first_action", "Start with the first check.")
+    what_to_save = page_record.get("what_to_save", [])
+    return {
+        "row_id": page_record["operator_row_id"],
+        "page_id": page_record["page_id"],
+        "page_type": page_record["page_type"],
+        "page_role": page_record.get("page_role", page_record["page_type"]),
+        "customer_symptom": customer_symptom,
+        "entry_question": page_record.get("entry_question", _page_entry_question(page_record["page_type"])),
+        "first_action": first_action,
+        "next_page_or_next_service": page_record["handoff_target"],
+        "next_page_type": page_record.get("handoff_target_type", ""),
+        "what_to_save": what_to_save,
+        "handoff_target": page_record["handoff_target"],
+        "handoff_target_type": page_record.get("handoff_target_type", ""),
+        "branch_if_pass": page_record.get("branch_if_pass", ""),
+        "branch_if_fail": page_record.get("branch_if_fail", ""),
+        "service_name": page_record.get("service_name", ""),
+        "use_this_when": page_record.get("use_this_when", ""),
+    }
+
+
+def _build_page_records(
+    diagnostic_flows: list[dict[str, Any]],
+    support_domains: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    page_records = [_page_record_for_flow(flow) for flow in diagnostic_flows]
+    flow_index = {flow["flow_id"]: flow for flow in diagnostic_flows}
+
+    ui_flow = flow_index.get("ui-and-proxy")
+    if ui_flow is not None:
+        page_records.append(_build_keycloak_boundary_page_record(ui_flow))
+
+    page_records.append(_build_taxonomy_deep_guide_page_record(support_domains))
+    return page_records
+
+
+def _build_keycloak_boundary_page_record(flow: dict[str, Any]) -> dict[str, Any]:
+    page_metadata = {
+        "page_type": "boundary_confirmation",
+        "page_role": "boundary_confirmation",
+        "page_id": "keycloak-auth",
+        "handoff_target": "asms-runtime-taxonomy",
+        "handoff_target_type": "deep_guide",
+        "route_kind": "boundary_confirmation",
+        "entry_question": "Is this named service or module the reason for the symptom",
+    }
+    return {
+        "page_type": page_metadata["page_type"],
+        "page_role": page_metadata["page_role"],
+        "page_id": page_metadata["page_id"],
+        "label": "ASMS Keycloak auth is down",
+        "service_name": "keycloak",
+        "use_this_when": "Login page opens but sign-in fails.",
+        "entry_question": page_metadata["entry_question"],
+        "branch_if_pass": f"Move to {page_metadata['handoff_target']}.",
+        "branch_if_fail": "Stop on the Keycloak boundary and escalate with the saved evidence.",
+        "checks": [
+            "Confirm keycloak.service is active.",
+            "Confirm listener 8443 is present.",
+            "Confirm the OIDC probe responds.",
+        ],
+        "what_to_save": [
+            "service status",
+            "listener output",
+            "OIDC probe output",
+        ],
+        "handoff_target": page_metadata["handoff_target"],
+        "handoff_target_type": page_metadata["handoff_target_type"],
+        "route_kind": page_metadata["route_kind"],
+        "routing": {
+            "from_page_id": page_metadata["page_id"],
+            "from_page_type": page_metadata["page_type"],
+            "to_page_id": page_metadata["handoff_target"],
+            "to_page_type": page_metadata["handoff_target_type"],
+            "route_kind": page_metadata["route_kind"],
+        },
+        "operator_row_id": f"{page_metadata['page_id']}-operator-row",
+        "source_flow_id": flow["flow_id"],
+        "decision_rule": (
+            "If login still fails after the Keycloak checks, keep the case on the Keycloak boundary before widening into deeper ASMS layers."
+        ),
+        "steps": [
+            {
+                "step_id": "keycloak-auth-step-1",
+                "step_label": "Step 1",
+                "page_type": page_metadata["page_type"],
+                "action": "Check the login page and the Keycloak OIDC path together.",
+                "next_page": page_metadata["handoff_target"],
+                "next_page_type": page_metadata["handoff_target_type"],
+                "handoff_target": page_metadata["handoff_target"],
+                "handoff_target_type": page_metadata["handoff_target_type"],
+                "route_kind": page_metadata["route_kind"],
+            },
+            {
+                "step_id": "keycloak-auth-step-2",
+                "step_label": "Step 2",
+                "page_type": page_metadata["page_type"],
+                "action": "Check Keycloak service state and the local 8443 listener.",
+                "next_page": page_metadata["handoff_target"],
+                "next_page_type": page_metadata["handoff_target_type"],
+                "handoff_target": page_metadata["handoff_target"],
+                "handoff_target_type": page_metadata["handoff_target_type"],
+                "route_kind": page_metadata["route_kind"],
+            },
+            {
+                "step_id": "keycloak-auth-step-3",
+                "step_label": "Step 3",
+                "page_type": page_metadata["page_type"],
+                "action": "Check the Apache proxy path for Keycloak.",
+                "next_page": page_metadata["handoff_target"],
+                "next_page_type": page_metadata["handoff_target_type"],
+                "handoff_target": page_metadata["handoff_target"],
+                "handoff_target_type": page_metadata["handoff_target_type"],
+                "route_kind": page_metadata["route_kind"],
+            },
+        ],
+        "supporting_topics": [
+            "Keycloak auth boundary",
+            "login page",
+            "OIDC probe",
+        ],
+        "rendering": _page_rendering_metadata(page_metadata["page_id"]),
+    }
+
+
+def _build_taxonomy_deep_guide_page_record(support_domains: list[dict[str, Any]]) -> dict[str, Any]:
+    return {
+        "page_type": "deep_guide",
+        "page_role": "deep_guide",
+        "page_id": "asms-runtime-taxonomy",
+        "label": "ASMS Runtime Taxonomy Guide",
+        "purpose": "Explain the shared ASMS-runtime-first layers and how to move from symptom entry into deeper boundary checks.",
+        "entry_question": _page_entry_question("deep_guide"),
+        "branch_if_pass": "Use the guide to prepare escalation or a later boundary check.",
+        "branch_if_fail": "Stop and save the shared layer map before widening.",
+        "supporting_topics": [
+            "ASMS entry and edge",
+            "ASMS authentication and session",
+            "ASMS application services",
+            "Shared runtime and dependencies",
+            "Host integration and operating evidence",
+        ],
+        "handoff_target": "escalate_or_review",
+        "handoff_target_type": _handoff_target_type("escalate_or_review"),
+        "route_kind": "deep_guide",
+        "routing": {
+            "from_page_id": "asms-runtime-taxonomy",
+            "from_page_type": "deep_guide",
+            "to_page_id": "escalate_or_review",
+            "to_page_type": _handoff_target_type("escalate_or_review"),
+            "route_kind": "deep_guide",
+        },
+        "operator_row_id": "asms-runtime-taxonomy-operator-row",
+        "source_domain_ids": [domain["domain_id"] for domain in support_domains],
+        "decision_rule": "Use this guide when you need the shared layer map before returning to a symptom-entry or boundary-confirmation page.",
+        "steps": [
+            {
+                "step_id": "asms-runtime-taxonomy-step-1",
+                "step_label": "Step 1",
+                "page_type": "deep_guide",
+                "action": "Review the ASMS entry, auth, application, shared runtime, and host evidence layers.",
+                "next_page": "escalate_or_review",
+                "next_page_type": _handoff_target_type("escalate_or_review"),
+                "handoff_target": "escalate_or_review",
+                "handoff_target_type": _handoff_target_type("escalate_or_review"),
+                "route_kind": "deep_guide",
+            }
+        ],
+        "what_to_save": [
+            "layer map",
+            "boundary notes",
+            "escalation context",
+        ],
+    }
+
+
+def _build_operator_rows(page_records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [_operator_row_for_page_record(page_record) for page_record in page_records]
+
+
+def _build_page_routes(page_records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    routes = []
+    for page_record in page_records:
+        handoff_target = page_record.get("handoff_target")
+        if not handoff_target:
+            continue
+        routes.append(
+            {
+                "from_page_id": page_record["page_id"],
+                "from_page_type": page_record["page_type"],
+                "to_page_id": handoff_target,
+                "to_page_type": page_record.get("handoff_target_type", ""),
+                "route_kind": page_record.get("route_kind", "boundary_confirmation"),
+                "operator_row_id": page_record.get("operator_row_id"),
+                "source_flow_id": page_record.get("source_flow_id"),
+                "page_role": page_record.get("page_role", page_record["page_type"]),
+                "handoff_target": handoff_target,
+            }
+        )
+    return routes
+
+
+def _playbook_dependency_path(flow_id: str) -> list[dict[str, Any]]:
     if flow_id == "ui-and-proxy":
         return [
             {
                 "step_label": "Step 1",
                 "step_id": "ui-and-proxy-step-1",
-                "label": "Host can support useful work",
-                "details": "Start here. Check storage, inode, memory, OOM, load, and CPU pressure to decide whether the Linux host can still support Apache, Keycloak, Metro, logging, and temp-file writes.",
+                "label": "Host sanity gate for ASMS runtime",
+                "page_type": "symptom_entry",
+                "page_role": "symptom_entry",
+                "handoff_target": "ui-and-proxy",
+                "handoff_target_type": "symptom_entry",
+                "route_kind": "symptom_entry",
+                "details": "Start here with a short sanity gate. Check storage, inode, memory, OOM, load, and CPU pressure to decide whether the Rocky host can still support the ASMS runtime and its supporting services before you deepen the ASMS path itself.",
             },
             {
                 "step_label": "Step 2",
                 "step_id": "ui-and-proxy-step-2",
                 "label": "Apache/HTTPD serving the UI",
+                "page_type": "symptom_entry",
+                "page_role": "symptom_entry",
+                "handoff_target": "ui-and-proxy",
+                "handoff_target_type": "symptom_entry",
+                "route_kind": "symptom_entry",
                 "details": "If the host looks healthy, confirm Apache/HTTPD can answer local UI traffic and still route requests into the auth and app branches.",
             },
             {
                 "step_label": "Step 3",
                 "step_id": "ui-and-proxy-step-3",
-                "label": "Auth handoff can do useful work",
-                "details": "Check whether the legacy auth-trigger hop reaches BusinessFlow as the first named operational checkpoint, then stop cleanly on `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection` before the later Keycloak and FireFlow handoff.",
+                "label": "Core ASMS services and safe restart boundary",
+                "page_type": "symptom_entry",
+                "page_role": "symptom_entry",
+                "handoff_target": "ui-and-proxy",
+                "handoff_target_type": "symptom_entry",
+                "route_kind": "symptom_entry",
+                "details": "If the host and Apache edge look healthy, stay shallow first. Confirm the core ASMS services that support the UI are up, listening, and restartable: `httpd.service`, `keycloak.service`, and `ms-metro.service`. Use restart steps only for the service whose shallow check actually failed or hung.",
             },
             {
                 "step_label": "Step 4",
                 "step_id": "ui-and-proxy-step-4",
-                "label": "App branch can do useful work",
-                "details": "Check whether ms-metro is serving useful app traffic and showing healthy JVM behavior, not only whether port 8080 is open.",
+                "label": "First usable shell and case classification",
+                "page_type": "symptom_entry",
+                "page_role": "symptom_entry",
+                "handoff_target": "keycloak-auth",
+                "handoff_target_type": "boundary_confirmation",
+                "route_kind": "symptom_to_boundary_handoff",
+                "details": "Use the customer-visible shell boundary to decide whether the case is still `GUI down`. If the login page loads or the user reaches a usable home shell, stop treating it as a top-level UI outage and branch into the narrower failing workflow.",
             },
             {
                 "step_label": "Step 5",
                 "step_id": "ui-and-proxy-step-5",
-                "label": "Useful work stops here",
-                "details": "If the host and both branches still look up, use Apache/HTTPD, Keycloak, and Metro clues to find the first clear stop point.",
+                "label": "Escalation-only deeper auth and app correlation",
+                "page_type": "symptom_entry",
+                "page_role": "symptom_entry",
+                "handoff_target": "escalate_or_review",
+                "handoff_target_type": "escalation_stop",
+                "route_kind": "escalation_stop",
+                "details": "Only if the shallow host, Apache, service, and first-shell checks still do not explain the case should you replay the login bootstrap, auth chain, or deeper module seams. Those are escalation paths, not the frontline default.",
             },
         ]
     return []
@@ -2058,7 +2739,7 @@ def derive_command_linux_note(command: dict[str, Any]) -> dict[str, Any] | None:
             "title": "Linux note: browser-useful edge assets",
             "items": [
                 "This checks whether Apache is serving real UI assets, not only the login HTML shell.",
-                "Non-empty CSS and JavaScript bodies are a stronger edge proof because a browser needs them before sign-in can do useful work.",
+                "Non-empty CSS and JavaScript bodies are a stronger edge proof because the browser needs them before the login page can work normally.",
                 "If the HTML is up but these assets fail, stay on Apache and the static UI path before chasing Keycloak or Metro.",
             ],
         }
@@ -2071,6 +2752,26 @@ def derive_command_linux_note(command: dict[str, Any]) -> dict[str, Any] | None:
                 "If `isSSOEnabled` is false here, do not assume Keycloak is the first observed auth hop without stronger request evidence.",
             ],
         }
+    if "compare the first usable shell gate with metro bootstrap clues" in label.lower():
+        return {
+            "title": "Linux note: shell gate versus Metro bootstrap",
+            "items": [
+                "Use one same-minute comparison so the shell gate and the nearby Metro clues are judged on the same reproduced window, not as two unrelated tails.",
+                "If `SuiteLoginSessionValidation.php` appears but `/afa/php/home.php` does not appear in that same shell-transition window, stop on the pre-shell gate before blaming Metro.",
+                "If `/afa/php/home.php` appears but the same-minute Metro bootstrap clues such as `/afa/getStatus`, `config`, `session/extend`, or `config/all/noauth` are missing or unhealthy, stop on the Metro-backed home-shell path.",
+                "If both the shell gate and the same-minute Metro bootstrap clues look healthy, stop calling the case `GUI down` and branch into the later failing workflow instead.",
+            ],
+        }
+    if "check whether the case already crossed into a later content branch" in label.lower():
+        return {
+            "title": "Linux note: branch out of top-level GUI down",
+            "items": [
+                "This is a branch-out classifier, not another first-shell gate.",
+                "Treat `DEVICES` tree refresh by itself as shell-context evidence only; do not promote it to a later workflow branch without a stronger marker.",
+                "If the reproduced minute already shows later content markers such as `GET_REPORTS`, `GET_POLICY_TAB`, `GET_DEVICE_POLICY`, `GET_MONITORING_CHANGES`, or `GET_ANALYSIS_OPTIONS`, stop calling the case `GUI down` and switch to the narrower failing workflow.",
+                "Keep the top-level playbook focused on the first usable shell. Once a later content branch is clearly present, the next support question is no longer whether the GUI is up.",
+            ],
+        }
     if "/afa/php/SuiteLoginSessionValidation.php" in raw:
         return {
             "title": "Linux note: legacy session validation",
@@ -2080,13 +2781,14 @@ def derive_command_linux_note(command: dict[str, Any]) -> dict[str, Any] | None:
                 "If this path lights up before `/BusinessFlow` or `/keycloak/`, treat it as the first observed auth-trigger hop for this journey and keep the later named modules behind it.",
             ],
         }
-    if label.lower().startswith("check the businessflow checkpoint"):
+    if "businessflow checkpoint" in label.lower():
         return {
             "title": "Linux note: BusinessFlow checkpoint",
             "items": [
-                "This checks the first named operational module we have observed in the customer-visible ASMS login path.",
+                "This checks a downstream module that may appear later in the customer-visible ASMS login path.",
                 "Use the shallow check to prove BusinessFlow is answering through Apache, then the deep check to confirm its AFA, AFF, and database links still look healthy.",
-                "If these checks fail after the legacy setup hop worked, stop on the BusinessFlow checkpoint before blaming Keycloak or Metro.",
+                "Do not promote this as the first UI dependency unless the same reproduced journey already reached BusinessFlow.",
+                "If these checks fail after the reproduced login path clearly crossed into BusinessFlow, stop on the BusinessFlow checkpoint before blaming Keycloak or Metro.",
                 "The current staged dependency passes put Postgres, AFA, and AFF closer to this seam than Keycloak or ActiveMQ.",
                 "Those AFA and AFF checks are now concrete local HTTPS session-liveness checks, so the immediate seam is closer to Apache and the local app routes than to raw 8080 or 1989 probes.",
                 "On this lab the AFA side resolves to Apache-served local PHP SOAP at `/afa/php/ws.php`, while the AFF side resolves to Apache `443` -> aff-boot `1989` via `/FireFlow/api/session`.",
@@ -2135,6 +2837,8 @@ def derive_command_linux_note(command: dict[str, Any]) -> dict[str, Any] | None:
             "items": [
                 "Use this after `/FireFlow/api/session` and direct `1989` already match, so the engineer stays on the next readable seam instead of widening into generic FireFlow workflow theory.",
                 "On this lab the closest follow-on seam is the FireFlow `UserSession` bridge: the same minute can show `CommandsDispatcher`, `/FireFlow/api/session`, `UserSessionPersistenceEventHandler.java::requestUserDetails`, `LegacyRestRepository.java::sendRequest`, and then a reused FA session id.",
+                "Keep this step at the service and auth boundary. The deeper localhost cookie-bootstrap and polling traces are archived engineering evidence only and are not part of the frontline support path.",
+                "For a customer session, stop on actionable checks here: prove the AFF session path, confirm Apache to `aff-boot` route ownership, and only use the `UserSession` bridge when the higher-level auth and service checks still disagree.",
                 "Treat a missing `UserSession` bridge for the reproduced window as a real `BusinessFlow -> AFF connection` stop before promoting later FireFlow workflow, config-broadcast, or ActiveMQ checks.",
                 "Keep `aff-boot.service` as supporting route ownership, but do not stop there if the route already looks healthy and the sharper question is whether FireFlow still bridges into the FA session.",
             ],
@@ -2557,8 +3261,8 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
         _playbook_step(
             step_id="ui-and-proxy-step-1",
             step_number=1,
-            action="Check whether the host can support useful work for the ASMS UI path. Confirm storage, inode, memory, load, OOM, and CPU pressure are not already blocking Apache, Keycloak, Metro, log writing, or temp-file work.",
-            why_this_matters="Every major playbook starts with the Linux host. The first question is not whether a number looks high. It is whether current host pressure is already enough to break useful work in the UI system.",
+            action="Check host health before deeper ASMS UI checks. Confirm storage, inode, memory, load, OOM, and CPU pressure are not already blocking Apache, Keycloak, Metro, log writing, or temp-file work.",
+            why_this_matters="A lot of GUI-down cases are still host-pressure problems. If the appliance is already out of space, out of inodes, under memory pressure, or killing processes, deeper UI checks will only blur the real stop point.",
             next_if_pass="If the host looks healthy, move to the Apache edge checks.",
             failure_point="Host health pre-check",
             decision_if_fail="Stop here and treat disk, inode, memory, load, OOM, or CPU pressure on the host as the current failure point.",
@@ -2571,8 +3275,8 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
         _playbook_step(
             step_id="ui-and-proxy-step-2",
             step_number=2,
-            action="Check whether Apache/HTTPD can do useful edge work for the ASMS UI path. Confirm httpd.service is running, 80 and 443 are listening, the suite login route still lands on the Apache-served UI page, representative /algosec-ui/ assets still load through Apache, and the proxy mapping still points toward the auth and app branches.",
-            why_this_matters="After host health, Apache/HTTPD is the system edge for the UI path. The real question is whether the edge can still serve browser-useful login content and hand auth and app requests to the right neighbors, not only whether a process exists.",
+            action="Check Apache/HTTPD and the ASMS login path. Confirm httpd.service is running, 80 and 443 are listening, the suite login route still lands on the Apache-served UI page, representative /algosec-ui/ assets still load through Apache, and the proxy mapping still points toward the auth and app branches.",
+            why_this_matters="Once host health looks okay, the next question is simple: can Apache still serve the login path and hand requests to the right next services. If the login page or route fails here, there is no reason to start with auth or app theory.",
             next_if_pass="If Apache still serves the login entry page, the representative UI assets, and the edge still points toward the auth and app branches, move to the first auth-trigger checks.",
             failure_point="Apache/HTTPD edge or route mapping",
             decision_if_fail="Stop here and treat the Apache edge, local response path, or proxy mapping as the current failure point.",
@@ -2635,7 +3339,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                     label="Check representative /algosec-ui/ assets through Apache",
                     command="for path in /algosec-ui/styles.css /algosec-ui/runtime.js /algosec-ui/main.js; do echo \"=== $path ===\"; curl -k -sS -D - -o /tmp/asms-ui-asset.out \"https://127.0.0.1$path\" | sed -n '1,8p'; printf 'BODY_BYTES '; wc -c < /tmp/asms-ui-asset.out; done",
                     expected_signal="Apache returns HTTP 200 for representative CSS and JS assets and each body is non-empty.",
-                    interpretation="If the login HTML works but these assets fail, return the wrong type, or come back empty, the edge is not yet browser-useful even before Keycloak or Metro are checked.",
+                    interpretation="If the login HTML works but these assets fail, return the wrong type, or come back empty, the login page is still not healthy before Keycloak or Metro are checked.",
                     healthy_markers=["HTTP/1.1 200", "Server: Apache", "Content-Type: text/css", "Content-Type: application/javascript", "BODY_BYTES"],
                     example_output=_example_output(
                         "=== /algosec-ui/styles.css ===",
@@ -2653,7 +3357,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                     label="Check Apache routes for login, auth, and app branches",
                     command="grep -R -n -E 'algosec-ui|algosec/suite|ProxyPass|ProxyPassReverse|keycloak|8443|afa/api/v1|8080' /etc/httpd/conf.d 2>/dev/null",
                     expected_signal="Apache config still shows the login redirect, the UI alias, and the auth and app route mapping needed by the ASMS UI path.",
-                    interpretation="If the expected proxy targets are missing or wrong, the edge can look healthy while routing useful work to the wrong place or nowhere useful.",
+                    interpretation="If the expected proxy targets are missing or wrong, the login path can look healthy while routing requests to the wrong place or nowhere useful.",
                     healthy_markers=["algosec/suite", "algosec-ui", "ProxyPass", "keycloak", "8443", "afa/api/v1", "8080"],
                     example_output=_example_output(
                         '78:RewriteRule "^/algosec/suite/login(.*)$" "/algosec-ui/login" [R]',
@@ -2669,221 +3373,110 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
         _playbook_step(
             step_id="ui-and-proxy-step-3",
             step_number=3,
-            action="Check the first auth-triggering chain after the static shell. On this lab, the browser first touches legacy suite setup and session-validation paths, then reaches BusinessFlow as the first named operational checkpoint. Treat the next named stops there as `BusinessFlow -> AFA connection` and `BusinessFlow -> AFF connection`, then only after that move to the later Keycloak and FireFlow auth handoff before `/afa/php/home.php`.",
-            why_this_matters="The static shell alone does not prove the real auth order. On this lab the first JS-triggered request after the shell was `/seikan/login/setup`, the first session-validation hop was `POST /afa/php/SuiteLoginSessionValidation.php?clean=false`, BusinessFlow first appeared as a redirect and later `POST /BusinessFlow/rest/v1/login`, and FireFlow showed up as auth checks during sign-in plus `FireFlowBridge.js` after the PHP home page loaded. The newer seam work now makes BusinessFlow support-useful instead of generic: `AFA connection` is Apache-served local PHP SOAP on `/afa/php/ws.php`, and `AFF connection` is Apache `443` -> `aff-boot` `1989` through `/FireFlow/api/session`. The next readable stop behind the AFA side is now explicit too: `.ht-fa-history`, then the PHP session file and `.ht-LastActionTime` for the same session id. The AFF side is explicit too: the Apache-fronted and direct `1989` session bodies should match first, then the next runtime seam is the FireFlow `UserSession` bridge and reused FA session id.",
-            next_if_pass="If the first auth-triggering hop, the BusinessFlow child seams (`AFA connection` and `AFF connection`), and the later Keycloak and FireFlow handoff all look healthy, move to the app branch checks.",
-            failure_point="the first auth-triggering hop after the static shell, `BusinessFlow -> AFA connection`, `BusinessFlow -> AFF connection`, or the later Keycloak and FireFlow-backed auth handoff",
-            decision_if_fail="Stop here and treat the first auth-triggering hop you actually reproduced as the current failure point. If the reproduced journey still never leaves the static shell, say the first auth neighbor remains unproven. If it reaches the legacy setup hop but never reaches BusinessFlow, stay on the earlier auth-trigger path. If it reaches BusinessFlow and deep health names `AFA connection` or `AFF connection` as unhealthy, stop at that named child seam instead of keeping the failure point vague. If it reaches BusinessFlow but not the later Keycloak or FireFlow handoff, keep the failure point on the BusinessFlow-to-auth transition instead of skipping ahead.",
+            action="Check the core ASMS services that a frontline support engineer can actually verify and restart during a live customer session. Stay shallow here: `httpd.service`, `keycloak.service`, `ms-metro.service`, their expected listeners, and one service-specific restart only when the matching shallow check fails.",
+            why_this_matters="Most real `ASMS UI is down` cases do not need deep auth-chain forensics. They look more like disk pressure, a stopped service, a half-up service, or an edge path that works only partly. This step keeps the engineer on the shortest practical checks and safe restart boundaries before widening into login-bootstrap, BusinessFlow, FireFlow, or other deeper module theory. On this lab the delegated shallow-service pass showed localhost HTTPS and `/algosec/` healthy, `httpd`, `keycloak`, and related listeners up, and no fresh Apache crash clue. That makes this service-and-restart boundary the right frontline default.",
+            next_if_pass="If the shallow service checks look healthy, move to the first usable shell boundary and decide whether the case is still truly `GUI down`.",
+            failure_point="the first shallow ASMS service or listener that is down, hung, missing, or does not recover cleanly after a targeted restart",
+            decision_if_fail="Stop here and name the failed shallow boundary directly: `httpd.service`, `keycloak.service`, `ms-metro.service`, or the matching listener and route. Do not widen into login-bootstrap or downstream modules until the failed shallow service has either recovered or clearly proven healthy.",
             evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
-                _command_entry(
-                    label="Check the shipped login setup endpoint first",
-                    command="curl -k -sS -D - https://127.0.0.1/seikan/login/setup -o /tmp/asms-login-setup.json && sed -n '1,40p' /tmp/asms-login-setup.json",
-                    expected_signal="The setup endpoint returns JSON that shows the current login mode and whether SSO is enabled on this appliance.",
-                    interpretation="If this endpoint fails, the first auth-trigger path is already broken before credentials are submitted. If it shows `\"isSSOEnabled\" : false`, do not assume Keycloak is the first real auth hop for this journey.",
-                    healthy_markers=["HTTP/1.1 200", "Server: Apache-Coyote", "\"isSSOEnabled\" : false", "\"needsFirstTimeSetup\" : false"],
-                    example_output=_example_output(
-                        "HTTP/1.1 200",
-                        "Server: Apache-Coyote",
-                        '{  "isSSOEnabled" : false,',
-                        '  "needsFirstTimeSetup" : false,',
-                        '  "isAffEnabled" : true,',
-                    ),
-                ),
-                _command_entry(
-                    label="Check the legacy suite session-validation hop with cookies",
-                    command="rm -f /tmp/asms-auth-hop.cookies /tmp/asms-auth-hop.headers /tmp/asms-auth-hop.body; curl -k -sS -L -c /tmp/asms-auth-hop.cookies -b /tmp/asms-auth-hop.cookies -A 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.9' -H 'Upgrade-Insecure-Requests: 1' -D /tmp/asms-auth-hop.headers -o /tmp/asms-auth-hop.body https://127.0.0.1/afa/php/SuiteLoginSessionValidation.php; sed -n '1,20p' /tmp/asms-auth-hop.headers; echo '--- cookies ---'; cat /tmp/asms-auth-hop.cookies 2>/dev/null",
-                    expected_signal="The legacy session-validation path either redirects back to `/algosec-ui/login` and sets a PHP session cookie, or returns a different concrete auth clue for the same reproduced journey.",
-                    interpretation="If this path is the first auth-triggering hop you can actually reproduce, treat it as stronger evidence than a guessed Keycloak-first model. On this lab the browser hit `POST /afa/php/SuiteLoginSessionValidation.php?clean=false` before the later Keycloak and BusinessFlow login activity. If it never appears in the reproduced journey, keep it inferred only.",
-                    healthy_markers=["HTTP/1.1 302", "Set-Cookie: PHPSESSID=", "Location: /algosec-ui/login?last_url=%2Fafa%2Fphp%2FSuiteLoginSessionValidation.php"],
-                    example_output=_example_output(
-                        "HTTP/1.1 302 Found",
-                        "Set-Cookie: PHPSESSID=pp3eujujutk0t1mrmvfd6jflrm; path=/; secure; HttpOnly; SameSite=Lax",
-                        "Location: /algosec-ui/login?last_url=%2Fafa%2Fphp%2FSuiteLoginSessionValidation.php",
-                    ),
-                ),
-                _command_entry(
-                    label="Check the BusinessFlow checkpoint through Apache",
-                    command="curl -k -sS -D - https://127.0.0.1/BusinessFlow/shallow_health_check -o /tmp/asms-bflow-shallow.json && sed -n '1,20p' /tmp/asms-bflow-shallow.json; echo '---'; curl -k -sS -D - https://127.0.0.1/BusinessFlow/deep_health_check -o /tmp/asms-bflow-deep.json && sed -n '1,40p' /tmp/asms-bflow-deep.json",
-                    expected_signal="BusinessFlow health endpoints return HTTP 200 and show that the local BusinessFlow, AFA, and AFF links are still healthy enough to support the login handoff.",
-                    interpretation="Use this after the legacy session-validation hop reaches the first named module. On this lab BusinessFlow appeared before the later Keycloak and FireFlow auth checks, so a failing BusinessFlow health response is a real stop point, not just background noise. The current staged dependency passes also show that the closest readable neighbors behind this seam are Postgres, AFA, and AFF, and that both the AFA and AFF checks are now reduced enough to name directly. `AFA connection` resolves to the local SOAP endpoint `https://localhost/afa/php/ws.php`, which Apache serves as local PHP rather than as a proxy family. `AFF connection` resolves to `https://localhost/FireFlow/api/session`, which Apache immediately proxies to `aff-boot` on 1989. If deep health marks one of those checks unhealthy, stop at `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection` instead of leaving the failure point at generic BusinessFlow. Keep the next stop there before jumping to Keycloak or ActiveMQ.",
-                    healthy_markers=["HTTP/1.1 200", '"status":true', '"name":"ABF connection"', '"name":"AFA connection"', '"name":"AFF connection"'],
-                    example_output=_example_output(
-                        "HTTP/1.1 200 OK",
-                        '{"healthChecks":[{"name":"ABF connection","status":true,"information":"BusinessFlow"}],"status":true}',
-                        "---",
-                        "HTTP/1.1 200 OK",
-                        '{"healthChecks":[{"name":"Postgres connection","status":true,"information":"postgres connection achieved"},{"name":"AFA connection","status":true,"information":"Firewall Analyzer"},{"name":"AFF connection","status":true,"information":"FireFlow"}],"status":true}',
-                    ),
-                ),
-                _command_entry(
-                    label="Check the FireFlow session path behind BusinessFlow AFF connection",
-                    command="sed -n '1,80p' /etc/httpd/conf.d/aff.conf; echo '--- apache https ---'; curl -k -sS -D - -o /tmp/asms-bflow-aff-https.body https://localhost/FireFlow/api/session | sed -n '1,12p'; sed -n '1,12p' /tmp/asms-bflow-aff-https.body; echo '--- direct 1989 ---'; curl -sS -D - -o /tmp/asms-bflow-aff-1989.body http://localhost:1989/aff/api/external/session | sed -n '1,12p'; sed -n '1,12p' /tmp/asms-bflow-aff-1989.body",
-                    expected_signal="Apache `443` shows the `/FireFlow/api` proxy rule, and the HTTPS and direct `1989` session checks return the same invalid-session JSON body.",
-                    interpretation="Use this when BusinessFlow deep health says `AFF connection` is the failing neighbor. On this lab the local HTTPS FireFlow session path does not terminate at Apache and does not pass through Keycloak `8443` first. Apache immediately proxies it to `aff-boot` on `1989`, and the Apache-fronted and direct `1989` probes now match on the same invalid-session JSON body. That keeps the stop point on the Apache-to-aff-boot handoff before later FireFlow workflow or broker theory.",
-                    healthy_markers=["<Location /FireFlow/api>", "ProxyPass http://localhost:1989/aff/api/external", "HTTP/1.1 200", '"valid":false', '"INVALID_SESSION_KEY"'],
-                    example_output=_example_output(
-                        "<Location /FireFlow/api>",
-                        "ProxyPass http://localhost:1989/aff/api/external",
-                        "--- apache https ---",
-                        "HTTP/1.1 200 OK",
-                        '{"valid":false,"message":{"code":"INVALID_SESSION_KEY","message":"The session key provided is invalid"}}',
-                    ),
-                ),
-                _command_entry(
-                    label="Check the FireFlow UserSession bridge after the AFF session path",
-                    command="echo '--- apache session activity ---'; grep -E '/BusinessFlow/deep_health_check|/FireFlow/api/session|/FireFlow/api/session/validate|CommandsDispatcher|extendSession' /var/log/httpd/ssl_access_log | tail -n 20; echo '--- fireflow usersession ---'; grep -E 'UserSessionPersistenceEventHandler|LegacyRestRepository.java::sendRequest|UserSession::getUserSession|isUserSessionValid|Using existing FASessionId|ff-session:' /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /usr/share/fireflow/var/log/fireflow.log.3 /usr/share/fireflow/var/log/fireflow.log.4 /usr/share/fireflow/var/log/fireflow.log.5 /usr/share/fireflow/var/log/fireflow.log.6 /usr/share/fireflow/var/log/fireflow.log.7 2>/dev/null | tail -n 30",
-                    expected_signal="Apache shows the nearby `BusinessFlow` checkpoint plus FireFlow session or dispatcher activity, and FireFlow logs show `requestUserDetails`, `UserSession` validation or lookup, and a reused FA session id.",
-                    interpretation="Use this after the AFF session-path parity check already proved that Apache `443` and direct `1989` land on the same FireFlow session response. On this lab the next readable seam is the FireFlow `UserSession` bridge, not a generic aff-boot or later workflow guess. The sharper read is not only `/FireFlow/api/session`; it is the bridge through `CommandsDispatcher`, `UserSessionPersistenceEventHandler.java::requestUserDetails`, `LegacyRestRepository.java::sendRequest`, and then `UserSession::getUserSession` or `isUserSessionValid` with a reused FA session id. If the reproduced window keeps showing the BusinessFlow or FireFlow side in Apache but never shows those bridge clues, stop at `BusinessFlow -> AFF connection` before promoting config-broadcast, workflow-specific FireFlow, or ActiveMQ checks.",
-                    healthy_markers=["/BusinessFlow/deep_health_check", "/FireFlow/api/session", "CommandsDispatcher", "UserSessionPersistenceEventHandler.java::requestUserDetails", "LegacyRestRepository.java::sendRequest", "UserSession::getUserSession", "isUserSessionValid", "Using existing FASessionId", "ff-session:"],
-                    example_output=_example_output(
-                        "--- apache session activity ---",
-                        '127.0.0.1 - - [27/Mar/2026:06:25:43 -0400] "GET /BusinessFlow/deep_health_check HTTP/1.1" 200 160',
-                        '127.0.0.1 - - [27/Mar/2026:06:25:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070',
-                        '127.0.0.1 - - [27/Mar/2026:06:25:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49',
-                        "--- fireflow usersession ---",
-                        "[UserSessionPersistenceEventHandler.java::requestUserDetails:69] ff-session: bc86040555",
-                        "[LegacyRestRepository.java::sendRequest:57] Calling to perl code [UserSession::getUserSession]",
-                        "[/lib/FireFlow/CDModule/UserSession.pm::_getFASession:178] Using existing FASessionId: 3v5voa7rn9",
-                    ),
-                ),
-                _command_entry(
-                    label="Check the AFA SOAP path behind BusinessFlow AFA connection",
-                    command="grep -n -E 'Alias /afa|Location /afa/external|Location /afa/api/v1|ProxyPass http://localhost:8080/afa/api/v1' /etc/httpd/conf.d/zzz_fa.conf; echo '--- wsdl ---'; curl -k -sS -D - -o /tmp/asms-bflow-afa-wsdl.body https://localhost/afa/php/ws.php?wsdl | sed -n '1,12p'; sed -n '1,12p' /tmp/asms-bflow-afa-wsdl.body; echo '--- soap endpoint ---'; curl -k -sS -D - -o /tmp/asms-bflow-afa-ws.body https://localhost/afa/php/ws.php | sed -n '1,12p'; sed -n '1,12p' /tmp/asms-bflow-afa-ws.body; echo '--- apache log ---'; grep -E '/afa/php/ws.php' /var/log/httpd/ssl_access_log | tail -n 8",
-                    expected_signal="The WSDL endpoint returns `200`, the plain SOAP endpoint returns a SOAP-style fault or bad-request response, and Apache logs recent `/afa/php/ws.php` traffic.",
-                    interpretation="Use this when BusinessFlow deep health says `AFA connection` is the failing neighbor. On this lab the exact AFA session-liveness path is now reduced to `https://localhost/afa/php/ws.php`, which Apache serves as a local PHP SOAP endpoint rather than proxying to another service family. Keep `/afa/api/v1` and `/afa/external` as separate Metro-backed proxy families, and keep `/afa/php/commands.php` separate as the UI command-dispatcher surface rather than the deep-health liveness path.",
-                    healthy_markers=["HTTP/1.1 200", "definitions", "algosec.com/afa-ws", "/afa/php/ws.php"],
-                    example_output=_example_output(
-                        "--- wsdl ---",
-                        "HTTP/1.1 200 OK",
-                        '<definitions targetNamespace="https://www.algosec.com/afa-ws"',
-                        "--- soap endpoint ---",
-                        "HTTP/1.1 400 Bad Request",
-                    ),
-                ),
-                _command_entry(
-                    label="Check the AFA SOAP runtime seam behind ws.php",
-                    command="echo '--- ws history ---'; grep -n 'SOAP Web Service call\\|is_session_alive\\|SESSION:\\|COOKIE:\\|TOKEN:' /data/public_html/algosec/.ht-fa-history | tail -n 12; echo '--- latest session pivot ---'; sid=$(grep 'SOAP Web Service call' /data/public_html/algosec/.ht-fa-history | tail -n 1 | sed -E 's/.*SESSION:([^ ]+).*/\\1/'); echo SID=$sid; ls -l \"/var/lib/php/session/sess_${sid}\" \"/data/public_html/algosec/session-${sid}/work/.ht-LastActionTime\" 2>/dev/null; stat -c '%n mtime=%y' \"/data/public_html/algosec/session-${sid}/work/.ht-LastActionTime\" 2>/dev/null",
-                    expected_signal="The PHP history log shows the latest `ws.php` SOAP request and `is_session_alive` result with a request hash and session id.",
-                    interpretation="Use this after `ws.php` itself looks healthy but the AFA side still seems suspect. On this lab the first useful follow-on seam behind `/afa/php/ws.php` is not Metro and not `display_log_data.cmd.php`; it is `.ht-fa-history`. Apache gives timing for `ws.php`, but `.ht-fa-history` is the usable seam because it carries the request hash, `SESSION / TOKEN / COOKIE` triple, and the `is_session_alive` result. Use the next command to confirm the same session id still has local PHP session backing and pulse-file freshness.",
-                    healthy_markers=["SOAP Web Service call", "is_session_alive - AlgosecSession is still active", "SID=", "sess_", ".ht-LastActionTime"],
-                    example_output=_example_output(
-                        "--- ws history ---",
-                        "9fa86682cbda64048a Info ... SOAP Web Service call -> request POST data:",
-                        "SESSION:vq6d70hh7m9u6a4ssk0ad9sojp --- TOKEN:vq6d70hh7m9u6a4ssk0ad9sojp --- COOKIE:vq6d70hh7m9u6a4ssk0ad9sojp",
-                        "9fa86682cbda64048a Info ... is_session_alive - AlgosecSession is still active.",
-                        "SID=vq6d70hh7m9u6a4ssk0ad9sojp",
-                    ),
-                ),
-                _command_entry(
-                    label="Check the AFA session backing files after ws.php",
-                    command="sid=$(grep 'SOAP Web Service call' /data/public_html/algosec/.ht-fa-history | tail -n 1 | sed -E 's/.*SESSION:([^ ]+).*/\\1/'); echo SID=$sid; stat -c '%n size=%s mtime=%y' \"/var/lib/php/session/sess_${sid}\" \"/data/public_html/algosec/session-${sid}/work/.ht-LastActionTime\" 2>/dev/null; echo '--- latest pulse ---'; tail -n 5 \"/data/public_html/algosec/session-${sid}/work/.ht-LastActionTime\" 2>/dev/null",
-                    expected_signal="The same session id from `.ht-fa-history` still has a local PHP session file and a recent `.ht-LastActionTime` pulse-file update.",
-                    interpretation="Use this when `.ht-fa-history` shows a real `is_session_alive` request but BusinessFlow still reports `AFA connection` unhealthy or ambiguous. If the same session id has no PHP session file or no pulse-file freshness, stop at the `BusinessFlow -> AFA connection` seam before guessing that Metro or a later GUI workflow is the problem.",
-                    healthy_markers=["SID=", "sess_", ".ht-LastActionTime", "mtime="],
-                    example_output=_example_output(
-                        "SID=vq6d70hh7m9u6a4ssk0ad9sojp",
-                        "/var/lib/php/session/sess_vq6d70hh7m9u6a4ssk0ad9sojp size=814 mtime=2026-03-26 16:09:07.000000000 -0400",
-                        "/data/public_html/algosec/session-vq6d70hh7m9u6a4ssk0ad9sojp/work/.ht-LastActionTime size=11 mtime=2026-03-26 16:09:08.000000000 -0400",
-                    ),
-                ),
-                _command_entry(
-                    label="Check the FireFlow auth-coupled signals",
-                    command="curl -k -sS -D - 'https://127.0.0.1/FireFlow/SelfService/CheckAuthentication/?login=1' -o /tmp/asms-fireflow-auth.body && sed -n '1,20p' /tmp/asms-fireflow-auth.body; echo '--- apache ---'; grep -E '/FireFlow/SelfService/CheckAuthentication/|/FireFlow/XML/CommandsDispatcher|FireFlowBridge.js' /var/log/httpd/ssl_access_log | tail -n 20",
-                    expected_signal="FireFlow auth checks return HTTP 200 and recent Apache lines show CheckAuthentication, CommandsDispatcher, or FireFlowBridge activity in the same customer-visible login minute.",
-                    interpretation="Keep FireFlow inside the same auth handoff for now. On this lab it did not show up as the first named module, but it did appear during sign-in and immediately after `/afa/php/home.php`, which makes it a support-useful checkpoint when the browser reaches home and then stalls. The current staged dependency passes say the closest readable neighbors for this seam are Apache proxying, aff-boot on 1989, and database-backed FireFlow runtime behavior. ActiveMQ is now a proven later supporting dependency for this seam because the live aff-boot Java process holds broker connections on 61616, but the reproduced login-handoff minute still showed auth, session, and REST activity rather than broker-side traffic. Keep ActiveMQ behind the closer FireFlow checkpoints unless the failing minute itself points to JMS or queue activity.",
-                    healthy_markers=["HTTP/1.1 200", "Set-Cookie: RT_SID_FireFlow.443=", "/FireFlow/SelfService/CheckAuthentication/", "FireFlowBridge.js"],
-                    example_output=_example_output(
-                        "HTTP/1.1 200 OK",
-                        "Set-Cookie: RT_SID_FireFlow.443=fd55857e44bdd59360ee3c2c12e7be45; path=/; secure; HttpOnly; SameSite=Lax",
-                        "--- apache ---",
-                        '127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1" 200 309',
-                        '127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] "GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1" 200 484',
-                    ),
-                ),
-                _command_entry(
-                    label="Correlate the authenticated auth handoff in Apache",
-                    command="grep -E '/seikan/login/setup|/afa/php/SuiteLoginSessionValidation.php|/BusinessFlow($|/|/rest/v1/login)|/FireFlow/SelfService/CheckAuthentication/|/FireFlow/XML/CommandsDispatcher|FireFlowBridge.js|/keycloak/|/afa/php/home.php' /var/log/httpd/ssl_access_log | tail -n 120",
-                    expected_signal="Recent Apache lines show whether the reproduced login moved from the legacy setup and session-validation paths into BusinessFlow as the first named module, then into Keycloak and FireFlow auth checks, and finally into the PHP home handoff.",
-                    interpretation="Use this to keep the auth model honest. On this lab BusinessFlow redirects appeared before submit, Keycloak token paths appeared after the legacy auth-trigger hop, and FireFlow auth checks plus `FireFlowBridge.js` showed up later around the PHP home handoff. If BusinessFlow never lights up for the reproduced minute, keep the failure point earlier. If BusinessFlow lights up but the later Keycloak or FireFlow signals do not, keep the stop point on that later handoff instead of skipping to Metro. The current staged seam passes also say the closest readable neighbors behind BusinessFlow are Postgres plus two named local HTTPS session-liveness surfaces: AFA on Apache `443` -> local PHP SOAP `/afa/php/ws.php`, and FireFlow on Apache `443` -> `aff-boot` `1989` via `/FireFlow/api/session`. The closest readable neighbors behind FireFlow remain Apache proxying, aff-boot, and database-backed runtime behavior with ActiveMQ later behind them.",
-                    healthy_markers=["/seikan/login/setup", "/afa/php/SuiteLoginSessionValidation.php", "/BusinessFlow/login", "/BusinessFlow/rest/v1/login", "/keycloak/", "/FireFlow/SelfService/CheckAuthentication/", "/afa/php/home.php"],
-                    example_output=_example_output(
-                        '127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] "GET /seikan/login/setup HTTP/1.1" 200 217',
-                        '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "GET /BusinessFlow/login HTTP/1.1" 302 30',
-                        '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65',
-                        '127.0.0.1 - - [25/Mar/2026:16:09:02 -0400] "POST //keycloak/realms/master/protocol/openid-connect/token? HTTP/1.1" 200 1562',
-                        '127.0.0.1 - - [25/Mar/2026:16:09:06 -0400] "POST /BusinessFlow/rest/v1/login HTTP/1.1" 200 49',
-                        '127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /FireFlow/SelfService/CheckAuthentication/?login=1 HTTP/1.1" 200 309',
-                        '127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] "GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1" 200 484',
-                    ),
-                ),
                 _service_status_command(
-                    "keycloak.service",
-                    interpretation="If the reproduced journey lights up `/keycloak/` and this service is not running, the auth handoff is failing at Keycloak. On this lab `/keycloak/` appeared after the legacy setup hop and BusinessFlow checkpoint, not as the first post-shell request. If the journey has not reached `/keycloak/` yet, keep Keycloak as a reachable later auth neighbor, not the first proven hop.",
+                    "httpd.service",
+                    interpretation="If Apache is not active, the UI outage already has a clear owner. Restart Apache first, then retest the login page before you widen scope.",
                     healthy_markers=[
                         "Loaded: loaded",
                         "Active: active (running)",
                         "Main PID:",
-                        "algosec_keycloak_start.sh",
+                        "/usr/sbin/httpd",
                     ],
                     example_output=_example_output(
-                        "● keycloak.service - The authentication and authorization server",
-                        "   Loaded: loaded (/usr/lib/systemd/system/keycloak.service; enabled; vendor preset: disabled)",
-                        "   Active: active (running) since Sat 2026-03-07 13:38:32 EST; 2 weeks 2 days ago",
-                        " Main PID: 3758 (algosec_keycloa)",
+                        "● httpd.service - The Apache HTTP Server",
+                        "   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)",
+                        "   Active: active (running) since Thu 2026-03-26 18:42:56 EDT; 17h ago",
+                        " Main PID: 1018 (/usr/sbin/httpd)",
+                    ),
+                ),
+                _service_status_command(
+                    "keycloak.service",
+                    interpretation="Use this as a shallow auth-service presence check only. If the login page loads but auth seems down and Keycloak is not active, stop here before deeper bootstrap tracing.",
+                    healthy_markers=[
+                        "Loaded: loaded",
+                        "Active: active (running)",
+                        "Main PID:",
+                        "java",
+                    ],
+                    example_output=_example_output(
+                        "● keycloak.service - Keycloak Service",
+                        "   Loaded: loaded (/etc/systemd/system/keycloak.service; enabled; vendor preset: disabled)",
+                        "   Active: active (running) since Thu 2026-03-26 18:43:11 EDT; 17h ago",
+                        " Main PID: 2745 (java)",
+                    ),
+                ),
+                _service_status_command(
+                    "ms-metro.service",
+                    interpretation="If the login page is up but the app shell is blank or only partly usable, Metro is the first app-side shallow check and restart boundary.",
+                    healthy_markers=[
+                        "Loaded: loaded",
+                        "Active: active (running)",
+                        "Main PID:",
+                        "java",
+                    ],
+                    example_output=_example_output(
+                        "● ms-metro.service - ms-metro Application Container",
+                        "   Loaded: loaded (/etc/systemd/system/ms-metro.service; disabled; vendor preset: disabled)",
+                        "   Active: active (running) since Sat 2026-03-07 13:39:32 EST; 2 weeks 2 days ago",
+                        " Main PID: 6012 (java)",
                     ),
                 ),
                 _command_entry(
-                    label="Check Keycloak ports",
-                    command="ss -lntp | grep -E ':(8443|9000)\\b'",
-                    expected_signal="Ports 8443 and 9000 are listening for Keycloak.",
-                    interpretation="If 8443 or 9000 is missing, focus on Keycloak startup, bind, or health-endpoint problems.",
-                    healthy_markers=["LISTEN", ":8443", ":9000", "java"],
+                    label="Check the wrapper and listener surfaces once",
+                    command="systemctl status algosec-ms.service --no-pager; echo '--- listeners ---'; ss -lntp | grep -E ':(80|443|8080|8443)\\b'",
+                    expected_signal="The wrapper unit is present, and the expected shallow listeners remain present on `80`, `443`, `8080`, and `8443`.",
+                    interpretation="On this appliance `algosec-ms.service` can be `active (exited)` and still be healthy as a wrapper. The real value here is confirming the main shallow listeners are still present before you blame deeper auth or app logic.",
+                    healthy_markers=["Active: active (exited)", "LISTEN", ":80", ":443", ":8080", ":8443"],
                     example_output=_example_output(
-                        'LISTEN 0 16384 0.0.0.0:8443 0.0.0.0:* users:(("java",pid=5129,fd=363))',
-                        'LISTEN 0 16384 127.0.0.1:9000 0.0.0.0:* users:(("java",pid=5129,fd=412))',
+                        "● algosec-ms.service - AlgoSec Platform Wrapper",
+                        "   Active: active (exited)",
+                        "--- listeners ---",
+                        'LISTEN 0 511 0.0.0.0:443 0.0.0.0:* users:(("/usr/sbin/httpd",pid=1018,fd=4),...)',
+                        'LISTEN 0 100 0.0.0.0:8080 0.0.0.0:* users:(("java",pid=6012,fd=44))',
+                        'LISTEN 0 100 0.0.0.0:8443 0.0.0.0:* users:(("java",pid=2745,fd=91))',
                     ),
                 ),
                 _command_entry(
-                    label="Check Keycloak readiness",
-                    command="curl -k https://127.0.0.1:9000/health/ready --max-time 10",
-                    expected_signal='The JSON response shows `"status": "UP"`.',
-                    interpretation="If the readiness endpoint is not UP, Keycloak may be running but not healthy enough to serve login traffic.",
-                    healthy_markers=['"status": "UP"', "Keycloak database connections async health check", '"status": "UP"'],
+                    label="Restart Apache only if the UI edge check failed",
+                    command="sudo systemctl restart httpd.service && sleep 5 && systemctl is-active httpd.service && curl -k -sS -I https://127.0.0.1/algosec-ui/login | sed -n '1,8p'",
+                    expected_signal="Apache returns to `active`, and the login page immediately answers again through localhost HTTPS.",
+                    interpretation="Use this only when the earlier Apache route or status checks failed. Do not spray restarts across other services if Apache already looks healthy.",
+                    healthy_markers=["active", "HTTP/1.1 200", "Server: Apache"],
                     example_output=_example_output(
-                        "{",
-                        '    "status": "UP",',
-                        '    "checks": [',
-                        '        {',
-                        '            "name": "Keycloak database connections async health check",',
-                        '            "status": "UP"',
-                        "        }",
-                        "    ]",
-                        "}",
-                    ),
-                ),
-                _command_entry(
-                    label="Check Keycloak OIDC path",
-                    command="curl -k -I https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration --max-time 10",
-                    expected_signal="The local Keycloak OIDC path returns HTTP 200.",
-                    interpretation="If the OIDC path fails, Keycloak may be up but not reachable through the expected local path. If it works but your reproduced journey never hits `/keycloak/`, keep Keycloak as reachable and inferred, not observed as the first post-shell hop.",
-                    healthy_markers=["HTTP/1.1 200", "Server: Apache", "application/json"],
-                    example_output=_example_output(
+                        "active",
                         "HTTP/1.1 200 OK",
                         "Server: Apache",
-                        "Content-Type: application/json;charset=UTF-8",
                     ),
                 ),
                 _command_entry(
-                    label="Check Keycloak recent auth and startup clues",
-                    command="tail -n 80 /var/log/keycloak/keycloak.log",
-                    expected_signal="Recent lines show healthy startup or a clear auth, database, TLS, or hostname clue close to the current login handoff.",
-                    interpretation="Use this when Keycloak status, ports, or readiness still leave the auth branch ambiguous. This is the fastest service-specific follow-up for the Keycloak handoff because it can expose startup, database, TLS, or hostname problems without dropping into a broader log sweep first.",
-                    healthy_markers=["started", "Listening on", "https://0.0.0.0:8443", "hostname:"],
+                    label="Restart Keycloak only if the login page loads but auth service looks down",
+                    command="sudo systemctl restart keycloak.service && sleep 10 && systemctl is-active keycloak.service && ss -lntp | grep -E ':8443\\b'",
+                    expected_signal="Keycloak returns to `active`, and the auth listener on `8443` is present again.",
+                    interpretation="Use this only when the customer can reach the login page but the auth service itself is down or hung. If the login page is not loading at all, Apache is still the earlier stop point.",
+                    healthy_markers=["active", "LISTEN", ":8443"],
                     example_output=_example_output(
-                        "2026-03-25 16:08:51,337 INFO  [org.keycloak.services] (main) KC-SERVICES0009: Added user 'admin' to realm 'master'",
-                        "2026-03-25 16:08:54,602 INFO  [org.keycloak.quarkus.runtime.hostname.DefaultHostnameProvider] (main) Hostname settings: Base URL: <unset>, Hostname: localhost, Strict HTTPS: false",
-                        "2026-03-25 16:08:56,149 INFO  [io.quarkus] (main) Keycloak 24.0.4 on JVM (powered by Quarkus 3.8.3) started in 18.221s. Listening on: https://0.0.0.0:8443",
+                        "active",
+                        'LISTEN 0 100 0.0.0.0:8443 0.0.0.0:* users:(("java",pid=2745,fd=91))',
+                    ),
+                ),
+                _command_entry(
+                    label="Restart Metro only if the UI reaches the app shell but it is blank or partly loaded",
+                    command="sudo systemctl restart ms-metro.service && sleep 10 && systemctl is-active ms-metro.service && curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10",
+                    expected_signal='Metro returns to `active`, and the heartbeat shows `"isAlive" : true`.',
+                    interpretation="Use this only after the case has clearly crossed beyond the login page and the app shell still looks broken. Do not restart Metro first for a pure edge outage.",
+                    healthy_markers=["active", '"isAlive" : true'],
+                    example_output=_example_output(
+                        "active",
+                        "{",
+                        '  "isAlive" : true',
+                        "}",
                     ),
                 ),
             ),
@@ -2891,11 +3484,11 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
         _playbook_step(
             step_id="ui-and-proxy-step-4",
             step_number=4,
-            action="Check whether the app branch reaches a first usable home shell after the authenticated handoff. After login reaches `/afa/php/home.php`, treat the rendered home page itself plus immediate shell hydration as the main signal, and use the nearby Metro refresh traffic only as supporting clues before assuming a broader subsystem failure.",
-            why_this_matters="The app branch can fail even when Apache/HTTPD and the auth chain look healthy. On this lab the first post-home activity was not a blank shell or a broad subsystem fan-out. The landing shell first hydrated a summary dashboard and issue-center path through `dynamic.js.php`, `DISPLAY_ISSUES_CENTER`, `GET_DASHBOARDS_DATA`, `GET_CHART_FOR_DASHBOARD_MULTIPLE`, `GET_RISK_PROFILES_OPTIONS`, and the supporting tree routes before deeper operator actions were taken. The earliest nearby follow-ups after `/afa/php/home.php` still included `FireFlowBridge.js`, `logo.php`, `GET /afa/getStatus`, and the same-minute Metro `config`, `session/extend`, and `license` routes tied to the fresh login session, but those are supporting clues around the first usable shell rather than proven first-class gates. In a bounded client-side check, blocking `FireFlowBridge.js` did not stop the home page from rendering with normal menu and summary text. A later Apache seam mutation denied `/afa/external` and still left a fully usable `/afa/php/home.php` shell, and a second top-level Apache mutation on `/afa/api/v1` also left a fully usable home shell and still did not cleanly own the fresh-session `config` and `session/extend` paths. The first clean deeper operator action isolated so far is `Analyze`, which mapped to `GET_ANALYSIS_OPTIONS` after the shell and device context were already visible, but the real `Start Analysis` step crosses into `cmd=ANALYZE` and `RunFaServer(...)`, so it should be treated as a later workflow branch rather than as an initial home-shell gate. The device-context tabs are cohering into the same later-branch class: `POLICY` posts `GET_POLICY_TAB` and `GET_DEVICE_POLICY`, `CHANGES` uses `GET_MONITORING_CHANGES`, and `REPORTS` uses `GET_REPORTS`. Carry forward the operator classification rule too: once the customer can navigate the devices tree, open `REPORTS` and view a report, and optionally reach the `Analyze` surface, stop classifying the case as `GUI down` and branch into the more specific failing workflow instead.",
-            next_if_pass="If the app branch reaches a usable shell, decide whether the case is still `GUI down` or has crossed into a narrower workflow branch.",
-            failure_point="the first usable home shell or its immediate Metro-supported hydration path",
-            decision_if_fail="Stop here only when the rendered home page itself is not meaningfully usable or when the supporting clues line up with the same stop point. If `/afa/php/home.php` renders the normal home view, treat `FireFlowBridge.js` and the light Metro refresh calls as supporting evidence, not the sole failure gate. Once the customer can navigate the devices tree and open `REPORTS` to view a report, stop calling the case `GUI down`; reaching `Analyze` is optional extra confirmation, not a required boundary. If the page renders but Metro heartbeat and post-home refresh traffic are absent or unhealthy, stay on the Metro home-refresh path instead of jumping to broader subsystem guesses.",
+            action="Check whether ASMS opens after login once the edge and core services look healthy. Use the rendered login or home shell to decide whether this is still `GUI down` or whether the user has already crossed into a narrower app workflow problem.",
+            why_this_matters="The support question here is whether the case is still a top-level UI outage. If the customer can already reach `/afa/php/home.php` and navigate the devices tree or open `REPORTS`, the case needs a narrower label even if some later workflow still fails.",
+            next_if_pass="If the customer reaches a usable shell, branch out of `GUI down` into the narrower failing workflow.",
+            failure_point="the first customer-visible usable shell boundary or the nearest Metro-backed home-shell support surface",
+            decision_if_fail="Stop here only when the login or home shell itself is not meaningfully usable. If the page renders and the user can navigate the basic shell, stop calling it `GUI down` and move to the narrower workflow playbook instead. If the shell is blank or partly loaded and Metro heartbeat or nearby app traffic is unhealthy, keep the stop point on the Metro-backed shell path before widening further.",
             evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
                 _service_status_command(
@@ -2925,6 +3518,24 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                     ),
                 ),
                 _command_entry(
+                    label="Compare the first usable shell gate with Metro bootstrap clues",
+                    command="minute=$(grep -E '/afa/php/SuiteLoginSessionValidation.php|/afa/php/home.php|dynamic\\.js\\.php|/afa/php/home.js' /var/log/httpd/ssl_access_log | tail -n 1 | sed -E 's/.*\\[([^]]{17})[^]]*\\].*/\\1/'); printf 'WINDOW=%s\\n' \"$minute\"; printf '=== apache shell minute ===\\n'; grep \"$minute\" /var/log/httpd/ssl_access_log | grep -E '/afa/php/SuiteLoginSessionValidation.php|/afa/php/home.php|dynamic\\.js\\.php|/afa/php/home.js' | tail -n 20; printf '=== metro same minute ===\\n'; grep \"$minute\" /data/ms-metro/logs/localhost_access_log.txt | grep -E '/afa/getStatus|/afa/api/v1/config\\?|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth' | tail -n 20",
+                    expected_signal="The same shell-transition minute shows `SuiteLoginSessionValidation.php -> /afa/php/home.php -> dynamic.js.php/home.js` on the Apache side and the nearest Metro bootstrap clues such as `GET /afa/getStatus`, `GET /afa/api/v1/config?...`, `POST /afa/api/v1/session/extend?...`, or `GET /afa/api/v1/config/all/noauth?...` on the Metro side.",
+                    interpretation="Use this to keep the stop point narrow and same-window. If `SuiteLoginSessionValidation.php` appears but `/afa/php/home.php` does not appear in that same minute, stop on the pre-shell gate before blaming Metro. If `/afa/php/home.php` appears but the same-minute Metro bootstrap clues are missing or failing, stop on the Metro-backed home-shell path. If both sides look healthy in the same shell-transition minute, stop calling the case `GUI down` and branch into the later failing workflow instead. This is still a comparison check, not proof that every nearby Metro route is a hard first-shell dependency.",
+                    healthy_markers=["WINDOW=", "/afa/php/SuiteLoginSessionValidation.php", "/afa/php/home.php", "dynamic.js.php", "GET /afa/getStatus", "/afa/api/v1/session/extend", "/afa/api/v1/config/all/noauth"],
+                    example_output=_example_output(
+                        "WINDOW=25/Mar/2026:17:29",
+                        "=== apache shell minute ===",
+                        '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35713',
+                        '127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] "GET /afa/php/JSlib1768164240/dynamic.js.php?sid=abc123fresh HTTP/1.1" 200 23846',
+                        "=== metro same minute ===",
+                        '127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-7] "POST /afa/api/v1/session/extend?session=abc123fresh&domain=0 HTTP/1.1" 200 - 246 33410 -',
+                        '127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 812 1543 33411 -',
+                        '127.0.0.1 [25/Mar/2026:17:29:43 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/getStatus HTTP/1.1" 200 33 506 33738 -',
+                    ),
+                ),
+                _command_entry(
                     label="Check post-home shell and dashboard hydration traffic",
                     command="printf '=== apache ===\\n'; grep -E '/afa/php/home.php|dynamic\\.js\\.php|/afa/php/commands.php\\?cmd=DISPLAY_ISSUES_CENTER|/fa/tree/create|/afa/php/prod_stat.php|/fa/tree/get_update|FireFlowBridge.js|/afa/php/logo.php|/afa/api/v1/license|/ms-watchdog/v1/api/issues-center/issues/countAll' /var/log/httpd/ssl_access_log | tail -n 60; printf '=== metro ===\\n'; grep -E '/afa/getStatus|/afa/api/v1/bridge/refresh|/afa/api/v1/license|/afa/api/v1/config\\?|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth' /data/ms-metro/logs/localhost_access_log.txt | tail -n 30",
                     expected_signal="Recent lines show `/afa/php/home.php`, the first dashboard-hydration routes such as `dynamic.js.php`, `DISPLAY_ISSUES_CENTER`, `/fa/tree/create`, `/afa/php/prod_stat.php`, or `/fa/tree/get_update`, and the nearby Metro clues such as `GET /afa/getStatus`, `GET /afa/api/v1/license`, or the same-minute `config` and `session/extend` requests that surround the first usable shell.",
@@ -2946,6 +3557,20 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                         '127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 812 1543 33411 -',
                         '127.0.0.1 [25/Mar/2026:17:29:43 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/getStatus HTTP/1.1" 200 33 506 33738 -',
                         '127.0.0.1 [25/Mar/2026:17:29:44 -0400] [http-nio-0.0.0.0-8080-exec-8] "POST /afa/api/v1/bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 200 - 1739954 33412 -',
+                    ),
+                ),
+                _command_entry(
+                    label="Check whether the case already crossed into a later content branch",
+                    command="grep -E '/fa/tree/create|/afa/php/commands.php\\?cmd=(GET_REPORTS|GET_POLICY_TAB|GET_DEVICE_POLICY|GET_MONITORING_CHANGES|GET_ANALYSIS_OPTIONS|GET_ANALYZE_DATA|ANALYZE)' /var/log/httpd/ssl_access_log | tail -n 40",
+                    expected_signal="Recent Apache lines show the device tree refresh plus any later content-branch markers such as `GET_REPORTS`, `GET_POLICY_TAB`, `GET_DEVICE_POLICY`, `GET_MONITORING_CHANGES`, or `GET_ANALYSIS_OPTIONS`.",
+                    interpretation="Use this as the branch-out decision after the first usable shell is already visible. `tree/create` by itself is still only shell-context evidence, but once a later content marker like `GET_REPORTS`, `GET_POLICY_TAB`, `GET_MONITORING_CHANGES`, or `GET_ANALYSIS_OPTIONS` appears, stop treating the case as top-level `GUI down` and switch to the narrower failing workflow instead. Keep `cmd=ANALYZE` as a later branch than the dialog-opening `GET_ANALYSIS_OPTIONS` step.",
+                    healthy_markers=["/fa/tree/create", "GET_REPORTS", "GET_POLICY_TAB", "GET_DEVICE_POLICY", "GET_MONITORING_CHANGES", "GET_ANALYSIS_OPTIONS"],
+                    example_output=_example_output(
+                        '127.0.0.1 - - [26/Mar/2026:05:13:15 -0400] "POST /fa/tree/create HTTP/1.1" 200 4211',
+                        '127.0.0.1 - - [26/Mar/2026:05:16:42 -0400] "GET /afa/php/commands.php?cmd=GET_REPORTS HTTP/1.1" 200 812',
+                        '127.0.0.1 - - [26/Mar/2026:05:18:09 -0400] "GET /afa/php/commands.php?cmd=GET_POLICY_TAB HTTP/1.1" 200 2213',
+                        '127.0.0.1 - - [26/Mar/2026:05:18:09 -0400] "GET /afa/php/commands.php?cmd=GET_DEVICE_POLICY HTTP/1.1" 200 744',
+                        '127.0.0.1 - - [26/Mar/2026:05:20:41 -0400] "GET /afa/php/commands.php?cmd=GET_ANALYSIS_OPTIONS HTTP/1.1" 200 1304',
                     ),
                 ),
                 _command_entry(
@@ -2986,11 +3611,11 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
         _playbook_step(
             step_id="ui-and-proxy-step-5",
             step_number=5,
-            action="If Step 3 or Step 4 still leaves the stop point unclear, use Apache/HTTPD, BusinessFlow, Keycloak, FireFlow, and Metro clues to name the first clear stop point and branch into the narrower workflow from there.",
-            why_this_matters="Only move to logs after the host, edge, auth branch, and app branch checks. At this point the goal is to name the first clear stop point, not to read every log from the bottom. The main value now is deciding whether the engineer should stay on the auth branch, stop at `BusinessFlow -> AFA connection` or `BusinessFlow -> AFF connection`, stay on the later Keycloak or FireFlow handoff, or leave `GUI down` and follow a narrower post-home workflow instead.",
-            next_if_pass="If the stop point is still unclear, move to a narrower service workflow or escalation path.",
-            failure_point="the first clear stop point in the auth branch, BusinessFlow child seam, later auth handoff, or app branch",
-            decision_if_fail="Stop here and treat the first clear error source as the current failure point. Prefer the closest named stop you can defend from the reproduced journey: early auth-trigger hop, `BusinessFlow -> AFA connection`, `BusinessFlow -> AFF connection`, later Keycloak or FireFlow handoff, or the first usable home-shell path. If the customer has already crossed the devices-tree-plus-`REPORTS` boundary, branch out of `GUI down` instead of keeping the case at this top-level playbook.",
+            action="If the shallow host, Apache, service, and first-shell checks still leave the stop point unclear, use one bounded reproduced journey plus logs to decide whether the deeper issue sits in login bootstrap, auth, or a later app path.",
+            why_this_matters="This is escalation work, not the frontline default. Only move here after the simpler service-up, route-up, and shell-usable questions have failed to explain the case. The goal is to name the first deeper stop point without turning every normal support session into a code-path excavation.",
+            next_if_pass="If the stop point is still unclear, move to the narrower escalation path that matches the reproduced journey.",
+            failure_point="the first deeper auth, bootstrap, or app seam that the reproduced journey actually proves",
+            decision_if_fail="Stop here and name the closest deeper seam you can defend from the reproduced journey. Keep BusinessFlow, FireFlow, AFA, and later auth hops conditional on what the reproduced path actually reached. If the customer has already crossed the devices-tree-plus-`REPORTS` boundary, branch out of `GUI down` instead of keeping the case at this top-level playbook.",
             evidence_to_collect=evidence[2:4],
             recommended_commands=_command_bundle(
                 _command_entry(
@@ -3010,8 +3635,8 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                 _command_entry(
                     label="Correlate the reproduced minute in Apache access logs",
                     command="grep -E '/algosec/suite/login|/algosec-ui/login|/algosec-ui/(styles.css|runtime.js|main.js)|/afa/php/commands.php\\?cmd=IS_SESSION_ACTIVE|/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|/seikan/login/setup|/aff/api/internal/noauth/getStatus|/BusinessFlow|/afa/php/SuiteLoginSessionValidation.php|/keycloak/|/FireFlow/SelfService/CheckAuthentication/|/afa/php/home.php|/afa/api/v1' /var/log/httpd/ssl_access_log | tail -n 120",
-                    expected_signal="Recent Apache access lines show the same reproduced journey and make it clear whether the request stopped at the shell, moved through the legacy setup and session-validation paths, reached BusinessFlow as the first named module, and only then handed off through Keycloak, FireFlow, the PHP home page, and Metro-backed app paths.",
-                    interpretation="If the reproduced journey only shows /algosec/suite/login and /algosec-ui/ lines, the first real downstream hop is still unproven. If `/seikan/login/setup` appears first, treat it as the first observed JS-triggered post-shell request. If `/afa/php/SuiteLoginSessionValidation.php` is the first auth-triggering line, keep the failure point there unless later BusinessFlow, Keycloak, or FireFlow lines appear. If `/BusinessFlow` lights up but `/afa/api/v1` only appears after `/afa/php/home.php`, treat Metro as a later post-login app branch, not the first auth hop.",
+                    expected_signal="Recent Apache access lines show the same reproduced journey and make it clear whether the request stopped at the shell, moved through the legacy setup and session-validation paths, and only later reached downstream modules such as BusinessFlow, Keycloak, FireFlow, the PHP home page, and Metro-backed app paths.",
+                    interpretation="If the reproduced journey only shows /algosec/suite/login and /algosec-ui/ lines, the first real downstream hop is still unproven. If `/seikan/login/setup` appears first, treat it as the first observed JS-triggered post-shell request. If `/afa/php/SuiteLoginSessionValidation.php` is the first auth-triggering line, keep the failure point there unless later module lines actually appear in the same journey. If `/BusinessFlow` lights up but `/afa/api/v1` only appears after `/afa/php/home.php`, treat Metro as a later post-login app branch, not the first auth hop.",
                     healthy_markers=["/algosec/suite/login", "/algosec-ui/login", " 200 ", " 302 "],
                     example_output=_example_output(
                         '127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] "GET /algosec-ui/login HTTP/1.1" 200 13345',
@@ -3051,7 +3676,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
 def _core_aff_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
     evidence = flow["evidence_to_collect_next"]
     aff_path = _flow_path_checkpoint(flow, "aff-boot.service")
-    aff_config = (aff_path or {}).get("config_checkpoints", ["/etc/httpd/conf.d/aff.conf"])[0]
+    aff_config = _first_or((aff_path or {}).get("config_checkpoints") or [], "/etc/httpd/conf.d/aff.conf")
     aff_ports = (aff_path or {}).get("listener_ports", ["1989"])
     postgres_detail = _flow_service_detail(flow, "postgresql.service")
     return [
@@ -3093,6 +3718,13 @@ def _core_aff_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
                     aff_config,
                     needle="1989",
                     interpretation="If the proxy config no longer points to 1989, the FireFlow request path may be broken even when the service is up.",
+                ),
+                _command_entry(
+                    label="Check the FireFlow session path behind BusinessFlow AFF connection",
+                    command="curl -sk -D - https://localhost/FireFlow/api/session | sed -n '1,12p'; echo '--- direct aff-boot ---'; curl -sk -D - https://localhost:1989/aff/api/external/session | sed -n '1,12p'",
+                    expected_signal="The Apache-fronted FireFlow session route and the direct aff-boot session route should return the same invalid-session shape.",
+                    interpretation="Use this to confirm that Apache still owns the session hop into aff-boot before moving deeper. If the two responses diverge, stay on Apache proxying, route ownership, or aff-boot listener issues rather than jumping ahead to later FireFlow workflow checks.",
+                    healthy_markers=["/FireFlow/api/session", "/aff/api/external/session", "invalid session", "HTTP/"],
                 ),
                 _command_entry(
                     label="Check aff-boot database and broker sockets",
@@ -3180,9 +3812,9 @@ def _microservice_platform_playbook_steps(flow: dict[str, Any]) -> list[dict[str
     likely_services = ", ".join(flow["likely_failing_services"][:3])
     first_service = flow["likely_failing_services"][0] if flow["likely_failing_services"] else "ms-batch-application.service"
     first_path = _flow_path_checkpoint(flow, first_service)
-    first_route = (first_path or {}).get("route_checkpoints", [{}])[0]
-    first_port = first_route.get("target_ports") or ((first_path or {}).get("listener_ports") or ["unknown"])[0]
-    first_config = ((first_path or {}).get("config_checkpoints") or [None])[0]
+    first_route = _first_or((first_path or {}).get("route_checkpoints") or [], {})
+    first_port = first_route.get("target_ports") or _first_or((first_path or {}).get("listener_ports") or [], "unknown")
+    first_config = _first_or((first_path or {}).get("config_checkpoints") or [], None)
     return [
         _playbook_step(
             step_id="microservice-platform-step-1",

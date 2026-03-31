@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-26T18:28:45Z",
+  "generated_at": "2026-03-30T19:18:00Z",
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -165,7 +165,7 @@
     },
     {
       "acceptance_criteria": [
-        "The top support domains use language and sequencing that match how junior support engineers actually diagnose customer issues from an SSH session.",
+        "The top support domains use language and sequencing that match how Tier 2 support engineers actually diagnose customer issues from an SSH session.",
         "The highest-value decision playbooks are tuned for operator review without changing the canonical JSON-first model.",
         "Priority playbooks use the current Check, Run, Verification, Linux note, and Known working example pattern.",
         "The wording stays plain, short, and easy to follow for engineers using English as a second language."
@@ -325,12 +325,12 @@
     },
     {
       "acceptance_criteria": [
-        "Use the authenticated lab evidence to treat BusinessFlow as the first named operational checkpoint in the ASMS path and FireFlow as a later auth-coupled module with explicit support-useful checks."
+        "Use the authenticated lab evidence to keep the pure `ASMS UI is down` path fail-closed around host sanity, Apache or HTTPD edge, core service status, safe restart boundaries, and the first usable shell, and only promote deeper auth or downstream modules when the same reproduced journey actually reaches them."
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Use the authenticated lab evidence to treat BusinessFlow as the first named operational checkpoint in the ASMS path and FireFlow as a later auth-coupled module with explicit support-useful checks.",
-        "This turns the ASMS UI model into a lower-effort troubleshooting path for support engineers. It gives the engineer a stronger named checkpoint than a generic Keycloak-first guess and keeps FireFlow present only where the observed login journey says it matters."
+        "Use the authenticated lab evidence to keep the pure `ASMS UI is down` path fail-closed around host sanity, Apache or HTTPD edge, core service status, safe restart boundaries, and the first usable shell, and only promote deeper auth or downstream modules when the same reproduced journey actually reaches them.",
+        "This turns the ASMS UI model into a lower-effort troubleshooting path for support engineers. It keeps the engineer on the shortest customer-visible checks first and only promotes deeper modules when the reproduced evidence says they matter."
       ],
       "dependencies": [],
       "escalation_conditions": [
@@ -345,10 +345,41 @@
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 100.01,
       "status": "completed",
-      "summary": "Use the authenticated lab evidence to treat BusinessFlow as the first named operational checkpoint in the ASMS path and FireFlow as a later auth-coupled module with explicit support-useful checks.",
+      "summary": "Use the authenticated lab evidence to keep `ASMS UI is down` fail-closed around host sanity, Apache or HTTPD edge, core service status, safe restart boundaries, and the first usable shell, and only promote deeper auth or downstream modules when the same reproduced journey actually reaches them.",
       "task_id": "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Run one healthy-path frontline `ASMS UI is down` trial through the official `adf-dev -> algosec-lab` helper path and record an explicit judgment about whether the playbook stayed shallow."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "One healthy-path trial is preserved with the exact helper command sequence, observed shallow results, and a clear yes-or-no judgment about whether the playbook stayed shallow.",
+        "This matters because it tests whether the rebuilt playbook actually helps a normal support engineer stop at host, edge, service, or first-shell boundaries without drifting into deeper auth or subsystem theory."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if the trial requires uncontrolled target mutation, unsupported remote-session flow, or a deeper auth trace before the shallow checks are exhausted."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "docs/specs/adf-frontline-playbook-testing-workflow-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        "eval/history"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.0105,
+      "status": "completed",
+      "summary": "Run one healthy-path frontline `ASMS UI is down` trial through the official `adf-dev -> algosec-lab` helper path and record an explicit judgment about whether the playbook stayed shallow.",
+      "task_id": "validate_frontline_asms_ui_shallow_healthy_path_trial",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
       ]
     },
     {
@@ -405,6 +436,43 @@
       "task_id": "investigate_asms_ui_components_for_useful_work_checks",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Record a small frontline validation sequence for `ASMS UI is down` that starts with a healthy-path trial, then a symptom-classification trial, and only later a safe reversible shallow-fault trial.",
+        "Run the first healthy-path trial through the official `adf-dev -> algosec-lab` PackFactory control path and record whether the playbook stayed shallow.",
+        "Run the symptom-classification trial through the official `adf-dev -> algosec-lab` PackFactory control path and record whether the playbook reclassifies the symptom without deep drift.",
+        "Record the testing decision model in plain language so later swarm or autonomy runs can explain why the phases are ordered this way and what counts as a productive trial."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The phased frontline validation sequence is recorded in the pack state and machine-readable notes.",
+        "One healthy-path trial is preserved with an explicit reading of whether the playbook stayed shallow, where it stopped, and whether it avoided deeper auth/bootstrap drift.",
+        "One symptom-classification trial is preserved with an explicit reading of how the playbook narrowed the case without falling into deeper subsystem tracing.",
+        "This matters because the real question is not whether the playbook reads well. It is whether a Tier 2 support engineer or bounded agent actually stops sooner at the right service or shell boundary."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Stop and escalate if the trial would require unsafe target mutations, broad log hunts, or deeper module tracing before the shallow path has been fairly tested."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        "docs/specs/adf-diagnostic-mapping-framework-v1.md",
+        "docs/specs/adf-frontline-playbook-testing-workflow-v1.md",
+        "docs/specs/adf-frontline-testing-decision-model-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.0125,
+      "status": "completed",
+      "summary": "Validate the frontline `ASMS UI is down` playbook with a small trial sequence that starts healthy, stays shallow, and only later moves to safe reversible shallow faults.",
+      "task_id": "validate_frontline_playbook_with_small_trial_series",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
       ]
     },
     {
@@ -546,11 +614,12 @@
     },
     {
       "acceptance_criteria": [
-        "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly."
+        "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly.",
+        "Use `httpd` as the first named candidate for the shallow-fault planning pass unless later evidence shows a safer or clearer boundary."
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly.",
+        "A named plan exists for the first controlled shallow-fault validation and uses `httpd` as the first fault candidate with explicit pre-check, fault, observer, rollback, and stop-condition steps.",
         "This could become a powerful way to test whether a diagnostic playbook really works end to end instead of only reading well on the page. It would help prove that the dependency path, commands, and stopping points lead an agent or engineer to the right conclusion."
       ],
       "dependencies": [],
@@ -559,15 +628,48 @@
       ],
       "files_in_scope": [
         "contracts/project-objective.json",
+        "docs/specs/adf-httpd-shallow-fault-validation-plan-v1.md",
         "tasks/active-backlog.json",
         "status/work-state.json",
         "status/readiness.json"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 300.016,
-      "status": "pending",
-      "summary": "Consider a future validation mode where an agent can intentionally disable a service in the lab, then a second agent follows the playbook to see whether the failure path is discovered correctly.",
+      "status": "completed",
+      "summary": "Plan the first controlled shallow-fault validation around `httpd` so the frontline `ASMS UI is down` playbook can be tested against one safe reversible service failure boundary.",
       "task_id": "plan_controlled_fault_injection_playbook_validation",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Run the planned `httpd` shallow-fault validation only in the lab and preserve a baseline, active-fault, observer, and rollback record.",
+        "Use a separate observer path that stops at the first shallow failing boundary instead of widening into deeper auth or module tracing.",
+        "Restore `httpd` cleanly and confirm listeners plus local UI reachability return before closing the trial."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A controlled `httpd` stop and restore is preserved with a named observer result that stops at the Apache or HTTPD edge boundary.",
+        "The trial proves whether the frontline playbook lands on the right shallow service boundary and recommends the correct recovery action without deep drift."
+      ],
+      "dependencies": [
+        "plan_controlled_fault_injection_playbook_validation"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the mutation would affect a non-lab environment, if rollback fails, or if the observer needs deeper subsystem tracing to classify the case."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-httpd-shallow-fault-validation-plan-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.0165,
+      "status": "completed",
+      "summary": "Execute the first controlled shallow-fault validation for `ASMS UI is down` using `httpd` as the chosen lab service boundary.",
+      "task_id": "execute_httpd_shallow_fault_validation_trial",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
       ]
@@ -593,7 +695,7 @@
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 200.017,
-      "status": "pending",
+      "status": "completed",
       "summary": "Adjust the command palette styling so command text stays readable against the current code-block background and syntax-highlighting colors.",
       "task_id": "refine_command_palette_contrast",
       "validation_commands": [
@@ -653,7 +755,7 @@
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 100.019,
-      "status": "pending",
+      "status": "in_progress",
       "summary": "Build a bounded dependency map for the ASMS UI subsystem from lab evidence, then validate a small set of common failure scenarios against that map.",
       "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
       "validation_commands": [
@@ -713,7 +815,7 @@
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 100.02,
-      "status": "pending",
+      "status": "completed",
       "summary": "Confirm whether the ASMS UI path is truly ordered as host -> httpd -> keycloak -> ms-metro, or whether some of those services should remain peer first-pass checks instead of a strict serial chain.",
       "task_id": "validate_asms_ui_dependency_order_experimentally",
       "validation_commands": [
@@ -761,7 +863,8 @@
       "completion_signals": [
         "A single supported remote launcher pattern is documented and used consistently for prompt, launcher, result, stderr, and log-file handling.",
         "Remote Codex can be relaunched cleanly after interrupted or stale runs without falling back to trial-and-error shell quoting.",
-        "The ADF pack-local notes and state no longer rely on multiple improvised menu-bypass variants to describe a successful remote run."
+        "The ADF pack-local notes and state no longer rely on multiple improvised menu-bypass variants to describe a successful remote run.",
+        "Controller-side timeout policy is explicit: the main remote execution uses a reviewed bounded wait with a 600-second fail-closed floor and the wrapper path attempts one delayed pullback before calling a timeout a hard failure."
       ],
       "dependencies": [
         "adopt_support_cockpit_direction"
@@ -771,13 +874,18 @@
         "The standardization effort starts to sprawl into broad factory-wide remote-runtime redesign before the ADF pack proves its bounded launcher path."
       ],
       "files_in_scope": [
+        "tools/run_remote_autonomy_loop.py",
+        "tools/run_remote_autonomy_test.py",
+        "tools/run_remote_active_task_continuity_test.py",
         "docs/specs/adf-remote-codex-invocation-notes-v1.md",
+        "docs/specs/adf-remote-autonomy-testing-workflow-v1.md",
         "tasks/active-backlog.json",
         "status/work-state.json",
         "status/readiness.json"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "pending",
+      "selection_priority": 100.03,
+      "status": "completed",
       "summary": "Standardize one remote Codex launcher path that consistently bypasses the appliance interactive menu and shell-wrapper drift for both short control runs and longer ADF investigation loops.",
       "task_id": "stabilize_remote_codex_launcher_against_interactive_menu",
       "validation_commands": [
@@ -785,20 +893,23 @@
       ]
     },
     {
-      "task_id": "decouple_codex_runtime_from_target_lab_environment",
-      "summary": "Design how ADF Codex work can run on a separate Ubuntu 24.04 LTS control host that connects over the network to a Rocky-based target application lab instead of coupling the agent runtime to the target application server itself.",
-      "status": "completed",
-      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "selection_priority": 100.018,
       "acceptance_criteria": [
         "ADF records one explicit design task for decoupling the Codex runtime host from the target application lab environment instead of assuming the agent must run on the same server as the target application.",
         "The task identifies the preferred communication process, protocol, and bounded specification between an Ubuntu 24.04 LTS Codex host and the Rocky-based target application environment.",
         "The task defines how PackFactory remote autonomy and memory-loop workflows should operate when the build-pack runtime host and the target application host are different systems."
       ],
+      "blocked_by": [],
+      "completion_signals": [
+        "ADF has a named plan artifact that explains how a separate Ubuntu Codex host should communicate with the Rocky application lab, what protocol and process it should use, and how PackFactory remote autonomy workflows map onto that split-host model.",
+        "A later implementation pass can tell whether the build-pack should remain local, remote-managed, or split-host remote-managed without guessing about source of truth or transport behavior."
+      ],
       "dependencies": [
         "define_adf_checkpointed_sync_model"
       ],
-      "blocked_by": [],
+      "escalation_conditions": [
+        "Stop and escalate if the design would require unsupported direct network control over the Rocky application host, unclear security boundaries, or broad PackFactory-wide remote-runtime redesign before the ADF pack proves the bounded pattern first.",
+        "Stop and escalate if the runtime split cannot be specified without first defining a clear ownership model for credentials, execution paths, and evidence transport between the Ubuntu control host and the Rocky target host."
+      ],
       "files_in_scope": [
         "docs/specs/adf-remote-codex-invocation-notes-v1.md",
         "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
@@ -806,19 +917,16 @@
         "status/work-state.json",
         "status/readiness.json"
       ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.018,
+      "status": "completed",
+      "summary": "Design how ADF Codex work can run on a separate Ubuntu 24.04 LTS control host that connects over the network to a Rocky-based target application lab instead of coupling the agent runtime to the target application server itself.",
+      "task_id": "decouple_codex_runtime_from_target_lab_environment",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
         "rg -q '^Runtime host model:' docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
         "rg -q '^Preferred protocol:' docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
         "rg -q '^PackFactory control-plane impact:' docs/specs/adf-remote-runtime-decoupling-plan-v1.md"
-      ],
-      "escalation_conditions": [
-        "Stop and escalate if the design would require unsupported direct network control over the Rocky application host, unclear security boundaries, or broad PackFactory-wide remote-runtime redesign before the ADF pack proves the bounded pattern first.",
-        "Stop and escalate if the runtime split cannot be specified without first defining a clear ownership model for credentials, execution paths, and evidence transport between the Ubuntu control host and the Rocky target host."
-      ],
-      "completion_signals": [
-        "ADF has a named plan artifact that explains how a separate Ubuntu Codex host should communicate with the Rocky application lab, what protocol and process it should use, and how PackFactory remote autonomy workflows map onto that split-host model.",
-        "A later implementation pass can tell whether the build-pack should remain local, remote-managed, or split-host remote-managed without guessing about source of truth or transport behavior."
       ]
     },
     {
@@ -844,7 +952,7 @@
         "status/readiness.json"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "pending",
+      "status": "completed",
       "summary": "Review whether the ADF remote Codex persona and pack-local agent guidance should evolve toward a Linux troubleshooting expert and diagnostic playbook author profile.",
       "task_id": "review_adf_agent_persona_alignment",
       "validation_commands": [
@@ -853,18 +961,95 @@
     },
     {
       "acceptance_criteria": [
+        "Run one bounded PackFactory-managed remote autonomy slice on `adf-dev` against a real current ADF task instead of a synthetic proving-ground task.",
+        "Preserve the returned run summary, loop events, feedback memory, and checkpoint-bundle evidence strongly enough to judge whether unattended continuation is actually working.",
+        "Record one plain-language conclusion about what helped, what still needed intervention, and what should be optimized before the next unattended run."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "ADF has one real `adf-dev` remote autonomy evaluation preserved against the current pack trajectory, not only synthetic factory rehearsal proof.",
+        "The build-pack can now judge remote autonomy by checkpoint quality, resume quality, and usefulness of returned evidence instead of by raw runtime alone."
+      ],
+      "dependencies": [
+        "decouple_codex_runtime_from_target_lab_environment",
+        "define_adf_checkpointed_sync_model"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the remote slice would require ad hoc shell babysitting, unsupported remote-session control paths, or uncontrolled state acceptance from `adf-dev`."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-remote-autonomy-testing-workflow-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.017,
+      "status": "completed",
+      "summary": "Evaluate bounded remote autonomy on `adf-dev` against a real current ADF task so the pack can measure unattended continuation, checkpoint quality, and restart continuity.",
+      "task_id": "evaluate_adf_dev_remote_autonomy_continuity",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Tighten the remote autonomy loop so its prompt scope matches real current-task continuation instead of starter-backlog-only work when ADF uses `adf-dev` for a real pack task evaluation.",
+        "Allow the bounded generated benchmark artifacts a legitimate ADF run needs, or otherwise make the remote loop fail-closed before those writes happen instead of surfacing a late writable-boundary mismatch.",
+        "Rerun the same `adf-dev` continuity evaluation and confirm the next result returns a usable export bundle or a cleaner fail-closed checkpoint."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The next real `adf-dev` autonomy evaluation no longer stops on the current prompt-scope mismatch or benchmark-output boundary violation.",
+        "ADF gains a clearer remote autonomy contract for real current tasks, not only for starter backlog proof runs."
+      ],
+      "dependencies": [
+        "evaluate_adf_dev_remote_autonomy_continuity"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if fixing the remote loop would require bypassing the PackFactory control plane or accepting uncontrolled remote state."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-remote-autonomy-testing-workflow-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.0175,
+      "status": "completed",
+      "summary": "Tighten the `adf-dev` remote autonomy loop for real current ADF tasks so bounded unattended runs do not stop on starter-backlog prompt scope or benchmark-output boundary violations.",
+      "task_id": "tighten_adf_dev_remote_autonomy_contract_for_real_tasks",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
         "The next playbook slice deepens dependency-aware checks for important AlgoSec paths without trying to cover every service equally.",
-        "The build-pack preserves the current minimal-testing boundary while extending real operator value."
+        "The build-pack preserves the current minimal-testing boundary while extending real operator value.",
+        "ADF treats imported-module drilldown as a pilot method: one live module failure may improve a reusable diagnostic pattern, but the pack must stay willing to pivot instead of expanding into many use-case-specific playbooks.",
+        "Priority content work follows the explicit split between symptom-entry playbooks, boundary-confirmation pages, and deep guides instead of mixing all three page types into one operator flow.",
+        "Priority frontline wording follows the support-language translation contract so internal systems-thinking labels do not leak into the main operator path.",
+        "The next content slice follows the support-safe scientific method loop so hypothesis, test, observation, and stop-point logic stay explicit and bounded.",
+        "The next content slice follows the backend map-and-render contract so internal mapping rows, operator-facing rows, page type, and handoff targets are represented explicitly before Starlight rendering."
       ],
       "blocked_by": [],
       "completion_signals": [
         "Shared dependencies and deeper failure branches are clearer for the top customer-facing paths.",
-        "The next remote review can focus on specific unresolved service paths instead of the whole appliance."
+        "The next remote review can focus on specific unresolved service paths instead of the whole appliance.",
+        "The next Keycloak refinement, if it lands, produces a reusable imported-module drilldown shape that helps the engineer classify why the module cannot do useful work and what evidence to hand off, rather than trying to encode every Keycloak-specific fix.",
+        "The next content pass can point to one explicit page-type contract, one support-language translation contract, one symptom-to-boundary mapping workflow, one support-safe scientific-method contract, and one backend map-and-render contract instead of rediscovering those rules in review."
       ],
       "dependencies": [
         "adopt_support_cockpit_direction",
         "tune_operator_language_for_priority_domains",
-        "expand_service_command_coverage"
+        "expand_service_command_coverage",
+        "define_frontline_page_types_and_entry_contract",
+        "define_frontline_support_language_translation_contract",
+        "define_symptom_to_boundary_mapping_workflow",
+        "define_support_safe_scientific_method_for_adf",
+        "define_backend_map_and_render_contract_for_adf"
       ],
       "escalation_conditions": [
         "The dependency model starts to force full-system reverse engineering instead of bounded support diagnostics.",
@@ -872,16 +1057,239 @@
       ],
       "files_in_scope": [
         "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "docs/specs/adf-symptom-to-boundary-mapping-workflow-v1.md",
+        "docs/specs/adf-support-safe-scientific-method-contract-v1.md",
+        "docs/specs/adf-backend-map-and-render-contract-v1.md",
         "tasks/active-backlog.json",
-        "status/work-state.json"
+        "status/work-state.json",
+        "status/readiness.json"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "pending",
-      "summary": "Deepen dependency-aware playbooks for the highest-value AlgoSec service paths.",
+      "selection_priority": 100.029,
+      "status": "in_progress",
+      "summary": "Deepen dependency-aware playbooks for the highest-value AlgoSec service paths while keeping the frontline model symptom-first, support-language-first, and explicitly split between symptom-entry playbooks, boundary-confirmation pages, and deep guides.",
       "task_id": "deepen_dependency_aware_playbooks",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next `adf-dev` slice returns one fresh exact later-content minute after `/afa/php/home.php` with at least one stronger later-content marker such as `GET_REPORTS`, `GET_POLICY_TAB`, `GET_DEVICE_POLICY`, `GET_MONITORING_CHANGES`, or `GET_ANALYSIS_OPTIONS`.",
+        "The returned checkpoint bundle and exported runtime-evidence bundle are both recoverable locally through the reviewed PackFactory pull/import path.",
+        "If a fresh exact later-content minute cannot be preserved, the remote run stops as `blocked_boundary` instead of counting local wording refinement, validation, or benchmark passes as completion."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A fresh exact later-content minute is preserved with `/afa/php/home.php` already present and a stronger later-content marker in the same bounded window.",
+        "The checkpoint bundle notes the support stop rule that the case is no longer top-level `GUI down` once that later-content minute is observed.",
+        "Restart state tells the next agent that preserved timestamps or local Step 4 wording alone do not satisfy this checkpoint."
+      ],
+      "dependencies": [
+        "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the remote slice can only reuse preserved timestamps or local source edits without returning one fresh later-content minute.",
+        "Stop as `blocked_boundary` if the reviewed remote workflow cannot export a recoverable runtime-evidence bundle for the later-content checkpoint."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        ".pack-state",
+        "eval/history"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.021,
+      "status": "completed",
+      "summary": "Capture one fresh exact later-content minute after `/afa/php/home.php` through `adf-dev`, or stop as `blocked_boundary`, so support can branch out of top-level `GUI down` cleanly.",
+      "task_id": "capture_fresh_later_content_branch_checkpoint",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF preserves the exact late-export v4 shape where the first wrapper pullback failed but a later reviewed pullback recovered a valid exported bundle and a support-useful checkpoint.",
+        "The reviewed PackFactory wrapper or pullback path gains one explicit late-export recovery rule or classifier so this shape no longer looks like a hard failure by default.",
+        "Restart state tells the next agent that the later-content checkpoint succeeded, but the autonomy workflow still needs a stronger late-bundle pullback rule."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "One bounded note or proof path exists that shows how late export bundle arrival is classified or recovered without losing the checkpoint.",
+        "A future wrapper run can stop with a structured late-export result instead of a raw crash when the first delayed pullback is too early.",
+        "The next agent no longer has to rediscover that v4 succeeded after the initial wrapper failure."
+      ],
+      "dependencies": [
+        "capture_fresh_later_content_branch_checkpoint"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if improving the late-bundle path requires unsupported ad hoc remote-session supervision instead of PackFactory-local workflow changes.",
+        "Stop and escalate if the recovery design starts to widen into a broad remote-runtime redesign before the bounded late-export shape is captured clearly."
+      ],
+      "files_in_scope": [
+        "tools/pull_remote_runtime_evidence.py",
+        "tools/run_remote_autonomy_test.py",
+        "tools/run_remote_active_task_continuity_test.py",
+        "tools/import_external_runtime_evidence.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        ".pack-state",
+        "eval/history"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.024,
+      "status": "completed",
+      "summary": "Tune late-export pullback recovery so a slice that exports after the first delayed pullback does not get misclassified as a final wrapper failure.",
+      "task_id": "tune_late_export_pullback_recovery",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile tools/pull_remote_runtime_evidence.py tools/run_remote_autonomy_test.py tools/run_remote_active_task_continuity_test.py tools/import_external_runtime_evidence.py"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF preserves the strict later-content startup stall as explicit autonomy evidence instead of conflating it with a content checkpoint failure.",
+        "At least one bounded control-plane improvement or fail-closed classifier is identified for runs that stop at `run_started` and never write `run-summary.json`.",
+        "Restart state tells the next agent not to retry `capture_fresh_later_content_branch_checkpoint` until the startup stall is either fixed or formally classified."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The v2 and v3 strict later-content slices are recorded as reproducible startup stalls rather than content results.",
+        "A next-step control-plane fix or tighter stop rule is named for remote runs that never progress past `run_started`.",
+        "The blocked child content task can resume only after that control-plane follow-up is accepted."
+      ],
+      "dependencies": [
+        "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if diagnosing the stall would require ad hoc remote-session control outside the reviewed PackFactory workflow family.",
+        "Stop and escalate if the next plausible fix expands into broad factory-wide remote-runtime redesign before this bounded ADF slice is explained."
+      ],
+      "files_in_scope": [
+        "tools/run_remote_autonomy_loop.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        ".pack-state",
+        "eval/history"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.022,
+      "status": "completed",
+      "summary": "Diagnose why strict `adf-dev` evidence slices stall after `run_started` and before the first checkpoint so the blocked later-content proof can resume cleanly.",
+      "task_id": "diagnose_remote_codex_startup_stall_for_strict_evidence_slices",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next `adf-dev` diagnosis slice compares one preserved successful remote checkpoint run shape against the observed strict-slice startup stall and records one concrete control-plane hypothesis or bounded blocker.",
+        "The slice stays inside `.pack-state`, `status`, `tasks`, `readiness`, and `eval/history` surfaces and does not retry the blocked later-content content proof directly.",
+        "The returned checkpoint stops after preserving one explicit comparison note and one named next fix or classifier, rather than continuing into open-ended launcher research."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A single explicit comparison note exists that names what a successful remote checkpoint run wrote, what the strict stalled runs failed to write, and one bounded next fix or classifier.",
+        "Restart state tells the next agent to prefer this comparison-first diagnosis slice over another broad startup-stall investigation prompt.",
+        "The blocked later-content task stays blocked until the comparison result is accepted."
+      ],
+      "dependencies": [
+        "diagnose_remote_codex_startup_stall_for_strict_evidence_slices"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if even this narrowed comparison slice cannot produce a checkpoint without drifting into open-ended remote-session analysis.",
+        "Stop and escalate if the next plausible fix would require unsupported ad hoc remote-session control instead of PackFactory-local workflow changes."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        ".pack-state",
+        "eval/history"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.023,
+      "status": "completed",
+      "summary": "Compare one successful remote checkpoint run shape against the strict startup-stall runs and preserve one bounded control-plane hypothesis before retrying any content slice.",
+      "task_id": "compare_successful_vs_stalled_remote_run_shapes",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF has one explicitly named evidence-only next remote slice for `deepen_dependency_aware_playbooks` that fits the current raw bounded loop writable-surface contract.",
+        "The planned slice stays on the first usable shell versus Metro-backed home-shell boundary and limits remote mutations to state, history, memory, or candidate/runtime-evidence artifacts.",
+        "The returned checkpoint bundle names one exact evidence minute by timestamp or narrow window, `SuiteLoginSessionValidation.php -> /afa/php/home.php` shell transition, at least two nearby Metro clues from that same minute, and a support stop-point judgment instead of stopping at continuity bookkeeping alone."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The next remote slice is defined as a first-usable-shell versus Metro evidence pass that can run without another `unauthorized_writable_surface` failure.",
+        "Restart state tells the next agent not to rerun a raw source-authoring slice under the unchanged contract.",
+        "The exported checkpoint bundle and operator notes identify at least one exact shell-transition evidence minute, at least two same-minute Metro clues, and a support stop-point judgment rather than only a measurement or pause boundary."
+      ],
+      "dependencies": [
+        "tighten_adf_dev_remote_autonomy_contract_for_real_tasks"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the next useful remote slice still requires direct `src/` or `docs/` authoring before the contract is reviewed.",
+        "Stop as `blocked_boundary` if the slice cannot return one exact shell-transition evidence minute with same-minute Metro clues and a support stop rule."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        ".pack-state",
+        "eval/history"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.019,
+      "status": "completed",
+      "summary": "Define and prove the next evidence-only `adf-dev` checkpoint slice on the first usable shell versus Metro-backed home-shell boundary so it stays inside the current raw bounded loop writable-surface contract and returns one exact evidence-bearing checkpoint minute.",
+      "task_id": "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The remote autonomy loop no longer reports leftover `starter_backlog_incomplete` terminal wording when it is evaluating a real current-task continuity run for ADF.",
+        "Terminal outcome and reason language align with the current-task contract so later `adf-dev` reruns are easier to score and optimize."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A later `adf-dev` rerun shows current-task-based terminal semantics instead of the older starter-backlog wording.",
+        "ADF can distinguish the already-fixed prompt and writable-surface blockers from the later terminal-semantics refinement in its planner and restart state."
+      ],
+      "dependencies": [
+        "tighten_adf_dev_remote_autonomy_contract_for_real_tasks"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if aligning terminal semantics would require widening the remote control plane beyond bounded PackFactory workflows."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json",
+        "docs/specs/adf-remote-autonomy-testing-workflow-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.031,
+      "status": "completed",
+      "summary": "Align the residual `adf-dev` remote-loop terminal-state wording with the current-task continuity contract after the main contract blockers are already fixed.",
+      "task_id": "align_remote_loop_terminal_state_semantics_with_current_task_contract",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
       ]
     },
     {
@@ -914,11 +1322,11 @@
     },
     {
       "acceptance_criteria": [
-        "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow."
+        "Expand the collapsible Linux note pattern with more short educational context so Tier 2 support engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow."
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
+        "Expand the collapsible Linux note pattern with more short educational context so Tier 2 support engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
         "The current Linux notes are useful because they are optional. Engineers can skip them when they already know the concept, or open them when they need a quick explanation. This can build shared Linux troubleshooting language over time without turning the playbook into training material."
       ],
       "dependencies": [],
@@ -933,8 +1341,8 @@
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 200.026,
-      "status": "pending",
-      "summary": "Expand the collapsible Linux note pattern with more short educational context so junior engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
+      "status": "completed",
+      "summary": "Expand the collapsible Linux note pattern with more short educational context so Tier 2 support engineers can learn unfamiliar Linux terms without blocking the main troubleshooting flow.",
       "task_id": "enhance_linux_notes_as_optional_learning_layer",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
@@ -942,11 +1350,13 @@
     },
     {
       "acceptance_criteria": [
+        "Record a canonical ASMS-runtime-first taxonomy that future ADF playbooks share, with Linux utilities and host state treated as supporting evidence surfaces.",
         "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up."
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up.",
+        "The build-pack records a canonical ASMS-runtime-first taxonomy and uses it as the shared frame for future playbooks.",
+        "ADF treats `useful work` as a stop rule rather than as a named layer in that taxonomy.",
         "This is the deeper value behind the recent service-pack work. ADF is strongest when it helps engineers judge productive system behavior rather than memorize isolated service checks."
       ],
       "dependencies": [],
@@ -957,12 +1367,13 @@
         "contracts/project-objective.json",
         "tasks/active-backlog.json",
         "status/work-state.json",
-        "status/readiness.json"
+        "status/readiness.json",
+        "docs/specs/adf-cross-playbook-system-layer-taxonomy-v1.md"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 100.027,
-      "status": "pending",
-      "summary": "Make ADF intentionally push engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up.",
+      "status": "completed",
+      "summary": "Capture a canonical ASMS-runtime-first taxonomy so ADF pushes engineers toward system thinking, where the goal is to determine whether a component, subsystem, or the whole system can do useful work, not only whether a process is up.",
       "task_id": "codify_system_thinking_as_adf_theme",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
@@ -970,11 +1381,11 @@
     },
     {
       "acceptance_criteria": [
-        "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components."
+        "Decide how explicitly ADF should treat host integration and Linux operating evidence as supporting diagnostic surfaces for ASMS runtime troubleshooting, rather than as the first architectural layer."
       ],
       "blocked_by": [],
       "completion_signals": [
-        "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
+        "Host integration and Linux operating evidence are treated as explicit supporting surfaces in the shared taxonomy, not only as recurring pre-check habits.",
         "ADF is already trending toward Linux-first diagnostics, Linux-standard language, and Linux note clarifications. Formalizing that foundation would help align playbooks, terminology, discovery logic, and future agent guidance around the real operating context engineers face during triage."
       ],
       "dependencies": [],
@@ -985,13 +1396,548 @@
         "contracts/project-objective.json",
         "tasks/active-backlog.json",
         "status/work-state.json",
+        "status/readiness.json",
+        "docs/specs/adf-cross-playbook-system-layer-taxonomy-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.028,
+      "status": "completed",
+      "summary": "Formalize host integration and Linux operating evidence as supporting surfaces in ADF's ASMS-runtime-first taxonomy, not as the first architectural layer.",
+      "task_id": "formalize_linux_foundation_as_adf_theme",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records one explicit task plus adjacent specification for revising frontline publication contracts toward a flow-first operator model that fits the actual AlgoSec support workflow.",
+        "The new spec says plainly that the operator-facing page should optimize for diagnostic narrowing and branch clarity rather than mandatory wrapper sections like `Use this when` or `What to save`.",
+        "The spec keeps backend structure and systems-thinking logic intact while moving backend-facing metadata and extra workflow scaffolding behind the scenes by default."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "ADF has one named contract task for realigning the publication model to the actual support workflow instead of treating the mismatch as a renderer-only tweak.",
+        "The adjacent spec names which existing contracts should be tightened or reinterpreted and which ones should remain intact.",
+        "Later renderer and contract implementation can judge success against one explicit flow-first publication contract."
+      ],
+      "dependencies": [
+        "define_frontline_page_types_and_entry_contract",
+        "define_frontline_support_language_translation_contract",
+        "define_symptom_to_boundary_mapping_workflow",
+        "define_support_safe_scientific_method_for_adf",
+        "define_backend_map_and_render_contract_for_adf"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the new contract starts to weaken branch clarity, stop-point logic, or backend evidence preservation instead of only trimming unnecessary operator scaffolding.",
+        "Stop and escalate if the contract widens into a broad product rewrite rather than a bounded realignment of publication assumptions to the existing support workflow."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-flow-first-operator-publishing-contract-v1.md",
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
         "status/readiness.json"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "selection_priority": 200.028,
+      "selection_priority": 100.033,
+      "status": "completed",
+      "summary": "Realign ADF frontline publication contracts to a flow-first operator model that keeps diagnostic narrowing and branch clarity visible while moving backend-facing metadata and extra workflow scaffolding behind the scenes.",
+      "task_id": "realign_frontline_publication_contracts_to_flow_first_operator_workflow",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records one explicit verification task for confirming that `ASMS Keycloak auth is down` really adheres to the canonical boundary-playbook template, not just that it is newer than the remaining support-cockpit pages.",
+        "The review checks the live rendered page against the canonical shell expectations for page-record ownership, support-language-first flow, command flow shape, handoff behavior, and allowed supplement layering.",
+        "If the page still contains drift from the canonical shell, the verification task records the mismatch clearly enough that follow-up migration work does not copy a flawed reference page."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "ADF has one named planner checkpoint that proves whether `ASMS Keycloak auth is down` is the correct canonical reference page for future boundary-playbook migration.",
+        "The next migration pass can treat the Keycloak page as a trusted template target only after this verification is complete.",
+        "Support review can distinguish between `newer page` and `canonical page` instead of assuming they are automatically the same."
+      ],
+      "dependencies": [
+        "deepen_dependency_aware_playbooks",
+        "define_frontline_page_types_and_entry_contract",
+        "define_frontline_support_language_translation_contract",
+        "define_backend_map_and_render_contract_for_adf"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the review reveals that the Keycloak page still depends on one-off renderer behavior that the canonical shell is not supposed to require.",
+        "Stop and escalate if the verification would turn into open-ended page redesign instead of a bounded contract check against the named canonical template."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "docs/specs/adf-backend-map-and-render-contract-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.0335,
       "status": "pending",
-      "summary": "Decide how explicitly ADF should treat Linux troubleshooting as a core project theme, not just an agent-persona trait, because support engineers diagnose both the Linux operating system and the application stack built on top of Linux services and open source components.",
-      "task_id": "formalize_linux_foundation_as_adf_theme",
+      "summary": "Confirm that `ASMS Keycloak auth is down` adheres to the canonical boundary-playbook template before treating it as the migration reference for the remaining subsystem playbooks.",
+      "task_id": "confirm_keycloak_boundary_playbook_adheres_to_canonical_template",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The `messaging-and-data`, `microservice-platform`, and `core-aff` published playbooks stop rendering through the older support-cockpit-only template path and publish through the same canonical boundary-playbook shell now used by `keycloak-auth`.",
+        "The migrated pages still preserve their boundary-specific supplements, likely-service context, and command flow without losing the newer generated page-record contract.",
+        "The rendered site no longer presents mixed first-class playbook templates where `ASMS Keycloak auth is down` uses the new canonical shell but the other named subsystem playbooks still use the older support cockpit shell."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The remaining three subsystem playbooks now look and behave like the new canonical boundary template rather than like older support-cockpit holdovers.",
+        "ADF can review the support-engineer experience across `keycloak-auth`, `messaging-and-data`, `microservice-platform`, and `core-aff` without template inconsistency obscuring the content judgment.",
+        "The next Starlight review pass can judge support-language quality and systems-thinking depth on one shared page shell instead of across mixed publication patterns."
+      ],
+      "dependencies": [
+        "deepen_dependency_aware_playbooks",
+        "define_frontline_page_types_and_entry_contract",
+        "define_backend_map_and_render_contract_for_adf"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the migration would require weakening the page-record contract or hand-authoring boundary pages outside the generator-backed route model.",
+        "Stop and escalate if the canonical shell still cannot express a required boundary-specific supplement without reintroducing ad hoc renderer branches."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-backend-map-and-render-contract-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.034,
+      "status": "pending",
+      "summary": "Migrate `messaging-and-data`, `microservice-platform`, and `core-aff` from the older support cockpit template path onto the same canonical boundary-playbook shell already used by `ASMS Keycloak auth is down`.",
+      "task_id": "migrate_remaining_boundary_playbooks_to_canonical_template_path",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records one explicit cleanup task for the remaining legacy support-cockpit publication path so the old shell is not treated as a quiet second canonical template.",
+        "The renderer makes it obvious which shared shell is canonical for boundary-confirmation pages and whether any residual support-cockpit helper survives only as an implementation detail.",
+        "Review state tells the next agent that mixed template use across first-class playbooks is an inconsistency to remove, not just an aesthetic difference."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "There is one named planner line for retiring or demoting the legacy support-cockpit shell once the remaining boundary pages are migrated.",
+        "The next content pass can close the inconsistency instead of re-accepting it as normal renderer variety.",
+        "ADF keeps one stable operator-facing playbook shell for comparable boundary pages, which makes support review cleaner and reduces future drift."
+      ],
+      "dependencies": [
+        "migrate_remaining_boundary_playbooks_to_canonical_template_path"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if removing the old support-cockpit path would break a still-needed review surface that the canonical boundary shell cannot yet represent.",
+        "Stop and escalate if this cleanup starts to widen into broad Starlight redesign rather than a bounded shell-consistency fix."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.035,
+      "status": "pending",
+      "summary": "Retire or demote the remaining legacy support-cockpit boundary publication path so ADF does not keep two competing first-class playbook shells.",
+      "task_id": "retire_legacy_support_cockpit_boundary_template_path",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The ADF publication and remote-staging flow stops committing oversized generated binaries, package-manager caches, or preview-build dependencies into normal PackFactory snapshots by default.",
+        "The next ADF state snapshot can preserve the operator-facing review surface without carrying heavyweight generated artifacts like preview-site `node_modules` binaries inside tracked staging payloads."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The large-file warning from the full state snapshot has a documented mitigation path in pack-local state.",
+        "Staging, preview, or generated-site hygiene rules are tightened enough that future ADF snapshot commits avoid another oversized generated binary warning by default.",
+        "The next remote review cycle can still publish the approved Starlight review surface without requiring the tracked heavyweight generated dependency payload that triggered the GitHub warning."
+      ],
+      "dependencies": [
+        "prototype_starlight_publishing"
+      ],
+      "escalation_conditions": [
+        "The cleanup path would require history rewriting, destructive Git surgery, or broader factory-wide repo policy changes without an explicit operator decision.",
+        "The remote review surface would become less reliable or harder to reproduce than the current fail-closed publishing path."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        ".pack-state/remote-autonomy-staging/",
+        "dist/candidates/algosec-lab-baseline/starlight-site/",
+        "src/algosec_diagnostic_framework_template_pack/serve_generated_content.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 200.029,
+      "status": "pending",
+      "summary": "Tighten ADF staging and generated-artifact hygiene so future state snapshots avoid oversized tracked preview binaries while preserving the approved review surface.",
+      "task_id": "reduce_oversized_generated_artifacts_in_adf_snapshots",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records one explicit plan for transitioning project-goal and objective execution from the local PackFactory orchestrator to the ADF agent running on `adf-dev`.",
+        "The plan makes the node-role split concrete: Local Pack Factory stays the canonical planner and evidence accepter, while `adf-dev` becomes the default objective-execution agent for bounded ADF work.",
+        "The plan names the minimum control surfaces that must stay local versus the minimum task, memory, and evidence surfaces that may be executed remotely on `adf-dev`."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The planner has one stable task for the orchestrator-to-ADF-agent transition instead of treating it as implied future direction.",
+        "Restart state tells the next agent that remote execution ownership on `adf-dev` is now a named planning line, not just a conversational idea.",
+        "Later autonomy work can judge progress against an explicit handoff task instead of rediscovering the same transition question."
+      ],
+      "dependencies": [
+        "define_adf_checkpointed_sync_model",
+        "evaluate_adf_dev_remote_autonomy_continuity"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the transition plan starts to imply silent remote-canonical mode changes without an explicit acceptance rule.",
+        "Stop and escalate if the transition plan widens into broad factory-level governance changes instead of a bounded ADF ownership handoff."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "docs/specs/adf-three-node-autonomy-contract-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.032,
+      "status": "completed",
+      "summary": "Plan the transition of ADF project-goal and objective execution from the local PackFactory orchestrator to the ADF agent running on `adf-dev`, while keeping PackFactory as the canonical planner and evidence accepter.",
+      "task_id": "plan_goal_and_objective_execution_transition_to_adf_dev_agent",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF has one explicit future-mode specification for making `adf-dev` the canonical home for the ADF build pack without collapsing PackFactory factory governance into the remote host.",
+        "The spec names the ownership, state, and tooling changes that would be required before this mode could be treated as active.",
+        "The spec says plainly that the remote-canonical ADF mode is not active yet."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "ADF records the remote-canonical ADF-home idea as a reviewed future-mode specification instead of leaving it only in conversation.",
+        "The planner has a stable task for revisiting this transition later.",
+        "Restart state points future agents at the transition note without treating the mode as active."
+      ],
+      "dependencies": [
+        "plan_goal_and_objective_execution_transition_to_adf_dev_agent"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the planning note starts to silently activate remote-canonical mode instead of documenting it as a future transition.",
+        "Stop and escalate if the spec widens into broad factory-governance rewrites instead of staying focused on the ADF pack."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-remote-canonical-home-transition-spec-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.033,
+      "status": "completed",
+      "summary": "Define the future-mode transition for making `adf-dev` the canonical home for the ADF build pack while Local PackFactory remains the factory control plane.",
+      "task_id": "define_remote_canonical_adf_home_transition",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF defines a stable frontline operator-language contract that favors short literal English, direct branching language, and explicit next-step wording for multilingual support engineers.",
+        "The `ASMS UI is down` operator page uses direct check names and avoids documentation-style phrases such as `stop at the UI edge`, `branch out`, or `useful work` in the main frontline flow."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The language contract is recorded in pack-local specs and can guide later playbook edits without rediscovering the same wording issues.",
+        "The generated operator page now reads like an explicit triage workflow rather than a design manual or training note."
+      ],
+      "dependencies": [
+        "tune_operator_language_for_priority_domains",
+        "adopt_support_cockpit_direction"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the language review starts to require a broader product or UX rewrite instead of a bounded wording contract and page update."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-language-standard-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.03,
+      "status": "completed",
+      "summary": "Define and apply a frontline operator-language contract so ADF playbooks read as explicit triage workflows for multilingual support engineers, not as design notes.",
+      "task_id": "define_frontline_operator_language_contract",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF defines symptom-entry playbooks, boundary-confirmation pages, and deep guides as separate operator-facing page types.",
+        "The page-type contract says plainly that vague customer cases should start from symptom-entry playbooks, not from subsystem pages.",
+        "The contract records how Keycloak-like module pages fit as second-stage boundary checks rather than default case-entry pages."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A named pack-local specification records the page-type split and the entry rules for each page type.",
+        "The current active content task links directly to the new page-type specification instead of relying on chat-only guidance."
+      ],
+      "dependencies": [
+        "define_frontline_operator_language_contract"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the page-type split starts implying a broad new documentation platform instead of a bounded ADF content contract."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.033,
+      "status": "completed",
+      "summary": "Define the ADF frontline page-type contract so symptom-entry playbooks, boundary-confirmation pages, and deep guides stay separate.",
+      "task_id": "define_frontline_page_types_and_entry_contract",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records an explicit translation rule from internal systems-thinking labels to frontline support language.",
+        "The contract says internal architecture labels should not appear in the main diagnostic flow unless support already uses them in daily work.",
+        "The contract gives concrete examples of operator-safe wording for symptom checks, service checks, and escalation wording."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A named pack-local specification records the support-language translation rules for future generator and playbook work.",
+        "The current active content task links directly to the translation contract instead of rediscovering the same wording issue during review."
+      ],
+      "dependencies": [
+        "define_frontline_operator_language_contract"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the language contract starts requiring a broad UX rewrite instead of a bounded translation and wording rule set."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.034,
+      "status": "completed",
+      "summary": "Define the support-language translation contract so ADF keeps systems thinking in the model without leaking internal labels into frontline playbooks.",
+      "task_id": "define_frontline_support_language_translation_contract",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records one explicit systems-thinking workflow for walking the target lab from vague customer symptoms to the first useful support boundary.",
+        "The workflow says how to decide whether a finding belongs in a symptom-entry playbook, a boundary-confirmation page, or a deep guide.",
+        "The workflow stays evidence-first and bounded instead of widening into open-ended subsystem reverse engineering."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A named pack-local specification records the symptom-to-boundary mapping workflow and the small evidence table it should produce.",
+        "The current active content task links directly to the mapping workflow instead of relying on ad hoc phrasing about systems thinking."
+      ],
+      "dependencies": [
+        "define_frontline_page_types_and_entry_contract"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the mapping workflow starts requiring deep product reverse engineering before it can guide a first-line support check."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-symptom-to-boundary-mapping-workflow-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.035,
+      "status": "completed",
+      "summary": "Define the systems-thinking symptom-to-boundary mapping workflow so ADF can populate pages from real lab journeys without losing frontline support focus.",
+      "task_id": "define_symptom_to_boundary_mapping_workflow",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records a support-safe version of the scientific method for diagnostic playbook work.",
+        "The contract explains how observe, hypothesis, test, observe, revise, and repeat should map onto frontline support diagnosis without widening into open-ended reverse engineering.",
+        "The contract makes the stop rule explicit so the method remains bounded and support-useful."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A named pack-local specification records the support-safe scientific-method loop for ADF.",
+        "The active content task links directly to that note instead of relying on chat-only explanation."
+      ],
+      "dependencies": [
+        "define_symptom_to_boundary_mapping_workflow"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the scientific-method note starts implying academic experiment scope instead of bounded support diagnostics."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-support-safe-scientific-method-contract-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.037,
+      "status": "completed",
+      "summary": "Define the support-safe scientific-method contract so ADF uses observe, hypothesis, test, and stop-point loops without drifting beyond frontline support needs.",
+      "task_id": "define_support_safe_scientific_method_for_adf",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records an explicit backend map-and-render contract for how Codex should turn runtime evidence into internal mapping rows, operator-facing rows, page records, and rendered pages.",
+        "The contract says plainly that support pages should not be built directly from free-form reasoning.",
+        "The contract names the current schema gap around explicit page type, handoff targets, and operator-facing rows."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A named pack-local specification records the backend map-and-render contract for future generator work.",
+        "The active content task links directly to that contract instead of treating backend mapping as informal implementation detail."
+      ],
+      "dependencies": [
+        "define_frontline_page_types_and_entry_contract",
+        "define_frontline_support_language_translation_contract",
+        "define_symptom_to_boundary_mapping_workflow"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the backend map note starts requiring a broad schema or product-platform rewrite instead of a bounded ADF generator contract."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-backend-map-and-render-contract-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.038,
+      "status": "completed",
+      "summary": "Define the backend map-and-render contract so Codex builds a structured ADF map before the generator turns it into support-facing Starlight content.",
+      "task_id": "define_backend_map_and_render_contract_for_adf",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The three frontline refinement specs receive an adversarial review for page-type leakage, support-language leakage, and systems-thinking drift.",
+        "Any contradictions between the new refinement specs and older ADF guidance are tightened instead of being left for later cleanup.",
+        "The review outcome is recorded in a durable pack-local note that future agents can reuse."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The frontline page-type contract, support-language translation contract, and symptom-to-boundary mapping workflow are stricter after adversarial review.",
+        "Older linked guidance that still carried analytical operator wording is aligned enough that the pack no longer points in two directions.",
+        "A durable review note exists under `eval/history/`."
+      ],
+      "dependencies": [
+        "define_frontline_page_types_and_entry_contract",
+        "define_frontline_support_language_translation_contract",
+        "define_symptom_to_boundary_mapping_workflow"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the adversarial review reveals that the current ADF content model needs a broader product rewrite instead of bounded contract tightening."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "docs/specs/adf-symptom-to-boundary-mapping-workflow-v1.md",
+        "docs/specs/adf-language-standard-v1.md",
+        "docs/specs/adf-diagnostic-mapping-framework-v1.md",
+        "docs/specs/adf-imported-module-drilldown-pilot-v1.md",
+        "eval/history/adf-frontline-refinement-adversarial-review-20260330.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.036,
+      "status": "completed",
+      "summary": "Adversarially review the new frontline refinement contracts and tighten them before more Starlight or generator content changes.",
+      "task_id": "adversarially_review_frontline_refinement_contracts",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The support-safe scientific-method contract and the backend map-and-render contract receive an adversarial review for ambiguity, overreach, migration risk, and renderer-guessing risk.",
+        "Any accepted findings are folded back into the two specs before the next generator or content implementation pass.",
+        "The review outcome is recorded in durable pack-local history."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The scientific-method contract is clearer about author-side use, stop rules, and recorded outputs.",
+        "The backend map-and-render contract is clearer about ownership, routing, compatibility, and fail-closed rendering.",
+        "A durable review note exists under `eval/history/`."
+      ],
+      "dependencies": [
+        "define_support_safe_scientific_method_for_adf",
+        "define_backend_map_and_render_contract_for_adf"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the adversarial review reveals that these two notes require a broader schema or product rewrite instead of bounded contract tightening."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-support-safe-scientific-method-contract-v1.md",
+        "docs/specs/adf-backend-map-and-render-contract-v1.md",
+        "eval/history/adf-scientific-method-and-backend-map-adversarial-review-20260330.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 300.039,
+      "status": "completed",
+      "summary": "Adversarially review the support-safe scientific-method and backend map-and-render contracts before the next generator or content implementation pass.",
+      "task_id": "adversarially_review_scientific_method_and_backend_map_contracts",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
       ]
