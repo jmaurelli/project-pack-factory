@@ -1,0 +1,12 @@
+{
+  "current_revision": "r1",
+  "current_version": "v1",
+  "lifecycle_stage": "testing",
+  "pack_id": "factory-native-smoke-role-domain-overlay-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create a bounded proving-ground build-pack that composes the new role/domain overlay system with an existing personality overlay.",
+  "updated_at": "2026-03-31T19:33:05Z",
+  "updated_by": "codex"
+}

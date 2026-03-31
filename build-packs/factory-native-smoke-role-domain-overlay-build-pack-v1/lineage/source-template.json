@@ -1,0 +1,19 @@
+{
+  "build_pack_id": "factory-native-smoke-role-domain-overlay-build-pack-v1",
+  "derivation_mode": "copied",
+  "inherited_contracts": [
+    "README"
+  ],
+  "inherited_entrypoints": [
+    "benchmark_command",
+    "cli_command",
+    "validation_command"
+  ],
+  "last_sync_at": "2026-03-31T19:33:05Z",
+  "last_sync_summary": "materialization_id=materialize-factory-native-smoke-role-domain-overlay-build-pack-v1-20260331t193305z",
+  "schema_version": "pack-lineage/v2",
+  "source_template_id": "factory-native-smoke-template-pack",
+  "source_template_revision": "factory-native-smoke-template-20260320t221000z",
+  "source_template_version": "0.1.0",
+  "sync_state": "current"
+}

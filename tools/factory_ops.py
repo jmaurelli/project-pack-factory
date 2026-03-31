@@ -20,6 +20,9 @@ FACTORY_SCHEMA_DIRNAME: Final = Path("docs/specs/project-pack-factory/schemas")
 PERSONALITY_TEMPLATE_CATALOG_PATH: Final = Path(
     "docs/specs/project-pack-factory/agent-personality-template-catalog.json"
 )
+ROLE_DOMAIN_TEMPLATE_CATALOG_PATH: Final = Path(
+    "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json"
+)
 REGISTRY_TEMPLATE_PATH: Final = Path("registry/templates.json")
 REGISTRY_BUILD_PATH: Final = Path("registry/build-packs.json")
 PROMOTION_LOG_PATH: Final = Path("registry/promotion-log.json")
@@ -273,6 +276,86 @@ def resolve_personality_template(factory_root: Path, template_id: str) -> dict[s
     available = ", ".join(sorted(catalog)) or "<none>"
     raise ValueError(
         f"{personality_template_catalog_path(factory_root)}: unknown personality template "
+        f"`{template_id}`; available templates: {available}"
+    )
+
+
+def load_role_domain_template_catalog(factory_root: Path) -> dict[str, dict[str, Any]]:
+    catalog_path = factory_root / ROLE_DOMAIN_TEMPLATE_CATALOG_PATH
+    schema_errors = validate_json_document(
+        catalog_path,
+        schema_path(factory_root, "agent-role-domain-template-catalog.schema.json"),
+    )
+    if schema_errors:
+        raise ValueError("; ".join(schema_errors))
+
+    payload = load_json(catalog_path)
+    if not isinstance(payload, dict):
+        raise ValueError(f"{catalog_path}: catalog file must contain a JSON object")
+    templates = payload.get("templates", [])
+    if not isinstance(templates, list):
+        raise ValueError(f"{catalog_path}: templates must be an array")
+
+    resolved: dict[str, dict[str, Any]] = {}
+    for entry in templates:
+        if not isinstance(entry, dict):
+            raise ValueError(f"{catalog_path}: template entries must be objects")
+        template_id = entry.get("template_id")
+        if not isinstance(template_id, str) or not template_id.strip():
+            raise ValueError(f"{catalog_path}: template entries must include a non-empty template_id")
+        if template_id in resolved:
+            raise ValueError(f"{catalog_path}: duplicate role/domain template_id `{template_id}`")
+        resolved[template_id] = cast(dict[str, Any], entry)
+    return resolved
+
+
+def resolve_role_domain_template(factory_root: Path, template_id: str) -> dict[str, Any]:
+    catalog = load_role_domain_template_catalog(factory_root)
+    if template_id in catalog:
+        return catalog[template_id]
+    available = ", ".join(sorted(catalog)) or "<none>"
+    raise ValueError(
+        f"{factory_root / ROLE_DOMAIN_TEMPLATE_CATALOG_PATH}: unknown role/domain template "
+        f"`{template_id}`; available templates: {available}"
+    )
+
+
+def load_role_domain_template_catalog(factory_root: Path) -> dict[str, dict[str, Any]]:
+    catalog_path = factory_root / ROLE_DOMAIN_TEMPLATE_CATALOG_PATH
+    schema_errors = validate_json_document(
+        catalog_path,
+        schema_path(factory_root, "agent-role-domain-template-catalog.schema.json"),
+    )
+    if schema_errors:
+        raise ValueError("; ".join(schema_errors))
+
+    payload = load_json(catalog_path)
+    if not isinstance(payload, dict):
+        raise ValueError(f"{catalog_path}: catalog file must contain a JSON object")
+    templates = payload.get("templates", [])
+    if not isinstance(templates, list):
+        raise ValueError(f"{catalog_path}: templates must be an array")
+
+    resolved: dict[str, dict[str, Any]] = {}
+    for entry in templates:
+        if not isinstance(entry, dict):
+            raise ValueError(f"{catalog_path}: template entries must be objects")
+        template_id = entry.get("template_id")
+        if not isinstance(template_id, str) or not template_id.strip():
+            raise ValueError(f"{catalog_path}: template entries must include a non-empty template_id")
+        if template_id in resolved:
+            raise ValueError(f"{catalog_path}: duplicate role/domain template_id `{template_id}`")
+        resolved[template_id] = cast(dict[str, Any], entry)
+    return resolved
+
+
+def resolve_role_domain_template(factory_root: Path, template_id: str) -> dict[str, Any]:
+    catalog = load_role_domain_template_catalog(factory_root)
+    if template_id in catalog:
+        return catalog[template_id]
+    available = ", ".join(sorted(catalog)) or "<none>"
+    raise ValueError(
+        f"{factory_root / ROLE_DOMAIN_TEMPLATE_CATALOG_PATH}: unknown role/domain template "
         f"`{template_id}`; available templates: {available}"
     )
 

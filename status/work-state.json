@@ -9,13 +9,61 @@
     "plan_astro_dashboard_upgrade",
     "design_operator_dashboard_surface",
     "optimize_agent_instruction_surfaces",
-    "design_agent_personality_template_system"
+    "design_agent_personality_template_system",
+    "capture_assistant_template_lineage_improvement",
+    "design_runtime_template_parity_workflow",
+    "design_assistant_uat_remote_request_builder",
+    "design_headless_browser_proof_tool",
+    "design_role_domain_template_overlay_system"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Recorded the ADF operator-playbook publication milestone at the factory root so PackFactory now carries the live `ASMS UI is down` route, the separate canonical template route, and the linked ADF pack evidence in a root-visible note.",
-  "last_outcome": "adf_playbook_publication_note_recorded",
-  "last_outcome_at": "2026-03-29T17:04:45Z",
+  "last_agent_action": "Exercised the new role/domain-template overlay system on a real proving-ground build-pack, confirmed clean composition with the business-partner personality overlay, and recorded the resulting materialization and validation evidence.",
+  "last_outcome": "design_role_domain_template_overlay_system",
+  "last_outcome_at": "2026-03-31T19:28:10Z",
   "last_validation_results": [
+    {
+      "evidence_paths": [
+        ".pack-state/tmp/factory-native-smoke-role-domain-overlay-materialization-request.json",
+        "build-packs/factory-native-smoke-role-domain-overlay-build-pack-v1/pack.json",
+        "build-packs/factory-native-smoke-role-domain-overlay-build-pack-v1/AGENTS.md",
+        "build-packs/factory-native-smoke-role-domain-overlay-build-pack-v1/eval/history/materialize-factory-native-smoke-role-domain-overlay-build-pack-v1-20260331t193305z/materialization-report.json"
+      ],
+      "recorded_at": "2026-03-31T19:39:30Z",
+      "status": "pass",
+      "summary": "Materialized the proving-ground build-pack `factory-native-smoke-role-domain-overlay-build-pack-v1` from the smoke template with `business-partner-concierge` plus `startup-operator`, confirmed one combined generated overlay header with separate personality and role/domain blocks, and passed both pack-level validation and benchmark plus whole-factory validation.",
+      "validation_id": "role_domain_overlay_proving_ground_materialization"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ROLE-DOMAIN-TEMPLATE-OVERLAY-TECH-SPEC.md",
+        "eval/history/role-domain-template-overlay-adversarial-review-20260331.md",
+        "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+        "docs/specs/project-pack-factory/schemas/agent-role-domain-template-catalog.schema.json",
+        "tools/factory_ops.py",
+        "tools/create_template_pack.py",
+        "tools/materialize_build_pack.py",
+        "tools/validate_factory.py",
+        ".pack-state/agent-memory/latest-memory.json",
+        ".pack-state/post-autonomy-change-maintenance-runs/post-autonomy-change-maintenance-20260331t192752z/maintenance-report.json"
+      ],
+      "recorded_at": "2026-03-31T19:28:10Z",
+      "status": "pass",
+      "summary": "Created the root role/domain-template overlay task and spec, tightened the design with adversarial review findings, implemented the catalog/schema plus template-creation and materialization overlay support, unified generated overlay guidance under one combined header, refreshed root memory, and passed whole-factory validation plus post-autonomy maintenance.",
+      "validation_id": "design_role_domain_template_overlay_system"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-PROOF-TOOL-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TESTING-POLICY.md",
+        "eval/history/headless-browser-proof-tool-adversarial-review-20260331.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-31T18:28:55Z",
+      "status": "pass",
+      "summary": "Added the root browser-proof tooling spec and tightened it after multi-agent adversarial review. V1 is now explicitly limited to one ADF field-manual proving-ground recipe, the wrapper is opt-in only and excluded from default validation/test flows, browser runtime state is constrained to factory-owned paths, and the tool is read-only against canonical PackFactory control-plane state. `validate_factory.py` passed after the planner and spec update.",
+      "validation_id": "design_headless_browser_proof_tool"
+    },
     {
       "evidence_paths": [
         "contracts/project-objective.json",
@@ -104,6 +152,59 @@
       "status": "pass",
       "summary": "Recorded the ADF publication milestone at the factory root: the canonical template is now placeholder-only and the real `ASMS UI is down` playbook is published as its own live review route.",
       "validation_id": "record_adf_playbook_publication_milestone"
+    },
+    {
+      "evidence_paths": [
+        ".pack-state/autonomy-improvement-promotions/codex-personal-assistant-grounded-relationship-learning-20260330t210913z/promotion-report.json",
+        "templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+        "templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-codex-personal-assistant-template-pack-20260330t210913z.json",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ASSISTANT-TEMPLATE-LINEAGE-IMPROVEMENT-CAPTURE-TECH-SPEC.md"
+      ],
+      "recorded_at": "2026-03-30T21:09:13Z",
+      "status": "pass",
+      "summary": "Recorded the grounded relationship-learning assistant improvement against the Codex personal assistant template line and refreshed template-lineage memory to make that inheritance discoverable.",
+      "validation_id": "capture_assistant_template_lineage_improvement"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-RUNTIME-TEMPLATE-PARITY-AND-BACKPORT-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/template-parity-report.schema.json",
+        "docs/specs/project-pack-factory/schemas/template-lineage-memory.schema.json",
+        "tools/record_runtime_template_parity.py",
+        "tools/refresh_template_lineage_memory.py",
+        ".pack-state/template-parity-reports/template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t212000z/parity-report.json",
+        "templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+        "templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-codex-personal-assistant-template-pack-20260330t212000z.json",
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md"
+      ],
+      "recorded_at": "2026-03-30T21:20:00Z",
+      "status": "pass",
+      "summary": "Implemented the runtime-template parity workflow, validated the new schema and tool, recorded a final lineage-refreshed parity report for the Codex personal assistant runtime/template pair, and refreshed template-lineage memory so parity state is visible from the template handoff surface.",
+      "validation_id": "design_runtime_template_parity_workflow"
+    },
+    {
+      "evidence_paths": [
+        "tools/build_assistant_uat_remote_request.py",
+        "docs/specs/project-pack-factory/schemas/assistant-uat-scenario.schema.json",
+        "docs/specs/project-pack-factory/assistant-uat-scenarios/recurring-relationship-reflection-loop.json",
+        ".pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/assistant-uat-scenario-manifest.json",
+        ".pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/remote-run-request.json",
+        ".pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/remote-test-request.json",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/artifacts/execution-manifest.json",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t145619z/import-report.json",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-last-message.txt",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ASSISTANT-UAT-REMOTE-REQUEST-BUILDER-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-REMOTE-AUTONOMOUS-BUILD-PACK-EXECUTION-TECH-SPEC.md",
+        "AGENTS.md",
+        "README.md"
+      ],
+      "recorded_at": "2026-03-31T14:56:19Z",
+      "status": "pass",
+      "summary": "Hardened the assistant-UAT request builder with scenario-controlled contract-profile refinement and scenario-level reasoning-effort selection, then generated the canonical v19 request pair plus scenario manifest and confirmed a clean remote roundtrip, export, and import on adf-dev with no boundary violations and all three assistant prompts returning 0.",
+      "validation_id": "design_assistant_uat_remote_request_builder"
     }
   ],
   "next_recommended_task_id": null,
@@ -113,7 +214,8 @@
   "resume_instructions": [
     "Read contracts/project-objective.json, tasks/active-backlog.json, and status/work-state.json before changing PackFactory root tooling or docs.",
     "Treat registry/, deployments/, and other machine-readable control-plane state as canonical truth for live pack state; root memory remains advisory restart context.",
-    "Use the autonomy planning list as broader design context, but keep next-step tracking synchronized through the root backlog and work-state files."
+    "Use the autonomy planning list as broader design context, but keep next-step tracking synchronized through the root backlog and work-state files.",
+    "For assistant-derived PackFactory tooling follow-ups, read the runtime-template parity, assistant-UAT request-builder, and assistant-template lineage capture specs before changing root tooling."
   ],
   "schema_version": "work-state/v1",
   "stop_conditions": [

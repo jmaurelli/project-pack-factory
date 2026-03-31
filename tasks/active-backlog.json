@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-29T17:04:45Z",
+  "generated_at": "2026-03-31T19:25:16Z",
   "objective_id": "project_pack_factory_root_objective",
   "pack_id": "project-pack-factory",
   "schema_version": "task-backlog/v1",
@@ -178,6 +178,45 @@
     },
     {
       "acceptance_criteria": [
+        "PackFactory has a reusable role/domain-template overlay model that stays optional and composes cleanly with personality overlays.",
+        "Role/domain inheritance is explicit during template creation and build-pack materialization without collapsing operator-specific runtime state."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded role/domain overlay design exists with clear catalog, selection, and manifest surfaces.",
+        "PackFactory tooling can inherit, override, or clear the role/domain overlay the same way it already can for personality."
+      ],
+      "dependencies": [
+        "design_agent_personality_template_system"
+      ],
+      "escalation_conditions": [
+        "A proposed role/domain system would blur into personality so heavily that the two overlays stop being distinguishable.",
+        "A proposed role/domain system would imply literal credentials or collapse template reuse into identity lock-in."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ROLE-DOMAIN-TEMPLATE-OVERLAY-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+        "docs/specs/project-pack-factory/schemas/agent-role-domain-template-catalog.schema.json",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TEMPLATE-PLANNING-AND-CREATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BUILD-PACK-MATERIALIZATION-TECH-SPEC.md",
+        "tools/factory_ops.py",
+        "tools/create_template_pack.py",
+        "tools/materialize_build_pack.py",
+        "tools/validate_factory.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4,
+      "status": "completed",
+      "summary": "Design and implement the optional role/domain-template overlay system as a reusable framing layer that composes with personality templates.",
+      "task_id": "design_role_domain_template_overlay_system",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
         "Root and template instruction surfaces have a clearer scan order and lower repetition without losing critical policy content.",
         "The redesign is grounded in instruction-retention and startup-performance goals rather than prose polish alone."
       ],
@@ -209,6 +248,223 @@
       "validation_commands": [
         "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
         "python3 tools/run_factory_root_startup_benchmark.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit implemented local-scratch-root design for transient remote-autonomy payloads that can place scratch on another directory or partition instead of requiring those writes to stay under the repo root.",
+        "The implemented workflow follows `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md`, including the scratch-versus-canonical evidence boundary, validator changes, and lifecycle guardrails."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The explicit scratch-root tech spec records the 2026-03-29 disk-pressure incident, the hard-wired code paths, and the required redirect design.",
+        "Operators have a documented PackFactory-supported path for placing transient remote-autonomy local writes on managed scratch storage instead of the slash-backed repo root.",
+        "Cleanup, retention, or preflight disk-pressure checks exist as bounded lifecycle guardrails on top of the new scratch-root boundary."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "A proposed cleanup rule would delete canonical runtime evidence, active remote-session staging needed by an in-flight run, or other control-plane truth surfaces."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "tools/remote_autonomy_staging_common.py",
+        "tools/remote_autonomy_roundtrip_common.py",
+        "tools/push_build_pack_to_remote.py",
+        "tools/run_remote_autonomy_loop.py",
+        "tools/pull_remote_runtime_evidence.py",
+        "tools/run_remote_active_task_continuity_test.py",
+        "tools/run_remote_memory_continuity_test.py",
+        "docs/specs/project-pack-factory/schemas/remote-autonomy-run-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/remote-autonomy-test-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/remote-roundtrip-manifest.schema.json",
+        "docs/specs/project-pack-factory/schemas/external-runtime-evidence-import-request.schema.json",
+        ".pack-state/remote-autonomy-staging/",
+        ".pack-state/remote-autonomy-roundtrips/",
+        "AGENTS.md",
+        "README.md"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 6,
+      "status": "completed",
+      "summary": "Implement the explicit local-scratch-root and staging-lifecycle design in `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md`: move transient remote-autonomy local writes behind an agent-managed scratch root that can live on another directory or partition, persist that host-local selection across agent sessions, then add cleanup, retention, and disk-pressure guards on top.",
+      "task_id": "bound_remote_autonomy_staging_retention",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "du -xsh /home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-staging",
+        "df -hT /"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit spec for recording the Codex personal assistant template's reusable grounded-relationship-learning bundle through autonomy-improvement promotion and template-lineage memory.",
+        "The task makes clear that this is template-lineage capture work for a proved assistant behavior family, not a request to promote assistant-specific behavior into all factory defaults."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A factory-root spec names the reusable assistant improvement bundle, the proof artifacts, and the correct adopted-versus-pending surfaces for promotion recording.",
+        "The bounded lineage-capture path uses `record_autonomy_improvement_promotion.py` plus `refresh_template_lineage_memory.py` against `codex-personal-assistant-template-pack`."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "The available assistant evidence proves only runtime-local behavior and is not strong enough to justify a template-lineage claim.",
+        "The proposed capture would blur assistant-template lineage with factory-global defaults."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ASSISTANT-TEMPLATE-LINEAGE-IMPROVEMENT-CAPTURE-TECH-SPEC.md",
+        "tools/record_autonomy_improvement_promotion.py",
+        "tools/refresh_template_lineage_memory.py",
+        "templates/codex-personal-assistant-template-pack/contracts/partnership-policy.json",
+        "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/grounding.py",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-last-message.txt",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 7,
+      "status": "completed",
+      "summary": "Record the reusable grounded relationship-learning bundle from the Codex personal assistant line through autonomy-improvement promotion and template-lineage memory.",
+      "task_id": "capture_assistant_template_lineage_improvement",
+      "validation_commands": [
+        "python3 tools/record_autonomy_improvement_promotion.py --factory-root /home/orchadmin/project-pack-factory --improvement-id codex-personal-assistant-grounded-relationship-learning --summary \"Record the grounded business-partner, navigation, continuity, thin-history, and recurring relationship-reflection behavior bundle now inherited by the Codex personal assistant template line.\" --source-build-pack-id codex-personal-assistant-daily-driver-build-pack-v1 --source-template-id codex-personal-assistant-template-pack --proof-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-last-message.txt --proof-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json --adopted-surface source_template_tracking --pending-surface factory_root_discoverability --pending-surface factory_root_memory --output json",
+        "python3 tools/refresh_template_lineage_memory.py --factory-root /home/orchadmin/project-pack-factory --template-id codex-personal-assistant-template-pack --actor codex --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit runtime-to-template parity spec that says when a reusable runtime slice needs a template backport record, what parity statuses are valid, and what evidence is required.",
+        "The parity workflow stays bounded to reusable behavior and does not turn into automatic runtime-to-template file syncing."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A factory-root parity spec exists and is linked from the root planner task.",
+        "The spec defines a machine-readable parity artifact or equivalent bounded record that can distinguish runtime-only, template-backported, and lineage-refreshed states."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "The parity proposal would imply broad automatic backporting or weaken the separation between template source and runtime derivatives.",
+        "The evidence is too thin to justify a reusable parity workflow beyond one-off assistant handling."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-RUNTIME-TEMPLATE-PARITY-AND-BACKPORT-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/template-parity-report.schema.json",
+        "tools/record_runtime_template_parity.py",
+        "tools/validate_factory.py",
+        "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/grounding.py",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/grounding.py",
+        "docs/specs/project-pack-factory/schemas/template-lineage-memory.schema.json",
+        "tools/refresh_template_lineage_memory.py",
+        ".pack-state/template-parity-reports/template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t212000z/parity-report.json",
+        "templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/tasks/active-backlog.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 8,
+      "status": "completed",
+      "summary": "Define a bounded PackFactory parity and backport workflow for reusable runtime behavior that should be reflected in a source template.",
+      "task_id": "design_runtime_template_parity_workflow",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/record_runtime_template_parity.py --factory-root /home/orchadmin/project-pack-factory --runtime-build-pack-id codex-personal-assistant-daily-driver-build-pack-v1 --source-template-id codex-personal-assistant-template-pack --improvement-id codex-personal-assistant-grounded-relationship-learning --summary \"Record that the grounded relationship-learning assistant bundle proved in the daily-driver runtime pack has been backported into the codex personal assistant source template and refreshed into template-lineage memory.\" --parity-status template_backported_and_lineage_refreshed --proof-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-last-message.txt --proof-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json --runtime-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/contracts/partnership-policy.json --runtime-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/grounding.py --runtime-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/alignment.py --runtime-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/cli.py --runtime-path build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/doctor.py --template-path templates/codex-personal-assistant-template-pack/contracts/partnership-policy.json --template-path templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/grounding.py --template-path templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/alignment.py --template-path templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/cli.py --template-path templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/doctor.py --factory-context-path .pack-state/autonomy-improvement-promotions/codex-personal-assistant-grounded-relationship-learning-20260330t210913z/promotion-report.json --factory-context-path templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/latest-memory.json --factory-context-path templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-codex-personal-assistant-template-pack-20260330t210913z.json --pending-follow-up \"Promote parity-report discoverability further only if PackFactory needs parity status surfaced in the dashboard or root memory by default.\" --output json",
+        "cd /home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-daily-driver-build-pack-v1 && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+        "cd /home/orchadmin/project-pack-factory/templates/codex-personal-assistant-template-pack && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit root-level tech spec for a shared headless-browser proof tool that validates real browser behavior on operator-facing preview surfaces without turning that capability into a build-pack.",
+        "The spec keeps the tool bounded, aligned with the factory testing policy, and explicit that the first usage is on-demand proof rather than a broad default gate.",
+        "The spec names at least one concrete proving-ground case, such as the ADF field-manual step-expansion behavior."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A factory-root browser-proof spec exists under `docs/specs/project-pack-factory/` and is tied to one named root planner task.",
+        "The spec clearly distinguishes shared PackFactory tool runtime from build-pack content or build-pack-local helpers.",
+        "The next implementation pass can build a wrapper tool without re-arguing whether the capability belongs at the factory root."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker",
+        "plan_astro_dashboard_upgrade"
+      ],
+      "escalation_conditions": [
+        "The proposed tool would effectively become a broad new default UI test suite rather than a bounded proof surface.",
+        "The browser runtime model cannot be kept outside canonical build-pack truth surfaces or would create persistent tool-state ambiguity."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-PROOF-TOOL-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TESTING-POLICY.md",
+        "tools/",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 10,
+      "status": "completed",
+      "summary": "Design a shared PackFactory headless-browser proof tool so agents can validate real operator-facing browser behavior on preview surfaces without turning that capability into a build-pack or a broad default UI test suite.",
+      "task_id": "design_headless_browser_proof_tool",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit spec for an assistant-UAT remote request builder that can generate the `remote-run-request.json` and `remote-test-request.json` pair from bounded scenario inputs.",
+        "The proposed helper preserves the existing remote roundtrip control plane and the existing imported `assistant-uat` evidence contract."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A factory-root spec exists for the assistant-UAT request builder and includes evidence from the current handcrafted Codex personal assistant remote requests plus the implemented builder surfaces.",
+        "PackFactory can generate the canonical `remote-run-request.json` and `remote-test-request.json` pair plus an auditable scenario manifest from one bounded assistant-UAT scenario input."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "The helper design would bypass the PackFactory remote roundtrip control plane or invent a separate remote execution path.",
+        "The helper would require broad new test suites instead of reusing current bounded validation and roundtrip surfaces."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ASSISTANT-UAT-REMOTE-REQUEST-BUILDER-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/assistant-uat-scenario.schema.json",
+        "docs/specs/project-pack-factory/assistant-uat-scenarios/recurring-relationship-reflection-loop.json",
+        "tools/build_assistant_uat_remote_request.py",
+        "tools/run_remote_autonomy_test.py",
+        "tools/import_external_runtime_evidence.py",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-REMOTE-AUTONOMOUS-BUILD-PACK-EXECUTION-TECH-SPEC.md",
+        ".pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v11/remote-run-request.json",
+        ".pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v11/remote-test-request.json",
+        ".pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v12/assistant-uat-scenario-manifest.json",
+        ".pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v12/remote-run-request.json",
+        ".pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v12/remote-test-request.json",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-stderr.txt",
+        "AGENTS.md",
+        "README.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 9,
+      "status": "completed",
+      "summary": "Design a factory-native assistant-UAT remote request builder so PackFactory can generate bounded remote Codex acceptance runs without handcrafted runner payloads.",
+      "task_id": "design_assistant_uat_remote_request_builder",
+      "validation_commands": [
+        "python3 tools/build_assistant_uat_remote_request.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id codex-personal-assistant-daily-driver-build-pack-v1 --remote-target-label adf-dev --remote-host adf-dev --remote-user adf --scenario-id recurring-relationship-reflection-loop --reason \"the recurring relationship-reflection loop on the staged Codex personal assistant daily-driver pack\" --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file /home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v12/remote-test-request.json --output json"
       ]
     }
   ]

@@ -16,12 +16,14 @@ if str(SCRIPT_DIR) not in sys.path:
 
 from factory_ops import (
     PERSONALITY_TEMPLATE_CATALOG_PATH,
+    ROLE_DOMAIN_TEMPLATE_CATALOG_PATH,
     PROMOTION_LOG_PATH,
     REGISTRY_BUILD_PATH,
     discover_pack,
     isoformat_z,
     load_json,
     resolve_personality_template,
+    resolve_role_domain_template,
     read_now,
     relative_path,
     resolve_factory_root,
@@ -231,6 +233,7 @@ def _runtime_evidence_export_helper_source() -> str:
         EXPORT_ROOT = Path("dist") / "exports" / "runtime-evidence"
         RUN_SUMMARY_NAME = "run-summary.json"
         LOOP_EVENTS_NAME = "loop-events.jsonl"
+        AUTO_INCLUDE_RUN_DIR_NAMES = ("assistant-uat",)
         SUPPLEMENTARY_MEMORY_ROOT = Path(".pack-state") / "agent-memory"
         FEEDBACK_MEMORY_ARTIFACT_ROOT = Path("artifacts") / "agent-memory"
 
@@ -280,6 +283,19 @@ def _runtime_evidence_export_helper_source() -> str:
             return "text/plain; charset=utf-8"
 
 
+        def _collect_optional_run_artifact_files(run_root: Path) -> list[Path]:
+            selected: list[Path] = []
+            for dirname in AUTO_INCLUDE_RUN_DIR_NAMES:
+                artifact_root = run_root / dirname
+                if not artifact_root.exists():
+                    continue
+                if not artifact_root.is_dir():
+                    raise ValueError(f"{artifact_root}: expected an optional run artifact directory")
+                for candidate in sorted(path for path in artifact_root.rglob("*") if path.is_file()):
+                    selected.append(candidate)
+            return selected
+
+
         def _select_run_files(pack_root: Path, run_id: str, include_logs: list[str]) -> tuple[Path, list[Path]]:
             run_root = (pack_root / ALLOWED_RUN_ROOT / run_id).resolve()
             if not run_root.exists():
@@ -298,6 +314,8 @@ def _runtime_evidence_export_helper_source() -> str:
             loop_events_path = run_root / LOOP_EVENTS_NAME
             if loop_events_path.exists():
                 selected.append(loop_events_path)
+
+            selected.extend(_collect_optional_run_artifact_files(run_root))
 
             for include in include_logs:
                 include_path = _resolve_under(run_root, include)
@@ -535,6 +553,7 @@ def _build_pack_agents_text(
     source_template_id: str,
     runtime_is_python: bool,
     personality_template: dict[str, Any] | None,
+    role_domain_template: dict[str, Any] | None,
 ) -> str:
     lines = [
         f"# {display_name} Build Pack Agent Context",
@@ -574,7 +593,11 @@ def _build_pack_agents_text(
         lines.extend(
             [
                 "",
-                "This build-pack also applies an optional personality overlay.",
+                "## Optional Overlays",
+                "",
+                "Treat these overlays as composable guidance layers. Personality shapes tone and collaboration posture; role/domain shapes problem framing and default task heuristics.",
+                "",
+                "### Personality",
                 (
                     f"Selected overlay: `{personality_template['template_id']}` "
                     f"({personality_template['display_name']})."
@@ -584,6 +607,34 @@ def _build_pack_agents_text(
             ]
         )
         for line in personality_template.get("agent_context_lines", []):
+            lines.append(f"- {line}")
+    if role_domain_template is not None:
+        lines.extend(
+            [
+                "",
+                "## Optional Overlays" if personality_template is None else "### Role/Domain",
+            ]
+        )
+        if personality_template is None:
+            lines.extend(
+                [
+                    "",
+                    "Treat these overlays as composable guidance layers. Personality shapes tone and collaboration posture; role/domain shapes problem framing and default task heuristics.",
+                    "",
+                    "### Role/Domain",
+                ]
+            )
+        lines.extend(
+            [
+                (
+                    f"Selected overlay: `{role_domain_template['template_id']}` "
+                    f"({role_domain_template['display_name']})."
+                ),
+                role_domain_template["summary"],
+                "Use it as a framing lens for problem framing, default task heuristics, and functional perspective. Do not treat it as literal credentials, and do not let it weaken canonical lifecycle, readiness, deployment, or promotion truth.",
+            ]
+        )
+        for line in role_domain_template.get("agent_context_lines", []):
             lines.append(f"- {line}")
     lines.extend(
         [
@@ -623,6 +674,22 @@ def _manifest_personality_template(personality_template: dict[str, Any] | None) 
         "selection_reason": personality_template["selection_reason"],
         "catalog_path": personality_template["catalog_path"],
         "apply_to_derived_build_packs_by_default": personality_template[
+            "apply_to_derived_build_packs_by_default"
+        ],
+    }
+
+
+def _manifest_role_domain_template(role_domain_template: dict[str, Any] | None) -> dict[str, Any] | None:
+    if role_domain_template is None:
+        return None
+    return {
+        "template_id": role_domain_template["template_id"],
+        "display_name": role_domain_template["display_name"],
+        "summary": role_domain_template["summary"],
+        "selection_origin": role_domain_template["selection_origin"],
+        "selection_reason": role_domain_template["selection_reason"],
+        "catalog_path": role_domain_template["catalog_path"],
+        "apply_to_derived_build_packs_by_default": role_domain_template[
             "apply_to_derived_build_packs_by_default"
         ],
     }
@@ -699,6 +766,77 @@ def _resolve_materialized_personality_template(
     )
 
 
+def _resolve_materialized_role_domain_template(
+    factory_root: Path,
+    template_manifest: dict[str, Any],
+    request: dict[str, Any],
+) -> dict[str, Any] | None:
+    selection = request.get("role_domain_template_selection")
+    selection_mode = "inherit_template_default"
+    if selection is not None:
+        if not isinstance(selection, dict):
+            raise ValueError("role_domain_template_selection must be an object when present")
+        raw_mode = selection.get("selection_mode")
+        if not isinstance(raw_mode, str) or not raw_mode.strip():
+            raise ValueError("role_domain_template_selection.selection_mode must be a non-empty string")
+        selection_mode = raw_mode.strip()
+
+    if selection_mode == "inherit_template_default":
+        template_overlay = template_manifest.get("role_domain_template")
+        if not isinstance(template_overlay, dict):
+            return None
+        if template_overlay.get("apply_to_derived_build_packs_by_default") is not True:
+            return None
+        template_id = template_overlay.get("template_id")
+        if not isinstance(template_id, str) or not template_id.strip():
+            raise ValueError("template pack role_domain_template.template_id must be a non-empty string")
+        catalog_entry = resolve_role_domain_template(factory_root, template_id.strip())
+        return {
+            "template_id": catalog_entry["template_id"],
+            "display_name": catalog_entry["display_name"],
+            "summary": catalog_entry["summary"],
+            "selection_origin": "materialization_inherited_default",
+            "selection_reason": "Inherited the source template default role/domain overlay.",
+            "catalog_path": ROLE_DOMAIN_TEMPLATE_CATALOG_PATH.as_posix(),
+            "agent_context_lines": list(catalog_entry.get("agent_context_lines", [])),
+            "apply_to_derived_build_packs_by_default": False,
+        }
+
+    if selection_mode == "catalog_template":
+        if not isinstance(selection, dict):
+            raise ValueError("role_domain_template_selection must be an object for catalog_template selection")
+        template_id = selection.get("role_domain_template_id")
+        if not isinstance(template_id, str) or not template_id.strip():
+            raise ValueError("catalog role/domain selection requires role_domain_template_id")
+        selection_reason = selection.get("selection_reason")
+        if not isinstance(selection_reason, str) or not selection_reason.strip():
+            raise ValueError("catalog role/domain selection requires selection_reason")
+        catalog_entry = resolve_role_domain_template(factory_root, template_id.strip())
+        return {
+            "template_id": catalog_entry["template_id"],
+            "display_name": catalog_entry["display_name"],
+            "summary": catalog_entry["summary"],
+            "selection_origin": "materialization_selected",
+            "selection_reason": selection_reason.strip(),
+            "catalog_path": ROLE_DOMAIN_TEMPLATE_CATALOG_PATH.as_posix(),
+            "agent_context_lines": list(catalog_entry.get("agent_context_lines", [])),
+            "apply_to_derived_build_packs_by_default": False,
+        }
+
+    if selection_mode == "no_role_domain_template":
+        if not isinstance(selection, dict):
+            raise ValueError("role_domain_template_selection must be an object for no_role_domain_template")
+        selection_reason = selection.get("selection_reason")
+        if not isinstance(selection_reason, str) or not selection_reason.strip():
+            raise ValueError("no_role_domain_template selection requires selection_reason")
+        return None
+
+    raise ValueError(
+        "role_domain_template_selection.selection_mode must be one of "
+        "`inherit_template_default`, `catalog_template`, or `no_role_domain_template`"
+    )
+
+
 def _synthesize_build_pack(
     *,
     factory_root: Path,
@@ -730,6 +868,11 @@ def _synthesize_build_pack(
     source_template_id = str(request["source_template_id"])
     project_goal = _extract_project_goal(template_manifest, project_context_text)
     resolved_personality_template = _resolve_materialized_personality_template(
+        factory_root,
+        template_manifest,
+        request,
+    )
+    resolved_role_domain_template = _resolve_materialized_role_domain_template(
         factory_root,
         template_manifest,
         request,
@@ -772,6 +915,11 @@ def _synthesize_build_pack(
         pack_manifest["personality_template"] = _manifest_personality_template(resolved_personality_template)
         pack_manifest["notes"].append(
             f"personality_template_id={resolved_personality_template['template_id']}"
+        )
+    if resolved_role_domain_template is not None:
+        pack_manifest["role_domain_template"] = _manifest_role_domain_template(resolved_role_domain_template)
+        pack_manifest["notes"].append(
+            f"role_domain_template_id={resolved_role_domain_template['template_id']}"
         )
 
     objective_id = _objective_id(pack_id)
@@ -1087,7 +1235,9 @@ def _synthesize_build_pack(
         "task_backlog": task_backlog,
         "work_state": work_state,
         "resolved_personality_template": _manifest_personality_template(resolved_personality_template),
+        "resolved_role_domain_template": _manifest_role_domain_template(resolved_role_domain_template),
         "agent_personality_template": resolved_personality_template,
+        "agent_role_domain_template": resolved_role_domain_template,
     }
 
 
@@ -1259,6 +1409,7 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                 source_template_id=source_template_id,
                 runtime_is_python=runtime_is_python,
                 personality_template=state["agent_personality_template"],
+                role_domain_template=state["agent_role_domain_template"],
             ),
             encoding="utf-8",
         )
@@ -1294,6 +1445,10 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         if state["resolved_personality_template"] is not None:
             registry_entry["notes"].append(
                 f"personality_template_id={state['resolved_personality_template']['template_id']}"
+            )
+        if state["resolved_role_domain_template"] is not None:
+            registry_entry["notes"].append(
+                f"role_domain_template_id={state['resolved_role_domain_template']['template_id']}"
             )
         entries.append(registry_entry)
         build_registry["updated_at"] = generated_at
@@ -1421,6 +1576,8 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         }
         if state["resolved_personality_template"] is not None:
             report["resolved_personality_template"] = state["resolved_personality_template"]
+        if state["resolved_role_domain_template"] is not None:
+            report["resolved_role_domain_template"] = state["resolved_role_domain_template"]
 
         events.append(
             {

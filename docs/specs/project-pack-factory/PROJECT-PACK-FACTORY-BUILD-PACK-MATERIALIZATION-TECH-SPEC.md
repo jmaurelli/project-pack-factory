@@ -408,6 +408,18 @@ The canonical personality template catalog lives at:
 
 - `docs/specs/project-pack-factory/agent-personality-template-catalog.json`
 
+The materialization request may also include an optional
+`role_domain_template_selection` object. That gives the operator three bounded
+choices for the role/domain lens:
+
+- inherit the source template default role/domain overlay when one exists
+- select a different catalog role/domain template for this build-pack
+- clear role/domain overlay inheritance for this one build-pack
+
+The canonical role/domain template catalog lives at:
+
+- `docs/specs/project-pack-factory/agent-role-domain-template-catalog.json`
+
 If a write fails after the build-pack root has been created, the tool must:
 
 - exit non-zero
@@ -431,6 +443,11 @@ If a write fails after the build-pack root has been created, the tool must:
     "selection_mode": "catalog_template",
     "personality_template_id": "business-partner-concierge",
     "selection_reason": "Use the warmer operator-facing overlay for this proving-ground derivative."
+  },
+  "role_domain_template_selection": {
+    "selection_mode": "catalog_template",
+    "role_domain_template_id": "product-strategy-advisor",
+    "selection_reason": "Use the product-strategy framing lens for this proving-ground derivative."
   },
   "copy_mode": "copy_pack_root",
   "include_benchmark_declarations": true
@@ -458,6 +475,15 @@ If a write fails after the build-pack root has been created, the tool must:
     "selection_origin": "materialization_selected",
     "selection_reason": "Use the warmer operator-facing overlay for this proving-ground derivative.",
     "catalog_path": "docs/specs/project-pack-factory/agent-personality-template-catalog.json",
+    "apply_to_derived_build_packs_by_default": false
+  },
+  "resolved_role_domain_template": {
+    "template_id": "product-strategy-advisor",
+    "display_name": "Product Strategy Advisor",
+    "summary": "A forward-looking product lens for framing work around customer value, tradeoffs, sequencing, and realistic product bets.",
+    "selection_origin": "materialization_selected",
+    "selection_reason": "Use the product-strategy framing lens for this proving-ground derivative.",
+    "catalog_path": "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
     "apply_to_derived_build_packs_by_default": false
   },
   "copy_summary": {

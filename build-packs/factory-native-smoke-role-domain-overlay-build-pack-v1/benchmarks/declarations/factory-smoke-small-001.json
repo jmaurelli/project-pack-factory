@@ -1,0 +1,36 @@
+{
+  "schema_version": "benchmark-declaration/v1",
+  "benchmark_task_id": "task-factory-smoke-small-001",
+  "benchmark_suite_id": "packfactory-smoke-suite",
+  "benchmark_revision": "rev-factory-smoke-small-001",
+  "benchmark_category": "workflow-smoke",
+  "benchmark_size_class": "small",
+  "complexity_profile": "single-package-low",
+  "approval_profile": "approval_not_required",
+  "intended_pack_family": "template-pack",
+  "intended_languages": [
+    "python"
+  ],
+  "description": "Fresh minimal smoke benchmark declaration for the factory-native testing template.",
+  "target_project": {
+    "target_project_id": "factory-native-smoke-template-pack",
+    "target_locator": "repo-local",
+    "default_relative_root": "templates/factory-native-smoke-template-pack"
+  },
+  "manifest_defaults": {
+    "pack_family": "template-pack",
+    "pack_version": "0.1.0",
+    "orchestration_core_version": "factory-native-smoke-template-20260320t221000z",
+    "terminal_benchmark_classification": "completed_within_envelope"
+  },
+  "tags": [
+    "factory-native",
+    "smoke",
+    "template-pack",
+    "small"
+  ],
+  "owners": [
+    "orchadmin"
+  ],
+  "status": "active"
+}

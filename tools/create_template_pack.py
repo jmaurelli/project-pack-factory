@@ -14,11 +14,13 @@ if str(SCRIPT_DIR) not in sys.path:
 
 from factory_ops import (
     PERSONALITY_TEMPLATE_CATALOG_PATH,
+    ROLE_DOMAIN_TEMPLATE_CATALOG_PATH,
     PROMOTION_LOG_PATH,
     REGISTRY_TEMPLATE_PATH,
     isoformat_z,
     load_json,
     resolve_personality_template,
+    resolve_role_domain_template,
     read_now,
     relative_path,
     resolve_factory_root,
@@ -102,6 +104,7 @@ def _pack_manifest(
     project_goal: str,
     capability_family: str,
     personality_template: dict[str, Any] | None,
+    role_domain_template: dict[str, Any] | None,
 ) -> dict[str, Any]:
     manifest = {
         "schema_version": "pack-manifest/v2",
@@ -147,6 +150,14 @@ def _pack_manifest(
             [
                 f"personality_template_id={personality_template['template_id']}",
                 f"personality_template_default_for_derivatives={str(personality_template['apply_to_derived_build_packs_by_default']).lower()}",
+            ]
+        )
+    if role_domain_template is not None:
+        manifest["role_domain_template"] = role_domain_template
+        manifest["notes"].extend(
+            [
+                f"role_domain_template_id={role_domain_template['template_id']}",
+                f"role_domain_template_default_for_derivatives={str(role_domain_template['apply_to_derived_build_packs_by_default']).lower()}",
             ]
         )
     return manifest
@@ -339,21 +350,20 @@ def _benchmark_declaration(
     }
 
 
-def _personality_overlay_section(
+def _personality_overlay_lines(
     personality_template: dict[str, Any] | None,
     *,
     template_default: bool,
-) -> str:
+) -> list[str]:
     if personality_template is None:
-        return ""
+        return []
     inherited_text = (
         "Derived build-packs inherit this overlay by default unless materialization explicitly clears it or selects another personality template."
         if template_default
         else "Derived build-packs do not inherit this overlay automatically; materialization must select it explicitly when the overlay should follow downstream."
     )
-    lines = [
-        "## Optional Personality Overlay",
-        "",
+    return [
+        "### Personality",
         (
             "This template currently carries the optional personality overlay "
             f"`{personality_template['template_id']}` ({personality_template['display_name']})."
@@ -361,9 +371,64 @@ def _personality_overlay_section(
         personality_template["summary"],
         inherited_text,
         "Treat the overlay as briefing and recommendation-framing guidance only. It does not override canonical factory policy, lifecycle state, deployment truth, or pack-local control-plane files.",
+        *[f"- {line}" for line in personality_template.get("agent_context_lines", [])],
     ]
-    for line in personality_template.get("agent_context_lines", []):
-        lines.append(f"- {line}")
+
+
+def _role_domain_overlay_lines(
+    role_domain_template: dict[str, Any] | None,
+    *,
+    template_default: bool,
+) -> list[str]:
+    if role_domain_template is None:
+        return []
+    inherited_text = (
+        "Derived build-packs inherit this overlay by default unless materialization explicitly clears it or selects another role/domain template."
+        if template_default
+        else "Derived build-packs do not inherit this overlay automatically; materialization must select it explicitly when the framing lens should follow downstream."
+    )
+    return [
+        "### Role/Domain",
+        (
+            "This template currently carries the optional role/domain overlay "
+            f"`{role_domain_template['template_id']}` ({role_domain_template['display_name']})."
+        ),
+        role_domain_template["summary"],
+        inherited_text,
+        "Treat the overlay as a framing lens for problem framing, task heuristics, and functional perspective only. It does not imply literal credentials, and it does not override canonical factory policy, lifecycle state, deployment truth, or pack-local control-plane files.",
+        *[f"- {line}" for line in role_domain_template.get("agent_context_lines", [])],
+    ]
+
+
+def _combined_overlay_section(
+    personality_template: dict[str, Any] | None,
+    role_domain_template: dict[str, Any] | None,
+) -> str:
+    personality_lines = _personality_overlay_lines(
+        personality_template,
+        template_default=bool(
+            personality_template
+            and personality_template.get("apply_to_derived_build_packs_by_default") is True
+        ),
+    )
+    role_domain_lines = _role_domain_overlay_lines(
+        role_domain_template,
+        template_default=bool(
+            role_domain_template
+            and role_domain_template.get("apply_to_derived_build_packs_by_default") is True
+        ),
+    )
+    if not personality_lines and not role_domain_lines:
+        return ""
+    lines = [
+        "## Optional Overlays",
+        "",
+        "Treat these overlays as composable guidance layers. Personality shapes tone and collaboration posture; role/domain shapes problem framing and default task heuristics.",
+    ]
+    if personality_lines:
+        lines.extend(["", *personality_lines])
+    if role_domain_lines:
+        lines.extend(["", *role_domain_lines])
     lines.append("")
     return "\n".join(lines)
 
@@ -384,7 +449,27 @@ def _manifest_personality_template(personality_template: dict[str, Any] | None) 
     }
 
 
-def _pack_agents(display_name: str, personality_template: dict[str, Any] | None = None) -> str:
+def _manifest_role_domain_template(role_domain_template: dict[str, Any] | None) -> dict[str, Any] | None:
+    if role_domain_template is None:
+        return None
+    return {
+        "template_id": role_domain_template["template_id"],
+        "display_name": role_domain_template["display_name"],
+        "summary": role_domain_template["summary"],
+        "selection_origin": role_domain_template["selection_origin"],
+        "selection_reason": role_domain_template["selection_reason"],
+        "catalog_path": role_domain_template["catalog_path"],
+        "apply_to_derived_build_packs_by_default": role_domain_template[
+            "apply_to_derived_build_packs_by_default"
+        ],
+    }
+
+
+def _pack_agents(
+    display_name: str,
+    personality_template: dict[str, Any] | None = None,
+    role_domain_template: dict[str, Any] | None = None,
+) -> str:
     return f"""# {display_name}
 
 This is a PackFactory-native template created through the template creation workflow.
@@ -436,12 +521,7 @@ remote workflows:
   `tools/import_external_runtime_evidence.py` or a higher-level PackFactory
   workflow that wraps that import
 
-{_personality_overlay_section(
-    personality_template,
-    template_default=bool(
-        personality_template and personality_template.get("apply_to_derived_build_packs_by_default") is True
-    ),
-)}
+{_combined_overlay_section(personality_template, role_domain_template)}
 
 ## Working Rules
 
@@ -505,19 +585,26 @@ remote Codex session management and runtime-evidence flow:
   PackFactory evidence
 - return to the factory root for external runtime-evidence import
 
-## Optional Personality Overlay
+## Optional Overlays
 
 When `pack.json.personality_template` exists, treat it as an optional overlay
 for briefing tone, recommendation framing, and operator-facing collaboration.
 
-That overlay should stay composable with the template itself:
+When `pack.json.role_domain_template` exists, treat it as an optional overlay
+for problem framing, default task heuristics, and functional perspective.
+
+These overlays should stay composable with the template itself:
 
 - one source template can still feed multiple build-packs with different
-  personality overlays
-- the overlay should not replace the project goal, runtime surfaces, or
+  overlay combinations
+- personality guidance should shape tone and collaboration posture, not role
+  authority or operator-specific runtime truth
+- role/domain guidance should shape problem framing and default heuristics, not
+  tone, identity, or literal credentials
+- overlays should not replace the project goal, runtime surfaces, or
   control-plane files
 - canonical lifecycle, readiness, deployment, and promotion state always win
-  over personality guidance when they point in different directions
+  over overlay guidance when they point in different directions
 """
 
 
@@ -783,7 +870,43 @@ def _resolve_template_personality_selection(
     }
 
 
-def _validate_request_semantics(factory_root: Path, request: dict[str, Any]) -> dict[str, Any] | None:
+def _resolve_template_role_domain_selection(
+    factory_root: Path,
+    planning: dict[str, Any],
+) -> dict[str, Any] | None:
+    selection = planning.get("role_domain_template_selection")
+    if selection is None:
+        return None
+    if not isinstance(selection, dict):
+        raise ValueError("role_domain_template_selection must be an object when present")
+
+    template_id = selection.get("role_domain_template_id")
+    if not isinstance(template_id, str) or not template_id.strip():
+        raise ValueError("role_domain_template_selection.role_domain_template_id must be a non-empty string")
+    selection_reason = selection.get("selection_reason")
+    if not isinstance(selection_reason, str) or not selection_reason.strip():
+        raise ValueError("role_domain_template_selection.selection_reason must be a non-empty string")
+    apply_to_derived = selection.get("apply_to_derived_build_packs_by_default")
+    if not isinstance(apply_to_derived, bool):
+        raise ValueError(
+            "role_domain_template_selection.apply_to_derived_build_packs_by_default must be a boolean"
+        )
+
+    catalog_entry = resolve_role_domain_template(factory_root, template_id.strip())
+    return {
+        "template_id": catalog_entry["template_id"],
+        "display_name": catalog_entry["display_name"],
+        "summary": catalog_entry["summary"],
+        "selection_origin": "template_selected",
+        "selection_reason": selection_reason.strip(),
+        "catalog_path": ROLE_DOMAIN_TEMPLATE_CATALOG_PATH.as_posix(),
+        "agent_context_lines": list(catalog_entry.get("agent_context_lines", [])),
+        "project_context_lines": list(catalog_entry.get("project_context_lines", [])),
+        "apply_to_derived_build_packs_by_default": apply_to_derived,
+    }
+
+
+def _validate_request_semantics(factory_root: Path, request: dict[str, Any]) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
     if request.get("runtime") != "python":
         raise ValueError("template creation currently supports runtime=python only")
     if request.get("scaffold_strategy") != "minimal_python_text_pack":
@@ -815,11 +938,14 @@ def _validate_request_semantics(factory_root: Path, request: dict[str, Any]) -> 
     first_materialization_purpose = planning.get("first_materialization_purpose")
     if not isinstance(first_materialization_purpose, str) or not first_materialization_purpose.strip():
         raise ValueError("first_materialization_purpose is required so the first proving-ground build-pack is explicit")
-    return _resolve_template_personality_selection(factory_root, planning)
+    return (
+        _resolve_template_personality_selection(factory_root, planning),
+        _resolve_template_role_domain_selection(factory_root, planning),
+    )
 
 
 def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[str, Any]:
-    resolved_personality_template = _validate_request_semantics(factory_root, request)
+    resolved_personality_template, resolved_role_domain_template = _validate_request_semantics(factory_root, request)
 
     preflight = validate_factory(factory_root)
     if not preflight["valid"]:
@@ -855,7 +981,7 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
 
         _write_text(
             template_root / "AGENTS.md",
-            _pack_agents(display_name, resolved_personality_template),
+            _pack_agents(display_name, resolved_personality_template, resolved_role_domain_template),
         )
         _write_text(
             template_root / "project-context.md",
@@ -891,6 +1017,7 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
                 project_goal=project_goal,
                 capability_family=capability_family,
                 personality_template=_manifest_personality_template(resolved_personality_template),
+                role_domain_template=_manifest_role_domain_template(resolved_role_domain_template),
             ),
         )
         write_json(
@@ -1009,6 +1136,9 @@ def create_template_pack(factory_root: Path, request: dict[str, Any]) -> dict[st
         manifest_personality_template = _manifest_personality_template(resolved_personality_template)
         if manifest_personality_template is not None:
             report["resolved_personality_template"] = manifest_personality_template
+        manifest_role_domain_template = _manifest_role_domain_template(resolved_role_domain_template)
+        if manifest_role_domain_template is not None:
+            report["resolved_role_domain_template"] = manifest_role_domain_template
         write_json(report_full_path, report)
         report_errors = validate_json_document(
             report_full_path,

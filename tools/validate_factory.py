@@ -79,8 +79,13 @@ README_PATH = Path("README.md")
 AUTONOMY_OPS_NOTE_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md")
 AUTONOMY_STATE_BRIEF_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md")
 AUTONOMY_PLANNING_LIST_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md")
+TRANSIENT_SCRATCH_SPEC_PATH = Path(
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md"
+)
 MATERIALIZE_BUILD_PACK_TOOL_PATH = Path("tools/materialize_build_pack.py")
 PERSONALITY_TEMPLATE_CATALOG_PATH = Path("docs/specs/project-pack-factory/agent-personality-template-catalog.json")
+ROLE_DOMAIN_TEMPLATE_CATALOG_PATH = Path("docs/specs/project-pack-factory/agent-role-domain-template-catalog.json")
+ROLE_DOMAIN_TEMPLATE_CATALOG_PATH = Path("docs/specs/project-pack-factory/agent-role-domain-template-catalog.json")
 TOOL_COMMAND_PATTERN = re.compile(r"`python3 tools/([^`\s]+\.py)\b")
 
 
@@ -195,8 +200,20 @@ def _validate_instruction_surface_sync(factory_root: Path, errors: list[str]) ->
     ops_note_text = _load_text_if_present(factory_root / AUTONOMY_OPS_NOTE_PATH, errors, label="autonomy operations note")
     state_brief_text = _load_text_if_present(factory_root / AUTONOMY_STATE_BRIEF_PATH, errors, label="autonomy state brief")
     planning_list_text = _load_text_if_present(factory_root / AUTONOMY_PLANNING_LIST_PATH, errors, label="autonomy planning list")
+    scratch_spec_text = _load_text_if_present(factory_root / TRANSIENT_SCRATCH_SPEC_PATH, errors, label="transient scratch-root spec")
     materializer_text = _load_text_if_present(factory_root / MATERIALIZE_BUILD_PACK_TOOL_PATH, errors, label="build-pack materializer")
-    if any(text is None for text in (agents_text, readme_text, ops_note_text, state_brief_text, planning_list_text, materializer_text)):
+    if any(
+        text is None
+        for text in (
+            agents_text,
+            readme_text,
+            ops_note_text,
+            state_brief_text,
+            planning_list_text,
+            scratch_spec_text,
+            materializer_text,
+        )
+    ):
         return
 
     assert agents_text is not None
@@ -204,6 +221,7 @@ def _validate_instruction_surface_sync(factory_root: Path, errors: list[str]) ->
     assert ops_note_text is not None
     assert state_brief_text is not None
     assert planning_list_text is not None
+    assert scratch_spec_text is not None
     assert materializer_text is not None
 
     ops_tool_scripts = _extract_tool_script_names(ops_note_text)
@@ -220,16 +238,20 @@ def _validate_instruction_surface_sync(factory_root: Path, errors: list[str]) ->
             "PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
             "remote Codex session management",
             "raw stdout/stderr",
+            "PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md",
         ),
         README_PATH: (
             "PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md",
             "Remote Session Compliance",
             "raw stdout/stderr",
+            "PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md",
         ),
         AUTONOMY_OPS_NOTE_PATH: (
             "Remote Session Compliance",
             "tools/import_external_runtime_evidence.py",
             "raw stdout/stderr",
+            "PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md",
+            "Transient Local Scratch",
         ),
         AUTONOMY_STATE_BRIEF_PATH: (
             "json-health-checker-startup-compliance-rehearsal-build-pack-v1",
@@ -237,9 +259,15 @@ def _validate_instruction_surface_sync(factory_root: Path, errors: list[str]) ->
             "managed PackFactory remote-session path",
         ),
         AUTONOMY_PLANNING_LIST_PATH: (
-            "Instruction-surface drift follow-up",
+            "Agent-managed transient local scratch root selection and staging lifecycle guard.",
             "json-health-checker-startup-compliance-build-pack-v1",
             "[x] PackFactory instruction and startup compliance review.",
+        ),
+        TRANSIENT_SCRATCH_SPEC_PATH: (
+            "PackFactory-managed local scratch-root resolver",
+            "Request-persistence rule",
+            "Cleanup precondition",
+            "Required lifecycle marker",
         ),
         MATERIALIZE_BUILD_PACK_TOOL_PATH: (
             "status/readiness.json.operator_hint_status",
@@ -255,6 +283,7 @@ def _validate_instruction_surface_sync(factory_root: Path, errors: list[str]) ->
         AUTONOMY_OPS_NOTE_PATH: ops_note_text,
         AUTONOMY_STATE_BRIEF_PATH: state_brief_text,
         AUTONOMY_PLANNING_LIST_PATH: planning_list_text,
+        TRANSIENT_SCRATCH_SPEC_PATH: scratch_spec_text,
         MATERIALIZE_BUILD_PACK_TOOL_PATH: materializer_text,
     }
     for relative_path, markers in required_markers_by_path.items():
@@ -1270,6 +1299,39 @@ def _validate_personality_template_catalog(factory_root: Path, errors: list[str]
         seen.add(template_id)
 
 
+def _validate_role_domain_template_catalog(factory_root: Path, errors: list[str]) -> None:
+    catalog_path = factory_root / ROLE_DOMAIN_TEMPLATE_CATALOG_PATH
+    schema_path = factory_root / "docs/specs/project-pack-factory/schemas/agent-role-domain-template-catalog.schema.json"
+    if not catalog_path.exists():
+        errors.append(f"{catalog_path}: agent role/domain template catalog is missing")
+        return
+
+    catalog_errors = validate_json_document(catalog_path, schema_path)
+    errors.extend(catalog_errors)
+    if catalog_errors:
+        return
+
+    catalog = _load_object(catalog_path)
+    templates = catalog.get("templates", [])
+    if not isinstance(templates, list):
+        errors.append(f"{catalog_path}: templates must be an array")
+        return
+
+    seen: set[str] = set()
+    for entry in templates:
+        if not isinstance(entry, dict):
+            errors.append(f"{catalog_path}: template entries must be objects")
+            continue
+        template_id = entry.get("template_id")
+        if not isinstance(template_id, str) or not template_id.strip():
+            errors.append(f"{catalog_path}: template entries must include a non-empty template_id")
+            continue
+        if template_id in seen:
+            errors.append(f"{catalog_path}: duplicate role/domain template_id `{template_id}`")
+            continue
+        seen.add(template_id)
+
+
 def _validate_template_lineage_memory(factory_root: Path, pack_root: Path, manifest: dict[str, Any], errors: list[str]) -> None:
     if manifest.get("pack_kind") != "template_pack":
         return
@@ -1309,6 +1371,92 @@ def _validate_template_lineage_memory(factory_root: Path, pack_root: Path, manif
         errors.append(f"{resolved_memory_path}: template_id must match the template pack id")
     if memory.get("template_root") != str(pack_root):
         errors.append(f"{resolved_memory_path}: template_root must equal the validated template root")
+
+
+def _validate_template_parity_reports(
+    factory_root: Path,
+    templates_registry: dict[str, dict[str, Any]],
+    builds_registry: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    reports_root = factory_root / ".pack-state" / "template-parity-reports"
+    if not reports_root.exists():
+        return
+
+    schema_root = factory_root / "docs/specs/project-pack-factory/schemas"
+    report_schema = schema_root / "template-parity-report.schema.json"
+    lineage_prefix = ".pack-state/template-lineage-memory/"
+
+    def _validate_relative_paths(
+        report_path: Path,
+        field_name: str,
+        relative_paths: Any,
+        expected_root: Path,
+    ) -> None:
+        if not isinstance(relative_paths, list):
+            errors.append(f"{report_path}: {field_name} must be an array")
+            return
+        for relative_entry in relative_paths:
+            if not isinstance(relative_entry, str):
+                errors.append(f"{report_path}: {field_name} entries must be strings")
+                continue
+            resolved_entry = (factory_root / relative_entry).resolve()
+            if not path_is_relative_to(resolved_entry, expected_root.resolve()):
+                errors.append(
+                    f"{report_path}: {field_name} entry `{relative_entry}` must stay within `{relative_path(factory_root, expected_root)}`"
+                )
+                continue
+            if not resolved_entry.exists():
+                errors.append(f"{factory_root / relative_entry}: referenced by {field_name} but missing")
+
+    for report_path in sorted(reports_root.glob("*/parity-report.json")):
+        errors.extend(validate_json_document(report_path, report_schema))
+        report = _load_object(report_path)
+        report_id = report.get("report_id")
+        if report_id != report_path.parent.name:
+            errors.append(f"{report_path}: report_id must match parent directory name")
+
+        runtime_build_pack_id = report.get("runtime_build_pack_id")
+        if not isinstance(runtime_build_pack_id, str):
+            errors.append(f"{report_path}: runtime_build_pack_id must be a string")
+            continue
+        runtime_entry = builds_registry.get(runtime_build_pack_id)
+        if runtime_entry is None:
+            errors.append(f"{report_path}: runtime_build_pack_id references unknown build-pack `{runtime_build_pack_id}`")
+            continue
+        runtime_pack_root = factory_root / str(runtime_entry.get("pack_root"))
+        if report.get("runtime_build_pack_root") != str(runtime_pack_root):
+            errors.append(f"{report_path}: runtime_build_pack_root must equal `{runtime_pack_root}`")
+
+        source_template_id = report.get("source_template_id")
+        if not isinstance(source_template_id, str):
+            errors.append(f"{report_path}: source_template_id must be a string")
+            continue
+        template_entry = templates_registry.get(source_template_id)
+        if template_entry is None:
+            errors.append(f"{report_path}: source_template_id references unknown template `{source_template_id}`")
+            continue
+        template_pack_root = factory_root / str(template_entry.get("pack_root"))
+        if report.get("source_template_root") != str(template_pack_root):
+            errors.append(f"{report_path}: source_template_root must equal `{template_pack_root}`")
+
+        _validate_relative_paths(report_path, "proof_paths", report.get("proof_paths"), factory_root)
+        _validate_relative_paths(report_path, "runtime_paths", report.get("runtime_paths"), runtime_pack_root)
+        _validate_relative_paths(report_path, "template_paths", report.get("template_paths"), template_pack_root)
+        _validate_relative_paths(report_path, "factory_context_paths", report.get("factory_context_paths"), factory_root)
+
+        parity_status = report.get("parity_status")
+        if parity_status == "template_backported_and_lineage_refreshed":
+            factory_context_paths = report.get("factory_context_paths", [])
+            if not any(
+                isinstance(path, str)
+                and path.startswith(f"templates/{source_template_id}/{lineage_prefix}")
+                for path in factory_context_paths
+            ):
+                errors.append(
+                    f"{report_path}: template_backported_and_lineage_refreshed requires a factory_context_paths entry under "
+                    f"`templates/{source_template_id}/{lineage_prefix}`"
+                )
 
 
 def _check_active_registry(entry: dict[str, Any], registry_path: Path, errors: list[str]) -> None:
@@ -1576,10 +1724,12 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
         _validate_pack_state(factory_root, pack_root, registry_templates, registry_builds, promotion_log, errors)
 
     _validate_template_creation_events(factory_root, registry_templates, promotion_log, errors)
+    _validate_template_parity_reports(factory_root, registry_templates, registry_builds, errors)
     _validate_environment_assignments(factory_root, registry_builds, promotion_log, errors)
     _validate_factory_root_work_tracker(factory_root, errors)
     _validate_factory_root_autonomy_memory(factory_root, errors)
     _validate_personality_template_catalog(factory_root, errors)
+    _validate_role_domain_template_catalog(factory_root, errors)
     _validate_instruction_surface_sync(factory_root, errors)
     _validate_active_template_instruction_surface_sync(factory_root, registry_templates, errors)
 

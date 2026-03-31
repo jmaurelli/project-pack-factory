@@ -389,6 +389,52 @@
         }
       }
     },
+    "role_domain_template": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "template_id",
+        "display_name",
+        "summary",
+        "selection_origin",
+        "selection_reason",
+        "catalog_path",
+        "apply_to_derived_build_packs_by_default"
+      ],
+      "properties": {
+        "template_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selection_origin": {
+          "type": "string",
+          "enum": [
+            "template_selected",
+            "materialization_inherited_default",
+            "materialization_selected"
+          ]
+        },
+        "selection_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "catalog_path": {
+          "type": "string",
+          "const": "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json"
+        },
+        "apply_to_derived_build_packs_by_default": {
+          "type": "boolean"
+        }
+      }
+    },
     "notes": {
       "type": "array",
       "items": {

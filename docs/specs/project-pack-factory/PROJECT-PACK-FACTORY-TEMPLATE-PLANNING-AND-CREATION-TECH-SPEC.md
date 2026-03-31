@@ -356,6 +356,7 @@ The `planning_summary` must include:
 The `planning_summary` may also include:
 
 - `personality_template_selection`
+- `role_domain_template_selection`
 
 When present, `personality_template_selection` must point at a catalog entry
 from:
@@ -364,6 +365,16 @@ from:
 
 That selection is optional. It records a reusable overlay for startup tone and
 recommendation framing, not a permanent identity lock on the source template.
+Template creation may also declare whether the selected overlay should apply to
+derived build-packs by default.
+
+When present, `role_domain_template_selection` must point at a catalog entry
+from:
+
+- `docs/specs/project-pack-factory/agent-role-domain-template-catalog.json`
+
+That selection is optional. It records a reusable overlay for problem framing
+and domain lens, not a permanent identity lock on the source template.
 Template creation may also declare whether the selected overlay should apply to
 derived build-packs by default.
 
@@ -383,6 +394,7 @@ The report must include:
 - `created_by`
 - `planning_summary`
 - optional `resolved_personality_template`
+- optional `resolved_role_domain_template`
 - `scaffold_strategy`
 - `artifact_paths`
 - `factory_mutations`
