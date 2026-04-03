@@ -93,10 +93,173 @@ The latest imported target-backed proof now goes one step further:
   `ms-aad-log-sensor`, `ms-cloudflow-broker`, and `ms-cloudlicensing` stay
   visible but separate from the core provider-driver entries
 
-That makes the next bounded successor seam
-`capture_second_node_node_local_proof`, because the strongest remaining
-ambiguity is now cross-node comparison rather than current-node provider
-activation.
+That work has now produced a first imported standalone calibration-node proof
+from `algosec-lab-alt-192` (`10.167.2.192`).
+
+That proof matters because it keeps the same `A33.10` family as the current
+baseline node `10.167.2.150` while still changing the package patch train and
+several provider-driver and adjacent service ports. It confirms that the
+successor artifact shape travels beyond a single appliance without needing
+target-local Codex on the second node.
+
+That now makes the next bounded successor seam
+`capture_standalone_node_calibration_set`, because the strongest remaining
+ambiguity is no longer whether one extra standalone node can be imported
+cleanly. It is which runtime families and provider surfaces repeat across a
+small independent-node set before any distributed-topology claims activate.
+
+## Future Expansion Frontier
+
+The successor now also carries an explicit later-phase expansion frontier in:
+
+- `docs/specs/adf-successor-expansion-frontier-v1.md`
+- `docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md`
+
+Those items are planner-visible but intentionally not active yet:
+
+1. activate a multi-node topology map
+2. derive a fuller dependency graph
+3. capture a health-validated integration model
+4. derive a more complete product behavior model
+
+For now, those remain downstream of `capture_second_node_node_local_proof` so
+the successor keeps widening from imported proof instead of jumping from a good
+single-node map to a premature suite theory.
+
+## Node Expansion Plan
+
+The reviewed node-expansion plan now distinguishes:
+
+- standalone-node review as a calibration and node-archetype program
+- distributed-lab activation as the first real topology and cross-node
+  behavior program
+
+That distinction matters because the currently available extra nodes are
+standalone and independent from each other, and they do not have target-local
+Codex installed. The reviewed execution path therefore keeps `adf-dev` as the
+runtime owner, uses per-node read-only target-connection profiles, and treats
+the first additional standalone node proofs as calibration evidence rather than
+as distributed-topology truth.
+
+That calibration set now exists in a useful first form:
+
+- baseline `10.167.2.150` on `A33.10.240`
+- standalone sibling `10.167.2.192` on `A33.10.230`
+- standalone line-jump node `10.167.2.177` on `A33.20.120`
+
+The bounded archetype readout is recorded in:
+
+- `docs/specs/adf-successor-standalone-node-archetype-comparison-v1.md`
+
+That matters because the successor can now separate stable standalone-node
+runtime roles from version-specific drift before any distributed-topology
+claims begin.
+
+The reviewed first distributed architecture to inspect is now also pinned:
+
+- `standalone + remote agent`
+
+with `10.167.2.150` retained as the primary standalone node for that first
+distributed proof. The reasoning and rollout order are recorded in:
+
+- `docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md`
+
+That first distributed proof now exists in canonical imported form:
+
+- CM node `10.167.2.150`
+- remote-agent node `10.167.2.153`
+- both currently on the upgraded `A33.10.260` line
+
+The bounded role-separated readout is recorded in:
+
+- `docs/specs/adf-successor-first-distributed-role-separated-proof-review-v1.md`
+
+The first bounded topology readout is now also recorded in:
+
+- `docs/specs/adf-successor-thin-multi-node-topology-map-v1.md`
+
+The first bounded dependency readout is now also recorded in:
+
+- `docs/specs/adf-successor-bounded-dependency-graph-v1.md`
+
+The first bounded integration-health readout is now also recorded in:
+
+- `docs/specs/adf-successor-health-validated-integration-model-v1.md`
+
+The first bounded product-behavior readout is now also recorded in:
+
+- `docs/specs/adf-successor-bounded-product-behavior-model-v1.md`
+
+That matters because the successor has now crossed the boundary from
+independent-node comparison into real distributed-lab evidence. The imported
+pair shows that both nodes share a meaningful runtime base such as `httpd`,
+`ms-metro`, `algosec-ms`, `activemq`, and bounded provider-driver surfaces,
+while the CM side retains stronger AFF, BusinessFlow, and identity-facing
+signals and the remote-agent side retains a thinner configuration,
+device-management, and provider-driver-heavy shape.
+
+That topology step is now complete, and the dependency step is now complete
+too. The successor can now say, in a fail-closed way, that both nodes share a
+meaningful runtime base, that the CM side keeps the stronger AFF, BusinessFlow,
+and identity-facing paths, that the remote-agent side keeps the thinner
+management and provider-driver-heavy shape, and that the clearest dependency
+hub is Apache routing into `aff-boot`, `ms-bflow`, `ms-metro`, and
+`algosec-ms`.
+
+The graph still stays bounded. It treats FireFlow-to-Metro bridge activity and
+provider-driver placement as strong inferred edges, while keeping cross-node
+directionality, deeper `ms-metro` versus `algosec-ms` ordering, ActiveMQ
+direction, and provider health unresolved.
+
+That health step is now complete too. The successor can now say:
+
+- the CM-side AFF session boundary is healthy at its current bounded edge
+- the AFA-facing Metro bridge is reachable
+- AWS and Azure driver families on both nodes are configured
+- Keycloak on the CM is configured but not yet health-validated
+- deeper provider-side and cross-node health remains uncertain
+
+That behavior step is now complete as well. The successor can now say:
+
+- the CM node fronts the clearest FireFlow or AFF session path
+- FireFlow carries AFA session context into the Metro bridge
+- the observed distributed architecture behaves like a CM-plus-remote-agent
+  split rather than two identical peer nodes
+- provider-driver families are distributed and configured, but not yet
+  health-validated end to end
+
+The current bounded roadmap frontier is therefore complete.
+
+The next useful move should now be chosen explicitly rather than inferred from
+the old planner slice. Good candidates include:
+
+- deeper provider-health proof
+- stronger cross-node directionality proof
+- another distributed architecture such as LDU, HA, or DR
+
+That explicit provider-health widening step has now been completed too.
+
+The current successor can now say:
+
+- the AWS and Azure driver families are still clearly present on both the CM
+  and remote-agent nodes
+- both nodes now also retain the same bounded local degradation pattern for
+  those driver families: failed local loopback reachability plus repeated
+  runtime-failure journal markers centered on
+  `logging.file.maxHistory_IS_UNDEFINED`
+- this is still local driver-runtime evidence, not proof of provider-side or
+  credential-side failure
+
+That sharpens the next move.
+
+The strongest remaining ambiguity is no longer whether provider-driver trouble
+exists locally. It is whether the successor can prove any stable cross-node
+directionality or role split behind those repeated provider families without
+inventing hidden links.
+
+The next recommended widening seam is therefore:
+
+- `strengthen_cross_node_directionality_proof`
 
 ## Optional Overlays
 

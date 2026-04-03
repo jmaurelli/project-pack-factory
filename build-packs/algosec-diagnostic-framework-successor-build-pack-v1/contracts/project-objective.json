@@ -14,7 +14,7 @@
     "The first wave identifies one or two sensible deeper seams without claiming complete dependency understanding.",
     "The build-pack preserves machine-readable diagnostic content as the canonical product layer and treats later guides and playbooks as derived outputs."
   ],
-  "generated_at": "2026-04-02T12:09:44Z",
+  "generated_at": "2026-04-03T12:35:00Z",
   "intended_inputs": [
     "Incomplete but agent-optimized technical documentation available to the ADF successor line.",
     "Live Rocky 8 host and virtual-appliance runtime observation, including processes, services, ports, configs, logs, and JVM-adjacent visibility where safely observable.",
@@ -23,7 +23,8 @@
   "intended_outputs": [
     "One machine-readable shallow surface map for the first useful support layer of the host and appliance runtime.",
     "One operator-reviewable summary derived from that map.",
-    "A bounded ADF successor control plane that can deepen later slices from a real early artifact instead of speculative architecture."
+    "A bounded ADF successor control plane that can deepen later slices from a real early artifact instead of speculative architecture.",
+    "A durable planning frontier for later-phase successor expansions such as a multi-node topology map, a fuller dependency graph, a health-validated integration model, and a more complete product behavior model."
   ],
   "materialization_id": "materialize-algosec-diagnostic-framework-successor-build-pack-v1-20260402t120944z",
   "metrics": [

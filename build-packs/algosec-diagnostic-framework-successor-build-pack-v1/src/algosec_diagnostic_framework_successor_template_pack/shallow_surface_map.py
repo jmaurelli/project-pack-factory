@@ -169,6 +169,7 @@ HTTPD_ROUTE_HINT_COMMAND = (
     "/etc/httpd/conf /etc/httpd/conf.d 2>/dev/null || true; "
     "fi"
 )
+TCP_PROBE_SUCCESS_MARKER = "__ADF_TCP_OK__"
 AFF_SESSION_SERVICE_CHECK_COMMAND = "systemctl is-active httpd.service ms-bflow.service aff-boot.service || true"
 AFF_SESSION_FRONTED_PROBE_COMMAND = (
     "curl -k -sS --max-time 15 -D - -o - -w '\\n__ADF_HTTP_STATUS__:%{http_code}\\n' "
@@ -221,6 +222,12 @@ LOG_OPTION_PREFIXES = (
     "-Dlogging.file.path=",
     "-Djboss.server.log.dir=",
 )
+PROVIDER_JOURNAL_FAILURE_PATTERNS = (
+    ("auth_failure", re.compile(r"(?i)(authentication failed|authorization failed|unauthorized|forbidden|invalid credentials|access denied)")),
+    ("network_failure", re.compile(r"(?i)(connection refused|timed out|timeout|no route to host|network is unreachable|name or service not known|temporary failure in name resolution|connection reset)")),
+    ("tls_failure", re.compile(r"(?i)(certificate|ssl|tls|handshake)")),
+    ("runtime_failure", re.compile(r"(?i)(fatal|exception|failed to| failure\\b)")),
+)
 
 
 def generate_shallow_surface_map(
@@ -244,6 +251,13 @@ def generate_shallow_surface_map(
     command_results = _collect_command_results(target_connection=target_connection)
     docpack_hints = load_docpack_hints(project_root, docpack_hints_path)
     component_records, edge_route_hints = _build_component_records(command_results, docpack_hints=docpack_hints)
+    provider_health_command_results = _collect_provider_health_command_results(
+        target_connection=target_connection,
+        component_records=component_records,
+        edge_route_hints=edge_route_hints,
+    )
+    if provider_health_command_results:
+        command_results.extend(provider_health_command_results)
     boundary_packets = _build_boundary_packets(component_records, edge_route_hints=edge_route_hints)
     session_parity_packets = _build_session_parity_packets(
         command_results,
@@ -281,6 +295,7 @@ def generate_shallow_surface_map(
         component_records,
         edge_route_hints=edge_route_hints,
         target_label=target_label,
+        command_results=command_results,
     )
     knowledge_layer_packets = _build_knowledge_layer_packets(
         component_records,
@@ -338,6 +353,7 @@ def generate_shallow_surface_map(
                 "aff_session_parity_checks",
                 "fireflow_usersession_bridge_hints",
                 "businessflow_session_origin_hints",
+                "provider_health_local_probes",
             ],
             "out_of_scope": [
                 "deep dependency mapping",
@@ -653,6 +669,112 @@ def _collect_target_command_results(target_connection: dict[str, Any]) -> list[d
             timeout_seconds=timeout_seconds,
         ),
     ]
+
+
+def _collect_provider_health_command_results(
+    *,
+    target_connection: dict[str, Any] | None,
+    component_records: list[dict[str, Any]],
+    edge_route_hints: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    plan = _build_provider_health_probe_plan(
+        component_records=component_records,
+        edge_route_hints=edge_route_hints,
+    )
+    if not plan:
+        return []
+
+    if target_connection is None:
+        results: list[dict[str, Any]] = []
+        for item in plan:
+            if item.get("service_unit"):
+                results.append(
+                    _run_command(
+                        command_id=f"provider_journal_{item['family_id']}",
+                        argv=["bash", "-lc", _provider_journal_command(str(item["service_unit"]))],
+                        max_preview_lines=250,
+                    )
+                )
+            if item.get("probe_port") is not None:
+                results.append(
+                    _run_command(
+                        command_id=f"provider_local_port_probe_{item['family_id']}",
+                        argv=["bash", "-lc", _provider_local_port_probe_command(int(item["probe_port"]))],
+                        max_preview_lines=40,
+                    )
+                )
+        return results
+
+    timeout_seconds = int(target_connection.get("timeouts", {}).get("command_seconds", 120))
+    results = []
+    for item in plan:
+        if item.get("service_unit"):
+            results.append(
+                _run_target_command(
+                    target_connection=target_connection,
+                    command_id=f"provider_journal_{item['family_id']}",
+                    command=_provider_journal_command(str(item["service_unit"])),
+                    timeout_seconds=timeout_seconds,
+                )
+            )
+        if item.get("probe_port") is not None:
+            results.append(
+                _run_target_command(
+                    target_connection=target_connection,
+                    command_id=f"provider_local_port_probe_{item['family_id']}",
+                    command=_provider_local_port_probe_command(int(item["probe_port"])),
+                    timeout_seconds=timeout_seconds,
+                )
+            )
+    return results
+
+
+def _build_provider_health_probe_plan(
+    *,
+    component_records: list[dict[str, Any]],
+    edge_route_hints: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    route_families = _extract_httpd_route_families(edge_route_hints)
+    route_family_by_id = {
+        str(family.get("family_id")): family
+        for family in route_families
+        if family.get("family_id")
+    }
+    records_by_id = {
+        str(record.get("component_id")): record
+        for record in component_records
+        if record.get("component_id")
+    }
+    plan: list[dict[str, Any]] = []
+    for family_id, vendor_label in PROVIDER_DRIVER_VENDOR_LABELS.items():
+        route_family = route_family_by_id.get(family_id)
+        record = records_by_id.get(family_id)
+        if route_family is None and record is None:
+            continue
+        observed = (record or {}).get("observed", {})
+        listener_ports = observed.get("listening_ports", []) if observed else []
+        backend_port = (route_family or {}).get("backend_ports", [None])[0]
+        probe_port = backend_port if backend_port is not None else (listener_ports[0] if listener_ports else None)
+        plan.append(
+            {
+                "family_id": family_id,
+                "vendor_label": vendor_label,
+                "service_unit": observed.get("service_unit"),
+                "probe_port": probe_port,
+            }
+        )
+    return plan
+
+
+def _provider_journal_command(service_unit: str) -> str:
+    return f"journalctl -u {shlex.quote(service_unit)} --no-pager -n 120 || true"
+
+
+def _provider_local_port_probe_command(port: int) -> str:
+    return (
+        f"timeout 5 bash -lc 'exec 3<>/dev/tcp/127.0.0.1/{port}; "
+        f"printf \"{TCP_PROBE_SUCCESS_MARKER}\\\\n\"; exec 3<&-; exec 3>&-' || true"
+    )
 
 
 def _run_target_command(
@@ -1983,6 +2105,53 @@ def _parse_http_probe_result(result: dict[str, Any], *, probe_url: str) -> dict[
     }
 
 
+def _parse_tcp_probe_result(result: dict[str, Any], *, port: int | None) -> dict[str, Any]:
+    stdout = str(result.get("stdout", ""))
+    reachable = TCP_PROBE_SUCCESS_MARKER in stdout
+    return {
+        "probe_port": port,
+        "probe_attempted": port is not None,
+        "reachable": reachable,
+        "command_status": result.get("status"),
+        "exit_code": result.get("exit_code"),
+        "stderr_preview": result.get("stderr_preview", []),
+    }
+
+
+def _parse_provider_journal_result(result: dict[str, Any]) -> dict[str, Any]:
+    if result.get("status") not in {"completed", "nonzero_exit"}:
+        return {
+            "failure_signal_count": 0,
+            "signal_categories": [],
+            "signal_lines": [],
+        }
+
+    categories: list[str] = []
+    signal_lines: list[dict[str, str]] = []
+    for raw_line in str(result.get("stdout", "")).splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        for category, pattern in PROVIDER_JOURNAL_FAILURE_PATTERNS:
+            if not pattern.search(line):
+                continue
+            if category not in categories:
+                categories.append(category)
+            signal_lines.append(
+                {
+                    "category": category,
+                    "line_excerpt": line[:220],
+                }
+            )
+            break
+
+    return {
+        "failure_signal_count": len(signal_lines),
+        "signal_categories": categories,
+        "signal_lines": signal_lines[:5],
+    }
+
+
 def _split_http_headers_and_body(payload: str) -> tuple[str, str]:
     normalized = payload.replace("\r\n", "\n")
     if "\n\n" not in normalized:
@@ -3088,7 +3257,9 @@ def _build_knowledge_layer_packets(
         "This packet does not claim multi-node topology or live external provider integrations; it only says which outside knowledge layers are currently activated by this node.",
         "A thin cross-node envelope should activate only after a second node-local proof bundle exists.",
     ]
-    if provider_packet is not None and provider_packet.get("status") == "local_surfaces_visible_not_health_validated":
+    if provider_packet is not None and provider_packet.get("status") == "local_provider_health_partially_classified":
+        next_stop = "strengthen_cross_node_directionality_proof"
+    elif provider_packet is not None and provider_packet.get("status") == "local_surfaces_visible_not_health_validated":
         next_stop = "capture_second_node_node_local_proof"
     elif external_activation.get("vendor_activation_status") == "provider_specific_local_evidence_visible":
         next_stop = "capture_provider_specific_integration_evidence"
@@ -3514,6 +3685,7 @@ def _build_provider_integration_packets(
     *,
     edge_route_hints: list[dict[str, Any]],
     target_label: str,
+    command_results: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     route_families = _extract_httpd_route_families(edge_route_hints)
     route_family_by_id = {
@@ -3526,6 +3698,11 @@ def _build_provider_integration_packets(
         for record in component_records
         if record.get("component_id")
     }
+    results_by_id = {
+        str(result.get("command_id")): result
+        for result in command_results
+        if result.get("command_id")
+    }
 
     observed_providers = [
         entry
@@ -3535,6 +3712,8 @@ def _build_provider_integration_packets(
             family_id=family_id,
             route_family=route_family_by_id.get(family_id),
             record=records_by_id.get(family_id),
+            journal_result=results_by_id.get(f"provider_journal_{family_id}"),
+            probe_result=results_by_id.get(f"provider_local_port_probe_{family_id}"),
         )) is not None
     ]
     adjacent_surfaces = _build_provider_adjacent_surfaces(route_families)
@@ -3543,11 +3722,13 @@ def _build_provider_integration_packets(
         return []
 
     provider_labels = [entry["vendor_label"] for entry in observed_providers]
-    status = (
-        "local_surfaces_visible_not_health_validated"
-        if observed_providers
-        else "provider_activation_still_thin"
-    )
+    health_states = [str(entry.get("health_state") or "configured") for entry in observed_providers]
+    if any(state in {"reachable", "degraded"} for state in health_states):
+        status = "local_provider_health_partially_classified"
+    elif observed_providers:
+        status = "local_surfaces_visible_not_health_validated"
+    else:
+        status = "provider_activation_still_thin"
     confidence = (
         "high"
         if any(entry.get("confidence") == "high" for entry in observed_providers)
@@ -3559,6 +3740,20 @@ def _build_provider_integration_packets(
             "The current node exposes bounded provider-driver surfaces for "
             + ", ".join(f"`{label}`" for label in provider_labels)
             + " through matching Apache family names, local service units, and listener ownership."
+        )
+    reachable_labels = [entry["vendor_label"] for entry in observed_providers if entry.get("health_state") == "reachable"]
+    degraded_labels = [entry["vendor_label"] for entry in observed_providers if entry.get("health_state") == "degraded"]
+    if reachable_labels:
+        confirmed_elements.append(
+            "Local loopback reachability is now visible for "
+            + ", ".join(f"`{label}`" for label in reachable_labels)
+            + " on the currently observed provider-driver listener ports."
+        )
+    if degraded_labels:
+        confirmed_elements.append(
+            "Recent local failure signals are now visible for "
+            + ", ".join(f"`{label}`" for label in degraded_labels)
+            + ", so those provider-driver surfaces should be treated as degraded rather than merely present."
         )
     if adjacent_surfaces:
         confirmed_elements.append(
@@ -3579,16 +3774,16 @@ def _build_provider_integration_packets(
             "confidence": confidence,
             "target_label": target_label,
             "node_scope": "single_node_only",
-            "provider_status": "local_surfaces_visible_not_health_validated",
+            "provider_status": status,
             "observed_providers": observed_providers,
             "adjacent_surfaces": adjacent_surfaces,
             "not_proven": [
                 "No external API success or provider credential correctness is proven in this packet.",
-                "No provider-side health, sync state, or inventory freshness is claimed from current node evidence.",
+                "No provider-side sync state, inventory freshness, or cloud-side health is claimed from current node evidence.",
                 "No cross-node role or suite-topology claim is made from this current-node packet.",
             ],
-            "why_it_matters": "This packet turns AWS and Azure activation from a broad hint into a bounded current-node proof surface that support engineers can inspect without overclaiming provider health.",
-            "next_stop": "capture_second_node_node_local_proof",
+            "why_it_matters": "This packet keeps AWS and Azure provider evidence fail-closed while sharpening local classification from merely configured toward bounded reachable or degraded states where the current node evidence actually supports that.",
+            "next_stop": "strengthen_cross_node_directionality_proof" if status == "local_provider_health_partially_classified" else "capture_second_node_node_local_proof",
             "confirmed_elements": confirmed_elements,
         }
     ]
@@ -3600,6 +3795,8 @@ def _build_provider_integration_entry(
     family_id: str,
     route_family: dict[str, Any] | None,
     record: dict[str, Any] | None,
+    journal_result: dict[str, Any] | None,
+    probe_result: dict[str, Any] | None,
 ) -> dict[str, Any] | None:
     if route_family is None and record is None:
         return None
@@ -3640,10 +3837,33 @@ def _build_provider_integration_entry(
     owner_basis = ", ".join(
         sorted({binding.get("ownership_basis") for binding in listener_bindings if binding.get("ownership_basis")})
     ) or None
+    probe_port = apache_backend_port if apache_backend_port is not None else (listener_ports[0] if listener_ports else None)
+    tcp_probe = _parse_tcp_probe_result(probe_result or {}, port=probe_port)
+    journal_signals = _parse_provider_journal_result(journal_result or {})
+    health_state = "configured"
+    health_basis: list[str] = []
+    if observed.get("active_state") == "failed":
+        health_state = "degraded"
+        health_basis.append(f"Service unit `{service_unit}` is currently in active state `failed`.")
+    if tcp_probe.get("probe_attempted"):
+        if tcp_probe.get("reachable"):
+            health_basis.append(f"Local loopback TCP connect succeeded on port `{probe_port}`.")
+            if health_state != "degraded":
+                health_state = "reachable"
+        else:
+            health_state = "degraded"
+            health_basis.append(f"Local loopback TCP connect did not succeed on port `{probe_port}`.")
+    if journal_signals.get("failure_signal_count", 0) > 0:
+        health_state = "degraded"
+        categories = ", ".join(journal_signals.get("signal_categories", [])[:3]) or "runtime failure"
+        health_basis.append(
+            f"Recent bounded journal markers show `{categories}` signals for `{service_unit or family_id}`."
+        )
     return {
         "vendor_label": vendor_label,
         "provider_family_id": family_id,
         "confidence": confidence,
+        "health_state": health_state,
         "apache_config_family": {
             "config_path": None if route_family is None else route_family.get("config_path"),
             "backend_port": apache_backend_port,
@@ -3663,6 +3883,9 @@ def _build_provider_integration_entry(
                 if detail.get("path")
             ][:3],
         },
+        "local_health_probe": tcp_probe,
+        "recent_journal_signals": journal_signals,
+        "health_basis": health_basis,
         "activation_basis": activation_basis,
     }
 
@@ -4258,6 +4481,19 @@ def _build_next_candidate_seams(
         (packet for packet in knowledge_layer_packets if packet.get("packet_id") == "distributed_and_external_knowledge_layers"),
         None,
     )
+    if provider_packet is not None and provider_packet.get("status") == "local_provider_health_partially_classified":
+        seams.append(
+            {
+                "seam_id": provider_packet.get("next_stop", "strengthen_cross_node_directionality_proof"),
+                "why_it_matters": "The current node now says more than provider presence alone: some AWS and Azure driver families are locally reachable while others may already show degraded signals. The next meaningful ambiguity is how those provider-facing families divide across nodes and whether directionality is stable in the distributed pair.",
+                "starting_components": [
+                    entry["provider_family_id"]
+                    for entry in provider_packet.get("observed_providers", [])[:4]
+                    if entry.get("provider_family_id")
+                ] or ["ms-devicedriver-aws", "ms-devicedriver-azure"],
+            }
+        )
+        return seams[:2]
     if provider_packet is not None and provider_packet.get("status") == "local_surfaces_visible_not_health_validated":
         seams.append(
             {
@@ -4713,10 +4949,24 @@ def _render_summary(surface_map: dict[str, Any]) -> str:
             for entry in packet.get("observed_providers", [])[:3]:
                 apache = entry.get("apache_config_family", {})
                 runtime = entry.get("local_runtime_service", {})
+                health_probe = entry.get("local_health_probe", {})
+                journal = entry.get("recent_journal_signals", {})
+                health_notes = [f"health `{entry.get('health_state', 'configured')}`"]
+                if health_probe.get("probe_attempted"):
+                    reachability = "reachable" if health_probe.get("reachable") else "not reachable"
+                    health_notes.append(
+                        f"local port `{health_probe.get('probe_port', 'unknown')}` {reachability}"
+                    )
+                if journal.get("failure_signal_count", 0) > 0:
+                    categories = ", ".join(journal.get("signal_categories", [])[:2]) or "failure signals"
+                    health_notes.append(
+                        f"journal signals `{categories}` x{journal.get('failure_signal_count', 0)}"
+                    )
                 provider_summaries.append(
                     f"{entry.get('vendor_label', 'unknown')} via `{entry.get('provider_family_id', 'unknown')}` "
                     f"from `{apache.get('config_path', 'unknown config')}` to port `{apache.get('backend_port', 'unknown')}` "
-                    f"with service `{runtime.get('service_unit', 'unknown service')}`"
+                    f"with service `{runtime.get('service_unit', 'unknown service')}` "
+                    f"({' ; '.join(health_notes)})"
                 )
             adjacent = ", ".join(
                 (

@@ -1,0 +1,11 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "remote-autonomy-distributed-ra-153-run-request.json",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-remote-agent-153-shallow-surface-map-v1/incoming",
+  "pull_bundle": true,
+  "import_bundle": true,
+  "imported_by": "codex",
+  "import_reason": "Import the remote-agent node-local shallow-surface-map bundle for 10.167.2.153 so the successor can compare the RA role against the upgraded CM role.",
+  "test_reason": "Exercise the PackFactory remote roundtrip for the first remote-agent node in the distributed role-separated proof set."
+}

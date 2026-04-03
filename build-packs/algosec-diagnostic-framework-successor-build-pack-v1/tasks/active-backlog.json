@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T12:16:33Z",
+  "generated_at": "2026-04-03T18:10:44Z",
   "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -753,13 +753,15 @@
       "acceptance_criteria": [
         "The successor captures one real second node-local proof bundle through the existing remote-owned runtime and bounded import roundtrip instead of inventing a suite graph.",
         "The second node readout stays node-local first and only activates a thin cross-node envelope for fields that two imported proofs can honestly support.",
-        "The next summary can explain what changed across the two nodes without claiming full distributed topology or total suite dependency order."
+        "The next summary can explain what changed across the two nodes without claiming full distributed topology or total suite dependency order.",
+        "If the next available node is standalone and lacks target-local Codex, the proof still runs cleanly from `adf-dev` through a node-specific read-only target-connection profile."
       ],
       "blocked_by": [],
       "completion_signals": [
         "A real second-node run request and wrapper request are instantiated from the reusable templates.",
         "One second imported node-local proof bundle exists under eval/history for this successor line.",
-        "The next summary can explain the bounded cross-node delta and whether the thin cross-node envelope is now activatable."
+        "The next summary can explain the bounded cross-node delta and whether the thin cross-node envelope is now activatable.",
+        "The returned proof states plainly whether the captured node should be treated as standalone calibration evidence or as part of a later distributed-lab topology picture."
       ],
       "dependencies": [
         "capture_provider_specific_integration_evidence"
@@ -770,6 +772,7 @@
       ],
       "files_in_scope": [
         "docs/specs/adf-successor-second-node-request-shape-and-thin-cross-node-envelope-v1.md",
+        "docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md",
         "docs/specs/adf-successor-distributed-and-external-knowledge-activation-review-v1.md",
         "docs/remote-targets/adf-dev/README.md",
         "docs/remote-targets/adf-dev/remote-autonomy-second-node-shallow-surface-map-run-request.template.json",
@@ -779,9 +782,324 @@
         "tasks/active-backlog.json"
       ],
       "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
-      "status": "in_progress",
+      "status": "completed",
       "summary": "Capture one second node-local proof bundle through the existing remote-owned runtime flow so the successor can activate a thin cross-node envelope without inventing suite topology.",
       "task_id": "capture_second_node_node_local_proof",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor captures additional standalone-node proofs through the same `adf-dev`-owned bounded roundtrip without requiring target-local Codex on those nodes.",
+        "The resulting review keeps those nodes clearly labeled as independent calibration nodes rather than distributed-role proof.",
+        "The next summary can explain which runtime families repeat across independent nodes and which appear node-specific."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "At least one additional imported standalone-node proof exists beyond the first second-node capture.",
+        "The current node-local artifact shape remains reusable across those nodes without ad hoc workflow drift.",
+        "The successor can now compare repeated families and repeated packaging patterns across a small independent-node set."
+      ],
+      "dependencies": [
+        "capture_second_node_node_local_proof"
+      ],
+      "escalation_conditions": [
+        "The next step would require target-local Codex installation, unsupported remote mutation, or custom per-node workflows before a reusable standalone-node calibration pass is stable.",
+        "The available standalone nodes differ so sharply that the successor cannot compare them honestly with the current node-local artifact shape."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Capture a small standalone-node calibration set through `adf-dev` so the successor can test its node-local model across independent nodes.",
+      "task_id": "capture_standalone_node_calibration_set",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can compare the imported standalone-node proofs and derive a bounded node archetype readout without claiming distributed topology.",
+        "The comparison distinguishes repeated families, optional families, and unusual node-local variants clearly.",
+        "The resulting readout remains support-useful and deployment-useful without pretending to know east-west traffic or cluster truth."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded node-archetype comparison artifact exists across the standalone-node calibration set.",
+        "The next summary can explain what looks common versus node-specific across independent installs.",
+        "The successor names what evidence is still missing before distributed-topology claims become honest."
+      ],
+      "dependencies": [
+        "capture_standalone_node_calibration_set"
+      ],
+      "escalation_conditions": [
+        "The next step would require inventing inter-node links or distributed roles that the standalone-node proofs do not support.",
+        "The current standalone-node proof set is too small or too inconsistent to support even a bounded archetype comparison honestly."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md",
+        "docs/specs/adf-successor-expansion-frontier-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Derive a bounded node archetype comparison from the standalone-node calibration set before activating distributed-topology work.",
+      "task_id": "derive_standalone_node_archetype_comparison",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor captures one or more node-local proofs from a deliberately distributed lab so topology and role separation are grounded in real multi-node evidence rather than independent standalone comparisons.",
+        "The review keeps role labels, cross-node endpoint hints, and unresolved edges clearly separated.",
+        "The execution model still uses `adf-dev` as the runtime owner and PackFactory as the canonical import authority."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "At least one distributed-lab node-local proof exists beyond the standalone calibration set.",
+        "The next summary can explain what changed qualitatively once the successor moved from independent nodes into role-separated distributed evidence.",
+        "The thin cross-node envelope now has enough real material to activate honestly."
+      ],
+      "dependencies": [
+        "derive_standalone_node_archetype_comparison"
+      ],
+      "escalation_conditions": [
+        "The next step would require guessing distributed roles, inventing a lab shape, or claiming topology before role-separated proof actually exists.",
+        "The distributed-lab setup cannot be observed through the existing bounded node-local request and import model."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md",
+        "docs/specs/adf-successor-expansion-frontier-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Capture role-separated distributed-lab node proofs so the successor can move from independent-node comparison into honest topology work.",
+      "task_id": "capture_distributed_lab_role_separated_node_proofs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can compare at least two imported node-local proof bundles and record a bounded cross-node topology surface without pretending to know the whole suite.",
+        "The topology output distinguishes observed node-local facts, cross-node similarities, and inferred role or adjacency hints clearly.",
+        "The resulting surface stays thin enough to remain evidence-first and fail-closed."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded topology artifact exists that explains what appears shared, node-specific, or cross-node adjacent across imported proofs.",
+        "The next summary can explain the first honest multi-node picture without widening into a full dependency graph or total suite theory.",
+        "The successor keeps unseen nodes, links, and roles explicitly out of scope."
+      ],
+      "dependencies": [
+        "derive_standalone_node_archetype_comparison",
+        "capture_distributed_lab_role_separated_node_proofs"
+      ],
+      "escalation_conditions": [
+        "The next step would require inventing additional nodes, hidden routes, or unseen links before a bounded topology surface is stable.",
+        "The imported node-local proofs are too thin or too mismatched to support even a fail-closed topology readout honestly."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-expansion-frontier-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Activate a bounded multi-node topology map once at least two imported node-local proofs exist.",
+      "task_id": "activate_multi_node_topology_map",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can derive a fuller dependency graph from repeated imported proofs, route evidence, listener ownership, config surfaces, and retained runtime hints.",
+        "The graph output distinguishes observed edges from inferred edges clearly.",
+        "The result improves support-useful dependency reasoning without pretending full graph completeness too early."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A dependency-focused artifact exists for the strongest observed and inferred runtime edges.",
+        "The next summary can explain which dependencies are directly evidenced, which are strongly inferred, and which remain unknown.",
+        "The successor avoids flattening adjacency, route hints, and real dependencies into one undifferentiated graph."
+      ],
+      "dependencies": [
+        "activate_multi_node_topology_map"
+      ],
+      "escalation_conditions": [
+        "The next step would require unsupported deep reverse engineering or unsupported suite-wide claims before bounded dependency edges are stable.",
+        "The current imported proof base cannot separate true dependency edges from loose co-location or repeated adjacency honestly."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-expansion-frontier-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Derive a fuller dependency graph from imported runtime proof once topology mapping is active.",
+      "task_id": "derive_full_dependency_graph",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can say more than whether an integration appears present by recording bounded health states such as configured, reachable, healthy, degraded, or uncertain.",
+        "Health claims stay tied to runtime, config, route, or log evidence rather than folklore or generic vendor expectations.",
+        "The output keeps provider-specific and product-specific integrations explicit instead of collapsing them into one health bucket."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A health-validated integration artifact exists for the strongest currently observed integration families.",
+        "The next summary can explain which integrations appear merely present versus measurably healthy or degraded.",
+        "Unknown or weakly-supported integrations remain explicitly unresolved."
+      ],
+      "dependencies": [
+        "derive_full_dependency_graph"
+      ],
+      "escalation_conditions": [
+        "The next step would require speculative health claims, uncontrolled mutation, or vendor-side assumptions before bounded health evidence is stable.",
+        "The current proof surfaces cannot distinguish configuration presence from runtime health honestly."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-expansion-frontier-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Capture a health-validated integration model once the successor can lean on stronger topology and dependency evidence.",
+      "task_id": "capture_health_validated_integration_model",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can explain larger end-to-end product behavior across major request, session, service, and integration flows without pretending the entire suite is fully known.",
+        "The resulting behavior model stays grounded in imported proofs and clearly labeled inference.",
+        "The output is support-useful and diagnostic-useful rather than becoming an unsupported product-theory document."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A behavior-model artifact exists that ties together the strongest proven seams into a higher-level product behavior surface.",
+        "The next summary can explain how important flows appear to behave, where the proof is strong, and where uncertainty still remains.",
+        "The successor still separates observed packets, inferred behavior, and unknowns cleanly."
+      ],
+      "dependencies": [
+        "capture_health_validated_integration_model"
+      ],
+      "escalation_conditions": [
+        "The next step would require a polished but unsupported suite story before enough runtime proof exists.",
+        "The available evidence cannot yet support end-to-end behavior claims without blurring observed fact and inference."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-expansion-frontier-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Derive a more complete product behavior model once the successor has stronger topology, dependency, and integration-health evidence.",
+      "task_id": "derive_complete_product_behavior_model",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor records one bounded follow-on provider-health readout for AWS and Azure using local service, listener, and recent journal evidence on the distributed CM and remote-agent nodes.",
+        "The output can distinguish configured, reachable, and degraded more honestly for the local provider-driver services without turning local runtime trouble into unsupported provider-side claims.",
+        "Provider API success, credential correctness, sync freshness, and cross-node directionality remain explicit non-claims unless directly proven."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A deeper provider-health artifact exists and cites the existing health model plus the fresh distributed CM and remote-agent imports as its proof base.",
+        "The next summary can explain which provider-driver families are merely present versus locally degraded.",
+        "Unsafe claims about cloud-side success or full distributed provider health remain explicit non-claims."
+      ],
+      "dependencies": [
+        "derive_complete_product_behavior_model"
+      ],
+      "escalation_conditions": [
+        "The next step would require vendor-side assumptions, uncontrolled probing, or claims about external API success that the current local proof still does not support.",
+        "The available local signals cannot honestly distinguish configured placement from local reachability or degradation."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-deeper-provider-health-proof-v1.md",
+        "docs/specs/adf-successor-health-validated-integration-model-v1.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Capture one deeper bounded provider-health proof for the visible AWS and Azure driver families without promoting local runtime trouble into unsupported cloud-side health claims.",
+      "task_id": "capture_deeper_provider_health_proof",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack benchmark-smoke --project-root . --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-distributed-cm-150-test-request.json --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-distributed-ra-153-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can say more about how provider-facing work is divided across the CM and remote-agent nodes without inventing hidden cross-node links.",
+        "Any directionality claim stays clearly separated into observed local facts, repeated cross-node patterns, and bounded inference.",
+        "The result stays narrower than a full distributed dependency or provider-success model."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded cross-node directionality artifact exists for the strongest repeated provider-facing families.",
+        "The next summary can explain what appears CM-led, RA-led, shared, or still unresolved in the provider-facing split.",
+        "The successor keeps cloud-side success and unseen east-west edges explicitly unresolved where proof is still thin."
+      ],
+      "dependencies": [
+        "capture_deeper_provider_health_proof"
+      ],
+      "escalation_conditions": [
+        "The next step would require claiming hidden east-west flows or internal orchestration direction without sufficient imported node-local proof.",
+        "The available proof remains too symmetric to support an honest directionality readout."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-expansion-frontier-v1.md",
+        "docs/specs/adf-successor-deeper-provider-health-proof-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Strengthen the cross-node directionality proof for the repeated provider-facing families across the CM and remote-agent nodes.",
+      "task_id": "strengthen_cross_node_directionality_proof",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
       ]
