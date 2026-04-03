@@ -1,0 +1,113 @@
+{
+  "active_task_id": "trace_businessflow_session_origin",
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 1,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 2
+    },
+    "status": "within_budget",
+    "summary": "Autonomy stayed within the default bounded run budget."
+  },
+  "baseline_readiness_state": "ready_for_review",
+  "block_summary": null,
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks",
+    "define_shallow_surface_map_artifact_contract",
+    "implement_shallow_surface_map_first_pass",
+    "derive_route_aware_edge_hints",
+    "improve_wrapped_listener_ownership",
+    "confirm_aff_fireflow_1989_boundary",
+    "validate_aff_session_route_parity",
+    "inspect_fireflow_usersession_bridge",
+    "trace_usersession_fa_session_reuse"
+  ],
+  "delta_summary": {
+    "changed_fields": [
+      "active_task_id",
+      "next_recommended_task_id",
+      "completed_task_ids"
+    ],
+    "completed_task_ids_added": [
+      "trace_usersession_fa_session_reuse"
+    ],
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1.json",
+    "previous_run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1",
+    "status": "changed",
+    "summary_lines": [
+      "Active task changed from `trace_usersession_fa_session_reuse` to `trace_businessflow_session_origin`.",
+      "Next recommended task changed from `trace_usersession_fa_session_reuse` to `trace_businessflow_session_origin`.",
+      "Newly completed tasks: trace_usersession_fa_session_reuse."
+    ]
+  },
+  "evidence_paths": [
+    "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/loop-events.jsonl",
+    "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/run-summary.json",
+    ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1.json"
+  ],
+  "final_readiness_state": "ready_for_review",
+  "generated_at": "2026-04-03T10:23:43Z",
+  "handoff_summary": [
+    "Run `algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1` ended with stop reason `current_task_incomplete`.",
+    "Readiness moved from `ready_for_review` to `ready_for_review`; ready_for_deployment=False.",
+    "Completed tasks: run_build_pack_validation, run_inherited_benchmarks, define_shallow_surface_map_artifact_contract, implement_shallow_surface_map_first_pass, derive_route_aware_edge_hints, improve_wrapped_listener_ownership, confirm_aff_fireflow_1989_boundary, validate_aff_session_route_parity, inspect_fireflow_usersession_bridge, trace_usersession_fa_session_reuse.",
+    "Active task changed from `trace_usersession_fa_session_reuse` to `trace_businessflow_session_origin`.",
+    "Next recommended task changed from `trace_usersession_fa_session_reuse` to `trace_businessflow_session_origin`.",
+    "Newly completed tasks: trace_usersession_fa_session_reuse.",
+    "Avoid trusting autonomy memory from runs where canonical state integrity did not pass; rerun bounded validation first.",
+    "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary.",
+    "Recommended next action: continue with canonical next task `trace_businessflow_session_origin` from status/work-state.json and use this summary as local measurement evidence only."
+  ],
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary.",
+  "memory_id": "autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Pack-local restart memory for the next bounded autonomy run.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "canonical_state_integrity_not_passed"
+    ],
+    "confidence_level": "low",
+    "confidence_score": 0.35,
+    "expires_after_hours": 12,
+    "expires_at": "2026-04-03T22:23:43Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "Low-confidence active pack restart memory with 12h freshness window."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_trusting_runs_without_canonical_integrity"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Avoid trusting autonomy memory from runs where canonical state integrity did not pass; rerun bounded validation first."
+    ]
+  },
+  "next_recommended_task_id": "trace_businessflow_session_origin",
+  "operator_intervention_summary": null,
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: continue with canonical next task `trace_businessflow_session_origin` from status/work-state.json and use this summary as local measurement evidence only.",
+  "resolved_block_summary": null,
+  "run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": null,
+    "loop_events_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/loop-events.jsonl",
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1.json",
+    "run_summary_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/run-summary.json"
+  },
+  "summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json."
+}

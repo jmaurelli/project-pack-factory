@@ -98,12 +98,71 @@ NOISY_DOCPACK_TERMS = {
     "upgrade",
 }
 GENERIC_DOCPACK_PORTS = {16, 25, 41, 42, 80, 423, 443, 8000, 8080}
+KNOWN_EXTERNAL_VENDOR_TERMS = (
+    ("aws", "AWS"),
+    ("azure", "Azure"),
+    ("check point", "Check Point"),
+    ("fortinet", "Fortinet"),
+    ("juniper", "Juniper"),
+    ("palo alto", "Palo Alto Networks"),
+    ("panorama", "Panorama"),
+    ("zscaler", "Zscaler"),
+    ("vmware nsx", "VMware NSX"),
+    ("f5", "F5 BIG-IP"),
+    ("arista", "Arista"),
+    ("cisco", "Cisco"),
+)
+KNOWN_DISTRIBUTED_ADJACENT_FAMILIES = {
+    "ms-aad-azure-sensor",
+    "ms-aad-log-sensor",
+    "ms-autodiscovery",
+}
+KNOWN_CLOUD_ADJACENT_FAMILIES = {
+    "ms-cloudflow-broker",
+    "ms-cloudlicensing",
+}
+KNOWN_PROVIDER_CONFIG_FAMILIES = {
+    "ms-devicedriver-aws",
+    "ms-devicedriver-azure",
+}
+EXTERNAL_SURFACE_ROUTE_PREFIXES = {
+    "/afa/external": "afa_external_surface",
+    "/afa/api": "afa_api_surface",
+    "/BusinessFlow": "businessflow_surface",
+    "/FireFlow": "fireflow_surface",
+    "/aff/api": "aff_surface",
+    "/keycloak/": "identity_surface",
+    "/ms-mapDiagnostics": "map_diagnostics_surface",
+}
+PROVIDER_DRIVER_VENDOR_LABELS = {
+    "ms-devicedriver-aws": "AWS",
+    "ms-devicedriver-azure": "Azure",
+}
+PROVIDER_ADJACENT_FAMILY_LABELS = {
+    "ms-aad-azure-sensor": "Azure",
+    "ms-aad-log-sensor": "Azure",
+    "ms-cloudflow-broker": "AWS",
+    "ms-cloudlicensing": "AWS",
+}
 CONFIG_PATH_RE = re.compile(r"(/[^\s\"']+\.(?:conf|cfg|ini|xml|yaml|yml|properties|json))")
 LOG_PATH_RE = re.compile(r"(/[^\s\"']+(?:/logs?/[^\"'\s]+|/log/[^\"'\s]+|\.log(?:\.\d+)?))")
+GENERIC_PATH_RE = re.compile(r"(?<![A-Za-z0-9_])(/[^ \t\n\r\"';,|)}]+)")
 LISTENER_PROCESS_RE = re.compile(r'users:\(\("(?P<process>[^"]+)",pid=(?P<pid>\d+)')
 HTTPD_ROUTE_LINE_RE = re.compile(r"^(?P<config_path>/[^:]+):(?P<line_number>\d+):(?P<content>.*)$")
 HTTPD_LOCATION_RE = re.compile(r"<Location(?:Match)?\s+\"?(?P<route>[^\"> ]+)\"?", re.IGNORECASE)
 HTTPD_URL_RE = re.compile(r"https?://[^/\s:]+(?::(?P<port>\d+))?[^ \t]*", re.IGNORECASE)
+HTTPD_MS_FAMILY_RE = re.compile(r"^algosec-ms\.(?P<family>[^/]+)\.conf$")
+SYSTEMD_SHOW_SPLIT_MARKER = "__ADF_UNIT_SHOW_SPLIT__"
+SYSTEMD_UNIT_DETAILS_COMMAND = (
+    "while read -r unit _; do "
+    "[ -n \"$unit\" ] || continue; "
+    "systemctl show \"$unit\" "
+    "--property=Id,FragmentPath,DropInPaths,EnvironmentFiles,ExecStart,ExecStartPre,ExecStartPost,ExecReload,"
+    "WorkingDirectory,LogsDirectory,ConfigurationDirectory,StateDirectory "
+    "2>/dev/null || true; "
+    f"echo '{SYSTEMD_SHOW_SPLIT_MARKER}'; "
+    "done < <(systemctl list-units --type=service --all --no-pager --plain --no-legend)"
+)
 HTTPD_ROUTE_HINT_COMMAND = (
     "if [ -d /etc/httpd ]; then "
     "grep -R -n -E '^[[:space:]]*(ProxyPass|ProxyPassReverse|ProxyPassMatch|RewriteRule|JkMount|Listen)[[:space:]]|<Location[^>]*>' "
@@ -130,8 +189,38 @@ FIREFLOW_USERSESSION_LOG_MARKERS_COMMAND = (
     "grep -E 'UserSession::getUserSession|isUserSessionValid|Using existing FASessionId|ff-session:' "
     "/usr/share/fireflow/var/log/fireflow.log* 2>/dev/null | tail -n 80 || true"
 )
+BUSINESSFLOW_SESSION_ORIGIN_HTTPD_MARKERS_COMMAND = (
+    "grep -E '/fa/server/connection/login|/fa/environment/getAFASessionInfo|/afa/external//bridge/storeFireflowCookie|"
+    "/afa/external//bridge/refresh|/afa/external//session/extend|"
+    "/FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher|/afa/php/ws.php|"
+    "/BusinessFlow/shallow_health_check|/BusinessFlow/deep_health_check|"
+    "/aff/api/internal/noauth/health/shallow|/aff/api/internal/noauth/health/deep' "
+    "/var/log/httpd/ssl_access_log* 2>/dev/null | tail -n 120 || true"
+)
+BUSINESSFLOW_SESSION_ORIGIN_SOURCE_MARKERS_COMMAND = (
+    "grep -R -n -E 'AFF_COOKIE|BFCookie|getAFASessionInfo|Could not find AlgosecSession|"
+    "VerifyGetFASessionIdValid|getFireflowCookie|checkFireFlowAuth|storeFireflowCookie' "
+    "/usr/share/fa/php /usr/share/fireflow 2>/dev/null | tail -n 120 || true"
+)
 HTTP_STATUS_MARKER = "__ADF_HTTP_STATUS__:"
 AFF_SESSION_SERVICE_UNITS = ("httpd.service", "ms-bflow.service", "aff-boot.service")
+CONFIG_OPTION_PREFIXES = (
+    "-Dlogback.configurationFile=",
+    "-Dlogging.config=",
+    "-Dspring.config.location=",
+    "-Dspring.config.additional-location=",
+    "-Dactivemq.conf=",
+    "-Dcatalina.base=",
+    "-Dcatalina.home=",
+    "-Djboss.server.config.dir=",
+    "-Dkc.config-file=",
+)
+LOG_OPTION_PREFIXES = (
+    "-XX:HeapDumpPath=",
+    "-Dlogging.file.name=",
+    "-Dlogging.file.path=",
+    "-Djboss.server.log.dir=",
+)
 
 
 def generate_shallow_surface_map(
@@ -168,6 +257,39 @@ def generate_shallow_surface_map(
         command_results,
         usersession_bridge_packets=usersession_bridge_packets,
     )
+    businessflow_session_origin_packets = _build_businessflow_session_origin_packets(
+        command_results,
+        usersession_reuse_packets=usersession_reuse_packets,
+    )
+    bootstrap_polling_packets = _build_bootstrap_polling_packets(
+        command_results,
+        businessflow_session_origin_packets=businessflow_session_origin_packets,
+    )
+    aff_cookie_handoff_packets = _build_aff_cookie_handoff_packets(
+        command_results,
+        edge_route_hints=edge_route_hints,
+        usersession_reuse_packets=usersession_reuse_packets,
+        bootstrap_polling_packets=bootstrap_polling_packets,
+    )
+    java_runtime_cluster_packets = _build_java_runtime_cluster_packets(
+        component_records,
+        edge_route_hints=edge_route_hints,
+        boundary_packets=boundary_packets,
+        aff_cookie_handoff_packets=aff_cookie_handoff_packets,
+    )
+    provider_integration_packets = _build_provider_integration_packets(
+        component_records,
+        edge_route_hints=edge_route_hints,
+        target_label=target_label,
+    )
+    knowledge_layer_packets = _build_knowledge_layer_packets(
+        component_records,
+        edge_route_hints=edge_route_hints,
+        java_runtime_cluster_packets=java_runtime_cluster_packets,
+        provider_integration_packets=provider_integration_packets,
+        docpack_hints=docpack_hints,
+        target_label=target_label,
+    )
     next_candidate_seams = _build_next_candidate_seams(
         component_records,
         edge_route_hints=edge_route_hints,
@@ -175,6 +297,12 @@ def generate_shallow_surface_map(
         session_parity_packets=session_parity_packets,
         usersession_bridge_packets=usersession_bridge_packets,
         usersession_reuse_packets=usersession_reuse_packets,
+        businessflow_session_origin_packets=businessflow_session_origin_packets,
+        bootstrap_polling_packets=bootstrap_polling_packets,
+        aff_cookie_handoff_packets=aff_cookie_handoff_packets,
+        java_runtime_cluster_packets=java_runtime_cluster_packets,
+        provider_integration_packets=provider_integration_packets,
+        knowledge_layer_packets=knowledge_layer_packets,
     )
     surface_map = {
         "schema_version": "adf-shallow-surface-map/v1",
@@ -203,16 +331,18 @@ def generate_shallow_surface_map(
                 "runtime_identity",
                 "systemd_units",
                 "systemd_unit_files",
+                "systemd_unit_details",
                 "listening_tcp_ports",
                 "process_inventory",
                 "httpd_route_hints",
                 "aff_session_parity_checks",
                 "fireflow_usersession_bridge_hints",
+                "businessflow_session_origin_hints",
             ],
             "out_of_scope": [
                 "deep dependency mapping",
-                "config file parsing",
-                "log content interpretation",
+                "deep config file parsing",
+                "log content interpretation beyond bounded marker checks",
                 "predictive analysis",
                 "write or mutation operations",
             ],
@@ -232,6 +362,12 @@ def generate_shallow_surface_map(
         "session_parity_packets": session_parity_packets,
         "usersession_bridge_packets": usersession_bridge_packets,
         "usersession_reuse_packets": usersession_reuse_packets,
+        "businessflow_session_origin_packets": businessflow_session_origin_packets,
+        "bootstrap_polling_packets": bootstrap_polling_packets,
+        "aff_cookie_handoff_packets": aff_cookie_handoff_packets,
+        "java_runtime_cluster_packets": java_runtime_cluster_packets,
+        "provider_integration_packets": provider_integration_packets,
+        "knowledge_layer_packets": knowledge_layer_packets,
         "unknowns": _build_global_unknowns(command_results, component_records, edge_route_hints=edge_route_hints),
         "next_candidate_seams": next_candidate_seams,
     }
@@ -265,6 +401,12 @@ def generate_shallow_surface_map(
             "session_parity_packet_count": len(session_parity_packets),
             "usersession_bridge_packet_count": len(usersession_bridge_packets),
             "usersession_reuse_packet_count": len(usersession_reuse_packets),
+            "businessflow_session_origin_packet_count": len(businessflow_session_origin_packets),
+            "bootstrap_polling_packet_count": len(bootstrap_polling_packets),
+            "aff_cookie_handoff_packet_count": len(aff_cookie_handoff_packets),
+            "java_runtime_cluster_packet_count": len(java_runtime_cluster_packets),
+            "provider_integration_packet_count": len(provider_integration_packets),
+            "knowledge_layer_packet_count": len(knowledge_layer_packets),
             "candidate_seam_count": len(next_candidate_seams),
         },
     }
@@ -282,8 +424,7 @@ def _mirror_generated_files_into_run(
 ) -> list[str]:
     run_root = (project_root / AUTONOMY_RUN_ROOT / run_id).resolve()
     allowed_run_root = (project_root / AUTONOMY_RUN_ROOT).resolve()
-    if not run_root.exists():
-        raise ValueError(f"{run_root}: run directory does not exist")
+    run_root.mkdir(parents=True, exist_ok=True)
     try:
         run_root.relative_to(allowed_run_root)
     except ValueError as exc:
@@ -328,6 +469,11 @@ def _collect_command_results(*, target_connection: dict[str, Any] | None) -> lis
                 max_preview_lines=250,
             ),
             _run_command(
+                command_id="systemd_unit_details",
+                argv=["bash", "-lc", SYSTEMD_UNIT_DETAILS_COMMAND],
+                max_preview_lines=250,
+            ),
+            _run_command(
                 command_id="listening_tcp_ports",
                 argv=["ss", "-lntpH"],
                 max_preview_lines=250,
@@ -360,6 +506,16 @@ def _collect_command_results(*, target_connection: dict[str, Any] | None) -> lis
             _run_command(
                 command_id="businessflow_deep_health",
                 argv=["bash", "-lc", BUSINESSFLOW_DEEP_HEALTH_COMMAND],
+                max_preview_lines=250,
+            ),
+            _run_command(
+                command_id="businessflow_session_origin_httpd_markers",
+                argv=["bash", "-lc", BUSINESSFLOW_SESSION_ORIGIN_HTTPD_MARKERS_COMMAND],
+                max_preview_lines=250,
+            ),
+            _run_command(
+                command_id="businessflow_session_origin_source_markers",
+                argv=["bash", "-lc", BUSINESSFLOW_SESSION_ORIGIN_SOURCE_MARKERS_COMMAND],
                 max_preview_lines=250,
             ),
         ]
@@ -426,6 +582,12 @@ def _collect_target_command_results(target_connection: dict[str, Any]) -> list[d
         ),
         _run_target_command(
             target_connection=target_connection,
+            command_id="systemd_unit_details",
+            command=SYSTEMD_UNIT_DETAILS_COMMAND,
+            timeout_seconds=timeout_seconds,
+        ),
+        _run_target_command(
+            target_connection=target_connection,
             command_id="listening_tcp_ports",
             command="ss -lntpH",
             timeout_seconds=timeout_seconds,
@@ -464,6 +626,18 @@ def _collect_target_command_results(target_connection: dict[str, Any]) -> list[d
             target_connection=target_connection,
             command_id="businessflow_deep_health",
             command=BUSINESSFLOW_DEEP_HEALTH_COMMAND,
+            timeout_seconds=timeout_seconds,
+        ),
+        _run_target_command(
+            target_connection=target_connection,
+            command_id="businessflow_session_origin_httpd_markers",
+            command=BUSINESSFLOW_SESSION_ORIGIN_HTTPD_MARKERS_COMMAND,
+            timeout_seconds=timeout_seconds,
+        ),
+        _run_target_command(
+            target_connection=target_connection,
+            command_id="businessflow_session_origin_source_markers",
+            command=BUSINESSFLOW_SESSION_ORIGIN_SOURCE_MARKERS_COMMAND,
             timeout_seconds=timeout_seconds,
         ),
         _run_target_command(
@@ -507,6 +681,7 @@ def _build_component_records(
     results_by_id = {entry["command_id"]: entry for entry in command_results}
     unit_states = _parse_systemd_units(results_by_id.get("systemd_units", {}))
     unit_file_states = _parse_unit_files(results_by_id.get("systemd_unit_files", {}))
+    unit_details = _parse_systemd_unit_details(results_by_id.get("systemd_unit_details", {}))
     listeners = _parse_listeners(results_by_id.get("listening_tcp_ports", {}))
     processes = _parse_processes(results_by_id.get("process_inventory", {}))
     process_index, children_by_ppid = _index_processes(processes)
@@ -529,7 +704,9 @@ def _build_component_records(
                 "process_id": None,
                 "listener_bindings": [],
                 "listening_ports": [],
+                "config_path_details": [],
                 "config_path_candidates": [],
+                "log_path_details": [],
                 "log_path_candidates": [],
                 "jvm_visibility": {
                     "detected": False,
@@ -540,6 +717,20 @@ def _build_component_records(
             "inference": {},
             "unknowns": [],
         }
+        detail = unit_details.get(unit_name)
+        if detail is not None:
+            observed = records[unit_name]["observed"]
+            observed["main_command"] = observed["main_command"] or _extract_execstart_command(detail)
+            observed["config_path_details"] = _merge_path_details(
+                observed["config_path_details"],
+                _build_unit_detail_config_paths(detail),
+            )
+            observed["log_path_details"] = _merge_path_details(
+                observed["log_path_details"],
+                _build_unit_detail_log_paths(detail),
+            )
+            if "systemd_unit_details" not in observed["source_command_ids"]:
+                observed["source_command_ids"].append("systemd_unit_details")
 
     for process in processes:
         record_key = _match_record_key(process["command"], process["comm"], records)
@@ -560,7 +751,9 @@ def _build_component_records(
                     "process_id": process["pid"],
                     "listener_bindings": [],
                     "listening_ports": [],
+                    "config_path_details": [],
                     "config_path_candidates": [],
+                    "log_path_details": [],
                     "log_path_candidates": [],
                     "jvm_visibility": {
                         "detected": False,
@@ -573,11 +766,23 @@ def _build_component_records(
             }
 
         observed = records[record_key]["observed"]
+        command_config_details, command_log_details = _extract_command_path_details(process["command"])
         if "process_inventory" not in observed["record_sources"]:
             observed["record_sources"].append("process_inventory")
         observed["process_name"] = observed["process_name"] or process["comm"]
         observed["process_id"] = observed["process_id"] or process["pid"]
-        observed["main_command"] = observed["main_command"] or process["command"]
+        if observed["main_command"] is None or _should_replace_main_command(observed["main_command"], process["command"]):
+            observed["process_name"] = process["comm"]
+            observed["process_id"] = process["pid"]
+            observed["main_command"] = process["command"]
+        observed["config_path_details"] = _merge_path_details(
+            observed["config_path_details"],
+            command_config_details,
+        )
+        observed["log_path_details"] = _merge_path_details(
+            observed["log_path_details"],
+            command_log_details,
+        )
         observed["config_path_candidates"] = _merge_unique(
             observed["config_path_candidates"],
             _extract_paths(process["command"], CONFIG_PATH_RE),
@@ -616,7 +821,6 @@ def _build_component_records(
             "docpack_matches": docpack_matches,
             "notes": notes,
         }
-        record["unknowns"] = _build_record_unknowns(record)
 
     component_records = sorted(
         records.values(),
@@ -626,6 +830,18 @@ def _build_component_records(
         ),
     )
     edge_route_hints = _build_edge_route_hints(httpd_route_rows, component_records)
+    _enrich_component_path_surfaces(component_records, edge_route_hints=edge_route_hints)
+    for record in component_records:
+        observed = record["observed"]
+        observed["config_path_candidates"] = _merge_unique(
+            observed["config_path_candidates"],
+            _detail_paths_only(observed.get("config_path_details", [])),
+        )
+        observed["log_path_candidates"] = _merge_unique(
+            observed["log_path_candidates"],
+            _detail_paths_only(observed.get("log_path_details", [])),
+        )
+        record["unknowns"] = _build_record_unknowns(record)
     return component_records, edge_route_hints
 
 
@@ -656,6 +872,26 @@ def _parse_unit_files(result: dict[str, Any]) -> dict[str, str]:
         if len(parts) == 2 and parts[0].endswith(".service"):
             unit_files[parts[0]] = parts[1]
     return unit_files
+
+
+def _parse_systemd_unit_details(result: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    details: dict[str, dict[str, Any]] = {}
+    if result.get("status") != "completed":
+        return details
+    for block in result.get("stdout", "").split(SYSTEMD_SHOW_SPLIT_MARKER):
+        lines = [line.strip() for line in block.splitlines() if line.strip()]
+        if not lines:
+            continue
+        parsed: dict[str, str] = {}
+        for line in lines:
+            if "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            parsed[key] = value.strip()
+        unit_id = parsed.get("Id")
+        if unit_id:
+            details[unit_id] = parsed
+    return details
 
 
 def _parse_listeners(result: dict[str, Any]) -> list[dict[str, Any]]:
@@ -828,6 +1064,331 @@ def _match_record_key(command: str, comm: str, records: dict[str, dict[str, Any]
 def _extract_paths(command: str, pattern: re.Pattern[str]) -> list[str]:
     return sorted(set(match.group(1) for match in pattern.finditer(command)))
 
+
+def _extract_any_paths(text: str) -> list[str]:
+    return _dedupe_preserve_order(
+        [
+            _normalize_path_candidate(match.group(1))
+            for match in GENERIC_PATH_RE.finditer(text)
+            if not match.group(1).startswith("//")
+        ]
+    )
+
+
+def _normalize_path_candidate(path: str) -> str:
+    normalized = path.strip().rstrip(")]},;")
+    if not normalized:
+        return normalized
+    if normalized.startswith("file:/"):
+        normalized = normalized.removeprefix("file:")
+    return normalized
+
+
+def _build_path_detail(
+    *,
+    path: str,
+    status: str,
+    source: str,
+    source_command_id: str,
+    surface_kind: str = "path",
+    note: str | None = None,
+) -> dict[str, str]:
+    detail = {
+        "path": _normalize_path_candidate(path),
+        "status": status,
+        "source": source,
+        "source_command_id": source_command_id,
+        "surface_kind": surface_kind,
+    }
+    if note:
+        detail["note"] = note
+    return detail
+
+
+def _merge_path_details(existing: list[dict[str, Any]], new_items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    merged = list(existing)
+    seen = {
+        (
+            str(item.get("path") or ""),
+            str(item.get("status") or ""),
+            str(item.get("source") or ""),
+            str(item.get("surface_kind") or ""),
+        )
+        for item in merged
+    }
+    for item in new_items:
+        path = str(item.get("path") or "")
+        if not path:
+            continue
+        key = (
+            path,
+            str(item.get("status") or ""),
+            str(item.get("source") or ""),
+            str(item.get("surface_kind") or ""),
+        )
+        if key in seen:
+            continue
+        merged.append(item)
+        seen.add(key)
+    return merged
+
+
+def _detail_paths_only(details: list[dict[str, Any]]) -> list[str]:
+    return _dedupe_preserve_order(
+        [
+            str(detail["path"])
+            for detail in details
+            if str(detail.get("surface_kind") or "path") == "path" and str(detail.get("path") or "").startswith("/")
+        ]
+    )
+
+
+def _extract_command_path_details(command: str) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    config_details = [
+        _build_path_detail(
+            path=path,
+            status="observed",
+            source="process_command_path",
+            source_command_id="process_inventory",
+        )
+        for path in _extract_paths(command, CONFIG_PATH_RE)
+    ]
+    log_details = [
+        _build_path_detail(
+            path=path,
+            status="observed",
+            source="process_command_path",
+            source_command_id="process_inventory",
+        )
+        for path in _extract_paths(command, LOG_PATH_RE)
+    ]
+    for option_prefix in CONFIG_OPTION_PREFIXES:
+        value = _extract_command_option_value(command, option_prefix)
+        if value:
+            config_details.append(
+                _build_path_detail(
+                    path=value,
+                    status="observed",
+                    source="process_command_option",
+                    source_command_id="process_inventory",
+                    note=f"Observed in runtime option `{option_prefix}`.",
+                )
+            )
+    for option_prefix in LOG_OPTION_PREFIXES:
+        value = _extract_command_option_value(command, option_prefix)
+        if value:
+            log_details.append(
+                _build_path_detail(
+                    path=value,
+                    status="observed",
+                    source="process_command_option",
+                    source_command_id="process_inventory",
+                    note=f"Observed in runtime option `{option_prefix}`.",
+                )
+            )
+
+    catalina_base = _extract_command_option_value(command, "-Dcatalina.base=")
+    if catalina_base:
+        config_details.append(
+            _build_path_detail(
+                path=f"{catalina_base.rstrip('/')}/conf",
+                status="candidate",
+                source="derived_runtime_root",
+                source_command_id="process_inventory",
+                note="Derived from observed `-Dcatalina.base`.",
+            )
+        )
+        log_details.append(
+            _build_path_detail(
+                path=f"{catalina_base.rstrip('/')}/logs",
+                status="candidate",
+                source="derived_runtime_root",
+                source_command_id="process_inventory",
+                note="Derived from observed `-Dcatalina.base`.",
+            )
+        )
+    catalina_home = _extract_command_option_value(command, "-Dcatalina.home=")
+    if catalina_home:
+        config_details.append(
+            _build_path_detail(
+                path=f"{catalina_home.rstrip('/')}/conf",
+                status="candidate",
+                source="derived_runtime_root",
+                source_command_id="process_inventory",
+                note="Derived from observed `-Dcatalina.home`.",
+            )
+        )
+    return (
+        _merge_path_details([], config_details),
+        _merge_path_details([], log_details),
+    )
+
+
+def _build_unit_detail_config_paths(detail: dict[str, Any]) -> list[dict[str, str]]:
+    config_details: list[dict[str, str]] = []
+    fragment_path = str(detail.get("FragmentPath") or "")
+    if fragment_path:
+        config_details.append(
+            _build_path_detail(
+                path=fragment_path,
+                status="observed",
+                source="systemd_fragment",
+                source_command_id="systemd_unit_details",
+            )
+        )
+    for path in _extract_any_paths(str(detail.get("DropInPaths") or "")):
+        config_details.append(
+            _build_path_detail(
+                path=path,
+                status="observed",
+                source="systemd_dropin",
+                source_command_id="systemd_unit_details",
+            )
+        )
+    for path in _extract_any_paths(str(detail.get("EnvironmentFiles") or "")):
+        config_details.append(
+            _build_path_detail(
+                path=path,
+                status="observed",
+                source="systemd_environment_file",
+                source_command_id="systemd_unit_details",
+            )
+        )
+    for path in _extract_any_paths(str(detail.get("ConfigurationDirectory") or "")):
+        config_details.append(
+            _build_path_detail(
+                path=path,
+                status="observed",
+                source="systemd_configuration_directory",
+                source_command_id="systemd_unit_details",
+            )
+        )
+    for path in _extract_any_paths(str(detail.get("WorkingDirectory") or "")):
+        config_details.append(
+            _build_path_detail(
+                path=path,
+                status="candidate",
+                source="systemd_working_directory",
+                source_command_id="systemd_unit_details",
+                note="Working directory can be a useful config-adjacent inspection root.",
+            )
+        )
+    for path in _extract_any_paths(str(detail.get("StateDirectory") or "")):
+        config_details.append(
+            _build_path_detail(
+                path=path,
+                status="candidate",
+                source="systemd_state_directory",
+                source_command_id="systemd_unit_details",
+            )
+        )
+    for key in ("ExecStart", "ExecStartPre", "ExecStartPost", "ExecReload"):
+        exec_config_details, _ = _extract_command_path_details(str(detail.get(key) or ""))
+        config_details = _merge_path_details(config_details, exec_config_details)
+    return config_details
+
+
+def _build_unit_detail_log_paths(detail: dict[str, Any]) -> list[dict[str, str]]:
+    log_details: list[dict[str, str]] = []
+    unit_id = str(detail.get("Id") or "").strip()
+    if unit_id:
+        log_details.append(
+            _build_path_detail(
+                path=f"journalctl -u {unit_id} --no-pager -n 80",
+                status="candidate",
+                source="systemd_journal_locator",
+                source_command_id="systemd_unit_details",
+                surface_kind="locator",
+                note="Bounded journal entrypoint for this service unit.",
+            )
+        )
+    for path in _extract_any_paths(str(detail.get("LogsDirectory") or "")):
+        log_details.append(
+            _build_path_detail(
+                path=path,
+                status="observed",
+                source="systemd_logs_directory",
+                source_command_id="systemd_unit_details",
+            )
+        )
+    for path in _extract_any_paths(str(detail.get("StateDirectory") or "")):
+        log_details.append(
+            _build_path_detail(
+                path=path,
+                status="candidate",
+                source="systemd_state_directory",
+                source_command_id="systemd_unit_details",
+            )
+        )
+    for path in _extract_any_paths(str(detail.get("WorkingDirectory") or "")):
+        if path.endswith("/logs") or path.endswith("/log"):
+            log_details.append(
+                _build_path_detail(
+                    path=path,
+                    status="candidate",
+                    source="systemd_working_directory",
+                    source_command_id="systemd_unit_details",
+                )
+            )
+    for key in ("ExecStart", "ExecStartPre", "ExecStartPost", "ExecReload"):
+        _, exec_log_details = _extract_command_path_details(str(detail.get(key) or ""))
+        log_details = _merge_path_details(log_details, exec_log_details)
+    return log_details
+
+
+def _enrich_component_path_surfaces(
+    component_records: list[dict[str, Any]],
+    *,
+    edge_route_hints: list[dict[str, Any]],
+) -> None:
+    httpd_record = next((record for record in component_records if record.get("component_id") == "httpd"), None)
+    if httpd_record is not None:
+        httpd_record["observed"]["config_path_details"] = _merge_path_details(
+            httpd_record["observed"].get("config_path_details", []),
+            [
+                _build_path_detail(
+                    path=str(hint["config_path"]),
+                    status="observed",
+                    source="httpd_route_hint",
+                    source_command_id="httpd_route_hints",
+                    note="Observed in bounded Apache route-hint collection.",
+                )
+                for hint in edge_route_hints
+                if hint.get("config_path")
+            ],
+        )
+
+
+def _extract_execstart_command(detail: dict[str, Any]) -> str | None:
+    for key in ("ExecStart", "ExecStartPre", "ExecStartPost", "ExecReload"):
+        value = str(detail.get(key) or "").strip()
+        if not value:
+            continue
+        argv_match = re.search(r"argv\[]=(.+?)(?: ;|$)", value)
+        if argv_match:
+            return argv_match.group(1).strip()
+        path_match = re.search(r"path=(/[^ ;]+)", value)
+        if path_match:
+            return path_match.group(1).strip()
+        if value.startswith("/"):
+            return value
+    return None
+
+
+def _should_replace_main_command(existing: str, candidate: str) -> bool:
+    existing_lower = existing.lower()
+    candidate_lower = candidate.lower()
+    if existing_lower.startswith("/bin/sh -c") or existing_lower.startswith("/bin/bash "):
+        return True
+    if "source ~/.bashrc" in existing_lower:
+        return True
+    if "bootstrap start" in existing_lower and "bootstrap start" not in candidate_lower:
+        return False
+    if "java" not in existing_lower and "java" in candidate_lower:
+        return True
+    if "bootstrap start" not in existing_lower and "bootstrap start" in candidate_lower:
+        return True
+    return False
 
 def _merge_unique(existing: list[Any], new_items: list[Any]) -> list[Any]:
     merged = list(existing)
@@ -1142,10 +1703,20 @@ def _docpack_match_notes(docpack_matches: dict[str, Any]) -> list[str]:
 def _build_record_unknowns(record: dict[str, Any]) -> list[str]:
     observed = record["observed"]
     unknowns: list[str] = []
-    if not observed["config_path_candidates"]:
-        unknowns.append("No config path candidate was visible from the first-pass command line or unit evidence.")
-    if not observed["log_path_candidates"]:
-        unknowns.append("No log path candidate was visible from the first-pass command line evidence.")
+    config_details = observed.get("config_path_details", [])
+    log_details = observed.get("log_path_details", [])
+    has_config_surface = bool(config_details or observed["config_path_candidates"])
+    has_log_surface = bool(log_details or observed["log_path_candidates"])
+    has_observed_config = any(detail.get("status") == "observed" for detail in config_details)
+    has_observed_log = any(detail.get("status") == "observed" for detail in log_details)
+    if not has_config_surface:
+        unknowns.append("No config path candidate was visible from the bounded command-line, unit-metadata, or Apache-route evidence.")
+    elif not has_observed_config:
+        unknowns.append("Only candidate config surfaces are visible so far; no target-local config path is confirmed yet.")
+    if not has_log_surface:
+        unknowns.append("No log path candidate was visible from the bounded command-line or unit-metadata evidence.")
+    elif not has_observed_log:
+        unknowns.append("Only candidate log surfaces are visible so far; no target-local log path is confirmed yet.")
     if not observed["listening_ports"]:
         unknowns.append("No listening TCP port was linked to this component in the first-pass port scan.")
     if observed["service_unit"] and observed["main_command"] is None:
@@ -1160,7 +1731,7 @@ def _build_global_unknowns(
     edge_route_hints: list[dict[str, Any]],
 ) -> list[str]:
     unknowns = [
-        "The first pass does not yet parse config files, unit fragments, or logs.",
+        "The first pass still does not deeply parse config files, unit fragments, or logs; it only records bounded path surfaces and route clues.",
         "The first pass does not claim complete dependency order or request-path ownership.",
         "The first pass keeps product labeling bounded; some components may still be generic or misclassified.",
     ]
@@ -1606,6 +2177,1783 @@ def _build_usersession_fa_session_reuse_packets(
     ]
 
 
+def _build_businessflow_session_origin_packets(
+    command_results: list[dict[str, Any]],
+    *,
+    usersession_reuse_packets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    reuse_packet = next(
+        (packet for packet in usersession_reuse_packets if packet.get("packet_id") == "usersession_fa_session_reuse"),
+        None,
+    )
+    if reuse_packet is None or reuse_packet.get("status") != "reuse_chain_visible":
+        return []
+
+    results_by_id = {entry["command_id"]: entry for entry in command_results}
+    httpd_markers = _parse_marker_lines(
+        results_by_id.get("businessflow_session_origin_httpd_markers", {}),
+        expected_terms=(
+            "/fa/server/connection/login",
+            "storeFireflowCookie",
+            "getAFASessionInfo",
+            "bridge/refresh",
+            "CommandsDispatcher",
+            "/afa/php/ws.php",
+            "BusinessFlow/shallow_health_check",
+            "BusinessFlow/deep_health_check",
+        ),
+    )
+    source_markers = _parse_marker_lines(
+        results_by_id.get("businessflow_session_origin_source_markers", {}),
+        expected_terms=(
+            "AFF_COOKIE",
+            "BFCookie",
+            "getAFASessionInfo",
+            "getFireflowCookie",
+            "checkFireFlowAuth",
+            "VerifyGetFASessionIdValid",
+            "Could not find AlgosecSession",
+            "storeFireflowCookie",
+        ),
+    )
+
+    httpd_terms = set(httpd_markers.get("matched_terms", []))
+    source_terms = set(source_markers.get("matched_terms", []))
+    bootstrap_httpd_terms = (
+        "/fa/server/connection/login",
+        "storeFireflowCookie",
+    )
+    polling_httpd_terms = (
+        "getAFASessionInfo",
+        "CommandsDispatcher",
+        "bridge/refresh",
+        "/afa/php/ws.php",
+        "BusinessFlow/shallow_health_check",
+        "BusinessFlow/deep_health_check",
+    )
+    source_cookie_terms = (
+        "AFF_COOKIE",
+        "BFCookie",
+        "getFireflowCookie",
+        "storeFireflowCookie",
+    )
+    source_fallback_terms = (
+        "getAFASessionInfo",
+        "checkFireFlowAuth",
+        "VerifyGetFASessionIdValid",
+        "Could not find AlgosecSession",
+    )
+    bootstrap_visible = all(term in httpd_terms for term in bootstrap_httpd_terms)
+    polling_visible = "getAFASessionInfo" in httpd_terms and "CommandsDispatcher" in httpd_terms and any(
+        term in httpd_terms
+        for term in ("bridge/refresh", "/afa/php/ws.php", "BusinessFlow/shallow_health_check", "BusinessFlow/deep_health_check")
+    )
+    source_cookie_visible = any(term in source_terms for term in source_cookie_terms)
+    source_fallback_visible = any(term in source_terms for term in source_fallback_terms)
+    httpd_bootstrap_terms_present = [term for term in bootstrap_httpd_terms if term in httpd_terms]
+    httpd_polling_terms_present = [term for term in polling_httpd_terms if term in httpd_terms]
+    source_cookie_terms_present = [term for term in source_cookie_terms if term in source_terms]
+    source_fallback_terms_present = [term for term in source_fallback_terms if term in source_terms]
+
+    if bootstrap_visible and not polling_visible:
+        packet_status = "bootstrap_origin_clues_visible"
+        distinction_status = "bootstrap_pair_visible_without_refresh_dominance"
+        next_stop = "inspect_aff_cookie_handoff"
+    elif polling_visible and not bootstrap_visible:
+        packet_status = "shared_polling_origin_clues_visible"
+        distinction_status = "polling_dominant_without_httpd_bootstrap_pair"
+        next_stop = "distinguish_bootstrap_from_shared_polling"
+    elif bootstrap_visible and polling_visible:
+        packet_status = "shared_polling_origin_clues_visible"
+        distinction_status = "mixed_origin_window"
+        next_stop = "distinguish_bootstrap_from_shared_polling"
+    elif source_cookie_visible or source_fallback_visible:
+        packet_status = "source_side_origin_clues_visible"
+        distinction_status = "source_only_origin_vocabulary"
+        next_stop = "inspect_aff_cookie_handoff"
+    else:
+        packet_status = "origin_clues_thin"
+        distinction_status = "thin"
+        next_stop = "keep_session_origin_bounded"
+
+    confidence = (
+        "high"
+        if (bootstrap_visible and source_cookie_visible)
+        or (polling_visible and not bootstrap_visible and source_cookie_visible)
+        else "medium"
+    )
+    origin_reading = (
+        "original_cookie_handoff"
+        if distinction_status == "bootstrap_pair_visible_without_refresh_dominance"
+        else "later_shared_polling"
+        if distinction_status == "polling_dominant_without_httpd_bootstrap_pair"
+        else "source_side_clue_only"
+        if packet_status == "source_side_origin_clues_visible"
+        else "mixed_bootstrap_and_polling_window"
+        if distinction_status == "mixed_origin_window"
+        else "still_ambiguous"
+    )
+
+    confirmed_elements: list[str] = []
+    remaining_questions: list[str] = []
+    if bootstrap_visible:
+        confirmed_elements.append(
+            "Retained Apache-side markers show the stronger bootstrap pattern: FireFlow session traffic sits alongside AFA login and `storeFireflowCookie`, which is a better origin clue than later refresh-only upkeep."
+        )
+    if polling_visible:
+        confirmed_elements.append(
+            "Retained Apache-side markers also show the shared polling family: `getAFASessionInfo`, `CommandsDispatcher`, and nearby BusinessFlow or AFF health checks can recur after the session already exists."
+        )
+    if polling_visible and not bootstrap_visible:
+        confirmed_elements.append(
+            "The retained Apache-side window does not keep the stronger bootstrap pair (`/fa/server/connection/login` plus `storeFireflowCookie`), so this specific window is better read as later shared polling than as first cookie handoff."
+        )
+    if bootstrap_visible and polling_visible:
+        remaining_questions.append(
+            "The retained Apache-side window mixes both bootstrap and upkeep vocabulary, so the current packet still needs a bounded bootstrap-versus-polling separation step before claiming a cleaner first handoff."
+        )
+    if source_cookie_visible:
+        confirmed_elements.append(
+            "Local source-side hints still name the BusinessFlow cookie handoff directly through `AFF_COOKIE`, `BFCookie`, or `getFireflowCookie`."
+        )
+        if polling_visible and not bootstrap_visible:
+            confirmed_elements.append(
+                "That means the bootstrap vocabulary still exists in the product code even though the retained Apache-side evidence currently shows the later refresh and health family instead."
+            )
+    if source_fallback_visible:
+        confirmed_elements.append(
+            "Local source-side hints also preserve the fallback or validation side through `getAFASessionInfo`, `checkFireFlowAuth`, or `VerifyGetFASessionIdValid`."
+        )
+    if packet_status == "origin_clues_thin":
+        remaining_questions.append(
+            "The retained origin-side markers were too thin to classify this as original cookie handoff versus later shared polling."
+        )
+    remaining_questions.append(
+        "The packet still does not prove the exact external browser action that triggered the localhost-side session-origin branch."
+    )
+
+    return [
+        {
+            "packet_id": "businessflow_session_origin_clue",
+            "packet_kind": "retained_origin_side_hint",
+            "display_name": "BusinessFlow Session Origin Packet",
+            "status": packet_status,
+            "confidence": confidence,
+            "distinction_status": distinction_status,
+            "origin_reading": origin_reading,
+            "why_it_matters": "This packet stays just upstream of the reused FireFlow FA-session chain and distinguishes the original BusinessFlow cookie handoff from later shared session upkeep when the retained evidence supports that read.",
+            "usersession_reuse_ref": reuse_packet["packet_id"],
+            "httpd_origin_markers": httpd_markers,
+            "source_origin_markers": source_markers,
+            "distinction_basis": {
+                "httpd_bootstrap_terms_present": httpd_bootstrap_terms_present,
+                "httpd_bootstrap_terms_missing": [
+                    term for term in bootstrap_httpd_terms if term not in httpd_terms
+                ],
+                "httpd_polling_terms_present": httpd_polling_terms_present,
+                "source_cookie_terms_present": source_cookie_terms_present,
+                "source_fallback_terms_present": source_fallback_terms_present,
+            },
+            "next_stop": next_stop,
+            "stop_rule": "If upstream origin clues are thin, stop here instead of widening into full login or cookie-bootstrap reconstruction.",
+            "confirmed_elements": confirmed_elements,
+            "remaining_questions": remaining_questions,
+        }
+    ]
+
+
+def _build_bootstrap_polling_packets(
+    command_results: list[dict[str, Any]],
+    *,
+    businessflow_session_origin_packets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    origin_packet = next(
+        (packet for packet in businessflow_session_origin_packets if packet.get("packet_id") == "businessflow_session_origin_clue"),
+        None,
+    )
+    if origin_packet is None or origin_packet.get("status") == "origin_clues_thin":
+        return []
+
+    results_by_id = {entry["command_id"]: entry for entry in command_results}
+    analysis = _parse_bootstrap_polling_analysis(
+        results_by_id.get("businessflow_session_origin_httpd_markers", {}),
+        results_by_id.get("businessflow_session_origin_source_markers", {}),
+    )
+    status = analysis["status"]
+
+    confirmed_elements: list[str] = []
+    remaining_questions: list[str] = []
+    if status in {
+        "polling_dominant",
+        "polling_dominant_with_bootstrap_residue",
+        "polling_dominant_with_bootstrap_anchor",
+    }:
+        confirmed_elements.append(
+            "Retained runtime-side evidence is dominated by repeated `getAFASessionInfo`-family polling rather than a fresh login-side burst."
+        )
+        if analysis["repeated_polling_sessions"]:
+            session_samples = ", ".join(
+                f"{item['session_id']} x{item['occurrence_count']}"
+                for item in analysis["repeated_polling_sessions"][:3]
+            )
+            confirmed_elements.append(
+                f"The same FireFlow session ids recur in the retained polling window, for example {session_samples}."
+            )
+        if status == "polling_dominant_with_bootstrap_anchor":
+            anchor_samples = ", ".join(
+                (
+                    f"{item['session_id']} store->{item['first_poll_after_bootstrap_seconds']}s"
+                    f" then ~{item['representative_polling_gap_seconds']}s cadence"
+                )
+                if item.get("representative_polling_gap_seconds") is not None
+                else f"{item['session_id']} store->{item['first_poll_after_bootstrap_seconds']}s"
+                for item in analysis["bootstrap_anchor_sessions"][:2]
+            )
+            confirmed_elements.append(
+                f"A bounded bootstrap anchor is still visible before the polling tail, for example {anchor_samples}."
+            )
+            remaining_questions.append(
+                "The retained window now separates bootstrap anchor from later upkeep strongly enough to move upstream to the cookie-handoff seam, but it still does not reconstruct the original external browser request."
+            )
+        elif status == "polling_dominant_with_bootstrap_residue":
+            confirmed_elements.append(
+                "Bootstrap vocabulary such as `storeFireflowCookie`, `AFF_COOKIE`, or `BFCookie` is still present, but it now reads like residue around a polling-dominant window rather than the dominant live action."
+            )
+            remaining_questions.append(
+                "This packet does not prove the original browser-side bootstrap request anymore; it only shows that the current retained window is dominated by later upkeep."
+            )
+        elif status == "polling_dominant":
+            remaining_questions.append(
+                "This packet does not prove the original browser-side bootstrap request anymore; it only shows that the current retained window is dominated by later upkeep."
+            )
+    elif status == "bootstrap_dominant":
+        confirmed_elements.append(
+            "The retained runtime-side evidence still centers on login and `storeFireflowCookie`, which is stronger than the later polling family in this bounded window."
+        )
+        remaining_questions.append(
+            "The packet still does not reconstruct the full browser-side bootstrap sequence beyond the visible cookie-handoff markers."
+        )
+    elif status == "mixed_window_still_ambiguous":
+        confirmed_elements.append(
+            "Both bootstrap-style and polling-style runtime markers are visible in the same bounded window."
+        )
+        remaining_questions.append(
+            "The retained evidence still mixes original handoff and later upkeep too closely to classify the window cleanly without over-claiming."
+        )
+    else:
+        remaining_questions.append(
+            "The retained runtime-side evidence stayed too thin to separate bootstrap from later shared polling."
+        )
+
+    return [
+        {
+            "packet_id": "bootstrap_polling_distinction",
+            "packet_kind": "retained_origin_window_distinction",
+            "display_name": "Bootstrap Versus Polling Packet",
+            "status": status,
+            "confidence": analysis["confidence"],
+            "window_reading": analysis["window_reading"],
+            "why_it_matters": "This packet closes the current upstream ambiguity by deciding whether the retained session-origin window is better read as original cookie bootstrap or later shared polling, without widening into full browser replay.",
+            "origin_packet_ref": origin_packet["packet_id"],
+            "distinction_basis": analysis["distinction_basis"],
+            "repeated_polling_sessions": analysis["repeated_polling_sessions"],
+            "polling_only_sessions": analysis["polling_only_sessions"],
+            "bootstrap_anchor_sessions": analysis["bootstrap_anchor_sessions"],
+            "bootstrap_runtime_samples": analysis["bootstrap_runtime_samples"],
+            "polling_runtime_samples": analysis["polling_runtime_samples"],
+            "bootstrap_residue_samples": analysis["bootstrap_residue_samples"],
+            "next_stop": analysis["next_stop"],
+            "stop_rule": "If bootstrap-versus-polling evidence stays mixed, stop here instead of widening into full login or cookie-bootstrap reconstruction.",
+            "confirmed_elements": confirmed_elements,
+            "remaining_questions": remaining_questions,
+        }
+    ]
+
+
+def _build_aff_cookie_handoff_packets(
+    command_results: list[dict[str, Any]],
+    *,
+    edge_route_hints: list[dict[str, Any]],
+    usersession_reuse_packets: list[dict[str, Any]],
+    bootstrap_polling_packets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    bootstrap_packet = next(
+        (packet for packet in bootstrap_polling_packets if packet.get("packet_id") == "bootstrap_polling_distinction"),
+        None,
+    )
+    if bootstrap_packet is None or bootstrap_packet.get("status") not in {
+        "bootstrap_dominant",
+        "polling_dominant_with_bootstrap_anchor",
+    }:
+        return []
+
+    reuse_packet = next(
+        (packet for packet in usersession_reuse_packets if packet.get("packet_id") == "usersession_fa_session_reuse"),
+        None,
+    )
+    if reuse_packet is None:
+        return []
+
+    results_by_id = {entry["command_id"]: entry for entry in command_results}
+    source_lines = _result_lines(results_by_id.get("businessflow_session_origin_source_markers", {}))
+    httpd_lines = _result_lines(results_by_id.get("businessflow_session_origin_httpd_markers", {}))
+
+    route_hints = [
+        hint
+        for hint in edge_route_hints
+        if hint.get("route_path") in {"/afa/external", "/afa/api/v1"}
+    ]
+    store_events = _parse_store_fireflow_cookie_events(source_lines)
+    extend_events = _parse_aff_session_extend_events(httpd_lines)
+
+    handoff_links: list[dict[str, Any]] = []
+    for anchor in bootstrap_packet.get("bootstrap_anchor_sessions", []):
+        session_id = anchor.get("session_id")
+        matching_store_events = [
+            event for event in store_events if event.get("fireflow_session_id") == session_id
+        ]
+        if not matching_store_events:
+            continue
+        matching_reuse_pair = next(
+            (pair for pair in reuse_packet.get("reuse_pairs", []) if pair.get("ff_session_id") == session_id),
+            None,
+        )
+        for store_event in matching_store_events[:2]:
+            carried_tokens = store_event.get("carried_session_tokens", [])
+            matched_reuse_token = None
+            if matching_reuse_pair is not None:
+                matched_reuse_token = next(
+                    (
+                        token
+                        for token in carried_tokens
+                        if token == matching_reuse_pair.get("fa_session_id")
+                        or token.startswith(str(matching_reuse_pair.get("fa_session_id") or ""))
+                    ),
+                    None,
+                )
+            matching_extend_event = next(
+                (
+                    event
+                    for event in extend_events
+                    if any(
+                        extend_token == token or extend_token.startswith(token) or token.startswith(extend_token)
+                        for token in carried_tokens
+                        for extend_token in event.get("carried_session_tokens", [])
+                    )
+                ),
+                None,
+            )
+            route_hint = next(
+                (hint for hint in route_hints if hint.get("route_path") == "/afa/external"),
+                route_hints[0] if route_hints else None,
+            )
+            handoff_links.append(
+                {
+                    "fireflow_session_id": session_id,
+                    "bootstrap_anchor_ref": session_id,
+                    "store_bridge_path": store_event.get("bridge_path"),
+                    "store_bridge_url": store_event.get("bridge_url"),
+                    "store_called_at": store_event.get("called_at"),
+                    "carried_session_tokens": carried_tokens,
+                    "matched_reuse_fa_session_id": None if matching_reuse_pair is None else matching_reuse_pair.get("fa_session_id"),
+                    "matched_store_bridge_token": matched_reuse_token,
+                    "httpd_extend_path": None if matching_extend_event is None else matching_extend_event.get("path"),
+                    "httpd_extend_called_at": None if matching_extend_event is None else matching_extend_event.get("called_at"),
+                    "httpd_extend_session_tokens": [] if matching_extend_event is None else matching_extend_event.get("carried_session_tokens", []),
+                    "edge_route_hint": route_hint,
+                }
+            )
+
+    if not handoff_links:
+        return []
+
+    confident_links = [
+        link
+        for link in handoff_links
+        if link.get("matched_store_bridge_token") and link.get("httpd_extend_session_tokens")
+    ]
+    packet_status = "cookie_handoff_visible" if confident_links else "cookie_handoff_partially_visible"
+    next_stop = "inspect_java_runtime_clusters" if confident_links else "trace_edge_to_local_service_routes"
+    confidence = "high" if confident_links else "medium"
+
+    confirmed_elements: list[str] = []
+    remaining_questions: list[str] = []
+    if confident_links:
+        best_link = confident_links[0]
+        route_hint = best_link.get("edge_route_hint") or {}
+        owner = route_hint.get("likely_owner_component") or "unknown"
+        backend_port = route_hint.get("backend_port")
+        confirmed_elements.append(
+            "The retained bootstrap anchor now crosses a concrete AFF bridge surface instead of staying only as abstract cookie vocabulary."
+        )
+        confirmed_elements.append(
+            f"FireFlow session `{best_link['fireflow_session_id']}` calls `{best_link['store_bridge_path']}` while carrying FA-session token `{best_link['matched_store_bridge_token']}`."
+        )
+        if best_link.get("httpd_extend_path"):
+            confirmed_elements.append(
+                f"The same carried token family later appears on Apache path `{best_link['httpd_extend_path']}`, which makes the bridge-to-extend handoff visible in one bounded packet."
+            )
+        if owner != "unknown" and backend_port is not None:
+            confirmed_elements.append(
+                f"The `/afa/external` bridge surface is already route-hinted to `{owner}` on local port `{backend_port}`, so the cookie handoff lands on a named local owner."
+            )
+    else:
+        remaining_questions.append(
+            "The retained cookie-handoff evidence showed a bootstrap bridge call but did not correlate the carried token strongly enough to a later visible extend-side path."
+        )
+    remaining_questions.append(
+        "The packet still does not reconstruct the external browser request that first created the FireFlow session; it only follows the bounded carry-forward into the AFF bridge surface."
+    )
+
+    return [
+        {
+            "packet_id": "aff_cookie_handoff",
+            "packet_kind": "retained_cookie_bridge_handoff",
+            "display_name": "AFF Cookie Handoff Packet",
+            "status": packet_status,
+            "confidence": confidence,
+            "why_it_matters": "This packet follows the bounded bootstrap anchor into the AFF bridge surface and shows whether the carried session token becomes visible on the AFA side without widening into full login reconstruction.",
+            "bootstrap_polling_ref": bootstrap_packet["packet_id"],
+            "usersession_reuse_ref": reuse_packet["packet_id"],
+            "route_hints": route_hints[:4],
+            "handoff_links": handoff_links[:4],
+            "next_stop": next_stop,
+            "stop_rule": "If the carried token cannot be tied to the visible bridge and extend surfaces, stop here instead of inventing a broader cookie-replay story.",
+            "confirmed_elements": confirmed_elements,
+            "remaining_questions": remaining_questions,
+        }
+    ]
+
+
+def _build_java_runtime_cluster_packets(
+    component_records: list[dict[str, Any]],
+    *,
+    edge_route_hints: list[dict[str, Any]],
+    boundary_packets: list[dict[str, Any]],
+    aff_cookie_handoff_packets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    aff_cookie_packet = next(
+        (packet for packet in aff_cookie_handoff_packets if packet.get("packet_id") == "aff_cookie_handoff"),
+        None,
+    )
+    if aff_cookie_packet is None or aff_cookie_packet.get("status") not in {
+        "cookie_handoff_visible",
+        "cookie_handoff_partially_visible",
+    }:
+        return []
+
+    records_by_id = {record.get("component_id"): record for record in component_records}
+    target_component_ids = ["ms-metro", "ms-bflow", "algosec-ms", "aff-boot"]
+    route_hints_by_owner: dict[str, list[dict[str, Any]]] = {}
+    for hint in edge_route_hints:
+        owner = hint.get("likely_owner_component")
+        if owner:
+            route_hints_by_owner.setdefault(owner, []).append(hint)
+    aff_boundary_packet = next(
+        (packet for packet in boundary_packets if packet.get("boundary_id") == "aff_fireflow_1989_route_owner"),
+        None,
+    )
+
+    cluster_families: list[dict[str, Any]] = []
+    distinct_signature_count = 0
+    for component_id in target_component_ids:
+        record = records_by_id.get(component_id)
+        if record is None:
+            continue
+        cluster = _build_java_runtime_cluster_family(
+            record=record,
+            owner_route_hints=route_hints_by_owner.get(component_id, []),
+            aff_boundary_packet=aff_boundary_packet if component_id == "aff-boot" else None,
+        )
+        if cluster is None:
+            continue
+        cluster_families.append(cluster)
+        if cluster.get("cluster_signature"):
+            distinct_signature_count += 1
+
+    if not cluster_families:
+        return []
+
+    shared_substrates: list[dict[str, Any]] = []
+    activemq_record = records_by_id.get("activemq")
+    if activemq_record is not None:
+        activemq_observed = activemq_record.get("observed", {})
+        shared_substrates.append(
+            {
+                "component_id": "activemq",
+                "role": "messaging_adjacency",
+                "listener_ports": activemq_observed.get("listening_ports", []),
+                "notes": [
+                    "ActiveMQ remains a separate messaging-visible Java service rather than evidence that the AFA, BusinessFlow, or AFF owners share one runtime cluster."
+                ],
+            }
+        )
+
+    distinct_tomcat_bases = {
+        cluster.get("catalina_base")
+        for cluster in cluster_families
+        if cluster.get("cluster_type") == "tomcat_service_family" and cluster.get("catalina_base")
+    }
+    status = (
+        "cluster_boundaries_visible"
+        if len(cluster_families) >= 4 and len(distinct_tomcat_bases) >= 2 and distinct_signature_count >= 4
+        else "cluster_boundaries_partially_visible"
+    )
+    confidence = "high" if status == "cluster_boundaries_visible" else "medium"
+    next_stop = "review_asms_runtime_architecture" if status == "cluster_boundaries_visible" else "inspect_java_runtime_clusters"
+
+    confirmed_elements: list[str] = []
+    if {"ms-metro", "ms-bflow"} <= {cluster["component_id"] for cluster in cluster_families}:
+        metro_cluster = next(cluster for cluster in cluster_families if cluster["component_id"] == "ms-metro")
+        bflow_cluster = next(cluster for cluster in cluster_families if cluster["component_id"] == "ms-bflow")
+        confirmed_elements.append(
+            f"`ms-metro` and `ms-bflow` now separate cleanly as different Tomcat families because their visible `catalina.base` values differ (`{metro_cluster.get('catalina_base')}` versus `{bflow_cluster.get('catalina_base')}`) and their listener sets do not overlap."
+        )
+    algosec_ms_cluster = next(
+        (cluster for cluster in cluster_families if cluster.get("component_id") == "algosec-ms"),
+        None,
+    )
+    if algosec_ms_cluster is not None:
+        confirmed_elements.append(
+            f"`algosec-ms` stays separate from the Tomcat families as a smaller standalone jar-backed service on local port(s) `{', '.join(str(port) for port in algosec_ms_cluster.get('listener_ports', [])) or 'none'}`."
+        )
+    aff_cluster = next(
+        (cluster for cluster in cluster_families if cluster.get("component_id") == "aff-boot"),
+        None,
+    )
+    if aff_cluster is not None:
+        confirmed_elements.append(
+            f"`aff-boot` remains its own wrapper-owned Java family behind the confirmed AFF boundary on local port(s) `{', '.join(str(port) for port in aff_cluster.get('listener_ports', [])) or 'none'}`."
+        )
+    if shared_substrates:
+        confirmed_elements.append(
+            "ActiveMQ is still visible as messaging adjacency, which matters to the runtime shape, but it is not the same cluster as the AFA, BusinessFlow, or AFF owners in this bounded packet."
+        )
+
+    remaining_questions = [
+        "This packet does not claim full request-path ownership or full dependency order between the separated Java families; it only makes the family boundaries more support-useful.",
+    ]
+    if status != "cluster_boundaries_visible":
+        remaining_questions.append(
+            "Some Java-heavy services still need stronger config-path or route-adjacency evidence before every cluster boundary can be treated as cleanly separated."
+        )
+
+    return [
+        {
+            "packet_id": "java_runtime_clusters",
+            "packet_kind": "bounded_java_runtime_cluster_map",
+            "display_name": "Java Runtime Cluster Packet",
+            "status": status,
+            "confidence": confidence,
+            "why_it_matters": "This packet separates the visible Java-heavy owners into bounded runtime families so the next support-facing architecture review can build on observed boundaries instead of one undifferentiated JVM blur.",
+            "aff_cookie_handoff_ref": aff_cookie_packet["packet_id"],
+            "cluster_families": cluster_families,
+            "shared_substrates": shared_substrates,
+            "next_stop": next_stop,
+            "stop_rule": "If the visible JVM families still collapse into one mixed boundary, stop here instead of widening into attach tooling, deep dependency crawling, or config-tree parsing.",
+            "confirmed_elements": confirmed_elements,
+            "remaining_questions": remaining_questions,
+        }
+    ]
+
+
+def _build_java_runtime_cluster_family(
+    *,
+    record: dict[str, Any],
+    owner_route_hints: list[dict[str, Any]],
+    aff_boundary_packet: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    observed = record.get("observed", {})
+    if not observed.get("jvm_visibility", {}).get("detected"):
+        return None
+
+    main_command = str(observed.get("main_command") or "")
+    runtime_option_haystack = " ".join(
+        part
+        for part in [
+            main_command,
+            " ".join(str(note) for note in observed.get("jvm_visibility", {}).get("notes", [])),
+        ]
+        if part
+    )
+    catalina_base = _extract_command_option_value(runtime_option_haystack, "-Dcatalina.base=")
+    catalina_home = _extract_command_option_value(runtime_option_haystack, "-Dcatalina.home=")
+    tmp_dir = _extract_command_option_value(runtime_option_haystack, "-Djava.io.tmpdir=")
+    heap_settings = [
+        note
+        for note in observed.get("jvm_visibility", {}).get("notes", [])
+        if note.startswith("-Xmx") or note.startswith("-Xms")
+    ]
+    jar_paths = _extract_jar_paths(main_command)
+    route_paths = _dedupe_preserve_order(
+        [
+            hint.get("route_path")
+            for hint in owner_route_hints
+            if hint.get("route_path")
+        ]
+    )[:4]
+    boundary_routes = []
+    if aff_boundary_packet is not None:
+        boundary_routes = aff_boundary_packet.get("route_family", [])[:4]
+    cluster_type = "generic_java_family"
+    cluster_signature = None
+    if catalina_base:
+        cluster_type = "tomcat_service_family"
+        cluster_signature = catalina_base
+    elif jar_paths:
+        cluster_type = "standalone_jar_service"
+        cluster_signature = jar_paths[0]
+    elif observed.get("service_unit"):
+        cluster_signature = observed.get("service_unit")
+    elif observed.get("process_name"):
+        cluster_signature = observed.get("process_name")
+
+    return {
+        "component_id": record.get("component_id"),
+        "cluster_type": cluster_type,
+        "cluster_signature": cluster_signature,
+        "service_unit": observed.get("service_unit"),
+        "listener_ports": observed.get("listening_ports", []),
+        "route_paths": route_paths,
+        "boundary_routes": boundary_routes,
+        "catalina_base": catalina_base,
+        "catalina_home": catalina_home,
+        "heap_settings": heap_settings[:3],
+        "jar_paths": jar_paths[:3],
+        "tmp_dir": tmp_dir,
+        "config_path_candidates": observed.get("config_path_candidates", [])[:4],
+    }
+
+
+def _extract_command_option_value(command: str, option_prefix: str) -> str | None:
+    for token in _command_tokens(command):
+        if token.startswith(option_prefix):
+            return token.removeprefix(option_prefix)
+    return None
+
+
+def _extract_jar_paths(command: str) -> list[str]:
+    jar_re = re.compile(r"(/[^\s]+\.jar)")
+    return _dedupe_preserve_order(jar_re.findall(command))
+
+
+def _command_tokens(command: str) -> list[str]:
+    try:
+        return shlex.split(command)
+    except ValueError:
+        return command.split()
+
+
+def _extract_httpd_route_families(edge_route_hints: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    family_index: dict[str, dict[str, Any]] = {}
+    for hint in edge_route_hints:
+        config_path = str(hint.get("config_path") or "")
+        match = HTTPD_MS_FAMILY_RE.match(Path(config_path).name)
+        if match is None:
+            continue
+        family_id = match.group("family")
+        existing = family_index.setdefault(
+            family_id,
+            {
+                "family_id": family_id,
+                "config_path": config_path,
+                "backend_ports": [],
+                "route_paths": [],
+                "owner_components": [],
+            },
+        )
+        backend_port = hint.get("backend_port")
+        if backend_port is not None:
+            existing["backend_ports"] = _dedupe_preserve_order(existing["backend_ports"] + [backend_port])
+        route_path = hint.get("route_path")
+        if route_path:
+            existing["route_paths"] = _dedupe_preserve_order(existing["route_paths"] + [route_path])
+        owner = hint.get("likely_owner_component")
+        if owner:
+            existing["owner_components"] = _dedupe_preserve_order(existing["owner_components"] + [owner])
+    return list(family_index.values())
+
+
+def _build_component_guidance_candidates(
+    component_records: list[dict[str, Any]],
+    *,
+    java_runtime_cluster_packets: list[dict[str, Any]],
+    edge_route_hints: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    records_by_id = {record.get("component_id"): record for record in component_records}
+    route_family_ids = {family["family_id"] for family in _extract_httpd_route_families(edge_route_hints)}
+    candidates: list[dict[str, Any]] = []
+
+    for packet in java_runtime_cluster_packets:
+        for cluster in packet.get("cluster_families", []):
+            evidence = []
+            if cluster.get("catalina_base"):
+                evidence.append(f"visible catalina.base `{cluster['catalina_base']}`")
+            if cluster.get("jar_paths"):
+                evidence.append(f"visible jar `{cluster['jar_paths'][0]}`")
+            if cluster.get("route_paths"):
+                evidence.append("Apache route adjacency")
+            candidates.append(
+                {
+                    "component_id": cluster.get("component_id"),
+                    "guidance_family": cluster.get("cluster_type"),
+                    "confidence": "high" if evidence else "medium",
+                    "evidence_basis": evidence or ["bounded JVM lineage visibility"],
+                }
+            )
+
+    if records_by_id.get("httpd") is not None:
+        candidates.append(
+            {
+                "component_id": "httpd",
+                "guidance_family": "apache_httpd_edge",
+                "confidence": "high",
+                "evidence_basis": [
+                    "observed systemd fragment",
+                    "observed Apache conf.d route families",
+                ],
+            }
+        )
+
+    activemq_record = records_by_id.get("activemq")
+    if activemq_record is not None:
+        activemq_paths = activemq_record.get("observed", {}).get("config_path_details", [])
+        versioned_paths = [
+            detail["path"]
+            for detail in activemq_paths
+            if "apache-activemq-" in str(detail.get("path") or "")
+        ]
+        candidates.append(
+            {
+                "component_id": "activemq",
+                "guidance_family": "activemq_broker",
+                "confidence": "high" if versioned_paths else "medium",
+                "evidence_basis": (
+                    [f"visible config root `{versioned_paths[0]}`"]
+                    if versioned_paths
+                    else ["observed messaging-side config surfaces"]
+                ),
+            }
+        )
+
+    keycloak_record = records_by_id.get("keycloak")
+    if keycloak_record is not None and any(
+        "keycloak" in str(detail.get("path") or "")
+        for detail in keycloak_record.get("observed", {}).get("config_path_details", [])
+    ):
+        candidates.append(
+            {
+                "component_id": "keycloak",
+                "guidance_family": "keycloak_identity_service",
+                "confidence": "medium",
+                "evidence_basis": [
+                    "observed keycloak service fragment",
+                    "observed keycloak environment-file surface",
+                ],
+            }
+        )
+
+    if "ms-devicedriver-aws" in route_family_ids or "ms-devicedriver-azure" in route_family_ids:
+        candidates.append(
+            {
+                "component_id": "algosec-ms",
+                "guidance_family": "suite_service_gateway",
+                "confidence": "medium",
+                "evidence_basis": [
+                    "observed `algosec-ms` local owner role",
+                    "provider-specific Apache family surfaces under algosec-ms",
+                ],
+            }
+        )
+
+    deduped: list[dict[str, Any]] = []
+    seen_component_ids: set[str] = set()
+    for candidate in candidates:
+        component_id = str(candidate.get("component_id") or "")
+        if not component_id or component_id in seen_component_ids:
+            continue
+        seen_component_ids.add(component_id)
+        deduped.append(candidate)
+    return deduped
+
+
+def _extract_docpack_vendor_hints(docpack_hints: dict[str, Any] | None) -> list[dict[str, Any]]:
+    if not docpack_hints:
+        return []
+    term_hints = docpack_hints.get("term_hints", [])
+    matches: list[dict[str, Any]] = []
+    seen_labels: set[str] = set()
+    for normalized, label in KNOWN_EXTERNAL_VENDOR_TERMS:
+        hit = next(
+            (
+                item
+                for item in term_hints
+                if normalized in str(item.get("normalized_term") or "")
+            ),
+            None,
+        )
+        if hit is None or label in seen_labels:
+            continue
+        seen_labels.add(label)
+        matches.append(
+            {
+                "vendor_label": label,
+                "matched_term": hit.get("term") or hit.get("normalized_term"),
+                "product_areas": hit.get("product_areas", []),
+                "source_titles": hit.get("source_titles", [])[:2],
+            }
+        )
+    return matches
+
+
+def _build_knowledge_layer_packets(
+    component_records: list[dict[str, Any]],
+    *,
+    edge_route_hints: list[dict[str, Any]],
+    java_runtime_cluster_packets: list[dict[str, Any]],
+    provider_integration_packets: list[dict[str, Any]],
+    docpack_hints: dict[str, Any] | None,
+    target_label: str,
+) -> list[dict[str, Any]]:
+    records_by_id = {
+        str(record.get("component_id")): record
+        for record in component_records
+        if record.get("component_id")
+    }
+    java_runtime_packet = next(
+        (packet for packet in java_runtime_cluster_packets if packet.get("packet_id") == "java_runtime_clusters"),
+        None,
+    )
+    cluster_by_id = {
+        str(cluster.get("component_id")): cluster
+        for cluster in (java_runtime_packet or {}).get("cluster_families", [])
+        if cluster.get("component_id")
+    }
+    component_guidance = _build_component_guidance_activations(records_by_id, cluster_by_id)
+    external_activation = _build_external_integration_activation(
+        component_records=component_records,
+        edge_route_hints=edge_route_hints,
+        docpack_hints=docpack_hints,
+    )
+    provider_packet = next(
+        (
+            packet
+            for packet in provider_integration_packets
+            if packet.get("packet_id") == "provider_specific_integration_evidence_current_node"
+        ),
+        None,
+    )
+    node_scope = {
+        "status": "single_node_only",
+        "observed_node_count": 1,
+        "current_node": {
+            "target_label": target_label,
+        },
+        "cross_node_envelope_status": "not_activated",
+        "why_not_activated": "No second imported node-local proof bundle exists yet, so the successor should preserve this as one honest node map instead of inventing a suite graph.",
+    }
+
+    confirmed_elements = [
+        f"The current proof is still a single-node readout for `{target_label}`, so cross-node claims remain intentionally inactive.",
+    ]
+    if component_guidance:
+        confirmed_elements.append(
+            "Observed runtime lineage is now strong enough to layer bounded component guidance for "
+            + ", ".join(f"`{activation['component_id']}`" for activation in component_guidance[:6])
+            + " without treating that guidance as node-local fact."
+        )
+    if external_activation.get("vendor_activation_status") == "dormant":
+        confirmed_elements.append(
+            "Vendor-side terms "
+            + ", ".join(f"`{vendor}`" for vendor in external_activation.get("dormant_vendor_inventory", [])[:5])
+            + " are present in the doc-pack hint inventory, but they remain dormant until provider-specific local evidence appears on the node."
+        )
+    elif external_activation.get("activated_vendor_terms"):
+        confirmed_elements.append(
+            "Provider-specific local evidence is visible for "
+            + ", ".join(f"`{vendor}`" for vendor in external_activation.get("activated_vendor_terms", [])[:4])
+            + "."
+        )
+    if provider_packet is not None and provider_packet.get("observed_providers"):
+        confirmed_elements.append(
+            "Those activated provider hints are now grounded in one bounded current-node readout covering "
+            + ", ".join(
+                f"`{provider.get('vendor_label', 'unknown')}`"
+                for provider in provider_packet.get("observed_providers", [])[:4]
+            )
+            + "."
+        )
+
+    remaining_questions = [
+        "This packet does not claim multi-node topology or live external provider integrations; it only says which outside knowledge layers are currently activated by this node.",
+        "A thin cross-node envelope should activate only after a second node-local proof bundle exists.",
+    ]
+    if provider_packet is not None and provider_packet.get("status") == "local_surfaces_visible_not_health_validated":
+        next_stop = "capture_second_node_node_local_proof"
+    elif external_activation.get("vendor_activation_status") == "provider_specific_local_evidence_visible":
+        next_stop = "capture_provider_specific_integration_evidence"
+    else:
+        next_stop = "define_second_node_request_shape"
+
+    return [
+        {
+            "packet_id": "distributed_and_external_knowledge_layers",
+            "packet_kind": "bounded_knowledge_layer_activation",
+            "display_name": "Distributed And External Knowledge Layer Packet",
+            "status": "single_node_layering_ready",
+            "confidence": "medium",
+            "why_it_matters": "This packet marks which outside knowledge layers the current node can honestly activate now, so the successor can stay evidence-first while preparing for later cross-node and provider-side expansion.",
+            "node_scope": node_scope,
+            "component_guidance_activations": component_guidance,
+            "external_integration_activation": external_activation,
+            "next_stop": next_stop,
+            "stop_rule": "If no second node bundle or provider-specific local evidence exists, stop at activation boundaries instead of inventing a distributed suite map or vendor behavior story.",
+            "confirmed_elements": confirmed_elements,
+            "remaining_questions": remaining_questions,
+        }
+    ]
+
+
+def _extract_httpd_route_families(edge_route_hints: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    family_index: dict[str, dict[str, Any]] = {}
+    for hint in edge_route_hints:
+        config_path = str(hint.get("config_path") or "")
+        match = HTTPD_MS_FAMILY_RE.match(Path(config_path).name)
+        if match is None:
+            continue
+        family_id = match.group("family")
+        existing = family_index.setdefault(
+            family_id,
+            {
+                "family_id": family_id,
+                "config_path": config_path,
+                "backend_ports": [],
+                "route_paths": [],
+                "owner_components": [],
+            },
+        )
+        backend_port = hint.get("backend_port")
+        if backend_port is not None:
+            existing["backend_ports"] = _dedupe_preserve_order(existing["backend_ports"] + [backend_port])
+        route_path = hint.get("route_path")
+        if route_path:
+            existing["route_paths"] = _dedupe_preserve_order(existing["route_paths"] + [route_path])
+        owner = hint.get("likely_owner_component")
+        if owner:
+            existing["owner_components"] = _dedupe_preserve_order(existing["owner_components"] + [owner])
+    return list(family_index.values())
+
+
+def _build_component_guidance_candidates(
+    component_records: list[dict[str, Any]],
+    *,
+    java_runtime_cluster_packets: list[dict[str, Any]],
+    edge_route_hints: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    records_by_id = {record.get("component_id"): record for record in component_records}
+    route_family_ids = {family["family_id"] for family in _extract_httpd_route_families(edge_route_hints)}
+    candidates: list[dict[str, Any]] = []
+
+    for packet in java_runtime_cluster_packets:
+        for cluster in packet.get("cluster_families", []):
+            evidence = []
+            if cluster.get("catalina_base"):
+                evidence.append(f"visible catalina.base `{cluster['catalina_base']}`")
+            if cluster.get("jar_paths"):
+                evidence.append(f"visible jar `{cluster['jar_paths'][0]}`")
+            if cluster.get("route_paths"):
+                evidence.append("Apache route adjacency")
+            candidates.append(
+                {
+                    "component_id": cluster.get("component_id"),
+                    "guidance_family": cluster.get("cluster_type"),
+                    "confidence": "high" if evidence else "medium",
+                    "evidence_basis": evidence or ["bounded JVM lineage visibility"],
+                }
+            )
+
+    if records_by_id.get("httpd") is not None:
+        candidates.append(
+            {
+                "component_id": "httpd",
+                "guidance_family": "apache_httpd_edge",
+                "confidence": "high",
+                "evidence_basis": [
+                    "observed systemd fragment",
+                    "observed Apache conf.d route families",
+                ],
+            }
+        )
+
+    activemq_record = records_by_id.get("activemq")
+    if activemq_record is not None:
+        activemq_paths = activemq_record.get("observed", {}).get("config_path_details", [])
+        versioned_paths = [
+            detail["path"]
+            for detail in activemq_paths
+            if "apache-activemq-" in str(detail.get("path") or "")
+        ]
+        candidates.append(
+            {
+                "component_id": "activemq",
+                "guidance_family": "activemq_broker",
+                "confidence": "high" if versioned_paths else "medium",
+                "evidence_basis": (
+                    [f"visible config root `{versioned_paths[0]}`"]
+                    if versioned_paths
+                    else ["observed messaging-side config surfaces"]
+                ),
+            }
+        )
+
+    keycloak_record = records_by_id.get("keycloak")
+    if keycloak_record is not None and any(
+        "keycloak" in str(detail.get("path") or "")
+        for detail in keycloak_record.get("observed", {}).get("config_path_details", [])
+    ):
+        candidates.append(
+            {
+                "component_id": "keycloak",
+                "guidance_family": "keycloak_identity_service",
+                "confidence": "medium",
+                "evidence_basis": [
+                    "observed keycloak service fragment",
+                    "observed keycloak environment-file surface",
+                ],
+            }
+        )
+
+    if "ms-devicedriver-aws" in route_family_ids or "ms-devicedriver-azure" in route_family_ids:
+        candidates.append(
+            {
+                "component_id": "algosec-ms",
+                "guidance_family": "suite_service_gateway",
+                "confidence": "medium",
+                "evidence_basis": [
+                    "observed `algosec-ms` local owner role",
+                    "provider-specific Apache family surfaces under algosec-ms",
+                ],
+            }
+        )
+
+    deduped: list[dict[str, Any]] = []
+    seen_component_ids: set[str] = set()
+    for candidate in candidates:
+        component_id = str(candidate.get("component_id") or "")
+        if not component_id or component_id in seen_component_ids:
+            continue
+        seen_component_ids.add(component_id)
+        deduped.append(candidate)
+    return deduped
+
+
+def _extract_docpack_vendor_hints(docpack_hints: dict[str, Any] | None) -> list[dict[str, Any]]:
+    if not docpack_hints:
+        return []
+    term_hints = docpack_hints.get("term_hints", [])
+    matches: list[dict[str, Any]] = []
+    seen_labels: set[str] = set()
+    for normalized, label in KNOWN_EXTERNAL_VENDOR_TERMS:
+        hit = next(
+            (
+                item
+                for item in term_hints
+                if normalized in str(item.get("normalized_term") or "")
+            ),
+            None,
+        )
+        if hit is None or label in seen_labels:
+            continue
+        seen_labels.add(label)
+        matches.append(
+            {
+                "vendor_label": label,
+                "matched_term": hit.get("term") or hit.get("normalized_term"),
+                "product_areas": hit.get("product_areas", []),
+                "source_titles": hit.get("source_titles", [])[:2],
+            }
+        )
+    return matches
+
+
+def _build_component_guidance_activations(
+    records_by_id: dict[str, dict[str, Any]],
+    cluster_by_id: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    activations: list[dict[str, Any]] = []
+    target_ids = [
+        "httpd",
+        "ms-metro",
+        "ms-bflow",
+        "activemq",
+        "keycloak",
+        "kibana",
+        "elasticsearch",
+        "logstash",
+    ]
+    for component_id in target_ids:
+        record = records_by_id.get(component_id)
+        if record is None:
+            continue
+        activation = _build_component_guidance_activation(
+            component_id=component_id,
+            record=record,
+            cluster=cluster_by_id.get(component_id),
+        )
+        if activation is not None:
+            activations.append(activation)
+    return activations
+
+
+def _build_component_guidance_activation(
+    *,
+    component_id: str,
+    record: dict[str, Any],
+    cluster: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    observed = record.get("observed", {})
+    main_command = str(observed.get("main_command") or "")
+    config_paths = [
+        detail.get("path")
+        for detail in observed.get("config_path_details", [])
+        if detail.get("path")
+    ]
+    log_paths = [
+        detail.get("path")
+        for detail in observed.get("log_path_details", [])
+        if detail.get("path")
+    ]
+    family = None
+    observed_version = None
+    lineage_evidence: list[str] = []
+    if component_id == "httpd":
+        family = "apache_httpd"
+        lineage_evidence = [
+            path
+            for path in config_paths
+            if "/etc/httpd/" in path or path.endswith("httpd.service")
+        ][:4]
+    elif component_id in {"ms-metro", "ms-bflow"} and cluster is not None:
+        family = "apache_tomcat_family"
+        lineage_evidence = [
+            item
+            for item in [
+                cluster.get("catalina_base"),
+                cluster.get("catalina_home"),
+                *cluster.get("route_paths", []),
+            ]
+            if item
+        ][:4]
+    elif component_id == "activemq":
+        family = "apache_activemq"
+        observed_version = _extract_version_from_text(main_command, r"apache-activemq-([0-9][A-Za-z0-9.\-]+)")
+        lineage_evidence = [
+            item
+            for item in [
+                observed_version and f"apache-activemq-{observed_version}",
+                *[path for path in config_paths if "activemq" in path.lower()],
+            ]
+            if item
+        ][:4]
+    elif component_id == "keycloak":
+        family = "keycloak"
+        lineage_evidence = [
+            item
+            for item in [*config_paths, main_command]
+            if "keycloak" in str(item).lower()
+        ][:4]
+    elif component_id == "kibana":
+        family = "kibana"
+        lineage_evidence = [
+            item
+            for item in [main_command, *config_paths]
+            if "kibana" in str(item).lower()
+        ][:4]
+    elif component_id == "elasticsearch":
+        family = "elasticsearch"
+        lineage_evidence = [
+            item
+            for item in [main_command, *config_paths]
+            if "elasticsearch" in str(item).lower()
+        ][:4]
+    elif component_id == "logstash":
+        family = "logstash"
+        lineage_evidence = [
+            item
+            for item in [main_command, *config_paths]
+            if "logstash" in str(item).lower()
+        ][:4]
+
+    if family is None or not lineage_evidence:
+        return None
+
+    guidance_status = (
+        "version_matched_guidance_allowed"
+        if observed_version
+        else "runtime_lineage_visible"
+    )
+    allowed_guidance = ["component_vocabulary", "config_surface_expectations"]
+    if log_paths:
+        allowed_guidance.append("log_entrypoint_expectations")
+    if observed_version:
+        allowed_guidance.append("version_matched_component_guidance")
+    caution = (
+        None
+        if observed_version
+        else "Version is not pinned from current node evidence, so layered guidance should stay generic and should not import defaults as local truth."
+    )
+    return {
+        "component_id": component_id,
+        "component_family": family,
+        "guidance_status": guidance_status,
+        "observed_version": observed_version,
+        "lineage_evidence": lineage_evidence,
+        "allowed_guidance": allowed_guidance,
+        "caution": caution,
+    }
+
+
+def _build_external_integration_activation(
+    *,
+    component_records: list[dict[str, Any]],
+    edge_route_hints: list[dict[str, Any]],
+    docpack_hints: dict[str, Any] | None,
+) -> dict[str, Any]:
+    route_families = _extract_httpd_route_families(edge_route_hints)
+    observed_local_surfaces = _build_observed_external_surfaces(edge_route_hints, route_families=route_families)
+    activated_vendor_terms = _find_activated_vendor_terms(
+        route_families=route_families,
+    )
+    dormant_vendor_inventory = [
+        vendor
+        for vendor in _extract_docpack_vendor_inventory(docpack_hints)
+        if vendor not in activated_vendor_terms
+    ]
+    if activated_vendor_terms:
+        vendor_activation_status = "provider_specific_local_evidence_visible"
+    elif dormant_vendor_inventory:
+        vendor_activation_status = "dormant"
+    else:
+        vendor_activation_status = "no_vendor_inventory_visible"
+    return {
+        "vendor_activation_status": vendor_activation_status,
+        "observed_local_external_surfaces": observed_local_surfaces,
+        "activated_vendor_terms": activated_vendor_terms,
+        "dormant_vendor_inventory": dormant_vendor_inventory,
+        "activation_triggers": [
+            "provider-specific config families under Apache, AFA, or service-local config roots",
+            "provider-specific runtime log or journal markers",
+            "observed integration-side API paths or route families",
+            "a second imported node-local proof bundle",
+        ],
+    }
+
+
+def _build_observed_external_surfaces(
+    edge_route_hints: list[dict[str, Any]],
+    *,
+    route_families: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    generic_surfaces: list[dict[str, Any]] = []
+    provider_surfaces: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+    for hint in edge_route_hints:
+        route_path = str(hint.get("route_path") or "")
+        if not route_path:
+            continue
+        surface_family = next(
+            (
+                family
+                for prefix, family in EXTERNAL_SURFACE_ROUTE_PREFIXES.items()
+                if route_path.startswith(prefix)
+            ),
+            None,
+        )
+        if surface_family is None:
+            continue
+        key = (route_path, str(hint.get("likely_owner_component") or ""))
+        if key in seen:
+            continue
+        generic_surfaces.append(
+            {
+                "route_path": route_path,
+                "surface_family": surface_family,
+                "likely_owner_component": hint.get("likely_owner_component"),
+                "backend_port": hint.get("backend_port"),
+                "config_path": hint.get("config_path"),
+                "confidence": hint.get("confidence"),
+            }
+        )
+        seen.add(key)
+    for family in route_families:
+        family_id = str(family.get("family_id") or "")
+        if not family_id:
+            continue
+        if not any(token in family_id for token in ("aws", "azure", "cloud", "aad")):
+            continue
+        key = (family_id, ",".join(family.get("owner_components", [])))
+        if key in seen:
+            continue
+        provider_surfaces.append(
+            {
+                "route_path": (family.get("route_paths") or [None])[0],
+                "surface_family": "provider_config_family",
+                "family_id": family_id,
+                "likely_owner_component": (family.get("owner_components") or [None])[0],
+                "backend_port": (family.get("backend_ports") or [None])[0],
+                "config_path": family.get("config_path"),
+                "confidence": "medium",
+            }
+        )
+        seen.add(key)
+    return (provider_surfaces + generic_surfaces)[:10]
+
+
+def _build_provider_integration_packets(
+    component_records: list[dict[str, Any]],
+    *,
+    edge_route_hints: list[dict[str, Any]],
+    target_label: str,
+) -> list[dict[str, Any]]:
+    route_families = _extract_httpd_route_families(edge_route_hints)
+    route_family_by_id = {
+        str(family.get("family_id")): family
+        for family in route_families
+        if family.get("family_id")
+    }
+    records_by_id = {
+        str(record.get("component_id")): record
+        for record in component_records
+        if record.get("component_id")
+    }
+
+    observed_providers = [
+        entry
+        for family_id, vendor_label in PROVIDER_DRIVER_VENDOR_LABELS.items()
+        if (entry := _build_provider_integration_entry(
+            vendor_label=vendor_label,
+            family_id=family_id,
+            route_family=route_family_by_id.get(family_id),
+            record=records_by_id.get(family_id),
+        )) is not None
+    ]
+    adjacent_surfaces = _build_provider_adjacent_surfaces(route_families)
+
+    if not observed_providers and not adjacent_surfaces:
+        return []
+
+    provider_labels = [entry["vendor_label"] for entry in observed_providers]
+    status = (
+        "local_surfaces_visible_not_health_validated"
+        if observed_providers
+        else "provider_activation_still_thin"
+    )
+    confidence = (
+        "high"
+        if any(entry.get("confidence") == "high" for entry in observed_providers)
+        else "medium"
+    )
+    confirmed_elements = []
+    if observed_providers:
+        confirmed_elements.append(
+            "The current node exposes bounded provider-driver surfaces for "
+            + ", ".join(f"`{label}`" for label in provider_labels)
+            + " through matching Apache family names, local service units, and listener ownership."
+        )
+    if adjacent_surfaces:
+        confirmed_elements.append(
+            "Adjacent provider-facing families such as "
+            + ", ".join(
+                f"`{surface.get('family_id', 'unknown')}`"
+                for surface in adjacent_surfaces[:3]
+            )
+            + " are also visible, but they are kept separate from the core provider-driver packet."
+        )
+
+    return [
+        {
+            "packet_id": "provider_specific_integration_evidence_current_node",
+            "packet_kind": "bounded_provider_integration_evidence",
+            "display_name": "Provider-Specific Integration Evidence Current Node",
+            "status": status,
+            "confidence": confidence,
+            "target_label": target_label,
+            "node_scope": "single_node_only",
+            "provider_status": "local_surfaces_visible_not_health_validated",
+            "observed_providers": observed_providers,
+            "adjacent_surfaces": adjacent_surfaces,
+            "not_proven": [
+                "No external API success or provider credential correctness is proven in this packet.",
+                "No provider-side health, sync state, or inventory freshness is claimed from current node evidence.",
+                "No cross-node role or suite-topology claim is made from this current-node packet.",
+            ],
+            "why_it_matters": "This packet turns AWS and Azure activation from a broad hint into a bounded current-node proof surface that support engineers can inspect without overclaiming provider health.",
+            "next_stop": "capture_second_node_node_local_proof",
+            "confirmed_elements": confirmed_elements,
+        }
+    ]
+
+
+def _build_provider_integration_entry(
+    *,
+    vendor_label: str,
+    family_id: str,
+    route_family: dict[str, Any] | None,
+    record: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    if route_family is None and record is None:
+        return None
+    observed = (record or {}).get("observed", {})
+    listener_ports = observed.get("listening_ports", []) if observed else []
+    listener_bindings = observed.get("listener_bindings", []) if observed else []
+    journal_entrypoint = next(
+        (
+            detail.get("path")
+            for detail in observed.get("log_path_details", [])
+            if detail.get("surface_kind") == "locator" and detail.get("path")
+        ),
+        None,
+    )
+    service_unit = observed.get("service_unit")
+    apache_backend_port = (route_family or {}).get("backend_ports", [None])[0]
+    matched_port = (
+        apache_backend_port is not None
+        and apache_backend_port in listener_ports
+    )
+    confidence = "high" if route_family is not None and record is not None and matched_port else "medium"
+    activation_basis = []
+    if route_family is not None:
+        activation_basis.append(
+            f"Observed Apache family `{family_id}` in `{route_family.get('config_path', 'unknown config')}`"
+            + (
+                f" routing to local port `{apache_backend_port}`."
+                if apache_backend_port is not None
+                else "."
+            )
+        )
+    if service_unit:
+        activation_basis.append(f"Observed active local service unit `{service_unit}`.")
+    if observed.get("main_command"):
+        activation_basis.append(f"Observed local runtime command `{observed['main_command']}`.")
+    if journal_entrypoint:
+        activation_basis.append(f"Observed bounded journal entrypoint `{journal_entrypoint}`.")
+    owner_basis = ", ".join(
+        sorted({binding.get("ownership_basis") for binding in listener_bindings if binding.get("ownership_basis")})
+    ) or None
+    return {
+        "vendor_label": vendor_label,
+        "provider_family_id": family_id,
+        "confidence": confidence,
+        "apache_config_family": {
+            "config_path": None if route_family is None else route_family.get("config_path"),
+            "backend_port": apache_backend_port,
+            "route_paths": [] if route_family is None else route_family.get("route_paths", []),
+            "owner_components": [] if route_family is None else route_family.get("owner_components", []),
+        },
+        "local_runtime_service": {
+            "component_id": None if record is None else record.get("component_id"),
+            "service_unit": service_unit,
+            "main_command": observed.get("main_command") if observed else None,
+            "listener_ports": listener_ports,
+            "listener_ownership_basis": owner_basis,
+            "journal_entrypoint": journal_entrypoint,
+            "config_surfaces": [
+                detail.get("path")
+                for detail in observed.get("config_path_details", [])
+                if detail.get("path")
+            ][:3],
+        },
+        "activation_basis": activation_basis,
+    }
+
+
+def _build_provider_adjacent_surfaces(route_families: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    adjacent: list[dict[str, Any]] = []
+    for family in route_families:
+        family_id = str(family.get("family_id") or "")
+        if family_id not in PROVIDER_ADJACENT_FAMILY_LABELS:
+            continue
+        adjacent.append(
+            {
+                "vendor_label": PROVIDER_ADJACENT_FAMILY_LABELS[family_id],
+                "family_id": family_id,
+                "config_path": family.get("config_path"),
+                "backend_port": (family.get("backend_ports") or [None])[0],
+                "owner_components": family.get("owner_components", []),
+                "route_paths": family.get("route_paths", []),
+            }
+        )
+    return adjacent[:4]
+
+
+def _extract_docpack_vendor_inventory(docpack_hints: dict[str, Any] | None) -> list[str]:
+    if docpack_hints is None:
+        return []
+    discovered: list[str] = []
+    for hint in docpack_hints.get("term_hints", []):
+        term = _normalize_hint_text(str(hint.get("normalized_term") or ""))
+        if not term:
+            continue
+        for alias, display_name in KNOWN_EXTERNAL_VENDOR_TERMS:
+            if alias in term and display_name not in discovered:
+                discovered.append(display_name)
+    return discovered
+
+
+def _find_activated_vendor_terms(
+    *,
+    route_families: list[dict[str, Any]],
+) -> list[str]:
+    haystack = _normalize_hint_text(
+        " ".join(
+            " ".join(
+                filter(
+                    None,
+                    [
+                        str(family.get("family_id") or ""),
+                        str(family.get("config_path") or ""),
+                        " ".join(str(port) for port in family.get("backend_ports", [])),
+                    ],
+                )
+            )
+            for family in route_families
+        )
+    )
+    activated: list[str] = []
+    for alias, display_name in KNOWN_EXTERNAL_VENDOR_TERMS:
+        if alias in haystack and display_name not in activated:
+            activated.append(display_name)
+    return activated
+
+
+def _extract_version_from_text(text: str, pattern: str) -> str | None:
+    match = re.search(pattern, text)
+    if match is None:
+        return None
+    return match.group(1)
+
+
+def _parse_bootstrap_polling_analysis(
+    httpd_result: dict[str, Any],
+    source_result: dict[str, Any],
+) -> dict[str, Any]:
+    httpd_lines = _result_lines(httpd_result)
+    source_lines = _result_lines(source_result)
+
+    bootstrap_httpd_terms = ("/fa/server/connection/login", "storeFireflowCookie")
+    polling_httpd_terms = (
+        "getAFASessionInfo",
+        "CommandsDispatcher",
+        "bridge/refresh",
+        "/afa/php/ws.php",
+        "BusinessFlow/shallow_health_check",
+        "BusinessFlow/deep_health_check",
+        "/aff/api/internal/noauth/health/shallow",
+        "/aff/api/internal/noauth/health/deep",
+    )
+    bootstrap_source_terms = ("storeFireflowCookie", "getFireflowCookie", "AFF_COOKIE", "BFCookie")
+    polling_source_terms = ("getAFASessionInfo", "VerifyGetFASessionIdValid", "Could not find AlgosecSession", "checkFireFlowAuth")
+
+    httpd_bootstrap_lines = [line for line in httpd_lines if _line_contains_any(line, bootstrap_httpd_terms)]
+    httpd_polling_lines = [line for line in httpd_lines if _line_contains_any(line, polling_httpd_terms)]
+    source_runtime_bootstrap_lines = [
+        line for line in source_lines if _is_log_line(line) and _line_contains_any(line, ("storeFireflowCookie", "getFireflowCookie"))
+    ]
+    source_runtime_polling_lines = [
+        line for line in source_lines if _is_log_line(line) and _line_contains_any(line, ("getAFASessionInfo",))
+    ]
+    source_static_bootstrap_lines = [
+        line
+        for line in source_lines
+        if not _is_log_line(line) and _line_contains_any(line, bootstrap_source_terms)
+    ]
+    source_static_polling_lines = [
+        line
+        for line in source_lines
+        if not _is_log_line(line) and _line_contains_any(line, polling_source_terms)
+    ]
+
+    session_occurrences: dict[str, int] = {}
+    runtime_events_by_session: dict[str, list[dict[str, Any]]] = {}
+    seen_event_keys: set[tuple[str, str, str]] = set()
+    for line in source_lines:
+        if not _is_log_line(line):
+            continue
+        event_kind: str | None = None
+        if _line_contains_any(line, ("storeFireflowCookie", "getFireflowCookie")):
+            event_kind = "bootstrap"
+        elif "getAFASessionInfo" in line:
+            event_kind = "polling"
+        if event_kind is None:
+            continue
+        session_id = _extract_session_token(line)
+        timestamp = _extract_log_timestamp(line)
+        if session_id is None or timestamp is None:
+            continue
+        event_key = (session_id, event_kind, timestamp.isoformat())
+        if event_key in seen_event_keys:
+            continue
+        seen_event_keys.add(event_key)
+        runtime_events_by_session.setdefault(session_id, []).append(
+            {
+                "event_kind": event_kind,
+                "timestamp": timestamp,
+                "line": line,
+            }
+        )
+        if event_kind == "polling":
+            session_occurrences[session_id] = session_occurrences.get(session_id, 0) + 1
+
+    repeated_polling_sessions = [
+        {"session_id": session_id, "occurrence_count": count}
+        for session_id, count in sorted(session_occurrences.items(), key=lambda item: (-item[1], item[0]))
+        if count >= 3
+    ]
+
+    bootstrap_anchor_sessions: list[dict[str, Any]] = []
+    polling_only_sessions: list[dict[str, Any]] = []
+    for session_id, events in runtime_events_by_session.items():
+        ordered_events = sorted(events, key=lambda item: item["timestamp"])
+        bootstrap_events = [item for item in ordered_events if item["event_kind"] == "bootstrap"]
+        polling_events = [item for item in ordered_events if item["event_kind"] == "polling"]
+        if not polling_events:
+            continue
+        polling_deltas = [
+            int((polling_events[index]["timestamp"] - polling_events[index - 1]["timestamp"]).total_seconds())
+            for index in range(1, len(polling_events))
+        ]
+        cadence_like_deltas = [delta for delta in polling_deltas if 240 <= delta <= 360]
+        representative_gap = None
+        if cadence_like_deltas:
+            cadence_sorted = sorted(cadence_like_deltas)
+            representative_gap = cadence_sorted[len(cadence_sorted) // 2]
+        if bootstrap_events:
+            first_bootstrap = bootstrap_events[0]["timestamp"]
+            first_poll_after_bootstrap = next(
+                (
+                    polling_event["timestamp"]
+                    for polling_event in polling_events
+                    if polling_event["timestamp"] >= first_bootstrap
+                ),
+                None,
+            )
+            if first_poll_after_bootstrap is not None:
+                bootstrap_anchor_sessions.append(
+                    {
+                        "session_id": session_id,
+                        "bootstrap_event_count": len(bootstrap_events),
+                        "polling_event_count": len(polling_events),
+                        "first_bootstrap_at": _format_datetime_z(first_bootstrap),
+                        "first_poll_after_bootstrap_at": _format_datetime_z(first_poll_after_bootstrap),
+                        "first_poll_after_bootstrap_seconds": int(
+                            (first_poll_after_bootstrap - first_bootstrap).total_seconds()
+                        ),
+                        "cadence_like_gap_count": len(cadence_like_deltas),
+                        "representative_polling_gap_seconds": representative_gap,
+                    }
+                )
+        elif len(polling_events) >= 3:
+            polling_only_sessions.append(
+                {
+                    "session_id": session_id,
+                    "occurrence_count": len(polling_events),
+                    "first_poll_at": _format_datetime_z(polling_events[0]["timestamp"]),
+                    "last_poll_at": _format_datetime_z(polling_events[-1]["timestamp"]),
+                    "cadence_like_gap_count": len(cadence_like_deltas),
+                    "representative_polling_gap_seconds": representative_gap,
+                }
+            )
+
+    bootstrap_anchor_sessions.sort(
+        key=lambda item: (
+            -item["polling_event_count"],
+            item["first_poll_after_bootstrap_seconds"],
+            item["session_id"],
+        )
+    )
+    polling_only_sessions.sort(
+        key=lambda item: (
+            -item["occurrence_count"],
+            item["session_id"],
+        )
+    )
+
+    bootstrap_score = (
+        (len(httpd_bootstrap_lines) * 4)
+        + (len(source_runtime_bootstrap_lines) * 4)
+        + min(len(source_static_bootstrap_lines), 3)
+    )
+    polling_score = (
+        (len(httpd_polling_lines) * 2)
+        + (len(source_runtime_polling_lines) * 3)
+        + min(len(source_static_polling_lines), 2)
+        + (len(repeated_polling_sessions) * 4)
+    )
+
+    runtime_bootstrap_count = len(httpd_bootstrap_lines) + len(source_runtime_bootstrap_lines)
+    runtime_polling_count = len(httpd_polling_lines) + len(source_runtime_polling_lines)
+    if bootstrap_anchor_sessions and (
+        polling_only_sessions
+        or any(item.get("cadence_like_gap_count", 0) >= 2 for item in bootstrap_anchor_sessions)
+    ):
+        status = "polling_dominant_with_bootstrap_anchor"
+        window_reading = "bootstrap_anchor_then_shared_polling"
+        next_stop = "inspect_aff_cookie_handoff"
+        confidence = (
+            "high"
+            if any(item.get("first_poll_after_bootstrap_seconds", 9999) <= 10 for item in bootstrap_anchor_sessions)
+            else "medium"
+        )
+    elif runtime_polling_count >= max(5, runtime_bootstrap_count + 4) and repeated_polling_sessions:
+        status = (
+            "polling_dominant_with_bootstrap_residue"
+            if bootstrap_score > 0
+            else "polling_dominant"
+        )
+        window_reading = "later_shared_polling"
+        next_stop = "inspect_java_runtime_clusters"
+        confidence = "high" if len(source_runtime_polling_lines) >= 8 else "medium"
+    elif runtime_bootstrap_count >= 2 and bootstrap_score >= polling_score + 3:
+        status = "bootstrap_dominant"
+        window_reading = "original_cookie_handoff"
+        next_stop = "inspect_aff_cookie_handoff"
+        confidence = "high" if len(httpd_bootstrap_lines) >= 1 and len(source_runtime_bootstrap_lines) >= 1 else "medium"
+    elif runtime_bootstrap_count > 0 and runtime_polling_count > 0:
+        status = "mixed_window_still_ambiguous"
+        window_reading = "mixed_bootstrap_and_polling"
+        next_stop = "keep_bootstrap_polling_bounded"
+        confidence = "medium"
+    else:
+        status = "distinction_thin"
+        window_reading = "still_ambiguous"
+        next_stop = "keep_bootstrap_polling_bounded"
+        confidence = "low"
+
+    return {
+        "status": status,
+        "confidence": confidence,
+        "window_reading": window_reading,
+        "next_stop": next_stop,
+        "distinction_basis": {
+            "bootstrap_score": bootstrap_score,
+            "polling_score": polling_score,
+            "runtime_bootstrap_line_count": runtime_bootstrap_count,
+            "runtime_polling_line_count": runtime_polling_count,
+            "static_bootstrap_residue_count": len(source_static_bootstrap_lines),
+            "static_polling_hint_count": len(source_static_polling_lines),
+            "repeated_polling_session_count": len(repeated_polling_sessions),
+            "bootstrap_anchor_session_count": len(bootstrap_anchor_sessions),
+            "polling_only_session_count": len(polling_only_sessions),
+        },
+        "repeated_polling_sessions": repeated_polling_sessions[:5],
+        "polling_only_sessions": polling_only_sessions[:5],
+        "bootstrap_anchor_sessions": bootstrap_anchor_sessions[:5],
+        "bootstrap_runtime_samples": _dedupe_preserve_order((httpd_bootstrap_lines + source_runtime_bootstrap_lines))[:5],
+        "polling_runtime_samples": _dedupe_preserve_order((httpd_polling_lines + source_runtime_polling_lines))[:5],
+        "bootstrap_residue_samples": _dedupe_preserve_order(source_static_bootstrap_lines)[:5],
+    }
+
+
 def _parse_marker_lines(result: dict[str, Any], *, expected_terms: tuple[str, ...]) -> dict[str, Any]:
     lines = [line.strip() for line in str(result.get("stdout", "")).splitlines() if line.strip()]
     matched_terms = [
@@ -1619,6 +3967,136 @@ def _parse_marker_lines(result: dict[str, Any], *, expected_terms: tuple[str, ..
         "matched_terms": matched_terms,
         "sample_lines": lines[-5:],
     }
+
+
+def _result_lines(result: dict[str, Any]) -> list[str]:
+    return [line.strip() for line in str(result.get("stdout", "")).splitlines() if line.strip()]
+
+
+def _line_contains_any(line: str, terms: tuple[str, ...]) -> bool:
+    return any(term in line for term in terms)
+
+
+def _is_log_line(line: str) -> bool:
+    return ".log" in line or "ssl_access_log" in line
+
+
+def _extract_session_token(line: str) -> str | None:
+    matches = re.findall(r"\[([A-Za-z0-9]{8,})\]", line)
+    return matches[-1] if matches else None
+
+
+def _extract_log_timestamp(line: str) -> datetime | None:
+    match = re.search(r"\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),\d+\]", line)
+    if match is None:
+        return None
+    try:
+        return datetime.strptime(match.group(1), "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+    except ValueError:
+        return None
+
+
+def _extract_query_session_tokens(text: str) -> list[str]:
+    tokens = re.findall(r"[?&]session=([A-Za-z0-9]+)", text)
+    return _dedupe_preserve_order(tokens)
+
+
+def _parse_store_fireflow_cookie_events(lines: list[str]) -> list[dict[str, Any]]:
+    events: list[dict[str, Any]] = []
+    current_anchor: dict[str, Any] | None = None
+    for line in lines:
+        if "storeFireflowCookie" not in line:
+            continue
+        session_id = _extract_session_token(line)
+        if session_id is None:
+            continue
+        timestamp = _extract_log_timestamp(line)
+        if "_issuePostToAfa will call /storeFireflowCookie" in line:
+            current_anchor = {
+                "fireflow_session_id": session_id,
+                "called_at": None if timestamp is None else _format_datetime_z(timestamp),
+                "sample_lines": [line],
+            }
+            continue
+        if current_anchor is None or current_anchor.get("fireflow_session_id") != session_id:
+            current_anchor = {
+                "fireflow_session_id": session_id,
+                "called_at": None if timestamp is None else _format_datetime_z(timestamp),
+                "sample_lines": [],
+            }
+        current_anchor["sample_lines"] = _dedupe_preserve_order(current_anchor["sample_lines"] + [line])[-4:]
+        if "https://localhost:443/afa/external" in line:
+            bridge_url = _extract_bracket_url(line)
+            bridge_path = None if bridge_url is None else _extract_url_path(bridge_url)
+            current_anchor["bridge_url"] = bridge_url
+            current_anchor["bridge_path"] = bridge_path
+            current_anchor["carried_session_tokens"] = _extract_query_session_tokens(line)
+            if current_anchor["carried_session_tokens"] or "RestClient post:" in line:
+                events.append(current_anchor.copy())
+    return events
+
+
+def _parse_aff_session_extend_events(lines: list[str]) -> list[dict[str, Any]]:
+    events: list[dict[str, Any]] = []
+    for line in lines:
+        if "/afa/external//session/extend" not in line:
+            continue
+        timestamp = _extract_httpd_timestamp(line)
+        path_match = re.search(r'"[A-Z]+\s+([^ ]+)\s+HTTP/', line)
+        path = None if path_match is None else path_match.group(1).split("?")[0]
+        events.append(
+            {
+                "called_at": None if timestamp is None else _format_datetime_z(timestamp),
+                "path": path,
+                "carried_session_tokens": _extract_query_session_tokens(line),
+                "sample_line": line,
+            }
+        )
+    return events
+
+
+def _extract_bracket_url(line: str) -> str | None:
+    match = re.search(r"\[(https://[^\]]+)\]", line)
+    if match is None:
+        return None
+    return match.group(1)
+
+
+def _extract_url_path(url: str) -> str | None:
+    match = re.search(r"https?://[^/]+(?P<path>/[^?]+)", url)
+    if match is None:
+        return None
+    return match.group("path")
+
+
+def _extract_httpd_timestamp(line: str) -> datetime | None:
+    match = re.search(r"\[(\d{2})/([A-Za-z]{3})/(\d{4}):(\d{2}:\d{2}:\d{2}) [+-]\d{4}\]", line)
+    if match is None:
+        return None
+    months = {
+        "Jan": 1,
+        "Feb": 2,
+        "Mar": 3,
+        "Apr": 4,
+        "May": 5,
+        "Jun": 6,
+        "Jul": 7,
+        "Aug": 8,
+        "Sep": 9,
+        "Oct": 10,
+        "Nov": 11,
+        "Dec": 12,
+    }
+    month = months.get(match.group(2))
+    if month is None:
+        return None
+    try:
+        return datetime.strptime(
+            f"{match.group(3)}-{month:02d}-{match.group(1)} {match.group(4)}",
+            "%Y-%m-%d %H:%M:%S",
+        ).replace(tzinfo=timezone.utc)
+    except ValueError:
+        return None
 
 
 def _parse_usersession_reuse_analysis(result: dict[str, Any]) -> dict[str, Any]:
@@ -1727,8 +4205,15 @@ def _build_next_candidate_seams(
     session_parity_packets: list[dict[str, Any]],
     usersession_bridge_packets: list[dict[str, Any]],
     usersession_reuse_packets: list[dict[str, Any]],
+    businessflow_session_origin_packets: list[dict[str, Any]],
+    bootstrap_polling_packets: list[dict[str, Any]],
+    aff_cookie_handoff_packets: list[dict[str, Any]],
+    java_runtime_cluster_packets: list[dict[str, Any]],
+    provider_integration_packets: list[dict[str, Any]],
+    knowledge_layer_packets: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     seams: list[dict[str, Any]] = []
+    path_surface_records = _select_path_surface_records(component_records, [], [])
     aff_packet = next(
         (packet for packet in boundary_packets if packet.get("boundary_id") == "aff_fireflow_1989_route_owner"),
         None,
@@ -1745,7 +4230,187 @@ def _build_next_candidate_seams(
         (packet for packet in usersession_reuse_packets if packet.get("packet_id") == "usersession_fa_session_reuse"),
         None,
     )
-    if reuse_packet is not None and reuse_packet.get("status") == "reuse_chain_visible":
+    origin_packet = next(
+        (packet for packet in businessflow_session_origin_packets if packet.get("packet_id") == "businessflow_session_origin_clue"),
+        None,
+    )
+    bootstrap_polling_packet = next(
+        (packet for packet in bootstrap_polling_packets if packet.get("packet_id") == "bootstrap_polling_distinction"),
+        None,
+    )
+    aff_cookie_packet = next(
+        (packet for packet in aff_cookie_handoff_packets if packet.get("packet_id") == "aff_cookie_handoff"),
+        None,
+    )
+    java_runtime_packet = next(
+        (packet for packet in java_runtime_cluster_packets if packet.get("packet_id") == "java_runtime_clusters"),
+        None,
+    )
+    provider_packet = next(
+        (
+            packet
+            for packet in provider_integration_packets
+            if packet.get("packet_id") == "provider_specific_integration_evidence_current_node"
+        ),
+        None,
+    )
+    knowledge_layer_packet = next(
+        (packet for packet in knowledge_layer_packets if packet.get("packet_id") == "distributed_and_external_knowledge_layers"),
+        None,
+    )
+    if provider_packet is not None and provider_packet.get("status") == "local_surfaces_visible_not_health_validated":
+        seams.append(
+            {
+                "seam_id": provider_packet.get("next_stop", "capture_second_node_node_local_proof"),
+                "why_it_matters": "The current node now has a bounded provider-evidence packet for AWS and Azure, so the next meaningful ambiguity is no longer what this node exposes but what changes on a second imported node-local proof.",
+                "starting_components": [
+                    entry["provider_family_id"]
+                    for entry in provider_packet.get("observed_providers", [])[:4]
+                    if entry.get("provider_family_id")
+                ] or ["ms-devicedriver-aws", "ms-devicedriver-azure"],
+            }
+        )
+        return seams[:2]
+    if knowledge_layer_packet is not None and knowledge_layer_packet.get("status") == "single_node_layering_ready":
+        guidance_components = [
+            activation["component_id"]
+            for activation in knowledge_layer_packet.get("component_guidance_activations", [])[:4]
+            if activation.get("component_id")
+        ]
+        seams.append(
+            {
+                "seam_id": knowledge_layer_packet.get("next_stop", "define_second_node_request_shape"),
+                "why_it_matters": "The current node now has explicit activation boundaries for component guidance and external-system hints, so the next bounded move should stay at the control-plane edge instead of widening this one node into a suite graph or vendor-health story.",
+                "starting_components": guidance_components or ["ms-metro", "ms-bflow", "activemq"],
+            }
+        )
+        external_activation = knowledge_layer_packet.get("external_integration_activation", {})
+        if external_activation.get("vendor_activation_status") == "provider_specific_local_evidence_visible":
+            seams.append(
+                {
+                    "seam_id": "capture_provider_specific_integration_evidence",
+                    "why_it_matters": "AWS and Azure are already activated at the knowledge-layer level, but the next useful stop is packaging the exact node-local Apache, service-unit, listener, and journal evidence into one bounded provider packet before moving to a second node.",
+                    "starting_components": ["ms-devicedriver-aws", "ms-devicedriver-azure", "httpd"],
+                }
+            )
+        elif external_activation.get("vendor_activation_status") == "dormant":
+            seams.append(
+                {
+                    "seam_id": "capture_provider_specific_integration_evidence",
+                    "why_it_matters": "Vendor-side terms are already present in the ASMS doc-pack hint inventory, but this node still lacks provider-specific local evidence. The next useful trigger is a bounded pass that captures config, route, or log markers strong enough to activate a real vendor packet later.",
+                    "starting_components": [
+                        surface["likely_owner_component"]
+                        for surface in external_activation.get("observed_local_external_surfaces", [])[:3]
+                        if surface.get("likely_owner_component")
+                    ] or ["httpd", "ms-metro", "keycloak"],
+                }
+            )
+        return seams[:2]
+    if _config_log_surface_seam_ready(path_surface_records):
+        seams.append(
+            {
+                "seam_id": "infer_configuration_patterns_and_tunable_behaviors",
+                "why_it_matters": "The successor now has bounded config and log entrypoints for the central service families, so the next useful step is separating real observed knobs and repeated runtime patterns from still-unproven folklore.",
+                "starting_components": [
+                    record["component_id"]
+                    for record in path_surface_records
+                ] or ["ms-metro", "ms-bflow", "algosec-ms"],
+            }
+        )
+    if java_runtime_packet is not None and java_runtime_packet.get("status") == "cluster_boundaries_visible":
+        seams.append(
+            {
+                "seam_id": java_runtime_packet.get("next_stop", "review_asms_runtime_architecture"),
+                "why_it_matters": "The visible Java-heavy owners now separate into bounded runtime families, so the next useful step is an operator-facing architecture review built on observed seams instead of one generic JVM story.",
+                "starting_components": [
+                    cluster["component_id"]
+                    for cluster in java_runtime_packet.get("cluster_families", [])[:4]
+                ] or ["ms-metro", "ms-bflow", "algosec-ms"],
+            }
+        )
+    elif java_runtime_packet is not None and java_runtime_packet.get("status") == "cluster_boundaries_partially_visible":
+        seams.append(
+            {
+                "seam_id": "inspect_java_runtime_clusters",
+                "why_it_matters": "Some Java-heavy families now separate, but the remaining runtime boundary still needs one more bounded pass before a wider architecture review would be honest.",
+                "starting_components": [
+                    cluster["component_id"]
+                    for cluster in java_runtime_packet.get("cluster_families", [])[:4]
+                ] or ["ms-metro", "ms-bflow", "algosec-ms"],
+            }
+        )
+    elif aff_cookie_packet is not None and aff_cookie_packet.get("status") in {
+        "cookie_handoff_visible",
+        "cookie_handoff_partially_visible",
+    }:
+        seams.append(
+            {
+                "seam_id": aff_cookie_packet.get("next_stop", "inspect_java_runtime_clusters"),
+                "why_it_matters": "The bounded bootstrap anchor now crosses a visible AFF bridge handoff, so the next ambiguity shifts from session-origin classification to the local owners and runtime boundaries behind that bridge.",
+                "starting_components": ["ms-metro", "ms-bflow", "aff-boot"],
+            }
+        )
+    elif bootstrap_polling_packet is not None and bootstrap_polling_packet.get("status") in {
+        "bootstrap_dominant",
+        "polling_dominant_with_bootstrap_anchor",
+    }:
+        seams.append(
+            {
+                "seam_id": "inspect_aff_cookie_handoff",
+                "why_it_matters": "The retained upstream evidence now separates a bounded bootstrap anchor from the later upkeep tail, so the next bounded stop is the AFF cookie handoff instead of looping on the same origin-window ambiguity.",
+                "starting_components": ["ms-bflow", "httpd", "aff-boot"],
+            }
+        )
+    elif bootstrap_polling_packet is not None and bootstrap_polling_packet.get("status") in {
+        "polling_dominant",
+        "polling_dominant_with_bootstrap_residue",
+    }:
+        seams.append(
+            {
+                "seam_id": "inspect_java_runtime_clusters",
+                "why_it_matters": "The retained upstream window is now polling-dominant, so the session-origin chain is bounded for now and the strongest remaining ambiguity shifts to the Java runtime boundaries behind the visible service families.",
+                "starting_components": ["algosec-ms", "ms-metro", "ms-bflow"],
+            }
+        )
+    elif bootstrap_polling_packet is not None and bootstrap_polling_packet.get("status") in {
+        "mixed_window_still_ambiguous",
+        "distinction_thin",
+    }:
+        seams.append(
+            {
+                "seam_id": "distinguish_bootstrap_from_shared_polling",
+                "why_it_matters": "The retained origin-side window still mixes bootstrap and upkeep too closely, so the next bounded stop stays on separating those two readings without widening into full login reconstruction.",
+                "starting_components": ["ms-bflow", "httpd", "aff-boot"],
+            }
+        )
+    elif origin_packet is not None and origin_packet.get("status") in {
+        "bootstrap_origin_clues_visible",
+        "source_side_origin_clues_visible",
+    }:
+        seams.append(
+            {
+                "seam_id": "inspect_aff_cookie_handoff",
+                "why_it_matters": "The reused FA-session chain now has an upstream BusinessFlow or AFA-side origin clue, so the next bounded stop is the AFF cookie handoff rather than broad login reconstruction.",
+                "starting_components": ["ms-bflow", "httpd", "aff-boot"],
+            }
+        )
+    elif origin_packet is not None and origin_packet.get("distinction_status") == "polling_dominant_without_httpd_bootstrap_pair":
+        seams.append(
+            {
+                "seam_id": "inspect_aff_cookie_handoff",
+                "why_it_matters": "The retained upstream window is now classified as later shared polling, while the cookie-handoff vocabulary survives only in source-side hints. The next bounded stop is the AFF cookie handoff itself rather than looping on the same bootstrap-versus-polling ambiguity.",
+                "starting_components": ["ms-bflow", "httpd", "aff-boot"],
+            }
+        )
+    elif origin_packet is not None and origin_packet.get("status") == "shared_polling_origin_clues_visible":
+        seams.append(
+            {
+                "seam_id": "distinguish_bootstrap_from_shared_polling",
+                "why_it_matters": "The retained origin-side window now looks more like later shared polling, so the next bounded stop is separating bootstrap from upkeep instead of inventing a cleaner first caller.",
+                "starting_components": ["ms-bflow", "httpd", "aff-boot"],
+            }
+        )
+    elif reuse_packet is not None and reuse_packet.get("status") == "reuse_chain_visible":
         seams.append(
             {
                 "seam_id": "trace_businessflow_session_origin",
@@ -1812,6 +4477,17 @@ def _build_next_candidate_seams(
     return seams[:2]
 
 
+def _config_log_surface_seam_ready(records: list[dict[str, Any]]) -> bool:
+    ready_count = 0
+    for record in records:
+        observed = record.get("observed", {})
+        config_details = observed.get("config_path_details", [])
+        log_details = observed.get("log_path_details", [])
+        if any(detail.get("status") == "observed" for detail in config_details) and log_details:
+            ready_count += 1
+    return ready_count >= 3
+
+
 def _render_summary(surface_map: dict[str, Any]) -> str:
     records = surface_map["component_records"]
     central = [record for record in records if record["inference"]["appears_central"]][:5]
@@ -1821,6 +4497,12 @@ def _render_summary(surface_map: dict[str, Any]) -> str:
     session_parity_packets = surface_map.get("session_parity_packets", [])[:2]
     usersession_bridge_packets = surface_map.get("usersession_bridge_packets", [])[:2]
     usersession_reuse_packets = surface_map.get("usersession_reuse_packets", [])[:2]
+    businessflow_session_origin_packets = surface_map.get("businessflow_session_origin_packets", [])[:2]
+    bootstrap_polling_packets = surface_map.get("bootstrap_polling_packets", [])[:2]
+    aff_cookie_handoff_packets = surface_map.get("aff_cookie_handoff_packets", [])[:2]
+    java_runtime_cluster_packets = surface_map.get("java_runtime_cluster_packets", [])[:2]
+    provider_integration_packets = surface_map.get("provider_integration_packets", [])[:2]
+    knowledge_layer_packets = surface_map.get("knowledge_layer_packets", [])[:2]
     unknowns = surface_map["unknowns"][:5]
     seams = surface_map["next_candidate_seams"][:2]
     docpack_ref = surface_map.get("docpack_hint_ref")
@@ -1872,6 +4554,20 @@ def _render_summary(surface_map: dict[str, Any]) -> str:
             if docpack_summary:
                 line += f" Doc-pack hints: {docpack_summary}"
             lines.append(line)
+    lines.extend(["", "## Config And Log Surfaces", ""])
+    surfaced_records = _select_path_surface_records(records, central, top_candidates)
+    surfaced_any_paths = False
+    for record in surfaced_records:
+        config_summary = _render_path_surface_summary(record, detail_key="config_path_details", candidate_key="config_path_candidates")
+        log_summary = _render_path_surface_summary(record, detail_key="log_path_details", candidate_key="log_path_candidates")
+        if not config_summary and not log_summary:
+            continue
+        surfaced_any_paths = True
+        lines.append(
+            f"- `{record['display_name']}`: configs {config_summary or 'none visible'}; logs {log_summary or 'none visible'}."
+        )
+    if not surfaced_any_paths:
+        lines.append("- No stronger config or log path surfaces were visible in this bounded pass.")
     lines.extend(["", "## Edge-To-Local Route Hints", ""])
     if edge_route_hints:
         for hint in edge_route_hints:
@@ -1933,6 +4629,137 @@ def _render_summary(surface_map: dict[str, Any]) -> str:
             )
     else:
         lines.append("- No bounded reused FA-session packet was strong enough to summarize in this pass.")
+    lines.extend(["", "## Session Origin Clues", ""])
+    if businessflow_session_origin_packets:
+        for packet in businessflow_session_origin_packets:
+            httpd_terms = ", ".join(packet["httpd_origin_markers"].get("matched_terms", [])[:5]) or "none"
+            source_terms = ", ".join(packet["source_origin_markers"].get("matched_terms", [])[:5]) or "none"
+            distinction_status = packet.get("distinction_status", "not_set")
+            missing_bootstrap = ", ".join(packet.get("distinction_basis", {}).get("httpd_bootstrap_terms_missing", [])[:2]) or "none"
+            lines.append(
+                f"- `{packet['packet_id']}`: status `{packet['status']}` with distinction `{distinction_status}` and reading `{packet['origin_reading']}`; Apache-side markers `{httpd_terms}` and source-side markers `{source_terms}` are visible, while missing Apache bootstrap terms are `{missing_bootstrap}`. Next stop: `{packet['next_stop']}`."
+            )
+    else:
+        lines.append("- No bounded upstream session-origin packet was strong enough to summarize in this pass.")
+    lines.extend(["", "## Bootstrap Vs Polling", ""])
+    if bootstrap_polling_packets:
+        for packet in bootstrap_polling_packets:
+            anchor_samples = ", ".join(
+                (
+                    f"{item['session_id']} store->{item['first_poll_after_bootstrap_seconds']}s"
+                    f" then ~{item['representative_polling_gap_seconds']}s cadence"
+                )
+                if item.get("representative_polling_gap_seconds") is not None
+                else f"{item['session_id']} store->{item['first_poll_after_bootstrap_seconds']}s"
+                for item in packet.get("bootstrap_anchor_sessions", [])[:2]
+            ) or "none"
+            polling_only = ", ".join(
+                (
+                    f"{item['session_id']} x{item['occurrence_count']}"
+                    if item.get("occurrence_count") is not None
+                    else item["session_id"]
+                )
+                for item in packet.get("polling_only_sessions", [])[:2]
+            ) or "none"
+            lines.append(
+                f"- `{packet['packet_id']}`: status `{packet['status']}` with reading `{packet['window_reading']}`; bootstrap anchors `{anchor_samples}` and polling-only sessions `{polling_only}` are visible. Next stop: `{packet['next_stop']}`."
+            )
+    else:
+        lines.append("- No bounded bootstrap-versus-polling packet was strong enough to summarize in this pass.")
+    lines.extend(["", "## AFF Cookie Handoff", ""])
+    if aff_cookie_handoff_packets:
+        for packet in aff_cookie_handoff_packets:
+            handoff = next(
+                (
+                    link
+                    for link in packet.get("handoff_links", [])
+                    if link.get("matched_store_bridge_token") and link.get("httpd_extend_path")
+                ),
+                (packet.get("handoff_links") or [{}])[0],
+            )
+            route_hint = handoff.get("edge_route_hint") or {}
+            owner = route_hint.get("likely_owner_component", "unknown")
+            bridge_path = handoff.get("store_bridge_path") or "none"
+            carried = handoff.get("matched_store_bridge_token") or ", ".join(handoff.get("carried_session_tokens", [])[:2]) or "none"
+            extend_path = handoff.get("httpd_extend_path") or "none"
+            lines.append(
+                f"- `{packet['packet_id']}`: status `{packet['status']}`; bootstrap anchor `{handoff.get('fireflow_session_id', 'unknown')}` carries token `{carried}` through `{bridge_path}` toward owner `{owner}`, with later extend path `{extend_path}`. Next stop: `{packet['next_stop']}`."
+            )
+    else:
+        lines.append("- No bounded AFF cookie-handoff packet was strong enough to summarize in this pass.")
+    lines.extend(["", "## Java Runtime Clusters", ""])
+    if java_runtime_cluster_packets:
+        for packet in java_runtime_cluster_packets:
+            cluster_summaries = []
+            for cluster in packet.get("cluster_families", [])[:4]:
+                identity = cluster.get("catalina_base") or ", ".join(cluster.get("jar_paths", [])[:1]) or cluster.get("service_unit") or "generic java family"
+                ports = ", ".join(str(port) for port in cluster.get("listener_ports", [])) or "none"
+                routes = ", ".join(cluster.get("route_paths", [])[:2] or cluster.get("boundary_routes", [])[:2]) or "no explicit route family"
+                cluster_summaries.append(
+                    f"{cluster['component_id']} as `{cluster.get('cluster_type', 'generic_java_family')}` via `{identity}` on ports `{ports}` with routes `{routes}`"
+                )
+            shared_substrates = ", ".join(
+                substrate["component_id"] for substrate in packet.get("shared_substrates", [])[:3]
+            ) or "none"
+            lines.append(
+                f"- `{packet['packet_id']}`: status `{packet['status']}`; visible families {', '.join(cluster_summaries) if cluster_summaries else 'none'}. Shared substrates: `{shared_substrates}`. Next stop: `{packet['next_stop']}`."
+            )
+    else:
+        lines.append("- No bounded Java runtime cluster packet was strong enough to summarize in this pass.")
+    lines.extend(["", "## Provider-Specific Integration Evidence", ""])
+    if provider_integration_packets:
+        for packet in provider_integration_packets:
+            provider_summaries = []
+            for entry in packet.get("observed_providers", [])[:3]:
+                apache = entry.get("apache_config_family", {})
+                runtime = entry.get("local_runtime_service", {})
+                provider_summaries.append(
+                    f"{entry.get('vendor_label', 'unknown')} via `{entry.get('provider_family_id', 'unknown')}` "
+                    f"from `{apache.get('config_path', 'unknown config')}` to port `{apache.get('backend_port', 'unknown')}` "
+                    f"with service `{runtime.get('service_unit', 'unknown service')}`"
+                )
+            adjacent = ", ".join(
+                (
+                    f"{item.get('family_id', 'unknown')}->{item.get('backend_port', 'unknown')}"
+                )
+                for item in packet.get("adjacent_surfaces", [])[:3]
+            ) or "none"
+            not_proven = "; ".join(packet.get("not_proven", [])[:2]) or "none"
+            lines.append(
+                f"- `{packet['packet_id']}`: status `{packet['status']}`; observed providers {', '.join(provider_summaries) if provider_summaries else 'none'}; adjacent surfaces `{adjacent}`; not proven: {not_proven}. Next stop: `{packet['next_stop']}`."
+            )
+    else:
+        lines.append("- No bounded provider-specific integration packet was strong enough to summarize in this pass.")
+    lines.extend(["", "## Distributed And External Knowledge Layers", ""])
+    if knowledge_layer_packets:
+        for packet in knowledge_layer_packets:
+            node_scope = packet.get("node_scope", {})
+            external = packet.get("external_integration_activation", {})
+            guidance_components = ", ".join(
+                (
+                    f"{activation.get('component_id', 'unknown')} as `{activation.get('component_family', 'unknown_family')}`"
+                    + (
+                        f" v{activation.get('observed_version')}"
+                        if activation.get("observed_version")
+                        else ""
+                    )
+                )
+                for activation in packet.get("component_guidance_activations", [])[:5]
+            ) or "none"
+            observed_surfaces = ", ".join(
+                (
+                    f"{surface.get('route_path')} -> {surface.get('likely_owner_component', 'unknown owner')}"
+                    if surface.get("route_path")
+                    else f"{surface.get('family_id', surface.get('surface_family', 'unknown surface'))} -> {surface.get('likely_owner_component', 'unknown owner')}"
+                )
+                for surface in external.get("observed_local_external_surfaces", [])[:4]
+            ) or "none"
+            vendor_hints = ", ".join(external.get("dormant_vendor_inventory", [])[:5]) or "none"
+            lines.append(
+                f"- `{packet['packet_id']}`: node scope `{node_scope.get('status', 'unknown')}` with cross-node envelope `{node_scope.get('cross_node_envelope_status', 'unknown')}`; component guidance `{guidance_components}`; observed local external surfaces `{observed_surfaces}`; vendor activation `{external.get('vendor_activation_status', 'unknown')}` with dormant inventory `{vendor_hints}`. Next stop: `{packet['next_stop']}`."
+            )
+    else:
+        lines.append("- No bounded distributed or external knowledge-layer packet was strong enough to summarize in this pass.")
     lines.extend(["", "## Visible Unknowns", ""])
     for item in unknowns:
         lines.append(f"- {item}")
@@ -1959,6 +4786,56 @@ def _render_docpack_match_summary(docpack_matches: dict[str, Any]) -> str:
         ports = ", ".join(str(match["port"]) for match in matched_ports[:3])
         notes.append(f"matched ports {ports}")
     return "; ".join(notes)
+
+
+def _render_path_surface_summary(
+    record: dict[str, Any],
+    *,
+    detail_key: str,
+    candidate_key: str,
+) -> str:
+    observed = record.get("observed", {})
+    details = observed.get(detail_key, [])[:3]
+    rendered: list[str] = []
+    if details:
+        for detail in details:
+            path = detail.get("path")
+            if not path:
+                continue
+            label = detail.get("status") or "candidate"
+            source = detail.get("source") or "bounded evidence"
+            rendered.append(f"`{path}` ({label}, {source})")
+    else:
+        for path in observed.get(candidate_key, [])[:3]:
+            rendered.append(f"`{path}` (candidate)")
+    return ", ".join(rendered)
+
+
+def _select_path_surface_records(
+    records: list[dict[str, Any]],
+    central: list[dict[str, Any]],
+    top_candidates: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    selected: list[dict[str, Any]] = []
+    preferred_ids = {"aff-boot", "activemq", "keycloak", "httpd"}
+    for record in records:
+        if record in central or record in top_candidates:
+            selected.append(record)
+            continue
+        observed = record.get("observed", {})
+        if observed.get("active_state") == "failed" or record.get("component_id") in preferred_ids:
+            selected.append(record)
+    deduped: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for record in selected:
+        component_id = str(record.get("component_id") or "")
+        if component_id in seen:
+            continue
+        deduped.append(record)
+        seen.add(component_id)
+        if len(deduped) >= 7:
+            break
+    return deduped
 
 
 def _extract_httpd_route_path(tokens: list[str], current_location: str | None) -> str | None:
@@ -2199,5 +5076,9 @@ def _dump_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def _format_datetime_z(value: datetime) -> str:
+    return value.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 def _isoformat_z() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return _format_datetime_z(datetime.now(timezone.utc))

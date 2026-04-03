@@ -66,6 +66,38 @@ exploratory than a fragile customer environment:
   discovery work
 - later distributed-architecture labs are expected as future discovery targets
 
+## Current Layering Frontier
+
+The latest imported target-backed proof now says:
+
+- cross-node topology is still intentionally inactive because only one
+  node-local proof exists
+- bounded component guidance is now activatable for visible families such as
+  `httpd`, `ms-metro`, `ms-bflow`, `activemq`, and `keycloak`
+- provider-specific local evidence is now visible for AWS and Azure-side
+  surfaces on the target node, while broader vendor inventory from the ASMS
+  doc pack remains mostly dormant until stronger local evidence appears
+
+That previously made the next bounded successor seam
+`define_second_node_request_shape` rather than reopening the single-node
+route, session, or architecture work.
+
+The latest imported target-backed proof now goes one step further:
+
+- the successor carries a bounded `provider_specific_integration_evidence_current_node`
+  packet for AWS and Azure
+- that packet ties matching Apache family names, local listener ports, service
+  units, jar paths, and journal entrypoints together without claiming provider
+  health
+- adjacent Azure and AWS-side families such as `ms-aad-azure-sensor`,
+  `ms-aad-log-sensor`, `ms-cloudflow-broker`, and `ms-cloudlicensing` stay
+  visible but separate from the core provider-driver entries
+
+That makes the next bounded successor seam
+`capture_second_node_node_local_proof`, because the strongest remaining
+ambiguity is now cross-node comparison rather than current-node provider
+activation.
+
 ## Optional Overlays
 
 Treat `pack.json.personality_template` and `pack.json.role_domain_template` as composable guidance layers. They shape tone and framing, not canonical lifecycle, readiness, deployment, or tracker truth.

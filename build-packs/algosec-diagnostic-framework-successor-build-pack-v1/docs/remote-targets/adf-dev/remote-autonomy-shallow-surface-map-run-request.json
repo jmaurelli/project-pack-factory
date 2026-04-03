@@ -14,5 +14,5 @@
   "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/dist/exports/runtime-evidence",
   "remote_reason": "Run the ADF successor from adf-dev (10.167.2.151) against lab target 10.167.2.150, generate the first target-backed shallow surface map artifacts, mirror them into the run root, and return only bounded runtime evidence back to PackFactory root before publishing derived support-facing pages from adf-dev itself.",
   "staged_by": "codex",
-  "remote_runner": "set -euo pipefail; PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label 10.167.2.150 --target-connection-profile docs/remote-targets/algosec-lab/target-connection-profile.json --mirror-into-run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1 --output json"
+  "remote_runner": "set -euo pipefail; PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label 10.167.2.150 --target-connection-profile docs/remote-targets/algosec-lab/target-connection-profile.json --mirror-into-run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1 --output json"
 }

@@ -1,0 +1,98 @@
+{
+  "artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": null,
+    "feedback_memory_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1.json",
+    "loop_events_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/loop-events.jsonl",
+    "run_summary_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/run-summary.json"
+  },
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 1,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 2
+    },
+    "status": "within_budget",
+    "summary": "Autonomy stayed within the default bounded run budget."
+  },
+  "baseline_snapshot": {
+    "active_task_id": "inspect_java_runtime_clusters",
+    "eval_result_statuses": {
+      "algosec-diagnostic-framework-successor-template-pack-smoke-small-001": "pass"
+    },
+    "gate_statuses": {
+      "algosec_diagnostic_framework_successor_template_pack_smoke_small_001": "pass",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "inspect_java_runtime_clusters",
+    "readiness_state": "ready_for_review",
+    "ready_for_deployment": false
+  },
+  "block_summary": null,
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks",
+    "define_shallow_surface_map_artifact_contract",
+    "implement_shallow_surface_map_first_pass",
+    "derive_route_aware_edge_hints",
+    "improve_wrapped_listener_ownership",
+    "confirm_aff_fireflow_1989_boundary",
+    "validate_aff_session_route_parity",
+    "inspect_fireflow_usersession_bridge",
+    "trace_usersession_fa_session_reuse",
+    "trace_businessflow_session_origin",
+    "distinguish_bootstrap_from_shared_polling",
+    "inspect_aff_cookie_handoff"
+  ],
+  "ended_at": "2026-04-03T11:02:31Z",
+  "escalation_count": 0,
+  "failed_command_count": 0,
+  "final_snapshot": {
+    "active_task_id": "inspect_java_runtime_clusters",
+    "eval_result_statuses": {
+      "algosec-diagnostic-framework-successor-template-pack-smoke-small-001": "pass"
+    },
+    "gate_statuses": {
+      "algosec_diagnostic_framework_successor_template_pack_smoke_small_001": "pass",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "inspect_java_runtime_clusters",
+    "readiness_state": "ready_for_review",
+    "ready_for_deployment": false
+  },
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary.",
+  "metrics": {
+    "benchmark_evidence_gain": false,
+    "canonical_state_integrity": {
+      "command": null,
+      "error_count": null,
+      "status": "not_run",
+      "valid": null
+    },
+    "iterations_to_first_evidence": null,
+    "iterations_to_readiness_change": null,
+    "readiness_change_summary": {
+      "deployability_changed": false,
+      "gates_advanced_count": 0,
+      "state_advanced": false
+    },
+    "task_completion_rate": 0.65,
+    "validation_evidence_gain": false
+  },
+  "operator_summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json.",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "recommended_next_action": "Recommended next action: continue with canonical next task `inspect_java_runtime_clusters` from status/work-state.json and use this summary as local measurement evidence only.",
+  "resume_count": 0,
+  "run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1",
+  "schema_version": "autonomy-run-summary/v1",
+  "started_at": "2026-04-03T11:02:18Z",
+  "step_count": 2,
+  "stop_reason": "current_task_incomplete"
+}

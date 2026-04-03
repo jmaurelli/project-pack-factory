@@ -15,7 +15,7 @@ ALLOWED_RUN_ROOT = Path(".pack-state") / "autonomy-runs"
 EXPORT_ROOT = Path("dist") / "exports" / "runtime-evidence"
 RUN_SUMMARY_NAME = "run-summary.json"
 LOOP_EVENTS_NAME = "loop-events.jsonl"
-AUTO_INCLUDE_RUN_DIR_NAMES = ("assistant-uat", "artifacts")
+AUTO_INCLUDE_RUN_DIR_NAMES = ("assistant-uat", "artifacts", "returned-artifacts")
 SUPPLEMENTARY_MEMORY_ROOT = Path(".pack-state") / "agent-memory"
 FEEDBACK_MEMORY_ARTIFACT_ROOT = Path("artifacts") / "agent-memory"
 

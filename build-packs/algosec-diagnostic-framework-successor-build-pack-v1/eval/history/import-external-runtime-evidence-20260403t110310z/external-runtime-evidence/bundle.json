@@ -1,0 +1,70 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "4c0cd2fa26de89f004aa920cb4b2514a61c0e841ff1156e5f7053e0eb79b4702",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "dd5ba9aca1e58fc1d97e91f3ca9e6cb273c926980e5e4424d8e541cd4cab1d5d",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "7732100da349f3220fbbbca7a040a626e8029ef807cc2d93b482cece68f7eeb7",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "4e4cb1fdacbb89d6a8cc8a14a873afe117f1e3793d33a4134756c5f5b8131872",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "d44a834868ac7dfb66d91dc50618d5a10657ba4533b05e9880b37bb68bfd34bf",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1-20260403T110308Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1-20260403T110308Z",
+  "exported_by": "codex",
+  "generated_at": "2026-04-03T11:03:08Z",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-04-03T11:03:07Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 0,
+    "started_at": "2026-04-03T11:02:53Z",
+    "stop_reason": "current_task_incomplete",
+    "task_completion_rate": 0.65
+  }
+}

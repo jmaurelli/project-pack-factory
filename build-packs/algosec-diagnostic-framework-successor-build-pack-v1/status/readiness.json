@@ -1,15 +1,15 @@
 {
   "blocking_issues": [],
-  "last_evaluated_at": "2026-04-03T03:46:08Z",
+  "last_evaluated_at": "2026-04-03T12:16:33Z",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "pack_kind": "build_pack",
   "readiness_state": "ready_for_review",
   "ready_for_deployment": false,
   "recommended_next_actions": [
-    "Review the latest imported reused-FA-session artifacts from April 3, 2026 and continue from the now-active upstream session-origin seam rather than reopening route ownership, parity, bridge identification, or generic UserSession work.",
-    "The AFF session route, the UserSession bridge behind it, and the reused FA-session chain are now all bounded: Apache `/FireFlow/api/session` and the direct local aff-boot session path still match on HTTP 200 plus `INVALID_SESSION_KEY`, and the imported retained FireFlow proof now shows concrete reuse pairs such as `e0974e9f0e -> n575jpek15` repeating seven times plus additional reuse of `0o43kjh144` across several FireFlow session ids.",
-    "The strongest next ambiguity is now `trace_businessflow_session_origin`: stay just upstream of the confirmed reused FA-session chain and decide which BusinessFlow or AFA-side caller fed or refreshed that session context before FireFlow reused it.",
-    "A second strong seam is `inspect_java_runtime_clusters`, starting from `algosec-ms`, `ms-metro`, `ms-bflow`, and `aff-boot`, because the current proof now separates several concrete local listener owners without yet explaining the full Java cluster boundaries.",
+    "Review the new imported provider-evidence proof from April 3, 2026 and continue from `capture_second_node_node_local_proof` rather than reopening the single-node route, session, Java-cluster, architecture, failure, support-pain, config, configuration-pattern, provider-evidence, or second-node-shape slices.",
+    "The successor now has all three current-node boundary pieces in place: a target-backed `distributed_and_external_knowledge_layers` packet, a bounded `provider_specific_integration_evidence_current_node` packet, and a reusable second-node request plus thin cross-node envelope contract.",
+    "The strongest next ambiguity is no longer whether AWS and Azure have bounded current-node evidence. It is what a second imported node-local proof changes, preserves, or disproves across the same successor artifact shape.",
+    "Use the reusable second-node request and wrapper templates instead of inventing a one-off second-node workflow, and keep the cross-node envelope inactive until a real second imported node proof exists.",
     "Keep using the remote-owned runtime flow: adf-dev at 10.167.2.151 remains the runtime and support-facing host, while 10.167.2.150 remains the runtime evidence source.",
     "Treat the current lab posture as exploration-friendly: bounded misconfiguration or temporary breakage on 10.167.2.150 is acceptable because the lab is quickly redeployable and later distributed-architecture labs are expected.",
     "If promotion-compatible remote proof later matters for this pack, record and address the missed fresh-pack rehearsal step separately rather than pretending the current long-lived pack already has that certification."

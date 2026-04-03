@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T03:07:55Z",
+  "generated_at": "2026-04-03T12:16:33Z",
   "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -364,11 +364,426 @@
         "tasks/active-backlog.json"
       ],
       "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
-      "status": "in_progress",
+      "status": "completed",
       "summary": "Trace the upstream BusinessFlow or AFA-side session-origin clue behind the now-confirmed reused FA-session chain without widening into full login or cookie-bootstrap theory.",
       "task_id": "trace_businessflow_session_origin",
       "validation_commands": [
         "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next bounded seam decides whether the retained upstream session-origin window is better read as original bootstrap or later shared polling.",
+        "The proof stays narrow: use retained Apache and source-side clues around `getAFASessionInfo`, `CommandsDispatcher`, `storeFireflowCookie`, `bridge/refresh`, or the nearby BusinessFlow and AFF health family rather than widening into full browser replay.",
+        "If the retained evidence still cannot cleanly separate bootstrap from upkeep, the successor records that uncertainty plainly and stops there."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded proof or packet explains whether the current upstream origin clue is closer to bootstrap or to later shared polling.",
+        "The next summary can explain the distinction in plain support language, such as shared polling window or stronger bootstrap clue still missing.",
+        "The successor keeps the seam narrow and does not reopen generic login, Keycloak, or deep FireFlow workflow theory without stronger evidence."
+      ],
+      "dependencies": [
+        "trace_businessflow_session_origin"
+      ],
+      "escalation_conditions": [
+        "The next step would require full browser replay, broad cookie reconstruction, or mutation-heavy probes before a bounded bootstrap-versus-polling packet is stable.",
+        "The retained bootstrap-versus-upkeep evidence is too stale or too mixed to support a clean classification without over-claiming."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Distinguish the upstream session-origin clue as original bootstrap versus later shared polling without widening into full cookie-bootstrap reconstruction.",
+      "task_id": "distinguish_bootstrap_from_shared_polling",
+      "validation_commands": [
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next bounded seam follows the now-visible bootstrap anchor into the AFF cookie handoff without widening into full browser replay or generic login reconstruction.",
+        "The proof stays narrow: use retained `storeFireflowCookie` markers, the visible `/afa/external//bridge/storeFireflowCookie` call, session-token handoff clues, and the already-confirmed AFF route-owner boundary rather than mutation-heavy probes.",
+        "If the retained handoff evidence is still too thin to connect the bootstrap anchor to the AFF cookie surface cleanly, the successor records that uncertainty plainly and stops there."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded proof or packet explains how the current bootstrap anchor reaches the AFF cookie handoff surface.",
+        "The next summary can explain the cookie-handoff seam in plain support language, such as `storeFireflowCookie` handoff, reused session token carry-forward, or still-thin cookie transfer evidence.",
+        "The successor keeps the seam narrow and does not reopen generic login, Keycloak, or broad suite architecture theory without stronger evidence."
+      ],
+      "dependencies": [
+        "distinguish_bootstrap_from_shared_polling"
+      ],
+      "escalation_conditions": [
+        "The next step would require full browser replay, broad cookie reconstruction, or mutation-heavy probes before a bounded AFF cookie-handoff packet is stable.",
+        "The retained cookie-handoff evidence is too stale or too mixed to support a clean bootstrap-anchor carry-forward claim without over-claiming."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Inspect the AFF cookie handoff behind the now-separated bootstrap anchor and polling tail without widening into full login reconstruction.",
+      "task_id": "inspect_aff_cookie_handoff",
+      "validation_commands": [
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next bounded seam separates the visible Java-heavy service families into support-useful runtime clusters without widening into deep dependency mapping or JVM attach-style inspection.",
+        "The proof stays narrow: use already-visible service units, listener ownership, JVM flags, catalina bases, and repeated route ownership rather than mutation-heavy probes or full thread-level analysis.",
+        "If the current evidence cannot cleanly separate the cluster boundaries, the successor records that ambiguity plainly and stops there."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded proof or packet explains whether `ms-bflow`, `ms-metro`, `algosec-ms`, `aff-boot`, and adjacent Java-heavy services belong to clearly separate runtime clusters or still share an unresolved boundary.",
+        "The next summary can explain the Java cluster distinction in plain support language, such as separate Tomcat bases, shared messaging adjacency, or unresolved shared JVM boundary.",
+        "The successor keeps the seam narrow and does not reopen generic login, Keycloak, or broad suite architecture theory without stronger evidence."
+      ],
+      "dependencies": [
+        "inspect_aff_cookie_handoff"
+      ],
+      "escalation_conditions": [
+        "The next step would require JVM attach tooling, mutation-heavy probes, or broad dependency crawling before a bounded runtime-cluster packet is stable.",
+        "The current listener and process evidence stays too mixed to support cluster-level claims without over-claiming."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Inspect the bounded Java runtime clusters behind the now-bounded session-origin chain without widening into deep dependency mapping.",
+      "task_id": "inspect_java_runtime_clusters",
+      "validation_commands": [
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor records one bounded architecture review of the observed ASMS runtime using collected evidence rather than speculative full-suite diagrams.",
+        "The review separates edge, service-family, identity, data, messaging, and integration seams clearly enough for later diagnostic mapping work.",
+        "The review stays honest about uncertainty and does not claim full dependency order or total product understanding."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A pack-local architecture review artifact exists and names the most visible runtime eras, module families, and shared substrates.",
+        "The next summary can explain the current ASMS build quality and runtime shape in plain operator language without over-claiming architectural cleanliness.",
+        "The review explicitly distinguishes observed fact from inference and future questions."
+      ],
+      "dependencies": [
+        "inspect_java_runtime_clusters"
+      ],
+      "escalation_conditions": [
+        "The next step would require broad codebase archaeology, deep dependency crawling, or unsupported target mutation before a bounded architecture review is useful.",
+        "The current retained runtime evidence is still too thin to separate observed architecture seams from guesswork."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-asms-runtime-architecture-review-v1.md",
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Produce a bounded ASMS runtime architecture review from successor evidence so later mapping work starts from visible seams instead of folklore.",
+      "task_id": "review_asms_runtime_architecture",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor records a bounded ranking of likely ASMS failure seams or choke points grounded in observed runtime topology, failed services, route ownership, and shared substrates.",
+        "The ranking stays explicit about evidence strength and separates likely support-visible failure seams from deeper architectural risk seams.",
+        "The analysis avoids pretending the current lab proof is enough to certify production-grade reliability."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A pack-local failure-seam review artifact exists and ranks a small set of likely failure or choke-point categories.",
+        "The next summary can explain why those seams matter in support or runtime terms without flattening them into one generic risk list.",
+        "The ranking keeps build-quality commentary clearly subordinate to the actual observed evidence."
+      ],
+      "dependencies": [
+        "review_asms_runtime_architecture"
+      ],
+      "escalation_conditions": [
+        "The next step would require broad chaos testing, write-heavy probes, or unsupported production-style load experiments before a bounded failure-seam review is possible.",
+        "The current evidence is too sparse to rank likely failure seams honestly."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-asms-failure-seam-review-v1.md",
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Rank the most likely ASMS failure seams and choke points from observed runtime evidence as a bounded future analysis surface.",
+      "task_id": "predict_asms_failure_points",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor records a bounded list of likely support-engineer confusion points or pain seams grounded in the observed gap between product-facing paths and runtime-facing owners.",
+        "The resulting view helps explain why certain incidents may feel ambiguous from support without collapsing into full playbook generation.",
+        "The analysis stays operator-useful and does not require broad workflow simulation or deep incident reconstruction."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A pack-local support-pain-point review artifact exists and names a small set of likely support-visible ambiguity seams.",
+        "The next summary can explain those pain points in plain support language without forcing a complete support process redesign.",
+        "The artifact keeps support confusion points separate from pure architecture or reliability commentary."
+      ],
+      "dependencies": [
+        "review_asms_runtime_architecture",
+        "predict_asms_failure_points"
+      ],
+      "escalation_conditions": [
+        "The next step would require broad ticket mining, incident-history ingestion, or speculative customer-behavior claims before a bounded support-pain review is useful.",
+        "The current runtime evidence cannot distinguish support confusion from generic architecture complexity honestly."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-support-pain-points-review-v1.md",
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Capture likely ASMS support-engineer pain points from successor evidence as a bounded future analysis surface distinct from playbook generation.",
+      "task_id": "capture_support_engineer_pain_points",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can locate service and process config surfaces and log surfaces more reliably than the current command-line-only first pass.",
+        "The expanded discovery still stays bounded and read-only, preferring path discovery and shallow metadata over deep parsing or open-ended log mining.",
+        "Observed config and log locations stay clearly labeled as observed, candidate, or unresolved."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The machine-readable surface map records stronger config-path and log-path candidates for central services where available.",
+        "The next summary can explain where a human would inspect next for a given module or process family without pretending the logs or configs were fully interpreted.",
+        "The successor still keeps config parsing and log interpretation bounded behind explicit later slices."
+      ],
+      "dependencies": [
+        "inspect_java_runtime_clusters"
+      ],
+      "escalation_conditions": [
+        "The next step would require broad log scraping, unsupported privilege escalation, or deep config-tree parsing before bounded path discovery is stable.",
+        "The target surfaces do not expose path clues cleanly enough to improve discovery without over-claiming."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "docs/specs/adf-successor-shallow-surface-map-first-slice-v1.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Expand bounded read-only discovery so the successor can locate service and process configs and logs more reliably for later mapping work.",
+      "task_id": "expand_config_and_log_surface_discovery",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can derive bounded configuration-pattern and tunable-behavior hints for observed ASMS modules or services without confusing generic documentation with target-local fact.",
+        "The resulting hints separate observed settings, repeated runtime patterns, and still-unproven behavior suggestions clearly.",
+        "The analysis stays useful for later support or diagnostic work without turning into unsupported broad recommendations."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A pack-local inference artifact exists for module configuration patterns, tunable services, and likely behavior controls with confidence labels.",
+        "The next summary can explain which knobs look real, which look repeated, and which still need confirmation.",
+        "The successor keeps observed runtime evidence authoritative over inferred configuration guidance."
+      ],
+      "dependencies": [
+        "expand_config_and_log_surface_discovery",
+        "review_asms_runtime_architecture"
+      ],
+      "escalation_conditions": [
+        "The next step would require unsupported broad configuration mutation, speculative vendor claims, or deep reverse engineering before bounded inference is useful.",
+        "The current config and log evidence is too thin to separate observed tunables from guesswork honestly."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-configuration-patterns-and-tunable-behaviors-v1.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Infer bounded configuration patterns, tunable services, and behavior hints from observed ASMS evidence without elevating folklore above runtime fact.",
+      "task_id": "infer_configuration_patterns_and_tunable_behaviors",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor has a bounded next-step plan for mapping distributed ASMS nodes and for layering version-matched external knowledge onto observed components or integrations.",
+        "The external knowledge model keeps online open-source component data and external-system vendor data subordinate to observed ASMS runtime evidence.",
+        "The resulting plan explicitly includes integration-side reasoning for external systems such as Fortinet or Panorama when those surfaces are observed."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A pack-local planning artifact exists for distributed-node mapping, open-source component knowledge layering, and external-system integration knowledge layering.",
+        "The next summary can explain how future multi-node and external-integration reasoning should stay evidence-first, version-aware, and fail-closed.",
+        "The plan names the difference between observed node reality, version-matched component guidance, and external-system behavior hints."
+      ],
+      "dependencies": [
+        "infer_configuration_patterns_and_tunable_behaviors",
+        "capture_support_engineer_pain_points"
+      ],
+      "escalation_conditions": [
+        "The next step would require uncontrolled web research, unsupported remote expansion, or unbounded cross-product speculation before a bounded plan is stable.",
+        "The current single-node evidence base is too thin to say anything honest about distributed topology or external integration behavior layering."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-distributed-and-external-knowledge-layering-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Plan the next bounded extension from single-node ASMS mapping into distributed-node mapping plus version-matched open-source and external-system knowledge layering.",
+      "task_id": "extend_distributed_and_external_knowledge_mapping",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor records one reusable second-node request shape that reuses the current remote-owned runtime and bounded import roundtrip instead of widening the current node-local map.",
+        "The build pack distinguishes node-local artifact fields from the later thin cross-node envelope fields explicitly.",
+        "The new request shape keeps PackFactory root canonical while allowing `adf-dev` to keep operational ownership of the runtime loop."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A pack-local artifact exists for the second-node request shape and its relationship to the later thin cross-node envelope.",
+        "The next summary can explain what belongs in a node-local map versus the cross-node envelope without mixing the two.",
+        "The current target-backed knowledge-layer proof is referenced as the reason the cross-node envelope remains inactive until a second node bundle exists."
+      ],
+      "dependencies": [
+        "extend_distributed_and_external_knowledge_mapping"
+      ],
+      "escalation_conditions": [
+        "The next step would require inventing a second lab target, widening the current node-local map, or claiming cross-node topology before a real second imported proof exists.",
+        "The current remote-owned runtime flow cannot express a second-node request without breaking the bounded export and import contract."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-distributed-and-external-knowledge-layering-v1.md",
+        "docs/specs/adf-successor-distributed-and-external-knowledge-activation-review-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Define the reusable second-node request shape and the thin cross-node envelope boundary without widening the current node-local successor map.",
+      "task_id": "define_second_node_request_shape",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor records one bounded follow-on readout of provider-specific integration evidence from the current node without claiming integration health or a full vendor behavior model.",
+        "The build pack separates observed AWS or Azure-side local markers from the larger dormant vendor inventory clearly.",
+        "The next summary can explain what additional config, route, or log signals would be needed to strengthen or reject the currently activated provider hints."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A pack-local artifact exists for provider-specific integration evidence on the current node.",
+        "The next summary can explain why AWS and Azure are activated locally while other vendor families remain dormant.",
+        "The current target-backed knowledge-layer proof remains the canonical baseline for what is observed versus still only hinted."
+      ],
+      "dependencies": [
+        "define_second_node_request_shape"
+      ],
+      "escalation_conditions": [
+        "The next step would require vendor-side web folklore, broad reverse engineering, or claims about integration health that the node-local proof still does not support.",
+        "The current node lacks any stronger provider-side config, route, or log surfaces beyond the already-observed activation hints."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-distributed-and-external-knowledge-activation-review-v1.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Capture one bounded provider-specific integration-evidence readout from the current node so activated vendor hints stay tied to observed local surfaces.",
+      "task_id": "capture_provider_specific_integration_evidence",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor captures one real second node-local proof bundle through the existing remote-owned runtime and bounded import roundtrip instead of inventing a suite graph.",
+        "The second node readout stays node-local first and only activates a thin cross-node envelope for fields that two imported proofs can honestly support.",
+        "The next summary can explain what changed across the two nodes without claiming full distributed topology or total suite dependency order."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A real second-node run request and wrapper request are instantiated from the reusable templates.",
+        "One second imported node-local proof bundle exists under eval/history for this successor line.",
+        "The next summary can explain the bounded cross-node delta and whether the thin cross-node envelope is now activatable."
+      ],
+      "dependencies": [
+        "capture_provider_specific_integration_evidence"
+      ],
+      "escalation_conditions": [
+        "The next step would require inventing a second lab target, claiming merged topology before a real second imported proof exists, or widening the successor into a full suite graph.",
+        "The current remote-owned runtime flow cannot express the second-node capture without breaking the bounded export and import contract."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-second-node-request-shape-and-thin-cross-node-envelope-v1.md",
+        "docs/specs/adf-successor-distributed-and-external-knowledge-activation-review-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-shallow-surface-map-run-request.template.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-test-request.template.json",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "in_progress",
+      "summary": "Capture one second node-local proof bundle through the existing remote-owned runtime flow so the successor can activate a thin cross-node envelope without inventing suite topology.",
+      "task_id": "capture_second_node_node_local_proof",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
       ]
     }
   ]

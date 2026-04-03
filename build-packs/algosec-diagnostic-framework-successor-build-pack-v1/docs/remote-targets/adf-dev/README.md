@@ -32,9 +32,14 @@ the staged remote workspace.
   backup-bootstrap staging request for the `adf-dev` runtime home
 - `remote-autonomy-shallow-surface-map-run-request.json`
   target-backed shallow-surface-map request for the first real successor slice
+- `remote-autonomy-second-node-shallow-surface-map-run-request.template.json`
+  reusable template for the next node-local shallow-surface-map pass from the
+  same `adf-dev` runtime home
 - `remote-autonomy-test-request.json`
   PackFactory roundtrip wrapper that pulls and imports the target-backed
   shallow-surface-map evidence bundle
+- `remote-autonomy-second-node-test-request.template.json`
+  reusable wrapper template for importing a second node-local proof bundle
 - `target-connection-profile.json`
   compatibility copy of the read-only target profile for the current lab target
   `10.167.2.150`
@@ -55,7 +60,7 @@ After the remote run creates or resumes the matching `.pack-state/autonomy-runs/
 tree, generate the shallow surface artifacts with mirrored return copies:
 
 ```bash
-PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label 10.167.2.150 --target-connection-profile docs/remote-targets/algosec-lab/target-connection-profile.json --mirror-into-run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1 --output json
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label 10.167.2.150 --target-connection-profile docs/remote-targets/algosec-lab/target-connection-profile.json --mirror-into-run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1 --output json
 ```
 
 That mirrored copy path is what lets the pack's bounded runtime-evidence
@@ -65,7 +70,23 @@ remote workspace.
 
 The target-backed CLI shape is intentionally explicit here so the official
 remote request can be executed without local reinterpretation. The runner stays
-read-only and bounded.
+read-only and bounded. `PYTHONDONTWRITEBYTECODE=1` is part of the reviewed
+runner because remote `__pycache__` writes would otherwise trip the PackFactory
+boundary checker and block the evidence-return roundtrip.
+
+## Second-Node Shape
+
+The next bounded distributed step is not "merge the suite." It is:
+
+- fill in a second node-local run request from
+  `remote-autonomy-second-node-shallow-surface-map-run-request.template.json`
+- fill in the matching wrapper request from
+  `remote-autonomy-second-node-test-request.template.json`
+- keep the result as one more imported node-local map
+- only add a thin cross-node envelope after that second imported node proof
+
+That keeps the successor evidence-first: node-local truth first, comparison
+second, suite story third.
 
 ## Basic Backup Default
 

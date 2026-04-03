@@ -102,8 +102,9 @@ The first pass may use bounded read-only commands against:
 - runtime identity
 - process table
 - systemd unit and unit-file inventory
+- bounded systemd unit metadata such as fragment paths, environment files, and exec surfaces
 - listening TCP ports and owning processes when visible
-- command-line path hints for config and log files
+- command-line and unit-metadata path hints for config and log files
 - JVM-adjacent command-line visibility
 
 The first pass should not require config-file parsing, log parsing, package
