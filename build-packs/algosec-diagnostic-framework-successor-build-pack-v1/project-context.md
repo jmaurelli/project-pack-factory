@@ -42,6 +42,30 @@ This active mode was inherited from the template declaration during materializat
 
 The template remains the source-of-truth for reusable scaffold intent, but the build pack is the live control-plane instance.
 
+## Runtime Ownership
+
+The current reviewed operating model is:
+
+- PackFactory root is the canonical build-pack home and control plane
+- `adf-dev` is the operational runtime home
+- the downstream Rocky 8 or appliance target at `10.167.2.150` is the observed runtime source
+- `adf-dev` is currently reachable at `10.167.2.151` and also serves the
+  support-facing diagnostic pages consumed by support engineers
+
+Keep remote runtime work heavy and local return thin. The normal return path is
+bounded exported runtime evidence plus intentional source or tracker changes,
+not a full copy-back of the staged remote workspace.
+
+## Lab Posture
+
+The current successor lab posture is operator-provided and intentionally more
+exploratory than a fragile customer environment:
+
+- the current target lab at `10.167.2.150` is quickly redeployable
+- bounded misconfiguration or temporary lab breakage is acceptable during
+  discovery work
+- later distributed-architecture labs are expected as future discovery targets
+
 ## Optional Overlays
 
 Treat `pack.json.personality_template` and `pack.json.role_domain_template` as composable guidance layers. They shape tone and framing, not canonical lifecycle, readiness, deployment, or tracker truth.
@@ -58,6 +82,7 @@ machine-readable diagnostic structure, and support-useful stop points.
 For the current first wave, also use:
 
 - `docs/specs/adf-successor-shallow-surface-map-first-slice-v1.md`
+- `docs/specs/adf-successor-remote-owned-runtime-thin-local-canonical-return-contract-v1.md`
 
 ## Derived From
 

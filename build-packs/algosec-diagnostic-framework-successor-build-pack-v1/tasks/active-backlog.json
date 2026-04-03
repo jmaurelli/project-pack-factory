@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T01:40:25Z",
+  "generated_at": "2026-04-03T03:07:55Z",
   "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -102,7 +102,8 @@
       "completion_signals": [
         "One first-wave artifact exists for the machine-readable shallow surface map.",
         "One first-wave operator-reviewable summary exists and derives from the map.",
-        "The first pass names one or two deeper seams worth investigating next."
+        "The first pass names one or two deeper seams worth investigating next.",
+        "The target-backed run can mirror the generated shallow-surface artifacts into the selected autonomy run root so PackFactory can return them through the bounded runtime-evidence export/import path."
       ],
       "dependencies": [
         "define_shallow_surface_map_artifact_contract"
@@ -115,13 +116,16 @@
         "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
         "src/algosec_diagnostic_framework_successor_template_pack/docpack_hints.py",
         "src/algosec_diagnostic_framework_successor_template_pack",
+        "src/pack_export_runtime_evidence.py",
         "contracts/project-objective.json",
         "tasks/active-backlog.json",
         "status/work-state.json",
-        "docs/specs/adf-successor-shallow-surface-map-first-slice-v1.md"
+        "docs/specs/adf-successor-shallow-surface-map-first-slice-v1.md",
+        "docs/specs/adf-successor-remote-owned-runtime-thin-local-canonical-return-contract-v1.md",
+        "docs/remote-targets/adf-dev/README.md"
       ],
       "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
-      "status": "in_progress",
+      "status": "completed",
       "summary": "Implement the first shallow read-only surface map slice for the ADF successor build pack, with supplementary ASMS doc-pack hints allowed only as ranking and naming support.",
       "task_id": "implement_shallow_surface_map_first_pass",
       "validation_commands": [
@@ -129,6 +133,242 @@
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack benchmark-smoke --project-root . --output json",
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack import-docpack-hints --project-root . --ssh-destination adf-dev --output json",
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label local-host --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack can derive bounded Apache edge-to-local handoff hints from the target without drifting into full dependency mapping.",
+        "Exact-PID listener ownership is preferred over fuzzy Java-name matching when linking local listener ports to target components.",
+        "The returned target-backed summary surfaces at least a few concrete route-to-local ownership hints for support-relevant families."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The machine-readable surface map includes bounded `edge_route_hints` derived from Apache config hints plus local listener ownership.",
+        "The operator-reviewable summary surfaces route-aware handoff hints such as `/BusinessFlow`, `/afa/external`, `/afa/api/v1`, or `/keycloak/` when visible.",
+        "A target-backed PackFactory roundtrip imports the improved route-aware artifacts back into eval history."
+      ],
+      "dependencies": [
+        "implement_shallow_surface_map_first_pass"
+      ],
+      "escalation_conditions": [
+        "The route-hint implementation starts parsing whole config trees deeply or claiming full request-path ownership without bounded evidence.",
+        "Listener ownership cannot be improved beyond generic Java-name fallback and the produced route-owner claims become misleading."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "docs/remote-targets/adf-dev/remote-autonomy-shallow-surface-map-run-request.json",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a bounded route-aware seam to the successor by linking Apache proxy hints to exact local listener ownership on the target.",
+      "task_id": "derive_route_aware_edge_hints",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack benchmark-smoke --project-root . --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can attribute listeners held by wrapped child processes back to the owning service record when the process inventory shows a bounded parent-child chain.",
+        "Generic fallback matching no longer causes unrelated services like Elasticsearch to absorb broad Java listener sets.",
+        "A target-backed proof shows port 1989 linked to the AFF service family through descendant listener ownership."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The machine-readable map records `descendant_pid` listener ownership where a service wrapper launches the real Java listener process.",
+        "The target-backed imported proof shows `aff-boot` carrying port `1989` and reduces false listener spillover onto unrelated Java services.",
+        "The imported route-aware proof preserves AFF Apache route hints while narrowing the local listener owner."
+      ],
+      "dependencies": [
+        "derive_route_aware_edge_hints"
+      ],
+      "escalation_conditions": [
+        "Ownership attribution would require broad process ancestry crawling or mutation-heavy probes beyond the bounded read-only slice.",
+        "The target process tree changes too quickly for bounded descendant attribution to remain trustworthy."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Improve target listener ownership so wrapped child Java processes can be attributed back to the owning service and generic Java-name spillover is reduced.",
+      "task_id": "improve_wrapped_listener_ownership",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack benchmark-smoke --project-root . --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next bounded seam confirms whether the Apache `aff.conf` family plus local port `1989` is enough to treat `aff-boot` as the first FireFlow route owner.",
+        "The proof stays at route-owner and local-boundary level instead of widening into full FireFlow workflow dependency theory.",
+        "The resulting artifacts clearly separate confirmed local route ownership from still-tentative subsystem role inference."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A target-backed successor artifact set shows the AFF or FireFlow Apache family, the local `1989` listener, and the owning local service boundary in one bounded packet.",
+        "The next summary can explain the `1989` handoff in plain support language without reverting to generic Java or Elasticsearch guesses.",
+        "The successor names the next deeper FireFlow seam, if needed, from that bounded ownership proof rather than from broad architecture inference."
+      ],
+      "dependencies": [
+        "improve_wrapped_listener_ownership"
+      ],
+      "escalation_conditions": [
+        "The next step would require full request replay, deep code-path tracing, or broad FireFlow subsystem theory before the bounded route-owner packet is stable.",
+        "Apache-side evidence and local-listener evidence diverge in a way that cannot be reconciled with the current read-only slice."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Confirm the AFF or FireFlow route-owner boundary around Apache `aff.conf` and local port `1989` without widening into full dependency mapping.",
+      "task_id": "confirm_aff_fireflow_1989_boundary",
+      "validation_commands": [
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next bounded seam compares the fronted `/FireFlow/api/session` path with the direct local `http://localhost:1989/aff/api/external/session` path without widening into full FireFlow theory.",
+        "The proof records whether the Apache-fronted AFF session path and the direct aff-boot session path agree on basic status and body shape.",
+        "If the parity check diverges, the successor stops at the Apache-to-aff-boot boundary and records that divergence plainly instead of widening into unrelated subsystem speculation."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded packet or proof report captures the fronted AFF session path, the direct aff-boot session path, and whether their observable responses align.",
+        "The next summary can explain the AFF session seam in plain support language instead of only naming the local route owner.",
+        "The successor identifies whether the next stop after parity should be a UserSession-style bridge seam or whether the boundary still needs to stay at Apache-to-aff-boot."
+      ],
+      "dependencies": [
+        "confirm_aff_fireflow_1989_boundary"
+      ],
+      "escalation_conditions": [
+        "The next step would require broad request replay, authentication bypass, or mutation-heavy probes before a bounded fronted-vs-direct AFF session check is stable.",
+        "The fronted AFF session path and the direct aff-boot session path disagree in a way that cannot be explained with a bounded read-only route packet."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Validate the AFF session route parity between Apache `/FireFlow/api/session` and the direct aff-boot local session path on port `1989` without widening into deeper FireFlow internals yet.",
+      "task_id": "validate_aff_session_route_parity",
+      "validation_commands": [
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next bounded seam stays behind the already-confirmed AFF session route and identifies whether FireFlow `UserSession` is the next support-useful stop.",
+        "The proof uses bounded retained evidence such as FireFlow log signatures or nearby session markers rather than widening into generic FireFlow architecture theory.",
+        "If the bounded UserSession bridge evidence is weak or stale, the successor records that clearly and stops there instead of manufacturing a broader subsystem map."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded proof or packet names the UserSession-style bridge behind the AFF session route using concrete retained evidence.",
+        "The next summary can explain the post-parity stop in plain support language, such as `UserSession`, reused FA session id, or similar retained session markers.",
+        "The successor keeps the seam narrow and does not reopen Keycloak, ActiveMQ, or broad FireFlow internals without stronger evidence."
+      ],
+      "dependencies": [
+        "validate_aff_session_route_parity"
+      ],
+      "escalation_conditions": [
+        "The next step would require full workflow replay, broad code-path tracing, or mutation-heavy probes before a bounded UserSession bridge packet is stable.",
+        "The available retained FireFlow evidence is too stale or too thin to support a named post-parity bridge without over-claiming."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Inspect the FireFlow UserSession-style bridge behind the now-confirmed AFF session route without widening into general FireFlow subsystem theory.",
+      "task_id": "inspect_fireflow_usersession_bridge",
+      "validation_commands": [
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next bounded seam stays behind the now-visible UserSession bridge and checks whether retained evidence really supports a reused FA-session chain.",
+        "The proof uses bounded retained markers such as `Using existing FASessionId`, `ff-session`, or closely adjacent UserSession request traces instead of widening into generic FireFlow workflow theory.",
+        "If the retained evidence is too stale or too ambiguous to support the reuse chain, the successor records that clearly and stops there."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded proof or packet shows whether the visible UserSession bridge also carries a reused FA-session-style chain.",
+        "The next summary can explain the post-UserSession seam in plain support language, such as reused FA session id or retained session-reuse markers.",
+        "The successor keeps the seam narrow and does not reopen Keycloak, ActiveMQ, or broad FireFlow internals without stronger evidence."
+      ],
+      "dependencies": [
+        "inspect_fireflow_usersession_bridge"
+      ],
+      "escalation_conditions": [
+        "The next step would require full workflow replay, broad code-path tracing, or mutation-heavy probes before a bounded reused-session packet is stable.",
+        "The retained UserSession evidence is too stale or too thin to support a reused FA-session claim without over-claiming."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Trace the reused FA-session chain behind the now-visible FireFlow UserSession bridge without widening into broader FireFlow workflow theory.",
+      "task_id": "trace_usersession_fa_session_reuse",
+      "validation_commands": [
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The next bounded seam stays just upstream of the now-confirmed reused FA-session chain and checks which BusinessFlow or AFA-side caller appears to feed or refresh that session context.",
+        "The proof uses tightly scoped retained markers or route-adjacent support evidence rather than widening into full login or cookie-bootstrap reconstruction.",
+        "If the upstream caller evidence is too thin, the successor records that clearly and stops there instead of manufacturing a cleaner session-origin story."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded proof or packet shows whether the reused FireFlow FA-session chain can be tied to an upstream BusinessFlow or AFA-side session-origin clue.",
+        "The next summary can explain the post-reuse ambiguity in plain support language, such as upstream session-origin caller still thin or likely BusinessFlow to AFA refresh path.",
+        "The successor keeps the seam narrow and does not reopen generic suite-login, Keycloak, or broad FireFlow workflow theory without stronger evidence."
+      ],
+      "dependencies": [
+        "trace_usersession_fa_session_reuse"
+      ],
+      "escalation_conditions": [
+        "The next step would require full browser replay, broad cookie/bootstrap tracing, or mutation-heavy probes before a bounded upstream session-origin packet is stable.",
+        "The retained origin-side evidence is too stale or too thin to support a BusinessFlow or AFA caller claim without over-claiming."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "in_progress",
+      "summary": "Trace the upstream BusinessFlow or AFA-side session-origin clue behind the now-confirmed reused FA-session chain without widening into full login or cookie-bootstrap theory.",
+      "task_id": "trace_businessflow_session_origin",
+      "validation_commands": [
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-test-request.json --output json"
       ]
     }
   ]

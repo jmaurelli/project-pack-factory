@@ -1,18 +1,184 @@
 {
-  "active_task_id": "implement_shallow_surface_map_first_pass",
+  "active_task_id": "trace_businessflow_session_origin",
   "autonomy_state": "actively_building",
   "blocked_task_ids": [],
   "branch_selection_hints": [],
   "completed_task_ids": [
     "run_build_pack_validation",
     "run_inherited_benchmarks",
-    "define_shallow_surface_map_artifact_contract"
+    "define_shallow_surface_map_artifact_contract",
+    "implement_shallow_surface_map_first_pass",
+    "derive_route_aware_edge_hints",
+    "improve_wrapped_listener_ownership",
+    "confirm_aff_fireflow_1989_boundary",
+    "validate_aff_session_route_parity",
+    "inspect_fireflow_usersession_bridge",
+    "trace_usersession_fa_session_reuse"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Added a bounded ASMS doc-pack hint importer, wired the shallow surface map generator to use the imported hint artifact only as supplementary naming and prioritization support, tightened the matcher to suppress generic doc-title noise, filtered the generator's own transient process evidence out of the local-host pass, reran validation and the inherited smoke benchmark, imported the remote doc-pack from adf-dev, and regenerated the local-host proof artifacts with the refined hint-assisted path.",
-  "last_outcome": "docpack_hint_import_and_hint_assisted_surface_map_proved_locally",
-  "last_outcome_at": "2026-04-03T01:44:49Z",
+  "last_agent_action": "Completed an official PackFactory target-backed successor roundtrip from adf-dev to 10.167.2.150 with the new reused FA-session packet. The imported proof now shows concrete retained `ff-session -> reused FA-session` pairs behind the already-confirmed FireFlow UserSession bridge, including repeated reuse for `e0974e9f0e -> n575jpek15` and multiple `0o43kjh144` reuse pairs. That closes the reuse-chain question and makes upstream BusinessFlow or AFA-side session-origin tracing the next bounded seam.",
+  "last_outcome": "trace_usersession_fa_session_reuse",
+  "last_outcome_at": "2026-04-03T03:46:08Z",
   "last_validation_results": [
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t034608z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t034608z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t034608z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:46:08Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded reused FA-session packet on top of the confirmed UserSession bridge. The latest April 3, 2026 target-backed roundtrip imported proof that retained FireFlow markers now correlate four concrete `ff-session -> reused FA-session` pairs, including repeated reuse for `e0974e9f0e -> n575jpek15` and additional reuse to `0o43kjh144`, while the same retained window still contains `UserSession::isUserSessionValid` dispatcher markers. That narrows the next seam to the upstream BusinessFlow or AFA-side session-origin clue instead of reopening FireFlow bridge identification.",
+      "validation_id": "trace_usersession_fa_session_reuse_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t033441z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t033441z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t033441z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:34:41Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded FireFlow UserSession bridge packet on top of the confirmed AFF session route. The latest April 3, 2026 target-backed roundtrip imported proof that retained Apache `/FireFlow/api/session` markers and retained FireFlow `UserSession::getUserSession`, `isUserSessionValid`, `ff-session`, and `Using existing FASessionId` markers are all visible together, which makes the UserSession-style bridge the current bounded post-parity stop and narrows the next seam to reused FA-session tracing.",
+      "validation_id": "inspect_fireflow_usersession_bridge_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t033107z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t033107z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t033107z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:31:07Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded AFF session parity packet on top of the AFF route-owner packet. The latest April 3, 2026 target-backed roundtrip imported a proof that Apache `/FireFlow/api/session` and the direct aff-boot `/aff/api/external/session` path both returned HTTP 200 with the same `INVALID_SESSION_KEY` JSON body, while BusinessFlow deep health still reported `AFF connection` true. That narrows the next seam to the FireFlow UserSession-style bridge instead of reopening route ownership.",
+      "validation_id": "validate_aff_session_route_parity_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t032120z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t032120z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t032120z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:21:20Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded AFF boundary packet that keeps Apache `aff.conf`, local port 1989, and the aff-boot service family in one machine-readable proof surface. The latest April 3, 2026 target-backed roundtrip imported that packet canonically and renamed the next seam to `validate_aff_session_route_parity`, confirming `/FireFlow/api` and `/aff/api` as current Apache routes into the aff-boot local owner on port 1989 while still stopping short of full downstream FireFlow workflow claims.",
+      "validation_id": "confirm_aff_fireflow_1989_boundary_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t030755z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t030755z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t030755z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:07:55Z",
+      "status": "pass",
+      "summary": "The successor now attributes wrapped child listeners back to their owning service family. The April 3, 2026 target-backed roundtrip imported proof that local port 1989 belongs to the aff-boot process family through descendant PID ownership, while Elasticsearch was reduced to its real 9200 and 9300 listener pair and the AFF Apache route family under `aff.conf` stayed aligned to the same bounded owner candidate.",
+      "validation_id": "improve_wrapped_listener_ownership_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t030118z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t030118z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t030118z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:01:18Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded route-aware seam on top of the first shallow map. The April 3, 2026 target-backed roundtrip imported a proof that prefers exact-PID listener ownership before fuzzy Java-name matching and surfaces 130 Apache edge-to-local route hints, including `/BusinessFlow` to ms-bflow on 8081, `/afa/external` and `/afa/api/v1` to ms-metro on 8080, `/algosec/swagger/service` to algosec-ms on 8185, and `/keycloak/` to Keycloak on 8443 by config-family evidence.",
+      "validation_id": "derive_route_aware_edge_hints_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/adf-dev/remote-autonomy-shallow-surface-map-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-test-request.json",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/target_connection.py",
+        "src/pack_export_runtime_evidence.py",
+        "eval/history/import-external-runtime-evidence-20260403t024317z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t024317z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t024317z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T02:43:17Z",
+      "status": "pass",
+      "summary": "The successor completed its first official target-backed shallow-surface-map roundtrip through the PackFactory remote control plane: adf-dev at 10.167.2.151 ran the bounded read-only generator against lab target 10.167.2.150, mirrored the generated artifacts into the autonomy run root under the import-safe artifacts namespace, exported bounded runtime evidence, and imported that bundle back into the pack's eval history. The imported proof records hostname `algosec`, 354 component records, 11 central components, and two next candidate seams around edge-to-local service routing and Java runtime cluster inspection.",
+      "validation_id": "implement_shallow_surface_map_first_pass_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-remote-owned-runtime-thin-local-canonical-return-contract-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-shallow-surface-map-run-request.json",
+        "README.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T02:29:11Z",
+      "status": "pass",
+      "summary": "The successor now pins its own target topology instead of relying on inherited ADF memory: 10.167.2.150 is the current lab target, adf-dev is reachable at 10.167.2.151 and also serves the support-facing successor pages, and the current lab posture explicitly allows bounded exploratory breakage because the environment is quickly redeployable and later distributed-architecture labs are expected.",
+      "validation_id": "pin_successor_target_and_publication_topology"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-remote-owned-runtime-thin-local-canonical-return-contract-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-shallow-surface-map-run-request.json",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "src/pack_export_runtime_evidence.py",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T02:18:36Z",
+      "status": "pass",
+      "summary": "The successor now has an explicit remote-owned runtime, thin local canonical return contract: adf-dev remains the operational runtime home, PackFactory root remains canonical, and target-backed shallow-surface-map artifacts can now be mirrored under the selected autonomy run root so the existing bounded runtime-evidence export/import path can carry them back for readiness judgment.",
+      "validation_id": "define_remote_owned_runtime_thin_local_return_contract"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/backup_job.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "dist/candidates/adf-dev-backup-baseline/remote-backup-run.json",
+        "dist/candidates/adf-dev-backup-baseline/remote-cron-install.json",
+        "dist/candidates/adf-dev-backup-baseline/remote-cron-verify.txt",
+        "dist/candidates/adf-dev-backup-baseline/remote-wrapper-log-tail.txt",
+        "eval/history/adf-dev-basic-backup-install-20260403.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T01:58:33Z",
+      "status": "pass",
+      "summary": "The successor build-pack now has a bounded backup surface that can create timestamped tarball snapshots and install a marked cron schedule. The current pack was staged onto adf-dev with the PackFactory prepare and push workflow, a daily user-cron entry was installed there for 17 3 * * *, and both a direct backup run and the installed wrapper script proved archive creation, manifest retention, and log output under /home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/.",
+      "validation_id": "install_basic_adf_dev_backup_job"
+    },
     {
       "evidence_paths": [
         "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
@@ -101,15 +267,19 @@
       "validation_id": "run_inherited_benchmarks"
     }
   ],
-  "next_recommended_task_id": "implement_shallow_surface_map_first_pass",
+  "next_recommended_task_id": "trace_businessflow_session_origin",
   "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "pending_task_ids": [],
   "resume_instructions": [
     "Read the objective, backlog, and work-state files before editing code.",
     "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
-    "Use the line-specific `diagnostic-systems-analyst` lens and the shallow-surface-map first-slice spec before implementing or refining discovery commands.",
-    "Keep the first pass bounded to one canonical JSON map and one derived Markdown summary under dist/candidates/adf-shallow-surface-map-first-pass/."
+    "Use the line-specific `diagnostic-systems-analyst` lens, the shallow-surface-map first-slice spec, and the remote-owned-runtime thin-local-return contract before implementing or refining discovery commands.",
+    "Keep the first pass bounded to one canonical JSON map and one derived Markdown summary under dist/candidates/adf-shallow-surface-map-first-pass/.",
+    "The latest reused-FA-session target-backed proof now exists under eval/history/import-external-runtime-evidence-20260403t034608z/; review that imported shallow-surface map and summary before choosing the next seam.",
+    "Treat adf-dev at 10.167.2.151 as the runtime host and support-facing publication surface, keep 10.167.2.150 as the target-evidence source, and remember that the current lab posture permits bounded exploratory breakage because labs are quickly redeployable.",
+    "When extending the remote return path, keep mirrored run artifacts under `.pack-state/autonomy-runs/<run-id>/artifacts/` so the existing bounded export/import contract remains valid.",
+    "The next active task is `trace_businessflow_session_origin`; keep that slice bounded to upstream BusinessFlow or AFA-side session-origin clues behind the now-confirmed reused FA-session chain rather than widening into full login or cookie-bootstrap theory."
   ],
   "schema_version": "work-state/v1",
   "stop_conditions": [

@@ -1,17 +1,18 @@
 {
-  "blocking_issues": [
-    "The bounded generator path and supplementary ASMS doc-pack hint import now work locally, but the intended first-wave shallow surface map and operator-reviewable summary have not been produced yet from the target-intended Rocky 8 and appliance runtime context."
-  ],
-  "last_evaluated_at": "2026-04-03T01:44:49Z",
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-04-03T03:46:08Z",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "pack_kind": "build_pack",
-  "readiness_state": "in_progress",
+  "readiness_state": "ready_for_review",
   "ready_for_deployment": false,
   "recommended_next_actions": [
-    "Keep the implementation task active until the bounded generator is run against the intended Rocky 8 and appliance runtime context.",
-    "Reuse the imported ASMS doc-pack hint layer only as supplementary naming, ranking, and port-context support during the target-intended run.",
-    "Use the bounded generator to produce the first JSON map and derived Markdown summary under dist/candidates/adf-shallow-surface-map-first-pass/ for the target-intended environment.",
-    "Do not deepen into dependency mapping or predictive work before the first machine-readable map and reviewable summary exist."
+    "Review the latest imported reused-FA-session artifacts from April 3, 2026 and continue from the now-active upstream session-origin seam rather than reopening route ownership, parity, bridge identification, or generic UserSession work.",
+    "The AFF session route, the UserSession bridge behind it, and the reused FA-session chain are now all bounded: Apache `/FireFlow/api/session` and the direct local aff-boot session path still match on HTTP 200 plus `INVALID_SESSION_KEY`, and the imported retained FireFlow proof now shows concrete reuse pairs such as `e0974e9f0e -> n575jpek15` repeating seven times plus additional reuse of `0o43kjh144` across several FireFlow session ids.",
+    "The strongest next ambiguity is now `trace_businessflow_session_origin`: stay just upstream of the confirmed reused FA-session chain and decide which BusinessFlow or AFA-side caller fed or refreshed that session context before FireFlow reused it.",
+    "A second strong seam is `inspect_java_runtime_clusters`, starting from `algosec-ms`, `ms-metro`, `ms-bflow`, and `aff-boot`, because the current proof now separates several concrete local listener owners without yet explaining the full Java cluster boundaries.",
+    "Keep using the remote-owned runtime flow: adf-dev at 10.167.2.151 remains the runtime and support-facing host, while 10.167.2.150 remains the runtime evidence source.",
+    "Treat the current lab posture as exploration-friendly: bounded misconfiguration or temporary breakage on 10.167.2.150 is acceptable because the lab is quickly redeployable and later distributed-architecture labs are expected.",
+    "If promotion-compatible remote proof later matters for this pack, record and address the missed fresh-pack rehearsal step separately rather than pretending the current long-lived pack already has that certification."
   ],
   "required_gates": [
     {

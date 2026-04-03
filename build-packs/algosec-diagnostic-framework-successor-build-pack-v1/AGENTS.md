@@ -35,6 +35,8 @@ Export bounded runtime evidence from the pack when needed, but import it only fr
 For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer. Treat that workflow as fresh-pack certification, not as a retrofit certifier for an already-evolving pack.
 Autonomy quality remains advisory by default, but `contracts/project-objective.json.autonomy_quality_requirement` can opt this build-pack into bounded promotion-time quality thresholds when stronger promotion discipline is required.
 Export bundles remain supplementary runtime evidence only, and raw remote stdout/stderr is supplementary debugging rather than canonical PackFactory evidence.
+For this successor line, also treat `docs/specs/adf-successor-remote-owned-runtime-thin-local-canonical-return-contract-v1.md` as active operating guidance: `adf-dev` is the runtime home, PackFactory root remains canonical, and the normal return path is bounded proof rather than a full remote workspace copy.
+When a target-backed shallow-surface-map run is tied to a PackFactory `run_id`, use `generate-shallow-surface-map --mirror-into-run-id <run-id>` so the generated JSON and Markdown artifacts are mirrored under `.pack-state/autonomy-runs/<run-id>/artifacts/` before export.
 
 ## Optional Overlays
 
