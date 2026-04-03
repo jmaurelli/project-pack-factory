@@ -34,13 +34,93 @@
     "derive_full_dependency_graph",
     "capture_health_validated_integration_model",
     "derive_complete_product_behavior_model",
-    "capture_deeper_provider_health_proof"
+    "capture_deeper_provider_health_proof",
+    "strengthen_cross_node_directionality_proof",
+    "capture_standalone_plus_ldu_role_separated_node_proofs",
+    "capture_dr_primary_secondary_role_separated_node_proofs",
+    "derive_engineer_consumable_playbook_and_cookbook_views"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Completed the explicitly selected deeper provider-health widening step after the original bounded frontier closure. The successor now keeps the CM-plus-remote-agent topology, dependency, and behavior surfaces intact while sharpening AWS and Azure from placement-only into repeated node-local degradation signals on both nodes, without promoting that into unsupported provider-side or cross-node success claims.",
-  "last_outcome": "capture_deeper_provider_health_proof",
-  "last_outcome_at": "2026-04-03T18:10:44Z",
+  "last_agent_action": "Captured the first clean imported disaster-recovery proof pair for rebuilt DR primary `10.167.2.150` and DR secondary `10.167.2.153`, then wrote that primary-versus-secondary readout back into the successor planner without overwriting the earlier standalone-plus-LDU baseline.",
+  "last_outcome": "capture_dr_primary_secondary_role_separated_node_proofs",
+  "last_outcome_at": "2026-04-03T22:54:31Z",
   "last_validation_results": [
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md",
+        "docs/remote-targets/algosec-dr-primary-150/target-connection-profile.json",
+        "docs/remote-targets/algosec-dr-secondary-153/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-primary-150-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-primary-150-test-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-secondary-153-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-secondary-153-test-request.json",
+        "eval/history/import-external-runtime-evidence-20260403t225431z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t225328z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json",
+        "docs/specs/adf-successor-expansion-frontier-v1.md"
+      ],
+      "recorded_at": "2026-04-03T22:54:31Z",
+      "status": "pass",
+      "summary": "The successor now has its first clean imported DR primary-versus-secondary proof pair grounded in rebuilt node `10.167.2.150` as the active-looking DR primary and rebuilt node `10.167.2.153` as the colder standby-style DR secondary on the same upgraded `A33.10.260` line. The primary retains AFF route-owner and session-parity proof plus stronger FireFlow, BusinessFlow, and identity-facing packets, while the secondary retains Apache route shape but loses the deeper AFF packets and surfaces a colder `ms-hadr` or `logstash`-visible posture with several failed high-signal services.",
+      "validation_id": "capture_dr_primary_secondary_role_separated_node_proofs_first_dr_review"
+    },
+    {
+      "evidence_paths": [
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "dist/candidates/adf-shallow-surface-map-first-pass/diagnostic-playbook.md",
+        "dist/candidates/adf-shallow-surface-map-first-pass/runtime-cookbook-guide.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "README.md",
+        "docs/specs/adf-successor-engineer-consumable-content-modes-v1.md",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T22:25:12Z",
+      "status": "pass",
+      "summary": "The shallow-surface-map artifact line now adds two engineer-consumable Markdown modes: a fast diagnostic playbook for live triage and a slower runtime cookbook guide for durable product learning. The existing summary now opens with a fast-read section, and all three Markdown views remain derived from the canonical JSON map rather than competing with it.",
+      "validation_id": "derive_engineer_consumable_playbook_and_cookbook_views"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-first-standalone-plus-ldu-proof-review-v1.md",
+        "docs/remote-targets/algosec-ldu-153/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-cm-150-ldu-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-cm-150-ldu-test-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-ldu-153-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-ldu-153-test-request.json",
+        "eval/history/import-external-runtime-evidence-20260403t195134z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t195039z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json",
+        "docs/specs/adf-successor-expansion-frontier-v1.md"
+      ],
+      "recorded_at": "2026-04-03T19:51:34Z",
+      "status": "pass",
+      "summary": "The successor now has its first clean imported `standalone + LDU` role-separated proof pair grounded in rebuilt CM node `10.167.2.150` and LDU node `10.167.2.153` on the same upgraded `A33.10.260` line. The CM-side bundle keeps the stronger AFF, FireFlow, BusinessFlow, and identity-facing packets, while the LDU-side bundle stays thinner, edge-heavy, provider-heavy, and retains bounded peer clues back to CM `10.167.2.150:61616` for several provider-adjacent families without claiming a full east-west graph.",
+      "validation_id": "capture_standalone_plus_ldu_role_separated_node_proofs_first_ldu_review"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-bounded-cross-node-directionality-proof-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t183026z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t183106z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json",
+        "docs/specs/adf-successor-expansion-frontier-v1.md"
+      ],
+      "recorded_at": "2026-04-03T18:31:06Z",
+      "status": "pass",
+      "summary": "The successor completed one bounded cross-node directionality widening step on the current CM-plus-remote-agent proof pair. The refreshed imports now retain one explicit CM-to-RA ingress clue on remote-agent `httpd:443` plus stronger remote-agent-side refresh or broadcast-consumer markers for `ms-devicemanager`, `ms-devicedriver-aws`, and `ms-devicedriver-azure`, while the CM-side bundle does not retain a reciprocal peer clue in the same bounded window. That is enough to separate CM-led ingress, RA-leaning refresh consumption, shared local provider trouble, and still-unresolved deeper orchestration direction without inventing hidden east-west links.",
+      "validation_id": "strengthen_cross_node_directionality_proof_bounded_artifact"
+    },
     {
       "evidence_paths": [
         "docs/specs/adf-successor-deeper-provider-health-proof-v1.md",
@@ -621,31 +701,39 @@
       "validation_id": "run_inherited_benchmarks"
     }
   ],
-  "next_recommended_task_id": "strengthen_cross_node_directionality_proof",
+  "next_recommended_task_id": "capture_disaster_recovery_plus_ldu_role_separated_node_proofs",
   "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "pending_task_ids": [
-    "strengthen_cross_node_directionality_proof"
+    "capture_disaster_recovery_plus_ldu_role_separated_node_proofs",
+    "capture_stacked_standalone_ldu_remote_agent_role_separated_proof"
   ],
   "resume_instructions": [
     "Read the objective, backlog, and work-state files before editing code.",
     "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
     "Use the line-specific `diagnostic-systems-analyst` lens, the shallow-surface-map first-slice spec, and the remote-owned-runtime thin-local-return contract before implementing or refining discovery commands.",
-    "Keep the first pass bounded to one canonical JSON map and one derived Markdown summary under dist/candidates/adf-shallow-surface-map-first-pass/.",
+    "Keep the first pass bounded to one canonical JSON map and derived engineer-facing Markdown views under dist/candidates/adf-shallow-surface-map-first-pass/.",
+    "Use docs/specs/adf-successor-engineer-consumable-content-modes-v1.md plus docs/specs/adf-successor-support-decision-support-under-pressure-v1.md when shaping support-facing playbook versus cookbook content.",
     "The standalone calibration set still matters as a baseline and spans `10.167.2.150`, `algosec-lab-alt-192`, and `algosec-lab-alt-177`, with the bounded readout in docs/specs/adf-successor-standalone-node-archetype-comparison-v1.md.",
     "The reusable second-node request shape and thin cross-node envelope contract now exist in docs/specs/adf-successor-second-node-request-shape-and-thin-cross-node-envelope-v1.md plus the adf-dev request templates; use those instead of inventing a one-off second-node workflow.",
     "Use docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md as the concrete widening plan: standalone nodes are calibration and archetype evidence first, while distributed labs are the first real topology and cross-node behavior layer.",
     "Treat adf-dev at 10.167.2.151 as the runtime host and support-facing publication surface, keep 10.167.2.150 as the target-evidence source, and remember that the current lab posture permits bounded exploratory breakage because labs are quickly redeployable.",
     "Do not require target-local Codex on additional nodes for the next phase; continue to run bounded node-local captures from adf-dev through node-specific read-only connection profiles.",
     "When extending the remote return path, keep mirrored run artifacts under `.pack-state/autonomy-runs/<run-id>/artifacts/` so the existing bounded export/import contract remains valid.",
-    "The first reviewed distributed architecture is now proven as `standalone + remote agent`, with imported node-local proofs for CM node `10.167.2.150` and remote-agent node `10.167.2.153` on the same upgraded `A33.10.260` line.",
-    "Use docs/specs/adf-successor-first-distributed-role-separated-proof-review-v1.md as the bounded role-separation readout before widening further.",
+    "The first reviewed distributed architecture is still preserved as `standalone + remote agent`, with imported node-local proofs for CM node `10.167.2.150` and remote-agent node `10.167.2.153` on the same upgraded `A33.10.260` line.",
+    "Use docs/specs/adf-successor-first-distributed-role-separated-proof-review-v1.md as the bounded `standalone + remote agent` readout before comparing later architectures.",
+    "The first reviewed `standalone + LDU` architecture is now also proven, with imported CM node `10.167.2.150` and LDU node `10.167.2.153` proofs under eval/history/import-external-runtime-evidence-20260403t195134z/ and eval/history/import-external-runtime-evidence-20260403t195039z/.",
+    "Use docs/specs/adf-successor-first-standalone-plus-ldu-proof-review-v1.md as the bounded CM-versus-LDU readout before widening further.",
+    "The first reviewed DR-only architecture is now also proven, with imported DR primary node `10.167.2.150` and DR secondary node `10.167.2.153` proofs under eval/history/import-external-runtime-evidence-20260403t225431z/ and eval/history/import-external-runtime-evidence-20260403t225328z/.",
+    "Use docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md as the bounded DR-primary-versus-secondary readout before stacking additional DR roles.",
     "Use docs/specs/adf-successor-thin-multi-node-topology-map-v1.md as the first honest topology surface before widening further.",
     "Use docs/specs/adf-successor-bounded-dependency-graph-v1.md as the current dependency readout before making stronger health or behavior claims.",
     "Use docs/specs/adf-successor-health-validated-integration-model-v1.md as the current health readout and docs/specs/adf-successor-bounded-product-behavior-model-v1.md as the current behavior readout before widening further.",
-    "The original bounded roadmap frontier remains complete, and the explicit deeper provider-health widening step is now complete too.",
-    "Use docs/specs/adf-successor-deeper-provider-health-proof-v1.md before making stronger AWS or Azure claims: the current proof says the local driver-runtime surfaces are degraded on both nodes, not that cloud-side provider success or credentials are known.",
-    "Make `strengthen_cross_node_directionality_proof` the next bounded seam: the remaining useful ambiguity is how provider-facing work is divided across the CM and remote-agent roles, not whether the provider-driver runtime looks troubled locally.",
+    "The original bounded roadmap frontier, the deeper provider-health pass, and the bounded cross-node directionality pass are now complete.",
+    "Use docs/specs/adf-successor-deeper-provider-health-proof-v1.md before making stronger AWS or Azure claims: the current proof still says the local driver-runtime surfaces are degraded on both nodes, not that cloud-side provider success or credentials are known.",
+    "Use docs/specs/adf-successor-bounded-cross-node-directionality-proof-v1.md before making stronger cross-node claims: the current proof supports one observed CM-to-RA ingress clue and remote-agent-side refresh or broadcast-consumer hints, not a complete east-west orchestration map.",
+    "The strongest next widening move is now `capture_disaster_recovery_plus_ldu_role_separated_node_proofs` after the operator adds the LDU layer onto the current DR shape.",
+    "After that DR-plus-LDU proof, the next alternate architecture candidates remain `capture_stacked_standalone_ldu_remote_agent_role_separated_proof` and `high availability`.",
     "Keep provider-side success, credential validity, sync freshness, and hidden east-west directionality as explicit non-claims unless later imported node-local proof actually closes them."
   ],
   "schema_version": "work-state/v1",

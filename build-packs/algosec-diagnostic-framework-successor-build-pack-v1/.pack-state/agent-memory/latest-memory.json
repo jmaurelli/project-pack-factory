@@ -1,15 +1,15 @@
 {
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "schema_version": "autonomy-feedback-memory-pointer/v1",
-  "selected_generated_at": "2026-04-03T18:10:42Z",
-  "selected_memory_id": "autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-remote-agent-153-shallow-surface-map-v1",
-  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-remote-agent-153-shallow-surface-map-v1.json",
-  "selected_memory_sha256": "09492bebe40e8f14041d9aba7fb2d1f88ded9b69b061ce771c6900c6406412c4",
+  "selected_generated_at": "2026-04-03T22:54:28Z",
+  "selected_memory_id": "autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1.json",
+  "selected_memory_sha256": "a633c94ea6a1a2572eadd2439029e0053ea219a85fda0b58ba86ec2847fa9542",
   "selected_memory_tier": "restart_memory",
-  "selected_run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-remote-agent-153-shallow-surface-map-v1",
-  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-remote-agent-153-shallow-surface-map-v1.json",
-  "source_import_id": "import-external-runtime-evidence-20260403t181044z",
-  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260403t181044z/import-report.json",
+  "selected_run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260403t225431z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260403t225431z/import-report.json",
   "source_kind": "imported_external_runtime_evidence",
-  "updated_at": "2026-04-03T18:10:44Z"
+  "updated_at": "2026-04-03T22:54:31Z"
 }

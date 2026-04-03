@@ -19,6 +19,8 @@ from .target_connection import load_target_connection_profile, target_shell_capt
 DEFAULT_ARTIFACT_ROOT = Path("dist/candidates/adf-shallow-surface-map-first-pass")
 SURFACE_MAP_NAME = "shallow-surface-map.json"
 SUMMARY_NAME = "shallow-surface-summary.md"
+PLAYBOOK_NAME = "diagnostic-playbook.md"
+COOKBOOK_NAME = "runtime-cookbook-guide.md"
 AUTONOMY_RUN_ROOT = Path(".pack-state") / "autonomy-runs"
 RETURNED_ARTIFACTS_DIR = "artifacts"
 PRODUCT_HINTS = (
@@ -169,6 +171,7 @@ HTTPD_ROUTE_HINT_COMMAND = (
     "/etc/httpd/conf /etc/httpd/conf.d 2>/dev/null || true; "
     "fi"
 )
+ESTABLISHED_TCP_CONNECTIONS_COMMAND = "ss -ntpH state established || true"
 TCP_PROBE_SUCCESS_MARKER = "__ADF_TCP_OK__"
 AFF_SESSION_SERVICE_CHECK_COMMAND = "systemctl is-active httpd.service ms-bflow.service aff-boot.service || true"
 AFF_SESSION_FRONTED_PROBE_COMMAND = (
@@ -228,6 +231,23 @@ PROVIDER_JOURNAL_FAILURE_PATTERNS = (
     ("tls_failure", re.compile(r"(?i)(certificate|ssl|tls|handshake)")),
     ("runtime_failure", re.compile(r"(?i)(fatal|exception|failed to| failure\\b)")),
 )
+DIRECTIONALITY_COORDINATION_FAMILIES = (
+    "algosec-ms",
+    "ms-configuration",
+    "ms-devicemanager",
+    "ms-genericdevice",
+    "ms-devicedriver-aws",
+    "ms-devicedriver-azure",
+)
+DIRECTIONALITY_SIGNAL_PATTERNS = (
+    ("dispatch", re.compile(r"(?i)\b(dispatch|dispatcher|enqueue|publish|forward)\b")),
+    ("receive", re.compile(r"(?i)\b(receive|received|receiving|consume|consumed)\b")),
+    ("polling", re.compile(r"(?i)\b(poll|polling|heartbeat|keepalive|refresh)\b")),
+    ("agent", re.compile(r"(?i)\b(remote[- ]agent|agent)\b")),
+    ("manager", re.compile(r"(?i)\b(manager|management)\b")),
+    ("registration", re.compile(r"(?i)\b(register|registered|registration)\b")),
+)
+IPV4_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
 
 
 def generate_shallow_surface_map(
@@ -258,6 +278,12 @@ def generate_shallow_surface_map(
     )
     if provider_health_command_results:
         command_results.extend(provider_health_command_results)
+    directionality_command_results = _collect_directionality_command_results(
+        target_connection=target_connection,
+        component_records=component_records,
+    )
+    if directionality_command_results:
+        command_results.extend(directionality_command_results)
     boundary_packets = _build_boundary_packets(component_records, edge_route_hints=edge_route_hints)
     session_parity_packets = _build_session_parity_packets(
         command_results,
@@ -338,6 +364,10 @@ def generate_shallow_surface_map(
         "artifact_contract": {
             "machine_readable_artifact": SURFACE_MAP_NAME,
             "operator_reviewable_artifact": SUMMARY_NAME,
+            "engineer_consumable_artifacts": [
+                PLAYBOOK_NAME,
+                COOKBOOK_NAME,
+            ],
         },
         "collection_policy": {
             "mode": "read_only",
@@ -348,12 +378,14 @@ def generate_shallow_surface_map(
                 "systemd_unit_files",
                 "systemd_unit_details",
                 "listening_tcp_ports",
+                "established_tcp_connections",
                 "process_inventory",
                 "httpd_route_hints",
                 "aff_session_parity_checks",
                 "fireflow_usersession_bridge_hints",
                 "businessflow_session_origin_hints",
                 "provider_health_local_probes",
+                "directionality_coordination_journals",
             ],
             "out_of_scope": [
                 "deep dependency mapping",
@@ -388,9 +420,13 @@ def generate_shallow_surface_map(
         "next_candidate_seams": next_candidate_seams,
     }
     summary = _render_summary(surface_map)
+    playbook = _render_diagnostic_playbook(surface_map)
+    cookbook = _render_runtime_cookbook(surface_map)
 
     _dump_json(root / SURFACE_MAP_NAME, surface_map)
     (root / SUMMARY_NAME).write_text(summary, encoding="utf-8")
+    (root / PLAYBOOK_NAME).write_text(playbook, encoding="utf-8")
+    (root / COOKBOOK_NAME).write_text(cookbook, encoding="utf-8")
 
     mirrored_files: list[str] = []
     if mirror_into_run_id:
@@ -398,7 +434,12 @@ def generate_shallow_surface_map(
             project_root=project_root,
             artifact_root=root,
             run_id=mirror_into_run_id,
-            generated_files=[root / SURFACE_MAP_NAME, root / SUMMARY_NAME],
+            generated_files=[
+                root / SURFACE_MAP_NAME,
+                root / SUMMARY_NAME,
+                root / PLAYBOOK_NAME,
+                root / COOKBOOK_NAME,
+            ],
         )
 
     result: dict[str, Any] = {
@@ -407,6 +448,8 @@ def generate_shallow_surface_map(
         "generated_files": [
             str((root / SURFACE_MAP_NAME).relative_to(project_root)),
             str((root / SUMMARY_NAME).relative_to(project_root)),
+            str((root / PLAYBOOK_NAME).relative_to(project_root)),
+            str((root / COOKBOOK_NAME).relative_to(project_root)),
         ],
         "summary": {
             "target_label": target_label,
@@ -492,6 +535,11 @@ def _collect_command_results(*, target_connection: dict[str, Any] | None) -> lis
             _run_command(
                 command_id="listening_tcp_ports",
                 argv=["ss", "-lntpH"],
+                max_preview_lines=250,
+            ),
+            _run_command(
+                command_id="established_tcp_connections",
+                argv=["bash", "-lc", ESTABLISHED_TCP_CONNECTIONS_COMMAND],
                 max_preview_lines=250,
             ),
             _run_command(
@@ -606,6 +654,12 @@ def _collect_target_command_results(target_connection: dict[str, Any]) -> list[d
             target_connection=target_connection,
             command_id="listening_tcp_ports",
             command="ss -lntpH",
+            timeout_seconds=timeout_seconds,
+        ),
+        _run_target_command(
+            target_connection=target_connection,
+            command_id="established_tcp_connections",
+            command=ESTABLISHED_TCP_CONNECTIONS_COMMAND,
             timeout_seconds=timeout_seconds,
         ),
         _run_target_command(
@@ -729,6 +783,39 @@ def _collect_provider_health_command_results(
     return results
 
 
+def _collect_directionality_command_results(
+    *,
+    target_connection: dict[str, Any] | None,
+    component_records: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    plan = _build_directionality_probe_plan(component_records=component_records)
+    if not plan:
+        return []
+
+    if target_connection is None:
+        return [
+            _run_command(
+                command_id=f"directionality_journal_{item['family_id']}",
+                argv=["bash", "-lc", _directionality_journal_command(str(item["service_unit"]))],
+                max_preview_lines=250,
+            )
+            for item in plan
+            if item.get("service_unit")
+        ]
+
+    timeout_seconds = int(target_connection.get("timeouts", {}).get("command_seconds", 120))
+    return [
+        _run_target_command(
+            target_connection=target_connection,
+            command_id=f"directionality_journal_{item['family_id']}",
+            command=_directionality_journal_command(str(item["service_unit"])),
+            timeout_seconds=timeout_seconds,
+        )
+        for item in plan
+        if item.get("service_unit")
+    ]
+
+
 def _build_provider_health_probe_plan(
     *,
     component_records: list[dict[str, Any]],
@@ -766,7 +853,37 @@ def _build_provider_health_probe_plan(
     return plan
 
 
+def _build_directionality_probe_plan(
+    *,
+    component_records: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    records_by_id = {
+        str(record.get("component_id")): record
+        for record in component_records
+        if record.get("component_id")
+    }
+    plan: list[dict[str, Any]] = []
+    for family_id in DIRECTIONALITY_COORDINATION_FAMILIES:
+        record = records_by_id.get(family_id)
+        if record is None:
+            continue
+        service_unit = record.get("observed", {}).get("service_unit")
+        if not service_unit:
+            continue
+        plan.append(
+            {
+                "family_id": family_id,
+                "service_unit": service_unit,
+            }
+        )
+    return plan
+
+
 def _provider_journal_command(service_unit: str) -> str:
+    return f"journalctl -u {shlex.quote(service_unit)} --no-pager -n 120 || true"
+
+
+def _directionality_journal_command(service_unit: str) -> str:
     return f"journalctl -u {shlex.quote(service_unit)} --no-pager -n 120 || true"
 
 
@@ -805,6 +922,7 @@ def _build_component_records(
     unit_file_states = _parse_unit_files(results_by_id.get("systemd_unit_files", {}))
     unit_details = _parse_systemd_unit_details(results_by_id.get("systemd_unit_details", {}))
     listeners = _parse_listeners(results_by_id.get("listening_tcp_ports", {}))
+    established_connections = _parse_established_tcp_connections(results_by_id.get("established_tcp_connections", {}))
     processes = _parse_processes(results_by_id.get("process_inventory", {}))
     process_index, children_by_ppid = _index_processes(processes)
     httpd_route_rows = _parse_httpd_route_hints(results_by_id.get("httpd_route_hints", {}))
@@ -826,6 +944,8 @@ def _build_component_records(
                 "process_id": None,
                 "listener_bindings": [],
                 "listening_ports": [],
+                "established_connection_bindings": [],
+                "peer_connection_targets": [],
                 "config_path_details": [],
                 "config_path_candidates": [],
                 "log_path_details": [],
@@ -873,6 +993,8 @@ def _build_component_records(
                     "process_id": process["pid"],
                     "listener_bindings": [],
                     "listening_ports": [],
+                    "established_connection_bindings": [],
+                    "peer_connection_targets": [],
                     "config_path_details": [],
                     "config_path_candidates": [],
                     "log_path_details": [],
@@ -930,6 +1052,20 @@ def _build_component_records(
         observed["listening_ports"] = _merge_unique(
             observed["listening_ports"],
             [binding["bind_port"] for binding in observed["listener_bindings"]],
+        )
+        observed["established_connection_bindings"] = _connection_bindings_for_record(
+            established_connections,
+            record,
+            process_index=process_index,
+            children_by_ppid=children_by_ppid,
+        )
+        observed["peer_connection_targets"] = _merge_unique(
+            observed["peer_connection_targets"],
+            [
+                binding["remote_ip"]
+                for binding in observed["established_connection_bindings"]
+                if _is_non_loopback_ip(str(binding.get("remote_ip") or ""))
+            ],
         )
 
         docpack_matches = _match_docpack_hints(record=record, docpack_hints=docpack_hints)
@@ -1105,6 +1241,39 @@ def _parse_httpd_route_hints(result: dict[str, Any]) -> list[dict[str, Any]]:
             }
         )
     return route_hints
+
+
+def _parse_established_tcp_connections(result: dict[str, Any]) -> list[dict[str, Any]]:
+    connections: list[dict[str, Any]] = []
+    if result.get("status") != "completed":
+        return connections
+    for line in result.get("stdout", "").splitlines():
+        parts = line.split()
+        if len(parts) < 4:
+            continue
+        local_endpoint = parts[2]
+        remote_endpoint = parts[3]
+        local_ip, local_port = _parse_tcp_endpoint(local_endpoint)
+        remote_ip, remote_port = _parse_tcp_endpoint(remote_endpoint)
+        if local_ip is None or remote_ip is None:
+            continue
+        process_name = parts[-1] if parts else "unknown"
+        process_id = None
+        match = LISTENER_PROCESS_RE.search(line)
+        if match:
+            process_name = match.group("process")
+            process_id = int(match.group("pid"))
+        connections.append(
+            {
+                "local_ip": local_ip,
+                "local_port": local_port,
+                "remote_ip": remote_ip,
+                "remote_port": remote_port,
+                "process_name": process_name,
+                "process_id": process_id,
+            }
+        )
+    return connections
 
 
 def _parse_processes(result: dict[str, Any]) -> list[dict[str, Any]]:
@@ -1607,6 +1776,47 @@ def _listener_bindings_for_record(
     ]
 
 
+def _connection_bindings_for_record(
+    connections: list[dict[str, Any]],
+    record: dict[str, Any],
+    *,
+    process_index: dict[int, dict[str, Any]],
+    children_by_ppid: dict[int, list[int]],
+) -> list[dict[str, Any]]:
+    observed = record["observed"]
+    process_id = observed.get("process_id")
+    if not isinstance(process_id, int):
+        return []
+    related_pids = _descendant_pids(process_id, children_by_ppid)
+    related_pids.add(process_id)
+    bindings: list[dict[str, Any]] = []
+    for connection in connections:
+        connection_pid = connection.get("process_id")
+        if connection_pid not in related_pids:
+            continue
+        ownership_basis = "exact_pid" if connection_pid == process_id else "descendant_pid"
+        owner_process = process_index.get(connection_pid, {})
+        bindings.append(
+            {
+                "local_ip": connection.get("local_ip"),
+                "local_port": connection.get("local_port"),
+                "remote_ip": connection.get("remote_ip"),
+                "remote_port": connection.get("remote_port"),
+                "owner_pid": connection_pid,
+                "owner_name": str(owner_process.get("comm") or connection.get("process_name") or "unknown"),
+                "ownership_basis": ownership_basis,
+            }
+        )
+    return sorted(
+        bindings,
+        key=lambda item: (
+            str(item.get("remote_ip") or ""),
+            int(item.get("remote_port") or 0),
+            int(item.get("local_port") or 0),
+        ),
+    )
+
+
 def _descendant_pids(root_pid: int, children_by_ppid: dict[int, list[int]]) -> set[int]:
     descendants: set[int] = set()
     queue = list(children_by_ppid.get(root_pid, []))
@@ -1617,6 +1827,27 @@ def _descendant_pids(root_pid: int, children_by_ppid: dict[int, list[int]]) -> s
         descendants.add(pid)
         queue.extend(children_by_ppid.get(pid, []))
     return descendants
+
+
+def _parse_tcp_endpoint(endpoint: str) -> tuple[str | None, int | None]:
+    candidate = endpoint.strip()
+    if not candidate:
+        return None, None
+    if candidate.startswith("[") and "]:" in candidate:
+        host, port_text = candidate[1:].split("]:", 1)
+    elif ":" in candidate:
+        host, port_text = candidate.rsplit(":", 1)
+    else:
+        return candidate, None
+    port = int(port_text) if port_text.isdigit() else None
+    return host, port
+
+
+def _is_non_loopback_ip(value: str) -> bool:
+    candidate = value.strip().strip("[]")
+    if not candidate:
+        return False
+    return candidate not in {"127.0.0.1", "::1", "*", "localhost"}
 
 
 def _classify_record(
@@ -2148,6 +2379,56 @@ def _parse_provider_journal_result(result: dict[str, Any]) -> dict[str, Any]:
     return {
         "failure_signal_count": len(signal_lines),
         "signal_categories": categories,
+        "signal_lines": signal_lines[:5],
+    }
+
+
+def _parse_directionality_journal_result(result: dict[str, Any]) -> dict[str, Any]:
+    if result.get("status") not in {"completed", "nonzero_exit"}:
+        return {
+            "signal_count": 0,
+            "matched_terms": [],
+            "peer_ips": [],
+            "signal_lines": [],
+        }
+
+    matched_terms: list[str] = []
+    peer_ips: list[str] = []
+    signal_lines: list[dict[str, Any]] = []
+    for raw_line in str(result.get("stdout", "")).splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        line_terms = [
+            term_id
+            for term_id, pattern in DIRECTIONALITY_SIGNAL_PATTERNS
+            if pattern.search(line)
+        ]
+        line_ips = [
+            ip
+            for ip in IPV4_RE.findall(line)
+            if _is_non_loopback_ip(ip)
+        ]
+        if not line_terms and not line_ips:
+            continue
+        for term_id in line_terms:
+            if term_id not in matched_terms:
+                matched_terms.append(term_id)
+        for ip in line_ips:
+            if ip not in peer_ips:
+                peer_ips.append(ip)
+        signal_lines.append(
+            {
+                "matched_terms": line_terms,
+                "peer_ips": line_ips,
+                "line_excerpt": line[:220],
+            }
+        )
+
+    return {
+        "signal_count": len(signal_lines),
+        "matched_terms": matched_terms,
+        "peer_ips": peer_ips[:6],
         "signal_lines": signal_lines[:5],
     }
 
@@ -3714,11 +3995,16 @@ def _build_provider_integration_packets(
             record=records_by_id.get(family_id),
             journal_result=results_by_id.get(f"provider_journal_{family_id}"),
             probe_result=results_by_id.get(f"provider_local_port_probe_{family_id}"),
+            directionality_journal_result=results_by_id.get(f"directionality_journal_{family_id}"),
         )) is not None
     ]
     adjacent_surfaces = _build_provider_adjacent_surfaces(route_families)
+    coordination_surfaces = _build_provider_coordination_surfaces(
+        records_by_id=records_by_id,
+        results_by_id=results_by_id,
+    )
 
-    if not observed_providers and not adjacent_surfaces:
+    if not observed_providers and not adjacent_surfaces and not coordination_surfaces:
         return []
 
     provider_labels = [entry["vendor_label"] for entry in observed_providers]
@@ -3764,6 +4050,20 @@ def _build_provider_integration_packets(
             )
             + " are also visible, but they are kept separate from the core provider-driver packet."
         )
+    coordination_with_peers = [
+        surface
+        for surface in coordination_surfaces
+        if surface.get("peer_connection_clues") or surface.get("journal_directionality_clues", {}).get("signal_count", 0) > 0
+    ]
+    if coordination_with_peers:
+        confirmed_elements.append(
+            "Additional local coordination clues are visible for "
+            + ", ".join(
+                f"`{surface.get('component_id', 'unknown')}`"
+                for surface in coordination_with_peers[:4]
+            )
+            + ", which gives the next cross-node directionality pass more than placement-only evidence to compare."
+        )
 
     return [
         {
@@ -3777,6 +4077,7 @@ def _build_provider_integration_packets(
             "provider_status": status,
             "observed_providers": observed_providers,
             "adjacent_surfaces": adjacent_surfaces,
+            "coordination_surfaces": coordination_surfaces,
             "not_proven": [
                 "No external API success or provider credential correctness is proven in this packet.",
                 "No provider-side sync state, inventory freshness, or cloud-side health is claimed from current node evidence.",
@@ -3797,6 +4098,7 @@ def _build_provider_integration_entry(
     record: dict[str, Any] | None,
     journal_result: dict[str, Any] | None,
     probe_result: dict[str, Any] | None,
+    directionality_journal_result: dict[str, Any] | None,
 ) -> dict[str, Any] | None:
     if route_family is None and record is None:
         return None
@@ -3840,6 +4142,8 @@ def _build_provider_integration_entry(
     probe_port = apache_backend_port if apache_backend_port is not None else (listener_ports[0] if listener_ports else None)
     tcp_probe = _parse_tcp_probe_result(probe_result or {}, port=probe_port)
     journal_signals = _parse_provider_journal_result(journal_result or {})
+    directionality_journal_clues = _parse_directionality_journal_result(directionality_journal_result or {})
+    peer_connection_clues = _build_peer_connection_clues(observed.get("established_connection_bindings", []))
     health_state = "configured"
     health_basis: list[str] = []
     if observed.get("active_state") == "failed":
@@ -3885,9 +4189,64 @@ def _build_provider_integration_entry(
         },
         "local_health_probe": tcp_probe,
         "recent_journal_signals": journal_signals,
+        "peer_connection_clues": peer_connection_clues,
+        "directionality_journal_clues": directionality_journal_clues,
         "health_basis": health_basis,
         "activation_basis": activation_basis,
     }
+
+
+def _build_provider_coordination_surfaces(
+    *,
+    records_by_id: dict[str, dict[str, Any]],
+    results_by_id: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    surfaces: list[dict[str, Any]] = []
+    for component_id in DIRECTIONALITY_COORDINATION_FAMILIES:
+        record = records_by_id.get(component_id)
+        if record is None:
+            continue
+        observed = record.get("observed", {})
+        surfaces.append(
+            {
+                "component_id": component_id,
+                "service_unit": observed.get("service_unit"),
+                "listener_ports": observed.get("listening_ports", [])[:6],
+                "peer_connection_clues": _build_peer_connection_clues(observed.get("established_connection_bindings", [])),
+                "journal_directionality_clues": _parse_directionality_journal_result(
+                    results_by_id.get(f"directionality_journal_{component_id}", {})
+                ),
+            }
+        )
+    return surfaces[:6]
+
+
+def _build_peer_connection_clues(bindings: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    clues: list[dict[str, Any]] = []
+    seen: set[tuple[str, int | None, int | None, str]] = set()
+    for binding in bindings:
+        remote_ip = str(binding.get("remote_ip") or "")
+        if not _is_non_loopback_ip(remote_ip):
+            continue
+        key = (
+            remote_ip,
+            binding.get("remote_port"),
+            binding.get("local_port"),
+            str(binding.get("ownership_basis") or ""),
+        )
+        if key in seen:
+            continue
+        clues.append(
+            {
+                "remote_ip": remote_ip,
+                "remote_port": binding.get("remote_port"),
+                "local_port": binding.get("local_port"),
+                "owner_name": binding.get("owner_name"),
+                "ownership_basis": binding.get("ownership_basis"),
+            }
+        )
+        seen.add(key)
+    return clues[:6]
 
 
 def _build_provider_adjacent_surfaces(route_families: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -4728,6 +5087,7 @@ def _render_summary(surface_map: dict[str, Any]) -> str:
     records = surface_map["component_records"]
     central = [record for record in records if record["inference"]["appears_central"]][:5]
     top_candidates = [record for record in records if record["inference"]["support_priority_score"] > 0][:5]
+    failed_records = _select_failed_records(records)
     edge_route_hints = surface_map.get("edge_route_hints", [])[:5]
     boundary_packets = surface_map.get("boundary_packets", [])[:3]
     session_parity_packets = surface_map.get("session_parity_packets", [])[:2]
@@ -4760,6 +5120,30 @@ def _render_summary(surface_map: dict[str, Any]) -> str:
                 "The doc-pack hint layer only informs naming, port-based hints, and prioritization. Live runtime evidence remains the source of truth for what is running here.",
             ]
         )
+    lines.extend(["", "## Fast Read", ""])
+    strongest_owner_line = _build_strongest_owner_line(boundary_packets, edge_route_hints)
+    if strongest_owner_line:
+        lines.append(f"- {strongest_owner_line}")
+    else:
+        lines.append("- No bounded route-owner chain is strong enough to headline yet.")
+    if failed_records:
+        failed_summary = ", ".join(
+            f"`{record['display_name']}` ({record['observed'].get('active_state', 'unknown')})"
+            for record in failed_records[:4]
+        )
+        lines.append(f"- Immediate pressure points: {failed_summary}.")
+    else:
+        lines.append("- No failed high-signal services were highlighted in this bounded pass.")
+    if session_parity_packets:
+        packet = session_parity_packets[0]
+        agreement = packet.get("agreement", {})
+        lines.append(
+            f"- Session seam: `{packet['packet_id']}` is `{packet['status']}` with status-code match `{agreement.get('status_code_match')}` and body match `{agreement.get('body_match')}`."
+        )
+    if seams:
+        seam = seams[0]
+        starts = ", ".join(seam["starting_components"]) or "none"
+        lines.append(f"- Next best seam: `{seam['seam_id']}` from {starts}.")
     lines.extend(
         [
             "",
@@ -4974,9 +5358,26 @@ def _render_summary(surface_map: dict[str, Any]) -> str:
                 )
                 for item in packet.get("adjacent_surfaces", [])[:3]
             ) or "none"
+            coordination = ", ".join(
+                (
+                    f"{item.get('component_id', 'unknown')}"
+                    + (
+                        f" peers {','.join(clue.get('remote_ip', '?') for clue in item.get('peer_connection_clues', [])[:2])}"
+                        if item.get("peer_connection_clues")
+                        else ""
+                    )
+                    + (
+                        f" journal {','.join(item.get('journal_directionality_clues', {}).get('matched_terms', [])[:2])}"
+                        if item.get("journal_directionality_clues", {}).get("signal_count", 0) > 0
+                        else ""
+                    )
+                )
+                for item in packet.get("coordination_surfaces", [])[:4]
+                if item.get("peer_connection_clues") or item.get("journal_directionality_clues", {}).get("signal_count", 0) > 0
+            ) or "none"
             not_proven = "; ".join(packet.get("not_proven", [])[:2]) or "none"
             lines.append(
-                f"- `{packet['packet_id']}`: status `{packet['status']}`; observed providers {', '.join(provider_summaries) if provider_summaries else 'none'}; adjacent surfaces `{adjacent}`; not proven: {not_proven}. Next stop: `{packet['next_stop']}`."
+                f"- `{packet['packet_id']}`: status `{packet['status']}`; observed providers {', '.join(provider_summaries) if provider_summaries else 'none'}; adjacent surfaces `{adjacent}`; coordination clues `{coordination}`; not proven: {not_proven}. Next stop: `{packet['next_stop']}`."
             )
     else:
         lines.append("- No bounded provider-specific integration packet was strong enough to summarize in this pass.")
@@ -5021,6 +5422,311 @@ def _render_summary(surface_map: dict[str, Any]) -> str:
         lines.append("- No deeper seam was strong enough to name yet from the bounded first pass.")
     lines.append("")
     return "\n".join(lines) + "\n"
+
+
+def _render_diagnostic_playbook(surface_map: dict[str, Any]) -> str:
+    records = surface_map["component_records"]
+    central = [record for record in records if record["inference"]["appears_central"]][:5]
+    top_candidates = [record for record in records if record["inference"]["support_priority_score"] > 0][:5]
+    failed_records = _select_failed_records(records)
+    surfaced_records = _select_path_surface_records(records, central, top_candidates)
+    boundary_packets = surface_map.get("boundary_packets", [])[:2]
+    session_parity_packets = surface_map.get("session_parity_packets", [])[:2]
+    provider_integration_packets = surface_map.get("provider_integration_packets", [])[:2]
+    seams = surface_map.get("next_candidate_seams", [])[:2]
+    unknowns = surface_map.get("unknowns", [])[:5]
+
+    lines = [
+        "# ADF Successor Diagnostic Playbook",
+        "",
+        "## Use This For",
+        "",
+        f"- Live triage on `{surface_map['target']['target_label']}` when the engineer needs the fastest bounded owner, evidence, and escalation path.",
+        "- Decision support under pressure, not full product study.",
+        "- A fast route from symptom to local owner, first checks, and explicit stop rules.",
+        "",
+        "## Fast Start",
+        "",
+    ]
+    strongest_owner_line = _build_strongest_owner_line(boundary_packets, surface_map.get("edge_route_hints", []))
+    if strongest_owner_line:
+        lines.append(f"- Strongest current owner chain: {strongest_owner_line}")
+    if session_parity_packets:
+        packet = session_parity_packets[0]
+        lines.append(
+            f"- Session check: `{packet['display_name']}` is `{packet['status']}`. The fronted `/FireFlow/api/session` path and the direct aff-boot session path currently agree at the bounded edge."
+        )
+    if provider_integration_packets:
+        packet = provider_integration_packets[0]
+        degraded = [
+            entry.get("provider_family_id", "unknown")
+            for entry in packet.get("observed_providers", [])
+            if entry.get("health_state") == "degraded"
+        ]
+        if degraded:
+            lines.append(
+                f"- Provider warning: local degradation is visible for {', '.join(f'`{item}`' for item in degraded[:4])}, but provider-side success is still not proven."
+            )
+    if failed_records:
+        failed_summary = ", ".join(
+            f"`{record['display_name']}`" for record in failed_records[:4]
+        )
+        lines.append(f"- Failed or degraded-looking services worth checking early: {failed_summary}.")
+    if not strongest_owner_line and not session_parity_packets and not provider_integration_packets and not failed_records:
+        lines.append("- This bounded pass has not yet produced a strong pressure-path headline.")
+
+    lines.extend(["", "## Route To Owner Shortlist", ""])
+    route_lines = _build_route_owner_lines(boundary_packets, surface_map.get("edge_route_hints", []))
+    if route_lines:
+        lines.extend(f"- {line}" for line in route_lines)
+    else:
+        lines.append("- No bounded route-owner shortlist is ready yet.")
+
+    lines.extend(["", "## First Checks By Family", ""])
+    check_records = []
+    for record in failed_records + central + top_candidates:
+        if record not in check_records:
+            check_records.append(record)
+        if len(check_records) >= 5:
+            break
+    if not check_records:
+        check_records = surfaced_records[:5]
+    if check_records:
+        for record in check_records:
+            ports = ", ".join(str(port) for port in record["observed"].get("listening_ports", [])[:4]) or "none linked yet"
+            config_summary = _render_path_surface_summary(record, detail_key="config_path_details", candidate_key="config_path_candidates") or "none visible"
+            log_summary = _render_path_surface_summary(record, detail_key="log_path_details", candidate_key="log_path_candidates") or "none visible"
+            active_state = record["observed"].get("active_state", "unknown")
+            lines.append(
+                f"- `{record['display_name']}`: state `{active_state}`, listener ports `{ports}`, configs {config_summary}, logs {log_summary}."
+            )
+    else:
+        lines.append("- No stronger family-level check surface is ready yet.")
+
+    lines.extend(["", "## Escalate Or Stop When", ""])
+    stop_lines = _build_stop_rule_lines(surface_map)
+    if stop_lines:
+        lines.extend(f"- {line}" for line in stop_lines)
+    else:
+        lines.append("- Stop when the current packet chain stops proving ownership and would require broad product guessing.")
+
+    lines.extend(["", "## Known Boundaries", ""])
+    if unknowns:
+        lines.extend(f"- {item}" for item in unknowns)
+    else:
+        lines.append("- No additional unknowns were recorded in this bounded pass.")
+
+    lines.extend(["", "## Best Next Deepening Step", ""])
+    if seams:
+        for seam in seams:
+            starts = ", ".join(seam["starting_components"]) or "none"
+            lines.append(
+                f"- `{seam['seam_id']}`: {seam['why_it_matters']} Starting points: {starts}."
+            )
+    else:
+        lines.append("- No deeper seam is named yet.")
+    lines.append("")
+    return "\n".join(lines) + "\n"
+
+
+def _render_runtime_cookbook(surface_map: dict[str, Any]) -> str:
+    records = surface_map["component_records"]
+    central = [record for record in records if record["inference"]["appears_central"]][:6]
+    top_candidates = [record for record in records if record["inference"]["support_priority_score"] > 0][:6]
+    surfaced_records = _select_path_surface_records(records, central, top_candidates)
+    packet_groups = [
+        ("Boundary packets", surface_map.get("boundary_packets", [])[:2]),
+        ("Session parity packets", surface_map.get("session_parity_packets", [])[:2]),
+        ("UserSession bridge packets", surface_map.get("usersession_bridge_packets", [])[:2]),
+        ("Provider packets", surface_map.get("provider_integration_packets", [])[:2]),
+        ("Knowledge-layer packets", surface_map.get("knowledge_layer_packets", [])[:2]),
+    ]
+    seams = surface_map.get("next_candidate_seams", [])[:2]
+    unknowns = surface_map.get("unknowns", [])[:6]
+
+    lines = [
+        "# ADF Successor Runtime Cookbook Guide",
+        "",
+        "## Purpose",
+        "",
+        "- Preserve the richer product-learning view that sits behind the fast diagnostic playbook.",
+        "- Keep the explanation grounded in observed runtime packets instead of broad suite folklore.",
+        "- Help engineers translate product-facing paths into runtime-facing owners, seams, and evidence surfaces.",
+        "",
+        "## Current Runtime Shape",
+        "",
+    ]
+    if central:
+        for record in central:
+            ports = ", ".join(str(port) for port in record["observed"].get("listening_ports", [])[:4]) or "none linked yet"
+            category = record["inference"].get("first_observed_category", "unknown")
+            lines.append(
+                f"- `{record['display_name']}` currently reads as `{category}` on ports `{ports}`."
+            )
+    else:
+        for record in top_candidates[:5]:
+            category = record["inference"].get("first_observed_category", "unknown")
+            lines.append(
+                f"- `{record['display_name']}` is a top visible candidate for `{category}` in this bounded pass."
+            )
+
+    lines.extend(["", "## Product Language To Runtime Owners", ""])
+    route_lines = _build_route_owner_lines(surface_map.get("boundary_packets", []), surface_map.get("edge_route_hints", []))
+    if route_lines:
+        lines.extend(f"- {line}" for line in route_lines[:6])
+    else:
+        lines.append("- Product-facing route ownership is still too thin to summarize cleanly.")
+
+    lines.extend(["", "## Proven Packets And Why They Matter", ""])
+    packet_rendered = False
+    for label, packets in packet_groups:
+        if not packets:
+            continue
+        packet_rendered = True
+        lines.append(f"### {label}")
+        lines.append("")
+        for packet in packets:
+            headline = packet.get("display_name") or packet.get("packet_id") or packet.get("boundary_id") or "bounded packet"
+            status = packet.get("status", "unknown")
+            why = packet.get("why_it_matters") or "Why it matters is not set."
+            confirmed = "; ".join(packet.get("confirmed_elements", [])[:2]) or "No confirmed elements recorded."
+            lines.append(
+                f"- {headline} is `{status}`. {why} Confirmed elements: {confirmed}"
+            )
+        lines.append("")
+    if not packet_rendered:
+        lines.append("- No richer packet layer is ready yet beyond the base component inventory.")
+
+    lines.extend(["", "## Config And Log Entry Points", ""])
+    if surfaced_records:
+        for record in surfaced_records[:6]:
+            config_summary = _render_path_surface_summary(record, detail_key="config_path_details", candidate_key="config_path_candidates") or "none visible"
+            log_summary = _render_path_surface_summary(record, detail_key="log_path_details", candidate_key="log_path_candidates") or "none visible"
+            lines.append(
+                f"- `{record['display_name']}`: configs {config_summary}; logs {log_summary}."
+            )
+    else:
+        lines.append("- No strong config or log entry points were surfaced in this bounded pass.")
+
+    lines.extend(["", "## What Is Still Not Proven", ""])
+    if unknowns:
+        lines.extend(f"- {item}" for item in unknowns)
+    else:
+        lines.append("- No explicit unknowns were recorded.")
+    provider_packets = surface_map.get("provider_integration_packets", [])[:1]
+    if provider_packets:
+        for note in provider_packets[0].get("not_proven", [])[:3]:
+            lines.append(f"- {note}")
+
+    lines.extend(["", "## Best Follow-On Study Paths", ""])
+    if seams:
+        for seam in seams:
+            starts = ", ".join(seam["starting_components"]) or "none"
+            lines.append(
+                f"- `{seam['seam_id']}`: {seam['why_it_matters']} Starting points: {starts}."
+            )
+    else:
+        lines.append("- No follow-on study path is named yet.")
+    lines.append("")
+    return "\n".join(lines) + "\n"
+
+
+def _build_strongest_owner_line(
+    boundary_packets: list[dict[str, Any]],
+    edge_route_hints: list[dict[str, Any]],
+) -> str | None:
+    if boundary_packets:
+        packet = boundary_packets[0]
+        routes = ", ".join(packet.get("route_family", [])[:3]) or "the visible edge"
+        owner = packet.get("local_owner", {}).get("component_id", "unknown owner")
+        ports = ", ".join(
+            str(port) for port in packet.get("local_owner", {}).get("listening_ports", [])[:4]
+        ) or "none"
+        return f"routes {routes} currently land on `{owner}` over local ports `{ports}`."
+    if edge_route_hints:
+        hint = edge_route_hints[0]
+        route_path = hint.get("route_path") or "(route path not explicit)"
+        owner = hint.get("likely_owner_component") or "owner still unclear"
+        backend = hint.get("backend_url") or (
+            f"port {hint['backend_port']}" if hint.get("backend_port") else "no backend target"
+        )
+        return f"`{route_path}` currently points toward `{backend}` with likely owner `{owner}`."
+    return None
+
+
+def _build_route_owner_lines(
+    boundary_packets: list[dict[str, Any]],
+    edge_route_hints: list[dict[str, Any]],
+) -> list[str]:
+    rendered: list[str] = []
+    seen_routes: set[str] = set()
+    for packet in boundary_packets[:3]:
+        owner = packet.get("local_owner", {}).get("component_id", "unknown owner")
+        ports = ", ".join(
+            str(port) for port in packet.get("local_owner", {}).get("listening_ports", [])[:4]
+        ) or "none"
+        for route in packet.get("route_family", [])[:4]:
+            key = f"{route}:{owner}"
+            if key in seen_routes:
+                continue
+            rendered.append(f"`{route}` -> `{owner}` on local ports `{ports}`.")
+            seen_routes.add(key)
+    for hint in edge_route_hints[:6]:
+        route_path = hint.get("route_path") or "(route path not explicit)"
+        owner = hint.get("likely_owner_component") or "owner still unclear"
+        key = f"{route_path}:{owner}"
+        if key in seen_routes:
+            continue
+        backend = hint.get("backend_url") or (
+            f"port {hint['backend_port']}" if hint.get("backend_port") else "no backend target"
+        )
+        rendered.append(
+            f"`{route_path}` -> `{owner}` via `{backend}` from `{hint['config_path']}:{hint['line_number']}`."
+        )
+        seen_routes.add(key)
+    return rendered
+
+
+def _select_failed_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    failed = [
+        record
+        for record in records
+        if record.get("observed", {}).get("active_state") == "failed"
+    ]
+    failed.sort(
+        key=lambda record: (
+            -int(record.get("inference", {}).get("support_priority_score", 0)),
+            str(record.get("display_name", "")),
+        )
+    )
+    return failed[:5]
+
+
+def _build_stop_rule_lines(surface_map: dict[str, Any]) -> list[str]:
+    lines: list[str] = []
+    boundary_packets = surface_map.get("boundary_packets", [])[:1]
+    session_parity_packets = surface_map.get("session_parity_packets", [])[:1]
+    provider_packets = surface_map.get("provider_integration_packets", [])[:1]
+    if boundary_packets:
+        packet = boundary_packets[0]
+        for question in packet.get("remaining_questions", [])[:2]:
+            lines.append(question)
+    if session_parity_packets:
+        packet = session_parity_packets[0]
+        for question in packet.get("remaining_questions", [])[:2]:
+            lines.append(question)
+    if provider_packets:
+        packet = provider_packets[0]
+        for note in packet.get("not_proven", [])[:2]:
+            lines.append(note)
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for line in lines:
+        if line in seen:
+            continue
+        deduped.append(line)
+        seen.add(line)
+    return deduped[:5]
 
 
 def _render_docpack_match_summary(docpack_matches: dict[str, Any]) -> str:

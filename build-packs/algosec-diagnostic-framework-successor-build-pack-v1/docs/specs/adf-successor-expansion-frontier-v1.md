@@ -16,9 +16,17 @@ surfaces:
 - the first bounded dependency graph now exists
 - the first bounded integration-health model now exists
 - the first bounded product-behavior model now exists
-- one explicit post-frontier widening experiment now exists too: a deeper
-  provider-health proof that refines AWS and Azure from placement-only into
-  repeated local degradation signals on both the CM and remote-agent nodes
+- two explicit post-frontier widening experiments now exist too:
+  a deeper provider-health proof that refines AWS and Azure from
+  placement-only into repeated local degradation signals on both the CM and
+  remote-agent nodes, and a bounded cross-node directionality proof that adds
+  one observed CM-to-RA ingress clue plus RA-side refresh or
+  broadcast-consumer hints without claiming the full east-west graph
+- one reviewed next-architecture proof now exists too:
+  a first `standalone + LDU` imported role-separated proof that keeps the CM
+  side as the stronger AFF, BusinessFlow, and identity-facing node while the
+  LDU side stays thinner, edge-heavy, provider-heavy, and visibly adjacent to
+  CM-hosted messaging on `10.167.2.150:61616`
 
 ## Expansion Order
 
@@ -142,3 +150,56 @@ credential-validity, and cross-node directionality unresolved.
 The next honest widening seam is now:
 
 - `strengthen_cross_node_directionality_proof`
+
+That step is now complete and recorded in:
+
+- `docs/specs/adf-successor-bounded-cross-node-directionality-proof-v1.md`
+
+It matters because the successor can now separate:
+
+- one directly observed CM-to-RA ingress clue
+- RA-side refresh or broadcast-consumer hints for provider-adjacent runtime
+  families
+- shared local provider-driver degradation
+- still-unresolved deeper orchestration direction
+
+The next explicitly chosen reviewed architecture after that directionality step
+was:
+
+- `standalone + LDU`
+
+That step is now complete and recorded in:
+
+- `docs/specs/adf-successor-first-standalone-plus-ldu-proof-review-v1.md`
+
+It matters because the successor can now separate:
+
+- the CM-side AFF, FireFlow, BusinessFlow, and identity-facing control paths
+- the LDU-side edge-heavy and provider-heavy role shape
+- the shared runtime spine that still exists on both nodes
+- one bounded LDU-side messaging adjacency back to CM `10.167.2.150:61616`
+
+The next explicitly chosen reviewed architecture after that LDU step was:
+
+- `disaster recovery`
+
+That step is now complete and recorded in:
+
+- `docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md`
+
+It matters because the successor can now separate:
+
+- an active-looking DR primary that retains the stronger AFF, FireFlow,
+  BusinessFlow, and identity-facing packets
+- a colder standby-style DR secondary that keeps Apache route shape but loses
+  the deeper AFF route-owner and session-parity proof
+- the difference between persistent route configuration and deeper runtime
+  ownership on a standby-style node
+- bounded DR-primary coordination clues versus more local-only DR-secondary
+  provider evidence
+
+The next widening move should now be chosen explicitly from the next stacked
+or alternate reviewed architecture types rather than inferred from the old
+frontier slice. The strongest follow-on is:
+
+- `capture_disaster_recovery_plus_ldu_role_separated_node_proofs`

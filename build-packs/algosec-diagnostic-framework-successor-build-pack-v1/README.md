@@ -22,9 +22,21 @@ The first bounded successor slice writes artifacts under
 
 - `shallow-surface-map.json`
 - `shallow-surface-summary.md`
+- `diagnostic-playbook.md`
+- `runtime-cookbook-guide.md`
 
 The JSON map is the canonical first-wave product layer. The Markdown summary is
 derived from that map for fast operator review.
+
+The additional engineer-consumable views keep the machine-readable-first
+contract intact while making the content easier to use under support pressure:
+
+- `diagnostic-playbook.md`
+  fast triage guidance that turns the current bounded packets into route-owner
+  hints, first checks, stop rules, and next-step choices
+- `runtime-cookbook-guide.md`
+  slower learning guidance that preserves the richer runtime story, product to
+  runtime translation, and packet-backed interpretation for future reuse
 
 ## ASMS Doc-Pack Hint Layer
 

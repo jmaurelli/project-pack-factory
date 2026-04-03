@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T18:10:44Z",
+  "generated_at": "2026-04-03T23:01:12Z",
   "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -1097,9 +1097,200 @@
         "tasks/active-backlog.json"
       ],
       "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
-      "status": "pending",
+      "status": "completed",
       "summary": "Strengthen the cross-node directionality proof for the repeated provider-facing families across the CM and remote-agent nodes.",
       "task_id": "strengthen_cross_node_directionality_proof",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor captures one clean imported role-separated proof pair for the reviewed `standalone + LDU` architecture without reusing the earlier remote-agent framing.",
+        "The resulting comparison separates CM-specific AFF, FireFlow, BusinessFlow, and identity-facing packets from the thinner LDU-side edge and provider-heavy shape.",
+        "Any cross-node clue stays fail-closed and bounded to what the imported node-local bundles really show."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded `standalone + LDU` review artifact exists and cites the fresh CM and LDU imports as its proof base.",
+        "The next summary can explain what stayed on the CM, what appears on the LDU, and what still remains unresolved.",
+        "The planner advances to the next stacked or alternate architecture instead of pretending the LDU proof already closes the whole distributed story."
+      ],
+      "dependencies": [
+        "strengthen_cross_node_directionality_proof"
+      ],
+      "escalation_conditions": [
+        "The rebuilt LDU node looks too similar to the earlier remote-agent node to support an honest role readout.",
+        "The next step would require claiming a full east-west graph or pure load-balancer-only posture without sufficient imported proof."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-first-standalone-plus-ldu-proof-review-v1.md",
+        "docs/remote-targets/algosec-ldu-153/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-cm-150-ldu-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-cm-150-ldu-test-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-ldu-153-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-ldu-153-test-request.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Capture a clean imported role-separated proof pair for the reviewed `standalone + LDU` architecture before stacking the remote agent back on.",
+      "task_id": "capture_standalone_plus_ldu_role_separated_node_proofs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-distributed-cm-150-ldu-test-request.json --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-distributed-ldu-153-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor captures one clean imported proof pair for the reviewed DR-only architecture using the rebuilt primary `10.167.2.150` and secondary `10.167.2.153` nodes.",
+        "The resulting comparison distinguishes active-primary signals from colder standby-secondary signals without claiming full failover or replication truth.",
+        "The planner keeps the earlier `standalone + LDU` proof as a separate baseline rather than flattening the DR readout into it."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded DR review artifact exists and cites the fresh primary and secondary imports as its proof base.",
+        "The next summary can explain what survives on the DR primary, what stays colder on the DR secondary, and what still remains unresolved.",
+        "The planner advances to `capture_disaster_recovery_plus_ldu_role_separated_node_proofs` instead of falling back to the older LDU-only or remote-agent-only next step."
+      ],
+      "dependencies": [
+        "capture_standalone_plus_ldu_role_separated_node_proofs"
+      ],
+      "escalation_conditions": [
+        "The rebuilt DR pair does not separate cleanly enough to support an honest primary-versus-secondary readout.",
+        "The next step would require claiming validated failover, full replication health, or a complete east-west graph without sufficient imported proof."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md",
+        "docs/remote-targets/algosec-dr-primary-150/target-connection-profile.json",
+        "docs/remote-targets/algosec-dr-secondary-153/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-primary-150-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-primary-150-test-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-secondary-153-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-secondary-153-test-request.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Capture a clean imported DR primary-versus-secondary proof pair before stacking the LDU layer onto the disaster-recovery architecture.",
+      "task_id": "capture_dr_primary_secondary_role_separated_node_proofs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-dr-primary-150-test-request.json --output json",
+        "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file build-packs/algosec-diagnostic-framework-successor-build-pack-v1/docs/remote-targets/adf-dev/remote-autonomy-dr-secondary-153-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The shallow-surface-map artifact line adds one fast diagnostic playbook and one slower cookbook or guide without weakening the JSON-first product contract.",
+        "The existing summary becomes easier to scan under time pressure and surfaces a fast-read view before the longer packet sections.",
+        "The new engineer-consumable artifacts remain derived from the shallow surface map instead of inventing a second truth layer."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The generator writes `diagnostic-playbook.md` and `runtime-cookbook-guide.md` alongside the existing JSON map and summary.",
+        "Pack-local docs explain the playbook versus cookbook split clearly enough for support-facing publication work.",
+        "Validation and benchmark surfaces still pass after the content-mode expansion lands."
+      ],
+      "dependencies": [
+        "derive_complete_product_behavior_model",
+        "capture_support_engineer_pain_points"
+      ],
+      "escalation_conditions": [
+        "The new content views start competing with the machine-readable map as the canonical product layer.",
+        "The content work drifts into broad customer playbook promises that the current bounded packet layer still cannot support."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "README.md",
+        "docs/specs/adf-successor-support-decision-support-under-pressure-v1.md",
+        "docs/specs/adf-successor-engineer-consumable-content-modes-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add dedicated engineer-consumable content modes by deriving a fast diagnostic playbook and a slower runtime cookbook guide from the shallow surface map, while tightening the existing summary layout.",
+      "task_id": "derive_engineer_consumable_playbook_and_cookbook_views",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label local-host --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor captures one clean imported proof set for the reviewed stacked `disaster recovery + LDU` architecture after the operator adds the LDU layer to the current DR pair.",
+        "The resulting comparison keeps the DR primary-versus-secondary baseline intact and treats the LDU addition as a new role layer rather than rewriting the prior DR proof history.",
+        "The next stacked review still keeps hidden east-west links, provider-side success, and failover truth fail-closed unless the new imported node-local bundles really support them."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded `DR + LDU` review artifact exists that cites fresh DR primary, DR secondary, and LDU-aware imports as its proof base.",
+        "The next summary can explain what belongs to the active DR primary, what belongs to the standby side, what belongs to the LDU layer, and what still remains shared or unresolved.",
+        "The successor preserves the earlier DR-only proof as a baseline instead of collapsing later architectures into one blended story."
+      ],
+      "dependencies": [
+        "capture_dr_primary_secondary_role_separated_node_proofs"
+      ],
+      "escalation_conditions": [
+        "The operator has not yet added the LDU layer onto the current DR architecture.",
+        "The new stacked DR topology cannot be imported cleanly through the existing adf-dev-owned bounded request path."
+      ],
+      "files_in_scope": [
+        "docs/specs",
+        "docs/remote-targets",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Capture the first stacked `disaster recovery + LDU` role-separated proof after the operator adds the LDU layer onto the current DR architecture.",
+      "task_id": "capture_disaster_recovery_plus_ldu_role_separated_node_proofs",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor captures one clean imported proof set for the reviewed stacked `standalone + LDU + remote agent` architecture after the operator bolts the remote agent back on.",
+        "The resulting comparison keeps the already-proven CM-vs-LDU baseline intact and treats the remote-agent addition as a new role layer rather than rewriting the prior proof history.",
+        "The next stacked review still keeps hidden east-west links and provider-side success fail-closed unless the new imported node-local bundles really support them."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded stacked-architecture review artifact exists that cites fresh CM, LDU, and remote-agent imports as its proof base.",
+        "The next summary can explain what belongs to the CM, what belongs to the LDU, what belongs to the remote agent, and what still remains shared or unresolved.",
+        "The successor preserves the earlier `standalone + LDU` proof as a baseline instead of collapsing all later architectures into one blended story."
+      ],
+      "dependencies": [
+        "capture_standalone_plus_ldu_role_separated_node_proofs"
+      ],
+      "escalation_conditions": [
+        "The operator has not yet rebuilt the remote-agent attachment onto the current `standalone + LDU` pair.",
+        "The new stacked topology cannot be imported cleanly through the existing adf-dev-owned bounded request path."
+      ],
+      "files_in_scope": [
+        "docs/specs",
+        "docs/remote-targets",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Capture the first stacked `standalone + LDU + remote agent` role-separated proof after the operator bolts the remote agent back onto the current LDU architecture.",
+      "task_id": "capture_stacked_standalone_ldu_remote_agent_role_separated_proof",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
       ]

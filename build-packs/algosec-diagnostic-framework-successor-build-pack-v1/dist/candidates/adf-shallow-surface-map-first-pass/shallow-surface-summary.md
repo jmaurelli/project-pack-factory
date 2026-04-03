@@ -10,19 +10,22 @@
 
 The doc-pack hint layer only informs naming, port-based hints, and prioritization. Live runtime evidence remains the source of truth for what is running here.
 
+## Fast Read
+
+- No bounded route-owner chain is strong enough to headline yet.
+- No failed high-signal services were highlighted in this bounded pass.
+- Next best seam: `define_second_node_request_shape` from ms-metro, ms-bflow, activemq.
+
 ## What Appears To Be Running
 
 - No clearly central components were identified in this first pass.
 Top visible candidates from the bounded run:
 - `polkit`: identity_or_access (confidence medium, score 3, ports none linked yet) Doc-pack hints: matched terms authorization
-- `ssh`: system_service (confidence low, score 3, ports 18081, 18083)
-- `systemd`: standalone_process (confidence low, score 3, ports 18081, 18083)
 - `vgauth`: identity_or_access (confidence medium, score 3, ports none linked yet) Doc-pack hints: matched terms authentication
 
 ## Config And Log Surfaces
 
 - `polkit`: configs `/usr/lib/systemd/system/polkit.service` (observed, systemd_fragment); logs `journalctl -u polkit.service --no-pager -n 80` (candidate, systemd_journal_locator).
-- `ssh`: configs `/usr/lib/systemd/system/ssh.service` (observed, systemd_fragment), `/etc/default/ssh` (observed, systemd_environment_file); logs `journalctl -u ssh.service --no-pager -n 80` (candidate, systemd_journal_locator).
 - `vgauth`: configs `/usr/lib/systemd/system/vgauth.service` (observed, systemd_fragment); logs `journalctl -u vgauth.service --no-pager -n 80` (candidate, systemd_journal_locator).
 
 ## Edge-To-Local Route Hints

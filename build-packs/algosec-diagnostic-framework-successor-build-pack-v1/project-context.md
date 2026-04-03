@@ -252,14 +252,71 @@ The current successor can now say:
 
 That sharpens the next move.
 
-The strongest remaining ambiguity is no longer whether provider-driver trouble
-exists locally. It is whether the successor can prove any stable cross-node
-directionality or role split behind those repeated provider families without
-inventing hidden links.
+That cross-node directionality widening step has now been completed too.
 
-The next recommended widening seam is therefore:
+The current successor can now say:
 
-- `strengthen_cross_node_directionality_proof`
+- one explicit CM-to-RA ingress clue is visible because the remote-agent node
+  `10.167.2.153` retains an `httpd` connection on `443` from
+  `10.167.2.150`
+- the remote-agent side retains the stronger refresh or broadcast-consumer
+  hints for `ms-devicemanager`, `ms-devicedriver-aws`, and
+  `ms-devicedriver-azure`, with repeated `LegacyContextRefresher`,
+  `ConfigurationChangeListener`, and `ActiveMQService` markers
+- the CM side does not retain a reciprocal peer clue or comparable
+  directionality markers in the same bounded window
+- exact provider orchestration direction still remains unresolved
+
+The bounded proof for that step is recorded in:
+
+- `docs/specs/adf-successor-bounded-cross-node-directionality-proof-v1.md`
+
+That reviewed `standalone + LDU` architecture has now been captured too.
+
+The current successor can now say:
+
+- `10.167.2.150` still retains the stronger CM-side `keycloak`, `aff-boot`,
+  `/FireFlow/api`, `/aff/api`, and `/BusinessFlow` packets
+- `10.167.2.153` now reads as the first bounded LDU-side proof rather than as
+  the earlier remote-agent role
+- the LDU still carries a meaningful runtime spine around `httpd`,
+  `ms-metro`, `algosec-ms`, `activemq`, and degraded AWS and Azure driver
+  families
+- the LDU-side provider-adjacent families now retain bounded peer clues back
+  to `10.167.2.150:61616`, which is enough to treat CM-hosted messaging
+  adjacency as visible without claiming the full east-west graph
+
+The bounded proof for that step is recorded in:
+
+- `docs/specs/adf-successor-first-standalone-plus-ldu-proof-review-v1.md`
+
+That reviewed DR-only architecture has now been captured too.
+
+The current successor can now say:
+
+- `10.167.2.150` reads as the active DR primary and still retains the
+  stronger `keycloak`, `aff-boot`, `/FireFlow/api`, `/aff/api`,
+  `/BusinessFlow`, and `aff_session_route_parity` packets
+- `10.167.2.153` reads as the colder DR secondary and retains Apache route
+  shape plus `ms-hadr` or `logstash`, but loses the deeper bounded AFF
+  route-owner and AFF session-parity packets
+- the DR-primary provider packet still retains bounded coordination clues,
+  while the DR-secondary provider packet stays more local-only
+- this is a cleaner active-versus-standby read than the earlier LDU split,
+  but it still does not prove failover success, replication freshness, or the
+  complete east-west graph
+
+The bounded proof for that step is recorded in:
+
+- `docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md`
+
+The next widening move should now be chosen explicitly from the next reviewed
+stacked or alternate architectures. The strongest follow-on is:
+
+- add the LDU layer onto the current DR shape and capture
+  `capture_disaster_recovery_plus_ldu_role_separated_node_proofs`
+- then revisit stacked `standalone + LDU + remote agent` or move on to
+  `high availability`
 
 ## Optional Overlays
 
