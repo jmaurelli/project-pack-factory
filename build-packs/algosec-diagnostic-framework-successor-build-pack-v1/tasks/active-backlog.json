@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-04-03T01:40:25Z",
+  "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The validation readiness-evaluation workflow exits successfully.",
+        "The validation gate records passing evidence in status/readiness.json."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "validate_build_pack_contract reaches pass state.",
+        "Validation evaluation evidence is recorded under eval/history and linked from status/readiness.json."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Validation reports schema or contract failures that the current task scope cannot resolve safely."
+      ],
+      "files_in_scope": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
+      "task_id": "run_build_pack_validation",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The benchmark readiness-evaluation workflow exits successfully.",
+        "Inherited benchmark gates update from not_run to pass or waived."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Benchmark evaluation evidence records results in eval/latest/index.json.",
+        "Required benchmark gates advance to pass or waived in status/readiness.json."
+      ],
+      "dependencies": [
+        "run_build_pack_validation"
+      ],
+      "escalation_conditions": [
+        "Benchmark output fails to update readiness or eval state through the existing bounded surfaces."
+      ],
+      "files_in_scope": [
+        "benchmarks/active-set.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
+      "task_id": "run_inherited_benchmarks",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack records the exact artifact fields required for the first shallow surface map before command implementation starts.",
+        "The artifact contract keeps observed facts, tentative classification, and unknowns distinct."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The first-wave machine-readable artifact contract is described in a pack-local spec or contract note.",
+        "The current pack-local objective, backlog, and work-state all point at the shallow surface map as the first product slice."
+      ],
+      "dependencies": [
+        "run_build_pack_validation",
+        "run_inherited_benchmarks"
+      ],
+      "escalation_conditions": [
+        "The contract expands into full dependency mapping or deep subsystem interpretation before the first artifact shape is stable.",
+        "The artifact cannot distinguish observed evidence from tentative inference."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "docs/specs/adf-successor-shallow-surface-map-first-slice-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Confirm the first-wave shallow surface map artifact contract before implementing discovery commands.",
+      "task_id": "define_shallow_surface_map_artifact_contract",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The build-pack can gather a first read-only shallow surface map from the live Rocky 8 host and appliance runtime.",
+        "The first pass stays intentionally shallow and stops after one machine-readable map plus one operator-reviewable summary.",
+        "Any imported ASMS documentation context remains a supplementary hint layer rather than replacing runtime evidence."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "One first-wave artifact exists for the machine-readable shallow surface map.",
+        "One first-wave operator-reviewable summary exists and derives from the map.",
+        "The first pass names one or two deeper seams worth investigating next."
+      ],
+      "dependencies": [
+        "define_shallow_surface_map_artifact_contract"
+      ],
+      "escalation_conditions": [
+        "The implementation starts drifting into deep Java or dependency analysis before the first shallow artifact is accepted.",
+        "The first pass cannot stay read-only or bounded to host-and-runtime observable surfaces."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/docpack_hints.py",
+        "src/algosec_diagnostic_framework_successor_template_pack",
+        "contracts/project-objective.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "docs/specs/adf-successor-shallow-surface-map-first-slice-v1.md"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "in_progress",
+      "summary": "Implement the first shallow read-only surface map slice for the ADF successor build pack, with supplementary ASMS doc-pack hints allowed only as ranking and naming support.",
+      "task_id": "implement_shallow_surface_map_first_pass",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack benchmark-smoke --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack import-docpack-hints --project-root . --ssh-destination adf-dev --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label local-host --output json"
+      ]
+    }
+  ]
+}
