@@ -1,0 +1,30 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": null,
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v1 --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": null,
+  "export_error": "no matching exported runtime bundle found for recovered execution manifest",
+  "export_status": "not_attempted",
+  "exported_run_id": null,
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": null,
+  "remote_runner": null,
+  "request_sha256": "d38505d373b5398be78a7100cdffc0d97414157d72820b559252c6dbe99b4d0a",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v1",
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "started_at": null,
+  "stopped_at": null,
+  "target_manifest_sha256": "ca4492c21e0f038f36374d4c86ef643d247e354581e89a2cb82604a0b73a771d",
+  "terminal_outcome": "stopped",
+  "terminal_reason": "pre_invocation_control_plane_startup_stall"
+}

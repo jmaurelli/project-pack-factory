@@ -37,11 +37,21 @@
   "identity_source": "pack.json",
   "notes": [
     "Materialized from template `config-drift-checker-template-pack` into build-pack `config-drift-checker-build-pack`.",
-    "materialization_id=materialize-config-drift-checker-build-pack-20260322t202023z"
+    "materialization_id=materialize-config-drift-checker-build-pack-20260322t202023z",
+    "role_domain_template_id=research-analyst"
   ],
   "owning_team": "orchadmin",
   "pack_id": "config-drift-checker-build-pack",
   "pack_kind": "build_pack",
+  "role_domain_template": {
+    "apply_to_derived_build_packs_by_default": false,
+    "catalog_path": "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+    "display_name": "Research Analyst",
+    "selection_origin": "materialization_selected",
+    "selection_reason": "This bounded proof uses the research-analyst lens because config-drift work benefits from explicit separation between observed drift, inference, and unresolved gaps before a promotion-facing conclusion is made.",
+    "summary": "A disciplined framing lens for evidence review, synthesis, and careful distinction between signal, gap, and inference.",
+    "template_id": "research-analyst"
+  },
   "post_bootstrap_read_order": [
     "status/lifecycle.json",
     "status/readiness.json",

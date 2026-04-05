@@ -343,6 +343,70 @@
       "type": "string",
       "const": "pack.json"
     },
+    "agent_native_project_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "display_name",
+        "summary",
+        "selection_origin",
+        "selection_reason",
+        "activation_state",
+        "apply_to_derived_build_packs_by_default",
+        "work_management_model"
+      ],
+      "properties": {
+        "profile_id": {
+          "const": "packfactory_tracker_backed_agent_native"
+        },
+        "display_name": {
+          "const": "PackFactory Tracker-Backed Agent-Native"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selection_origin": {
+          "type": "string",
+          "enum": [
+            "template_selected",
+            "materialization_inherited_default",
+            "materialization_forced_enabled"
+          ]
+        },
+        "selection_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "activation_state": {
+          "type": "string",
+          "enum": [
+            "template_declared",
+            "build_pack_active"
+          ]
+        },
+        "apply_to_derived_build_packs_by_default": {
+          "type": "boolean"
+        },
+        "work_management_model": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "canonical_tracker_mode",
+            "planner_mode"
+          ],
+          "properties": {
+            "canonical_tracker_mode": {
+              "const": "objective_backlog_work_state"
+            },
+            "planner_mode": {
+              "const": "tracker_backed_advisory_planning"
+            }
+          }
+        }
+      }
+    },
     "personality_template": {
       "type": "object",
       "additionalProperties": false,
@@ -508,6 +572,13 @@
                 "const": "dist/exports"
               }
             }
+          },
+          "agent_native_project_profile": {
+            "properties": {
+              "activation_state": {
+                "const": "template_declared"
+              }
+            }
           }
         }
       }
@@ -619,6 +690,13 @@
               },
               "template_export_dir": {
                 "type": "null"
+              }
+            }
+          },
+          "agent_native_project_profile": {
+            "properties": {
+              "activation_state": {
+                "const": "build_pack_active"
               }
             }
           }

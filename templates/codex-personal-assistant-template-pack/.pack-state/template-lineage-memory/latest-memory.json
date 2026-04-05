@@ -1,0 +1,11 @@
+{
+  "schema_version": "template-lineage-memory-pointer/v1",
+  "selected_generated_at": "2026-04-01T13:28:40Z",
+  "selected_memory_id": "template-lineage-memory-codex-personal-assistant-template-pack-20260401t132840z",
+  "selected_memory_path": ".pack-state/template-lineage-memory/template-lineage-memory-codex-personal-assistant-template-pack-20260401t132840z.json",
+  "selected_memory_sha256": "4205b86b69fedcd0954b750f8c4d08c95adee97900527d3d48e36c6afa11b745",
+  "source_kind": "template_lineage_memory_refresh",
+  "source_tool": "tools/refresh_template_lineage_memory.py",
+  "template_id": "codex-personal-assistant-template-pack",
+  "updated_at": "2026-04-01T13:28:40Z"
+}

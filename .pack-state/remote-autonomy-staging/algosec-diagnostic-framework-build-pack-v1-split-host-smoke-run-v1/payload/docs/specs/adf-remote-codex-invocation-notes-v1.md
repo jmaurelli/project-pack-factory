@@ -219,6 +219,50 @@ Current preference:
 - keep the prompt file, launcher log, and result file separated so retries are
   easier to reason about
 
+## Split-Host Wait Guidance From March 28
+
+The current `adf-dev` split-host path added one more launcher lesson that is
+different from the earlier appliance-menu notes.
+
+For `adf-dev` PackFactory-driven loops:
+
+- a successful evidence-only slice can take several minutes before it writes
+  its first checkpoint artifact
+- short controller-side SSH waits can therefore cut off a useful run before it
+  reaches `run-summary.json` or `adf-remote-checkpoint-bundle.json`
+- do not classify a split-host `adf-dev` run as a launcher failure only
+  because it stays on `run_started` during the early observation window
+
+New fail-closed classifier:
+
+- if a reviewed `adf-dev` run shape writes only controller-created
+  `loop-events.jsonl` with `run_started` and never reaches
+  `run-summary.json` or `adf-remote-checkpoint-bundle.json`, treat it as
+  `pre_invocation_control_plane_startup_stall`
+
+Current practical rule:
+
+- keep `capture_fresh_later_content_branch_checkpoint` blocked until launcher
+  hardening addresses that classifier
+- prefer small comparison or launcher slices over another direct later-content
+  content retry
+- when using controller-side bounded waits for `adf-dev`, assume sub-7-minute
+  windows can be too short for meaningful evidence-only slices
+
+Launcher-hardening update from March 28:
+
+- `tools/run_remote_autonomy_loop.py` now treats remote execution wait time as
+  its own control-plane setting instead of relying only on the generic SSH
+  timeout
+- use `PACKFACTORY_REMOTE_EXECUTION_TIMEOUT_SECONDS` when you need to tune the
+  main remote run without also changing bootstrap behavior
+- the remote execution path now defaults to a bounded 900-second controller
+  wait when no explicit execution timeout is provided
+- fail closed if a caller tries to force remote execution below 600 seconds;
+  that floor is now part of the reviewed `adf-dev` guidance because shorter
+  waits were cutting off valid evidence-only slices before the first
+  checkpoint boundary
+
 ## Not Sufficient For Task Completion
 
 These signals are orchestration evidence, not iteration-loop completion proof:

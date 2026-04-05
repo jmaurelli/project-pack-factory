@@ -80,6 +80,18 @@
         "null"
       ]
     },
+    "template_parity_reports": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/template_parity_report_summary"
+      }
+    },
+    "latest_template_parity_report_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "recommended_next_step": {
       "type": "string",
       "minLength": 1
@@ -118,6 +130,10 @@
           "minimum": 0
         },
         "retired_build_pack_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "template_parity_report_count": {
           "type": "integer",
           "minimum": 0
         }
@@ -170,6 +186,38 @@
           "$ref": "#/$defs/string_array"
         },
         "evidence_paths": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    },
+    "template_parity_report_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_id",
+        "runtime_build_pack_id",
+        "parity_status",
+        "summary",
+        "proof_paths"
+      ],
+      "properties": {
+        "report_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_build_pack_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parity_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proof_paths": {
           "$ref": "#/$defs/string_array"
         }
       }

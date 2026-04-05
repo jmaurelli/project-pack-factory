@@ -1,0 +1,32 @@
+{"cmd":"pwd","workdir":"/root","login":true,"note":"initial attempt hit appliance login-shell menu"}
+{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1","workdir":"/root","login":true,"note":"initial attempt hit appliance login-shell menu"}
+{"cmd":"sed -n '1,220p' /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/delegated-task-request.json","workdir":"/root","login":true,"note":"initial attempt hit appliance login-shell menu"}
+{"cmd":"pwd","workdir":"/root","login":false}
+{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1","workdir":"/root","login":false}
+{"cmd":"sed -n '1,240p' /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/delegated-task-request.json","workdir":"/root","login":false}
+{"cmd":"rg -n \"00:00:(43|44|45|46|47|48|49|50|51)\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
+{"cmd":"rg --files /usr/share/fa/php | rg \"(SSOLogin\\.php|BusinessFlowAPI\\.php|SuiteLoginSessionValidation\\.php|utils\\.php)$\"","workdir":"/root","login":false}
+{"cmd":"rg -n \"\\[27/Mar/2026:00:00:(43|44|45|46|47|48|49|50|51) -0400\\]\" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260327 /var/log/httpd/access_log /var/log/httpd/error_log /var/log/httpd/ssl_error_log","workdir":"/root","login":false,"note":"reported missing /var/log/httpd/ssl_access_log-20260327 but returned matching lines from existing logs"}
+{"cmd":"sed -n '1,240p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false}
+{"cmd":"sed -n '1,260p' /usr/share/fa/php/BusinessFlowAPI.php","workdir":"/root","login":false}
+{"cmd":"sed -n '1,260p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false}
+{"cmd":"sed -n '1,260p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"storeFireflowCookie|getAFASessionInfo|SuiteLoginSessionValidation|algosec-ui/login|seikan/login/setup|home.php|BusinessFlow/rest/v1/login|GetFireFlowAddress|checkFireFlowAuth|getBusinessFlowURL|getFireflowCookie\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/BusinessFlowAPI.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php/utils.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"\\[27/Mar/2026:00:00:(4[3-9]|5[0-1]) -0400\\].*(BusinessFlow/rest/v1/login|fa/server/connection/login|fa/environment/getAFASessionInfo|storeFireflowCookie|FireFlow/api/session|CommandsDispatcher|algosec-ui/login|seikan/login/setup|home.php|SuiteLoginSessionValidation|BusinessFlow)\" /var/log/httpd/ssl_access_log","workdir":"/root","login":false}
+{"cmd":"rg -n \"2026-03-27 00:00:(4[3-9]|5[0-1]).*(getUserSession|FASessionId|authenticate|BusinessFlow|storeFireflowCookie|getAFASessionInfo|CommandsDispatcher)\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false}
+{"cmd":"sed -n '109300,109380p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false}
+{"cmd":"rg -n -v '^127\\.0\\.0\\.1 ' /var/log/httpd/ssl_access_log | tail -n 40","workdir":"/root","login":false}
+{"cmd":"rg -n \"(algosec-ui/login|SuiteLoginSessionValidation|seikan/login/setup|home.php|BusinessFlow/rest/v1/login|SSOLogin.php|fa/server/connection/login|storeFireflowCookie|getAFASessionInfo)\" /var/log/httpd/ssl_access_log | tail -n 120","workdir":"/root","login":false}
+{"cmd":"sed -n '3170,3235p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"BusinessFlowAPI::login\\(|rest/v1/login|SuiteLoginSessionValidation\\.php|algosec-ui/login|seikan/login/setup|redirectTo\" /usr/share/fa/php","workdir":"/root","login":false}
+{"cmd":"sed -n '1260,1305p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"storeFireflowCookie|getAFASessionInfo|connection/login|CheckAuthentication|BusinessFlow/rest/v1/login\" /usr/share/fa/php","workdir":"/root","login":false}
+{"cmd":"sed -n '1,120p' /usr/share/fa/php/Login.php","workdir":"/root","login":false}
+{"cmd":"sed -n '260,340p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false}
+{"cmd":"sed -n '1,140p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false}
+{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/libraries/Algosec.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"\\[27/Mar/2026:.*(algosec-ui/login|seikan/login/setup|SuiteLoginSessionValidation\\.php|BusinessFlow/login|BusinessFlow/ HTTP/1\\.1\\\" 302|BusinessFlow HTTP/1\\.1\\\" 302)\" /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"note":"no matches in March 27 window"}
+{"cmd":"rg -n \"\\[(25|26|27)/Mar/2026:.*(algosec-ui/login|seikan/login/setup|SuiteLoginSessionValidation\\.php|BusinessFlow/login|BusinessFlow/ HTTP/1\\.1\\\" 302|BusinessFlow HTTP/1\\.1\\\" 302)\" /var/log/httpd/ssl_access_log","workdir":"/root","login":false}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/artifacts && sed -n '109338,109369p' /var/log/httpd/ssl_access_log > /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/artifacts/march27-midnight-ssl-slice.txt","workdir":"/root","login":false}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/artifacts && sed -n '16581,16610p' /usr/share/fireflow/var/log/fireflow.log > /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/artifacts/march27-fireflow-bootstrap-slice.txt","workdir":"/root","login":false}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/artifacts && printf '%s\n' 'ssl_access_log examples showing browser-visible suite/businessflow login path:' > /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/artifacts/browser-visible-login-examples.txt && sed -n '21764,21796p' /var/log/httpd/ssl_access_log >> /root/.pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1/artifacts/browser-visible-login-examples.txt","workdir":"/root","login":false}

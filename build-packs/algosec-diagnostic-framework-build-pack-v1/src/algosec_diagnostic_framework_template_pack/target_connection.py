@@ -193,6 +193,89 @@ def _run_ssh_command(
     }
 
 
+def _run_ssh_command_capture(
+    *,
+    profile: dict[str, Any],
+    remote_command: str,
+    timeout_seconds: int,
+    retry_limit: int,
+    retry_backoff_seconds: int,
+    preview_line_limit: int = 40,
+) -> dict[str, Any]:
+    ssh_binary = shutil.which("ssh")
+    ssh_argv = [
+        *(_ssh_base_argv(profile=profile, connect_timeout=int(_profile_timeouts(profile).get("connect_seconds", 10)))),
+        remote_command,
+    ]
+    attempts: list[dict[str, Any]] = []
+    if ssh_binary is None:
+        return {
+            "status": "fail",
+            "reason": "ssh is not installed",
+            "ssh_argv": ssh_argv,
+            "attempts": attempts,
+            "stdout_lines": [],
+            "stderr_lines": [],
+        }
+
+    for attempt_index in range(retry_limit + 1):
+        started_at = time.monotonic()
+        try:
+            completed = subprocess.run(
+                ssh_argv,
+                capture_output=True,
+                text=True,
+                timeout=timeout_seconds,
+                check=False,
+            )
+            latency_ms = int((time.monotonic() - started_at) * 1000)
+            stdout_lines = completed.stdout.splitlines()
+            stderr_lines = completed.stderr.splitlines()
+            attempt = {
+                "attempt_index": attempt_index,
+                "status": "completed" if completed.returncode == 0 else "nonzero_exit",
+                "exit_code": completed.returncode,
+                "latency_ms": latency_ms,
+                "stdout_preview": stdout_lines[:preview_line_limit],
+                "stderr_preview": stderr_lines[:preview_line_limit],
+            }
+            attempts.append(attempt)
+            if completed.returncode == 0:
+                return {
+                    "status": "pass",
+                    "ssh_argv": ssh_argv,
+                    "attempts": attempts,
+                    "stdout_lines": stdout_lines,
+                    "stderr_lines": stderr_lines,
+                }
+        except subprocess.TimeoutExpired as exc:
+            latency_ms = int((time.monotonic() - started_at) * 1000)
+            stdout_lines = (exc.stdout or "").splitlines()
+            stderr_lines = (exc.stderr or "").splitlines()
+            attempts.append(
+                {
+                    "attempt_index": attempt_index,
+                    "status": "timeout",
+                    "exit_code": None,
+                    "latency_ms": latency_ms,
+                    "stdout_preview": stdout_lines[:preview_line_limit],
+                    "stderr_preview": stderr_lines[:preview_line_limit],
+                }
+            )
+        if attempt_index < retry_limit:
+            time.sleep(retry_backoff_seconds)
+
+    last_attempt = attempts[-1] if attempts else {}
+    return {
+        "status": "fail",
+        "reason": "retry_limit_exhausted",
+        "ssh_argv": ssh_argv,
+        "attempts": attempts,
+        "stdout_lines": list(last_attempt.get("stdout_preview", [])),
+        "stderr_lines": list(last_attempt.get("stderr_preview", [])),
+    }
+
+
 def target_preflight(
     *,
     project_root: Path,
@@ -275,6 +358,37 @@ def target_shell_command(
         retry_limit=retry_count,
         retry_backoff_seconds=int(stability.get("retry_backoff_seconds", 2)),
         dry_run=dry_run,
+    )
+    return {
+        "status": command_result["status"],
+        "target_label": profile.get("target_label"),
+        "timeout_seconds": selected_timeout,
+        "requested_command": command,
+        "command_result": command_result,
+    }
+
+
+def target_shell_capture(
+    *,
+    project_root: Path,
+    command: str,
+    profile_path: str | Path | None = None,
+    timeout_seconds: int | None = None,
+    retry_count: int = 0,
+    preview_line_limit: int = 40,
+) -> dict[str, Any]:
+    profile = load_target_connection_profile(project_root=project_root, profile_path=profile_path)
+    timeouts = _profile_timeouts(profile)
+    stability = _profile_stability(profile)
+    remote_command = _shell_launcher_command(profile, command)
+    selected_timeout = timeout_seconds if timeout_seconds is not None else int(timeouts.get("command_seconds", 120))
+    command_result = _run_ssh_command_capture(
+        profile=profile,
+        remote_command=remote_command,
+        timeout_seconds=selected_timeout,
+        retry_limit=retry_count,
+        retry_backoff_seconds=int(stability.get("retry_backoff_seconds", 2)),
+        preview_line_limit=preview_line_limit,
     )
     return {
         "status": command_result["status"],

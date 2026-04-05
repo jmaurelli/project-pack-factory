@@ -1,0 +1,19 @@
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "asms-home-shell-failure-diff-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Compared the successful 2026-03-26 05:29:53-05:29:56 EDT SuiteLoginSessionValidation-to-home.php baseline against a recent failed candidate at 2026-03-25 12:56:01 EDT. The first divergence is that the failed flow never requests /afa/php/home.php and falls back to /algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php instead.",
+  "returned_artifact_paths": [
+    "artifacts/baseline-apache-window.txt",
+    "artifacts/baseline-metro-window.txt",
+    "artifacts/failure-apache-window.txt",
+    "artifacts/SuiteLoginSessionValidation-head.php.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "Correlate the 2026-03-25 12:56:01 EDT failed SuiteLoginSessionValidation request with cookie and session state on the client side, because the server-side redirect pattern matches the unauthenticated branch in SuiteLoginSessionValidation.php.",
+    "If a deeper server-side trace is needed, capture application logs that include utils::PrintLog output for the same timestamp to determine whether the branch was triggered by empty cookies, failed AFA auth, or username resolution failure."
+  ]
+}

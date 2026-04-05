@@ -1,0 +1,35 @@
+{
+  "blocking_issues": [
+    "Template packs are source-only and are not deployable artifacts.",
+    "Initial template benchmark baseline has not been recorded yet."
+  ],
+  "last_evaluated_at": "2026-04-01T13:25:29Z",
+  "pack_id": "agent-native-project-initialization-smoke-template-pack",
+  "pack_kind": "template_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Validate the new template pack.",
+    "Run the initial smoke benchmark to record the first baseline.",
+    "Materialize a build pack when the template is ready for downstream testing."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [],
+      "gate_id": "validate_project_pack",
+      "last_run_at": null,
+      "mandatory": true,
+      "status": "not_run",
+      "summary": "Basic PackFactory structure and contract validation."
+    },
+    {
+      "evidence_paths": [],
+      "gate_id": "agent_native_project_initialization_smoke_template_pack_smoke_small_001",
+      "last_run_at": null,
+      "mandatory": true,
+      "status": "not_run",
+      "summary": "Confirm the starter template validates and runs its smoke benchmark."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

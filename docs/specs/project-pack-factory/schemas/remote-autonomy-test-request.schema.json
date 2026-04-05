@@ -7,6 +7,7 @@
   "required": [
     "schema_version",
     "remote_run_request_path",
+    "local_scratch_root",
     "local_bundle_staging_dir",
     "pull_bundle",
     "import_bundle",
@@ -19,6 +20,10 @@
       "const": "remote-autonomy-test-request/v1"
     },
     "remote_run_request_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_scratch_root": {
       "type": "string",
       "minLength": 1
     },

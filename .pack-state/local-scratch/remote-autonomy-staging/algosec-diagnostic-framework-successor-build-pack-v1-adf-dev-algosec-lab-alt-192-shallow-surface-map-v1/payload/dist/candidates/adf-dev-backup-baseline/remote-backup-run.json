@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "backup_root": "/home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1",
+  "generated_files": [
+    "/home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/archives/algosec-diagnostic-framework-successor-build-pack-v1-backup-20260403t015717z.tar.gz",
+    "/home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/manifests/algosec-diagnostic-framework-successor-build-pack-v1-backup-20260403t015717z.json"
+  ],
+  "summary": {
+    "archive_sha256": "897d5c72ec9d05be5170b810588e8fac9428f41655d3c88e426815aab7774c73",
+    "archive_size_bytes": 344132,
+    "archived_member_count": 91,
+    "retention_count": 7,
+    "pruned_file_count": 0
+  },
+  "pruned_files": []
+}

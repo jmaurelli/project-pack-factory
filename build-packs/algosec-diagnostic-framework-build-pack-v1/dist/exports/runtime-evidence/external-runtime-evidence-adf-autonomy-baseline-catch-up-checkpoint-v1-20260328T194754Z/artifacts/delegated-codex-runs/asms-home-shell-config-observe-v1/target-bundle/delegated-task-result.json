@@ -1,0 +1,16 @@
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "asms-home-shell-config-observe-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Mapped the first usable ASMS home-shell config seam. PHP login bootstrap requires a Metro config fetch before home.php, using RestClient against http://127.0.0.1:8080/afa. Apache externally exposes the equivalent backend as /afa/api/v1/config, while /afa/config is not externally mapped and returned 404 in observed logs. Same-minute supporting traffic included external/noauth config probes and session-extension checks, but those did not appear to be the blocking dependency for home.php.",
+  "returned_artifact_paths": [
+    "artifacts/seam-evidence.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If you need to validate this seam actively, probe /afa/api/v1/config from the external side rather than /afa/config.",
+    "Correlate one successful SuiteLoginSessionValidation-to-home.php flow with Metro localhost_access_log.txt request IDs or session IDs to distinguish suite-frame config reads from direct AFA home-shell reads even more tightly."
+  ]
+}

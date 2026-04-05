@@ -67,6 +67,80 @@ As of this review:
   so the visible page has not yet caught up to the later local-only source
   changes.
 
+## March 30 Live Friction Addendum
+
+The March 30, 2026 Keycloak content review on `adf-dev` exposed a more concrete
+version of the synchronization friction this note is trying to avoid.
+
+Observed during the live review loop:
+
+- the plain `adf-dev` preview URL was reachable, but it initially served stale
+  Keycloak page content from an older staged copy of the build pack
+- the first live preview process was still running from a deleted working
+  directory, which produced `404 File not found` responses even though the
+  current pack files still existed on disk in the replacement path
+- the older generic remote run request under
+  `docs/remote-targets/adf-dev/remote-autonomy-run-request.json` had drifted
+  out of the current PackFactory schema because it no longer carried
+  `local_scratch_root`, so the official restage path only worked cleanly after
+  switching to the newer request surface
+- after the official restage, the remote Starlight source under
+  `dist/candidates/adf-baseline/starlight-site/src/` still needed a fresh
+  `generate-starlight-site` run before the remote review surface reflected the
+  current local source changes
+- that same restage replaced the generated `starlight-site` tree on `adf-dev`,
+  which removed the previously installed `node_modules/` and built `dist/`
+  output, so the review surface still needed `pnpm install`, `pnpm build`, and
+  a clean preview restart from the live path before the expected page appeared
+
+In plain language:
+
+- a healthy-looking `adf-dev` URL is not enough to prove the remote review
+  surface matches the current local accepted pack state
+- under the current local-canonical restage model, one content review can
+  require: pick the right request file, restage, regenerate the review source,
+  reinstall remote Starlight dependencies, rebuild the static site, and make
+  sure the preview server is not still pinned to a deleted workspace
+
+### What This Adds To The Sync Model
+
+The earlier checkpointed-sync argument was mostly about not treating PackFactory
+as minute-by-minute Git. The March 30 live review adds a separate operator pain
+point:
+
+- review-surface freshness is now part of the sync problem, not just source and
+  state reconciliation
+
+That means the current checkpointed-sync model should carry these additional
+working rules:
+
+- treat remote preview freshness as a named checkpoint concern instead of an
+  implicit side effect of restaging
+- keep only one current request surface per common remote workflow, or mark
+  legacy request files fail-closed so schema drift does not waste operator time
+- after a restage that is supposed to refresh operator-visible Starlight
+  content, verify the remote page from the rendered HTML, not only from staged
+  markdown files
+- when the remote review surface is built under `starlight-site/`, expect the
+  build outputs and `node_modules/` to be disposable remote runtime state, not
+  durable accepted ADF truth
+- treat a preview process whose cwd points at a deleted tree as a stale runtime
+  failure, not as a valid review surface
+
+### Near-Term Workflow Consequence
+
+Before any future remote-canonical mode is activated, the current local-first
+workflow still needs a cleaner one-shot "refresh adf-dev review surface"
+operation that does all of the following in order:
+
+1. validate the current request surface
+2. restage the current accepted pack
+3. regenerate the selected Starlight artifact root
+4. install or refresh remote Starlight dependencies if needed
+5. rebuild the static site
+6. restart the preview server from the live pack path
+7. verify the rendered route content, not just the source tree
+
 ## Ownership Model
 
 ### Carry From Root

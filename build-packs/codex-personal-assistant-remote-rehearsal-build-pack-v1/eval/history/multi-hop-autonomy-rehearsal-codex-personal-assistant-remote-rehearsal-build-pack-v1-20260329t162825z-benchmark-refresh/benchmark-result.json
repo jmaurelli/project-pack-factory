@@ -1,0 +1,24 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "codex-personal-assistant-template-pack-smoke-small-001",
+      "checked_paths": [
+        "pack.json",
+        "status/readiness.json",
+        "benchmarks/active-set.json"
+      ],
+      "missing_paths": [],
+      "project_root": "/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-remote-rehearsal-build-pack-v1",
+      "status": "pass"
+    }
+  ],
+  "build_pack_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1",
+  "command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+  "mandatory_gate_ids": [
+    "codex_personal_assistant_template_pack_smoke_small_001"
+  ],
+  "returncode": 0,
+  "status": "pass",
+  "stderr": "",
+  "stdout": "{\n  \"status\": \"pass\",\n  \"project_root\": \"/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-remote-rehearsal-build-pack-v1\",\n  \"benchmark_id\": \"codex-personal-assistant-template-pack-smoke-small-001\",\n  \"checked_paths\": [\n    \"pack.json\",\n    \"status/readiness.json\",\n    \"benchmarks/active-set.json\"\n  ],\n  \"missing_paths\": []\n}\n"
+}

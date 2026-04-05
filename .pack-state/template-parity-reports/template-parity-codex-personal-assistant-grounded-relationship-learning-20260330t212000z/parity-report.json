@@ -1,0 +1,37 @@
+{
+  "factory_context_paths": [
+    ".pack-state/autonomy-improvement-promotions/codex-personal-assistant-grounded-relationship-learning-20260330t210913z/promotion-report.json",
+    ".pack-state/template-parity-reports/template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t211936z/parity-report.json",
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-RUNTIME-TEMPLATE-PARITY-AND-BACKPORT-TECH-SPEC.md",
+    "templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-codex-personal-assistant-template-pack-20260330t211936z.json"
+  ],
+  "generated_at": "2026-03-30T21:20:00Z",
+  "improvement_id": "codex-personal-assistant-grounded-relationship-learning",
+  "operator_summary": "Recorded runtime-template parity `template_backported_and_lineage_refreshed` for `codex-personal-assistant-grounded-relationship-learning` from `codex-personal-assistant-daily-driver-build-pack-v1` to `codex-personal-assistant-template-pack`. Runtime paths: 4. Template paths: 4. Pending follow-up: none.",
+  "parity_status": "template_backported_and_lineage_refreshed",
+  "pending_follow_up": [],
+  "proof_paths": [
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/identity_and_navigation-last-message.txt",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json"
+  ],
+  "recorded_by": "codex",
+  "report_id": "template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t212000z",
+  "runtime_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "runtime_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+  "runtime_paths": [
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/contracts/partnership-policy.json",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/alignment.py",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/cli.py",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/grounding.py"
+  ],
+  "schema_version": "template-parity-report/v1",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "source_template_root": "/home/orchadmin/project-pack-factory/templates/codex-personal-assistant-template-pack",
+  "summary": "Record that the grounded relationship-learning assistant bundle proved in the daily-driver runtime has been backported into the codex personal assistant template source surfaces and refreshed through template lineage memory.",
+  "template_paths": [
+    "templates/codex-personal-assistant-template-pack/contracts/partnership-policy.json",
+    "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/alignment.py",
+    "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/cli.py",
+    "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/grounding.py"
+  ]
+}

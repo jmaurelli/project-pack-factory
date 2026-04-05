@@ -1,0 +1,29 @@
+---
+title: ADF Prototype B · Signal Board
+description: A high-contrast operations board focused on fast scanning, hot clues, and triage pressure.
+sidebar:
+  label: Overview
+  order: 1
+---
+
+# Signal Board
+
+A high-contrast operations board focused on fast scanning, hot clues, and triage pressure.
+
+These are prototype sites only. All playbooks below use fake triage data so we can compare structure, scanning speed, and visual style without carrying forward any current ADF content.
+
+## Triage context
+
+- Support engineers are usually working a customer case live over SSH.
+- They troubleshoot both the Linux host and the application running on that host.
+- Common Linux issues such as disk pressure, inode pressure, OOM kills, file locks, and port conflicts can break the application.
+- The first job is triage: find the first broken checkpoint fast and move the case forward with confidence.
+
+## Sample playbooks
+
+<div class="proto-card-grid">
+<a class="proto-card" href="/playbooks/application-ui-wont-load/"><strong>Application UI won't load</strong><span>Use this when the customer says the application UI is down and the engineer is already on SSH.</span></a>
+<a class="proto-card" href="/playbooks/service-wont-start/"><strong>Application service will not start</strong><span>Use this when a service is stopped, flapping, or exits immediately after restart.</span></a>
+<a class="proto-card" href="/playbooks/linux-host-under-pressure/"><strong>Linux host under pressure</strong><span>Use this when multiple services are acting strangely and the host itself may be the real problem.</span></a>
+</div>
+

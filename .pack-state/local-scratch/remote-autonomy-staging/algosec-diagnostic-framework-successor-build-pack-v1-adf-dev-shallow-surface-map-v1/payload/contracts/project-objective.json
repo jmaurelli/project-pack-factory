@@ -1,0 +1,82 @@
+{
+  "autonomy_quality_requirement": {
+    "required_for_promotion": false,
+    "summary": "Autonomy quality is advisory by default; promotion only blocks on autonomy quality when this objective explicitly declares bounded thresholds."
+  },
+  "autonomy_rehearsal_requirement": {
+    "required_for_promotion": true,
+    "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state. This is a fresh-pack certification step, not a retrofit certifier for an already-evolving build-pack.",
+    "workflow_id": "multi_hop_autonomy_rehearsal"
+  },
+  "completion_definition": [
+    "The first wave produces one machine-readable shallow surface map from live Rocky 8 and appliance observation.",
+    "The first wave produces one operator-reviewable summary derived from that surface map.",
+    "The first wave identifies one or two sensible deeper seams without claiming complete dependency understanding.",
+    "The build-pack preserves machine-readable diagnostic content as the canonical product layer and treats later guides and playbooks as derived outputs."
+  ],
+  "generated_at": "2026-04-02T12:09:44Z",
+  "intended_inputs": [
+    "Incomplete but agent-optimized technical documentation available to the ADF successor line.",
+    "Live Rocky 8 host and virtual-appliance runtime observation, including processes, services, ports, configs, logs, and JVM-adjacent visibility where safely observable.",
+    "Pack-local source code, contracts, tasks, and status files under the materialized build-pack."
+  ],
+  "intended_outputs": [
+    "One machine-readable shallow surface map for the first useful support layer of the host and appliance runtime.",
+    "One operator-reviewable summary derived from that map.",
+    "A bounded ADF successor control plane that can deepen later slices from a real early artifact instead of speculative architecture."
+  ],
+  "materialization_id": "materialize-algosec-diagnostic-framework-successor-build-pack-v1-20260402t120944z",
+  "metrics": [
+    {
+      "evidence_hint": "status/readiness.json and eval/latest/index.json",
+      "metric_id": "validation_gate_status",
+      "summary": "Validation gate reaches a passing state.",
+      "target": "validate_build_pack_contract=pass"
+    },
+    {
+      "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
+      "metric_id": "benchmark_completion",
+      "summary": "All inherited readiness benchmarks complete successfully.",
+      "target": "required inherited benchmark gates=pass or waived"
+    },
+    {
+      "evidence_hint": "A first-wave structured artifact under the pack-local candidate or artifact surface.",
+      "metric_id": "shallow_surface_map_exists",
+      "summary": "The first ADF successor wave emits one machine-readable shallow surface map from live runtime observation.",
+      "target": "one machine-readable shallow surface map exists with observed facts, tentative classifications, and visible unknowns"
+    },
+    {
+      "evidence_hint": "A first-wave operator-reviewable artifact derived from the surface map.",
+      "metric_id": "surface_summary_reviewability",
+      "summary": "The first ADF successor wave emits one operator-reviewable summary derived from the machine-readable map.",
+      "target": "one operator-reviewable summary exists and names central components, unknowns, and one or two next deeper seams"
+    }
+  ],
+  "non_goals": [
+    "Changing deployment state outside the existing PackFactory workflows.",
+    "Creating new tests or benchmarks without explicit operator approval.",
+    "Attempting full dependency-graph completion, predictive analytics, or deep subsystem theory before the first shallow surface map exists."
+  ],
+  "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+  "objective_summary": "Create a bounded agent-centered ADF successor build pack that starts with a shallow read-only surface map of the Rocky 8 host and virtual appliance, turns that observation into one machine-readable diagnostic artifact plus one operator-reviewable summary, and only then deepens into later dependency or playbook work.",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "problem_statement": "# Project Context\n\nThis template was created to support the following project goal:\n\n- Create a bounded agent-centered ADF successor template that learns from incomplete technical documentation plus live Rocky 8 appliance discovery, builds machine-readable diagnostic content first, and proves value through an early shallow surface map slice before deeper dependency or predictive work.\n\n## Priority\n\n1. Keep the template valid for PackFactory traversal and later materialization.\n2. Keep validation and benchmark commands small and deterministic.\n3. Keep the pack easy for a fresh agent to inspect.\n\n## Primary Runtime Surfaces\n\n- `src/algosec_diagnostic_framework_successor_template_pack/cli.py`\n- `src/algosec_diagnostic_framework_successor_template_pack/validate_project_pack.py`\n- `src/algosec_diagnostic_framework_successor_template_pack/benchmark_smoke.py`\n- `benchmarks/active-set.json`\n- `benchmarks/declarations/algosec-diagnostic-framework-successor-template-pack-smoke-small-001.json`\n- `eval/latest/index.json`\n\n## Local State\n\n- local scratch state: `.pack-state/`\n- optional template lineage memory: `.pack-state/template-lineage-memory/latest-memory.json`\n\n## Agent-Native Initialization\n\nThis template declares a default agent-native posture for future derived build-packs.\nIt does not claim active pack-local tracker files here; build-pack materialization is where live activation can happen.\nProfile: `packfactory_tracker_backed_agent_native` (PackFactory Tracker-Backed Agent-Native).\nActivation state: `template_declared`.\nWork management model: `objective_backlog_work_state` / `tracker_backed_advisory_planning`.\nWhen a derived build-pack activates this profile, discover tracker surfaces through `pack.json.directory_contract` and `pack.json.post_bootstrap_read_order`.\nDefault for derived build-packs: `true`.\nTreat this profile as declaration-only until a derived build-pack activates it.\n\n## Factory-Level Inheritance Note\n\nThis template is a source template, not the canonical home of the autonomy\nbaseline.\n\nFor inherited PackFactory defaults around agent memory, feedback loops,\nrestart behavior, rehearsal evidence, and branch-choice policy, prefer the\nfactory-level state brief and operations note:\n\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`\n\nWhen present, the template-local lineage memory at\n`.pack-state/template-lineage-memory/latest-memory.json` is the shortest path\nto template-family learning that has already been distilled from derived\nbuild-packs.\n\nThat inherited baseline now also includes startup-compliance expectations for\nremote Codex session management and runtime-evidence flow:\n\n- prefer PackFactory-local remote-session workflows from the factory root\n- do not treat ad hoc `ssh` prompts or raw stdout/stderr logs as canonical\n  PackFactory evidence\n- return to the factory root for external runtime-evidence import\n\n## Optional Overlays\n\nWhen `pack.json.personality_template` exists, treat it as an optional overlay\nfor briefing tone, recommendation framing, and operator-facing collaboration.\n\nWhen `pack.json.role_domain_template` exists, treat it as an optional overlay\nfor problem framing, default task heuristics, and functional perspective.\n\nThese overlays should stay composable with the template itself:\n\n- one source template can still feed multiple build-packs with different\n  overlay combinations\n- personality guidance should shape tone and collaboration posture, not role\n  authority or operator-specific runtime truth\n- role/domain guidance should shape problem framing and default heuristics, not\n  tone, identity, or literal credentials\n- overlays should not replace the project goal, runtime surfaces, or\n  control-plane files\n- canonical lifecycle, readiness, deployment, and promotion state always win\n  over overlay guidance when they point in different directions",
+  "promotion_readiness_requirements": [
+    "Build-pack validation must pass with recorded evidence.",
+    "Inherited required benchmark gates must pass or be waived.",
+    "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+    "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
+    "If this build-pack itself is expected to carry promotion-ready remote proof, the fresh-pack rehearsal step must happen before the pack diverges into long-lived day-to-day use.",
+    "Autonomy quality remains advisory by default unless this build-pack later declares a bounded promotion-time autonomy-quality requirement.",
+    "The first-wave shallow surface map artifacts must exist before later dependency or predictive layers can be treated as credible successor-line progress."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "algosec-diagnostic-framework-successor-template-pack",
+  "success_criteria": [
+    "The build-pack validation command completes successfully and records passing evidence.",
+    "The inherited benchmark command completes successfully and updates readiness evidence.",
+    "The build-pack records one machine-readable shallow surface map from live runtime observation.",
+    "The build-pack records one operator-reviewable summary derived from that map.",
+    "The first wave names one or two candidate deeper seams without pretending total system understanding."
+  ]
+}

@@ -9,7 +9,7 @@ memory and feedback loops, then carry those improvements back into PackFactory
 itself so the factory becomes a better default starting point for every future
 build-pack.
 
-Last updated: 2026-03-29
+Last updated: 2026-04-01
 
 ## Current State Snapshot
 
@@ -85,6 +85,28 @@ Recent proof points:
   permanent factory-to-pack connectivity is not assumed.
 
 ## Next Frontier
+
+- [ ] Agent-managed transient local scratch root selection and staging lifecycle guard.
+  Scope: implement the explicit design in
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md`.
+  That spec requires PackFactory to classify remote-autonomy local staging as
+  scratch, route scratch through an agent-managed local scratch root that can
+  live on another directory or partition, persist that choice in host-local
+  state so later agent sessions inherit it automatically, update validators so
+  scratch no longer has to stay under the repo root, and then add cleanup,
+  retention, and disk-pressure guardrails on top of that boundary.
+  Why it matters: on 2026-03-29, `/` reached `97%` usage (`58G` total,
+  `53G` used, `1.9G` free) while
+  `.pack-state/remote-autonomy-staging` alone had grown to about `12G`.
+  Removing only the pre-2026-03-29 staging directories reduced that staging
+  area to `541M` and brought `/` down to `76%` (`42G` used, `14G` free).
+  Evidence from the cleanup pass: the urgent pressure came from transient
+  ADF-heavy staging payloads rather than journals (`72M`), `.git`
+  (`94M`), or canonical evidence surfaces such as
+  `remote-autonomy-roundtrips/` (`189M`),
+  `remote-runtime-imports/` (`14M`), and `agent-memory/` (`1.5M`).
+  Specification: see
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md`.
 
 - [x] Startup-compliance rehearsal workflow.
   Scope: add and prove a reusable factory workflow that materializes a fresh
@@ -430,6 +452,40 @@ Recent proof points:
   Why it matters: it makes learning transfer explicit, so we know what is
   already automatic for future build-packs and what still needs a deliberate
   factory change.
+
+## Root Initiative
+
+- [x] Agent-native initialization declaration.
+  Scope: define the v1 declaration-only `agent_native_project_profile` and
+  keep it tracker-backed rather than adding a new runtime planner.
+  Why it matters: fresh agents should discover the intended operating model
+  from the manifest and startup docs without mistaking planning context for
+  execution truth.
+  Current bounded baseline: the agent-native spec now spells out the
+  declaration-only profile, the profile is optional and bounded to the
+  existing control plane, and the matching root task is recorded in
+  backlog/work-state.
+
+- [x] Tracker/planner formalization.
+  Scope: formalize `task tracker` versus `planner` so advisory planning
+  context stays small and tracker-backed while execution remains in
+  `objective/backlog/work-state`.
+  Why it matters: the factory needs one execution authority and one clear
+  place for “why this work exists” context.
+  Current bounded baseline: the tracker/planner spec now keeps
+  `advisory_planning_context` optional and bounded, task provenance stays
+  lightweight, and the root task is recorded in backlog/work-state.
+
+- [x] Agent-native initialization declaration implementation.
+  Scope: implement the declaration-only control-plane slice in the creation,
+  materialization, manifest, and generated startup surfaces, then prove it on
+  one fresh smoke template/build-pack pair.
+  Why it matters: this turns the model into a real PackFactory capability
+  instead of leaving it as a docs-only idea.
+  Current bounded baseline: the new profile now flows through the template
+  creation request/report, materialization request/report, pack manifest, and
+  generated `AGENTS.md` plus `project-context.md`, and the proving-ground
+  template/build-pack pair validated cleanly after creation and materialization.
 
 ## Executive Summary Memory Plan
 

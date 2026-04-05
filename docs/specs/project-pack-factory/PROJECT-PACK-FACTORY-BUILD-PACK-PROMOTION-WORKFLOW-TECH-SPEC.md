@@ -119,6 +119,18 @@ Before promotion starts:
 If any precondition fails, the tool must stop before mutating deployment state
 or deployment pointers.
 
+Additional process note:
+
+- when `contracts/project-objective.json` requires a completed multi-hop
+  autonomy rehearsal for promotion, the compatible rehearsal report must target
+  the same build-pack id being promoted
+- the current official multi-hop and autonomy-to-promotion workflows are
+  fresh-pack certification flows, so operators should run that step before the
+  intended promoted pack diverges into long-lived daily-driver use
+- if that fresh-pack step was skipped, describe the gap honestly as a missed
+  workflow step instead of implying that existing-pack promotion evidence can
+  be reconstructed from an unrelated proving-ground pack
+
 ## Runtime Agent Memory Integration
 
 Promotion does not create a separate runtime-memory decision path.

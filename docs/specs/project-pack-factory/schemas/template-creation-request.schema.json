@@ -98,6 +98,27 @@
           "type": "string",
           "minLength": 1
         },
+        "agent_native_project_profile_selection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "profile_id",
+            "selection_reason",
+            "apply_to_derived_build_packs_by_default"
+          ],
+          "properties": {
+            "profile_id": {
+              "const": "packfactory_tracker_backed_agent_native"
+            },
+            "selection_reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "apply_to_derived_build_packs_by_default": {
+              "type": "boolean"
+            }
+          }
+        },
         "personality_template_selection": {
           "type": "object",
           "additionalProperties": false,

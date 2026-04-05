@@ -1,0 +1,19 @@
+OpenAI Codex v0.117.0 (research preview)
+--------
+workdir: /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 019d3c15-06ec-7e83-aea3-46ccf8303c41
+--------
+user
+You are running inside a staged Project Pack Factory build-pack. Work only inside this pack root. Read AGENTS.md, project-context.md, and pack.json first, then the assistant/operator/partnership contracts needed for the task. Stay bounded to local assistant behavior, memory, bootstrap, doctor, and documentation surfaces. Do not modify registry, deployment, promotion, or unrelated files. Keep responses concise and concrete.
+
+Assistant UAT task:
+I prefer concise answers and I often switch contexts. Use the local assistant memory surface to record that as a preference, read it back, and tell me briefly how you would use it in future sessions.
+
+Do the needed local work. End with a concise plain-language answer.
+warning: Codex could not find system bubblewrap at /usr/bin/bwrap. Please install bubblewrap with your package manager. Codex will use the vendored bubblewrap in the meantime.

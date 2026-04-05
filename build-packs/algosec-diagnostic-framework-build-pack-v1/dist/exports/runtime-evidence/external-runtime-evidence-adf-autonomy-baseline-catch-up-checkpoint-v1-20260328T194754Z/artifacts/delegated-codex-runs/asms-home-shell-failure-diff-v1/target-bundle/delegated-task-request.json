@@ -1,0 +1,27 @@
+{
+  "allowed_targets": [
+    "/usr/share/fa/php",
+    "/var/log/httpd",
+    "/data/ms-metro/logs"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "asms-home-shell-failure-diff-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md"
+  ],
+  "generated_at": "2026-03-26T23:06:50Z",
+  "generated_by": "orchadmin",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+  "remote_target_label": "algosec-lab",
+  "run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "schema_version": "adf-delegated-task-request/v1",
+  "scope_summary": "Find one recent failed ASMS shell-transition candidate and compare it to the successful SuiteLoginSessionValidation-to-home.php baseline at 2026-03-26 05:29:53-05:29:56 EDT for session i88p8vb1s79p6nb0f4o2jkpb07. Use Apache ssl_access_log, Metro localhost_access_log.txt, and relevant PHP code paths. Prefer a failure where SuiteLoginSessionValidation appears but home.php is absent, non-200, or the immediate shell bootstrap is missing or degraded. Identify the first missing or degraded request relative to the successful baseline. Do not mutate appliance state.",
+  "target_bundle_root": ".pack-state/delegated-codex-runs/asms-home-shell-failure-diff-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "time_budget_seconds": 900
+}

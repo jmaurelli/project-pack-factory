@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-03T23:01:12Z",
+  "generated_at": "2026-04-05T11:28:30Z",
   "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -1227,6 +1227,80 @@
     },
     {
       "acceptance_criteria": [
+        "The build-pack exposes one machine-readable, repo-local idea-log surface for successor ideas, behavioral notes, cookbook candidates, and operator theories that are not backlog items.",
+        "The feature includes bounded capture, review, and update commands so the operator and future agents can append, inspect, and advance note state without manual JSON editing.",
+        "The new surface stays clearly separate from backlog, work-state, and feedback-memory truth while still being easy for future agents to discover."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A canonical `notes/idea-log.json` file exists and validates through the pack's CLI path.",
+        "The CLI can record a note, list recent notes, and update review or lifecycle state in JSON form.",
+        "Pack discovery and documentation surfaces point future agents at the idea log."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The idea-log surface starts behaving like a second task tracker or a second memory-truth layer.",
+        "The capture or update workflow requires broad manual editing instead of bounded commands."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_successor_template_pack/idea_log.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "notes/idea-log.json",
+        "pack.json",
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/adf-successor-collaborative-idea-log-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a machine-readable collaborative idea log with bounded CLI capture and review commands so successor-local ideas and behavioral notes can be preserved without turning them into backlog items or restart memory.",
+      "task_id": "add_collaborative_idea_log_surface",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack record-idea-note --project-root . --title \"<title>\" --summary \"<summary>\" --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack list-idea-notes --project-root . --limit 20 --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack update-idea-note --project-root . --note-id \"<note-id>\" --review-state in_review --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor records one concrete plan for deepening standalone runtime knowledge while the operator is busy building the next distributed architecture.",
+        "The plan uses official PackFactory and adf-dev autonomy-loop surfaces rather than ad hoc remote-session habits.",
+        "The plan keeps fresh-pack certification surfaces separate from claims about the current long-lived successor pack."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A standalone-deepening autonomy-loop plan exists as a pack-local spec.",
+        "The current README, project-context, and tracker surfaces point future agents to that plan.",
+        "The current main distributed next step remains intact instead of being overwritten by the parallel standalone lane."
+      ],
+      "dependencies": [
+        "capture_dr_primary_secondary_role_separated_node_proofs"
+      ],
+      "escalation_conditions": [
+        "The plan would require inventing a new remote control plane instead of using the existing PackFactory and adf-dev workflows.",
+        "The plan would blur fresh-pack certification exercises and long-lived successor runtime knowledge into one unsupported story."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-parallel-standalone-deepening-autonomy-loop-plan-v1.md",
+        "README.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Define a concrete parallel standalone-deepening plan that uses official PackFactory and adf-dev autonomy loops to keep enriching standalone runtime knowledge while the operator builds the next distributed architecture.",
+      "task_id": "define_parallel_standalone_deepening_autonomy_loop_plan",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
         "The successor captures one clean imported proof set for the reviewed stacked `disaster recovery + LDU` architecture after the operator adds the LDU layer to the current DR pair.",
         "The resulting comparison keeps the DR primary-versus-secondary baseline intact and treats the LDU addition as a new role layer rather than rewriting the prior DR proof history.",
         "The next stacked review still keeps hidden east-west links, provider-side success, and failover truth fail-closed unless the new imported node-local bundles really support them."
@@ -1253,11 +1327,152 @@
         "tasks/active-backlog.json"
       ],
       "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
-      "status": "pending",
+      "status": "completed",
       "summary": "Capture the first stacked `disaster recovery + LDU` role-separated proof after the operator adds the LDU layer onto the current DR architecture.",
       "task_id": "capture_disaster_recovery_plus_ldu_role_separated_node_proofs",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor can keep enriching standalone runtime knowledge from one or more stable standalone targets while the operator is still building the next distributed architecture.",
+        "The work uses official adf-dev request wrappers plus bounded PackFactory import and continuity tools instead of ad hoc remote sessions.",
+        "The resulting artifacts improve standalone node knowledge, packet quality, or engineer-facing derived content without replacing the current distributed-next-step pointer."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "One or more fresh standalone imports land through the official adf-dev-owned roundtrip path during the distributed-build wait period.",
+        "The successor records at least one bounded standalone-deepening artifact improvement such as stronger failed-service packets, package-drift readouts, provider-health refinement, config or log locator coverage, or richer playbook or cookbook content.",
+        "Checkpoint and remote active-task continuity are used only when the long-lived pack is at a compatible boundary, and any fresh-pack proving-ground autonomy exercises are kept separate from runtime-truth claims."
+      ],
+      "dependencies": [
+        "define_parallel_standalone_deepening_autonomy_loop_plan"
+      ],
+      "escalation_conditions": [
+        "No stable standalone target remains available while the operator is rebuilding distributed labs.",
+        "The requested deepening would require treating fresh-pack certification workflows as if they were proof about the current long-lived successor pack."
+      ],
+      "files_in_scope": [
+        "docs/specs",
+        "docs/remote-targets",
+        "dist/candidates/adf-shallow-surface-map-first-pass",
+        "eval/history",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Execute the parallel standalone-deepening lane against stable standalone targets through official adf-dev roundtrips and bounded continuity tools while the operator builds the next distributed architecture.",
+      "task_id": "execute_parallel_standalone_deepening_via_official_autonomy_loops",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The planner records a longer-horizon successor knowledge spine that prioritizes support-facing symptom guidance, log awareness, failure and scenario testing, predictive failure points, data flows, database-black-box analytics, and only later workload fingerprinting.",
+        "The new spine stays planner-visible without replacing the current main distributed next step.",
+        "The recorded horizon makes the support-engineer outcome explicit and keeps evidence boundaries fail-closed."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A dedicated spec exists that explains the long-horizon knowledge order and why it matters.",
+        "The project objective, context, or expansion frontier surfaces reference that spine.",
+        "Validation still passes after the planner updates."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The new horizon collapses current bounded proof into unsupported product theory.",
+        "The new horizon weakens the explicit current next step around reviewed distributed architectures."
+      ],
+      "files_in_scope": [
+        "contracts/project-objective.json",
+        "docs/specs",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Define a support-first long-horizon diagnostic knowledge spine so the successor can widen from runtime mapping into symptom-to-path guidance, log awareness, failure and scenario testing, predictive failure points, data flows, database-black-box analytics, and only later workload fingerprinting.",
+      "task_id": "define_workload_aware_diagnostic_knowledge_spine",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The successor begins widening its support-facing knowledge beyond topology, dependency, health, and behavior into workload-aware diagnostic reasoning.",
+        "New work can be slotted methodically under the recorded spine instead of being improvised as disconnected future ideas.",
+        "The resulting support knowledge remains confidence-scored and distinguishes repeated evidence from scenario-specific drift.",
+        "The task is treated as an iterative lane with repeatable enhancement passes, not as a one-time terminal completion of the whole spine."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "At least one new future artifact or packet is created under the workload-aware spine, such as symptom-to-path guidance, log-signature knowledge, scenario-test readouts, failure-prediction aids, data-flow packets, database-black-box clues, or later workload fingerprints.",
+        "The successor can explain expected-vs-suspicious drift more clearly across different workloads or custom settings.",
+        "The support-facing story becomes more diagnostic and less inventory-like."
+      ],
+      "dependencies": [
+        "define_workload_aware_diagnostic_knowledge_spine"
+      ],
+      "escalation_conditions": [
+        "The work starts claiming universal behavior from custom or scenario-specific labs without repeated evidence.",
+        "The work attempts database semantics or failure prediction beyond the current proof base."
+      ],
+      "files_in_scope": [
+        "docs/specs",
+        "dist/candidates/adf-shallow-surface-map-first-pass",
+        "eval/history",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Methodically widen the successor into a support-first diagnostic knowledge system with stronger symptom-to-path guidance, log awareness, scenario testing, predictive failure reasoning, data flows, database-black-box clues, and only later workload fingerprints, treating the lane as a recurring enhancement cycle rather than a one-time finish line.",
+      "task_id": "activate_workload_aware_diagnostic_knowledge_spine",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "`adf-dev` has a bounded on-host Chromium-capable Playwright runtime that can launch headlessly without relying on a desktop-browser setup.",
+        "The host can open the successor Starlight review shell on-host and prove at least the overview page plus one reviewed route such as `Service State`.",
+        "The implementation stays compatible with the reviewed host-plan contract and does not replace the PackFactory-local browser-proof path."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The host-shared library package step is complete on `adf-dev` and a workspace-local Playwright install exists there.",
+        "A bounded on-host proof opens the successor Starlight review shell and confirms basic page load on the real review host.",
+        "The successor records the final host-readiness and first proof result in machine-readable pack state or evaluation evidence."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Host package installation on `adf-dev` needs privileges or package changes that the current workflow cannot perform safely.",
+        "The successor shell can publish on `adf-dev` but Chromium still cannot launch there after the reviewed host-plan package family and workspace-local Playwright install are applied.",
+        "Remote review would require weakening the proof into curl-only or screenshot-only checks instead of a real headless browser run."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md",
+        "docs/specs/adf-successor-starlight-review-shell-plan-v1.md",
+        "README.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+      "status": "pending",
+      "summary": "Provision `adf-dev` for bounded headless browser review and prove the successor Starlight shell can be opened there with Playwright and Chromium.",
+      "task_id": "provision_adf_dev_headless_browser_review_host_for_successor_shell",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack serve-starlight-review-shell --project-root . --host 127.0.0.1 --port 18083 --dry-run --output json"
       ]
     },
     {

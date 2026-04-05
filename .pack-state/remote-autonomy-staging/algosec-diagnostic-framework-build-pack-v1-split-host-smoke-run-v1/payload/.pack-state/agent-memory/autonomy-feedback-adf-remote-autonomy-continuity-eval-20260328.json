@@ -1,0 +1,114 @@
+{
+  "active_task_id": null,
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 4,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 2
+    },
+    "status": "within_budget",
+    "summary": "The first real adf-dev continuity evaluation stayed within the bounded run budget, but it failed usefully on a contract mismatch rather than completing unattended continuation."
+  },
+  "baseline_readiness_state": "ready_for_review",
+  "block_summary": {
+    "blocker_kind": "remote_autonomy_contract_mismatch",
+    "summary": "The first real adf-dev continuity evaluation stopped fail-closed because the generated remote prompt still scoped the run to starter-backlog work and the writable-surface contract rejected benchmark-generated dist/candidates artifacts."
+  },
+  "completed_task_ids": [
+    "adopt_support_cockpit_direction",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs",
+    "prototype_starlight_publishing",
+    "formalize_shared_host_health_precheck_pack",
+    "prove_asms_ui_system_thinking_with_authenticated_flow",
+    "capture_asms_post_home_followups_before_subsystem_split",
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "validate_frontline_playbook_with_small_trial_series",
+    "validate_frontline_asms_ui_shallow_healthy_path_trial",
+    "execute_httpd_shallow_fault_validation_trial",
+    "plan_controlled_fault_injection_playbook_validation",
+    "rebuild_asms_ui_system_thinking_playbook",
+    "investigate_asms_ui_components_for_useful_work_checks",
+    "reframe_host_precheck_around_pressure_signals",
+    "clarify_adf_iteration_loop_completion_boundary",
+    "build_adf_autonomous_iteration_loop",
+    "deepen_asms_ui_service_command_packs",
+    "define_adf_checkpointed_sync_model",
+    "decouple_codex_runtime_from_target_lab_environment",
+    "evaluate_adf_dev_remote_autonomy_continuity",
+    "map_asms_ui_subsystem_and_validate_core_scenarios",
+    "validate_asms_ui_dependency_order_experimentally",
+    "refine_support_cockpit_right_rail_layout",
+    "consider_horizontal_dependency_path_in_center_pane"
+  ],
+  "delta_summary": "ADF now has one real adf-dev continuity evaluation preserved, and it proved the next remote-autonomy work should tighten the prompt scope and writable-surface contract before another unattended run.",
+  "evidence_paths": [
+    "docs/specs/adf-remote-autonomy-testing-workflow-v1.md",
+    "eval/history/adf-dev-remote-autonomy-continuity-evaluation-20260328.md",
+    "status/readiness.json",
+    "status/work-state.json",
+    "tasks/active-backlog.json"
+  ],
+  "final_readiness_state": "ready_for_review",
+  "generated_at": "2026-03-28T16:42:49Z",
+  "handoff_summary": [
+    "The first real adf-dev continuity evaluation is complete and preserved.",
+    "It failed usefully because the remote prompt still targeted starter-backlog-only work and the writable-surface contract rejected legitimate benchmark-generated dist/candidates outputs.",
+    "The next move is to tighten the remote autonomy contract for real current ADF tasks before rerunning unattended evaluation.",
+    "Keep deepen_dependency_aware_playbooks as the real task candidate once the remote loop contract is fixed."
+  ],
+  "highest_risk_observation": "Highest risk: it is still easy to misread a live remote Codex process as successful autonomy when the actual checkpoint contract is mismatched with the real task.",
+  "memory_id": "autonomy-feedback-adf-remote-autonomy-continuity-eval-20260328",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Pack-local restart memory for the first real adf-dev continuity evaluation result.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "canonical_state_integrity_not_passed"
+    ],
+    "confidence_level": "low",
+    "confidence_score": 0.4,
+    "expires_after_hours": 12,
+    "expires_at": "2026-03-29T04:42:49Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "Low-confidence active pack restart memory with 12h freshness window."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_treating_live_remote_process_as_success",
+      "avoid_rerunning_same_remote_loop_unchanged"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Do not treat a live remote Codex process on adf-dev as proof of unattended continuity if the checkpoint contract is still mismatched.",
+      "Do not rerun the same remote loop unchanged until the prompt scope and writable-surface rules are fixed for real current ADF tasks."
+    ]
+  },
+  "next_recommended_task_id": "tighten_adf_dev_remote_autonomy_contract_for_real_tasks",
+  "operator_intervention_summary": null,
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: tighten the adf-dev remote autonomy contract for real current ADF tasks, then rerun the same bounded continuity evaluation.",
+  "resolved_block_summary": null,
+  "run_id": "adf-remote-autonomy-continuity-eval-20260328",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+    "loop_events_path": null,
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-adf-remote-autonomy-testing-direction-20260328.json",
+    "run_summary_path": null
+  },
+  "summary": "This restart memory captures the first real adf-dev continuity evaluation and the contract mismatches it exposed."
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2/remote-run-request.json",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2/incoming",
+  "pull_bundle": true,
+  "import_bundle": false,
+  "imported_by": "codex",
+  "import_reason": "Review the reports-branch v2 bundle or manifest-only recovery locally before accepting any canonical state changes.",
+  "test_reason": "Retry one bounded REPORTS branch content slice with the hardened manifest-only recovery path and a 600-second execution window."
+}

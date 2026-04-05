@@ -218,6 +218,22 @@ Example:
   `python3 tools/import_external_runtime_evidence.py ...` or a higher-level
   PackFactory workflow that wraps it.
 
+## Transient Local Scratch
+
+PackFactory's remote-autonomy staging and roundtrip `incoming/` trees are
+transient scratch, not canonical preserved evidence.
+
+- see `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md`
+- the selected local scratch root is PackFactory-managed host-local state, not
+  a request payload authority
+- PackFactory should choose and persist that root automatically across agent
+  sessions; env configuration exists only as an override or bootstrap seed
+- if a workflow needs durable audit artifacts such as generated import
+  requests or roundtrip manifests, write or copy them outside scratch before
+  cleanup
+- if the repo-local fallback scratch root is in use, disk-pressure checks are
+  the safety net that should keep the same failure from silently returning
+
 ## Operator Tools
 
 - `python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory`
@@ -244,10 +260,12 @@ Example:
 - `python3 tools/run_local_mid_backlog_checkpoint.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --run-id <run-id>`
 - `python3 tools/run_remote_active_task_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
 - `python3 tools/run_remote_memory_continuity_test.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --output json`
+- `python3 tools/build_assistant_uat_remote_request.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id <pack-id> --remote-target-label <target> --remote-host <host> --remote-user <user> --scenario-id <scenario-id> --reason "<reason>" --output json`
 - `python3 tools/record_autonomy_run.py finalize-run --pack-root <pack-root> --run-id <run-id> --output json`
 - `python3 tools/refresh_local_feedback_memory_pointer.py --pack-root <pack-root> --output json`
 - `python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor <actor> --output json`
 - `python3 tools/record_autonomy_improvement_promotion.py --factory-root /home/orchadmin/project-pack-factory --improvement-id <id> --summary "<summary>" --source-build-pack-id <pack-id> --proof-path <path> --adopted-surface materializer_defaults --pending-surface source_template_tracking --output json`
+- `python3 tools/record_runtime_template_parity.py --factory-root /home/orchadmin/project-pack-factory --runtime-build-pack-id <pack-id> --source-template-id <template-id> --improvement-id <id> --summary "<summary>" --parity-status template_backported --proof-path <path> --runtime-path <path> --template-path <path> --factory-context-path <path> --output json`
 - `python3 tools/retire_pack.py --factory-root /home/orchadmin/project-pack-factory --pack-id <pack-id> --retired-by orchadmin --reason "<reason>"`
 - `python3 tools/run_workflow_eval.py --factory-root /home/orchadmin/project-pack-factory --output json`
 - `python3 tools/score_autonomy_quality.py --factory-root /home/orchadmin/project-pack-factory --report-path <rehearsal-report.json> --output json`
@@ -258,6 +276,10 @@ Example:
   Current Astro path: this is the canonical Astro publication wrapper. It consumes a fresh history-only generator build, stages Astro output, finalizes renderer provenance in `dashboard-report.json`, and promotes `latest/` atomically.
 - `python3 tools/serve_factory_dashboard.py --factory-root /home/orchadmin/project-pack-factory --renderer astro --host 127.0.0.1 --port 8000`
   Operator viewing path: this builds the dashboard if needed and serves the published output at a real local URL.
+- `python3 tools/run_browser_proof.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json`
+  Browser proof path: this runs the bounded PackFactory browser-proof wrapper for request-file driven local preview checks such as the ADF field-manual hash-target proof.
+- `python3 tools/browser_proof_host_readiness.py --factory-root /home/orchadmin/project-pack-factory --proof-kind adf_field_manual_hash_target_opens --output json`
+  Browser host-readiness path: this resolves the active Chromium binary from the latest schema-valid proof report or the active browser-proof runtime, runs the bounded host dependency check, and writes a schema-valid readiness report under `.pack-state/browser-proofs/`.
 - `python3 tools/run_factory_root_startup_benchmark.py --factory-root /home/orchadmin/project-pack-factory --output json`
 - `python3 tools/run_cross_template_transfer_matrix.py --factory-root /home/orchadmin/project-pack-factory --entry <template-id::build-pack-id::/absolute/report/path> --entry <template-id::build-pack-id::/absolute/report/path> --output json`
 - `python3 tools/distill_autonomy_memory_across_build_packs.py --factory-root /home/orchadmin/project-pack-factory --output json`

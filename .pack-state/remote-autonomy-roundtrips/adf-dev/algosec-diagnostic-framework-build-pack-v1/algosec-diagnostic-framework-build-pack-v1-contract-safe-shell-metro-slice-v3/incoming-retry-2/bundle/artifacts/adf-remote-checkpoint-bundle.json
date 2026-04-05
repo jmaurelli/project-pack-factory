@@ -1,0 +1,86 @@
+{
+  "candidate_changes": {
+    "artifact_paths": [
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3/run-summary.json",
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/findings.md",
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/apache_transition_window.log",
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
+      "eval/history/adf-dev-contract-safe-shell-metro-slice-v3-evidence-checkpoint-20260328.md"
+    ],
+    "backlog_task_updates": [],
+    "doc_paths": [],
+    "prompt_paths": [],
+    "source_paths": [],
+    "work_state_fields": [
+      "last_agent_action",
+      "last_outcome",
+      "last_outcome_at",
+      "last_validation_results",
+      "resume_instructions"
+    ]
+  },
+  "checkpoint_id": "algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3-evidence_ready-20260328t192703z",
+  "checkpoint_reason": "evidence_ready",
+  "export_bundle": {
+    "authority_class": "supplementary_runtime_evidence",
+    "bundle_manifest_path": "bundle.json",
+    "bundle_sha256": "be6cad6479c0ab5b0887fc0d645da137a4adb82151f02d74723b6e938d2638ef",
+    "import_ready": false,
+    "present": true
+  },
+  "generated_at": "2026-03-28T19:27:03Z",
+  "generated_by": "codex",
+  "local_precedence": true,
+  "local_regeneration_required": {
+    "eval_latest_index": false,
+    "latest_memory_pointer": false,
+    "other_generated_surfaces": [],
+    "readiness": false
+  },
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "proposed_acceptance": {
+    "accept_artifact_paths": [
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3/run-summary.json",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3/adf-remote-checkpoint-bundle.json",
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/findings.md",
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/apache_transition_window.log",
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
+      "eval/history/adf-dev-contract-safe-shell-metro-slice-v3-evidence-checkpoint-20260328.md"
+    ],
+    "accept_backlog_task_updates": [],
+    "accept_doc_paths": [],
+    "accept_source_paths": [],
+    "accept_work_state_fields": [
+      "last_agent_action",
+      "last_outcome",
+      "last_outcome_at",
+      "last_validation_results",
+      "resume_instructions"
+    ],
+    "defer_fields": [],
+    "defer_paths": [],
+    "notes": [
+      "Concrete shell-versus-Metro checkpoint: 2026-03-26 05:29:53-05:29:56 EDT shows SuiteLoginSessionValidation.php -> /afa/php/home.php in Apache plus same-session Metro config and session/extend clues from the preserved home-shell request-correlation bundle.",
+      "This checkpoint stays inside the declared state, history, and .pack-state writable surfaces and leaves source and docs unchanged."
+    ]
+  },
+  "remote_build_pack_root": ".",
+  "remote_host": "adf-dev",
+  "remote_target_label": null,
+  "run_artifacts": {
+    "feedback_memory_path": null,
+    "loop_events_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3/loop-events.jsonl",
+    "result_log_paths": [
+      "eval/history/adf-dev-contract-safe-shell-metro-slice-v3-evidence-checkpoint-20260328.md"
+    ],
+    "run_summary_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3/run-summary.json",
+    "target_artifact_paths": [
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/findings.md",
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/apache_transition_window.log",
+      ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log"
+    ]
+  },
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3",
+  "schema_version": "adf-remote-checkpoint-bundle/v1",
+  "source_of_truth_mode": "local_precedence_split_host"
+}

@@ -1,0 +1,26 @@
+{
+  "durable_promoted_artifacts": {
+    "checkpoint-artifacts": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/checkpoint-artifacts",
+    "execution-manifest.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/execution-manifest.json",
+    "recovery-remote-state.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/recovery-remote-state.json",
+    "scratch-lifecycle.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/scratch-lifecycle.json",
+    "target-manifest.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/target-manifest.json"
+  },
+  "execution_manifest_sha256": "0a67bd37e73f14194c857ba767eb463efafab4cf0c67e58ef811dabdf3fc5be6",
+  "generated_import_request_path": null,
+  "generated_import_request_sha256": null,
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/incoming",
+  "local_roundtrip_artifacts_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "portable_helper_manifest_sha256": null,
+  "pulled_at": null,
+  "pulled_bundle_path": null,
+  "pulled_bundle_sha256": null,
+  "remote_run_request_sha256": "52a56b7ec564c6a32ff70d4fcb572f64a602ab9de929d759f4e544eaff3850be",
+  "remote_target_label": "adf-dev",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "target_manifest_sha256": "3effac4085d596426ccf6b5d9da387d8b763d5e4066199fa29d26a4cb11fcdb6",
+  "wrapper_request_sha256": "b17e6526043f79291ba963d751cf01a6a3a87b8c08e1487ed0a14d47e404f68f"
+}

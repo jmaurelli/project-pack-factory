@@ -624,10 +624,11 @@ def _canonical_state_delta_summary(
         )
 
     previous_completed = previous_memory.get("completed_task_ids")
+    previous_completed_iterable = previous_completed if isinstance(previous_completed, list) else []
     previous_completed_set = {
         task_id
-        for task_id in previous_completed
-        if isinstance(previous_completed, list) and isinstance(task_id, str) and task_id
+        for task_id in previous_completed_iterable
+        if isinstance(task_id, str) and task_id
     }
     completed_task_ids_added = [task_id for task_id in completed_task_ids if task_id not in previous_completed_set]
     if completed_task_ids_added:

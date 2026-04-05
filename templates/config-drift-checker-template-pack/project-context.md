@@ -19,6 +19,12 @@ This template was created to support the following project goal:
 - `benchmarks/declarations/config-drift-checker-template-pack-smoke-small-001.json`
 - `eval/latest/index.json`
 
+## Optional Overlay Guidance
+
+This line may carry an optional role/domain overlay for evidence framing.
+When one is selected, treat it as framing guidance only and prefer
+`AGENTS.md` plus `pack.json` for the concrete selected overlay.
+
 ## Local State
 
 - local scratch state: `.pack-state/`

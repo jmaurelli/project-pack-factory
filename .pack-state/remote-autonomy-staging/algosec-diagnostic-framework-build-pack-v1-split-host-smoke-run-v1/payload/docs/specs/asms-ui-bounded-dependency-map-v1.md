@@ -106,21 +106,27 @@ it:
 
 - Host health
 - Apache UI edge
-- Legacy setup and session-validation hop
-- BusinessFlow as the first named operational checkpoint
-- Later Keycloak and FireFlow auth-coupled handoff
-- First usable `/afa/php/home.php` shell
-- Immediate shell hydration
+- Core service status and safe restart boundary
+- First usable login or `/afa/php/home.php` shell
+- Immediate shell classification and light Metro support clues
+- Login-bootstrap and auth chain only as escalation
+- First downstream module only if the same reproduced journey actually reaches it
 - Later module and workflow branches
 
 Within that map:
 
-- `BusinessFlow` is the earliest named operational checkpoint.
-- `Keycloak` is a strong auth-branch dependency, but not the first observed
-  trigger.
-- `ms-metro` is clearly in the subsystem, and the best current evidence says
-  the first-shell Metro dependency is the backend config fetch during
-  login/session bootstrap rather than every same-minute Metro request.
+- `httpd.service`, `keycloak.service`, and `ms-metro.service` are the main
+  frontline service surfaces because they are readable, restartable, and
+  directly tied to the customer-visible path.
+- `BusinessFlow` is no longer a default `UI down` checkpoint. It is a
+  conditional downstream seam only after the reproduced journey clearly reaches
+  it.
+- `Keycloak` is a real auth-side dependency, but it should stay at the shallow
+  service-up or service-down level for frontline work unless the case is
+  intentionally escalated.
+- `ms-metro` is still the first app-side service seam after the login page, but
+  the support question is first whether the user reached a usable shell at all,
+  not whether every nearby Metro request fired.
 - `ActiveMQ` stays behind closer FireFlow checks unless a failing minute shows
   broker or JMS involvement directly.
 
@@ -129,24 +135,18 @@ Within that map:
 These are the smallest next scenarios that should sharpen the map without
 widening scope:
 
-1. `Apache edge up, legacy auth hop fails`
-   Goal: confirm the closest named stop point stays on the early auth path
-   before later Keycloak or FireFlow clues are promoted.
+1. `Apache edge up, shallow service down`
+   Goal: confirm the closest named stop point stays on the failed service or
+   listener boundary before deeper auth or app theory is promoted.
 
-2. `Successful SuiteLoginSessionValidation -> home.php transition`
-   Status: validated from a successful `2026-03-26 05:29:53-05:29:56 EDT`
-   session window.
-   Result: the hard first-shell dependency set is the redirect into
-   `home.php` plus `dynamic.js`, `home.js`, dashboard bootstrap
-   `commands.php`, tree bootstrap, `TopbarMenu.php`, and `prod_stat.php`.
-   Nearby FireFlow auth checks, BusinessFlow shallow health, AFF shallow
-   health, and suite static assets are adjacent traffic rather than the
-   redirect gate itself.
+2. `Apache edge and services up, first usable shell still fails`
+   Goal: compare a failed shell-transition window against the successful shell
+   baseline and identify whether the closest stop point stays on the shell or
+   the Metro-backed home-refresh path.
 
-3. `Apache edge and auth hop up, first home shell fails`
-   Goal: compare a failed shell-transition window against the successful
-   baseline above and identify which immediate first-shell requests are truly
-   missing or degraded.
+3. `Shallow path healthy, customer still reports UI down`
+   Goal: decide whether the next useful branch is external path, browser-side
+   path, or an intentional escalation into login-bootstrap or auth correlation.
 
 4. `First home shell is up, later module path fails`
    Goal: branch out of top-level `GUI down` and keep later module or workflow

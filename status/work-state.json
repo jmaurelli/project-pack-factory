@@ -14,13 +14,239 @@
     "design_runtime_template_parity_workflow",
     "design_assistant_uat_remote_request_builder",
     "design_headless_browser_proof_tool",
-    "design_role_domain_template_overlay_system"
+    "implement_headless_browser_proof_tool",
+    "design_role_domain_template_overlay_system",
+    "expand_role_domain_template_catalog",
+    "define_browser_proof_host_dependency_provisioning_path",
+    "prove_role_domain_overlay_on_second_non_smoke_line",
+    "declare_agent_native_project_initialization_v1",
+    "formalize_task_tracker_and_planner_v1",
+    "implement_agent_native_initialization_declaration_slice",
+    "define_bounded_agent_centered_adf_successor_line",
+    "define_adf_successor_shallow_surface_map_first_slice",
+    "test_initial_adf_role_domain_lens",
+    "prepare_adf_successor_creation_request",
+    "execute_adf_successor_template_creation"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Exercised the new role/domain-template overlay system on a real proving-ground build-pack, confirmed clean composition with the business-partner personality overlay, and recorded the resulting materialization and validation evidence.",
-  "last_outcome": "design_role_domain_template_overlay_system",
-  "last_outcome_at": "2026-03-31T19:28:10Z",
+  "last_agent_action": "Executed the prepared ADF successor template-creation request, materialized the first successor build-pack, then tightened the new line around the ADF-specific diagnostic-systems-analyst lens and the shallow-surface-map first wave.",
+  "last_outcome": "execute_adf_successor_template_creation",
+  "last_outcome_at": "2026-04-02T12:35:00Z",
   "last_validation_results": [
+    {
+      "evidence_paths": [
+        "templates/algosec-diagnostic-framework-successor-template-pack/eval/history/create-template-algosec-diagnostic-framework-successor-template-pack-20260402t120921z/template-creation-report.json",
+        "build-packs/algosec-diagnostic-framework-successor-build-pack-v1/eval/history/materialize-algosec-diagnostic-framework-successor-build-pack-v1-20260402t120944z/materialization-report.json",
+        "templates/algosec-diagnostic-framework-successor-template-pack/pack.json",
+        "build-packs/algosec-diagnostic-framework-successor-build-pack-v1/pack.json",
+        "build-packs/algosec-diagnostic-framework-successor-build-pack-v1/contracts/project-objective.json",
+        "build-packs/algosec-diagnostic-framework-successor-build-pack-v1/tasks/active-backlog.json",
+        "build-packs/algosec-diagnostic-framework-successor-build-pack-v1/status/work-state.json"
+      ],
+      "recorded_at": "2026-04-02T12:35:00Z",
+      "status": "pass",
+      "summary": "Created the fresh ADF successor template line, materialized the first successor build-pack, and tightened the resulting line around the line-specific diagnostic-systems-analyst framing plus the shallow surface map first-wave contract.",
+      "validation_id": "execute_adf_successor_template_creation"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-CREATION-REQUEST-PLAN.md",
+        ".pack-state/tmp/adf-successor-template-creation-request.json",
+        ".pack-state/tmp/adf-successor-first-materialization-request.json",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-INITIAL-ROLE-DOMAIN-LENS-FIRST-TEST.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-02T12:25:00Z",
+      "status": "pass",
+      "summary": "Prepared the bounded request package for the fresh ADF successor line, including the template-creation request, the first materialization request, and an explicit planning note that carries the line-specific `diagnostic-systems-analyst` role/domain choice honestly as a post-creation line contract because the current request schemas only accept shared catalog entries.",
+      "validation_id": "prepare_adf_successor_creation_request"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-INITIAL-ROLE-DOMAIN-LENS-FIRST-TEST.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-SHALLOW-SURFACE-MAP-FIRST-SLICE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BOUNDED-AGENT-CENTERED-ADF-SUCCESSOR-LINE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-02T12:05:00Z",
+      "status": "pass",
+      "summary": "Ran the first bounded ADF role/domain lens test against the shallow surface map slice, compared `research-analyst`, `diagnostic-systems-analyst`, and `support-playbook-architect`, and selected `diagnostic-systems-analyst` as the best first-wave line-specific lens for the creation request.",
+      "validation_id": "test_initial_adf_role_domain_lens"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-SHALLOW-SURFACE-MAP-FIRST-SLICE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BOUNDED-AGENT-CENTERED-ADF-SUCCESSOR-LINE-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-02T00:15:00Z",
+      "status": "pass",
+      "summary": "Defined the first ADF successor slice as a shallow read-only surface map with one machine-readable map, one operator-reviewable summary, explicit acceptance criteria, and explicit stop conditions, then recorded the follow-on root task to prepare the bounded creation request around that first-wave proof loop.",
+      "validation_id": "define_adf_successor_shallow_surface_map_first_slice"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BOUNDED-AGENT-CENTERED-ADF-SUCCESSOR-LINE-TECH-SPEC.md",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/contracts/project-objective.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/tasks/active-backlog.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/status/work-state.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-01T16:20:00Z",
+      "status": "pass",
+      "summary": "Recorded a factory-root successor-line spec for a fresh agent-centered ADF build-pack, grounded it in current ADF objective/tracker/memory/artifact evidence, and centered the new line on bounded slices, early tangible proof, incomplete-doc plus live-discovery inputs, and machine-readable diagnostic content as the canonical product layer.",
+      "validation_id": "define_bounded_agent_centered_adf_successor_line"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-HOST-DEPENDENCY-PROVISIONING-TECH-SPEC.md",
+        "eval/history/headless-browser-proof-post-provisioning-validation-20260401.md",
+        ".pack-state/browser-proofs/browser-proof-host-readiness-adf_field_manual_hash_target_opens-20260401t141715z/host-readiness-report.json",
+        ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t141715z/proof-report.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-01T14:19:33Z",
+      "status": "pass",
+      "summary": "After host-level dependency provisioning, the bounded browser-proof readiness check now reports `ready` with no missing shared libraries, and the live ADF field-manual proof now passes end to end by launching Chromium, navigating to the page, opening the targeted collapsed step card after hash navigation, and matching the displayed command count to the detected run blocks.",
+      "validation_id": "headless_browser_proof_post_provisioning_validated"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-NATIVE-PROJECT-INITIALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TASK-TRACKER-AND-PLANNER-FORMALIZATION-TECH-SPEC.md",
+        "eval/history/agent-native-project-initialization-and-tracker-planner-adversarial-review-20260401.md",
+        "docs/specs/project-pack-factory/schemas/template-creation-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/template-creation-report.schema.json",
+        "docs/specs/project-pack-factory/schemas/materialization-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/materialization-report.schema.json",
+        "docs/specs/project-pack-factory/schemas/pack.schema.json",
+        "tools/create_template_pack.py",
+        "tools/materialize_build_pack.py",
+        "templates/agent-native-project-initialization-smoke-template-pack/pack.json",
+        "templates/agent-native-project-initialization-smoke-template-pack/AGENTS.md",
+        "templates/agent-native-project-initialization-smoke-template-pack/project-context.md",
+        "templates/agent-native-project-initialization-smoke-template-pack/eval/history/create-template-agent-native-project-initialization-smoke-template-pack-20260401t132529z/template-creation-report.json",
+        "build-packs/agent-native-project-initialization-smoke-build-pack-v1/pack.json",
+        "build-packs/agent-native-project-initialization-smoke-build-pack-v1/AGENTS.md",
+        "build-packs/agent-native-project-initialization-smoke-build-pack-v1/project-context.md",
+        "build-packs/agent-native-project-initialization-smoke-build-pack-v1/eval/history/materialize-agent-native-project-initialization-smoke-build-pack-v1-20260401t132551z/materialization-report.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-01T13:26:30Z",
+      "status": "pass",
+      "summary": "Implemented the declaration-only agent-native initialization control-plane slice, preserved the canonical execution tracker, and proved the end-to-end creation/materialization path on a fresh smoke template/build-pack pair that both passed validate-project-pack and benchmark-smoke before whole-factory validation passed again.",
+      "validation_id": "implement_agent_native_initialization_declaration_slice"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-NATIVE-PROJECT-INITIALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TASK-TRACKER-AND-PLANNER-FORMALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        "eval/history/agent-native-project-initialization-and-tracker-planner-adversarial-review-20260401.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-01T13:10:32Z",
+      "status": "pass",
+      "summary": "Added the agent-native initialization and tracker/planner formalization root initiative docs, recorded the matching completed planner tasks in backlog and work-state, kept the v1 boundary declaration-only and tracker-backed, and passed `validate_factory.py`.",
+      "validation_id": "agent_native_project_initialization_and_tracker_planner_formalization_root_initiative"
+    },
+    {
+      "evidence_paths": [
+        "templates/config-drift-checker-template-pack/pack.json",
+        "templates/config-drift-checker-template-pack/AGENTS.md",
+        "templates/config-drift-checker-template-pack/project-context.md",
+        "build-packs/config-drift-checker-build-pack/pack.json",
+        "build-packs/config-drift-checker-build-pack/AGENTS.md",
+        "build-packs/config-drift-checker-build-pack/project-context.md",
+        "build-packs/config-drift-checker-build-pack/eval/history/role-domain-overlay-proof-config-drift-checker-build-pack-20260401t122500z/proof-report.json",
+        "registry/templates.json",
+        "registry/build-packs.json"
+      ],
+      "recorded_at": "2026-04-01T12:25:00Z",
+      "status": "pass",
+      "summary": "Proved role/domain overlay reuse on a second active non-smoke line by applying the `research-analyst` lens to the config-drift-checker template/build-pack pair, keeping the transfer instruction-surface-only, preserving runtime/test/readiness/deployment behavior, and passing the existing validation commands.",
+      "validation_id": "prove_role_domain_overlay_on_second_non_smoke_line"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-HOST-DEPENDENCY-PROVISIONING-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/browser-proof-host-readiness-report.schema.json",
+        "tools/browser_proof_host_readiness.py",
+        "tools/run_browser_proof.py",
+        "AGENTS.md",
+        "README.md",
+        ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t122001z/proof-report.json",
+        ".pack-state/browser-proofs/browser-proof-host-readiness-adf_field_manual_hash_target_opens-20260401t122014z/host-readiness-report.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-01T12:20:45Z",
+      "status": "pass",
+      "summary": "Implemented the bounded browser-proof host-readiness helper and schema-valid readiness report path, taught the proof rerun to preserve a durable validated request and clean shared-library evidence, confirmed the latest proof report now records the exact headless-shell binary path, and revalidated the factory. Chromium is still blocked on missing host libraries, but the blocker is now explicit and operationally actionable.",
+      "validation_id": "define_browser_proof_host_dependency_provisioning_path_implemented"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ROLE-DOMAIN-TEMPLATE-OVERLAY-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-01T00:00:00Z",
+      "status": "pass",
+      "summary": "Expanded the role/domain template catalog with the optional `grounded-startup-partner` and `operator-coach` lenses, preserved the boundary between personality and role/domain framing, and kept the additions guidance-only rather than credential-implying.",
+      "validation_id": "expand_role_domain_template_catalog"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-HOST-DEPENDENCY-PROVISIONING-TECH-SPEC.md",
+        "eval/history/headless-browser-proof-host-dependency-spec-adversarial-review-20260401.md",
+        "eval/history/headless-browser-proof-host-dependency-evidence-20260331.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-01T12:00:00Z",
+      "status": "pass",
+      "summary": "Adversarial review tightened the host-dependency provisioning spec so it no longer overclaims end-to-end proof on this host, no longer relies on one transient temp request path, explicitly keys readiness to the active Chromium binary, keeps shared-library names as canonical evidence, and requires one post-provisioning rerun to progress past browser launch.",
+      "validation_id": "define_browser_proof_host_dependency_provisioning_path_adversarial_reviewed"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-HOST-DEPENDENCY-PROVISIONING-TECH-SPEC.md",
+        "eval/history/headless-browser-proof-host-dependency-evidence-20260331.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260331t201817z/proof-report.json"
+      ],
+      "recorded_at": "2026-03-31T20:33:13Z",
+      "status": "pass",
+      "summary": "Added the root follow-up task and adjacent spec for browser-proof host dependency provisioning, anchored it to the live fail-closed Chromium launch report, and recorded the missing shared-library evidence so the host-readiness boundary is explicit before the next rerun.",
+      "validation_id": "define_browser_proof_host_dependency_provisioning_path_planned"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-PROOF-TOOL-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/browser-proof-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/browser-proof-report.schema.json",
+        "tools/run_browser_proof.py",
+        "tools/browser_proof_runner.cjs",
+        "tools/browser_proof_node_runner.cjs",
+        ".pack-state/tmp/browser-proof-request.json",
+        ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260331t201817z/proof-report.json"
+      ],
+      "recorded_at": "2026-03-31T20:19:10Z",
+      "status": "pass",
+      "summary": "Implemented the root browser-proof wrapper and schema pair for the bounded ADF field-manual recipe, isolated the Node and browser runtime under `.pack-state/browser-proof-runtime/`, reran the live ADF proof through the request-file wrapper, and generated a schema-valid report that failed closed because Chromium cannot launch on this host without `libatk-1.0.so.0`. `validate_factory.py` still passed after the implementation landed.",
+      "validation_id": "implement_headless_browser_proof_tool"
+    },
     {
       "evidence_paths": [
         ".pack-state/tmp/factory-native-smoke-role-domain-overlay-materialization-request.json",

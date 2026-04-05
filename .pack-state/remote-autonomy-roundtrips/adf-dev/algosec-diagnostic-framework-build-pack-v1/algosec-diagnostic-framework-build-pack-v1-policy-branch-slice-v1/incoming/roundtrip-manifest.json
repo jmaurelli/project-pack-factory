@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "37bff63d950c54429f3eb54c77a0e4a12bdaf0a6da3883920ecc283c72d4218e",
+  "generated_import_request_path": null,
+  "generated_import_request_sha256": null,
+  "portable_helper_manifest_sha256": "75fe185c81d498753bade3d44b0dfe17427c97fe5eff3ae8420d2f0c7ad4945b",
+  "pulled_at": "2026-03-29T00:05:00Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-policy-branch-slice-v1/incoming/bundle",
+  "pulled_bundle_sha256": "1bf6f51a4dacf8a5009d03053fddb0f81ba8008fee264858cd0864db4d2e8dfc",
+  "remote_run_request_sha256": "e8e1d602918c21bd19cc8023f0534df4a14f32942a06ac79d077ebecef2b1d89",
+  "remote_target_label": "adf-dev",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-policy-branch-slice-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "target_manifest_sha256": "cfbd443064b6b32a7c6a3a1df9b46e83ed57ce888697f58118dea2bc70ac795f",
+  "wrapper_request_sha256": "c703e442bbc36bb20d5d63e090264acd1c92f319ce182d8941cd4f643c106267"
+}

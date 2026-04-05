@@ -1,0 +1,41 @@
+:root {
+  --sl-color-accent-low: #d8ece8;
+  --sl-color-accent: #0f6c69;
+  --sl-color-accent-high: #073d3b;
+  --sl-color-text: #162326;
+  --sl-color-text-accent: #0b5f5c;
+  --sl-color-bg: #f7f8f6;
+  --sl-color-bg-nav: #ffffff;
+  --sl-color-bg-sidebar: #f2f4f2;
+  --sl-color-hairline-light: #d8dfdc;
+  --sl-color-hairline: #c7d0cc;
+  --sl-color-black: #10191c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  letter-spacing: 0.01em;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  margin-top: 2rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid rgba(199, 208, 204, 0.8);
+}
+
+pre {
+  border-radius: 0.9rem;
+}
+
+table {
+  font-size: 0.96rem;
+}

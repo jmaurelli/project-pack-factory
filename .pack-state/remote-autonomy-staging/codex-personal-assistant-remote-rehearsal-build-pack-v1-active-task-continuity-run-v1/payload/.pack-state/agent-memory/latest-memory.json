@@ -1,0 +1,15 @@
+{
+  "pack_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-29T16:28:26Z",
+  "selected_memory_id": "autonomy-feedback-codex-personal-assistant-remote-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-remote-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "selected_memory_sha256": "210bfa3361a48680c1c4482648655cbf21a3ba4ef2536dfecc1d046a819dbad3",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1",
+  "source_artifact_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-remote-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1.json",
+  "source_import_id": null,
+  "source_import_report_path": null,
+  "source_kind": "local_autonomy_run",
+  "updated_at": "2026-03-29T16:28:26Z"
+}

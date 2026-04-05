@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>AlgoSec - Home</title>
+	<script type="text/javascript">
+	//<![CDATA[
+		var g_sessID  = 'i4dan9561hl2uc0gj7b3pipsea';
+		var g_bIsDistributionEnabled = false;
+		var g_bIsHome = true;
+        var g_bIsCompletenessTool = false;
+        var g_selectedType = '';
+		var g_sReportNeedsRefresh = '';
+		var g_sPermittedModules = 'CoreRiskOptimizationFireFlowActiveChangeBusinessFlow-300';
+		var g_arrGenericDevices = {
+	"RoutingElement" : {
+		"label" : "Routing Element", 
+		"full_label" : "RoutingElement", 
+		"add_fields" : [
+			{"label" : "SNMP", "name" : "snmp", "type" : "fieldset"}
+		], 
+		"exclude_fields" : [
+			"GenericDeviceUserName",
+			"GenericDevicePassword",
+			"GenericDeviceBaselineCompliance",
+			"GenericDeviceRemoteManagement"
+		],
+		"features" : "topology,skip_config_collection,cli_view"
+		,
+		"features_data" : {"topology":{"override_customized":"yes","script":"snmp2urt"}}
+		
+	},
+	"ace" : {
+		"label" : "ACE", 
+		"full_label" : "Cisco ACE",
+		"connections" : [
+			{"label" : "SSH" , "value" : "ssh"}
+		],
+		"features" : "baseline_analysis,parser,topology,cli_view"
+		,
+		"features_data" : {"parser":{"script":"ace2hash"},"topology":{"override_custo

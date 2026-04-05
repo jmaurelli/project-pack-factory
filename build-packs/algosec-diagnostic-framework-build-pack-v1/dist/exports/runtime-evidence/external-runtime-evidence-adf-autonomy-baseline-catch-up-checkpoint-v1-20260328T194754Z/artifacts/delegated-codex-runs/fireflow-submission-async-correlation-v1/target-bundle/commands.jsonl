@@ -1,0 +1,38 @@
+{"cmd":"pwd && ls -la .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1 && sed -n '1,240p' .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1/delegated-task-request.json","note":"Initial read attempt hit the appliance interactive menu because a login shell was used."}
+{"cmd":"sed -n '1,260p' .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1/delegated-task-request.json"}
+{"cmd":"ls -la .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1"}
+{"cmd":"sed -n '1,240p' .pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","note":"Referenced by request but not present on disk."}
+{"cmd":"rg -n \"POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher|CommandsDispatcher\" /var/log/httpd /data/algosec-ms/logs /usr/share/aff /usr/share/fireflow /opt/activemq /data/pgsql 2>/dev/null | sed -n '1,220p'"}
+{"cmd":"find /data/algosec-ms/logs -maxdepth 2 -type f | sort | sed -n '1,240p'"}
+{"cmd":"find /var/log/httpd -maxdepth 1 -type f | sort | sed -n '1,120p'"}
+{"cmd":"find /opt/activemq -maxdepth 3 -type f | sort | sed -n '1,200p'"}
+{"cmd":"find /data/pgsql -maxdepth 3 -type f | sort | sed -n '1,200p'"}
+{"cmd":"find /usr/share/aff /usr/share/fireflow -type f | rg 'log|out|txt|properties|xml|yml|yaml' | sed -n '1,260p'"}
+{"cmd":"find /data/pgsql -type f | sed -n '1,240p'"}
+{"cmd":"find /opt -type f | rg 'activemq|kahadb|log|audit' | sed -n '1,240p'"}
+{"cmd":"sed -n '1,80p' /data/pgsql/15/data/current_logfiles"}
+{"cmd":"rg -n \"2026-03-21 04:30:|2026-03-21T04:30:|\\[21/Mar/2026:04:30:\" /usr/share/fireflow/var/log/fireflow.log* /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-21.txt /opt/apache-activemq-6.1.7/data/activemq.log /opt/apache-activemq-6.1.7/data/audit.log /data/algosec-ms/logs/ms-batch-application.log /data/algosec-ms/logs/ms-configuration.log /data/algosec-ms/logs/ms-batch-application-03-02-2026-1.log.gz /data/algosec-ms/logs/ms-batch-application-03-07-2026-1.log.gz /data/algosec-ms/logs/ms-configuration.log.2026-03-21.0.gz 2>/dev/null | sed -n '1,260p'"}
+{"cmd":"sed -n '1738,1788p' /var/log/httpd/ssl_request_log-20260325"}
+{"cmd":"rg -n \"04:30:2|04:30:3|04:30:4|04:30:5|pbo6bqbo3ukoauq5gsa8hq5pmc|iavb5ohc174mriv0a2dvggdbl2|CommandsDispatcher|journal|getChangesInOrigRulesByDate|bridge/refresh\" /usr/share/fireflow/var/log/fireflow.log* 2>/dev/null | sed -n '1,260p'"}
+{"cmd":"zgrep -n \"2026-03-21 04:30:\" /data/algosec-ms/logs/ms-configuration.log.2026-03-21.0.gz 2>/dev/null | sed -n '1,200p'"}
+{"cmd":"zgrep -n \"2026-03-21 04:30:\" /data/algosec-ms/logs/ms-batch-application-03-02-2026-1.log.gz /data/algosec-ms/logs/ms-batch-application-03-07-2026-1.log.gz 2>/dev/null | sed -n '1,200p'"}
+{"cmd":"rg -n \"Destination module: \\[(?!UserSession\\])|Command Dispatcher \\[(?!UserSession:)\" /usr/share/fireflow/var/log/fireflow.log* -P 2>/dev/null | sed -n '1,260p'"}
+{"cmd":"rg -n \"2026-03-21 04:30:|2026-03-21 04:31:|2026-03-21 04:32:|2026-03-21 04:33:|2026-03-21 04:34:|2026-03-21 04:35:\" /usr/share/fireflow/var/log/fireflow.log* 2>/dev/null | sed -n '1,260p'"}
+{"cmd":"rg -n \"submit|approve|approval|advance|implement|plan|ticket|change\" /usr/share/fireflow/var/log/fireflow.log* 2>/dev/null | sed -n '1,260p'"}
+{"cmd":"sed -n '1,200p' /opt/apache-activemq-6.1.7/data/audit.log"}
+{"cmd":"sed -n '1,200p' /opt/apache-activemq-6.1.7/data/activemq.log"}
+{"cmd":"rg -n \"CommandsDispatcher HTTP/1.1\\\" 30(55|70)|GET /FireFlow/api/session|authenticateUser|GetUserInfo|/fa/environment/getAFASessionInfo|/afa/external//session/extend|/afa/external//bridge/refresh|/journal/getChangesInOrigRulesByDate|/fa/environment/isSessionAlive\" /var/log/httpd/ssl_request_log-20260325 | sed -n '1,260p'"}
+{"cmd":"find /data/pgsql/15/data -path '*/pg_log/*' -type f | sort | sed -n '1,120p'"}
+{"cmd":"find /data/pgsql/15/data -maxdepth 2 -type d | sed -n '1,120p'"}
+{"cmd":"ls -l /opt/apache-activemq-6.1.7/data/kahadb /opt/apache-activemq-6.1.7/data/kahadb/queue#3a#2f#2faff.job /opt/apache-activemq-6.1.7/data/kahadb/topic#3a#2f#2fDistributedMethodExecutionQueue /opt/apache-activemq-6.1.7/data/kahadb/queue#3a#2f#2fconfig.topic 2>/dev/null"}
+{"cmd":"rg -n \"2026-03-21 04:30:|2026-03-21 03:30:|2026-03-21 04:35:|2026-03-21 04:00:\" /data/pgsql/15/data/pg_log/postgresql-*.log 2>/dev/null | sed -n '1,200p'"}
+{"cmd":"zgrep -Hn \"2026-03-21 04:30:|2026-03-21 03:30:|2026-03-21 04:35:|2026-03-21 04:00:\" /data/algosec-ms/logs/*.gz 2>/dev/null | sed -n '1,220p'"}
+{"cmd":"rg -n \"2026-03-21 04:30:|2026-03-21 03:30:|2026-03-21 04:35:|2026-03-21 04:00:\" /data/algosec-ms/logs/*.log /data/algosec-ms/logs/*.txt 2>/dev/null | sed -n '1,220p'"}
+{"cmd":"rg -n \"2026-03-21 04:30:\" /data/algosec-ms/logs/ms-batch-application.log /data/algosec-ms/logs/ms-configuration.log /data/algosec-ms/logs/ms-watchdog.log /data/algosec-ms/logs/ms-mapDiagnostics.log /data/algosec-ms/logs/ms-policy-optimizations.log 2>/dev/null | sed -n '1,220p'"}
+{"cmd":"sed -n '160,170p' /data/pgsql/15/data/pg_log/postgresql-Sat.log"}
+{"cmd":"sed -n '2408,2425p' /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-21.txt"}
+{"cmd":"sed -n '1738,1788p' /var/log/httpd/ssl_request_log-20260325 > .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1/artifacts/httpd-2026-03-21-0430-snippet.txt"}
+{"cmd":"sed -n '2408,2425p' /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-21.txt > .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1/artifacts/aff-boot-2026-03-21-0430-snippet.txt"}
+{"cmd":"sed -n '160,170p' /data/pgsql/15/data/pg_log/postgresql-Sat.log > .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1/artifacts/postgresql-sat-0430-snippet.txt"}
+{"cmd":"sed -n '1268,1316p' /usr/share/fireflow/var/log/fireflow.log.1 > .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1/artifacts/fireflow-2026-03-26-analogy-snippet.txt"}
+{"cmd":"ls -l /opt/apache-activemq-6.1.7/data/kahadb /opt/apache-activemq-6.1.7/data/kahadb/queue#3a#2f#2faff.job /opt/apache-activemq-6.1.7/data/kahadb/topic#3a#2f#2fDistributedMethodExecutionQueue /opt/apache-activemq-6.1.7/data/kahadb/queue#3a#2f#2fconfig.topic 2>/dev/null > .pack-state/delegated-codex-runs/fireflow-submission-async-correlation-v1/artifacts/activemq-store-evidence.txt"}

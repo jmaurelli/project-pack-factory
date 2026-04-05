@@ -1,0 +1,191 @@
+{
+  "generated_at": "2026-04-05T12:20:00Z",
+  "notes": [
+    {
+      "captured_at": "2026-04-04T00:16:41Z",
+      "captured_by": "operator",
+      "details": [
+        "Concrete example to keep in view: CM remains on 10.167.2.150, an LDU first uses .153, and a later rebuilt remote agent reuses .153.",
+        "Treat this as a behavioral note for later cookbook review, not as an active backlog item or a proven universal rule.",
+        "Reviewed interactively with the operator on 2026-04-04 while defining the collaborative idea-log workflow."
+      ],
+      "evidence_state": "operator_theory",
+      "note_id": "idea-20260404t001641z-central-manager-cleanup-may-be-needed-when-reuse",
+      "note_kind": "behavioral_note",
+      "related_paths": [],
+      "related_task_ids": [],
+      "related_topics": [
+        "ldu",
+        "remote_agent",
+        "disaster_recovery",
+        "central_manager"
+      ],
+      "review_state": "in_review",
+      "source_kind": "operator_chat",
+      "status": "active",
+      "summary": "In reusable lab deployments, if the central manager stays in place while a node IP is reused for a different role, the reused IP may need explicit cleanup of the earlier node identity on the central manager before reattachment behaves cleanly.",
+      "tags": [
+        "ip_reuse",
+        "central_manager_cleanup",
+        "node_identity",
+        "cookbook_candidate"
+      ],
+      "title": "Central manager cleanup may be needed when reused node IP changes role",
+      "updated_at": "2026-04-04T00:22:50Z"
+    },
+    {
+      "captured_at": "2026-04-04T01:25:00Z",
+      "captured_by": "operator",
+      "details": [
+        "Frontline playbooks should start from validated technical paths such as Service State, Host Health, Logs, Data Collection and Processing, and Distributed Node Role.",
+        "The CLI dashboard is only a front-door filter for core `ms-*` service state and should not be treated as a rich diagnostic surface.",
+        "If the core services are up, the next serious playbook move should go to Logs instead of forcing a service-state or GUI-first explanation.",
+        "Deeper runtime-owner concepts like listener ownership, route ownership, or backend handoff belong in cookbook or deeper successor layers, not frontline triage pages.",
+        "The operator explicitly rejected coaching sections about when to restart, when to escalate, what to report, or what evidence to capture because experienced engineers already own those judgments."
+      ],
+      "evidence_state": "observed_practice",
+      "note_id": "idea-20260404t012500z-frontline-playbooks-start-from-technical-paths",
+      "note_kind": "product_idea",
+      "related_paths": [
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md",
+        "docs/specs/adf-successor-engineer-consumable-content-modes-v1.md"
+      ],
+      "related_task_ids": [],
+      "related_topics": [
+        "playbook",
+        "cookbook",
+        "service_state",
+        "logs",
+        "frontline_support"
+      ],
+      "review_state": "in_review",
+      "source_kind": "operator_chat",
+      "status": "active",
+      "summary": "Frontline ADF successor playbooks should start from validated technical paths, keep the CLI `ms-*` service dashboard as a narrow front-door filter, and move quickly into Logs for real triage depth instead of coaching experienced engineers or drifting into R&D-depth runtime analysis.",
+      "tags": [
+        "playbook_model",
+        "triage_paths",
+        "service_dashboard",
+        "logs_first",
+        "cookbook_boundary"
+      ],
+      "title": "Frontline playbooks should start from technical paths and treat service state as a front-door filter",
+      "updated_at": "2026-04-04T01:25:00Z"
+    },
+    {
+      "captured_at": "2026-04-04T12:10:09Z",
+      "captured_by": "operator",
+      "details": [
+        "The new review surfaces are docs/specs/adf-successor-starlight-review-shell-plan-v1.md, docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md, and docs/specs/adf-successor-site-map-and-wireframe-review-v1.md.",
+        "adf-dev already serves the older ADF review page on 10.167.2.151:18082 but still lacks Chromium and Playwright, so remote browser review should wait for host provisioning instead of assuming it is ready.",
+        "The first paired successor review pages should be Service State and Core Service Groups by Node Role before the shell widens further.",
+        "The review baseline now treats `/playbooks/` and `/cookbooks/` as real top-level routes and resolves `Service State` branch destinations to concrete `Logs` anchors or real routes instead of vague placeholders.",
+        "The review-only rewrite now resolves Playbooks and Cookbooks to real index routes at /playbooks/ and /cookbooks/, and the Service State skeleton now branches to concrete Logs anchors or Host Health instead of abstract destinations.",
+        "The first cookbook skeleton now uses explicit evidence-state sections: Validated behavior, Observed practice, Operator theory, and Not proven.",
+        "The follow-up swarm review tightened the skeletons again: top navigation now resolves to `/playbooks/` and `/cookbooks/`, `Service State` now branches to concrete `Logs` anchors or `Host Health`, and the first cookbook skeleton now uses explicit evidence-state sections plus a practical role matrix.",
+        "The current reviewed first implementation set now includes a real `Logs` page skeleton behind the `Service State` anchors, with anchor sections for single-service failure, multiple-service failure, not-responding state, and core-services-up paths.",
+        "A first bounded successor shell is now implemented locally under dist/candidates/adf-starlight-review-shell/starlight-site with six built routes: /, /playbooks/, /playbooks/service-state/, /playbooks/logs/, /cookbooks/, and /cookbooks/core-service-groups-by-node-role/.",
+        "The local implementation intentionally keeps the older ADF Starlight line untouched and uses a separate successor site root plus a separate preview port at 18083.",
+        "The current local toolchain that built successfully is Astro 6.1.3 plus @astrojs/starlight 0.38.2, after the older donor versions proved incompatible with the current local environment.",
+        "The adf-dev browser-host plan is now implemented in a bounded fallback form: sudo was password-gated, so the working runtime uses ~/packfactory-browser-review with Playwright, Playwright-managed Chromium, and user-local extracted Ubuntu libraries under ~/packfactory-browser-review/system-libs.",
+        "The host-local proof now opens the older ADF route at http://127.0.0.1:18082/playbooks/asms-ui-is-down/ and the new successor shell at http://127.0.0.1:18083/, including the successor Service State page."
+      ],
+      "evidence_state": "observed_practice",
+      "note_id": "idea-20260404t121009z-successor-review-shell-and-adf-dev-browser-host-",
+      "note_kind": "workflow_note",
+      "related_paths": [
+        "docs/specs/adf-successor-starlight-review-shell-plan-v1.md",
+        "docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md",
+        "docs/specs/adf-successor-site-map-and-wireframe-review-v1.md",
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/starlight_site.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/serve_generated_content.py",
+        "dist/candidates/adf-starlight-review-shell/starlight-site/package.json"
+      ],
+      "related_task_ids": [],
+      "related_topics": [
+        "playbook",
+        "cookbook",
+        "publication",
+        "browser_review"
+      ],
+      "review_state": "reviewed",
+      "source_kind": "operator_chat",
+      "status": "active",
+      "summary": "The successor now has a concrete review-only publication baseline: reuse the older ADF Starlight publisher patterns, keep the successor shell path-first and cookbook-separated, publish Service State plus Core Service Groups by Node Role first, and treat adf-dev browser provisioning as a host-managed prerequisite before remote headless review.",
+      "tags": [
+        "starlight_shell",
+        "astro_review",
+        "browser_host",
+        "adf_dev",
+        "site_map",
+        "wireframe",
+        "review_baseline"
+      ],
+      "title": "Successor review shell and adf-dev browser host should be finalized before implementation",
+      "updated_at": "2026-04-05T11:36:06Z"
+    },
+    {
+      "captured_at": "2026-04-05T12:20:00Z",
+      "captured_by": "operator",
+      "details": [
+        "The operator wants ADF support pages to exploit a real team strength: engineers read all day and learn how to spot key information quickly.",
+        "The visible shell should therefore behave like a stable reading system rather than a generic docs site or a collection of one-off page designs.",
+        "Playbooks and cookbooks should preserve fixed archetypes, fixed section order, and fixed label meaning so engineers build scan memory over time.",
+        "Navigation should stay subordinate to the main reading lane and should be dropped or reduced when it consumes valuable diagnostic screen space."
+      ],
+      "evidence_state": "observed_practice",
+      "note_id": "idea-20260405t122000z-adf-should-use-a-daily-reader-content-grammar",
+      "note_kind": "product_idea",
+      "related_paths": [
+        "docs/specs/adf-successor-daily-reader-content-grammar-v1.md",
+        "docs/specs/adf-successor-starlight-review-shell-plan-v1.md",
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md"
+      ],
+      "related_task_ids": [],
+      "related_topics": [
+        "playbook",
+        "cookbook",
+        "content_grammar",
+        "reading_system",
+        "support_engineer_experience"
+      ],
+      "review_state": "reviewed",
+      "source_kind": "operator_chat",
+      "status": "active",
+      "summary": "ADF support pages should use a daily-reader content grammar: a small number of fixed page archetypes, stable section order, stable label meaning, and quiet navigation so engineers can build scan memory and recognize key information faster over repeated use.",
+      "tags": [
+        "content_grammar",
+        "daily_reader",
+        "playbook",
+        "cookbook",
+        "scan_memory",
+        "ux_contract"
+      ],
+      "title": "ADF should use a daily-reader content grammar for support pages",
+      "updated_at": "2026-04-05T12:20:00Z"
+    }
+  ],
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "schema_version": "adf-successor-idea-log/v1",
+  "summary": {
+    "active_note_count": 4,
+    "archived_note_count": 0,
+    "evidence_state_counts": {
+      "observed_practice": 3,
+      "operator_theory": 1
+    },
+    "latest_note_id": "idea-20260405t122000z-adf-should-use-a-daily-reader-content-grammar",
+    "note_kind_counts": {
+      "behavioral_note": 1,
+      "product_idea": 2,
+      "workflow_note": 1
+    },
+    "review_state_counts": {
+      "in_review": 2,
+      "reviewed": 2
+    },
+    "total_note_count": 4,
+    "unreviewed_note_count": 0
+  }
+}

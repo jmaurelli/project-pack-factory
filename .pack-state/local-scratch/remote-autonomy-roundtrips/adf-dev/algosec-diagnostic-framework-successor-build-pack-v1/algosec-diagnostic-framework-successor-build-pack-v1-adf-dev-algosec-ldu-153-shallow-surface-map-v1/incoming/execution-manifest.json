@@ -1,0 +1,33 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-ldu-153-shallow-surface-map-v1-20260403T195037Z",
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-ldu-153-shallow-surface-map-v1 --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": "2026-04-03T19:50:37Z",
+  "export_error": null,
+  "export_status": "succeeded",
+  "exported_run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-ldu-153-shallow-surface-map-v1",
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "a92dc27290228833a085ade9abecfd0c5395243193415be11b14c252fc559862",
+  "remote_runner": "set -euo pipefail; PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label algosec-ldu-153 --target-connection-profile docs/remote-targets/algosec-ldu-153/target-connection-profile.json --mirror-into-run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-ldu-153-shallow-surface-map-v1 --output json",
+  "request_sha256": "e08499824baebfce4c503cc9a157329bff26b284fb9889f677f93fd12b75e553",
+  "run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-ldu-153-shallow-surface-map-v1",
+  "runner_interrupted_signal": null,
+  "runner_returncode": 0,
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "stale_active_run_cleanup": null,
+  "started_at": "2026-04-03T19:49:57Z",
+  "stopped_at": "2026-04-03T19:50:37Z",
+  "target_manifest_sha256": "b154fe9377413081ed09a541c51b9d6660d77c80762ca78057314cb9e2dc741f",
+  "terminal_outcome": "stopped",
+  "terminal_reason": "no_current_task_declared"
+}

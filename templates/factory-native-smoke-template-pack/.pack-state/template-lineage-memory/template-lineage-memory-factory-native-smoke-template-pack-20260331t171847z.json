@@ -1,0 +1,49 @@
+{
+  "active_build_pack_ids": [
+    "factory-native-smoke-build-pack"
+  ],
+  "capability_family": null,
+  "discovery_entrypoints": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json",
+    ".pack-state/template-lineage-memory/latest-memory.json",
+    "registry/build-packs.json"
+  ],
+  "distilled_lessons": [],
+  "generated_at": "2026-03-31T17:18:47Z",
+  "latest_distillation_report_path": ".pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260331t171847z/distillation-report.json",
+  "latest_template_parity_report_path": null,
+  "memory_id": "template-lineage-memory-factory-native-smoke-template-pack-20260331t171847z",
+  "notes": [
+    "This lineage memory is template-local advisory context, not canonical deployment or promotion truth.",
+    "Use build-pack lineage plus proven factory artifacts to decide what this template family has already taught the factory.",
+    "Runtime-template parity reports capture whether reusable runtime behavior has actually been backported into the template source.",
+    "When a repeated lesson becomes template-agnostic, prefer promoting it into factory-level autonomy memory and distillation artifacts instead of overfitting the template."
+  ],
+  "producer": "codex",
+  "recommended_next_step": "Use this template lineage memory when deciding whether the next proof should extend this template family or whether the lesson already belongs at the factory root.",
+  "relevant_artifact_paths": [
+    ".pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260331t171847z/distillation-report.json",
+    "build-packs/factory-native-smoke-build-pack/lineage/source-template.json",
+    "registry/build-packs.json",
+    "registry/templates.json"
+  ],
+  "retired_build_pack_ids": [],
+  "schema_version": "template-lineage-memory/v1",
+  "source_build_pack_ids": [
+    "factory-native-smoke-build-pack"
+  ],
+  "status_snapshot": {
+    "active_build_pack_count": 1,
+    "build_pack_count": 1,
+    "build_registry_path": "registry/build-packs.json",
+    "retired_build_pack_count": 0,
+    "template_parity_report_count": 0,
+    "template_registry_path": "registry/templates.json"
+  },
+  "summary": "Template `factory-native-smoke-template-pack` currently anchors 1 known derived build-packs. No factory-level distilled lessons intersect this template family yet.",
+  "template_id": "factory-native-smoke-template-pack",
+  "template_parity_reports": [],
+  "template_root": "/home/orchadmin/project-pack-factory/templates/factory-native-smoke-template-pack"
+}

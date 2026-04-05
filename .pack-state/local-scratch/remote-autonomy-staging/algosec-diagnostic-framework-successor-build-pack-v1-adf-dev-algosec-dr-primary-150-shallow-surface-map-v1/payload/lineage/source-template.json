@@ -1,0 +1,19 @@
+{
+  "build_pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "derivation_mode": "copied",
+  "inherited_contracts": [
+    "README"
+  ],
+  "inherited_entrypoints": [
+    "benchmark_command",
+    "cli_command",
+    "validation_command"
+  ],
+  "last_sync_at": "2026-04-02T12:09:44Z",
+  "last_sync_summary": "materialization_id=materialize-algosec-diagnostic-framework-successor-build-pack-v1-20260402t120944z",
+  "schema_version": "pack-lineage/v2",
+  "source_template_id": "algosec-diagnostic-framework-successor-template-pack",
+  "source_template_revision": "create-template-algosec-diagnostic-framework-successor-template-pack-20260402t120921z",
+  "source_template_version": "0.1.0",
+  "sync_state": "current"
+}

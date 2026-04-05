@@ -1,0 +1,11 @@
+2026-03-21 04:10:28 EDT [1106674]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:10:28 EDT [1106673]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:10:28 EDT [1106672]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:30:22 EDT [1080184]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:30:22 EDT [1080183]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:30:22 EDT [1080182]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:31:11 EDT [1130192]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:31:11 EDT [1130191]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:31:11 EDT [1130190]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:31:12 EDT [1157728]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer
+2026-03-21 04:31:12 EDT [1157729]: user=rt_user,db=rt3,client=127.0.0.1 LOG:  could not receive data from client: Connection reset by peer

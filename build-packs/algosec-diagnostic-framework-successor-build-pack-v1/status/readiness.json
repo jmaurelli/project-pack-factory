@@ -1,6 +1,6 @@
 {
   "blocking_issues": [],
-  "last_evaluated_at": "2026-04-03T23:01:12Z",
+  "last_evaluated_at": "2026-04-04T14:02:00Z",
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "pack_kind": "build_pack",
   "readiness_state": "ready_for_review",
@@ -16,6 +16,9 @@
     "Keep using the remote-owned runtime flow: adf-dev at 10.167.2.151 remains the runtime and support-facing host, while 10.167.2.150 and 10.167.2.153 are the current imported runtime evidence sources.",
     "The current bounded health model still says the DR-primary AFF session boundary is healthy at its current edge, the AFA-facing Metro bridge is reachable where retained, the AWS and Azure driver families are locally degraded where observed, and deeper provider-side or cross-node health remains uncertain.",
     "Choose the next widening step explicitly from the next stacked or alternate reviewed architectures. The strongest follow-on is to add the LDU layer onto the current DR shape and then capture `capture_disaster_recovery_plus_ldu_role_separated_node_proofs`.",
+    "The current `.150`-free standalone deepening pass has already widened the imported standalone calibration set to `10.167.2.192`, `10.167.2.177`, `10.167.2.132`, and `10.167.2.213`; use `docs/specs/adf-successor-standalone-deepening-calibration-review-v1.md` as the current bounded readout of what stayed stable and what drifted.",
+    "Use official continuity tools only where they fit the current long-lived pack honestly: the active-task continuity tool failed closed because the pack currently has no `active_task_id`, and the ready-boundary memory continuity tool failed closed because `work-state.autonomy_state` is not `ready_for_deploy`.",
+    "Use `docs/specs/adf-successor-workload-aware-diagnostic-knowledge-spine-v1.md` as the longer-horizon map for what comes after the current architecture proofs: support-facing symptom guidance, log awareness, scenario testing, failure prediction, data flows, database-black-box analytics, and only later workload fingerprinting are now explicit planner-visible layers.",
     "Treat the current lab posture as exploration-friendly: bounded misconfiguration or temporary breakage on 10.167.2.150 is acceptable because the lab is quickly redeployable and later distributed-architecture labs are expected.",
     "If promotion-compatible remote proof later matters for this pack, record and address the missed fresh-pack rehearsal step separately rather than pretending the current long-lived pack already has that certification."
   ],

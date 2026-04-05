@@ -1,0 +1,38 @@
+{
+  "build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "build_pack_root": "build-packs/algosec-diagnostic-framework-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-runtime-pulls/adf-dev-continuity-rerun-20260328t1648z/bundle/bundle.json",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_history_written": true,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "copied_artifact_paths": [
+    "external-runtime-evidence/bundle.json",
+    "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-adf-dev-continuity-rerun-20260328t1648z.json",
+    "external-runtime-evidence/artifacts/loop-events.jsonl",
+    "external-runtime-evidence/artifacts/run-summary.json"
+  ],
+  "generated_at": "2026-03-28T16:54:32Z",
+  "hash_verification_status": "pass",
+  "import_id": "import-external-runtime-evidence-20260328t165432z",
+  "import_reason": "Import runtime evidence from the fixed adf-dev continuity rerun to judge whether the remote loop contract now exports a usable checkpoint.",
+  "imported_by": "codex",
+  "memory_intake": {
+    "block_summary": null,
+    "latest_pointer_path": ".pack-state/agent-memory/latest-memory.json",
+    "promoted_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-adf-dev-continuity-rerun-20260328t1648z.json",
+    "selected_memory_id": "autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-adf-dev-continuity-rerun-20260328t1648z",
+    "selected_memory_sha256": "c8f3d68b6e46c3a44dd32252f6f0490b1f976ff73718210532b2fbc398ecc028",
+    "selected_run_id": "algosec-diagnostic-framework-build-pack-v1-adf-dev-continuity-rerun-20260328t1648z",
+    "source_bundle_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-adf-dev-continuity-rerun-20260328t1648z.json",
+    "status": "activated"
+  },
+  "schema_version": "external-runtime-evidence-import-report/v1",
+  "status": "completed",
+  "warnings": []
+}

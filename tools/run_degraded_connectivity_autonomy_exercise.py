@@ -38,6 +38,7 @@ from run_remote_active_task_continuity_test import (
     _write_validated,
 )
 from run_remote_memory_continuity_test import run_remote_memory_continuity_test
+from remote_autonomy_staging_common import resolve_local_scratch_root
 
 
 REPORT_SCHEMA_NAME = "degraded-connectivity-autonomy-exercise-report.schema.json"
@@ -99,6 +100,7 @@ def _build_remote_only_test_request(
     run_id: str,
     remote_run_request_path: Path,
     actor: str,
+    local_scratch_root: Path,
 ) -> dict[str, Any]:
     return {
         "schema_version": TEST_REQUEST_SCHEMA_VERSION,
@@ -109,8 +111,10 @@ def _build_remote_only_test_request(
                 remote_target_label=remote_target_label,
                 build_pack_id=build_pack_id,
                 run_id=run_id,
+                local_scratch_root=local_scratch_root,
             )
         ),
+        "local_scratch_root": str(local_scratch_root),
         "pull_bundle": True,
         "import_bundle": False,
         "imported_by": actor,
@@ -129,6 +133,7 @@ def _run_remote_only_roundtrip(
     actor: str,
 ) -> dict[str, Any]:
     pack_root = factory_root / "build-packs" / build_pack_id
+    local_scratch_root = resolve_local_scratch_root(factory_root)
     resolved_run_id = _next_run_id(factory_root, remote_target_label, build_pack_id).replace(
         "active-task-continuity-run", "degraded-connectivity-remote-run"
     )
@@ -240,6 +245,7 @@ def run_degraded_connectivity_autonomy_exercise(
         remote_host=remote_host,
         remote_user=remote_user,
         actor=actor,
+        local_scratch_root=local_scratch_root,
     )
 
     local_disconnected_result = run_local_active_task_continuity(

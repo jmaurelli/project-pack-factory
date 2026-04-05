@@ -1,0 +1,10 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-bounded-checkpoint-slice-v1/remote-run-request.json",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-bounded-checkpoint-slice-v1/incoming",
+  "pull_bundle": true,
+  "import_bundle": true,
+  "imported_by": "codex",
+  "import_reason": "Bounded ADF checkpoint-slice import for the in-progress deepen_dependency_aware_playbooks task.",
+  "test_reason": "PackFactory bounded remote checkpoint slice for a broad in-progress content task."
+}

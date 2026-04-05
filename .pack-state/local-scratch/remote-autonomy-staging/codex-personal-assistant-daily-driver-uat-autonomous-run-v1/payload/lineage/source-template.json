@@ -1,0 +1,19 @@
+{
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "derivation_mode": "copied",
+  "inherited_contracts": [
+    "README"
+  ],
+  "inherited_entrypoints": [
+    "benchmark_command",
+    "cli_command",
+    "validation_command"
+  ],
+  "last_sync_at": "2026-03-29T16:07:24Z",
+  "last_sync_summary": "materialization_id=materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z",
+  "schema_version": "pack-lineage/v2",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "source_template_revision": "create-template-codex-personal-assistant-template-pack-20260329t160700z",
+  "source_template_version": "0.1.0",
+  "sync_state": "current"
+}

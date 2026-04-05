@@ -1,0 +1,92 @@
+{
+  "distillation_result": {
+    "distillation_id": "autonomy-memory-distillation-20260331t171847z",
+    "lesson_count": 4,
+    "report_path": "/home/orchadmin/project-pack-factory/.pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260331t171847z/distillation-report.json",
+    "status": "completed",
+    "supporting_build_pack_count": 7
+  },
+  "factory_memory_result": {
+    "generated_at": "2026-03-31T17:18:48Z",
+    "memory_id": "factory-autonomy-memory-20260331t171848z",
+    "memory_path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260331t171848z.json",
+    "pointer_path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/latest-memory.json",
+    "status": "completed"
+  },
+  "factory_root": "/home/orchadmin/project-pack-factory",
+  "generated_at": "2026-03-31T17:19:00Z",
+  "maintenance_id": "post-autonomy-change-maintenance-20260331t171847z",
+  "schema_version": "post-autonomy-change-maintenance-report/v1",
+  "status": "completed",
+  "template_lineage_results": [
+    {
+      "distilled_lesson_count": 0,
+      "memory_id": "template-lineage-memory-algosec-diagnostic-framework-template-pack-20260331t171847z",
+      "memory_path": "/home/orchadmin/project-pack-factory/templates/algosec-diagnostic-framework-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-algosec-diagnostic-framework-template-pack-20260331t171847z.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/templates/algosec-diagnostic-framework-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+      "source_build_pack_count": 1,
+      "status": "completed",
+      "template_id": "algosec-diagnostic-framework-template-pack"
+    },
+    {
+      "distilled_lesson_count": 1,
+      "memory_id": "template-lineage-memory-api-contract-sentinel-template-pack-20260331t171847z",
+      "memory_path": "/home/orchadmin/project-pack-factory/templates/api-contract-sentinel-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-api-contract-sentinel-template-pack-20260331t171847z.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/templates/api-contract-sentinel-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+      "source_build_pack_count": 2,
+      "status": "completed",
+      "template_id": "api-contract-sentinel-template-pack"
+    },
+    {
+      "distilled_lesson_count": 0,
+      "memory_id": "template-lineage-memory-codex-personal-assistant-template-pack-20260331t171847z",
+      "memory_path": "/home/orchadmin/project-pack-factory/templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-codex-personal-assistant-template-pack-20260331t171847z.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+      "source_build_pack_count": 2,
+      "status": "completed",
+      "template_id": "codex-personal-assistant-template-pack"
+    },
+    {
+      "distilled_lesson_count": 3,
+      "memory_id": "template-lineage-memory-config-drift-checker-template-pack-20260331t171847z",
+      "memory_path": "/home/orchadmin/project-pack-factory/templates/config-drift-checker-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-config-drift-checker-template-pack-20260331t171847z.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/templates/config-drift-checker-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+      "source_build_pack_count": 2,
+      "status": "completed",
+      "template_id": "config-drift-checker-template-pack"
+    },
+    {
+      "distilled_lesson_count": 0,
+      "memory_id": "template-lineage-memory-factory-native-smoke-template-pack-20260331t171847z",
+      "memory_path": "/home/orchadmin/project-pack-factory/templates/factory-native-smoke-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-factory-native-smoke-template-pack-20260331t171847z.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/templates/factory-native-smoke-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+      "source_build_pack_count": 1,
+      "status": "completed",
+      "template_id": "factory-native-smoke-template-pack"
+    },
+    {
+      "distilled_lesson_count": 3,
+      "memory_id": "template-lineage-memory-json-health-checker-template-pack-20260331t171848z",
+      "memory_path": "/home/orchadmin/project-pack-factory/templates/json-health-checker-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-json-health-checker-template-pack-20260331t171848z.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/templates/json-health-checker-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+      "source_build_pack_count": 41,
+      "status": "completed",
+      "template_id": "json-health-checker-template-pack"
+    },
+    {
+      "distilled_lesson_count": 1,
+      "memory_id": "template-lineage-memory-release-evidence-summarizer-template-pack-20260331t171848z",
+      "memory_path": "/home/orchadmin/project-pack-factory/templates/release-evidence-summarizer-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-release-evidence-summarizer-template-pack-20260331t171848z.json",
+      "pointer_path": "/home/orchadmin/project-pack-factory/templates/release-evidence-summarizer-template-pack/.pack-state/template-lineage-memory/latest-memory.json",
+      "source_build_pack_count": 5,
+      "status": "completed",
+      "template_id": "release-evidence-summarizer-template-pack"
+    }
+  ],
+  "validation_summary": {
+    "filtered_error_count": 0,
+    "filtered_errors": [],
+    "status": "pass",
+    "unrelated_error_count": 0
+  }
+}

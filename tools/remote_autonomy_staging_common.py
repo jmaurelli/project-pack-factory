@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import posixpath
 import re
 import shutil
@@ -11,26 +12,55 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any, Final
 
-from factory_ops import load_json, relative_path, resolve_factory_root, schema_path, validate_json_document, write_json
+from factory_ops import (
+    isoformat_z,
+    load_json,
+    read_now,
+    relative_path,
+    resolve_factory_root,
+    schema_path,
+    validate_json_document,
+    write_json,
+)
 
 
 REQUEST_SCHEMA_NAME: Final[str] = "remote-autonomy-run-request.schema.json"
 REQUEST_SCHEMA_VERSION: Final[str] = "remote-autonomy-run-request/v1"
 PAYLOAD_MANIFEST_SCHEMA_NAME: Final[str] = "remote-execution-payload-manifest.schema.json"
 PAYLOAD_MANIFEST_SCHEMA_VERSION: Final[str] = "remote-execution-payload-manifest/v1"
-PAYLOAD_POLICY_VERSION: Final[str] = "fresh-staging/v1"
+SCRATCH_LIFECYCLE_SCHEMA_NAME: Final[str] = "scratch-lifecycle.schema.json"
+SCRATCH_LIFECYCLE_SCHEMA_VERSION: Final[str] = "scratch-lifecycle/v1"
+LOCAL_SCRATCH_SELECTION_SCHEMA_NAME: Final[str] = "local-scratch-root-selection.schema.json"
+LOCAL_SCRATCH_SELECTION_SCHEMA_VERSION: Final[str] = "local-scratch-root-selection/v1"
+PAYLOAD_POLICY_VERSION: Final[str] = "fresh-staging/v2"
 REMOTE_PARENT_TEMPLATE: Final[str] = "~/packfactory-source__{remote_target_label}__autonomous-build-packs"
 REMOTE_EXPORT_DIR_SUFFIX: Final[str] = "dist/exports/runtime-evidence"
+LOCAL_SCRATCH_ROOT_ENV: Final[str] = "PACKFACTORY_LOCAL_SCRATCH_ROOT"
+DEFAULT_LOCAL_SCRATCH_ROOT: Final[Path] = Path(".pack-state") / "local-scratch"
+LOCAL_SCRATCH_SELECTION_STATE_PATH: Final[Path] = Path(".pack-state") / "local-scratch-root-selection.json"
+AGENT_MANAGED_SCRATCH_DIRNAME: Final[str] = "project-pack-factory-local-scratch"
+AUTO_SCRATCH_CANDIDATE_PREFIXES: Final[tuple[str, ...]] = (
+    "/mnt",
+    "/media",
+    "/run/media",
+    "/srv",
+    "/data",
+    "/scratch",
+)
+LOCAL_SCRATCH_SELECTION_BY: Final[str] = "packfactory-local-scratch-resolver"
 SLUG_PATTERN: Final[re.Pattern[str]] = re.compile(r"^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
 MAX_SLUG_LENGTH: Final[int] = 128
 REMOTE_METADATA_DIR: Final[str] = ".packfactory-remote"
 REMOTE_REQUEST_FILENAME: Final[str] = "request.json"
 REMOTE_TARGET_MANIFEST_FILENAME: Final[str] = "target-manifest.json"
 LOCAL_STAGING_ROOT: Final[Path] = Path(".pack-state") / "remote-autonomy-staging"
+LOCAL_ROUNDTRIP_ROOT: Final[Path] = Path(".pack-state") / "remote-autonomy-roundtrips"
+SCRATCH_LIFECYCLE_FILENAME: Final[str] = "scratch-lifecycle.json"
 EXCLUDED_EXACT_RELATIVE_PATHS: Final[frozenset[str]] = frozenset(
     {
         ".packfactory-remote",
         ".pack-state/autonomy-runs",
+        "dist/candidates/algosec-lab-baseline",
         "eval/history",
         "dist/exports/runtime-evidence",
     }
@@ -52,6 +82,7 @@ class RemoteAutonomyRunRequest:
     source_factory_root: Path
     source_build_pack_id: str
     source_build_pack_root: Path
+    local_scratch_root: Path
     run_id: str
     remote_host: str
     remote_user: str
@@ -84,6 +115,207 @@ def canonical_remote_run_dir(remote_pack_dir: str, run_id: str) -> str:
 
 def canonical_remote_export_dir(remote_pack_dir: str) -> str:
     return f"{remote_pack_dir}/{REMOTE_EXPORT_DIR_SUFFIX}"
+
+
+def local_scratch_selection_state_path(factory_root: Path) -> Path:
+    return resolve_factory_root(factory_root) / LOCAL_SCRATCH_SELECTION_STATE_PATH
+
+
+def _normalize_local_scratch_root(factory_root: Path, value: str) -> Path:
+    candidate = Path(str(value)).expanduser()
+    if not candidate.is_absolute():
+        candidate = resolve_factory_root(factory_root) / candidate
+    return candidate.resolve()
+
+
+def _load_validated_local_scratch_selection_state(factory_root: Path) -> dict[str, Any] | None:
+    state_path = local_scratch_selection_state_path(factory_root)
+    if not state_path.exists():
+        return None
+    errors = validate_json_document(state_path, schema_path(factory_root, LOCAL_SCRATCH_SELECTION_SCHEMA_NAME))
+    if errors:
+        return None
+    payload = _load_object(state_path)
+    if payload.get("schema_version") != LOCAL_SCRATCH_SELECTION_SCHEMA_VERSION:
+        return None
+    if payload.get("factory_root") != str(resolve_factory_root(factory_root)):
+        return None
+    selected_root = payload.get("selected_root")
+    if not isinstance(selected_root, str) or not selected_root.strip():
+        return None
+    return payload
+
+
+def _existing_parent(path: Path) -> Path | None:
+    current = path
+    while True:
+        if current.exists():
+            return current
+        if current.parent == current:
+            return None
+        current = current.parent
+
+
+def _can_materialize_directory(path: Path) -> bool:
+    parent = _existing_parent(path)
+    if parent is None:
+        return False
+    return os.access(parent, os.W_OK | os.X_OK)
+
+
+def _mounted_prefix_candidates() -> list[Path]:
+    mounts_path = Path("/proc/mounts")
+    if not mounts_path.exists():
+        return []
+    candidates: list[Path] = []
+    seen: set[Path] = set()
+    for line in mounts_path.read_text(encoding="utf-8").splitlines():
+        parts = line.split()
+        if len(parts) < 2:
+            continue
+        mount_point = Path(parts[1].replace("\\040", " ")).resolve()
+        mount_text = str(mount_point)
+        if not any(
+            mount_text == prefix or mount_text.startswith(prefix + os.sep)
+            for prefix in AUTO_SCRATCH_CANDIDATE_PREFIXES
+        ):
+            continue
+        if not mount_point.exists() or not mount_point.is_dir():
+            continue
+        if mount_point in seen:
+            continue
+        seen.add(mount_point)
+        candidates.append(mount_point)
+    return sorted(candidates)
+
+
+def _select_agent_managed_local_scratch_root(factory_root: Path) -> tuple[Path, str, str]:
+    resolved_factory_root = resolve_factory_root(factory_root)
+    factory_device = resolved_factory_root.stat().st_dev
+    ranked_candidates: list[tuple[int, int, str, Path]] = []
+    for mount_point in _mounted_prefix_candidates():
+        try:
+            if mount_point.stat().st_dev == factory_device:
+                continue
+        except OSError:
+            continue
+        candidate_root = mount_point / AGENT_MANAGED_SCRATCH_DIRNAME / resolved_factory_root.name
+        if not _can_materialize_directory(candidate_root):
+            continue
+        try:
+            free_bytes = shutil.disk_usage(mount_point).free
+        except OSError:
+            continue
+        ranked_candidates.append((-free_bytes, len(mount_point.parts), str(mount_point), candidate_root))
+    if ranked_candidates:
+        ranked_candidates.sort()
+        selected_root = ranked_candidates[0][3].resolve()
+        return selected_root, "agent_auto_selected", f"alternate_mount:{ranked_candidates[0][2]}"
+    return (resolved_factory_root / DEFAULT_LOCAL_SCRATCH_ROOT).resolve(), "repo_fallback", "repo_local_fallback"
+
+
+def _persist_local_scratch_selection_state(
+    *,
+    factory_root: Path,
+    selected_root: Path,
+    selection_mode: str,
+    selection_basis: str,
+) -> None:
+    resolved_factory_root = resolve_factory_root(factory_root)
+    state_path = local_scratch_selection_state_path(resolved_factory_root)
+    selected_root.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "schema_version": LOCAL_SCRATCH_SELECTION_SCHEMA_VERSION,
+        "factory_root": str(resolved_factory_root),
+        "selected_root": str(selected_root),
+        "selection_mode": selection_mode,
+        "selection_basis": selection_basis,
+        "selected_by": LOCAL_SCRATCH_SELECTION_BY,
+        "selected_at": isoformat_z(read_now()),
+        "same_filesystem_as_factory_root": selected_root.stat().st_dev == resolved_factory_root.stat().st_dev,
+        "filesystem_free_bytes": shutil.disk_usage(selected_root).free,
+    }
+    write_json(state_path, payload)
+    errors = validate_json_document(state_path, schema_path(resolved_factory_root, LOCAL_SCRATCH_SELECTION_SCHEMA_NAME))
+    if errors:
+        raise ValueError("; ".join(errors))
+
+
+def resolve_local_scratch_root(factory_root: Path, value: str | None = None) -> Path:
+    resolved_factory_root = resolve_factory_root(factory_root)
+    candidate_value = value if value is not None and value.strip() else None
+    if candidate_value is not None:
+        candidate = _normalize_local_scratch_root(resolved_factory_root, str(candidate_value))
+        candidate.mkdir(parents=True, exist_ok=True)
+        return candidate
+
+    persisted_state = _load_validated_local_scratch_selection_state(resolved_factory_root)
+    if persisted_state is not None:
+        candidate = _normalize_local_scratch_root(resolved_factory_root, str(persisted_state["selected_root"]))
+        candidate.mkdir(parents=True, exist_ok=True)
+        return candidate
+
+    env_value = os.environ.get(LOCAL_SCRATCH_ROOT_ENV)
+    if env_value is not None and env_value.strip():
+        candidate = _normalize_local_scratch_root(resolved_factory_root, env_value)
+        _persist_local_scratch_selection_state(
+            factory_root=resolved_factory_root,
+            selected_root=candidate,
+            selection_mode="env_seeded",
+            selection_basis=f"environment:{LOCAL_SCRATCH_ROOT_ENV}",
+        )
+        return candidate
+
+    candidate, selection_mode, selection_basis = _select_agent_managed_local_scratch_root(resolved_factory_root)
+    _persist_local_scratch_selection_state(
+        factory_root=resolved_factory_root,
+        selected_root=candidate,
+        selection_mode=selection_mode,
+        selection_basis=selection_basis,
+    )
+    return candidate
+
+
+def canonical_local_remote_autonomy_staging_root(local_scratch_root: Path, run_id: str) -> Path:
+    return (local_scratch_root / "remote-autonomy-staging" / run_id).resolve()
+
+
+def canonical_local_roundtrip_root(
+    local_scratch_root: Path,
+    remote_target_label: str,
+    build_pack_id: str,
+    run_id: str,
+) -> Path:
+    return (local_scratch_root / "remote-autonomy-roundtrips" / remote_target_label / build_pack_id / run_id).resolve()
+
+
+def canonical_local_roundtrip_incoming_dir(
+    local_scratch_root: Path,
+    remote_target_label: str,
+    build_pack_id: str,
+    run_id: str,
+) -> Path:
+    return canonical_local_roundtrip_root(local_scratch_root, remote_target_label, build_pack_id, run_id) / "incoming"
+
+
+def canonical_local_roundtrip_artifacts_dir(
+    factory_root: Path,
+    remote_target_label: str,
+    build_pack_id: str,
+    run_id: str,
+) -> Path:
+    return (
+        resolve_factory_root(factory_root)
+        / LOCAL_ROUNDTRIP_ROOT
+        / remote_target_label
+        / build_pack_id
+        / run_id
+        / "artifacts"
+    ).resolve()
+
+
+def scratch_lifecycle_path(root: Path) -> Path:
+    return root / SCRATCH_LIFECYCLE_FILENAME
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -159,6 +391,7 @@ def _ensure_remote_child(*, parent: str, child: str, field_name: str) -> str:
 
 def _validate_request_paths(
     *,
+    local_scratch_root: Path,
     source_build_pack_id: str,
     run_id: str,
     remote_parent_dir: str,
@@ -216,8 +449,15 @@ def load_remote_autonomy_request(*, factory_root: Path, request_path: Path) -> R
     remote_target_label = _require_slug(str(payload["remote_target_label"]), field_name="remote_target_label")
     if source_build_pack_root.name != source_build_pack_id:
         raise ValueError("source_build_pack_root must end with the selected source_build_pack_id")
+    local_scratch_root = resolve_local_scratch_root(factory_root, str(payload["local_scratch_root"]))
+    current_local_scratch_root = resolve_local_scratch_root(factory_root)
+    if current_local_scratch_root != local_scratch_root:
+        raise ValueError(
+            "local_scratch_root in the request does not match the currently selected PackFactory scratch root"
+        )
 
     parent, pack, run, export_dir = _validate_request_paths(
+        local_scratch_root=local_scratch_root,
         source_build_pack_id=source_build_pack_id,
         run_id=run_id,
         remote_parent_dir=str(payload["remote_parent_dir"]),
@@ -232,6 +472,7 @@ def load_remote_autonomy_request(*, factory_root: Path, request_path: Path) -> R
         source_factory_root=source_factory_root,
         source_build_pack_id=source_build_pack_id,
         source_build_pack_root=source_build_pack_root,
+        local_scratch_root=local_scratch_root,
         run_id=run_id,
         remote_host=str(payload["remote_host"]).strip(),
         remote_user=str(payload["remote_user"]).strip(),
@@ -247,6 +488,13 @@ def load_remote_autonomy_request(*, factory_root: Path, request_path: Path) -> R
     )
 
 
+def write_validated_scratch_lifecycle_manifest(*, factory_root: Path, path: Path, payload: dict[str, Any]) -> None:
+    write_json(path, payload)
+    errors = validate_json_document(path, schema_path(factory_root, SCRATCH_LIFECYCLE_SCHEMA_NAME))
+    if errors:
+        raise ValueError("; ".join(errors))
+
+
 def sha256_path(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -256,7 +504,12 @@ def sha256_path(path: Path) -> str:
 
 
 def should_exclude_relative_path(relative_path: str, *, is_dir: bool) -> bool:
-    normalized = relative_path.strip("./")
+    normalized = relative_path.replace("\\", "/").strip()
+    while normalized.startswith("./"):
+        normalized = normalized[2:]
+    while normalized.startswith("/"):
+        normalized = normalized[1:]
+    normalized = normalized.rstrip("/")
     if not normalized:
         return False
     if normalized in EXCLUDED_EXACT_RELATIVE_PATHS:
@@ -341,6 +594,14 @@ def ssh_command(request: RemoteAutonomyRunRequest, remote_command: str) -> list[
     return ["ssh", request.remote_address, remote_command]
 
 
+def expand_remote_home_for_scp(path: str, remote_user: str) -> str:
+    if path == "~":
+        return f"/home/{remote_user}"
+    if path.startswith("~/"):
+        return f"/home/{remote_user}/{path[2:]}"
+    return path
+
+
 def run_checked(command: list[str], *, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         command,
@@ -352,11 +613,13 @@ def run_checked(command: list[str], *, cwd: Path | None = None) -> subprocess.Co
 
 
 def push_file_via_scp(*, request: RemoteAutonomyRunRequest, local_path: Path, remote_path: str) -> None:
-    run_checked(["scp", str(local_path), f"{request.remote_address}:{remote_path}"])
+    resolved_remote_path = expand_remote_home_for_scp(remote_path, request.remote_user)
+    run_checked(["scp", str(local_path), f"{request.remote_address}:{resolved_remote_path}"])
 
 
 def push_directory_via_rsync(*, request: RemoteAutonomyRunRequest, local_dir: Path, remote_dir: str) -> None:
-    run_checked(["rsync", "-a", f"{local_dir}/", f"{request.remote_address}:{remote_dir}/"])
+    resolved_remote_dir = expand_remote_home_for_scp(remote_dir, request.remote_user)
+    run_checked(["rsync", "-a", f"{local_dir}/", f"{request.remote_address}:{resolved_remote_dir}/"])
 
 
 def write_remote_json_via_tempfile(

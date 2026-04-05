@@ -1,0 +1,30 @@
+{
+  "schema_version": "adf-evidence-minute/v1",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2",
+  "observed_minute_local": "2026-03-28 19:27 EDT",
+  "observed_minute_utc": "2026-03-28T23:27:00Z",
+  "boundary": "later_content_reports_branch",
+  "method": "reused live AFA web session, loaded /afa/php/home.php?segment=DEVICES, extracted matching in-page TOKEN, replayed GET_REPORTS with the same PHPSESSID and TOKEN from localhost on the target host",
+  "apache_window": [
+    "127.0.0.1 - - [28/Mar/2026:19:27:29 -0400] \"GET /afa/php/home.php?segment=DEVICES HTTP/1.1\" 200 328934",
+    "127.0.0.1 - - [28/Mar/2026:19:27:30 -0400] \"GET /afa/php/commands.php?cmd=GET_REPORTS&TOKEN=<redacted> HTTP/1.1\" 200 99"
+  ],
+  "home_shell_markers": [
+    "<title>AlgoSec - Home</title>",
+    "HOME",
+    "DEVICES",
+    "DASHBOARDS",
+    "GROUPS",
+    "MATRICES",
+    "Firewall Analyzer"
+  ],
+  "reports_response": {
+    "bCmdStatus": true,
+    "recordsFiltered": "0",
+    "recordsTotal": "0",
+    "sMsg": "",
+    "userdata": []
+  },
+  "support_stop_point_judgment": "This session is no longer top-level GUI down once the same bounded window shows the usable DEVICES shell and a successful GET_REPORTS response. The next troubleshooting branch should narrow on REPORTS content or deeper workflow behavior instead of returning to the first-shell gate.",
+  "residual_risk": "This evidence reused an already-live authenticated web session rather than proving the same REPORTS branch through a fresh login minute."
+}

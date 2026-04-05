@@ -1,0 +1,10 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v1/remote-run-request.json",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v1/incoming",
+  "pull_bundle": true,
+  "import_bundle": false,
+  "imported_by": "codex",
+  "import_reason": "Fail-closed contract-safe ADF checkpoint-slice review for the evidence-only first usable shell versus Metro-backed home-shell boundary.",
+  "test_reason": "PackFactory contract-safe remote checkpoint slice for the active evidence-only shell-versus-Metro task."
+}

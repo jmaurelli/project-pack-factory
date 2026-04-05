@@ -1,0 +1,276 @@
+{
+  "generated_at": "2026-03-30T18:31:01Z",
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The validation readiness-evaluation workflow exits successfully.",
+        "The validation gate records passing evidence in status/readiness.json."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "validate_build_pack_contract reaches pass state.",
+        "Validation evaluation evidence is recorded under eval/history and linked from status/readiness.json."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Validation reports schema or contract failures that the current task scope cannot resolve safely."
+      ],
+      "files_in_scope": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
+      "task_id": "run_build_pack_validation",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The benchmark readiness-evaluation workflow exits successfully.",
+        "Inherited benchmark gates update from not_run to pass or waived."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Benchmark evaluation evidence records results in eval/latest/index.json.",
+        "Required benchmark gates advance to pass or waived in status/readiness.json."
+      ],
+      "dependencies": [
+        "run_build_pack_validation"
+      ],
+      "escalation_conditions": [
+        "Benchmark output fails to update readiness or eval state through the existing bounded surfaces."
+      ],
+      "files_in_scope": [
+        "benchmarks/active-set.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
+      "task_id": "run_inherited_benchmarks",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The runtime pack exposes a bounded operator-intake workflow that records inspectable intake artifacts, refines the operator profile in a merge-friendly way, and writes relationship memory for stable signals.",
+        "The new intake workflow is discoverable through local contracts, prompts, and docs without introducing hidden adaptation behavior."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A CLI surface exists to inspect the operator-intake contract and record a bounded intake/refinement update.",
+        "Runtime contracts, docs, and local state surfaces clearly show how intake updates affect operator alignment.",
+        "Existing validation and smoke benchmark surfaces pass after the intake feature is added."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The intake workflow would require hidden profile mutation or non-inspectable adaptation rules.",
+        "The runtime and template models diverge in a way that cannot be backported cleanly."
+      ],
+      "files_in_scope": [
+        "contracts/operator-profile.json",
+        "contracts/operator-intake.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/assistant_contracts.py",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/cli.py",
+        "src/codex_personal_assistant_template_pack/memory.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a structured operator-intake and profile-refinement workflow to the runtime assistant.",
+      "task_id": "operator_intake_and_profile_refinement",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant can distill a bounded session update into durable relationship memory without rewriting the operator profile on weak signals.",
+        "The distillation behavior stays inspectable through local artifacts and existing assistant memory surfaces."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded distillation workflow exists for session-level operator learning.",
+        "Distilled memory promotion rules are documented and validated through existing pack surfaces."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement"
+      ],
+      "escalation_conditions": [
+        "Session distillation would require adding broad new tests or opaque heuristics.",
+        "Stable-signal promotion cannot be expressed through local contracts and assistant memory."
+      ],
+      "files_in_scope": [
+        "contracts/memory-policy.json",
+        "docs/specs/operator-alignment-model.md",
+        "src/codex_personal_assistant_template_pack/memory.py",
+        "src/codex_personal_assistant_template_pack/alignment.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a bounded session-memory distillation and promotion workflow.",
+      "task_id": "session_memory_distillation_and_promotion",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant can surface grounded accountability prompts and drift checks that align with the operator's declared direction.",
+        "Grounding/accountability guidance remains business-like, brief, and fail-closed on ambiguity."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The runtime assistant exposes a discoverable grounding/accountability cadence tied to the operator profile and partnership policy.",
+        "Existing validation and smoke surfaces continue to pass after the grounding cadence is introduced."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement",
+        "session_memory_distillation_and_promotion"
+      ],
+      "escalation_conditions": [
+        "Accountability behavior starts pretending to have human emotion or certainty the local evidence does not support.",
+        "The cadence cannot stay bounded inside the current pack-local contracts and docs."
+      ],
+      "files_in_scope": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/doctor.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a grounded accountability and anti-drift cadence to the runtime assistant.",
+      "task_id": "grounding_and_accountability_cadence",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The relationship-state surface exposes which operator-learning signal categories are already covered, which are still thin, and the next bounded intake prompts that would make the assistant less generic.",
+        "The alignment summary mirrors the relationship-learning gap signals without introducing a second personalization subsystem."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "show-relationship-state returns covered_signal_categories, missing_signal_categories, and next_learning_prompts sourced from the operator-intake contract.",
+        "Existing validation and smoke benchmark surfaces pass after the relationship-learning gap visibility update is added."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement",
+        "session_memory_distillation_and_promotion",
+        "grounding_and_accountability_cadence"
+      ],
+      "escalation_conditions": [
+        "Improving relationship-state visibility would require a parallel personalization model instead of extending the existing inspectable surface.",
+        "The runtime and template relationship-state outputs diverge in a way that cannot be validated through the current bounded surfaces."
+      ],
+      "files_in_scope": [
+        "contracts/operator-intake.json",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/benchmark_smoke.py",
+        "src/codex_personal_assistant_template_pack/relationship_state.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Make relationship-learning coverage gaps and next intake prompts explicit through the existing relationship-state surface.",
+      "task_id": "relationship_learning_gap_visibility",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant exposes an inspectable recurring business-grounding review loop that tells the operator when a review is due, what questions should guide it, and what the latest review concluded.",
+        "The business-grounding review loop reuses the existing grounding, relationship, and partnership-policy surfaces instead of introducing a hidden planner or duplicate personalization system."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "show-business-review returns a bounded review summary with due-state, review questions, and current relationship-learning gaps.",
+        "record-business-review writes inspectable local review artifacts and the alignment summary reflects the latest business review status.",
+        "Existing validation and smoke benchmark surfaces pass after the review loop is added."
+      ],
+      "dependencies": [
+        "grounding_and_accountability_cadence",
+        "relationship_learning_gap_visibility"
+      ],
+      "escalation_conditions": [
+        "The review loop would require a broad planning subsystem or hidden adaptation behavior instead of a bounded inspectable review artifact.",
+        "The runtime and template review-loop surfaces diverge in a way that cannot be proven through the existing validation and smoke benchmark commands."
+      ],
+      "files_in_scope": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/benchmark_smoke.py",
+        "src/codex_personal_assistant_template_pack/cli.py",
+        "src/codex_personal_assistant_template_pack/doctor.py",
+        "src/codex_personal_assistant_template_pack/grounding.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a bounded recurring business-grounding review loop to the assistant runtime.",
+      "task_id": "business_grounding_review_loop",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant can show whether preference evidence is missing, tentative, repeated, or confirmed without inventing a separate hidden scoring system.",
+        "Preference-strength tracking reuses the existing relationship-state, memory, and alignment surfaces so the signal remains inspectable and backportable."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "show-relationship-state exposes signal-strength details by category and a dedicated preference-strength status.",
+        "show-alignment mirrors the current preference-strength status for quick operator inspection.",
+        "Existing validation and smoke benchmark surfaces pass after the preference-strength tracking update is added."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement",
+        "session_memory_distillation_and_promotion",
+        "relationship_learning_gap_visibility"
+      ],
+      "escalation_conditions": [
+        "Preference-strength tracking would require a new opaque scoring subsystem instead of a bounded rollup of existing inspectable evidence.",
+        "The runtime and template preference-strength outputs diverge in a way that cannot be validated through the current bounded surfaces."
+      ],
+      "files_in_scope": [
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/benchmark_smoke.py",
+        "src/codex_personal_assistant_template_pack/relationship_state.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add bounded preference-strength tracking on top of the existing relationship-state surface.",
+      "task_id": "preference_signal_strength_tracking",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    }
+  ]
+}

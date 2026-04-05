@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-native-project-initialization-smoke-template-pack"
+version = "0.1.0"
+description = "Agent-Native Project Initialization Smoke Template"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+agent-native-project-initialization-smoke-template-pack = "agent_native_project_initialization_smoke_template_pack.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["agent_native_project_initialization_smoke_template_pack*"]

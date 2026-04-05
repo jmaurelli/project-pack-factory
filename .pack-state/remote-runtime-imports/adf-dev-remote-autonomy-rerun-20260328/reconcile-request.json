@@ -1,0 +1,7 @@
+{
+  "schema_version": "imported-runtime-state-reconcile-request/v1",
+  "build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/import-external-runtime-evidence-20260328t165103z/import-report.json",
+  "reconcile_reason": "Reconcile imported adf-dev remote autonomy rerun state after the post-fix loop returned an export bundle successfully.",
+  "reconciled_by": "codex"
+}

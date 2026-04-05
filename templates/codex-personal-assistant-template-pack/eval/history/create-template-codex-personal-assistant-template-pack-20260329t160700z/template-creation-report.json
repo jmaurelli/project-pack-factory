@@ -1,0 +1,41 @@
+{
+  "artifact_paths": {
+    "creation_report": "templates/codex-personal-assistant-template-pack/eval/history/create-template-codex-personal-assistant-template-pack-20260329t160700z/template-creation-report.json",
+    "lifecycle_file": "templates/codex-personal-assistant-template-pack/status/lifecycle.json",
+    "pack_manifest": "templates/codex-personal-assistant-template-pack/pack.json",
+    "readiness_file": "templates/codex-personal-assistant-template-pack/status/readiness.json",
+    "template_root": "templates/codex-personal-assistant-template-pack"
+  },
+  "created_at": "2026-03-29T16:07:00Z",
+  "created_by": "codex",
+  "creation_id": "create-template-codex-personal-assistant-template-pack-20260329t160700z",
+  "factory_mutations": {
+    "operation_log_updated": true,
+    "post_write_factory_validation": "pass",
+    "registry_updated": true
+  },
+  "next_recommended_actions": [
+    "Inspect the new template pack.",
+    "Run validate-project-pack inside the new template.",
+    "Run the initial smoke benchmark when ready.",
+    "Materialize the first build-pack proving ground for `daily-driver Codex home-profile baseline`."
+  ],
+  "planning_summary": {
+    "capability_family": "codex-personal-assistant-infrastructure",
+    "delivery_shape": "application",
+    "expected_build_pack_variants": [
+      "daily-driver Codex home-profile baseline",
+      "research-heavy Codex operator profile",
+      "team-shared Codex workspace profile"
+    ],
+    "first_materialization_purpose": "daily-driver Codex home-profile baseline",
+    "initial_benchmark_intent": "Prove the smallest end-to-end Codex personal assistant path: bootstrap the workspace, expose the assistant profile and context-routing surfaces, write and read one restart-memory artifact, and validate the pack contract without requiring broad hook or GUI parity on day one.",
+    "new_template_rationale": "The current active templates cover smoke scaffolding and bounded utility tools such as JSON validation, config drift checks, release evidence summarization, API contract checks, and appliance diagnostics. None of them model a Codex-native personal assistant environment with operator identity, context routing, restart memory, skills, and install/bootstrap behavior. The retired ai-native-codex line is a Python package scaffold rather than a full assistant environment, so this needs a dedicated new template.",
+    "project_goal": "Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.",
+    "reuse_active_template": false
+  },
+  "scaffold_strategy": "minimal_python_text_pack",
+  "schema_version": "template-creation-report/v1",
+  "status": "created",
+  "template_pack_id": "codex-personal-assistant-template-pack"
+}

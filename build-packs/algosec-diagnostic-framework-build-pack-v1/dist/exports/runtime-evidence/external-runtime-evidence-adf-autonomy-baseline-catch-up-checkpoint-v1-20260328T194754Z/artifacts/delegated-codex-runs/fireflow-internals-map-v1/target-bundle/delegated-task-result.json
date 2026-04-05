@@ -1,0 +1,27 @@
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "fireflow-internals-map-v1",
+  "task_id": "deepen_dependency_aware_playbooks",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Mapped Apache FireFlow route ownership, aff-boot and dependency ordering, nearby PostgreSQL and ActiveMQ evidence, useful log families, and the bounded conditions under which ActiveMQ should stay secondary or be promoted.",
+  "returned_artifact_paths": [
+    "artifacts/fireflow.conf.snapshot",
+    "artifacts/aff.conf.snapshot",
+    "artifacts/aff-boot.service.snapshot",
+    "artifacts/activemq.service.snapshot",
+    "artifacts/postgresql.service.snapshot",
+    "artifacts/ms-cloudflow-broker.service.snapshot",
+    "artifacts/ms-cloudflow-broker.properties.snapshot",
+    "artifacts/postgresql_dynamic.conf.snapshot",
+    "artifacts/algosec-ms.ms-cloudflow-broker.conf.snapshot",
+    "artifacts/algosec-ms.ms-batch-application.conf.snapshot",
+    "artifacts/algosec-ms.ms-configuration.conf.snapshot"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "Use the first-pass order Apache route config -> httpd state -> postgresql state/logs -> aff-boot state before checking ActiveMQ.",
+    "If core UI is reachable but background workflows or config propagation fail, inspect ms-configuration and ms-batch-application logs for ActiveMQ or PostgreSQL schema symptoms.",
+    "If cloudflow-specific paths are implicated, check ms-cloudflow-broker host-based routing and why ms-cloudflow-broker.service is inactive."
+  ]
+}

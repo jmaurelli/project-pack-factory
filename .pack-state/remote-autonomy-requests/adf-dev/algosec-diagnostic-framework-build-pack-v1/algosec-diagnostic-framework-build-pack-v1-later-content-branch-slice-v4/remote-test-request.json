@@ -1,0 +1,10 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/remote-run-request.json",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/incoming",
+  "pull_bundle": true,
+  "import_bundle": false,
+  "imported_by": "codex",
+  "import_reason": "Review the fresh later-content checkpoint bundle locally before accepting any canonical state changes.",
+  "test_reason": "Run the fresh later-content checkpoint rerun after the launcher-hardening proof completion so the slice is judged on content evidence rather than wrapper survival."
+}

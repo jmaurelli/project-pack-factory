@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-03-29T18:08:43Z",
+  "improvement_id": "lean-remote-build-pack-staging-v1",
+  "operator_summary": "Proved autonomy improvement `lean-remote-build-pack-staging-v1` from `algosec-diagnostic-framework-build-pack-v1`. Adopted surfaces: materializer_defaults. Pending surfaces: source_template_tracking.",
+  "proof_paths": [
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-LEAN-REMOTE-STAGING-NOTE-20260329.md"
+  ],
+  "recorded_by": "codex",
+  "report_id": "lean-remote-build-pack-staging-v1-20260329t180843z",
+  "schema_version": "autonomy-improvement-promotion-report/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "source_template_id": "algosec-diagnostic-framework-template-pack",
+  "summary": "Reduced remote build-pack staging to PackFactory-essential ADF inputs by excluding the heavy algosec-lab baseline candidate snapshot and by fixing dot-prefixed exclusion matching for .pack-state and .packfactory-remote paths.",
+  "surface_records": [
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_default_for_new_build_packs",
+      "notes": [
+        "This is the main automatic inheritance path for future build-packs.",
+        "When an autonomy improvement lands here, newly materialized build-packs receive it by default."
+      ],
+      "surface_id": "materializer_defaults",
+      "target_paths": [
+        "tools/materialize_build_pack.py"
+      ]
+    },
+    {
+      "adoption_status": "pending",
+      "inheritance_effect": "template_source_tracking",
+      "notes": [
+        "This records whether the source template itself has been updated to describe or carry the improvement.",
+        "Pending here means the improvement may still be inherited through factory tooling without being reflected directly in the template source."
+      ],
+      "surface_id": "source_template_tracking",
+      "target_paths": [
+        "templates/algosec-diagnostic-framework-template-pack/AGENTS.md",
+        "templates/algosec-diagnostic-framework-template-pack/pack.json",
+        "templates/algosec-diagnostic-framework-template-pack/project-context.md"
+      ]
+    }
+  ]
+}

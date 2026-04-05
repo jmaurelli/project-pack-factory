@@ -1,0 +1,32 @@
+{
+  "allowed_targets": [
+    "/etc/httpd/conf.d",
+    "/var/log/httpd",
+    "/usr/lib/systemd/system",
+    "/usr/share/aff"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "businessflow-aff-session-seam-validation-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md",
+    "artifacts/aff.conf.snapshot",
+    "artifacts/apache-fireflow-session.txt",
+    "artifacts/direct-aff-session.txt",
+    "artifacts/aff-boot.service.txt"
+  ],
+  "generated_at": "2026-03-27T10:13:31Z",
+  "generated_by": "adf-dev",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+  "remote_target_label": "algosec-lab",
+  "run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "schema_version": "adf-delegated-task-request/v1",
+  "scope_summary": "Validate the BusinessFlow -> AFF connection seam with observe-only evidence. Prove whether BusinessFlow AFF still resolves through Apache 443 /FireFlow/api/session to aff-boot on 1989, whether the direct 1989 /aff/api/external/session response matches the Apache-fronted response, and whether aff-boot.service is active. Capture only bounded artifacts and summarize the first support-useful seam behind BusinessFlow AFF.",
+  "target_bundle_root": ".pack-state/delegated-codex-runs/businessflow-aff-session-seam-validation-v1",
+  "task_id": "businessflow-aff-session-seam-validation-v1",
+  "time_budget_seconds": 900
+}

@@ -1,0 +1,25 @@
+{
+  "durable_promoted_artifacts": {
+    "execution-manifest.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/artifacts/execution-manifest.json",
+    "portable-runtime-helper-manifest.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/artifacts/portable-runtime-helper-manifest.json",
+    "scratch-lifecycle.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/artifacts/scratch-lifecycle.json",
+    "target-manifest.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/artifacts/target-manifest.json"
+  },
+  "execution_manifest_sha256": "bc98adaacbfc7e94646c8ea18e89575e4f1577e89e435e758f12565e8fefbca4",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/artifacts/generated-import-request.json",
+  "generated_import_request_sha256": "612392a2ffe4dc10bedc60c1fd69e08ae91d56ab098773c2b7bca39b237e53a2",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/incoming",
+  "local_roundtrip_artifacts_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/artifacts",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "portable_helper_manifest_sha256": "d5397d29bb072f05736abe59b4ce82beb4334ab2b2d041ea54e274893764fe01",
+  "pulled_at": "2026-03-31T14:56:19Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19/incoming/bundle",
+  "pulled_bundle_sha256": "974e2f401c34a7b0511a8161fc37b2f8127dadefa06fc2b4e1c636ae3aa83915",
+  "remote_run_request_sha256": "818e659ffedaf7a1297155d6b8e9bc44e2494d26d72b1cb34f28b701b363688d",
+  "remote_target_label": "adf-dev",
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "target_manifest_sha256": "f3bdb12409ae3c895c5b44e1c281bf790a07d549191e65582334f0f64dc72b97",
+  "wrapper_request_sha256": "7b8d50ea32139bb72609e32b3f2731c0663285e449139b71101c9108773a6ddb"
+}

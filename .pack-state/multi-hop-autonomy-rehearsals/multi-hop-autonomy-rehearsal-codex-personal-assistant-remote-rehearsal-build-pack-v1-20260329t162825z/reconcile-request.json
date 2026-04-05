@@ -1,0 +1,7 @@
+{
+  "build_pack_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-remote-rehearsal-build-pack-v1/eval/history/import-external-runtime-evidence-20260329t162832z/import-report.json",
+  "reconcile_reason": "Adopt the successful remote active-task continuity result into local canonical state.",
+  "reconciled_by": "codex",
+  "schema_version": "imported-runtime-state-reconcile-request/v1"
+}

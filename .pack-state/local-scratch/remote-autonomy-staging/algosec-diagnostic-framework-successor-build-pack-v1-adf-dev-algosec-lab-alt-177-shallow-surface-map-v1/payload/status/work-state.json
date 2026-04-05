@@ -1,0 +1,825 @@
+{
+  "active_task_id": null,
+  "autonomy_state": "actively_building",
+  "blocked_task_ids": [],
+  "branch_selection_hints": [],
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks",
+    "define_shallow_surface_map_artifact_contract",
+    "implement_shallow_surface_map_first_pass",
+    "derive_route_aware_edge_hints",
+    "improve_wrapped_listener_ownership",
+    "confirm_aff_fireflow_1989_boundary",
+    "validate_aff_session_route_parity",
+    "inspect_fireflow_usersession_bridge",
+    "trace_usersession_fa_session_reuse",
+    "trace_businessflow_session_origin",
+    "distinguish_bootstrap_from_shared_polling",
+    "inspect_aff_cookie_handoff",
+    "inspect_java_runtime_clusters",
+    "review_asms_runtime_architecture",
+    "predict_asms_failure_points",
+    "capture_support_engineer_pain_points",
+    "expand_config_and_log_surface_discovery",
+    "infer_configuration_patterns_and_tunable_behaviors",
+    "extend_distributed_and_external_knowledge_mapping",
+    "define_second_node_request_shape",
+    "capture_provider_specific_integration_evidence",
+    "capture_second_node_node_local_proof",
+    "capture_standalone_node_calibration_set",
+    "derive_standalone_node_archetype_comparison",
+    "capture_distributed_lab_role_separated_node_proofs",
+    "activate_multi_node_topology_map",
+    "derive_full_dependency_graph",
+    "capture_health_validated_integration_model",
+    "derive_complete_product_behavior_model",
+    "capture_deeper_provider_health_proof",
+    "strengthen_cross_node_directionality_proof",
+    "capture_standalone_plus_ldu_role_separated_node_proofs",
+    "capture_dr_primary_secondary_role_separated_node_proofs",
+    "derive_engineer_consumable_playbook_and_cookbook_views",
+    "add_collaborative_idea_log_surface",
+    "define_parallel_standalone_deepening_autonomy_loop_plan"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Defined a concrete parallel standalone-deepening plan so the successor can keep learning from stable standalone targets through official adf-dev roundtrips and bounded continuity tools while the operator is still building the next distributed architecture.",
+  "last_outcome": "define_parallel_standalone_deepening_autonomy_loop_plan",
+  "last_outcome_at": "2026-04-04T12:56:46Z",
+  "last_validation_results": [
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-parallel-standalone-deepening-autonomy-loop-plan-v1.md",
+        "README.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-04T12:56:46Z",
+      "status": "pass",
+      "summary": "The successor now carries a concrete parallel standalone-deepening plan that keeps the current DR-plus-LDU next step intact while defining how to keep enriching standalone runtime knowledge through official adf-dev roundtrips, bounded checkpoint and active-task continuity, and separate proving-ground autonomy exercises where useful.",
+      "validation_id": "define_parallel_standalone_deepening_autonomy_loop_plan"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-starlight-review-shell-plan-v1.md",
+        "docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md",
+        "docs/specs/adf-successor-site-map-and-wireframe-review-v1.md",
+        "README.md",
+        "notes/idea-log.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-04T12:05:00Z",
+      "status": "pass",
+      "summary": "The successor now carries a concrete review-only publication baseline: a bounded Starlight shell plan, a host-managed adf-dev browser-install plan, and a first site map plus wireframe-level page skeletons for `Service State` and `Core Service Groups by Node Role` before implementation begins.",
+      "validation_id": "capture_successor_review_shell_browser_host_and_site_map_plan"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-support-decision-support-under-pressure-v1.md",
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-04T01:34:00Z",
+      "status": "pass",
+      "summary": "The older support-decision framing note now matches the current reviewed successor model: playbooks are frontline technical triage paths, cookbook depth remains separate, the CLI `ms-*` dashboard is only a front-door filter, and the ASMS doc pack stays a subordinate guidance layer instead of defining playbook entry logic.",
+      "validation_id": "reconcile_support_framing_to_playbook_path_model"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md",
+        "docs/specs/adf-successor-engineer-consumable-content-modes-v1.md",
+        "README.md",
+        "notes/idea-log.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-04T01:25:00Z",
+      "status": "pass",
+      "summary": "The successor now has an explicit frontline playbook-path model: start from validated technical paths, keep the CLI `ms-*` service dashboard as a narrow front-door filter, and move into Logs for real triage depth instead of coaching experienced engineers or flattening cookbook and playbook depth together.",
+      "validation_id": "capture_frontline_playbook_path_model"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/idea_log.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "notes/idea-log.json",
+        "pack.json",
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/adf-successor-collaborative-idea-log-v1.md",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-04T00:22:50Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded machine-readable idea-log surface under `notes/idea-log.json` plus CLI capture, review, and update commands. The first seeded note records the reused-IP and CM-cleanup behavioral idea as a collaborative successor note and now sits in `in_review` instead of being treated as backlog or restart-memory truth.",
+      "validation_id": "add_collaborative_idea_log_surface"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md",
+        "docs/remote-targets/algosec-dr-primary-150/target-connection-profile.json",
+        "docs/remote-targets/algosec-dr-secondary-153/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-primary-150-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-primary-150-test-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-secondary-153-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-dr-secondary-153-test-request.json",
+        "eval/history/import-external-runtime-evidence-20260403t225431z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t225328z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json",
+        "docs/specs/adf-successor-expansion-frontier-v1.md"
+      ],
+      "recorded_at": "2026-04-03T22:54:31Z",
+      "status": "pass",
+      "summary": "The successor now has its first clean imported DR primary-versus-secondary proof pair grounded in rebuilt node `10.167.2.150` as the active-looking DR primary and rebuilt node `10.167.2.153` as the colder standby-style DR secondary on the same upgraded `A33.10.260` line. The primary retains AFF route-owner and session-parity proof plus stronger FireFlow, BusinessFlow, and identity-facing packets, while the secondary retains Apache route shape but loses the deeper AFF packets and surfaces a colder `ms-hadr` or `logstash`-visible posture with several failed high-signal services.",
+      "validation_id": "capture_dr_primary_secondary_role_separated_node_proofs_first_dr_review"
+    },
+    {
+      "evidence_paths": [
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "dist/candidates/adf-shallow-surface-map-first-pass/diagnostic-playbook.md",
+        "dist/candidates/adf-shallow-surface-map-first-pass/runtime-cookbook-guide.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "README.md",
+        "docs/specs/adf-successor-engineer-consumable-content-modes-v1.md",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T22:25:12Z",
+      "status": "pass",
+      "summary": "The shallow-surface-map artifact line now adds two engineer-consumable Markdown modes: a fast diagnostic playbook for live triage and a slower runtime cookbook guide for durable product learning. The existing summary now opens with a fast-read section, and all three Markdown views remain derived from the canonical JSON map rather than competing with it.",
+      "validation_id": "derive_engineer_consumable_playbook_and_cookbook_views"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-first-standalone-plus-ldu-proof-review-v1.md",
+        "docs/remote-targets/algosec-ldu-153/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-cm-150-ldu-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-cm-150-ldu-test-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-ldu-153-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-distributed-ldu-153-test-request.json",
+        "eval/history/import-external-runtime-evidence-20260403t195134z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t195039z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json",
+        "docs/specs/adf-successor-expansion-frontier-v1.md"
+      ],
+      "recorded_at": "2026-04-03T19:51:34Z",
+      "status": "pass",
+      "summary": "The successor now has its first clean imported `standalone + LDU` role-separated proof pair grounded in rebuilt CM node `10.167.2.150` and LDU node `10.167.2.153` on the same upgraded `A33.10.260` line. The CM-side bundle keeps the stronger AFF, FireFlow, BusinessFlow, and identity-facing packets, while the LDU-side bundle stays thinner, edge-heavy, provider-heavy, and retains bounded peer clues back to CM `10.167.2.150:61616` for several provider-adjacent families without claiming a full east-west graph.",
+      "validation_id": "capture_standalone_plus_ldu_role_separated_node_proofs_first_ldu_review"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-bounded-cross-node-directionality-proof-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t183026z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t183106z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json",
+        "docs/specs/adf-successor-expansion-frontier-v1.md"
+      ],
+      "recorded_at": "2026-04-03T18:31:06Z",
+      "status": "pass",
+      "summary": "The successor completed one bounded cross-node directionality widening step on the current CM-plus-remote-agent proof pair. The refreshed imports now retain one explicit CM-to-RA ingress clue on remote-agent `httpd:443` plus stronger remote-agent-side refresh or broadcast-consumer markers for `ms-devicemanager`, `ms-devicedriver-aws`, and `ms-devicedriver-azure`, while the CM-side bundle does not retain a reciprocal peer clue in the same bounded window. That is enough to separate CM-led ingress, RA-leaning refresh consumption, shared local provider trouble, and still-unresolved deeper orchestration direction without inventing hidden east-west links.",
+      "validation_id": "strengthen_cross_node_directionality_proof_bounded_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-deeper-provider-health-proof-v1.md",
+        "docs/specs/adf-successor-health-validated-integration-model-v1.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t181007z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t181044z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T18:10:44Z",
+      "status": "pass",
+      "summary": "The successor completed one explicit post-frontier provider-health widening step on the distributed CM and remote-agent proof pair. The refreshed CM and RA imports now upgrade the AWS and Azure driver families from placement-only to bounded local degradation states based on failed loopback reachability plus repeated driver-runtime journal failures, while keeping provider-side success, credential validity, sync freshness, and cross-node directionality explicit non-claims.",
+      "validation_id": "capture_deeper_provider_health_proof_distributed_readout"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-bounded-product-behavior-model-v1.md",
+        "docs/specs/adf-successor-health-validated-integration-model-v1.md",
+        "docs/specs/adf-successor-bounded-dependency-graph-v1.md",
+        "docs/specs/adf-successor-thin-multi-node-topology-map-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t172733z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t172516z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t105216z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T17:47:46Z",
+      "status": "pass",
+      "summary": "The successor now has its first bounded product-behavior model grounded in the imported route, session, topology, dependency, and health surfaces. The artifact explains the CM-side Apache-to-AFF session boundary, the retained FireFlow-to-AFA session carry-forward, the CM-plus-remote-agent distributed split, and the currently support-useful health states without pretending the full suite or provider-side behavior is completely known. That closes the current bounded roadmap frontier cleanly.",
+      "validation_id": "derive_complete_product_behavior_model_bounded_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-health-validated-integration-model-v1.md",
+        "docs/specs/adf-successor-bounded-dependency-graph-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t172733z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t172516z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t105216z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T17:43:00Z",
+      "status": "pass",
+      "summary": "The successor now has its first bounded integration-health model grounded in imported CM, remote-agent, dependency, and cookie-handoff proofs. The model upgrades the CM-side AFF session boundary to healthy at the current bounded edge, the AFA-facing Metro bridge to reachable, the AWS and Azure driver families on both nodes to configured, and leaves Keycloak health, provider-side success, and deeper cross-node health explicitly uncertain. That closes the health-model seam without inflating local runtime presence into unsupported end-to-end integration health.",
+      "validation_id": "capture_health_validated_integration_model_bounded_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-bounded-dependency-graph-v1.md",
+        "docs/specs/adf-successor-thin-multi-node-topology-map-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t172733z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t172516z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t105216z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T17:38:42Z",
+      "status": "pass",
+      "summary": "The successor now has its first bounded dependency graph artifact grounded in imported CM, remote-agent, architecture, and cookie-handoff proofs. The artifact separates directly evidenced Apache-to-local-owner edges from strong inferred FireFlow-to-Metro and provider-driver edges, while keeping cross-node directionality, deeper service ordering, and provider health explicitly unresolved. That closes dependency-graph activation without flattening adjacency and true dependency into one unsupported suite story.",
+      "validation_id": "derive_full_dependency_graph_bounded_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-thin-multi-node-topology-map-v1.md",
+        "docs/specs/adf-successor-first-distributed-role-separated-proof-review-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t172733z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t172516z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T17:27:33Z",
+      "status": "pass",
+      "summary": "The successor now has its first bounded multi-node topology surface grounded in the imported CM-plus-remote-agent proof pair. The topology artifact keeps shared runtime families, CM-strong AFF or identity-facing paths, RA-strong management or provider-driver surfaces, and unresolved cross-node links explicitly separate, which closes topology activation without widening into a full dependency graph.",
+      "validation_id": "activate_multi_node_topology_map_bounded_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-first-distributed-role-separated-proof-review-v1.md",
+        "docs/remote-targets/algosec-lab-cm-150-distributed/target-connection-profile.json",
+        "docs/remote-targets/algosec-remote-agent-153/target-connection-profile.json",
+        "eval/history/import-external-runtime-evidence-20260403t172733z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t172516z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T17:27:33Z",
+      "status": "pass",
+      "summary": "The successor now has its first honest distributed-lab role-separated proof grounded in two imported node-local bundles from the reviewed `standalone + remote agent` architecture. The upgraded CM node `10.167.2.150` and remote-agent node `10.167.2.153` both remain on the `A33.10.260` line, share core families such as `httpd`, `ms-metro`, `algosec-ms`, `activemq`, and bounded provider-driver surfaces, while only the CM-side proof retains AFF, BusinessFlow, and Keycloak-facing signals and the RA-side proof retains the thinner configuration, device-management, and provider-driver-heavy shape. That closes distributed role-separated proof capture and makes the bounded multi-node topology map the next honest stop.",
+      "validation_id": "capture_distributed_lab_role_separated_node_proofs_first_distributed_review"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-standalone-node-archetype-comparison-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t121633z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t125511z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t125930z/import-report.json",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T12:59:30Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded standalone-node archetype comparison grounded in three imported node-local proofs across `A33.10.240`, `A33.10.230`, and `A33.20.120`. The review shows that Apache, AFF parity, `ms-metro`, `algosec-ms`, and bounded provider-driver activation stay structurally stable across independent nodes, while provider ports, some deeper seam richness, ActiveMQ version, and PHP-FPM drop-ins drift by version.",
+      "validation_id": "derive_standalone_node_archetype_comparison_bounded_review_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab-alt-177/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-shallow-surface-map-run-request-177.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-test-request-177.json",
+        "eval/history/import-external-runtime-evidence-20260403t125930z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t125930z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t125930z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T12:59:30Z",
+      "status": "pass",
+      "summary": "The successor imported an additional standalone calibration-node proof from `algosec-lab-alt-177` (`10.167.2.177`) through the official adf-dev-owned roundtrip. The new proof widened the calibration set into the `A33.20` line, retained rich session and Java-cluster packets, and re-proved bounded AWS and Azure provider surfaces under a different port layout.",
+      "validation_id": "capture_standalone_node_calibration_set_a33_20_roundtrip"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/algosec-lab-alt-192/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-shallow-surface-map-run-request-192.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-test-request-192.json",
+        "eval/history/import-external-runtime-evidence-20260403t125511z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t125511z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t125511z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T12:55:11Z",
+      "status": "pass",
+      "summary": "The successor now has a first imported standalone calibration-node proof from `algosec-lab-alt-192` (`10.167.2.192`) through the official adf-dev-owned roundtrip. The imported proof stayed in the same A33.10 family as the current baseline node while changing package patch levels and provider-driver ports, preserved AFF route-owner and session-parity signals, and re-proved bounded AWS and Azure provider surfaces without requiring target-local Codex on the second node.",
+      "validation_id": "capture_second_node_node_local_proof_standalone_calibration_roundtrip"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-distributed-and-external-knowledge-activation-review-v1.md",
+        "project-context.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t121633z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t121633z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t121633z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T12:16:33Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded provider-specific integration-evidence packet grounded in the imported April 3, 2026 target-backed proof. The packet keeps AWS and Azure activation tied to matching Apache family names, local service units, listener ports, jar paths, and bounded journal entrypoints, separates adjacent provider-facing families from the core provider-driver entries, and keeps provider health, credential correctness, and cross-node role claims explicitly out of scope.",
+      "validation_id": "capture_provider_specific_integration_evidence_target_backed_packet"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-second-node-request-shape-and-thin-cross-node-envelope-v1.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-shallow-surface-map-run-request.template.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-test-request.template.json",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/specs/adf-successor-distributed-and-external-knowledge-activation-review-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t115837z/import-report.json",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T12:04:24Z",
+      "status": "pass",
+      "summary": "The successor now has a reusable second-node request shape and thin cross-node envelope boundary grounded in the imported April 3, 2026 knowledge-layer activation proof. The new contract keeps the remote-owned runtime flow unchanged, preserves one canonical map per node, and makes the later cross-node envelope explicitly separate from node-local artifacts.",
+      "validation_id": "define_second_node_request_shape_contract_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-distributed-and-external-knowledge-layering-v1.md",
+        "docs/specs/adf-successor-distributed-and-external-knowledge-activation-review-v1.md",
+        "project-context.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t115837z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t115837z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t115837z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T11:58:37Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded distributed and external knowledge-layering proof grounded in the imported April 3, 2026 target-backed map. The machine-readable packet keeps cross-node topology inactive until a second node proof exists, activates bounded component guidance for visible runtime families such as `httpd`, `ms-metro`, `ms-bflow`, `activemq`, and `keycloak`, and records provider-specific local evidence for AWS and Azure-side surfaces while keeping broader vendor inventory dormant until stronger node-local evidence appears.",
+      "validation_id": "extend_distributed_and_external_knowledge_mapping_target_backed_activation_packet"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-configuration-patterns-and-tunable-behaviors-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t113653z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t113653z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t113653z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T11:36:53Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded configuration-pattern and tunable-behavior review grounded in the imported config and log surface proof. The review distinguishes observed control layers such as systemd fragments, drop-ins, environment files, Apache config families, and runtime-root paths from lower-confidence tuning guidance such as heap-size intent, shared Tomcat-family packaging, and likely identity-side or messaging-side control surfaces. That closes configuration-pattern inference and makes distributed plus external knowledge layering the next bounded stop.",
+      "validation_id": "infer_configuration_patterns_and_tunable_behaviors_bounded_review_artifact"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "docs/specs/adf-successor-shallow-surface-map-first-slice-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t113653z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t113653z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t113653z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T11:36:53Z",
+      "status": "pass",
+      "summary": "The successor now has a stronger target-backed bounded config and log surface discovery proof. The latest April 3, 2026 roundtrip imported evidence that central services such as `httpd`, `ms-metro`, `ms-bflow`, `algosec-ms`, `activemq`, `aff-boot`, and failed `keycloak` now carry stronger path surfaces including observed unit fragments, drop-ins, environment files, Apache route config files, observed runtime option paths, derived runtime-root config or log directories, and bounded journal entrypoints, while also preserving the clean Tomcat-family versus standalone-jar Java separation.",
+      "validation_id": "expand_config_and_log_surface_discovery_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-support-pain-points-review-v1.md",
+        "docs/specs/adf-successor-asms-failure-seam-review-v1.md",
+        "docs/specs/adf-successor-asms-runtime-architecture-review-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T11:14:28Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded support-pain review grounded in the current architecture and failure evidence. The review explains that support confusion is likely to center on multi-hop session ownership, mixed product-facing versus runtime-facing naming, broad route concentration under `algosec-ms`, failed identity hiding behind otherwise-live services, and shared substrate ambiguity. That closes the support-pain review and makes config and log surface discovery the next stop.",
+      "validation_id": "capture_support_engineer_pain_points_bounded_review_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-asms-failure-seam-review-v1.md",
+        "docs/specs/adf-successor-asms-runtime-architecture-review-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T11:08:17Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded ASMS failure-seam ranking grounded in the latest imported target-backed proof and the new architecture readout. The ranking treats failed `keycloak` as the strongest current failure seam, keeps the FireFlow or AFF to AFA session bridge as the strongest multi-hop choke point, highlights Apache plus `algosec-ms` route concentration as a broad support-visible risk, and keeps `activemq`, `elasticsearch`, `logstash`, and failed `ms-backuprestore` as important but bounded substrate or operational seams. That closes the failure-seam review without pretending the lab proof is a production-grade reliability model.",
+      "validation_id": "predict_asms_failure_points_bounded_review_artifact"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-asms-runtime-architecture-review-v1.md",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-03T11:07:15Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded ASMS runtime architecture review artifact grounded in the latest imported target-backed proof. The review separates the Apache edge, the `ms-metro`, `ms-bflow`, `algosec-ms`, and `aff-boot` service families, the shared `activemq`, `elasticsearch`, and `logstash` substrates, and the currently failed `keycloak` plus `ms-backuprestore` seams while keeping full dependency order and total product understanding explicitly out of scope. That closes the architecture-review task and makes bounded failure-seam ranking the next stop.",
+      "validation_id": "review_asms_runtime_architecture_bounded_review_artifact"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t110310z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T11:03:10Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded Java runtime cluster packet on top of the AFF cookie-handoff proof. The latest April 3, 2026 target-backed roundtrip imported proof that `ms-metro` and `ms-bflow` are separate Tomcat families with distinct `catalina.base` roots and non-overlapping listener sets, that `algosec-ms` remains a standalone jar-backed service on port `8185`, that `aff-boot` remains its own wrapper-owned Java family behind the confirmed AFF boundary on port `1989`, and that `activemq` stays as messaging adjacency instead of the same runtime cluster. That closes the Java cluster seam without widening into attach tooling or deep dependency crawling and makes the bounded ASMS runtime architecture review the next stop.",
+      "validation_id": "inspect_java_runtime_clusters_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t105216z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t105216z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t105216z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T10:52:16Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded AFF cookie-handoff packet on top of the bootstrap-versus-polling distinction. The latest April 3, 2026 target-backed roundtrip imported proof that bootstrap anchor `bcbefc00d0` carries token `et7nlq7ird78aueurcmblulov6` through `/afa/external//bridge/storeFireflowCookie`, that the same token family later appears on Apache path `/afa/external//session/extend`, and that the bridge surface is already route-hinted to `ms-metro` on local port `8080`. That closes the cookie-handoff seam without widening into full browser replay and makes Java runtime cluster separation the next bounded stop.",
+      "validation_id": "inspect_aff_cookie_handoff_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t103903z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t103903z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t103903z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T10:39:03Z",
+      "status": "pass",
+      "summary": "The successor now emits an anchor-aware bootstrap-versus-polling packet on top of the upstream session-origin clue. The latest April 3, 2026 target-backed roundtrip imported proof that the retained window is polling-dominant overall but still preserves one bounded bootstrap anchor: session `bcbefc00d0` hits `storeFireflowCookie`, then `getAFASessionInfo` one second later, and then settles into an approximately 300-second polling cadence, while `e0974e9f0e` remains a polling-only retained session. That closes the bootstrap-versus-polling seam without widening into browser replay and makes the AFF cookie handoff the next bounded stop.",
+      "validation_id": "distinguish_bootstrap_from_shared_polling_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t034608z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t034608z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t034608z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:46:08Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded reused FA-session packet on top of the confirmed UserSession bridge. The latest April 3, 2026 target-backed roundtrip imported proof that retained FireFlow markers now correlate four concrete `ff-session -> reused FA-session` pairs, including repeated reuse for `e0974e9f0e -> n575jpek15` and additional reuse to `0o43kjh144`, while the same retained window still contains `UserSession::isUserSessionValid` dispatcher markers. That narrows the next seam to the upstream BusinessFlow or AFA-side session-origin clue instead of reopening FireFlow bridge identification.",
+      "validation_id": "trace_usersession_fa_session_reuse_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t033441z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t033441z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t033441z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:34:41Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded FireFlow UserSession bridge packet on top of the confirmed AFF session route. The latest April 3, 2026 target-backed roundtrip imported proof that retained Apache `/FireFlow/api/session` markers and retained FireFlow `UserSession::getUserSession`, `isUserSessionValid`, `ff-session`, and `Using existing FASessionId` markers are all visible together, which makes the UserSession-style bridge the current bounded post-parity stop and narrows the next seam to reused FA-session tracing.",
+      "validation_id": "inspect_fireflow_usersession_bridge_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t033107z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t033107z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t033107z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:31:07Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded AFF session parity packet on top of the AFF route-owner packet. The latest April 3, 2026 target-backed roundtrip imported a proof that Apache `/FireFlow/api/session` and the direct aff-boot `/aff/api/external/session` path both returned HTTP 200 with the same `INVALID_SESSION_KEY` JSON body, while BusinessFlow deep health still reported `AFF connection` true. That narrows the next seam to the FireFlow UserSession-style bridge instead of reopening route ownership.",
+      "validation_id": "validate_aff_session_route_parity_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t032120z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t032120z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t032120z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:21:20Z",
+      "status": "pass",
+      "summary": "The successor now emits a bounded AFF boundary packet that keeps Apache `aff.conf`, local port 1989, and the aff-boot service family in one machine-readable proof surface. The latest April 3, 2026 target-backed roundtrip imported that packet canonically and renamed the next seam to `validate_aff_session_route_parity`, confirming `/FireFlow/api` and `/aff/api` as current Apache routes into the aff-boot local owner on port 1989 while still stopping short of full downstream FireFlow workflow claims.",
+      "validation_id": "confirm_aff_fireflow_1989_boundary_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t030755z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t030755z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t030755z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:07:55Z",
+      "status": "pass",
+      "summary": "The successor now attributes wrapped child listeners back to their owning service family. The April 3, 2026 target-backed roundtrip imported proof that local port 1989 belongs to the aff-boot process family through descendant PID ownership, while Elasticsearch was reduced to its real 9200 and 9300 listener pair and the AFF Apache route family under `aff.conf` stayed aligned to the same bounded owner candidate.",
+      "validation_id": "improve_wrapped_listener_ownership_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "eval/history/import-external-runtime-evidence-20260403t030118z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t030118z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t030118z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T03:01:18Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded route-aware seam on top of the first shallow map. The April 3, 2026 target-backed roundtrip imported a proof that prefers exact-PID listener ownership before fuzzy Java-name matching and surfaces 130 Apache edge-to-local route hints, including `/BusinessFlow` to ms-bflow on 8081, `/afa/external` and `/afa/api/v1` to ms-metro on 8080, `/algosec/swagger/service` to algosec-ms on 8185, and `/keycloak/` to Keycloak on 8443 by config-family evidence.",
+      "validation_id": "derive_route_aware_edge_hints_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "docs/remote-targets/adf-dev/remote-autonomy-shallow-surface-map-run-request.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-test-request.json",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/target_connection.py",
+        "src/pack_export_runtime_evidence.py",
+        "eval/history/import-external-runtime-evidence-20260403t024317z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260403t024317z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "eval/history/import-external-runtime-evidence-20260403t024317z/external-runtime-evidence/artifacts/artifacts/dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/artifacts/execution-manifest.json",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T02:43:17Z",
+      "status": "pass",
+      "summary": "The successor completed its first official target-backed shallow-surface-map roundtrip through the PackFactory remote control plane: adf-dev at 10.167.2.151 ran the bounded read-only generator against lab target 10.167.2.150, mirrored the generated artifacts into the autonomy run root under the import-safe artifacts namespace, exported bounded runtime evidence, and imported that bundle back into the pack's eval history. The imported proof records hostname `algosec`, 354 component records, 11 central components, and two next candidate seams around edge-to-local service routing and Java runtime cluster inspection.",
+      "validation_id": "implement_shallow_surface_map_first_pass_target_backed_roundtrip_proof"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-remote-owned-runtime-thin-local-canonical-return-contract-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-shallow-surface-map-run-request.json",
+        "README.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T02:29:11Z",
+      "status": "pass",
+      "summary": "The successor now pins its own target topology instead of relying on inherited ADF memory: 10.167.2.150 is the current lab target, adf-dev is reachable at 10.167.2.151 and also serves the support-facing successor pages, and the current lab posture explicitly allows bounded exploratory breakage because the environment is quickly redeployable and later distributed-architecture labs are expected.",
+      "validation_id": "pin_successor_target_and_publication_topology"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-remote-owned-runtime-thin-local-canonical-return-contract-v1.md",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-shallow-surface-map-run-request.json",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "src/pack_export_runtime_evidence.py",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T02:18:36Z",
+      "status": "pass",
+      "summary": "The successor now has an explicit remote-owned runtime, thin local canonical return contract: adf-dev remains the operational runtime home, PackFactory root remains canonical, and target-backed shallow-surface-map artifacts can now be mirrored under the selected autonomy run root so the existing bounded runtime-evidence export/import path can carry them back for readiness judgment.",
+      "validation_id": "define_remote_owned_runtime_thin_local_return_contract"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/backup_job.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "docs/remote-targets/adf-dev/README.md",
+        "docs/remote-targets/adf-dev/remote-autonomy-run-request.json",
+        "dist/candidates/adf-dev-backup-baseline/remote-backup-run.json",
+        "dist/candidates/adf-dev-backup-baseline/remote-cron-install.json",
+        "dist/candidates/adf-dev-backup-baseline/remote-cron-verify.txt",
+        "dist/candidates/adf-dev-backup-baseline/remote-wrapper-log-tail.txt",
+        "eval/history/adf-dev-basic-backup-install-20260403.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T01:58:33Z",
+      "status": "pass",
+      "summary": "The successor build-pack now has a bounded backup surface that can create timestamped tarball snapshots and install a marked cron schedule. The current pack was staged onto adf-dev with the PackFactory prepare and push workflow, a daily user-cron entry was installed there for 17 3 * * *, and both a direct backup run and the installed wrapper script proved archive creation, manifest retention, and log output under /home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/.",
+      "validation_id": "install_basic_adf_dev_backup_job"
+    },
+    {
+      "evidence_paths": [
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T01:44:49Z",
+      "status": "pass",
+      "summary": "The refined local-host proof now filters out the generator's own transient process evidence and keeps supplementary ASMS doc-pack hints from flooding the ranking surface with generic terminology, leaving the local-host run honest about not having any clearly central successor-relevant components yet.",
+      "validation_id": "implement_shallow_surface_map_first_pass_hint_refinement_local_proof"
+    },
+    {
+      "evidence_paths": [
+        "dist/candidates/adf-docpack-hints/asms-docpack-hints.json",
+        "src/algosec_diagnostic_framework_successor_template_pack/docpack_hints.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T01:40:25Z",
+      "status": "pass",
+      "summary": "The build-pack successfully imported a bounded local ASMS doc-pack hint artifact from adf-dev, preserving the rule that runtime evidence stays primary while the hint layer only improves naming, port-aware ranking, and product-term recognition.",
+      "validation_id": "import_asms_docpack_hints_local_proof"
+    },
+    {
+      "evidence_paths": [
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "dist/candidates/adf-docpack-hints/asms-docpack-hints.json",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T01:40:25Z",
+      "status": "pass",
+      "summary": "The hint-assisted shallow surface map path now runs locally and keeps the ASMS doc-pack contribution bounded to inference and prioritization, while still leaving the intended Rocky 8 and appliance-oriented runtime pass as the remaining completion step for the first successor slice.",
+      "validation_id": "implement_shallow_surface_map_first_pass_hint_assisted_local_proof"
+    },
+    {
+      "evidence_paths": [
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-map.json",
+        "dist/candidates/adf-shallow-surface-map-first-pass/shallow-surface-summary.md",
+        "status/readiness.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T00:01:12Z",
+      "status": "pass",
+      "summary": "The new bounded generator successfully produced the first-wave JSON map plus derived Markdown summary on the local host, proving the artifact path and format. The pack still needs the intended Rocky 8 and appliance-oriented pass before the first ADF successor slice can be treated as complete.",
+      "validation_id": "implement_shallow_surface_map_first_pass_local_proof"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-shallow-surface-map-first-slice-v1.md",
+        "src/algosec_diagnostic_framework_successor_template_pack/shallow_surface_map.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-02T13:05:00Z",
+      "status": "pass",
+      "summary": "Locked the first-wave artifact contract to one canonical JSON surface map plus one derived Markdown summary under dist/candidates, then added a bounded read-only generator to produce that artifact line without drifting into deeper dependency analysis.",
+      "validation_id": "define_shallow_surface_map_artifact_contract"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-algosec-diagnostic-framework-successor-build-pack-v1-validation-20260402t121235z/validation-result.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "recorded_at": "2026-04-02T12:12:35Z",
+      "status": "pass",
+      "summary": "The new successor build-pack passed its initial validation readiness evaluation and recorded canonical validation evidence.",
+      "validation_id": "run_build_pack_validation"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-algosec-diagnostic-framework-successor-build-pack-v1-benchmark-20260402t121239z/benchmark-result.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "recorded_at": "2026-04-02T12:12:39Z",
+      "status": "pass",
+      "summary": "The new successor build-pack passed the inherited smoke benchmark gate and updated canonical readiness evidence.",
+      "validation_id": "run_inherited_benchmarks"
+    }
+  ],
+  "next_recommended_task_id": "capture_disaster_recovery_plus_ldu_role_separated_node_proofs",
+  "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "pending_task_ids": [
+    "capture_disaster_recovery_plus_ldu_role_separated_node_proofs",
+    "execute_parallel_standalone_deepening_via_official_autonomy_loops",
+    "capture_stacked_standalone_ldu_remote_agent_role_separated_proof"
+  ],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Inspect `notes/idea-log.json` when the work touches successor-local ideas, behavioral notes, product observations, or cookbook candidates that are not active backlog items.",
+    "Use docs/specs/adf-successor-starlight-review-shell-plan-v1.md and docs/specs/adf-successor-site-map-and-wireframe-review-v1.md when reviewing or implementing successor-facing Starlight publication surfaces.",
+    "Use docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md before trying to run headless browser tooling on adf-dev; the host already serves review pages on 10.167.2.151:18082 but still needs Chromium and Playwright provisioning.",
+    "Use the line-specific `diagnostic-systems-analyst` lens, the shallow-surface-map first-slice spec, and the remote-owned-runtime thin-local-return contract before implementing or refining discovery commands.",
+    "Keep the first pass bounded to one canonical JSON map and derived engineer-facing Markdown views under dist/candidates/adf-shallow-surface-map-first-pass/.",
+    "Use docs/specs/adf-successor-engineer-consumable-content-modes-v1.md plus docs/specs/adf-successor-support-decision-support-under-pressure-v1.md when shaping support-facing playbook versus cookbook content.",
+    "Use docs/specs/adf-successor-triage-playbook-path-model-v1.md as the current frontline contract: playbooks start from validated technical paths, the CLI `ms-*` service dashboard is only a narrow front-door filter, and real triage depth usually starts in Logs.",
+    "The standalone calibration set still matters as a baseline and spans `10.167.2.150`, `algosec-lab-alt-192`, and `algosec-lab-alt-177`, with the bounded readout in docs/specs/adf-successor-standalone-node-archetype-comparison-v1.md.",
+    "The reusable second-node request shape and thin cross-node envelope contract now exist in docs/specs/adf-successor-second-node-request-shape-and-thin-cross-node-envelope-v1.md plus the adf-dev request templates; use those instead of inventing a one-off second-node workflow.",
+    "Use docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md as the concrete widening plan: standalone nodes are calibration and archetype evidence first, while distributed labs are the first real topology and cross-node behavior layer.",
+    "Treat adf-dev at 10.167.2.151 as the runtime host and support-facing publication surface, keep 10.167.2.150 as the target-evidence source, and remember that the current lab posture permits bounded exploratory breakage because labs are quickly redeployable.",
+    "Do not require target-local Codex on additional nodes for the next phase; continue to run bounded node-local captures from adf-dev through node-specific read-only connection profiles.",
+    "When extending the remote return path, keep mirrored run artifacts under `.pack-state/autonomy-runs/<run-id>/artifacts/` so the existing bounded export/import contract remains valid.",
+    "The first reviewed distributed architecture is still preserved as `standalone + remote agent`, with imported node-local proofs for CM node `10.167.2.150` and remote-agent node `10.167.2.153` on the same upgraded `A33.10.260` line.",
+    "Use docs/specs/adf-successor-first-distributed-role-separated-proof-review-v1.md as the bounded `standalone + remote agent` readout before comparing later architectures.",
+    "The first reviewed `standalone + LDU` architecture is now also proven, with imported CM node `10.167.2.150` and LDU node `10.167.2.153` proofs under eval/history/import-external-runtime-evidence-20260403t195134z/ and eval/history/import-external-runtime-evidence-20260403t195039z/.",
+    "Use docs/specs/adf-successor-first-standalone-plus-ldu-proof-review-v1.md as the bounded CM-versus-LDU readout before widening further.",
+    "The first reviewed DR-only architecture is now also proven, with imported DR primary node `10.167.2.150` and DR secondary node `10.167.2.153` proofs under eval/history/import-external-runtime-evidence-20260403t225431z/ and eval/history/import-external-runtime-evidence-20260403t225328z/.",
+    "Use docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md as the bounded DR-primary-versus-secondary readout before stacking additional DR roles.",
+    "Use docs/specs/adf-successor-parallel-standalone-deepening-autonomy-loop-plan-v1.md when the operator is still building the next distributed architecture but one or more stable standalone nodes are available for learning.",
+    "Use docs/specs/adf-successor-thin-multi-node-topology-map-v1.md as the first honest topology surface before widening further.",
+    "Use docs/specs/adf-successor-bounded-dependency-graph-v1.md as the current dependency readout before making stronger health or behavior claims.",
+    "Use docs/specs/adf-successor-health-validated-integration-model-v1.md as the current health readout and docs/specs/adf-successor-bounded-product-behavior-model-v1.md as the current behavior readout before widening further.",
+    "The original bounded roadmap frontier, the deeper provider-health pass, and the bounded cross-node directionality pass are now complete.",
+    "Use docs/specs/adf-successor-deeper-provider-health-proof-v1.md before making stronger AWS or Azure claims: the current proof still says the local driver-runtime surfaces are degraded on both nodes, not that cloud-side provider success or credentials are known.",
+    "Use docs/specs/adf-successor-bounded-cross-node-directionality-proof-v1.md before making stronger cross-node claims: the current proof supports one observed CM-to-RA ingress clue and remote-agent-side refresh or broadcast-consumer hints, not a complete east-west orchestration map.",
+    "The strongest next widening move is now `capture_disaster_recovery_plus_ldu_role_separated_node_proofs` after the operator adds the LDU layer onto the current DR shape.",
+    "The main parallel companion lane is now `execute_parallel_standalone_deepening_via_official_autonomy_loops` whenever stable standalone targets are available while the operator is still building the next DA type.",
+    "Use `run_local_mid_backlog_checkpoint.py` plus `run_remote_active_task_continuity_test.py` only when the current long-lived successor pack is at a compatible active-task boundary, and keep fresh-pack proving-ground exercises separate from runtime-truth claims about this pack.",
+    "After that DR-plus-LDU proof, the next alternate architecture candidates remain `capture_stacked_standalone_ldu_remote_agent_role_separated_proof` and `high availability`.",
+    "Behavioral note recorded on April 4, 2026: in reusable lab deployments, if the central manager stays in place while a node IP is later reused for a different node role, that reused IP may need explicit cleanup on the central manager before reattachment behaves cleanly.",
+    "Keep the concrete `.150` CM and reused `.153` role-swap example in mind as an operational note, but do not treat CM-side rejection on reused `.153` as proven behavior until a bounded run isolates it from stale CM identity, role pinning, attach mismatch, or generic rebuild drift.",
+    "Keep provider-side success, credential validity, sync freshness, and hidden east-west directionality as explicit non-claims unless later imported node-local proof actually closes them."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when deployment or promotion becomes the next valid action under existing PackFactory workflows.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}

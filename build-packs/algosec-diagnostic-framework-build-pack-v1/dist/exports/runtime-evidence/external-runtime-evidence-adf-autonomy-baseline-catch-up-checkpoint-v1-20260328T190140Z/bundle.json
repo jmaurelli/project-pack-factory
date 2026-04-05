@@ -1,0 +1,63 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-adf-autonomy-baseline-catch-up-checkpoint-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "2aba820737ce2fdb94db8941bc40542e1af3128f8242354cf2b9c44e7c1a01db",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-adf-autonomy-baseline-catch-up-checkpoint-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/adf-remote-checkpoint-bundle.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "db24553616caa368e0f45e26330d7b5b91f8fa408d9dd9abb300cfde0a365f65",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/adf-remote-checkpoint-bundle.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "93e90bb82114bf8b8c5f405d5609a4289d83e23efe768e6c625e5037f8ed7f55",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "ea59aa58b4ee372fedbbc4aa29d7c389c91a888e60ec6b1178232dc8a542195f",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-adf-autonomy-baseline-catch-up-checkpoint-v1-20260328T190140Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-adf-autonomy-baseline-catch-up-checkpoint-v1-20260328T190140Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-28T19:01:41Z",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-26T14:36:27Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 1,
+    "started_at": "2026-03-26T14:36:27Z",
+    "stop_reason": "mid_backlog_checkpoint_created",
+    "task_completion_rate": 0.4138
+  }
+}

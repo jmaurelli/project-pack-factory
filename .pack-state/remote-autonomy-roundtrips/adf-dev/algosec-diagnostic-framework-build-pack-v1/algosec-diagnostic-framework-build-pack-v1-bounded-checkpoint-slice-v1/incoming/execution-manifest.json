@@ -1,0 +1,30 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": null,
+  "export_command": null,
+  "export_completed_at": null,
+  "export_error": null,
+  "export_status": "not_attempted",
+  "exported_run_id": null,
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "33bf5f45f9a2579d6538d534338ac99b25eaa74d31847ddcd19e9ecbfb14dc96",
+  "remote_runner": "codex exec --skip-git-repo-check --cd . --dangerously-bypass-approvals-and-sandbox -",
+  "request_sha256": "a5713470a26c71761b214bbe89513072ced1ec122e7fef462a278502b6243fd6",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-bounded-checkpoint-slice-v1",
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "started_at": "2026-03-28T18:28:54Z",
+  "stopped_at": "2026-03-28T18:35:20Z",
+  "target_manifest_sha256": "90548ae1c431fba555df01d5955daa7cbf9b71fb3cde4c0132878a01efe4b410",
+  "terminal_outcome": "boundary_violation",
+  "terminal_reason": "unauthorized_writable_surface"
+}

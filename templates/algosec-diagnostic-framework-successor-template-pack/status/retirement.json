@@ -1,0 +1,20 @@
+{
+  "operator_notes": [
+    "Created through the PackFactory template creation workflow."
+  ],
+  "pack_id": "algosec-diagnostic-framework-successor-template-pack",
+  "pack_kind": "template_pack",
+  "removed_deployment_pointer_paths": [],
+  "retained_artifacts": {
+    "eval_history": true,
+    "lineage": false,
+    "release_artifacts": false
+  },
+  "retired_at": null,
+  "retired_by": null,
+  "retirement_reason": null,
+  "retirement_report_path": null,
+  "retirement_state": "active",
+  "schema_version": "pack-retirement/v1",
+  "superseded_by_pack_id": null
+}

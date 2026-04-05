@@ -1,0 +1,72 @@
+{
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "directory_contract": {
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "benchmarks_dir": "benchmarks",
+    "candidate_release_dir": null,
+    "contracts_dir": "contracts",
+    "deployment_file": "status/deployment.json",
+    "dist_dir": "dist",
+    "docs_dir": "docs",
+    "eval_dir": "eval",
+    "eval_history_dir": "eval/history",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "immutable_release_dir": null,
+    "lifecycle_file": "status/lifecycle.json",
+    "lineage_dir": null,
+    "lineage_file": null,
+    "local_state_dir": ".pack-state",
+    "prompts_dir": "prompts",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "source_dir": "src",
+    "status_dir": "status",
+    "template_export_dir": "dist/exports",
+    "tests_dir": "tests"
+  },
+  "display_name": "Codex Personal Assistant Template Pack",
+  "entrypoints": {
+    "benchmark_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+    "cli_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack --help",
+    "validation_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "Created through the PackFactory template creation workflow.",
+    "creation_id=create-template-codex-personal-assistant-template-pack-20260329t160700z",
+    "project_goal=Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.",
+    "capability_family=codex-personal-assistant-infrastructure",
+    "role_domain_template_id=startup-operator",
+    "role_domain_template_default_for_derivatives=true",
+    "factory_autonomy_baseline=This source template inherits the PackFactory autonomy baseline from docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md and docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md.",
+    "factory_autonomy_tracking=Template-level autonomy notes are pointers to factory defaults; the factory root remains the canonical baseline for inherited memory, feedback, restart, branch-choice behavior, and remote-session compliance.",
+    "template_lineage_memory=When present, template-family lessons live under .pack-state/template-lineage-memory/latest-memory.json and remain advisory template-level context rather than canonical factory truth.",
+    "factory_startup_compliance=Inherited startup guidance requires PackFactory-local remote-session workflows and treats external runtime-evidence import as factory-only."
+  ],
+  "owning_team": "orchadmin",
+  "pack_id": "codex-personal-assistant-template-pack",
+  "pack_kind": "template_pack",
+  "role_domain_template": {
+    "apply_to_derived_build_packs_by_default": true,
+    "catalog_path": "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+    "display_name": "Startup Operator",
+    "selection_origin": "template_selected",
+    "selection_reason": "The assistant line should frame work like a grounded startup operator: use MVP and proof-of-concept thinking, keep tradeoffs visible, and turn broad direction into the next practical step.",
+    "summary": "A practical startup-oriented framing lens for agents that should think in terms of MVPs, tradeoffs, momentum, and realistic next steps.",
+    "template_id": "startup-operator"
+  },
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "runtime": "python",
+  "schema_version": "pack-manifest/v2"
+}

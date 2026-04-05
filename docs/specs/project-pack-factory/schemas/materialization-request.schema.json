@@ -48,6 +48,61 @@
       "type": "string",
       "minLength": 1
     },
+    "agent_native_project_profile_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selection_mode"
+      ],
+      "properties": {
+        "selection_mode": {
+          "type": "string",
+          "enum": [
+            "inherit_template_default",
+            "force_enabled",
+            "force_disabled"
+          ]
+        },
+        "profile_id": {
+          "const": "packfactory_tracker_backed_agent_native"
+        },
+        "selection_reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "selection_mode": {
+                "const": "force_enabled"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "profile_id",
+              "selection_reason"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "selection_mode": {
+                "const": "force_disabled"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "selection_reason"
+            ]
+          }
+        }
+      ]
+    },
     "personality_template_selection": {
       "type": "object",
       "additionalProperties": false,

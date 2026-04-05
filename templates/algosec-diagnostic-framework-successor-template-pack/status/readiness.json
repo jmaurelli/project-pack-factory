@@ -1,0 +1,35 @@
+{
+  "blocking_issues": [
+    "Template packs are source-only and are not deployable artifacts.",
+    "Initial template benchmark baseline has not been recorded yet."
+  ],
+  "last_evaluated_at": "2026-04-02T12:09:21Z",
+  "pack_id": "algosec-diagnostic-framework-successor-template-pack",
+  "pack_kind": "template_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Validate the new template pack.",
+    "Run the initial smoke benchmark to record the first baseline.",
+    "Materialize a build pack when the template is ready for downstream testing."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [],
+      "gate_id": "validate_project_pack",
+      "last_run_at": null,
+      "mandatory": true,
+      "status": "not_run",
+      "summary": "Basic PackFactory structure and contract validation."
+    },
+    {
+      "evidence_paths": [],
+      "gate_id": "algosec_diagnostic_framework_successor_template_pack_smoke_small_001",
+      "last_run_at": null,
+      "mandatory": true,
+      "status": "not_run",
+      "summary": "Confirm the fresh successor template remains PackFactory-valid and can materialize a first proving-ground build-pack without broadening the testing surface."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

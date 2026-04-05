@@ -1,0 +1,15 @@
+{
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-04-04T13:42:13Z",
+  "selected_memory_id": "autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-192-shallow-surface-map-v1",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-192-shallow-surface-map-v1.json",
+  "selected_memory_sha256": "f200545685e77a0cfb1f79b1a24054049c416d158ead5209e4babf822225c633",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-192-shallow-surface-map-v1",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-192-shallow-surface-map-v1.json",
+  "source_import_id": "import-external-runtime-evidence-20260404t134215z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260404t134215z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-04-04T13:42:15Z"
+}

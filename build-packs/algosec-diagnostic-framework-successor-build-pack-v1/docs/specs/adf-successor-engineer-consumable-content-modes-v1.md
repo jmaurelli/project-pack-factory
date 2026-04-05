@@ -42,14 +42,15 @@ This mode should optimize for:
 
 - speed
 - triage
-- bounded ownership clarity
-- evidence checkpoints
+- explicit next steps
+- clear branch movement
 
 This mode should not turn into:
 
 - generic documentation
 - open-ended architecture theory
 - broad suite claims beyond the current packet chain
+- beginner coaching about restart or reporting judgment
 
 ### 3. Runtime Cookbook Guide
 
@@ -70,6 +71,15 @@ This mode should optimize for:
 - architecture and data-flow learning
 - packet-backed explanation instead of tribal memory
 
+This mode is also the right home for bounded operational behavior notes such as:
+
+- when reusable lab deployments swap node roles but reuse the same IP address,
+  the central manager may need explicit cleanup of the earlier node identity
+  before the reused IP attaches cleanly again
+- keep those notes clearly labeled as observed practice, operator theory, or
+  proven behavior so the cookbook does not overstate what the current evidence
+  actually shows
+
 ## Shared Contract
 
 All engineer-consumable derived artifacts should:
@@ -78,6 +88,9 @@ All engineer-consumable derived artifacts should:
 - preserve the boundary between observed facts, bounded inference, and unknowns
 - reuse the current packet layer instead of inventing a second truth source
 - stay support-facing and operator-usable
+- follow the current frontline playbook shape in
+  `docs/specs/adf-successor-triage-playbook-path-model-v1.md` when shaping the
+  support-facing playbook layer
 
 ## Why This Matters
 

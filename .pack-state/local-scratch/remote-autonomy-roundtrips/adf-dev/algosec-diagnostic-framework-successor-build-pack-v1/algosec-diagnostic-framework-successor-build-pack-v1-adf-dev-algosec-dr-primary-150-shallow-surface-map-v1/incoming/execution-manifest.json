@@ -1,0 +1,33 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1-20260403T225428Z",
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1 --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": "2026-04-03T22:54:28Z",
+  "export_error": null,
+  "export_status": "succeeded",
+  "exported_run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1",
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "a01485442f0c97784bb0f331a37c74691f63db9a01c12798adebc916cf6da8d0",
+  "remote_runner": "set -euo pipefail; PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label algosec-dr-primary-150 --target-connection-profile docs/remote-targets/algosec-dr-primary-150/target-connection-profile.json --mirror-into-run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1 --output json",
+  "request_sha256": "42abfa51f9679dc64336a07427e67e22321d833682d41d5aaaa6935bcaba938a",
+  "run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-dr-primary-150-shallow-surface-map-v1",
+  "runner_interrupted_signal": null,
+  "runner_returncode": 0,
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "stale_active_run_cleanup": null,
+  "started_at": "2026-04-03T22:53:46Z",
+  "stopped_at": "2026-04-03T22:54:28Z",
+  "target_manifest_sha256": "423aa6577274e75de963441a0bcfda287934e3c0fe375a6e5c1567e07cc31e05",
+  "terminal_outcome": "stopped",
+  "terminal_reason": "current_task_incomplete"
+}

@@ -1,0 +1,67 @@
+{
+  "active_build_pack_ids": [
+    "api-contract-autonomy-transfer-build-pack-v1",
+    "api-contract-sentinel-build-pack"
+  ],
+  "capability_family": null,
+  "discovery_entrypoints": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json",
+    ".pack-state/template-lineage-memory/latest-memory.json",
+    "registry/build-packs.json"
+  ],
+  "distilled_lessons": [
+    {
+      "evidence_paths": [
+        ".pack-state/cross-template-transfer-matrices/cross-template-transfer-matrix-20260325t231701z/matrix-report.json",
+        ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-api-contract-autonomy-transfer-build-pack-v1-20260325t231545z/rehearsal-report.json",
+        ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-config-drift-autonomy-transfer-build-pack-v1-20260325t224550z/rehearsal-report.json",
+        ".pack-state/multi-hop-autonomy-rehearsals/multi-hop-autonomy-rehearsal-release-evidence-autonomy-transfer-build-pack-v1-20260325t231544z/rehearsal-report.json"
+      ],
+      "lesson_id": "cross-template-transfer-ready-for-deploy",
+      "summary": "Factory-default autonomy continuity reached `ready_for_deploy` across 3 build-packs from 3 active template lines.",
+      "supporting_build_pack_ids": [
+        "api-contract-autonomy-transfer-build-pack-v1"
+      ],
+      "title": "Cross-template transfer proved"
+    }
+  ],
+  "generated_at": "2026-03-31T17:18:47Z",
+  "latest_distillation_report_path": ".pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260331t171847z/distillation-report.json",
+  "latest_template_parity_report_path": null,
+  "memory_id": "template-lineage-memory-api-contract-sentinel-template-pack-20260331t171847z",
+  "notes": [
+    "This lineage memory is template-local advisory context, not canonical deployment or promotion truth.",
+    "Use build-pack lineage plus proven factory artifacts to decide what this template family has already taught the factory.",
+    "Runtime-template parity reports capture whether reusable runtime behavior has actually been backported into the template source.",
+    "When a repeated lesson becomes template-agnostic, prefer promoting it into factory-level autonomy memory and distillation artifacts instead of overfitting the template."
+  ],
+  "producer": "codex",
+  "recommended_next_step": "Use this template lineage memory when deciding whether the next proof should extend this template family or whether the lesson already belongs at the factory root.",
+  "relevant_artifact_paths": [
+    ".pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260331t171847z/distillation-report.json",
+    "build-packs/api-contract-autonomy-transfer-build-pack-v1/lineage/source-template.json",
+    "build-packs/api-contract-sentinel-build-pack/lineage/source-template.json",
+    "registry/build-packs.json",
+    "registry/templates.json"
+  ],
+  "retired_build_pack_ids": [],
+  "schema_version": "template-lineage-memory/v1",
+  "source_build_pack_ids": [
+    "api-contract-autonomy-transfer-build-pack-v1",
+    "api-contract-sentinel-build-pack"
+  ],
+  "status_snapshot": {
+    "active_build_pack_count": 2,
+    "build_pack_count": 2,
+    "build_registry_path": "registry/build-packs.json",
+    "retired_build_pack_count": 0,
+    "template_parity_report_count": 0,
+    "template_registry_path": "registry/templates.json"
+  },
+  "summary": "Template `api-contract-sentinel-template-pack` currently anchors 2 known derived build-packs. 1 factory-level distilled lesson(s) currently intersect this template family.",
+  "template_id": "api-contract-sentinel-template-pack",
+  "template_parity_reports": [],
+  "template_root": "/home/orchadmin/project-pack-factory/templates/api-contract-sentinel-template-pack"
+}

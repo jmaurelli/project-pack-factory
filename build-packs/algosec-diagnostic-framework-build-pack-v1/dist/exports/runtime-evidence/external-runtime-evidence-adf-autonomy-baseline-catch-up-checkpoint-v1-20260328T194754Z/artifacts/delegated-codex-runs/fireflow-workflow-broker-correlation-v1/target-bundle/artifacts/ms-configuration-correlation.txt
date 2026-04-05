@@ -1,0 +1,13 @@
+Configuration-service correlation
+
+Sources:
+- /data/algosec-ms/logs/ms-configuration.log
+- /var/log/httpd/ssl_error_log
+
+/data/algosec-ms/logs/ms-configuration.log:4454:[webapp:kExecutor-1] [2026-03-26 19:41:14,998] [INFO ] [ServiceDescriptionUpdater::addContext     :94  ] [Log_Type=AlgosecMS] Adding swagger client AlgoSec_FireFlow with URL https://localhost/FireFlow/api/swagger/v2/api-docs
+/data/algosec-ms/logs/ms-configuration.log:4455:[webapp:kExecutor-1] [2026-03-26 19:41:15,012] [INFO ] [ServiceDefinitionsContext::rviceDefinition:29  ] [Log_Type=AlgosecMS] Adding service AlgoSec_FireFlow to the unified swagger
+/data/algosec-ms/logs/ms-configuration.log:4458:[webapp:kExecutor-1] [2026-03-26 19:41:15,034] [INFO ] [ServiceDescriptionUpdater::addContext     :94  ] [Log_Type=AlgosecMS] Adding swagger client AlgoSec_ApplicationDiscovery with URL https://localhost/AutoDiscovery/v2/api-docs
+/data/algosec-ms/logs/ms-configuration.log:4459:[webapp:kExecutor-1] [2026-03-26 19:41:15,335] [WARN ] [ServiceDescriptionUpdater::efinitionForAPI:114 ] [Log_Type=AlgosecMS] Couldn't get service definition for service: AlgoSec_ApplicationDiscovery (Response: 502 BAD_GATEWAY)- probably the service is not up
+/data/algosec-ms/logs/ms-configuration.log:4460:[webapp:kExecutor-1] [2026-03-26 19:41:15,335] [WARN ] [ServiceDescriptionUpdater::addContext     :103 ] [Log_Type=AlgosecMS] Skipping service id : AlgoSec_ApplicationDiscovery Error : Could not get Swagger definition from API
+
+/var/log/httpd/ssl_error_log:53436:[Thu Mar 26 19:41:15.334461 2026] [proxy:error] [pid 879799] [client 127.0.0.1:44800] AH00898: DNS lookup failure for: autodiscovery returned by /AutoDiscovery/v2/api-docs

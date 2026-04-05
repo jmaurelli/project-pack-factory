@@ -1,0 +1,256 @@
+        }
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+
+
+function GetDefaultDashboard()
+{
+    g_objTreeData['dashboards'] = {};
+    var params = "&dashboard=DEFAULT";
+
+    g_objCheckAjax = $.ajax({
+        type     : "POST",
+        async    : true,
+        cache    : false,
+        dataType : "json",
+        url      : "commands.php",
+        data     : 'cmd=GET_DASHBOARDS_DATA&TOKEN=' + g_sSessionToken + params,
+        global   : false,
+        success  : function(objJSON,msg)
+        {
+            if (!objJSON) {
+                return;
+            }
+            if (objJSON.length == 0){
+                DisplayFirstLoadMainBlock(false);
+                return;
+            }
+
+            g_objTreeData['dashboards']['sDefault'] = objJSON['DASHBOARDS'].sDefaultDashboard;
+            var dashboard_node = BuildDashboardNode(objJSON['DASHBOARDS'][0]);
+
+           
+            if (!objJSON['DASHBOARDS']['loadOnLogin']){
+                $("#DashboardCharts").html("Please choose a dashboard");
+                g_bShowDefaultDashboard = false;
+                DisplayFirstLoadMainBlock(false);
+                return;
+            }
+
+           
+            if (g_bShowDefaultDashboard) {
+                CreateDashboard(dashboard_node);
+                g_sSelectedDashboard = g_objTreeData['dashboards']['sDefault'];
+                g_bShowDefaultDashboard = false;
+            }
+
+            var bLogOut = ((typeof objJSON['bLogOut'] != 'undefined') && (objJSON['bLogOut'] === true));
+            if (bLogOut) {
+                g_bInLogout = true;
+                location.href = g_sSessionEndFile;
+            }
+        },
+        error  : function(objJSON,msg)
+        {
+            var msgTag = '<div style="position:relative; top: 50%; text-align: center;">' + objJSON['responseText'] + '</div>';
+            $('#DashboardCharts').html(msgTag);
+        }
+    });
+}
+
+
+
+function GetAllDashboards()
+{
+    var params = "&dashboard=ALL";
+
+    g_objCheckAjax = $.ajax({
+        type     : "POST",
+        async    : true,
+        cache    : false,
+        dataType : "json",
+        url      : "commands.php",
+        data     : 'cmd=GET_DASHBOARDS_DATA&TOKEN=' + g_sSessionToken + params,
+        global   : false,
+        success  : function(objJSON,msg)
+        {
+            if (!objJSON) {
+                return;
+            }
+
+            BuildDashboardsList(objJSON['DASHBOARDS']);
+            initTree('DASHBOARDS');
+
+            var bLogOut = ((typeof objJSON['bLogOut'] != 'undefined') && (objJSON['bLogOut'] === true));
+            if (bLogOut) {
+                g_bInLogout = true;
+                location.href = g_sSessionEndFile;
+            }
+        },
+        error  : function(objJSON,msg)
+        {
+        }
+    });
+}
+
+
+
+
+function BuildDashboardsList(dashboards) {
+    g_objTreeData['dashboards']['children'] = [];
+    for (var i=0; i<dashboards.length; ++i) {
+
+        try {
+
+            var dashboard_data = dashboards[i];
+
+            var file_name = dashboard_data['@attributes']['file'];
+            var display_name = dashboard_data['@attributes']['name'];
+            g_arrTreeData[file_name] = display_name;
+
+            var dashboard_node = BuildDashboardNode(dashboard_data);
+            dashboard_node['attr']['id'] = file_name;
+            g_objTreeData['dashboards']['children'][i] = dashboard_node;
+        }
+        catch (err) {
+
+        }
+    }
+
+   
+    g_objTreeData['dashboards']['children'].sort(function(a,b){
+        if (a['attr']['title'] === "Summary") return -1;
+        if (b['attr']['title'] === "Summary") return 1;
+        if (a['attr']['title'] > b['attr']['title']) return 1;
+        if (a['attr']['title'] < b['attr']['title']) return -1;
+        return 0;
+    });
+
+    g_objTreeData['dashboards']['state'] = 'open';
+    g_objTreeData['dashboards']['data'] = {};
+    g_objTreeData['dashboards']['data']['title'] = 'Dashboards';
+
+    LinkDashboards();
+}
+
+
+function BuildDashboardNode(dashboard_data) {
+    var dashboard_node = {};
+
+    dashboard_node['attr'] = {};
+    dashboard_node['attr']['title'] = dashboard_data['@attributes']['name'];
+    dashboard_node['attr']['rel'] = 'dashboard';
+
+    dashboard_node['data'] = {};
+    dashboard_node['data']['columns'] = dashboard_data['@attributes']['columns'];
+    dashboard_node['data']['title'] = dashboard_data['@attributes']['name'];
+    dashboard_node['data']['attr'] = {};
+    dashboard_node['data']['attr']['href'] = "javascript:void(0);";
+
+    dashboard_node['charts'] = [];
+
+    if (dashboard_data['CHARTS']['CHART'] instanceof Array) {
+        for (var i=0; i<dashboard_data['CHARTS']['CHART'].length; ++i) {
+            dashboard_node['charts'][i] = BuildChartNode(dashboard_data['CHARTS']['CHART'][i]);
+        }
+    } else {
+        dashboard_node['charts'][0] = BuildChartNode(dashboard_data['CHARTS']['CHART']);
+    }
+
+    return dashboard_node;
+}
+
+function BuildChartNode(chart_data) {
+    var chart_node = {};
+
+    chart_node['data'] = {};
+    chart_node['data']['definitionFile'] = chart_data['@attributes']['definition_file'];
+    chart_node['data']['group'] = chart_data['@attributes']['group'];
+
+    return chart_node;
+}
+
+
+function LazyLoadTrees_initialize(params, targetSegment) {
+    if (g_bInLogout) {
+       
+        return;
+    }
+
+    if (g_DevicesCheckIsRunning) {
+       
+        return;
+    }
+    else {
+        g_DevicesCheckIsRunning = true;
+    }
+
+    if (typeof params == "undefined")
+        params = {};
+
+    if (typeof params.extraAjaxParams == "undefined")
+        params.extraAjaxParams = "";
+
+    var ignoreTree = (typeof params.ignoreTree == 'boolean' && params.ignoreTree);
+
+    request_submit_time = new Date().getTime();
+
+    g_objCheckAjax = $.ajax({
+        type     : "POST",
+        async    : true,
+        cache    : false,
+        dataType : "json",
+        url      : "/fa/tree/create",
+        data     : 'TOKEN=' + g_sSessionToken + getTreeAjaxParams() + params.extraAjaxParams,
+        success  : function(objJSON, msg)
+        {
+           
+           
+            if (!empty(objJSON['lazy_load'])) {
+                g_lazyLoadInfo['access_token'] = objJSON['lazy_load']['access_token'];
+                g_lazyLoadInfo['active'] = true;
+            }
+
+           
+            if (!empty(objJSON['tree_data'])) {
+                g_arrTreeData = $.extend(true, g_arrTreeData, objJSON['tree_data']);
+            }
+
+            if (!empty(objJSON['FIREWALLS'])) {
+                var children = (!empty(objJSON['FIREWALLS_CHILDREN'])) ? objJSON['FIREWALLS_CHILDREN'] : {};
+
+                g_objTreeData['firewalls'] = objJSON['FIREWALLS'];
+                g_jstreesLoadedItems['firewalls'] = false;
+
+                if (!ignoreTree) initTree('FIREWALLS', children);
+            }
+
+            if (!empty(objJSON['GROUPS'])) {
+                var children = (!empty(objJSON['GROUPS_CHILDREN'])) ? objJSON['GROUPS_CHILDREN'] : {};
+
+                g_objTreeData['groups'] = objJSON['GROUPS'];
+                g_jstreesLoadedItems['groups'] = false;
+
+                if (!ignoreTree) initTree('GROUPS', children);
+            }
+
+            if (!empty(objJSON['MATRICES'])) {
+                var children = (!empty(objJSON['MATRICES_CHILDREN'])) ? objJSON['MATRICES_CHILDREN'] : {};
+
+                setMatricesConfigured(objJSON['is_matrices_configured']);
+
+                g_objTreeData['matrices'] = objJSON['MATRICES'];
+                g_jstreesLoadedItems['matrices'] = false;
+
+                if (!ignoreTree) initTree('MATRICES', children);
+
+                if (targetSegment === "MATRICES") {
+                    Algosec.sidebar.clickSegment(targetSegment);
+                }
+            } else {
+                setMatricesConfigured(false);
+            }
+

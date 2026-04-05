@@ -1,0 +1,36 @@
+{
+  "approval_profile": "approval_not_required",
+  "benchmark_category": "workflow-smoke",
+  "benchmark_revision": "rev-algosec-diagnostic-framework-successor-template-pack-smoke-small-001",
+  "benchmark_size_class": "small",
+  "benchmark_suite_id": "packfactory-template-creation-suite",
+  "benchmark_task_id": "task-algosec-diagnostic-framework-successor-template-pack-smoke-small-001",
+  "complexity_profile": "single-package-low",
+  "description": "Confirm the fresh successor template remains PackFactory-valid and can materialize a first proving-ground build-pack without broadening the testing surface.",
+  "intended_languages": [
+    "python"
+  ],
+  "intended_pack_family": "template-pack",
+  "manifest_defaults": {
+    "orchestration_core_version": "create-template-algosec-diagnostic-framework-successor-template-pack-20260402t120921z",
+    "pack_family": "template-pack",
+    "pack_version": "0.1.0",
+    "terminal_benchmark_classification": "completed_within_envelope"
+  },
+  "owners": [
+    "orchadmin"
+  ],
+  "schema_version": "benchmark-declaration/v1",
+  "status": "active",
+  "tags": [
+    "factory-native",
+    "template-pack",
+    "small",
+    "created"
+  ],
+  "target_project": {
+    "default_relative_root": "templates/algosec-diagnostic-framework-successor-template-pack",
+    "target_locator": "repo-local",
+    "target_project_id": "algosec-diagnostic-framework-successor-template-pack"
+  }
+}

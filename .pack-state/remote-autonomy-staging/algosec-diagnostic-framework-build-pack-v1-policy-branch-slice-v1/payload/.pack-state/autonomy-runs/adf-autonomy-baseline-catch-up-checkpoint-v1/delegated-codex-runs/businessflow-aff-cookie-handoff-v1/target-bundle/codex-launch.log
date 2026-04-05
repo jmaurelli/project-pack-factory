@@ -1,0 +1,1809 @@
+OpenAI Codex v0.116.0 (research preview)
+--------
+workdir: /root
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 019d2ee0-6338-7c03-af07-a1a549ffc750
+--------
+user
+You are Codex CLI running on the target appliance for a bounded delegated ADF task.
+Read the delegated request JSON at `.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json`.
+Keep all output inside `.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1`.
+
+Rules:
+- Stay within the delegated scope and allowed targets from the request.
+- Do not modify files outside the delegated bundle root unless the request tier explicitly allows bounded lab changes.
+- Always write `delegated-task-result.json` even if blocked or partially complete.
+- Record the shell commands you ran in `commands.jsonl` as one JSON object per line.
+- Write a short operator-facing summary in `findings.md`.
+- Put any captured artifacts under `artifacts/`.
+- For `observe_only`, leave `intentional_mutations` as an empty array unless you truly changed the target.
+
+Required output files:
+- `.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json`
+- `.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl`
+- `.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md`
+- `.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/`
+
+Suggested result schema:
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
+  "task_id": "deepen_dependency_aware_playbooks",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Short operator-facing result summary.",
+  "returned_artifact_paths": [
+    "artifacts/example.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "Optional next step."
+  ]
+}
+
+Begin by reading the request file and then complete the delegated slice.
+
+mcp startup: no servers
+codex
+I’m reading the delegated request first, then I’ll confine all work and outputs to the specified bundle root and produce the required result files.
+exec
+/bin/bash -lc pwd in /rootexec
+/bin/bash -lc 'mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts' in /rootexec
+/bin/bash -lc 'cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json' in /rootcodex
+The appliance shell drops into an interactive menu first. I’m exiting to a real shell, then I’ll read the request, inspect only the allowed targets, and write the delegated outputs.
+ succeeded in 11.35s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+codex
+I’ve confirmed the menu is coming from login-shell startup, not the task itself. Next step is to bypass that profile logic with a non-login shell and proceed normally.
+exec
+/bin/bash -c pwd in /root succeeded in 0ms:
+/root
+exec
+/bin/bash -c 'cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json' in /root succeeded in 0ms:
+{
+  "allowed_targets": [
+    "/usr/share/fa/php",
+    "/var/log/httpd",
+    "/usr/share/fireflow/var/log",
+    "/etc/httpd"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md"
+  ],
+  "generated_at": "2026-03-27T10:39:03Z",
+  "generated_by": "codex",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+exec
+/bin/bash -c 'mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts' in /root succeeded in 0ms:
+
+ succeeded in 12.13s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+ succeeded in 12.68s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+codex
+I have the scope: this is observe-only and limited to the four allowed target roots. I’m searching those roots for the named BusinessFlow and FireFlow session/cookie touchpoints, then I’ll capture only the most useful snippets and log windows into the bundle.
+exec
+/bin/bash -c 'find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort' in /root succeeded in 0ms:
+/usr/share/fireflow/var/log/.fireflow.log.LCK
+/usr/share/fireflow/var/log/aff-boot.access_log.2026-03-22.txt
+/usr/share/fireflow/var/log/aff-boot.access_log.2026-03-23.txt
+/usr/share/fireflow/var/log/aff-boot.access_log.2026-03-24.txt
+/usr/share/fireflow/var/log/aff-boot.access_log.2026-03-25.txt
+/usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt
+/usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt
+/usr/share/fireflow/var/log/fireflow-profiling.csv
+/usr/share/fireflow/var/log/fireflow.log
+/usr/share/fireflow/var/log/fireflow.log.1
+/usr/share/fireflow/var/log/fireflow.log.2
+/usr/share/fireflow/var/log/fireflow.log.3
+/usr/share/fireflow/var/log/fireflow.log.4
+/usr/share/fireflow/var/log/fireflow.log.5
+/usr/share/fireflow/var/log/fireflow.log.6
+/usr/share/fireflow/var/log/fireflow.log.7
+/usr/share/fireflow/var/log/fireflow.log.8
+/usr/share/fireflow/var/log/fireflow.log.9
+/var/log/httpd/access_log
+/var/log/httpd/error_log
+exec
+/bin/bash -c "find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'" in /root succeeded in 0ms:
+/etc/httpd/conf.d/aff.conf
+/etc/httpd/conf.d/algosec-ms.ms-aad-azure-sensor.conf
+/etc/httpd/conf.d/algosec-ms.ms-aad-log-sensor.conf
+/etc/httpd/conf.d/algosec-ms.ms-algobot.conf
+/etc/httpd/conf.d/algosec-ms.ms-autodiscovery.conf
+/etc/httpd/conf.d/algosec-ms.ms-backuprestore.conf
+/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf
+/etc/httpd/conf.d/algosec-ms.ms-bflow.conf
+/etc/httpd/conf.d/algosec-ms.ms-cloudflow-broker.conf
+/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf
+/etc/httpd/conf.d/algosec-ms.ms-configuration.conf
+/etc/httpd/conf.d/algosec-ms.ms-devicedriver-aws.conf
+/etc/httpd/conf.d/algosec-ms.ms-devicedriver-azure.conf
+/etc/httpd/conf.d/algosec-ms.ms-devicemanager.conf
+/etc/httpd/conf.d/algosec-ms.ms-genericdevice.conf
+/etc/httpd/conf.d/algosec-ms.ms-initial-plan.conf
+/etc/httpd/conf.d/algosec-ms.ms-mapDiagnostics.conf
+/etc/httpd/conf.d/algosec-ms.ms-metro.conf
+/etc/httpd/conf.d/algosec-ms.ms-multipush.conf
+/etc/httpd/conf.d/algosec-ms.ms-policy-optimizations.conf
+exec
+/bin/bash -c 'rg -n --hidden --no-ignore -S "SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd' in /root succeeded in 7ms:
+
+codex
+The broad search shows the FireFlow side is very noisy, but it already exposes a repeated `bridge/refresh` pattern with duplicated query params and periodic `getAFASessionInfo` calls. I’m narrowing to the source files and the matching access-log windows that can tie the cookie handoff to a specific caller path.
+exec
+/bin/bash -c 'rg -n -C 4 -S "AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d' in /root succeeded in 0ms:
+/usr/share/fa/php/SuiteLoginSessionValidation.php-189-			// Delete all existing cookies when in the login page and not logged in
+/usr/share/fa/php/SuiteLoginSessionValidation.php-190-			header_remove("set-cookie"); // Reset the PHPSESSID that's set by the above call to utils::SetSession (which calls session_start, setting the PHPSESSID)
+/usr/share/fa/php/SuiteLoginSessionValidation.php-191-			$expired = time() - 1; // If PHP detects time less than current time by any amount, it sets the expires field to a year ago
+/usr/share/fa/php/SuiteLoginSessionValidation.php-192-			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php:193:			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php-194-			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php-195-			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php-196-			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php-197-		}
+--
+/usr/share/fa/php/SuiteLoginSessionValidation.php-189-			// Delete all existing cookies when in the login page and not logged in
+/usr/share/fa/php/SuiteLoginSessionValidation.php-190-			header_remove("set-cookie"); // Reset the PHPSESSID that's set by the above call to utils::SetSession (which calls session_start, setting the PHPSESSID)
+/usr/share/fa/php/SuiteLoginSessionValidation.php-191-			$expired = time() - 1; // If PHP detects time less than current time by any amount, it sets the expires field to a year ago
+/usr/share/fa/php/SuiteLoginSessionValidation.php-192-			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php:193:			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php-194-			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php-195-			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php-196-			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
+/usr/share/fa/php/SuiteLoginSessionValidation.php-197-		}
+--
+exec
+/bin/bash -c "rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2" in /rootexec
+/bin/bash -c 'rg -n -S "AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt' in /root succeeded in 1ms:
+/usr/share/fireflow/var/log/fireflow.log.1:158:[3988353] [x_34db5   ] [2026-03-26 04:03:38,648] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:159:[3988353] [x_34db5   ] [2026-03-26 04:03:38,649] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.1:170:[3893093] [x_7d8d5   ] [2026-03-26 04:04:27,094] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:171:[3893093] [x_7d8d5   ] [2026-03-26 04:04:27,095] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.1:176:[3893048] [x_e852c   ] [2026-03-26 04:04:28,936] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:177:[3893048] [x_e852c   ] [2026-03-26 04:04:28,937] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.1:230:[12564] [bc86040555] [2026-03-26 04:05:43,958] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log.1:293:[4102291] [x_4fa52   ] [2026-03-26 04:07:35,479] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:294:[4102291] [x_4fa52   ] [2026-03-26 04:07:35,480] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.1:388:[3992835] [x_4c6df   ] [2026-03-26 04:08:35,556] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:389:[3992835] [x_4c6df   ] [2026-03-26 04:08:35,558] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.1:449:[160387] [bc86040555] [2026-03-26 04:10:43,967] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log.1:496:[4135542] [x_c32a5   ] [2026-03-26 04:12:21,365] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:497:[4135542] [x_c32a5   ] [2026-03-26 04:12:21,366] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.1:593:[3988353] [x_34db5   ] [2026-03-26 04:13:43,868] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:594:[3988353] [x_34db5   ] [2026-03-26 04:13:43,868] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.1:605:[3893093] [x_7d8d5   ] [2026-03-26 04:14:32,283] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:606:[3893093] [x_7d8d5   ] [2026-03-26 04:14:32,284] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.1:611:[3893048] [x_e852c   ] [2026-03-26 04:14:34,165] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log.1:612:[3893048] [x_e852c   ] [2026-03-26 04:14:34,166] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=du15gcigkvvrehbj1bb4g2045m&domain=0?session=du15gcigkv&domain=0]
+ succeeded in 1ms:
+/var/log/httpd/ssl_access_log:5:127.0.0.1 - - [25/Mar/2026:03:23:09 -0400] "POST /afa/external//bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:54:127.0.0.1 - - [25/Mar/2026:03:25:02 -0400] "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 200 29
+/var/log/httpd/ssl_access_log:59:127.0.0.1 - - [25/Mar/2026:03:25:08 -0400] "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 200 29
+/var/log/httpd/ssl_access_log:60:127.0.0.1 - - [25/Mar/2026:03:25:09 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 160
+/var/log/httpd/ssl_access_log:64:127.0.0.1 - - [25/Mar/2026:03:25:23 -0400] "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 200 29
+/var/log/httpd/ssl_access_log:66:127.0.0.1 - - [25/Mar/2026:03:25:23 -0400] "POST /FireFlow/api/session/extendSession?sessionId=574749ce7b6c9a05c430d3e81d7df85e&isFullSessionExtend=false HTTP/1.1" 200 29
+/var/log/httpd/ssl_access_log:82:127.0.0.1 - - [25/Mar/2026:03:25:43 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+/var/log/httpd/ssl_access_log:83:127.0.0.1 - - [25/Mar/2026:03:25:44 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+/var/log/httpd/ssl_access_log:86:127.0.0.1 - - [25/Mar/2026:03:25:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+/var/log/httpd/ssl_access_log:90:127.0.0.1 - - [25/Mar/2026:03:25:44 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+/var/log/httpd/ssl_access_log:93:127.0.0.1 - - [25/Mar/2026:03:25:44 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+/var/log/httpd/ssl_access_log:99:127.0.0.1 - - [25/Mar/2026:03:26:06 -0400] "POST /afa/external//bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:122:127.0.0.1 - - [25/Mar/2026:03:26:48 -0400] "POST /afa/external//bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:163:127.0.0.1 - - [25/Mar/2026:03:28:17 -0400] "POST /afa/external//bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:176:127.0.0.1 - - [25/Mar/2026:03:28:48 -0400] "POST /afa/external//bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&domain=0 HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:199:127.0.0.1 - - [25/Mar/2026:03:30:02 -0400] "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 200 29
+/var/log/httpd/ssl_access_log:204:127.0.0.1 - - [25/Mar/2026:03:30:05 -0400] "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 200 29
+/var/log/httpd/ssl_access_log:205:127.0.0.1 - - [25/Mar/2026:03:30:05 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 160
+/var/log/httpd/ssl_access_log:208:127.0.0.1 - - [25/Mar/2026:03:30:09 -0400] "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 200 29
+/var/log/httpd/ssl_access_log:209:127.0.0.1 - - [25/Mar/2026:03:30:09 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 160
+codex
+The strongest lead is a shorter handoff sequence around `storeFireflowCookie`, followed immediately by `getAFASessionInfo` and AFA `session/extend`, which is much closer to the initial cookie bridge than the steady-state refresh noise. I’m extracting that window and the exact source lines that produce it.
+exec
+/bin/bash -c "sed -n '140,210p' /usr/share/fa/php/SSOLogin.php" in /root succeeded in 0ms:
+	}
+
+
+	function createFireFlowUserAndRedirect($username, $destination)
+	{
+		// Send request to create/update user and create a new session. The response will return the newly created session ID.
+		// TODO: Build URL from configuration.
+
+		$NoAuthDir = "FireFlow/XML/NoAuth";
+		$CreateUpdateExtAuthPrivUser = "CreateUpdateAuthenticateSSOUser";
+		$CreateUpdateExtAuthPrivUser_path = "/" . $NoAuthDir . "/$CreateUpdateExtAuthPrivUser";
+		$params = 	  '?action=add&userName='
+					. rawurlencode($username)
+					. '&authMethod=SSO'
+					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
+
+		// Send the request.
+		$affAddress = utils::GetFireFlowFullAddress();
+		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
+
+exec
+/bin/bash -c "sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php" in /root succeeded in 0ms:
+<?php
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Environment extends CI_Controller 
+{
+	public function __construct()
+	{
+		parent::__construct();
+        $this->ci = get_instance();
+
+		// this controller does not write to session
+		session_write_close();
+	}
+
+	/**
+	 *	Controller that supply multy resources
+	 *	Recives a single GET param: "list" - an array of enviroment keys to fetch
+	 */
+	public function index()
+	{
+exec
+/bin/bash -c "rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php" in /root succeeded in 0ms:
+/usr/share/fa/php/SSOLogin.php-148-		$NoAuthDir = "FireFlow/XML/NoAuth";
+/usr/share/fa/php/SSOLogin.php-149-		$CreateUpdateExtAuthPrivUser = "CreateUpdateAuthenticateSSOUser";
+/usr/share/fa/php/SSOLogin.php-150-		$CreateUpdateExtAuthPrivUser_path = "/" . $NoAuthDir . "/$CreateUpdateExtAuthPrivUser";
+/usr/share/fa/php/SSOLogin.php-151-		$params = 	  '?action=add&userName='
+/usr/share/fa/php/SSOLogin.php-152-					. rawurlencode($username)
+/usr/share/fa/php/SSOLogin.php-153-					. '&authMethod=SSO'
+/usr/share/fa/php/SSOLogin.php:154:					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
+/usr/share/fa/php/SSOLogin.php-155-
+/usr/share/fa/php/SSOLogin.php-156-		// Send the request.
+/usr/share/fa/php/SSOLogin.php-157-		$affAddress = utils::GetFireFlowFullAddress();
+/usr/share/fa/php/SSOLogin.php-158-		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
+/usr/share/fa/php/SSOLogin.php-159-
+/usr/share/fa/php/SSOLogin.php-160-		// Delete the "trust" file.
+--
+/usr/share/fa/php/SSOLogin.php-162-
+/usr/share/fa/php/SSOLogin.php-163-		// Parse the response.
+/usr/share/fa/php/SSOLogin.php-164-		$xmlRes = new SimpleXMLElement($responseContent);
+/usr/share/fa/php/SSOLogin.php-165-		$sid 					= $xmlRes->SID; 							// Extract session ID from response.
+/usr/share/fa/php/SSOLogin.php-166-		$sessionCookieName 		= $xmlRes->SessionCookieName;
+/usr/share/fa/php/SSOLogin.php-167-		$sessionCookieSecured 	= ($xmlRes->SessionCookieSecured == "1");
+codex
+I’ve got the source-side handoff mechanics. Now I’m pulling two tight access-log windows: one around the `storeFireflowCookie` handoff and one around the later `session`/`getAFASessionInfo`/`refresh` cycle, so the operator can compare initial handoff versus steady-state behavior.
+exec
+/bin/bash -c "sed -n '109345,109357p' /var/log/httpd/ssl_access_log" in /root succeeded in 0ms:
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
+127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+exec
+/bin/bash -c "sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php" in /root succeeded in 0ms:
+	return $page;
+}
+
+function redirectOrRespond($redirectTo = null) {
+	global $isRequestor;
+
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		$authenticated = isset($redirectTo);
+		if (!$authenticated) {
+			// Delete all existing cookies when in the login page and not logged in
+			header_remove("set-cookie"); // Reset the PHPSESSID that's set by the above call to utils::SetSession (which calls session_start, setting the PHPSESSID)
+			$expired = time() - 1; // If PHP detects time less than current time by any amount, it sets the expires field to a year ago
+			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
+			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
+			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
+			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
+			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
+		}
+
+		die(json_encode(array(
+exec
+/bin/bash -c "sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log" in /root succeeded in 0ms:
+[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
+[webapp:Scheduler16] [2026-03-27 00:00:45,927] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFileOld:53] file /home/afa/.fa/.fa_key.old does not exist - fa key won't be loaded
+[webapp:kScheduler5] [2026-03-27 00:00:45,927] [DEBUG  ]: [FaPasswordCoreService.java::reloadFaKeyFile:30] loading fa_key file: /home/afa/.fa/.fa_key
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,602] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,606] [info   ]: [/lib/FireFlow/HTTPUtils.pm::SetCookie:150] Adding header Set-Cookie to response with value: PHPSESSID=
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,665] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/config], method=[get]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,666] [debug  ]: [/lib/FireFlow/FABridge.pm::getRequest:153] RestClient get: [https://localhost:443/afa/external//config?session=n575jpek15&domain=0]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,700] [debug  ]: [/lib/FireFlow/FABridge.pm::openResponse:299] Decoding response content as json
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,704] [info   ]: [/html/autohandler::__ANON__:432] Successful login for Backup_user from 127.0.0.1
+exec
+/bin/bash -c "sed -n '94157,94165p' /var/log/httpd/ssl_access_log" in /root succeeded in 0ms:
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
+127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304
+exec
+/bin/bash -c "sed -n '120017,120023p' /var/log/httpd/ssl_access_log" in /root succeeded in 0ms:
+127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+codex
+I have enough evidence for the delegated slice. I’m writing the operator-facing summary, the command log, and compact artifacts with the exact source snippets and log windows that best show the cookie handoff and the later steady-state refresh pattern.
+file update
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+This delegated slice stayed observe-only within the allowed targets.
+
+The clearest source-side handoff is in `SSOLogin.php`: AFA sends `AFF_COOKIE=<RT_SID_FireFlow.443>` into FireFlow's no-auth SSO endpoint, then accepts `BFCookie` back and plants it on `/BusinessFlow`. That is the direct BusinessFlow-to-FireFlow cookie bridge in source.
+
+`SuiteLoginSessionValidation.php` is the fallback cleanup point, not the initiator. If authentication is missing on the POST validation path, it explicitly expires `PHPSESSID`, `RT_SID_FireFlow.443`, and both `/BusinessFlow/` and `/aff/` `JSESSIONID` cookies.
+
+The closest preserved runtime handoff window I found is on March 27, 2026 at `00:00:43-00:00:51 -0400`:
+
+- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
+- `GET /FireFlow/api/session`
+- `POST /fa/server/connection/login`
+- `POST /fa/environment/getAFASessionInfo`
+- `POST /afa/external//bridge/storeFireflowCookie?...`
+- `POST /afa/external//session/extend?...`
+
+The matching FireFlow log ties that exact window to a successful AFA login for `Backup_user`, followed immediately by `_issuePostToAfa will call /storeFireflowCookie`. That strongly suggests the cookie handoff happens immediately after FireFlow completes its AFA-side login, before the later periodic `refresh` loop.
+
+The later steady-state pattern is distinct. By March 27, 2026 `05:59:57-06:00:00 -0400`, the logs show `bridge/refresh`, repeated `getAFASessionInfo`, AFA `session/extend`, and `GET /FireFlow/api/session` in the same second. This looks like post-handoff session upkeep, not the original BusinessFlow cookie bridge.
+
+Two useful anomalies remain visible:
+
+- FireFlow logs and some AFA-side requests preserve duplicated query material such as `...?domain=0&session=... ?domain=0&session=...` or `...?session=...&domain=0?session=...&domain=0`.
+- The initiating caller in the preserved windows is still internal and localhost-bound (`FireFlowAffApi/NoAuth/CommandsDispatcher`, `FireFlow/XML/CommandsDispatcher`, `/afa/php/ws.php`, `/afa/php/commands.php`). I did not find an external BusinessFlow browser request in the allowed logs that directly precedes the handoff.
+
+Artifacts:
+
+- `artifacts/source-snippets.txt`
+- `artifacts/log-windows.txt`
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+{"cmd":"pwd","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n --hidden --no-ignore -S \"SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh\" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n -C 4 -S \"AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php\" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '140,210p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '109345,109357p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '94157,94165p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '120017,120023p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+/usr/share/fa/php/SSOLogin.php (createFireFlowUserAndRedirect)
+--------------------------------------------------------------
+		$params = 	  '?action=add&userName='
+					. rawurlencode($username)
+					. '&authMethod=SSO'
+					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
+
+		// Send the request.
+		$affAddress = utils::GetFireFlowFullAddress();
+		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
+...
+		$sid 					= $xmlRes->SID;
+		$sessionCookieName 		= $xmlRes->SessionCookieName;
+		$sessionCookieSecured 	= ($xmlRes->SessionCookieSecured == "1");
+        $bfCookie = $xmlRes->BFCookie;
+...
+		setcookie($sessionCookieName, $sid, NULL, "/", NULL, $sessionCookieSecured);
+...
+            $bfCookieName = $matches[1];
+            $bfCookieVal = $matches[2];
+
+            setcookie($bfCookieName, $bfCookieVal, NULL, "/BusinessFlow", NULL, $sessionCookieSecured);
+
+/usr/share/fa/php/SuiteLoginSessionValidation.php (redirectOrRespond)
+-------------------------------------------------------------------
+		if (!$authenticated) {
+			// Delete all existing cookies when in the login page and not logged in
+			header_remove("set-cookie");
+			$expired = time() - 1;
+			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
+			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
+			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
+			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
+			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
+		}
+
+/usr/share/fa/php/ci/application/controllers/Environment.php (getAFASessionInfo)
+---------------------------------------------------------------------------------
+	public function getAFASessionInfo()
+	{
+		if (empty($this->algosec->session)) {
+			$result = array('authenticated'=>false);
+		}
+		else
+		{
+			$result = array(
+				'faSession'=>$this->algosec->session->GetSessionId(),
+				'faDomain'=>$this->algosec->session->GetDomainId(),
+				'phpSession'=>$_COOKIE[PHP_COOKIE],
+				'isAdmin'=>$isAdmin,
+				'username'=>$this->algosec->session->GetUserName(),
+				'authenticated'=>true
+			);
+		}
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+/var/log/httpd/ssl_access_log lines 109345-109357
+-------------------------------------------------
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
+127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+
+/usr/share/fireflow/var/log/fireflow.log lines 16602-16616
+----------------------------------------------------------
+[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
+
+/var/log/httpd/ssl_access_log lines 120017-120023
+-------------------------------------------------
+127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+
+/var/log/httpd/ssl_access_log lines 94157-94165
+-----------------------------------------------
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
+127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
+  "task_id": "deepen_dependency_aware_playbooks",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Captured one bounded BusinessFlow-to-FireFlow cookie handoff slice from allowed source and log targets. The strongest preserved path is SSOLogin.php passing AFF_COOKIE into FireFlow and accepting BFCookie back, plus runtime windows showing storeFireflowCookie immediately after FireFlow completes an AFA login and before later refresh traffic.",
+  "returned_artifact_paths": [
+    "artifacts/source-snippets.txt",
+    "artifacts/log-windows.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "Correlate the preserved localhost callers (FireFlowAffApi/NoAuth/CommandsDispatcher, FireFlow/XML/CommandsDispatcher, /afa/php/ws.php, /afa/php/commands.php) with any broader orchestration traces outside this observe-only slice.",
+    "If a higher delegation tier becomes available, instrument the duplicated query-string construction around storeFireflowCookie and bridge/refresh to determine whether the repeated session/domain parameters are cosmetic logging artifacts or part of the live request assembly."
+  ]
+}
+apply_patch(auto_approved=true) exited 0 in 8ms:
+Success. Updated the following files:
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c31e4213ba1a3c9cca12743c49d7e4d929595b6
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+@@ -0,0 +1,47 @@
++/var/log/httpd/ssl_access_log lines 109345-109357
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++
++/usr/share/fireflow/var/log/fireflow.log lines 16602-16616
++----------------------------------------------------------
++[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
++
++/var/log/httpd/ssl_access_log lines 120017-120023
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++
++/var/log/httpd/ssl_access_log lines 94157-94165
++-----------------------------------------------
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
++127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..18ab81ff1adeb3cdfa577f3f7263b56d9e613e44
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+@@ -0,0 +1,54 @@
++/usr/share/fa/php/SSOLogin.php (createFireFlowUserAndRedirect)
++--------------------------------------------------------------
++		$params = 	  '?action=add&userName='
++					. rawurlencode($username)
++					. '&authMethod=SSO'
++					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
++
++		// Send the request.
++		$affAddress = utils::GetFireFlowFullAddress();
++		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
++...
++		$sid 					= $xmlRes->SID;
++		$sessionCookieName 		= $xmlRes->SessionCookieName;
++		$sessionCookieSecured 	= ($xmlRes->SessionCookieSecured == "1");
++        $bfCookie = $xmlRes->BFCookie;
++...
++		setcookie($sessionCookieName, $sid, NULL, "/", NULL, $sessionCookieSecured);
++...
++            $bfCookieName = $matches[1];
++            $bfCookieVal = $matches[2];
++
++            setcookie($bfCookieName, $bfCookieVal, NULL, "/BusinessFlow", NULL, $sessionCookieSecured);
++
++/usr/share/fa/php/SuiteLoginSessionValidation.php (redirectOrRespond)
++-------------------------------------------------------------------
++		if (!$authenticated) {
++			// Delete all existing cookies when in the login page and not logged in
++			header_remove("set-cookie");
++			$expired = time() - 1;
++			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
++			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
++			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
++		}
++
++/usr/share/fa/php/ci/application/controllers/Environment.php (getAFASessionInfo)
++---------------------------------------------------------------------------------
++	public function getAFASessionInfo()
++	{
++		if (empty($this->algosec->session)) {
++			$result = array('authenticated'=>false);
++		}
++		else
++		{
++			$result = array(
++				'faSession'=>$this->algosec->session->GetSessionId(),
++				'faDomain'=>$this->algosec->session->GetDomainId(),
++				'phpSession'=>$_COOKIE[PHP_COOKIE],
++				'isAdmin'=>$isAdmin,
++				'username'=>$this->algosec->session->GetUserName(),
++				'authenticated'=>true
++			);
++		}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..d99f3fd420754370a5a5965ded41da7a7df320fe
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+@@ -0,0 +1,17 @@
++{"cmd":"pwd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n --hidden --no-ignore -S \"SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh\" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 4 -S \"AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php\" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '140,210p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '109345,109357p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '94157,94165p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '120017,120023p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..d073a8da035676fb5c9db6a5c809701a0dc4abcb
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
++  "task_id": "deepen_dependency_aware_playbooks",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Captured one bounded BusinessFlow-to-FireFlow cookie handoff slice from allowed source and log targets. The strongest preserved path is SSOLogin.php passing AFF_COOKIE into FireFlow and accepting BFCookie back, plus runtime windows showing storeFireflowCookie immediately after FireFlow completes an AFA login and before later refresh traffic.",
++  "returned_artifact_paths": [
++    "artifacts/source-snippets.txt",
++    "artifacts/log-windows.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "Correlate the preserved localhost callers (FireFlowAffApi/NoAuth/CommandsDispatcher, FireFlow/XML/CommandsDispatcher, /afa/php/ws.php, /afa/php/commands.php) with any broader orchestration traces outside this observe-only slice.",
++    "If a higher delegation tier becomes available, instrument the duplicated query-string construction around storeFireflowCookie and bridge/refresh to determine whether the repeated session/domain parameters are cosmetic logging artifacts or part of the live request assembly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b53e83c24bf91cf3ffdb7e6d8decc7cbb8e1d785
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+@@ -0,0 +1,28 @@
++This delegated slice stayed observe-only within the allowed targets.
++
++The clearest source-side handoff is in `SSOLogin.php`: AFA sends `AFF_COOKIE=<RT_SID_FireFlow.443>` into FireFlow's no-auth SSO endpoint, then accepts `BFCookie` back and plants it on `/BusinessFlow`. That is the direct BusinessFlow-to-FireFlow cookie bridge in source.
++
++`SuiteLoginSessionValidation.php` is the fallback cleanup point, not the initiator. If authentication is missing on the POST validation path, it explicitly expires `PHPSESSID`, `RT_SID_FireFlow.443`, and both `/BusinessFlow/` and `/aff/` `JSESSIONID` cookies.
++
++The closest preserved runtime handoff window I found is on March 27, 2026 at `00:00:43-00:00:51 -0400`:
++
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- `POST /fa/server/connection/login`
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /afa/external//bridge/storeFireflowCookie?...`
++- `POST /afa/external//session/extend?...`
++
++The matching FireFlow log ties that exact window to a successful AFA login for `Backup_user`, followed immediately by `_issuePostToAfa will call /storeFireflowCookie`. That strongly suggests the cookie handoff happens immediately after FireFlow completes its AFA-side login, before the later periodic `refresh` loop.
++
++The later steady-state pattern is distinct. By March 27, 2026 `05:59:57-06:00:00 -0400`, the logs show `bridge/refresh`, repeated `getAFASessionInfo`, AFA `session/extend`, and `GET /FireFlow/api/session` in the same second. This looks like post-handoff session upkeep, not the original BusinessFlow cookie bridge.
++
++Two useful anomalies remain visible:
++
++- FireFlow logs and some AFA-side requests preserve duplicated query material such as `...?domain=0&session=... ?domain=0&session=...` or `...?session=...&domain=0?session=...&domain=0`.
++- The initiating caller in the preserved windows is still internal and localhost-bound (`FireFlowAffApi/NoAuth/CommandsDispatcher`, `FireFlow/XML/CommandsDispatcher`, `/afa/php/ws.php`, `/afa/php/commands.php`). I did not find an external BusinessFlow browser request in the allowed logs that directly precedes the handoff.
++
++Artifacts:
++
++- `artifacts/source-snippets.txt`
++- `artifacts/log-windows.txt`
+
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c31e4213ba1a3c9cca12743c49d7e4d929595b6
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+@@ -0,0 +1,47 @@
++/var/log/httpd/ssl_access_log lines 109345-109357
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++
++/usr/share/fireflow/var/log/fireflow.log lines 16602-16616
++----------------------------------------------------------
++[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
++
++/var/log/httpd/ssl_access_log lines 120017-120023
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++
++/var/log/httpd/ssl_access_log lines 94157-94165
++-----------------------------------------------
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
++127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..18ab81ff1adeb3cdfa577f3f7263b56d9e613e44
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+@@ -0,0 +1,54 @@
++/usr/share/fa/php/SSOLogin.php (createFireFlowUserAndRedirect)
++--------------------------------------------------------------
++		$params = 	  '?action=add&userName='
++					. rawurlencode($username)
++					. '&authMethod=SSO'
++					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
++
++		// Send the request.
++		$affAddress = utils::GetFireFlowFullAddress();
++		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
++...
++		$sid 					= $xmlRes->SID;
++		$sessionCookieName 		= $xmlRes->SessionCookieName;
++		$sessionCookieSecured 	= ($xmlRes->SessionCookieSecured == "1");
++        $bfCookie = $xmlRes->BFCookie;
++...
++		setcookie($sessionCookieName, $sid, NULL, "/", NULL, $sessionCookieSecured);
++...
++            $bfCookieName = $matches[1];
++            $bfCookieVal = $matches[2];
++
++            setcookie($bfCookieName, $bfCookieVal, NULL, "/BusinessFlow", NULL, $sessionCookieSecured);
++
++/usr/share/fa/php/SuiteLoginSessionValidation.php (redirectOrRespond)
++-------------------------------------------------------------------
++		if (!$authenticated) {
++			// Delete all existing cookies when in the login page and not logged in
++			header_remove("set-cookie");
++			$expired = time() - 1;
++			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
++			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
++			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
++		}
++
++/usr/share/fa/php/ci/application/controllers/Environment.php (getAFASessionInfo)
++---------------------------------------------------------------------------------
++	public function getAFASessionInfo()
++	{
++		if (empty($this->algosec->session)) {
++			$result = array('authenticated'=>false);
++		}
++		else
++		{
++			$result = array(
++				'faSession'=>$this->algosec->session->GetSessionId(),
++				'faDomain'=>$this->algosec->session->GetDomainId(),
++				'phpSession'=>$_COOKIE[PHP_COOKIE],
++				'isAdmin'=>$isAdmin,
++				'username'=>$this->algosec->session->GetUserName(),
++				'authenticated'=>true
++			);
++		}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..d99f3fd420754370a5a5965ded41da7a7df320fe
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+@@ -0,0 +1,17 @@
++{"cmd":"pwd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n --hidden --no-ignore -S \"SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh\" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 4 -S \"AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php\" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '140,210p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '109345,109357p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '94157,94165p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '120017,120023p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..d073a8da035676fb5c9db6a5c809701a0dc4abcb
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
++  "task_id": "deepen_dependency_aware_playbooks",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Captured one bounded BusinessFlow-to-FireFlow cookie handoff slice from allowed source and log targets. The strongest preserved path is SSOLogin.php passing AFF_COOKIE into FireFlow and accepting BFCookie back, plus runtime windows showing storeFireflowCookie immediately after FireFlow completes an AFA login and before later refresh traffic.",
++  "returned_artifact_paths": [
++    "artifacts/source-snippets.txt",
++    "artifacts/log-windows.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "Correlate the preserved localhost callers (FireFlowAffApi/NoAuth/CommandsDispatcher, FireFlow/XML/CommandsDispatcher, /afa/php/ws.php, /afa/php/commands.php) with any broader orchestration traces outside this observe-only slice.",
++    "If a higher delegation tier becomes available, instrument the duplicated query-string construction around storeFireflowCookie and bridge/refresh to determine whether the repeated session/domain parameters are cosmetic logging artifacts or part of the live request assembly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b53e83c24bf91cf3ffdb7e6d8decc7cbb8e1d785
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+@@ -0,0 +1,28 @@
++This delegated slice stayed observe-only within the allowed targets.
++
++The clearest source-side handoff is in `SSOLogin.php`: AFA sends `AFF_COOKIE=<RT_SID_FireFlow.443>` into FireFlow's no-auth SSO endpoint, then accepts `BFCookie` back and plants it on `/BusinessFlow`. That is the direct BusinessFlow-to-FireFlow cookie bridge in source.
++
++`SuiteLoginSessionValidation.php` is the fallback cleanup point, not the initiator. If authentication is missing on the POST validation path, it explicitly expires `PHPSESSID`, `RT_SID_FireFlow.443`, and both `/BusinessFlow/` and `/aff/` `JSESSIONID` cookies.
++
++The closest preserved runtime handoff window I found is on March 27, 2026 at `00:00:43-00:00:51 -0400`:
++
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- `POST /fa/server/connection/login`
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /afa/external//bridge/storeFireflowCookie?...`
++- `POST /afa/external//session/extend?...`
++
++The matching FireFlow log ties that exact window to a successful AFA login for `Backup_user`, followed immediately by `_issuePostToAfa will call /storeFireflowCookie`. That strongly suggests the cookie handoff happens immediately after FireFlow completes its AFA-side login, before the later periodic `refresh` loop.
++
++The later steady-state pattern is distinct. By March 27, 2026 `05:59:57-06:00:00 -0400`, the logs show `bridge/refresh`, repeated `getAFASessionInfo`, AFA `session/extend`, and `GET /FireFlow/api/session` in the same second. This looks like post-handoff session upkeep, not the original BusinessFlow cookie bridge.
++
++Two useful anomalies remain visible:
++
++- FireFlow logs and some AFA-side requests preserve duplicated query material such as `...?domain=0&session=... ?domain=0&session=...` or `...?session=...&domain=0?session=...&domain=0`.
++- The initiating caller in the preserved windows is still internal and localhost-bound (`FireFlowAffApi/NoAuth/CommandsDispatcher`, `FireFlow/XML/CommandsDispatcher`, `/afa/php/ws.php`, `/afa/php/commands.php`). I did not find an external BusinessFlow browser request in the allowed logs that directly precedes the handoff.
++
++Artifacts:
++
++- `artifacts/source-snippets.txt`
++- `artifacts/log-windows.txt`
+
+codex
+I’ve written the required bundle outputs. I’m doing one final existence check inside the bundle root and then I’ll stop.
+exec
+/bin/bash -c 'find /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1 -maxdepth 2 -type f | sort' in /root succeeded in 0ms:
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/codex-launch.log
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/codex-prompt.txt
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/run-delegated-codex.sh
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c31e4213ba1a3c9cca12743c49d7e4d929595b6
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+@@ -0,0 +1,47 @@
++/var/log/httpd/ssl_access_log lines 109345-109357
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++
++/usr/share/fireflow/var/log/fireflow.log lines 16602-16616
++----------------------------------------------------------
++[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
++
++/var/log/httpd/ssl_access_log lines 120017-120023
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++
++/var/log/httpd/ssl_access_log lines 94157-94165
++-----------------------------------------------
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
++127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..18ab81ff1adeb3cdfa577f3f7263b56d9e613e44
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+@@ -0,0 +1,54 @@
++/usr/share/fa/php/SSOLogin.php (createFireFlowUserAndRedirect)
++--------------------------------------------------------------
++		$params = 	  '?action=add&userName='
++					. rawurlencode($username)
++					. '&authMethod=SSO'
++					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
++
++		// Send the request.
++		$affAddress = utils::GetFireFlowFullAddress();
++		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
++...
++		$sid 					= $xmlRes->SID;
++		$sessionCookieName 		= $xmlRes->SessionCookieName;
++		$sessionCookieSecured 	= ($xmlRes->SessionCookieSecured == "1");
++        $bfCookie = $xmlRes->BFCookie;
++...
++		setcookie($sessionCookieName, $sid, NULL, "/", NULL, $sessionCookieSecured);
++...
++            $bfCookieName = $matches[1];
++            $bfCookieVal = $matches[2];
++
++            setcookie($bfCookieName, $bfCookieVal, NULL, "/BusinessFlow", NULL, $sessionCookieSecured);
++
++/usr/share/fa/php/SuiteLoginSessionValidation.php (redirectOrRespond)
++-------------------------------------------------------------------
++		if (!$authenticated) {
++			// Delete all existing cookies when in the login page and not logged in
++			header_remove("set-cookie");
++			$expired = time() - 1;
++			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
++			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
++			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
++		}
++
++/usr/share/fa/php/ci/application/controllers/Environment.php (getAFASessionInfo)
++---------------------------------------------------------------------------------
++	public function getAFASessionInfo()
++	{
++		if (empty($this->algosec->session)) {
++			$result = array('authenticated'=>false);
++		}
++		else
++		{
++			$result = array(
++				'faSession'=>$this->algosec->session->GetSessionId(),
++				'faDomain'=>$this->algosec->session->GetDomainId(),
++				'phpSession'=>$_COOKIE[PHP_COOKIE],
++				'isAdmin'=>$isAdmin,
++				'username'=>$this->algosec->session->GetUserName(),
++				'authenticated'=>true
++			);
++		}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..d99f3fd420754370a5a5965ded41da7a7df320fe
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+@@ -0,0 +1,17 @@
++{"cmd":"pwd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n --hidden --no-ignore -S \"SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh\" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 4 -S \"AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php\" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '140,210p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '109345,109357p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '94157,94165p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '120017,120023p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..d073a8da035676fb5c9db6a5c809701a0dc4abcb
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
++  "task_id": "deepen_dependency_aware_playbooks",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Captured one bounded BusinessFlow-to-FireFlow cookie handoff slice from allowed source and log targets. The strongest preserved path is SSOLogin.php passing AFF_COOKIE into FireFlow and accepting BFCookie back, plus runtime windows showing storeFireflowCookie immediately after FireFlow completes an AFA login and before later refresh traffic.",
++  "returned_artifact_paths": [
++    "artifacts/source-snippets.txt",
++    "artifacts/log-windows.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "Correlate the preserved localhost callers (FireFlowAffApi/NoAuth/CommandsDispatcher, FireFlow/XML/CommandsDispatcher, /afa/php/ws.php, /afa/php/commands.php) with any broader orchestration traces outside this observe-only slice.",
++    "If a higher delegation tier becomes available, instrument the duplicated query-string construction around storeFireflowCookie and bridge/refresh to determine whether the repeated session/domain parameters are cosmetic logging artifacts or part of the live request assembly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b53e83c24bf91cf3ffdb7e6d8decc7cbb8e1d785
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+@@ -0,0 +1,28 @@
++This delegated slice stayed observe-only within the allowed targets.
++
++The clearest source-side handoff is in `SSOLogin.php`: AFA sends `AFF_COOKIE=<RT_SID_FireFlow.443>` into FireFlow's no-auth SSO endpoint, then accepts `BFCookie` back and plants it on `/BusinessFlow`. That is the direct BusinessFlow-to-FireFlow cookie bridge in source.
++
++`SuiteLoginSessionValidation.php` is the fallback cleanup point, not the initiator. If authentication is missing on the POST validation path, it explicitly expires `PHPSESSID`, `RT_SID_FireFlow.443`, and both `/BusinessFlow/` and `/aff/` `JSESSIONID` cookies.
++
++The closest preserved runtime handoff window I found is on March 27, 2026 at `00:00:43-00:00:51 -0400`:
++
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- `POST /fa/server/connection/login`
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /afa/external//bridge/storeFireflowCookie?...`
++- `POST /afa/external//session/extend?...`
++
++The matching FireFlow log ties that exact window to a successful AFA login for `Backup_user`, followed immediately by `_issuePostToAfa will call /storeFireflowCookie`. That strongly suggests the cookie handoff happens immediately after FireFlow completes its AFA-side login, before the later periodic `refresh` loop.
++
++The later steady-state pattern is distinct. By March 27, 2026 `05:59:57-06:00:00 -0400`, the logs show `bridge/refresh`, repeated `getAFASessionInfo`, AFA `session/extend`, and `GET /FireFlow/api/session` in the same second. This looks like post-handoff session upkeep, not the original BusinessFlow cookie bridge.
++
++Two useful anomalies remain visible:
++
++- FireFlow logs and some AFA-side requests preserve duplicated query material such as `...?domain=0&session=... ?domain=0&session=...` or `...?session=...&domain=0?session=...&domain=0`.
++- The initiating caller in the preserved windows is still internal and localhost-bound (`FireFlowAffApi/NoAuth/CommandsDispatcher`, `FireFlow/XML/CommandsDispatcher`, `/afa/php/ws.php`, `/afa/php/commands.php`). I did not find an external BusinessFlow browser request in the allowed logs that directly precedes the handoff.
++
++Artifacts:
++
++- `artifacts/source-snippets.txt`
++- `artifacts/log-windows.txt`
+
+codex
+The final check surfaced only bundle-local files, including preexisting launch metadata. I’m appending that final verification command to `commands.jsonl` for completeness.
+file update
+M /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+@@ -17 +17,2 @@
+ {"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1 -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
+apply_patch(auto_approved=true) exited 0 in 11ms:
+Success. Updated the following files:
+M /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c31e4213ba1a3c9cca12743c49d7e4d929595b6
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+@@ -0,0 +1,47 @@
++/var/log/httpd/ssl_access_log lines 109345-109357
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++
++/usr/share/fireflow/var/log/fireflow.log lines 16602-16616
++----------------------------------------------------------
++[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
++
++/var/log/httpd/ssl_access_log lines 120017-120023
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++
++/var/log/httpd/ssl_access_log lines 94157-94165
++-----------------------------------------------
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
++127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..18ab81ff1adeb3cdfa577f3f7263b56d9e613e44
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+@@ -0,0 +1,54 @@
++/usr/share/fa/php/SSOLogin.php (createFireFlowUserAndRedirect)
++--------------------------------------------------------------
++		$params = 	  '?action=add&userName='
++					. rawurlencode($username)
++					. '&authMethod=SSO'
++					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
++
++		// Send the request.
++		$affAddress = utils::GetFireFlowFullAddress();
++		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
++...
++		$sid 					= $xmlRes->SID;
++		$sessionCookieName 		= $xmlRes->SessionCookieName;
++		$sessionCookieSecured 	= ($xmlRes->SessionCookieSecured == "1");
++        $bfCookie = $xmlRes->BFCookie;
++...
++		setcookie($sessionCookieName, $sid, NULL, "/", NULL, $sessionCookieSecured);
++...
++            $bfCookieName = $matches[1];
++            $bfCookieVal = $matches[2];
++
++            setcookie($bfCookieName, $bfCookieVal, NULL, "/BusinessFlow", NULL, $sessionCookieSecured);
++
++/usr/share/fa/php/SuiteLoginSessionValidation.php (redirectOrRespond)
++-------------------------------------------------------------------
++		if (!$authenticated) {
++			// Delete all existing cookies when in the login page and not logged in
++			header_remove("set-cookie");
++			$expired = time() - 1;
++			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
++			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
++			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
++		}
++
++/usr/share/fa/php/ci/application/controllers/Environment.php (getAFASessionInfo)
++---------------------------------------------------------------------------------
++	public function getAFASessionInfo()
++	{
++		if (empty($this->algosec->session)) {
++			$result = array('authenticated'=>false);
++		}
++		else
++		{
++			$result = array(
++				'faSession'=>$this->algosec->session->GetSessionId(),
++				'faDomain'=>$this->algosec->session->GetDomainId(),
++				'phpSession'=>$_COOKIE[PHP_COOKIE],
++				'isAdmin'=>$isAdmin,
++				'username'=>$this->algosec->session->GetUserName(),
++				'authenticated'=>true
++			);
++		}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..06b96f6336e0fa93a6a05285f7187b8f2071654d
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+@@ -0,0 +1,18 @@
++{"cmd":"pwd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n --hidden --no-ignore -S \"SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh\" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 4 -S \"AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php\" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '140,210p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '109345,109357p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '94157,94165p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '120017,120023p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1 -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..d073a8da035676fb5c9db6a5c809701a0dc4abcb
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
++  "task_id": "deepen_dependency_aware_playbooks",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Captured one bounded BusinessFlow-to-FireFlow cookie handoff slice from allowed source and log targets. The strongest preserved path is SSOLogin.php passing AFF_COOKIE into FireFlow and accepting BFCookie back, plus runtime windows showing storeFireflowCookie immediately after FireFlow completes an AFA login and before later refresh traffic.",
++  "returned_artifact_paths": [
++    "artifacts/source-snippets.txt",
++    "artifacts/log-windows.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "Correlate the preserved localhost callers (FireFlowAffApi/NoAuth/CommandsDispatcher, FireFlow/XML/CommandsDispatcher, /afa/php/ws.php, /afa/php/commands.php) with any broader orchestration traces outside this observe-only slice.",
++    "If a higher delegation tier becomes available, instrument the duplicated query-string construction around storeFireflowCookie and bridge/refresh to determine whether the repeated session/domain parameters are cosmetic logging artifacts or part of the live request assembly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b53e83c24bf91cf3ffdb7e6d8decc7cbb8e1d785
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+@@ -0,0 +1,28 @@
++This delegated slice stayed observe-only within the allowed targets.
++
++The clearest source-side handoff is in `SSOLogin.php`: AFA sends `AFF_COOKIE=<RT_SID_FireFlow.443>` into FireFlow's no-auth SSO endpoint, then accepts `BFCookie` back and plants it on `/BusinessFlow`. That is the direct BusinessFlow-to-FireFlow cookie bridge in source.
++
++`SuiteLoginSessionValidation.php` is the fallback cleanup point, not the initiator. If authentication is missing on the POST validation path, it explicitly expires `PHPSESSID`, `RT_SID_FireFlow.443`, and both `/BusinessFlow/` and `/aff/` `JSESSIONID` cookies.
++
++The closest preserved runtime handoff window I found is on March 27, 2026 at `00:00:43-00:00:51 -0400`:
++
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- `POST /fa/server/connection/login`
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /afa/external//bridge/storeFireflowCookie?...`
++- `POST /afa/external//session/extend?...`
++
++The matching FireFlow log ties that exact window to a successful AFA login for `Backup_user`, followed immediately by `_issuePostToAfa will call /storeFireflowCookie`. That strongly suggests the cookie handoff happens immediately after FireFlow completes its AFA-side login, before the later periodic `refresh` loop.
++
++The later steady-state pattern is distinct. By March 27, 2026 `05:59:57-06:00:00 -0400`, the logs show `bridge/refresh`, repeated `getAFASessionInfo`, AFA `session/extend`, and `GET /FireFlow/api/session` in the same second. This looks like post-handoff session upkeep, not the original BusinessFlow cookie bridge.
++
++Two useful anomalies remain visible:
++
++- FireFlow logs and some AFA-side requests preserve duplicated query material such as `...?domain=0&session=... ?domain=0&session=...` or `...?session=...&domain=0?session=...&domain=0`.
++- The initiating caller in the preserved windows is still internal and localhost-bound (`FireFlowAffApi/NoAuth/CommandsDispatcher`, `FireFlow/XML/CommandsDispatcher`, `/afa/php/ws.php`, `/afa/php/commands.php`). I did not find an external BusinessFlow browser request in the allowed logs that directly precedes the handoff.
++
++Artifacts:
++
++- `artifacts/source-snippets.txt`
++- `artifacts/log-windows.txt`
+
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c31e4213ba1a3c9cca12743c49d7e4d929595b6
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+@@ -0,0 +1,47 @@
++/var/log/httpd/ssl_access_log lines 109345-109357
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++
++/usr/share/fireflow/var/log/fireflow.log lines 16602-16616
++----------------------------------------------------------
++[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
++
++/var/log/httpd/ssl_access_log lines 120017-120023
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++
++/var/log/httpd/ssl_access_log lines 94157-94165
++-----------------------------------------------
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
++127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..18ab81ff1adeb3cdfa577f3f7263b56d9e613e44
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+@@ -0,0 +1,54 @@
++/usr/share/fa/php/SSOLogin.php (createFireFlowUserAndRedirect)
++--------------------------------------------------------------
++		$params = 	  '?action=add&userName='
++					. rawurlencode($username)
++					. '&authMethod=SSO'
++					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
++
++		// Send the request.
++		$affAddress = utils::GetFireFlowFullAddress();
++		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
++...
++		$sid 					= $xmlRes->SID;
++		$sessionCookieName 		= $xmlRes->SessionCookieName;
++		$sessionCookieSecured 	= ($xmlRes->SessionCookieSecured == "1");
++        $bfCookie = $xmlRes->BFCookie;
++...
++		setcookie($sessionCookieName, $sid, NULL, "/", NULL, $sessionCookieSecured);
++...
++            $bfCookieName = $matches[1];
++            $bfCookieVal = $matches[2];
++
++            setcookie($bfCookieName, $bfCookieVal, NULL, "/BusinessFlow", NULL, $sessionCookieSecured);
++
++/usr/share/fa/php/SuiteLoginSessionValidation.php (redirectOrRespond)
++-------------------------------------------------------------------
++		if (!$authenticated) {
++			// Delete all existing cookies when in the login page and not logged in
++			header_remove("set-cookie");
++			$expired = time() - 1;
++			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
++			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
++			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
++		}
++
++/usr/share/fa/php/ci/application/controllers/Environment.php (getAFASessionInfo)
++---------------------------------------------------------------------------------
++	public function getAFASessionInfo()
++	{
++		if (empty($this->algosec->session)) {
++			$result = array('authenticated'=>false);
++		}
++		else
++		{
++			$result = array(
++				'faSession'=>$this->algosec->session->GetSessionId(),
++				'faDomain'=>$this->algosec->session->GetDomainId(),
++				'phpSession'=>$_COOKIE[PHP_COOKIE],
++				'isAdmin'=>$isAdmin,
++				'username'=>$this->algosec->session->GetUserName(),
++				'authenticated'=>true
++			);
++		}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..06b96f6336e0fa93a6a05285f7187b8f2071654d
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+@@ -0,0 +1,18 @@
++{"cmd":"pwd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n --hidden --no-ignore -S \"SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh\" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 4 -S \"AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php\" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '140,210p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '109345,109357p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '94157,94165p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '120017,120023p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1 -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..d073a8da035676fb5c9db6a5c809701a0dc4abcb
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
++  "task_id": "deepen_dependency_aware_playbooks",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Captured one bounded BusinessFlow-to-FireFlow cookie handoff slice from allowed source and log targets. The strongest preserved path is SSOLogin.php passing AFF_COOKIE into FireFlow and accepting BFCookie back, plus runtime windows showing storeFireflowCookie immediately after FireFlow completes an AFA login and before later refresh traffic.",
++  "returned_artifact_paths": [
++    "artifacts/source-snippets.txt",
++    "artifacts/log-windows.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "Correlate the preserved localhost callers (FireFlowAffApi/NoAuth/CommandsDispatcher, FireFlow/XML/CommandsDispatcher, /afa/php/ws.php, /afa/php/commands.php) with any broader orchestration traces outside this observe-only slice.",
++    "If a higher delegation tier becomes available, instrument the duplicated query-string construction around storeFireflowCookie and bridge/refresh to determine whether the repeated session/domain parameters are cosmetic logging artifacts or part of the live request assembly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b53e83c24bf91cf3ffdb7e6d8decc7cbb8e1d785
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+@@ -0,0 +1,28 @@
++This delegated slice stayed observe-only within the allowed targets.
++
++The clearest source-side handoff is in `SSOLogin.php`: AFA sends `AFF_COOKIE=<RT_SID_FireFlow.443>` into FireFlow's no-auth SSO endpoint, then accepts `BFCookie` back and plants it on `/BusinessFlow`. That is the direct BusinessFlow-to-FireFlow cookie bridge in source.
++
++`SuiteLoginSessionValidation.php` is the fallback cleanup point, not the initiator. If authentication is missing on the POST validation path, it explicitly expires `PHPSESSID`, `RT_SID_FireFlow.443`, and both `/BusinessFlow/` and `/aff/` `JSESSIONID` cookies.
++
++The closest preserved runtime handoff window I found is on March 27, 2026 at `00:00:43-00:00:51 -0400`:
++
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- `POST /fa/server/connection/login`
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /afa/external//bridge/storeFireflowCookie?...`
++- `POST /afa/external//session/extend?...`
++
++The matching FireFlow log ties that exact window to a successful AFA login for `Backup_user`, followed immediately by `_issuePostToAfa will call /storeFireflowCookie`. That strongly suggests the cookie handoff happens immediately after FireFlow completes its AFA-side login, before the later periodic `refresh` loop.
++
++The later steady-state pattern is distinct. By March 27, 2026 `05:59:57-06:00:00 -0400`, the logs show `bridge/refresh`, repeated `getAFASessionInfo`, AFA `session/extend`, and `GET /FireFlow/api/session` in the same second. This looks like post-handoff session upkeep, not the original BusinessFlow cookie bridge.
++
++Two useful anomalies remain visible:
++
++- FireFlow logs and some AFA-side requests preserve duplicated query material such as `...?domain=0&session=... ?domain=0&session=...` or `...?session=...&domain=0?session=...&domain=0`.
++- The initiating caller in the preserved windows is still internal and localhost-bound (`FireFlowAffApi/NoAuth/CommandsDispatcher`, `FireFlow/XML/CommandsDispatcher`, `/afa/php/ws.php`, `/afa/php/commands.php`). I did not find an external BusinessFlow browser request in the allowed logs that directly precedes the handoff.
++
++Artifacts:
++
++- `artifacts/source-snippets.txt`
++- `artifacts/log-windows.txt`
+
+codex
+Completed inside `/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1`.
+
+Wrote:
+- [delegated-task-result.json](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json)
+- [commands.jsonl](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl)
+- [findings.md](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md)
+- [source-snippets.txt](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt)
+- [log-windows.txt](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt)
+
+Main result: the strongest preserved handoff evidence is `SSOLogin.php` passing `AFF_COOKIE` into FireFlow and receiving `BFCookie` back, plus a March 27, 2026 `00:00:43-00:00:51 -0400` runtime window showing `storeFireflowCookie` immediately after a successful AFA login and before the later `refresh` loop.
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c31e4213ba1a3c9cca12743c49d7e4d929595b6
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt
+@@ -0,0 +1,47 @@
++/var/log/httpd/ssl_access_log lines 109345-109357
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
++127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++
++/usr/share/fireflow/var/log/fireflow.log lines 16602-16616
++----------------------------------------------------------
++[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
++[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
++
++/var/log/httpd/ssl_access_log lines 120017-120023
++-------------------------------------------------
++127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
++127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++
++/var/log/httpd/ssl_access_log lines 94157-94165
++-----------------------------------------------
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
++127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
++127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..18ab81ff1adeb3cdfa577f3f7263b56d9e613e44
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt
+@@ -0,0 +1,54 @@
++/usr/share/fa/php/SSOLogin.php (createFireFlowUserAndRedirect)
++--------------------------------------------------------------
++		$params = 	  '?action=add&userName='
++					. rawurlencode($username)
++					. '&authMethod=SSO'
++					. '&AFF_COOKIE='.rawurlencode(utils::getFireflowCookie());
++
++		// Send the request.
++		$affAddress = utils::GetFireFlowFullAddress();
++		$responseContent = utils::RequestHTTP($affAddress . $CreateUpdateExtAuthPrivUser_path . $params, true);
++...
++		$sid 					= $xmlRes->SID;
++		$sessionCookieName 		= $xmlRes->SessionCookieName;
++		$sessionCookieSecured 	= ($xmlRes->SessionCookieSecured == "1");
++        $bfCookie = $xmlRes->BFCookie;
++...
++		setcookie($sessionCookieName, $sid, NULL, "/", NULL, $sessionCookieSecured);
++...
++            $bfCookieName = $matches[1];
++            $bfCookieVal = $matches[2];
++
++            setcookie($bfCookieName, $bfCookieVal, NULL, "/BusinessFlow", NULL, $sessionCookieSecured);
++
++/usr/share/fa/php/SuiteLoginSessionValidation.php (redirectOrRespond)
++-------------------------------------------------------------------
++		if (!$authenticated) {
++			// Delete all existing cookies when in the login page and not logged in
++			header_remove("set-cookie");
++			$expired = time() - 1;
++			setcookie(PHP_COOKIE, "", $expired, "/", "", true, true);
++			setcookie(AFF_COOKIE, "", $expired, "/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/BusinessFlow/", "", true, true);
++			setcookie("JSESSIONID", "", $expired, "/aff/", "", true, true);
++			setcookie("SEIKAN_SESSION", "", $expired, "/seikan/", "", true, true);
++		}
++
++/usr/share/fa/php/ci/application/controllers/Environment.php (getAFASessionInfo)
++---------------------------------------------------------------------------------
++	public function getAFASessionInfo()
++	{
++		if (empty($this->algosec->session)) {
++			$result = array('authenticated'=>false);
++		}
++		else
++		{
++			$result = array(
++				'faSession'=>$this->algosec->session->GetSessionId(),
++				'faDomain'=>$this->algosec->session->GetDomainId(),
++				'phpSession'=>$_COOKIE[PHP_COOKIE],
++				'isAdmin'=>$isAdmin,
++				'username'=>$this->algosec->session->GetUserName(),
++				'authenticated'=>true
++			);
++		}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..06b96f6336e0fa93a6a05285f7187b8f2071654d
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl
+@@ -0,0 +1,18 @@
++{"cmd":"pwd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n --hidden --no-ignore -S \"SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh\" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 4 -S \"AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php\" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '140,210p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '109345,109357p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '94157,94165p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '120017,120023p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
++{"cmd":"find /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1 -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..d073a8da035676fb5c9db6a5c809701a0dc4abcb
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-cookie-handoff-v1",
++  "task_id": "deepen_dependency_aware_playbooks",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Captured one bounded BusinessFlow-to-FireFlow cookie handoff slice from allowed source and log targets. The strongest preserved path is SSOLogin.php passing AFF_COOKIE into FireFlow and accepting BFCookie back, plus runtime windows showing storeFireflowCookie immediately after FireFlow completes an AFA login and before later refresh traffic.",
++  "returned_artifact_paths": [
++    "artifacts/source-snippets.txt",
++    "artifacts/log-windows.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "Correlate the preserved localhost callers (FireFlowAffApi/NoAuth/CommandsDispatcher, FireFlow/XML/CommandsDispatcher, /afa/php/ws.php, /afa/php/commands.php) with any broader orchestration traces outside this observe-only slice.",
++    "If a higher delegation tier becomes available, instrument the duplicated query-string construction around storeFireflowCookie and bridge/refresh to determine whether the repeated session/domain parameters are cosmetic logging artifacts or part of the live request assembly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b53e83c24bf91cf3ffdb7e6d8decc7cbb8e1d785
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md
+@@ -0,0 +1,28 @@
++This delegated slice stayed observe-only within the allowed targets.
++
++The clearest source-side handoff is in `SSOLogin.php`: AFA sends `AFF_COOKIE=<RT_SID_FireFlow.443>` into FireFlow's no-auth SSO endpoint, then accepts `BFCookie` back and plants it on `/BusinessFlow`. That is the direct BusinessFlow-to-FireFlow cookie bridge in source.
++
++`SuiteLoginSessionValidation.php` is the fallback cleanup point, not the initiator. If authentication is missing on the POST validation path, it explicitly expires `PHPSESSID`, `RT_SID_FireFlow.443`, and both `/BusinessFlow/` and `/aff/` `JSESSIONID` cookies.
++
++The closest preserved runtime handoff window I found is on March 27, 2026 at `00:00:43-00:00:51 -0400`:
++
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- `POST /fa/server/connection/login`
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /afa/external//bridge/storeFireflowCookie?...`
++- `POST /afa/external//session/extend?...`
++
++The matching FireFlow log ties that exact window to a successful AFA login for `Backup_user`, followed immediately by `_issuePostToAfa will call /storeFireflowCookie`. That strongly suggests the cookie handoff happens immediately after FireFlow completes its AFA-side login, before the later periodic `refresh` loop.
++
++The later steady-state pattern is distinct. By March 27, 2026 `05:59:57-06:00:00 -0400`, the logs show `bridge/refresh`, repeated `getAFASessionInfo`, AFA `session/extend`, and `GET /FireFlow/api/session` in the same second. This looks like post-handoff session upkeep, not the original BusinessFlow cookie bridge.
++
++Two useful anomalies remain visible:
++
++- FireFlow logs and some AFA-side requests preserve duplicated query material such as `...?domain=0&session=... ?domain=0&session=...` or `...?session=...&domain=0?session=...&domain=0`.
++- The initiating caller in the preserved windows is still internal and localhost-bound (`FireFlowAffApi/NoAuth/CommandsDispatcher`, `FireFlow/XML/CommandsDispatcher`, `/afa/php/ws.php`, `/afa/php/commands.php`). I did not find an external BusinessFlow browser request in the allowed logs that directly precedes the handoff.
++
++Artifacts:
++
++- `artifacts/source-snippets.txt`
++- `artifacts/log-windows.txt`
+
+tokens used
+228,871
+Completed inside `/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1`.
+
+Wrote:
+- [delegated-task-result.json](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-result.json)
+- [commands.jsonl](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/commands.jsonl)
+- [findings.md](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/findings.md)
+- [source-snippets.txt](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/source-snippets.txt)
+- [log-windows.txt](/root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts/log-windows.txt)
+
+Main result: the strongest preserved handoff evidence is `SSOLogin.php` passing `AFF_COOKIE` into FireFlow and receiving `BFCookie` back, plus a March 27, 2026 `00:00:43-00:00:51 -0400` runtime window showing `storeFireflowCookie` immediately after a successful AFA login and before the later `refresh` loop.

@@ -1,0 +1,17 @@
+{
+  "artifact_paths": [
+    "src/",
+    "tests/",
+    "contracts/",
+    "docs/specs/",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "built_at": "2026-03-29T16:23:03Z",
+  "release_id": "codex-personal-assistant-daily-driver-build-pack-v1-r1",
+  "release_state": "testing",
+  "schema_version": "pack-release/v1",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "source_template_revision": "create-template-codex-personal-assistant-template-pack-20260329t160700z"
+}

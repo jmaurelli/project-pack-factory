@@ -15,8 +15,10 @@ ALLOWED_RUN_ROOT = Path(".pack-state") / "autonomy-runs"
 EXPORT_ROOT = Path("dist") / "exports" / "runtime-evidence"
 RUN_SUMMARY_NAME = "run-summary.json"
 LOOP_EVENTS_NAME = "loop-events.jsonl"
+CHECKPOINT_BUNDLE_NAME = "adf-remote-checkpoint-bundle.json"
 SUPPLEMENTARY_MEMORY_ROOT = Path(".pack-state") / "agent-memory"
 FEEDBACK_MEMORY_ARTIFACT_ROOT = Path("artifacts") / "agent-memory"
+SUPPLEMENTARY_LOG_ARTIFACT_ROOT = Path("artifacts") / "logs"
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -82,6 +84,26 @@ def _select_run_files(pack_root: Path, run_id: str, include_logs: list[str]) -> 
     loop_events_path = run_root / LOOP_EVENTS_NAME
     if loop_events_path.exists():
         selected.append(loop_events_path)
+
+    checkpoint_bundle_path = run_root / CHECKPOINT_BUNDLE_NAME
+    if checkpoint_bundle_path.exists():
+        selected.append(checkpoint_bundle_path)
+        checkpoint_bundle = _load_json(checkpoint_bundle_path)
+        run_artifacts = checkpoint_bundle.get("run_artifacts", {})
+        if isinstance(run_artifacts, dict):
+            for key in ("result_log_paths", "target_artifact_paths"):
+                raw_candidates = run_artifacts.get(key, [])
+                if not isinstance(raw_candidates, list):
+                    continue
+                for raw_candidate in raw_candidates:
+                    if not isinstance(raw_candidate, str) or not raw_candidate:
+                        continue
+                    candidate_path = _resolve_under(pack_root, raw_candidate)
+                    if candidate_path.is_dir():
+                        raise ValueError(f"{raw_candidate}: directory copies are not allowed")
+                    if not candidate_path.exists():
+                        raise ValueError(f"{raw_candidate}: checkpoint-declared artifact does not exist")
+                    selected.append(candidate_path)
 
     for include in include_logs:
         include_path = _resolve_under(run_root, include)
@@ -164,11 +186,10 @@ def _copy_selected_artifacts(
         else:
             try:
                 relative_under_memory = source_path.relative_to(memory_root)
-            except ValueError as exc:
-                raise ValueError(
-                    f"{source_path}: export allows only files under the selected run root or .pack-state/agent-memory"
-                ) from exc
-            relative_bundle = FEEDBACK_MEMORY_ARTIFACT_ROOT / relative_under_memory
+            except ValueError:
+                relative_bundle = SUPPLEMENTARY_LOG_ARTIFACT_ROOT / Path(relative_source)
+            else:
+                relative_bundle = FEEDBACK_MEMORY_ARTIFACT_ROOT / relative_under_memory
 
         target_path = bundle_root / relative_bundle
         target_path.parent.mkdir(parents=True, exist_ok=True)
@@ -183,6 +204,30 @@ def _copy_selected_artifacts(
             }
         )
     return manifest
+
+
+def _update_exported_checkpoint_bundle(
+    *,
+    bundle_root: Path,
+    artifact_manifest: list[dict[str, Any]],
+) -> None:
+    checkpoint_bundle_path = bundle_root / "artifacts" / CHECKPOINT_BUNDLE_NAME
+    if not checkpoint_bundle_path.exists():
+        return
+    payload = _load_json(checkpoint_bundle_path)
+    export_bundle = payload.get("export_bundle")
+    if not isinstance(export_bundle, dict):
+        export_bundle = {}
+        payload["export_bundle"] = export_bundle
+    export_bundle["present"] = True
+    export_bundle["bundle_manifest_path"] = "bundle.json"
+    export_bundle["bundle_sha256"] = _sha256(bundle_root / "bundle.json") if (bundle_root / "bundle.json").exists() else None
+    export_bundle["import_ready"] = False
+    _dump_json(checkpoint_bundle_path, payload)
+    for entry in artifact_manifest:
+        if entry.get("bundle_path") == f"artifacts/{CHECKPOINT_BUNDLE_NAME}":
+            entry["sha256"] = _sha256(checkpoint_bundle_path)
+            break
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -281,6 +326,8 @@ def main(argv: list[str] | None = None) -> int:
             "ready_for_deployment_in_selected_run": final_snapshot.get("ready_for_deployment"),
         },
     }
+    _dump_json(bundle_root / "bundle.json", bundle)
+    _update_exported_checkpoint_bundle(bundle_root=bundle_root, artifact_manifest=artifact_manifest)
     _dump_json(bundle_root / "bundle.json", bundle)
 
     result = {

@@ -1,0 +1,63 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "a954a6f1ecb450f54fe38e1e74130d51fec2615297fbf4471995db59fca13087",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2.json"
+    },
+    {
+      "bundle_path": "artifacts/adf-remote-checkpoint-bundle.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "ba37993ab11c130a4af9d50cee7e365e9ca3e246928da1fe6f2d6d4b41f56cf0",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/adf-remote-checkpoint-bundle.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "ffd6e9a4cfdf21ac2772c83644be1b13b2a006e67873b24b70b4ac71213988ea",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "d81cb62e606950c6ed278a113129af6d5817b3a711a44e368c1b6fb5f3995400",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2-20260328T190858Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2-20260328T190858Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-28T19:08:58Z",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-28T19:08:58Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 0,
+    "started_at": "2026-03-28T19:02:58Z",
+    "stop_reason": "current_task_incomplete",
+    "task_completion_rate": 0.7
+  }
+}

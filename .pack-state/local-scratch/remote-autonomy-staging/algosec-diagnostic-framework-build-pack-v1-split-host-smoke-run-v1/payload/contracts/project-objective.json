@@ -1,0 +1,124 @@
+{
+  "autonomy_quality_requirement": {
+    "required_for_promotion": false,
+    "summary": "Autonomy quality is advisory by default; promotion only blocks on autonomy quality when this objective explicitly declares bounded thresholds."
+  },
+  "autonomy_rehearsal_requirement": {
+    "required_for_promotion": true,
+    "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the build-pack's current canonical state.",
+    "workflow_id": "multi_hop_autonomy_rehearsal"
+  },
+  "completion_definition": [
+    "The ADF build-pack produces bounded machine-readable artifacts for runtime evidence, service inventory, and support-facing baseline output from the real AlgoSec lab appliance.",
+    "The generated JSON and HTML outputs expose diagnostic flows, decision playbooks, and read-only command bundles that a support engineer can review and use during a live session.",
+    "The current HTML output now behaves like a live diagnostic webpage rather than a static artifact, and the ASMS UI review surface has already proven a strong host-health pack, Apache edge checks, and first lab-backed Keycloak and ms-metro service-pack patterns.",
+    "The next ASMS UI implementation cycle is a from-scratch rebuild around system-thinking and useful-work questions instead of another incremental patch pass on the current service-first page.",
+    "The current operator-reviewed frame keeps a single collapsible Step focus panel, a horizontal dependency path at the top of the playbook, a command-first flow strip above the main two-column layout, Quick jump aligned with the stepwise checkpoint column, copy buttons for commands, no built-in right-side page rail, and no redundant evidence or decision panels.",
+    "The current command cards now use a Linux note plus Known working example instead of repeating output-pattern guidance in two places.",
+    "A shared Host Health Pre-Check pack is now defined as a reusable ADF standard so every major playbook can start with the same human-readable Linux resource checks before subsystem-specific diagnosis.",
+    "The build-pack can now generate Astro Starlight site source from support-baseline.json, and the Rocky lab appliance can build that site successfully with the system Node runtime.",
+    "Support Cockpit is the selected prototype direction for the next Starlight implementation cycle because the sticky quick-jump behavior keeps navigation available while the engineer reads lower command sections.",
+    "The next implementation cycle is focused on using the Support Cockpit chassis to rebuild ASMS UI is down around host, Apache/HTTPD serving the UI, auth-branch, app-branch, and useful-work stop-point questions without expanding the testing surface.",
+    "ADF now carries a small frontline playbook testing workflow for ASMS UI is down: healthy-path trial first, symptom-classification trial second, and controlled shallow-fault trial third.",
+    "ADF also records the testing decision model in plain language so swarm loops can judge methods by support usefulness and stop-point quality instead of by depth alone.",
+    "ADF now records a bounded remote-autonomy testing workflow for `adf-dev` so the build-pack can evaluate unattended continuation, checkpoint quality, and restart continuity on real current tasks instead of only synthetic autonomy exercises.",
+    "ADF carries a bounded iteration-loop contract that separates continuity health from real task completion, keeps the current loop boundary pack-local, and only treats factory inheritance as a later candidate after a pilot iteration proves a reusable pattern."
+  ],
+  "generated_at": "2026-03-25T18:15:00Z",
+  "intended_inputs": [
+    "Pack-local source code and configuration under the materialized build-pack.",
+    "The controlled AlgoSec lab appliance on Rocky Linux 8 reached through the saved remote target request.",
+    "Current readiness, eval, objective, backlog, and work-state files for this build-pack."
+  ],
+  "intended_outputs": [
+    "A bounded ADF evidence-collection surface for the AlgoSec lab appliance.",
+    "Canonical machine-readable artifacts for runtime evidence, service inventory, diagnostic flows, and decision playbooks.",
+    "A support-facing HTML view generated from the machine-readable artifacts and reviewable over the saved lab-target path.",
+    "A live reviewable diagnostic webpage for operator feedback and rapid playbook iteration.",
+    "An Astro Starlight site source and build path that can stay testable on Rocky and later move to a separate Ubuntu publishing host.",
+    "A documented Support Cockpit rendering direction for the next real ADF publishing cycle."
+  ],
+  "materialization_id": "materialize-algosec-diagnostic-framework-build-pack-v1-20260323t220254z",
+  "metrics": [
+    {
+      "evidence_hint": "status/readiness.json and eval/latest/index.json",
+      "metric_id": "validation_gate_status",
+      "summary": "Validation gate stays in a passing state while ADF work begins.",
+      "target": "validate_build_pack_contract=pass"
+    },
+    {
+      "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
+      "metric_id": "benchmark_completion",
+      "summary": "The inherited smoke benchmark stays passing while the first ADF slice is added.",
+      "target": "required inherited benchmark gates=pass or waived"
+    },
+    {
+      "evidence_hint": "Generated ADF runtime artifacts under the pack-local output surface.",
+      "metric_id": "baseline_artifact_generation",
+      "summary": "ADF emits machine-readable baseline artifacts from bounded runtime evidence and keeps JSON as the source of truth.",
+      "target": "runtime evidence JSON, service inventory JSON, support baseline JSON, and support baseline HTML exist and are internally consistent"
+    },
+    {
+      "evidence_hint": "Target-generated support artifacts under dist/candidates/algosec-lab-baseline and the remote target note files.",
+      "metric_id": "target_backed_playbook_reviewability",
+      "summary": "The real lab appliance produces support playbooks with decision steps and command bundles that are ready for operator review.",
+      "target": "real target-generated support baseline includes support domains, symptom lookup, decision playbooks, and recommended_commands"
+    },
+    {
+      "evidence_hint": "Forwarded live review URL and target-generated support-baseline.html under the lab artifact path.",
+      "metric_id": "live_webpage_reviewability",
+      "summary": "The current slice is reviewable as a live diagnostic webpage with symptom navigation and a cleaner step-focused workflow.",
+      "target": "target-generated HTML exposes jump navigation, a horizontal dependency path, Step focus panels, copy buttons, and a Linux-first ASMS UI is down runbook"
+    },
+    {
+      "evidence_hint": "docs/specs/adf-autonomous-iteration-loop-completion-boundary-v1.md and docs/specs/adf-autonomous-iteration-loop-pilot-evidence-v1.md",
+      "metric_id": "iteration_loop_completion_boundary",
+      "summary": "ADF distinguishes continuity bookkeeping from a real iteration-loop proof and records one pilot iteration outcome that produces a pack-local result beyond state updates alone.",
+      "target": "loop boundary note exists, pack-local versus factory split is recorded, and one pilot iteration evidence artifact records a substantive ADF-local output or explicit no-change decision"
+    }
+  ],
+  "non_goals": [
+    "Changing deployment state outside the existing PackFactory workflows.",
+    "Creating new tests or benchmarks without explicit operator approval.",
+    "Trying to fully document every AlgoSec service at equal depth in the first slice.",
+    "Treating HTML as the source of truth instead of a render of machine-readable artifacts."
+  ],
+  "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
+  "objective_summary": "Stabilize the first operator-reviewable ADF runtime for the controlled AlgoSec lab appliance: target-backed runtime mapping, support-ready diagnostic playbooks, a live diagnostic webpage for fast iteration, a portable Astro Starlight publishing path, and a Support Cockpit implementation cycle that now rebuilds ASMS UI is down from scratch around a reusable ASMS-runtime-first troubleshooting taxonomy that later playbooks can inherit.",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "problem_statement": "# Project Context\n\n## Project Goal\n\nDeploy Codex into a controlled AlgoSec Security Management Suite lab appliance\non Rocky Linux 8, collect bounded runtime evidence, generate a trustworthy\nmachine-readable baseline and support comparison playbooks, and render a simple\nHTML view for remote support sessions.\n\n## Primary User\n\nSupport engineers working live with customers over screen share or remote\nsession, mostly at a junior level.\n\nThe playbooks should assume:\n\n- the engineer can use basic Linux and network commands\n- the engineer follows explicit step-by-step instructions well\n- the engineer may not know deeper Linux internals\n- English may be the engineer's second language\n- the wording should stay plain, short, and direct\n\n## V1 Scope\n\n- One controlled AlgoSec lab appliance on Rocky Linux 8.\n- Machine-readable runtime evidence as the canonical source of truth.\n- A complete service inventory with deeper playbooks for the highest-value\n  service paths first.\n- Simple HTML output for human use during support sessions.\n- AI inference as a secondary layer over collected evidence, not the primary\n  product output.\n\n## V1 Non-Goals\n\n- Full coverage of every service at equal depth.\n- Direct automation inside customer environments.\n- Broad test expansion or large fixture matrices.\n- A polished portal or generalized reverse-engineering platform.\n\n## Success Criteria\n\n- The output gives support engineers a trusted baseline and clear diagnostic\n  steps they can use in a customer environment.\n- The baseline clearly separates observed facts, inference, and unknowns.\n- The first playbooks help narrow likely issue areas during live support.\n- HTML output is useful during a remote support session without becoming the\n  source of truth.\n\n## Working Priorities\n\n1. Collect trustworthy runtime evidence.\n2. Turn that evidence into simple support playbooks written in plain language.\n3. Keep the scope small enough to stay manageable.\n4. Keep testing minimal and high-signal.",
+  "promotion_readiness_requirements": [
+    "Build-pack validation must pass with recorded evidence.",
+    "Inherited required benchmark gates must pass or be waived.",
+    "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+    "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
+    "Autonomy quality remains advisory by default unless this build-pack later declares a bounded promotion-time autonomy-quality requirement.",
+    "The ADF iteration-loop task cannot be treated as complete or promotion-ready until its pilot iteration evidence artifact records the attempted task, evidence reviewed, outcome class, and why the result is more than bookkeeping.",
+    "ADF artifact-generation work must be complete enough for operator review before any promotion decision.",
+    "The next cycle should use the selected Support Cockpit interface and the canonical ASMS-runtime-first taxonomy to rebuild ASMS UI is down around functional system questions before any promotion discussion."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "algosec-diagnostic-framework-template-pack",
+  "success_criteria": [
+    "The build-pack validation command completes successfully and records passing evidence.",
+    "The inherited benchmark command completes successfully and updates readiness evidence.",
+    "The build-pack exposes a first bounded collection path for AlgoSec lab runtime evidence.",
+    "The resulting artifacts separate observed runtime facts from inference and unknowns.",
+    "The real lab appliance generates diagnostic playbooks and command bundles that are strong enough for operator review and iterative tuning.",
+    "At least one priority playbook shows engineers what healthy CLI output looks like with explicit keywords and short terminal examples.",
+    "The live reviewable webpage is strong enough to use as a proof-of-concept with support engineers.",
+    "The build-pack now carries a fixed Host Health Pre-Check command pack with standardized wording for disk, inode, memory, load, OOM, and top CPU-consumer checks.",
+    "The current ASMS UI review surface proves the shared host pre-check, Apache edge checks, and first lab-backed Keycloak and ms-metro command packs, but the next cycle replaces the current service-first playbook shape with a from-scratch rebuild around the canonical ASMS-runtime-first taxonomy.",
+    "ADF records and follows a small frontline validation sequence for `ASMS UI is down`: healthy-path trial first, symptom-classification trial second, and only then a safe reversible shallow-fault trial when the earlier phases are already proving useful.",
+    "ADF records the frontline testing decision model in docs and state so the reasoning behind the trial order stays explicit and revisable.",
+    "ADF records a bounded remote-autonomy testing workflow in docs and state so `adf-dev` can be evaluated on real current ADF tasks for unattended continuation, checkpoint quality, and restart continuity.",
+    "The canonical taxonomy starts from ASMS runtime behavior: ASMS entry and edge, ASMS authentication and session, ASMS application services, shared runtime and dependencies, and host integration or operating evidence.",
+    "ADF treats `useful work` as a stop rule that tells the engineer where to stop, not as a named layer in the taxonomy.",
+    "Each playbook is a scenario-specific traversal of the shared ASMS-runtime-first taxonomy rather than a standalone service checklist, with `ASMS UI is down` as the current proving-ground example.",
+    "ADF records the frontline playbook testing workflow in docs and state, and at least one healthy-path ASMS UI trial is preserved with an explicit judgment about whether the playbook stayed shallow.",
+    "Astro Starlight site source can be generated from the ADF baseline and built successfully on the Rocky lab appliance without changing the canonical JSON-first model.",
+    "The build-pack records Support Cockpit as the selected prototype direction and uses it as the next publishing target.",
+    "ADF records an iteration-loop completion boundary that names what does not count as proof, what stays pack-local, what is only a future PackFactory candidate, and what pilot evidence artifact is required before the loop task can close.",
+    "Any future pilot iteration evidence artifact must name the attempted task, evidence reviewed, outcome class, why the result is not only bookkeeping, and the concrete changed-artifact, no-change, or blocked-boundary result."
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "candidate_changes": {
+    "artifact_paths": [
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/loop-events.jsonl",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/run-summary.json",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/adf-remote-checkpoint-bundle.json",
+      ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2.json",
+      ".pack-state/agent-memory/latest-memory.json"
+    ],
+    "backlog_task_updates": [],
+    "doc_paths": [],
+    "prompt_paths": [],
+    "source_paths": [],
+    "work_state_fields": [
+      "last_agent_action",
+      "last_outcome",
+      "last_outcome_at",
+      "last_validation_results",
+      "resume_instructions"
+    ]
+  },
+  "checkpoint_id": "algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2-paused_for_review-20260328t190703z",
+  "checkpoint_reason": "paused_for_review",
+  "export_bundle": {
+    "authority_class": "supplementary_runtime_evidence",
+    "bundle_manifest_path": "bundle.json",
+    "bundle_sha256": "75ea762cbf41221429211a89c953a7784b59869ef2cca931b1e01343ee98ff43",
+    "import_ready": false,
+    "present": true
+  },
+  "generated_at": "2026-03-28T19:07:03Z",
+  "generated_by": "codex",
+  "local_precedence": true,
+  "local_regeneration_required": {
+    "eval_latest_index": false,
+    "latest_memory_pointer": false,
+    "other_generated_surfaces": [],
+    "readiness": false
+  },
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "proposed_acceptance": {
+    "accept_artifact_paths": [
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/loop-events.jsonl",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/run-summary.json",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/adf-remote-checkpoint-bundle.json",
+      ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2.json",
+      ".pack-state/agent-memory/latest-memory.json"
+    ],
+    "accept_backlog_task_updates": [],
+    "accept_doc_paths": [],
+    "accept_source_paths": [],
+    "accept_work_state_fields": [
+      "last_agent_action",
+      "last_outcome",
+      "last_outcome_at",
+      "last_validation_results",
+      "resume_instructions"
+    ],
+    "defer_fields": [],
+    "defer_paths": [],
+    "notes": [
+      "Pack-local checkpoint-only measurement run preserved the active contract-safe shell-versus-Metro slice without widening writable surfaces.\nThis run now has an explicit checkpoint bundle, run summary, loop events, and feedback memory under the staged build-pack root.\nThe remaining gap stays narrow: confirm a real returned adf-dev export bundle carries the checkpoint artifact before treating the remote handoff path as fully proven.",
+      "Accepted local continuity updates for this checkpoint are limited to work-state continuity fields plus the restart-memory pointer; readiness, eval, backlog truth, and source or docs authoring remain unchanged."
+    ]
+  },
+  "remote_build_pack_root": ".",
+  "remote_host": "adf-dev",
+  "remote_target_label": null,
+  "run_artifacts": {
+    "feedback_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2.json",
+    "loop_events_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/loop-events.jsonl",
+    "result_log_paths": [],
+    "run_summary_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/run-summary.json",
+    "target_artifact_paths": []
+  },
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2",
+  "schema_version": "adf-remote-checkpoint-bundle/v1",
+  "source_of_truth_mode": "local_precedence_split_host"
+}

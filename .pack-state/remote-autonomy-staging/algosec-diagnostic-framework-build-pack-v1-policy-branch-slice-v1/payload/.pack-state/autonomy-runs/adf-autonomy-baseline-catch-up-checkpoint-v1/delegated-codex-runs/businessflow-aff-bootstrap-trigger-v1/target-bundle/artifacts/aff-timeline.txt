@@ -1,0 +1,5 @@
+127.0.0.1 [26/Mar/2026:10:20:05 -0400] [http-nio-1989-exec-1] "POST /aff/api/external/authentication/authenticate HTTP/1.1" 200 188 14828679 44804
+127.0.0.1 [27/Mar/2026:00:00:43 -0400] [http-nio-1989-exec-4] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 - 437 45786
+127.0.0.1 [27/Mar/2026:00:00:43 -0400] [http-nio-1989-exec-10] "GET /aff/api/external/session HTTP/1.1" 200 115 20848 11486
+127.0.0.1 [27/Mar/2026:00:00:43 -0400] [http-nio-1989-exec-2] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 141 27322 56876
+127.0.0.1 [27/Mar/2026:00:00:43 -0400] [http-nio-1989-exec-9] "POST /aff/api/external/authentication/authenticate HTTP/1.1" 200 188 10295816 11486

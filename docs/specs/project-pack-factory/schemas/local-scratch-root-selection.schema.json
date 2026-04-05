@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/local-scratch-root-selection.schema.json",
+  "title": "Local Scratch Root Selection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "factory_root",
+    "selected_root",
+    "selection_mode",
+    "selection_basis",
+    "selected_by",
+    "selected_at",
+    "same_filesystem_as_factory_root",
+    "filesystem_free_bytes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "local-scratch-root-selection/v1"
+    },
+    "factory_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selected_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selection_mode": {
+      "type": "string",
+      "enum": [
+        "agent_auto_selected",
+        "repo_fallback",
+        "env_seeded"
+      ]
+    },
+    "selection_basis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selected_by": {
+      "const": "packfactory-local-scratch-resolver"
+    },
+    "selected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "same_filesystem_as_factory_root": {
+      "type": "boolean"
+    },
+    "filesystem_free_bytes": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

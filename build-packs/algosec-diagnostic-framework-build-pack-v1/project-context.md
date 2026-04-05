@@ -10,7 +10,7 @@ HTML view for remote support sessions.
 ## Primary User
 
 Support engineers working live with customers over screen share or remote
-session, mostly at a junior level.
+session, typically starting at Tier 2.
 
 The playbooks should assume:
 
@@ -49,6 +49,19 @@ The playbooks should assume:
 - The first playbooks help narrow likely issue areas during live support.
 - HTML output is useful during a remote support session without becoming the
   source of truth.
+
+## Execution Topology
+
+- Local PackFactory is the canonical planning, acceptance, and durable-evidence
+  owner for this project.
+- `adf-dev` is the remote execution worker and review surface for bounded ADF
+  autonomy runs.
+- The AlgoSec target lab is the runtime evidence source.
+- Imported evidence preserved under `eval/history/` is the durable evidence
+  line.
+- Local scratch staging, pulled roundtrip `incoming/` trees, and similar
+  transport artifacts support workflow execution but are not canonical evidence
+  by themselves.
 
 ## Working Priorities
 

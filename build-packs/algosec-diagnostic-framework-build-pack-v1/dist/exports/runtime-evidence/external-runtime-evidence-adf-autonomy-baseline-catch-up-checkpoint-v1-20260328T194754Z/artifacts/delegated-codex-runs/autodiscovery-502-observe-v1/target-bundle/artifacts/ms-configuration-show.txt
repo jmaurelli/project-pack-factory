@@ -1,0 +1,6 @@
+MainPID=4039
+LoadState=loaded
+ActiveState=active
+SubState=running
+FragmentPath=/usr/lib/systemd/system/ms-configuration.service
+UnitFileState=disabled

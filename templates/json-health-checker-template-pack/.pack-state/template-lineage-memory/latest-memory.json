@@ -1,11 +1,11 @@
 {
   "schema_version": "template-lineage-memory-pointer/v1",
-  "selected_generated_at": "2026-03-26T17:25:35Z",
-  "selected_memory_id": "template-lineage-memory-json-health-checker-template-pack-20260326t172535z",
-  "selected_memory_path": ".pack-state/template-lineage-memory/template-lineage-memory-json-health-checker-template-pack-20260326t172535z.json",
-  "selected_memory_sha256": "0a3e0658b41afdeff31bf7927eabfe32b3453c9324a80c35c428d2b20f22d17e",
+  "selected_generated_at": "2026-04-01T13:28:40Z",
+  "selected_memory_id": "template-lineage-memory-json-health-checker-template-pack-20260401t132840z",
+  "selected_memory_path": ".pack-state/template-lineage-memory/template-lineage-memory-json-health-checker-template-pack-20260401t132840z.json",
+  "selected_memory_sha256": "b7597d012f91fe045fcc08bd46e34c6606e8b9b9bf1d703473e97c7564e3c971",
   "source_kind": "template_lineage_memory_refresh",
   "source_tool": "tools/refresh_template_lineage_memory.py",
   "template_id": "json-health-checker-template-pack",
-  "updated_at": "2026-03-26T17:25:35Z"
+  "updated_at": "2026-04-01T13:28:40Z"
 }

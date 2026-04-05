@@ -1,0 +1,109 @@
+{
+  "active_task_id": null,
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 0,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 0
+    },
+    "status": "within_budget",
+    "summary": "Recorded the frontline playbook testing workflow and the first healthy-path trial without exceeding the default bounded run budget."
+  },
+  "baseline_readiness_state": "ready_for_review",
+  "block_summary": null,
+  "completed_task_ids": [
+    "adopt_support_cockpit_direction",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs",
+    "prototype_starlight_publishing",
+    "formalize_shared_host_health_precheck_pack",
+    "prove_asms_ui_system_thinking_with_authenticated_flow",
+    "capture_asms_post_home_followups_before_subsystem_split",
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "validate_frontline_asms_ui_shallow_healthy_path_trial",
+    "rebuild_asms_ui_system_thinking_playbook",
+    "investigate_asms_ui_components_for_useful_work_checks",
+    "reframe_host_precheck_around_pressure_signals",
+    "clarify_adf_iteration_loop_completion_boundary",
+    "build_adf_autonomous_iteration_loop",
+    "deepen_asms_ui_service_command_packs",
+    "define_adf_checkpointed_sync_model",
+    "decouple_codex_runtime_from_target_lab_environment",
+    "map_asms_ui_subsystem_and_validate_core_scenarios",
+    "validate_asms_ui_dependency_order_experimentally",
+    "refine_support_cockpit_right_rail_layout",
+    "consider_horizontal_dependency_path_in_center_pane"
+  ],
+  "delta_summary": "ADF now carries an explicit frontline playbook testing workflow, a completed healthy-path shallow trial for `ASMS UI is down`, and a recorded next move toward symptom classification.",
+  "evidence_paths": [
+    "docs/specs/adf-frontline-playbook-testing-workflow-v1.md",
+    "docs/specs/adf-diagnostic-mapping-framework-v1.md",
+    "eval/history/asms-ui-frontline-healthy-path-trial-20260327.md",
+    "status/readiness.json",
+    "status/work-state.json",
+    ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-validate_frontline_playbook_with_small_trial_series-20260327t205317z/target-bundle/delegated-task-result.json"
+  ],
+  "final_readiness_state": "ready_for_review",
+  "generated_at": "2026-03-27T20:58:41Z",
+  "handoff_summary": [
+    "ADF now records a frontline playbook testing workflow with three phases: healthy path, symptom classification, and controlled shallow fault later.",
+    "The first healthy-path `ASMS UI is down` trial passed and stayed shallow on the lab.",
+    "The accepted delegated result showed host `algosec` stable, `httpd.service` and `php74-php-fpm.service` active, listeners on `80` and `443`, and local HTTPS reachability to `/algosec/` and `/algosec-ui/login` returning `200 OK`.",
+    "The trial did not need to widen into login-bootstrap, BusinessFlow, FireFlow, AFA SOAP, Keycloak OIDC, Metro post-home, broker, or database work.",
+    "The next recommended phase is a symptom-classification trial rather than another healthy-path pass or an early fault-injection exercise."
+  ],
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` still has not run locally, so keep this memory advisory and continue to trust canonical pack state first.",
+  "memory_id": "autonomy-feedback-adf-frontline-trial-sequence-20260327",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Pack-local restart memory for the current frontline playbook testing phase.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "canonical_state_integrity_not_passed"
+    ],
+    "confidence_level": "low",
+    "confidence_score": 0.4,
+    "expires_after_hours": 12,
+    "expires_at": "2026-03-28T08:58:41Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "Low-confidence active pack restart memory with 12h freshness window."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_pushing_frontline_trials_into_deep_auth_bootstrap_work",
+      "avoid_fault_injection_before_healthy_and_symptom_trials_pay_off"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Do not let frontline `ASMS UI is down` trials drift into deeper auth/bootstrap or downstream module work before the shallow path actually fails.",
+      "Do not move to controlled shallow-fault trials until the healthy and symptom-classification phases are already proving useful."
+    ]
+  },
+  "next_recommended_task_id": "validate_frontline_playbook_with_small_trial_series",
+  "operator_intervention_summary": null,
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: run the symptom-classification phase of the frontline trial sequence for `ASMS UI is down` and prove the playbook can reclassify a user-reported GUI outage into a narrower login, shell, or later workflow problem without early deep-module drift.",
+  "resolved_block_summary": null,
+  "run_id": "adf-frontline-trial-sequence-20260327",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+    "loop_events_path": null,
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-adf-canonical-state-save-20260327.json",
+    "run_summary_path": null
+  },
+  "summary": "This restart memory captures the new frontline playbook testing workflow, the successful healthy-path shallow trial for `ASMS UI is down`, and the current next phase of symptom classification."
+}

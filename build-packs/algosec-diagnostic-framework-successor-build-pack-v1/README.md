@@ -13,6 +13,11 @@ PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack i
 PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack import-docpack-hints --project-root . --ssh-destination adf-dev --output json
 PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label local-host --output json
 PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label rocky8-lab --mirror-into-run-id <run-id> --output json
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-starlight-review-shell --project-root . --output json
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack serve-starlight-review-shell --project-root . --host 0.0.0.0 --port 18083 --dry-run --output json
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack record-idea-note --project-root . --title "<title>" --summary "<summary>" --output json
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack update-idea-note --project-root . --note-id "<note-id>" --review-state in_review --output json
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack list-idea-notes --project-root . --limit 20 --output json
 ```
 
 ## First ADF Successor Slice
@@ -32,11 +37,84 @@ The additional engineer-consumable views keep the machine-readable-first
 contract intact while making the content easier to use under support pressure:
 
 - `diagnostic-playbook.md`
-  fast triage guidance that turns the current bounded packets into route-owner
-  hints, first checks, stop rules, and next-step choices
+  fast triage guidance for frontline support work
 - `runtime-cookbook-guide.md`
   slower learning guidance that preserves the richer runtime story, product to
   runtime translation, and packet-backed interpretation for future reuse
+
+The current reviewed frontline playbook shape is also recorded in:
+
+- `docs/specs/adf-successor-triage-playbook-path-model-v1.md`
+- `docs/specs/adf-successor-daily-reader-content-grammar-v1.md`
+
+That note captures the operator-reviewed rule that the CLI service dashboard is
+only a front-door filter for core `ms-*` service `up/down/not responding`
+state, and that real diagnostic depth usually starts in `Logs` rather than in
+service-state interpretation alone.
+The daily-reader grammar note captures the newer operator-reviewed rule that
+ADF should behave like a stable reading system for engineers who read all day:
+fixed page archetypes, fixed section order, fixed label meaning, and minimal
+screen-wasting navigation furniture.
+
+The current review-only publication planning surfaces are:
+
+- `docs/specs/adf-successor-starlight-review-shell-plan-v1.md`
+- `docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md`
+- `docs/specs/adf-successor-site-map-and-wireframe-review-v1.md`
+
+Together those notes capture the first concrete successor Starlight shell
+direction, the current `adf-dev` browser-host installation plan, and the
+initial site map plus wireframe-level page skeletons before code moves.
+
+## Successor Starlight Review Shell
+
+The successor now has a separate bounded Starlight review-shell generator under:
+
+- `dist/candidates/adf-starlight-review-shell/starlight-site/`
+
+The first implementation slice intentionally publishes only the current
+reviewed set:
+
+- `/`
+- `/playbooks/`
+- `/playbooks/service-state/`
+- `/playbooks/logs/`
+- `/cookbooks/`
+- `/cookbooks/core-service-groups-by-node-role/`
+
+Generate the shell first, then install and build it inside the generated site
+root:
+
+```bash
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-starlight-review-shell --project-root . --output json
+cd dist/candidates/adf-starlight-review-shell/starlight-site
+npm install
+npm run build
+```
+
+After a successful build, the bounded preview server command serves the built
+static output on port `18083` by default.
+
+## Collaborative Idea Log
+
+The successor now also carries one machine-readable collaborative note surface:
+
+- `notes/idea-log.json`
+
+Use this for product ideas, behavioral notes, operator theories, and cookbook
+candidates that should stay attached to the build-pack without becoming active
+backlog items yet.
+
+This log is meant to stay compatible with the current tracking and memory
+model:
+
+- backlog and work-state remain execution truth
+- `.pack-state/agent-memory/` remains restart memory
+- `notes/idea-log.json` is the collaborative note layer for later review
+
+Use `update-idea-note` when a note moves from `unreviewed` to `in_review`,
+`reviewed`, `converted_to_task`, or when its lifecycle should be archived
+without deleting it.
 
 ## ASMS Doc-Pack Hint Layer
 
@@ -101,3 +179,31 @@ Recommended remote defaults:
 
 The backup job protects the staged remote runtime copy. It is not a substitute
 for returning bounded runtime evidence to PackFactory root.
+
+## Parallel Standalone Deepening
+
+While new distributed architectures are still being built, the successor can
+keep learning from stable standalone targets through the existing
+PackFactory-owned `adf-dev` roundtrip path.
+
+The concrete plan is recorded in:
+
+- `docs/specs/adf-successor-parallel-standalone-deepening-autonomy-loop-plan-v1.md`
+
+That plan separates:
+
+- live standalone knowledge capture on the long-lived successor pack
+- active-task continuity and checkpoint use on the same pack
+- fresh-pack proving-ground autonomy exercises used only for autonomy
+  hardening, not as standalone runtime truth
+
+The current `.150`-free standalone deepening pass widened the imported
+calibration set to `10.167.2.192`, `10.167.2.177`, `10.167.2.132`, and
+`10.167.2.213`, with the bounded readout in:
+
+- `docs/specs/adf-successor-standalone-deepening-calibration-review-v1.md`
+
+During that pass, the official active-task and ready-boundary continuity tools
+both failed closed on tracker-boundary requirements. The honest result is that
+the `adf-dev` roundtrip path is proven for this lane, while continuity must
+wait for a compatible boundary instead of being forced.

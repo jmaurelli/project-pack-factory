@@ -1,0 +1,10 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3/remote-run-request.json",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v3/incoming",
+  "pull_bundle": true,
+  "import_bundle": false,
+  "imported_by": "codex",
+  "import_reason": "Fail-closed contract-safe ADF shell-versus-Metro evidence checkpoint review after tightening the task and prompt.",
+  "test_reason": "PackFactory contract-safe remote checkpoint slice v3 aimed at one concrete shell-versus-Metro evidence minute."
+}

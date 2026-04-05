@@ -1,0 +1,63 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "f5cd04385623f6910c962d374fa7996d519a82c1cbcdb9bffe28c319007a44e5",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2.json"
+    },
+    {
+      "bundle_path": "artifacts/adf-remote-checkpoint-bundle.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "fe6a68566a3f1abe66abd5cdfecfbf2369e634da1be563573bdca846bf9b3b49",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2/adf-remote-checkpoint-bundle.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "fdd42480d5f9293c3810a6d9a6da0a5c318419bb540a0331d0ad4a545266d097",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "e5e339fe9d7cf193a1ee7b31af1798fbe3f6a28f5317d2521ed9b430963020bf",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2-20260328T214303Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2-20260328T214303Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-28T21:43:03Z",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-28T21:43:03Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 0,
+    "started_at": "2026-03-28T21:35:33Z",
+    "stop_reason": "current_task_incomplete",
+    "task_completion_rate": 0.7209
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "execution_manifest_sha256": "25f12b242de29b87382ac68cb82e13e112c11e454968bd70aa9fb8cd6260dcf5",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-remote-rehearsal-build-pack-v1/codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1/incoming/generated-import-request.json",
+  "generated_import_request_sha256": "a1d904bfc858e7d10646d7ae20c33a1e21a4da0258507b3e550535091e9831a1",
+  "portable_helper_manifest_sha256": "02c6a19465d1df7b42cc5df82239076931ddad295ea795f134c83f24f54b75e4",
+  "pulled_at": "2026-03-29T16:28:38Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-remote-rehearsal-build-pack-v1/codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1/incoming/bundle",
+  "pulled_bundle_sha256": "3144f88014b86dfc9ac79431fafb1a51afe8d8ba5d19043bc4b410eb9ebb73ef",
+  "remote_run_request_sha256": "14baed33accc9d4311fceb937780e3329510653ef05e415056295736df366320",
+  "remote_target_label": "adf-dev",
+  "run_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1",
+  "target_manifest_sha256": "ebddf979f2f6aab40266a3c097d50a289871efb1a75d14c952155bc5b37bb4b5",
+  "wrapper_request_sha256": "e064f229cdd75c33c0db2754e49d2dbde985a59611b26c158ba605fd169225d8"
+}

@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .idea_log import validate_idea_log
+
 
 def validate_project_pack(project_root: Path) -> dict[str, Any]:
     manifest_path = project_root / "pack.json"
@@ -25,6 +27,8 @@ def validate_project_pack(project_root: Path) -> dict[str, Any]:
         for relative_path in set(required_paths)
         if not (project_root / relative_path).exists()
     )
+    if not missing:
+        validate_idea_log(project_root)
     status = "pass" if not missing else "fail"
     return {
         "status": status,

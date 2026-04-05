@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/template-parity-report.schema.json",
+  "title": "Template Parity Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "generated_at",
+    "runtime_build_pack_id",
+    "runtime_build_pack_root",
+    "source_template_id",
+    "source_template_root",
+    "improvement_id",
+    "summary",
+    "operator_summary",
+    "parity_status",
+    "proof_paths",
+    "runtime_paths",
+    "template_paths",
+    "factory_context_paths",
+    "pending_follow_up",
+    "recorded_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "template-parity-report/v1"
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^template-parity-[a-z0-9][a-z0-9_-]*-[0-9]{8}t[0-9]{6}z$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "runtime_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "runtime_build_pack_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "source_template_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "source_template_root": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "improvement_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operator_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parity_status": {
+      "type": "string",
+      "enum": [
+        "runtime_only",
+        "template_backported",
+        "template_backported_and_lineage_refreshed",
+        "not_required"
+      ]
+    },
+    "proof_paths": {
+      "$ref": "#/$defs/string_array"
+    },
+    "runtime_paths": {
+      "$ref": "#/$defs/string_array"
+    },
+    "template_paths": {
+      "$ref": "#/$defs/string_array"
+    },
+    "factory_context_paths": {
+      "$ref": "#/$defs/string_array"
+    },
+    "pending_follow_up": {
+      "$ref": "#/$defs/string_array_maybe_empty"
+    },
+    "recorded_by": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "string_array_maybe_empty": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

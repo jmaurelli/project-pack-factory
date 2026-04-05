@@ -15,6 +15,8 @@
     "prove_asms_ui_system_thinking_with_authenticated_flow",
     "capture_asms_post_home_followups_before_subsystem_split",
     "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "map_asms_ui_subsystem_and_validate_core_scenarios",
+    "validate_asms_ui_dependency_order_experimentally",
     "validate_frontline_asms_ui_shallow_healthy_path_trial",
     "rebuild_asms_ui_system_thinking_playbook",
     "investigate_asms_ui_components_for_useful_work_checks",
@@ -51,13 +53,129 @@
     "define_backend_map_and_render_contract_for_adf",
     "adversarially_review_frontline_refinement_contracts",
     "adversarially_review_scientific_method_and_backend_map_contracts",
-    "realign_frontline_publication_contracts_to_flow_first_operator_workflow"
+    "realign_frontline_publication_contracts_to_flow_first_operator_workflow",
+    "repair_field_manual_overview_anchor_navigation",
+    "separate_field_manual_overview_summaries_from_detailed_step_actions",
+    "tighten_field_manual_step_navigation_and_command_count_cues",
+    "confirm_keycloak_boundary_playbook_adheres_to_canonical_template"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Completed the flow-first publication contract wave: recorded the planner task and spec, adversarially tightened the new publication contract, restored the missing page-type note, revised the adjacent page-type and support-language contracts, and revalidated the pack.",
-  "last_outcome": "complete_flow_first_operator_publication_contract_wave",
-  "last_outcome_at": "2026-03-31T16:32:52Z",
+  "last_agent_action": "Corrected the ADF tracker again so `review_adf_agent_persona_alignment` is open in backlog state, matching the existing work-state pending list.",
+  "last_outcome": "reconcile_adf_agent_persona_tracker_state",
+  "last_outcome_at": "2026-04-03T00:03:38Z",
   "last_validation_results": [
+    {
+      "evidence_paths": [
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T00:03:38Z",
+      "status": "pass",
+      "summary": "Updated the ADF tracker after operator direction so `review_adf_agent_persona_alignment` is pending in backlog state, matching the existing work-state pending list.",
+      "validation_id": "reconcile_adf_agent_persona_tracker_state"
+    },
+    {
+      "evidence_paths": [
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-03T00:01:09Z",
+      "status": "pass",
+      "summary": "Updated the ADF tracker after operator direction: reopened `refine_command_palette_contrast` and `enhance_linux_notes_as_optional_learning_layer`, and removed `migrate_remaining_boundary_playbooks_to_canonical_template_path` from completed work-state so it remains pending.",
+      "validation_id": "reconcile_adf_tracker_state_after_operator_reopen_request"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/asms-keycloak-auth-is-down.md",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/fireflow-backend.md",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/microservice-platform.md",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/messaging-and-data.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-01T21:28:24Z",
+      "status": "pass",
+      "summary": "Confirmed `ASMS Keycloak auth is down` as the canonical boundary-playbook reference and migrated `core-aff`, `microservice-platform`, and `messaging-and-data` onto the same field-manual boundary shell. The regenerated site no longer mixes first-class boundary playbooks across two operator-facing templates, and `generate-starlight-site`, `validate-project-pack`, and `benchmark-smoke` all passed.",
+      "validation_id": "migrate_remaining_boundary_playbooks_to_canonical_template_path"
+    },
+    {
+      "evidence_paths": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/asms-ui-is-down.md",
+        "docs/specs/adf-field-manual-overview-summary-contract-v1.md"
+      ],
+      "recorded_at": "2026-04-01T15:21:59Z",
+      "status": "pass",
+      "summary": "Reconciled planner state after review: reopened `confirm_keycloak_boundary_playbook_adheres_to_canonical_template` for further revision and marked `separate_field_manual_overview_summaries_from_detailed_step_actions` completed to match the already-implemented overview-summary behavior.",
+      "validation_id": "reconcile_adf_planner_task_statuses"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-field-manual-overview-summary-contract-v1.md",
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/public/adf-field-manual.js",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/asms-ui-is-down.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "recorded_at": "2026-03-31T18:04:08Z",
+      "status": "pass",
+      "summary": "The field-manual shell now treats targeted step navigation and command-count cues as canonical operator behavior. Clicking a top step link in the live preview now loads the field-manual helper script that opens the targeted collapsed card, collapsed step summaries show per-step command counts such as `6 commands`, the related contracts were updated, and `py_compile`, `generate-starlight-site`, and `validate-project-pack` all passed.",
+      "validation_id": "tighten_field_manual_step_navigation_and_command_count_cues"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-field-manual-overview-summary-contract-v1.md",
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "eval/history/adf-field-manual-overview-summary-contract-adversarial-review-20260331.md",
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "dist/candidates/adf-target-profile-baseline/support-baseline.json",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/asms-ui-is-down.md",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/asms-keycloak-auth-is-down.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "recorded_at": "2026-03-31T17:32:33Z",
+      "status": "pass",
+      "summary": "ADF now treats field-manual overview summaries as a dedicated operator-facing contract instead of as recycled action prose. The new spec was tightened after multi-agent adversarial review, `runtime_baseline.py` now emits `overview_summary` on the proving-ground steps, `starlight_site.py` prefers that field on the operator-facing step list and related navigation surfaces, the target-backed support baseline and Starlight site were regenerated, and the live preview now serves concise ASMS UI and Keycloak overview summaries. `py_compile`, `generate-support-baseline --use-target-connection`, `generate-starlight-site`, and `validate-project-pack` all passed.",
+      "validation_id": "complete_field_manual_overview_summary_contract_wave"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/asms-ui-bounded-dependency-map-v1.md",
+        "docs/specs/asms-ui-dependency-order-validation-v1.md",
+        "eval/history/asms-ui-frontline-healthy-path-trial-20260327.md",
+        "eval/history/asms-ui-frontline-symptom-classification-trial-20260327.md",
+        "eval/history/asms-ui-httpd-shallow-fault-validation-20260328.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-03-31T16:52:00Z",
+      "status": "pass",
+      "summary": "A backlog once-over reconciled two ASMS UI task states. `map_asms_ui_subsystem_and_validate_core_scenarios` is now complete because the bounded dependency map and a small validated scenario set are both on disk, and `validate_asms_ui_dependency_order_experimentally` was removed from pending state because its completion was already recorded canonically in the backlog and specs.",
+      "validation_id": "reconcile_completed_adf_planner_items_after_backlog_once_over"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "dist/candidates/adf-target-profile-baseline/starlight-site/src/content/docs/playbooks/asms-ui-is-down.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "recorded_at": "2026-03-31T16:44:00Z",
+      "status": "pass",
+      "summary": "The shared field-manual shell now emits playbook-local overview anchors for `ASMS UI is down`, so the summary-step links point back into the matching command sections instead of a missing route. `generate-starlight-site` and `validate-project-pack` both passed after the fix.",
+      "validation_id": "repair_field_manual_overview_anchor_navigation"
+    },
     {
       "evidence_paths": [
         "docs/specs/adf-flow-first-operator-publishing-contract-v1.md",
@@ -634,16 +752,13 @@
       "validation_id": "consider_horizontal_dependency_path_in_center_pane"
     }
   ],
-  "next_recommended_task_id": "deepen_dependency_aware_playbooks",
+  "next_recommended_task_id": "retire_legacy_support_cockpit_boundary_template_path",
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "pending_task_ids": [
     "refine_command_palette_contrast",
-    "map_asms_ui_subsystem_and_validate_core_scenarios",
-    "validate_asms_ui_dependency_order_experimentally",
     "review_adf_agent_persona_alignment",
     "deepen_dependency_aware_playbooks",
-    "confirm_keycloak_boundary_playbook_adheres_to_canonical_template",
     "migrate_remaining_boundary_playbooks_to_canonical_template_path",
     "retire_legacy_support_cockpit_boundary_template_path",
     "enhance_linux_notes_as_optional_learning_layer",

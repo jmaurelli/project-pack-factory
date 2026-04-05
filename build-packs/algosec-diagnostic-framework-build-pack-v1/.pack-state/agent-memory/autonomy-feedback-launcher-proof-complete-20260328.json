@@ -1,0 +1,133 @@
+{
+  "active_task_id": "capture_fresh_later_content_branch_checkpoint",
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 8,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 4
+    },
+    "status": "within_budget",
+    "summary": "The launcher-hardening proof run stayed within the bounded remote budget and returned a normal bundled result."
+  },
+  "baseline_readiness_state": "ready_for_review",
+  "block_summary": null,
+  "completed_task_ids": [
+    "adopt_support_cockpit_direction",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs",
+    "prototype_starlight_publishing",
+    "tune_operator_language_for_priority_domains",
+    "expand_service_command_coverage",
+    "formalize_shared_host_health_precheck_pack",
+    "prove_asms_ui_system_thinking_with_authenticated_flow",
+    "capture_asms_post_home_followups_before_subsystem_split",
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "validate_frontline_asms_ui_shallow_healthy_path_trial",
+    "rebuild_asms_ui_system_thinking_playbook",
+    "investigate_asms_ui_components_for_useful_work_checks",
+    "validate_frontline_playbook_with_small_trial_series",
+    "reframe_host_precheck_around_pressure_signals",
+    "explore_scenario_based_dashboard_direction",
+    "build_adf_autonomous_iteration_loop",
+    "clarify_adf_iteration_loop_completion_boundary",
+    "plan_controlled_fault_injection_playbook_validation",
+    "execute_httpd_shallow_fault_validation_trial",
+    "deepen_asms_ui_service_command_packs",
+    "define_adf_checkpointed_sync_model",
+    "refine_support_cockpit_right_rail_layout",
+    "decouple_codex_runtime_from_target_lab_environment",
+    "evaluate_adf_dev_remote_autonomy_continuity",
+    "tighten_adf_dev_remote_autonomy_contract_for_real_tasks",
+    "consider_horizontal_dependency_path_in_center_pane",
+    "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency",
+    "diagnose_remote_codex_startup_stall_for_strict_evidence_slices",
+    "compare_successful_vs_stalled_remote_run_shapes",
+    "stabilize_remote_codex_launcher_against_interactive_menu"
+  ],
+  "delta_summary": {
+    "changed_fields": [
+      "active_task_id",
+      "next_recommended_task_id",
+      "blocked_task_ids"
+    ],
+    "completed_task_ids_added": [
+      "stabilize_remote_codex_launcher_against_interactive_menu"
+    ],
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-launcher-hardening-next-20260328.json",
+    "previous_run_id": "algosec-diagnostic-framework-build-pack-v1-compare-remote-run-shapes-v1",
+    "status": "changed",
+    "summary_lines": [
+      "Active task changed from `stabilize_remote_codex_launcher_against_interactive_menu` to `capture_fresh_later_content_branch_checkpoint`.",
+      "Next recommended task changed from `stabilize_remote_codex_launcher_against_interactive_menu` to `capture_fresh_later_content_branch_checkpoint`.",
+      "The later-content checkpoint is no longer blocked on launcher uncertainty."
+    ]
+  },
+  "evidence_paths": [
+    "eval/history/adf-dev-launcher-hardening-proof-run-v2-20260328.md",
+    ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2/incoming/execution-manifest.json",
+    ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2/incoming/bundle/artifacts/run-summary.json",
+    ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2/incoming/bundle/artifacts/adf-remote-checkpoint-bundle.json",
+    "tools/run_remote_autonomy_loop.py",
+    "tools/run_remote_autonomy_test.py",
+    "tools/run_remote_active_task_continuity_test.py"
+  ],
+  "final_readiness_state": "ready_for_review",
+  "generated_at": "2026-03-28T21:44:44Z",
+  "handoff_summary": [
+    "The launcher-hardening proof run v2 completed through the normal PackFactory roundtrip path.",
+    "The remote slice wrote run summary and checkpoint bundle artifacts, exported a bundle, and the local wrapper pulled it back cleanly.",
+    "The next task should now be judged on fresh content evidence, not on wrapper survival."
+  ],
+  "highest_risk_observation": "The next later-content slice can still fail to produce a fresh later-content minute even though the launcher path is now healthy enough to carry the run.",
+  "memory_id": "autonomy-feedback-launcher-proof-complete-20260328",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Pack-local restart memory after the successful launcher-hardening proof run.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "real_adf_dev_launcher_proof_run_v2"
+    ],
+    "confidence_level": "high",
+    "confidence_score": 0.91,
+    "expires_after_hours": 12,
+    "expires_at": "2026-03-29T09:44:44Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "High-confidence restart memory for the post-launcher-proof handoff."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_reblocking_later_content_on_launcher_uncertainty"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Do not keep `capture_fresh_later_content_branch_checkpoint` blocked on startup-stall or wrapper-survival uncertainty after the March 28 launcher-hardening proof run v2."
+    ]
+  },
+  "next_recommended_task_id": "capture_fresh_later_content_branch_checkpoint",
+  "operator_intervention_summary": null,
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: rerun `capture_fresh_later_content_branch_checkpoint` through `adf-dev` and judge it only on whether it returns one fresh later-content minute after `/afa/php/home.php`.",
+  "resolved_block_summary": "Launcher uncertainty is no longer the blocker for the later-content checkpoint.",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": null,
+    "loop_events_path": ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2/incoming/bundle/artifacts/loop-events.jsonl",
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-launcher-hardening-next-20260328.json",
+    "run_summary_path": ".pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2/incoming/bundle/artifacts/run-summary.json"
+  },
+  "summary": "The launcher-hardening proof run completed normally on `adf-dev`, so the next real blocker is again the fresh later-content evidence slice."
+}

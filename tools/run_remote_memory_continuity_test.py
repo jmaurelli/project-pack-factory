@@ -29,6 +29,7 @@ from remote_autonomy_staging_common import (
     canonical_remote_pack_dir,
     canonical_remote_parent_dir,
     canonical_remote_run_dir,
+    resolve_local_scratch_root,
 )
 from run_remote_autonomy_test import run_remote_autonomy_test
 
@@ -283,6 +284,7 @@ def _build_run_request(
     remote_host: str,
     remote_user: str,
     staged_by: str,
+    local_scratch_root: Path,
 ) -> dict[str, Any]:
     remote_parent_dir = canonical_remote_parent_dir(remote_target_label)
     remote_pack_dir = canonical_remote_pack_dir(remote_parent_dir, pack_id)
@@ -291,6 +293,7 @@ def _build_run_request(
         "source_factory_root": str(factory_root),
         "source_build_pack_id": pack_id,
         "source_build_pack_root": str(pack_root),
+        "local_scratch_root": str(local_scratch_root),
         "run_id": run_id,
         "remote_host": remote_host,
         "remote_user": remote_user,
@@ -313,6 +316,7 @@ def _build_test_request(
     run_id: str,
     remote_run_request_path: Path,
     imported_by: str,
+    local_scratch_root: Path,
 ) -> dict[str, Any]:
     return {
         "schema_version": TEST_REQUEST_SCHEMA_VERSION,
@@ -323,8 +327,10 @@ def _build_test_request(
                 remote_target_label=remote_target_label,
                 build_pack_id=pack_id,
                 run_id=run_id,
+                local_scratch_root=local_scratch_root,
             )
         ),
+        "local_scratch_root": str(local_scratch_root),
         "pull_bundle": True,
         "import_bundle": True,
         "imported_by": imported_by,
@@ -349,6 +355,7 @@ def run_remote_memory_continuity_test(
         raise ValueError(f"{build_pack_id} is not a build_pack")
 
     _validate_ready_boundary(location.pack_root, build_pack_id)
+    local_scratch_root = resolve_local_scratch_root(factory_root)
     resolved_run_id = run_id.strip() if run_id and run_id.strip() else _next_run_id(
         factory_root, remote_target_label, build_pack_id
     )
@@ -366,6 +373,7 @@ def run_remote_memory_continuity_test(
         remote_host=remote_host,
         remote_user=remote_user,
         staged_by=staged_by,
+        local_scratch_root=local_scratch_root,
     )
     test_request = _build_test_request(
         factory_root=factory_root,
@@ -374,6 +382,7 @@ def run_remote_memory_continuity_test(
         run_id=resolved_run_id,
         remote_run_request_path=run_request_path,
         imported_by=imported_by,
+        local_scratch_root=local_scratch_root,
     )
 
     _write_validated(factory_root, run_request_path, run_request, RUN_REQUEST_SCHEMA_NAME)

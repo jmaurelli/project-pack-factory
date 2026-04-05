@@ -14,6 +14,22 @@ This is a PackFactory-native build-pack materialized from the Config Drift Check
 8. `benchmarks/active-set.json`
 9. `eval/latest/index.json`
 
+## Optional Overlays
+
+Treat this line-level overlay as composable guidance. It shapes how this pack
+frames drift evidence and recommendations, but it does not override canonical
+pack state or PackFactory truth.
+
+### Role/Domain
+
+This build-pack currently carries the optional role/domain overlay
+`research-analyst` (Research Analyst).
+A disciplined framing lens for evidence review, synthesis, and careful
+distinction between signal, gap, and inference.
+- Separate observed evidence from inference and keep the distinction visible.
+- Favor careful synthesis over confident speculation when the signal is thin.
+- Call out what is still missing before recommending a stronger conclusion.
+
 ## Working Rules
 
 - Treat this pack as an active build-pack.

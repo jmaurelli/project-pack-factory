@@ -1,0 +1,85 @@
+{
+  "active_task_id": "deepen_dependency_aware_playbooks",
+  "baseline_readiness_state": "ready_for_review",
+  "block_summary": null,
+  "completed_task_ids": [],
+  "delta_summary": {
+    "changed_fields": [
+      "last_agent_action",
+      "last_outcome",
+      "last_outcome_at",
+      "notes",
+      "recommended_next_actions"
+    ],
+    "completed_task_ids_added": [],
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-canonical-template-real-playbook-split-20260329.json",
+    "previous_run_id": "local-canonical-template-real-playbook-split-20260329",
+    "status": "changed",
+    "summary_lines": [
+      "ADF now treats human-readable command flags as the default for operator-facing playbooks.",
+      "The ASMS UI host-pressure step now uses `uptime && free -h && df -h /`.",
+      "The Starlight generator now preserves `node_modules` during regeneration so remote review refreshes do not unnecessarily break the page."
+    ]
+  },
+  "evidence_paths": [
+    "eval/history/adf-human-readable-command-standard-20260329.md",
+    "docs/specs/adf-language-standard-v1.md",
+    "dist/candidates/adf-baseline/starlight-site/src/content/docs/playbooks/asms-ui-is-down.md",
+    "src/algosec_diagnostic_framework_template_pack/starlight_site.py"
+  ],
+  "final_readiness_state": "ready_for_review",
+  "generated_at": "2026-03-29T17:49:54Z",
+  "handoff_summary": [
+    "Keep applying human-readable flags like `-h` and `--no-pager` in operator-facing playbooks.",
+    "Use the live review page at `/playbooks/asms-ui-is-down/` to verify future wording changes.",
+    "The next content work still stays under `deepen_dependency_aware_playbooks`."
+  ],
+  "highest_risk_observation": "The remote review URL currently depends on an active Astro process on `adf-dev`; the generator-side `node_modules` preservation fix reduces future breakage, but the review surface still needs a healthy remote dev server.",
+  "memory_id": "autonomy-feedback-human-readable-command-standard-20260329",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Restart memory after adopting the human-readable command standard for operator-facing playbooks.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "local_spec_update",
+      "local_generated_playbook_update",
+      "remote_review_surface_check"
+    ],
+    "confidence_level": "high",
+    "confidence_score": 0.95,
+    "expires_after_hours": 24,
+    "expires_at": "2026-03-30T17:49:54Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "High-confidence restart memory because the wording contract, generated playbook, and live review page were all checked."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_mb_only_host_pressure_examples_when_human_readable_flags_are_available",
+      "avoid_deleting_starlight_node_modules_during_routine_regeneration"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Do not use `free -m` as the default operator-facing example when `free -h` is enough for the decision.",
+      "Do not remove generated Starlight `node_modules` during routine site regeneration."
+    ]
+  },
+  "next_recommended_task_id": "deepen_dependency_aware_playbooks",
+  "operator_intervention_summary": null,
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: keep applying the readability standard as additional real diagnostic playbooks are published under the canonical template.",
+  "resolved_block_summary": "The readability rule is now explicit in the language standard, visible on the live ASMS UI page, and protected by the Starlight regeneration fix.",
+  "run_id": "local-human-readable-command-standard-20260329",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory",
+    "loop_events_path": null,
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-canonical-template-real-playbook-split-20260329.json",
+    "run_summary_path": null
+  },
+  "summary": "ADF now defaults to human-readable operator commands and the live ASMS UI review page reflects that standard."
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/assistant-uat-scenario.schema.json",
+  "title": "Assistant UAT Scenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "summary",
+    "session_preamble",
+    "prompts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "assistant-uat-scenario/v1"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session_preamble": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allow_preview_bundle": {
+      "type": "boolean"
+    },
+    "model_reasoning_effort": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "allow_contract_profile_refinement": {
+      "type": "boolean"
+    },
+    "expected_sidecar_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "prompts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "prompt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?$",
+            "maxLength": 128
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

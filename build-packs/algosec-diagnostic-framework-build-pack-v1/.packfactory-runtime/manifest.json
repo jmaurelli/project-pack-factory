@@ -12,8 +12,8 @@
     },
     {
       "relative_path": ".packfactory-runtime/tools/record_autonomy_run.py",
-      "sha256": "2568670ad36300d34310e4d09bb21895b67d1715914f3f3439f7d663f3411a6f",
-      "size_bytes": 52025
+      "sha256": "d7923d45d7665a4774e295883a2798e3f335321a4cd1eb6a65225016ca1bf93c",
+      "size_bytes": 52094
     },
     {
       "relative_path": ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",

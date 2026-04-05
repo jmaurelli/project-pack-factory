@@ -85,7 +85,8 @@
       "lifecycle_stage": "maintained",
       "notes": [
         "Derived from template `config-drift-checker-template-pack` via PackFactory materialization.",
-        "materialization_id=materialize-config-drift-checker-build-pack-20260322t202023z"
+        "materialization_id=materialize-config-drift-checker-build-pack-20260322t202023z",
+        "role_domain_template_id=research-analyst"
       ],
       "pack_id": "config-drift-checker-build-pack",
       "pack_kind": "build_pack",
@@ -1035,7 +1036,8 @@
       "lifecycle_stage": "testing",
       "notes": [
         "Derived from template `codex-personal-assistant-template-pack` via PackFactory materialization.",
-        "materialization_id=materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z"
+        "materialization_id=materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z",
+        "role_domain_template_id=startup-operator"
       ],
       "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
       "pack_kind": "build_pack",
@@ -1084,8 +1086,49 @@
       "retired_at": null,
       "retirement_file": "status/retirement.json",
       "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/agent-native-project-initialization-smoke-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `agent-native-project-initialization-smoke-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-agent-native-project-initialization-smoke-build-pack-v1-20260401t132551z",
+        "agent_native_project_profile_activation_state=build_pack_active"
+      ],
+      "pack_id": "agent-native-project-initialization-smoke-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/agent-native-project-initialization-smoke-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_release_id": null,
+      "deployment_pointer": null,
+      "deployment_state": "not_deployed",
+      "latest_eval_index": "build-packs/algosec-diagnostic-framework-successor-build-pack-v1/eval/latest/index.json",
+      "lifecycle_stage": "testing",
+      "notes": [
+        "Derived from template `algosec-diagnostic-framework-successor-template-pack` via PackFactory materialization.",
+        "materialization_id=materialize-algosec-diagnostic-framework-successor-build-pack-v1-20260402t120944z",
+        "personality_template_id=calm-delivery-lead",
+        "agent_native_project_profile_activation_state=build_pack_active"
+      ],
+      "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+      "pack_kind": "build_pack",
+      "pack_root": "build-packs/algosec-diagnostic-framework-successor-build-pack-v1",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-31T19:33:05Z"
+  "updated_at": "2026-04-02T12:09:44Z"
 }

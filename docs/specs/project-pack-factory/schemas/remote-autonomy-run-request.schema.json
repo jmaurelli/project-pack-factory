@@ -9,6 +9,7 @@
     "source_factory_root",
     "source_build_pack_id",
     "source_build_pack_root",
+    "local_scratch_root",
     "run_id",
     "remote_host",
     "remote_user",
@@ -35,6 +36,10 @@
       "maxLength": 128
     },
     "source_build_pack_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_scratch_root": {
       "type": "string",
       "minLength": 1
     },

@@ -1,0 +1,126 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "6a1cbb5d4383abd2ea9897c955c0e1e4554576861df7314b40e80bba837c4353",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4.json"
+    },
+    {
+      "bundle_path": "artifacts/adf-remote-checkpoint-bundle.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "8faa5436e3dd4865e9633e4745b22f31e98d7f306318715765015f71c6782b3d",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/adf-remote-checkpoint-bundle.json"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/analyze-options.body.html",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "b641b57949be7199d0b5351a5c4877a67993df588421d8da1f05125a80ae5bd9",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.body.html"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/analyze-options.headers.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "a03bb7b878ed0908795ef78a6ab1d7ebb989bc5fa23e47af3aea258e54160574",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.headers.txt"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/apache-minute-20260328-1756.log",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "1dbd75e9fab9d471c6a879f03e650f70010599309258c8c6f762ac09a3729bba",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/apache-minute-20260328-1756.log"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/fresh-later-content-summary.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "f12ae5187d0d197c685bbe4ab7cfcd8b9dcf6ccaeb9e4e16efc19e70f2fa7bbf",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/fresh-later-content-summary.json"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/home-devices.body-head.html",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "2dd157e4e7f3c3bc131240a3671d57d258c3523ee2a82cb6d7f66f4d26710fbc",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.body-head.html"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/home-devices.headers.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "c0ac66da764446793485815d3892cb5b3c0fe1a197773336af95ef91d8cb19b5",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.headers.txt"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/metro-nearby-heartbeat-20260328-1753-1756.log",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "38c60489f60e16c9fdf56ebaed7a7d6d93ca63d902e11768e7a75adca68a6617",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-nearby-heartbeat-20260328-1753-1756.log"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/metro-session-i4dan9561hl2uc0gj7b3pipsea.log",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "7eb7571149341e8bad802f03cd07deef9716e5ff25d37b1696b689b8d54fdb68",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-session-i4dan9561hl2uc0gj7b3pipsea.log"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/session-summary-i4dan9561hl2uc0gj7b3pipsea.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "8109466ccbbe17b8f7a90b330f6e8b05f9d5d267aa7ccfac455b0a850b502d01",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/session-summary-i4dan9561hl2uc0gj7b3pipsea.txt"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "194a11470d1612b8277f45170b0fe6e6d485c17f1e63839e3496f026f08cb4ed",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "42f5296f628ae5edf1f4891b08a0cbdfe11c84fccb8a8d939beff0186b69a82a",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4-20260328T220151Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4-20260328T220151Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-28T22:01:51Z",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-28T22:01:51Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 0,
+    "started_at": "2026-03-28T21:48:26Z",
+    "stop_reason": "current_task_incomplete",
+    "task_completion_rate": 0.7442
+  }
+}

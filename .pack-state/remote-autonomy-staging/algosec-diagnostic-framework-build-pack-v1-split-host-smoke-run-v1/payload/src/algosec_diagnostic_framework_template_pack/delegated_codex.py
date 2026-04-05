@@ -638,6 +638,56 @@ def _default_checkpoint_bundle(
     }
 
 
+def record_remote_checkpoint_bundle(
+    *,
+    project_root: Path,
+    run_id: str,
+    checkpoint_reason: str,
+    generated_by: str,
+    remote_target_label: str | None = None,
+    note: str | None = None,
+) -> dict[str, Any]:
+    _validate_checkpoint_reason(checkpoint_reason)
+
+    run_root = _resolve_run_root(project_root, run_id)
+    checkpoint_path = run_root / CHECKPOINT_BUNDLE_NAME
+    if checkpoint_path.exists():
+        bundle = _load_json(checkpoint_path)
+    else:
+        bundle = _default_checkpoint_bundle(
+            project_root=project_root,
+            run_id=run_id,
+            checkpoint_reason=checkpoint_reason,
+            generated_by=generated_by,
+            remote_target_label=remote_target_label,
+        )
+
+    bundle["generated_at"] = _isoformat_z()
+    bundle["generated_by"] = generated_by
+    bundle["checkpoint_reason"] = checkpoint_reason
+    if remote_target_label is not None:
+        bundle["remote_target_label"] = remote_target_label
+    bundle.setdefault("proposed_acceptance", {})
+    bundle.setdefault("local_regeneration_required", {})
+
+    notes = list(bundle["proposed_acceptance"].get("notes", []))
+    if note:
+        notes.append(note)
+    bundle["proposed_acceptance"]["notes"] = notes
+
+    _dump_json(checkpoint_path, bundle)
+    return {
+        "status": "pass",
+        "checkpoint_path": str(checkpoint_path.relative_to(project_root)),
+        "run_id": run_id,
+        "checkpoint_reason": checkpoint_reason,
+        "generated_at": bundle["generated_at"],
+        "generated_by": generated_by,
+        "remote_target_label": bundle.get("remote_target_label"),
+        "notes": notes,
+    }
+
+
 def record_delegated_review(
     *,
     project_root: Path,

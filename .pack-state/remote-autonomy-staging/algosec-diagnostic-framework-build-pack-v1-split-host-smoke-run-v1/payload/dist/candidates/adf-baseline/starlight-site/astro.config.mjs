@@ -6,6 +6,7 @@ export default defineConfig({
     starlight({
       title: 'AlgoSec Diagnostic Framework',
       description: 'Target-backed diagnostic playbooks for support engineers.',
+      disable404Route: true,
       customCss: ['./src/custom.css'],
       tableOfContents: false,
       sidebar: [
@@ -14,12 +15,16 @@ export default defineConfig({
           items: [{ label: 'Overview', slug: 'index' }],
         },
         {
-        label: 'Current Focus',
-        items: [],
+        label: 'Playbooks',
+        items: [
+          { label: "ASMS UI is down", slug: "playbooks/asms-ui-is-down" }
+        ],
       },
         {
-        label: 'Playbooks',
-        items: [],
+        label: 'Canonical Template',
+        items: [
+          { label: "Canonical Template", slug: "canonical-playbook-template" }
+        ],
       }
       ],
     }),

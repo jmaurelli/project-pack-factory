@@ -1,0 +1,88 @@
+{
+  "candidate_changes": {
+    "artifact_paths": [
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/fresh-later-content-summary.json",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.headers.txt",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.body-head.html",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.headers.txt",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.body.html",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/apache-minute-20260328-1756.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-session-i4dan9561hl2uc0gj7b3pipsea.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-nearby-heartbeat-20260328-1753-1756.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/session-summary-i4dan9561hl2uc0gj7b3pipsea.txt"
+    ],
+    "backlog_task_updates": [],
+    "doc_paths": [],
+    "prompt_paths": [],
+    "source_paths": [],
+    "work_state_fields": []
+  },
+  "checkpoint_id": "algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4-evidence_ready-20260328t220102z",
+  "checkpoint_reason": "evidence_ready",
+  "export_bundle": {
+    "authority_class": "supplementary_runtime_evidence",
+    "bundle_manifest_path": "bundle.json",
+    "bundle_sha256": "d81c2ea59b3115db56f7ea20b3650e2f0643ba407f8a725b9a859daa2a18a20d",
+    "import_ready": false,
+    "present": true
+  },
+  "generated_at": "2026-03-28T22:01:02Z",
+  "generated_by": "codex",
+  "local_precedence": true,
+  "local_regeneration_required": {
+    "eval_latest_index": false,
+    "latest_memory_pointer": false,
+    "other_generated_surfaces": [],
+    "readiness": false
+  },
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "proposed_acceptance": {
+    "accept_artifact_paths": [
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/fresh-later-content-summary.json",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.headers.txt",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.body-head.html",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.headers.txt",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.body.html",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/apache-minute-20260328-1756.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-session-i4dan9561hl2uc0gj7b3pipsea.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-nearby-heartbeat-20260328-1753-1756.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/session-summary-i4dan9561hl2uc0gj7b3pipsea.txt"
+    ],
+    "accept_backlog_task_updates": [],
+    "accept_doc_paths": [],
+    "accept_source_paths": [],
+    "accept_work_state_fields": [],
+    "defer_fields": [],
+    "defer_paths": [],
+    "notes": [
+      "Captured exact 2026-03-28 17:56 EDT minute after /afa/php/home.php?segment=DEVICES; POST /afa/php/commands.php returned the 938-byte GET_ANALYSIS_OPTIONS dialog body in .pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.body.html.",
+      "Support stop-point judgment: this minute is no longer top-level GUI down because the live shell reached DEVICES and the Analyze dialog options fetch succeeded for device 200132.",
+      "Metro remained a supporting clue rather than the stop point in this slice: the nearby same-session March 28 activity shows config refreshes and a device report lookup, but the concrete branch-out marker is the 17:56 EDT GET_ANALYSIS_OPTIONS dialog body."
+    ]
+  },
+  "remote_build_pack_root": ".",
+  "remote_host": "adf-dev",
+  "remote_target_label": "algosec-lab",
+  "run_artifacts": {
+    "feedback_memory_path": null,
+    "loop_events_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/loop-events.jsonl",
+    "result_log_paths": [
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/fresh-later-content-summary.json"
+    ],
+    "run_summary_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/run-summary.json",
+    "target_artifact_paths": [
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/fresh-later-content-summary.json",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.headers.txt",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.body-head.html",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.headers.txt",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.body.html",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/apache-minute-20260328-1756.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-session-i4dan9561hl2uc0gj7b3pipsea.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-nearby-heartbeat-20260328-1753-1756.log",
+      ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/session-summary-i4dan9561hl2uc0gj7b3pipsea.txt"
+    ]
+  },
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4",
+  "schema_version": "adf-remote-checkpoint-bundle/v1",
+  "source_of_truth_mode": "local_precedence_split_host"
+}

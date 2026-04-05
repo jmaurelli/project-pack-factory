@@ -1,0 +1,14 @@
+# BEGIN PACKFACTORY BACKUP algosec-diagnostic-framework-successor-build-pack-v1
+17 3 * * * /home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/job/run-pack-backup.sh
+# END PACKFACTORY BACKUP algosec-diagnostic-framework-successor-build-pack-v1
+--- job
+total 4
+-rwxr-xr-x 1 adf adf 766 Apr  2 21:57 run-pack-backup.sh
+--- archives
+total 680
+-rw-rw-r-- 1 adf adf 344132 Apr  2 21:57 algosec-diagnostic-framework-successor-build-pack-v1-backup-20260403t015717z.tar.gz
+-rw-rw-r-- 1 adf adf 344132 Apr  2 21:57 algosec-diagnostic-framework-successor-build-pack-v1-backup-20260403t015736z.tar.gz
+--- manifests
+total 8
+-rw-rw-r-- 1 adf adf 709 Apr  2 21:57 algosec-diagnostic-framework-successor-build-pack-v1-backup-20260403t015717z.json
+-rw-rw-r-- 1 adf adf 709 Apr  2 21:57 algosec-diagnostic-framework-successor-build-pack-v1-backup-20260403t015736z.json

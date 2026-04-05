@@ -63,21 +63,101 @@ note and the root operator-tool lists are the required control plane.
   to diverge, prefer the root PackFactory workflow rather than inventing a
   pack-local remote-session path
 
+### Remote Codex Auth Recovery
+
+If a remote assistant-UAT run fails at the prompt layer with Codex auth errors
+such as `refresh_token_reused` or `token_expired`, treat that as a remote-host
+credential issue first, not as PackFactory control-plane breakage.
+
+Operational rule:
+
+- if the remote execution manifest still shows a healthy runner and successful
+  export, inspect the imported assistant-UAT stderr before changing PackFactory
+  code
+- repair Codex auth on the remote target account outside the PackFactory run
+  itself
+- verify the repair with one direct remote `codex exec` smoke
+- then rerun the same generated PackFactory request unchanged so the prompt
+  failure and the recovery remain comparable
+
+Evidence:
+
+- `v21` prompt-level auth failure:
+  `build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_caution-stderr.txt`
+- `v22` clean recovery after remote auth repair:
+  `build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t165720z/import-report.json`
+- `v22` clean prompt-level completion:
+  `build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json`
+
+Plain-language consequence:
+
+- do not widen assistant-UAT writable surfaces or rewrite the request builder
+  just because a remote prompt hit stale Codex auth
+- fix auth first, rerun the same PackFactory request, and only treat the issue
+  as a builder/control-plane defect if the failure survives a healthy remote
+  Codex smoke
+
+## Transient Local Scratch
+
+PackFactory's remote-autonomy staging trees and roundtrip `incoming/` trees are
+transient scratch. They should be treated as disposable workspace, not as the
+canonical preserved evidence line.
+
+- the scratch-root contract is defined in
+  `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md`
+- the local scratch root is selected and persisted by PackFactory host-local
+  runtime state, not by a remote request payload or wrapper request
+- agent sessions should inherit that persisted selection automatically; manual
+  env configuration is an override path, not the normal control plane
+- durable artifacts that operators still need after a run, such as generated
+  import requests or roundtrip manifests, must be written or copied outside
+  scratch before cleanup runs
+- if a host must stay on the repo-local fallback scratch root, disk-pressure
+  guardrails should still prevent a repeat of the 2026-03-29 fill-up pattern
+
 ## Default Factory Autonomy Workflows
 
 Use the workflows below as the standard PackFactory path for remote-memory and
 remote-session work rather than assembling your own control flow from shell
 prompts plus terminal logs.
 
+## Fresh-Pack Certification Rule
+
+When a newly materialized build-pack is expected to become the operator's real
+working or daily-driver instance and may later need promotion-ready remote
+evidence, do not skip the fresh-pack certification step.
+
+Current rule:
+
+- run the official fresh-pack autonomy workflow before that pack diverges into
+  long-lived daily-driver use
+- treat `run_multi_hop_autonomy_rehearsal.py` and
+  `run_autonomy_to_promotion_workflow.py` as certification surfaces for a
+  fresh proving-ground build-pack
+- do not describe those workflows as if they retroactively certify an
+  already-evolving build-pack in place
+
+Plain-language consequence:
+
+- if the operator builds directly in the first long-lived pack and only later
+  asks for official promotion-compatible remote evidence on that same pack,
+  the missed step is the fresh-pack rehearsal, not template creation
+- in that situation, use a fresh proving-ground build-pack for official remote
+  proof or say plainly that PackFactory still lacks an official
+  "rehearse this existing build-pack in place" workflow
+
 - `python3 tools/run_multi_hop_autonomy_rehearsal.py ...`
   Use this to prove the full default autonomy loop on a fresh build-pack:
   materialize, checkpoint mid-backlog memory, run remote active-task
-  continuity, reconcile, and verify ready-boundary continuity.
+  continuity, reconcile, and verify ready-boundary continuity. This is a
+  fresh-pack certification workflow, not a retrofit certifier for an
+  already-evolving build-pack.
 
 - `python3 tools/run_autonomy_to_promotion_workflow.py ...`
   Use this when you want the full factory-default path in one motion:
   materialize, run the multi-hop rehearsal, prepare a release, and promote the
-  result to the target environment.
+  result to the target environment. This is also a fresh-pack certification
+  workflow.
 
 - `python3 tools/run_longer_backlog_autonomy_exercise.py ...`
   Use this when you want to stress the current memory loop on a deeper linear
@@ -316,6 +396,11 @@ prompts plus terminal logs.
 - `python3 tools/record_autonomy_improvement_promotion.py ...`
   Use this when a proving-ground autonomy improvement has been promoted into
   factory defaults and you want that inheritance state recorded explicitly.
+
+- `python3 tools/record_runtime_template_parity.py ...`
+  Use this when a reusable behavior was first proved in a runtime build-pack
+  and then backported into its source template, and you want the runtime to
+  template parity state recorded explicitly at the factory root.
 
 Active source templates now participate in bounded startup-compliance drift
 checking too. `tools/validate_factory.py` verifies a small marker set in each

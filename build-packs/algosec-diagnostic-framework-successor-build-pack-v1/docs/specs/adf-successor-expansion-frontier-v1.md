@@ -122,6 +122,7 @@ These expansion targets are planner-visible on purpose, but they are not the
 current active work. The immediate successor path is now further refined by:
 
 - `docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md`
+- `docs/specs/adf-successor-workload-aware-diagnostic-knowledge-spine-v1.md`
 
 That means the reviewed widening order is:
 
@@ -129,6 +130,22 @@ That means the reviewed widening order is:
 2. capture real distributed-lab role-separated proof
 3. activate a thin multi-node topology surface
 4. then widen into the remaining expansion frontier in the reviewed order above
+
+The workload-aware diagnostic knowledge spine adds the next longer-horizon
+support-knowledge layers behind that expansion order:
+
+1. symptom-to-path support models
+2. log-awareness modeling
+3. bounded failure and scenario testing
+4. failure-point prediction
+5. data-flow mapping
+6. state-store, queue, and database-black-box awareness
+7. config-intent mapping
+8. scenario-diff comparison
+9. confidence-scored support content
+10. architecture overlays
+11. dependency confidence ladder
+12. workload fingerprinting
 
 ## Current Explicit Widening State
 
@@ -203,3 +220,31 @@ or alternate reviewed architecture types rather than inferred from the old
 frontier slice. The strongest follow-on is:
 
 - `capture_disaster_recovery_plus_ldu_role_separated_node_proofs`
+
+That main distributed next step now also has one explicit parallel companion
+lane:
+
+- `docs/specs/adf-successor-parallel-standalone-deepening-autonomy-loop-plan-v1.md`
+
+Use that plan when distributed architecture build time is the current
+constraint but stable standalone nodes are still available for learning.
+
+That companion lane is now exercised and recorded in:
+
+- `docs/specs/adf-successor-standalone-deepening-calibration-review-v1.md`
+
+It matters because the successor now has a `.150`-free four-node standalone
+calibration set and an honest autonomy-loop fit readout: official `adf-dev`
+roundtrips are working well for this lane, while the continuity tools still
+fail closed until the long-lived pack exposes a compatible tracker boundary.
+
+The next longer-horizon support-knowledge spine is now also recorded in:
+
+- `docs/specs/adf-successor-workload-aware-diagnostic-knowledge-spine-v1.md`
+
+It matters because the successor now explicitly recognizes that different lab
+nodes may reflect different customer-like workloads, custom settings, and
+scenario drift. The horizon is no longer only "more topology" or "more
+dependency." It now also includes support-first symptom guidance, log-aware
+triage, failure and scenario testing, predictive support guidance,
+database-black-box analytics, and only later workload fingerprinting.

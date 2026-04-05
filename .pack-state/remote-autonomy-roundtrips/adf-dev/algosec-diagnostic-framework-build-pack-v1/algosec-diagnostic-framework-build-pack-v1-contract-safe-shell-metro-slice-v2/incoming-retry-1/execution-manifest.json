@@ -1,0 +1,30 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2-20260328T190858Z",
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2 --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": "2026-03-28T19:08:58Z",
+  "export_error": null,
+  "export_status": "succeeded",
+  "exported_run_id": "algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2",
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "d5df00e22dedb41cb34f907fae1e2759690cf9f974aa3339d90ad9b33ab9d4a3",
+  "remote_runner": "codex exec --skip-git-repo-check --cd . --dangerously-bypass-approvals-and-sandbox -",
+  "request_sha256": "7008549ecd19b36b90128d907f05e24606fbc8d992f477c75bad95cf64f662aa",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2",
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "started_at": "2026-03-28T19:02:52Z",
+  "stopped_at": "2026-03-28T19:08:58Z",
+  "target_manifest_sha256": "16c1df8e1a3c83e95e7705f8e131658fb519a54da4ead261c6bde3e25c27256d",
+  "terminal_outcome": "stopped",
+  "terminal_reason": "current_task_incomplete"
+}

@@ -1,9 +1,146 @@
 {
-  "generated_at": "2026-03-31T19:25:16Z",
+  "generated_at": "2026-04-02T12:35:00Z",
   "objective_id": "project_pack_factory_root_objective",
   "pack_id": "project-pack-factory",
   "schema_version": "task-backlog/v1",
   "tasks": [
+    {
+      "acceptance_criteria": [
+        "PackFactory has a bounded first-pass role/domain lens decision for the ADF successor line that is explicitly tested against the shallow surface map slice.",
+        "The test result chooses an initial lens without pretending the lifetime ADF identity is final."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A root-level test note compares a few plausible ADF lenses against the first slice and recommends one initial fit.",
+        "The resulting recommendation is strong enough to carry into the successor creation request."
+      ],
+      "dependencies": [
+        "define_bounded_agent_centered_adf_successor_line",
+        "define_adf_successor_shallow_surface_map_first_slice"
+      ],
+      "escalation_conditions": [
+        "The lens discussion drifts into a long catalog or identity debate before the first slice exists.",
+        "The chosen lens cannot explain why it improves the shallow surface map over a generic research posture."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-INITIAL-ROLE-DOMAIN-LENS-FIRST-TEST.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-SHALLOW-SURFACE-MAP-FIRST-SLICE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BOUNDED-AGENT-CENTERED-ADF-SUCCESSOR-LINE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.495,
+      "status": "completed",
+      "summary": "Run the first bounded ADF role/domain lens test against the shallow surface map slice and choose the initial line-specific framing to carry into the creation request.",
+      "task_id": "test_initial_adf_role_domain_lens",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has a concrete first-slice definition for the ADF successor line that stays shallow, read-only, and early-reviewable.",
+        "The slice definition names the exact artifact classes, stop conditions, and follow-on path without slipping back into open-ended ADF exploration."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A root-level spec exists for the ADF successor shallow surface map first slice.",
+        "The spec identifies the slice question, input classes, output artifacts, acceptance criteria, and stop conditions."
+      ],
+      "dependencies": [
+        "define_bounded_agent_centered_adf_successor_line"
+      ],
+      "escalation_conditions": [
+        "The first slice definition expands into deep dependency theory, predictive analytics, or broad publication work before producing one shallow machine-readable map.",
+        "The first slice cannot state what artifact counts as success and therefore risks another long blind build phase."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-SHALLOW-SURFACE-MAP-FIRST-SLICE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BOUNDED-AGENT-CENTERED-ADF-SUCCESSOR-LINE-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.49,
+      "status": "completed",
+      "summary": "Define the first ADF successor slice as a shallow read-only surface map that produces one machine-readable map and one operator-reviewable summary before any deeper dependency or playbook work.",
+      "task_id": "define_adf_successor_shallow_surface_map_first_slice",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has a bounded creation-planning path for the fresh ADF successor line that uses the shallow surface map as wave 1.",
+        "The creation-planning path names the role/domain choice, personality choice if any, agent-native profile, and first-wave objective without overcommitting later layers."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A template-creation or materialization request shape exists for the new ADF successor line.",
+        "The request shape carries the first-wave shallow-surface-map objective explicitly and keeps later dependency, playbook, and predictive layers out of the first request."
+      ],
+      "dependencies": [
+        "define_bounded_agent_centered_adf_successor_line",
+        "define_adf_successor_shallow_surface_map_first_slice",
+        "test_initial_adf_role_domain_lens"
+      ],
+      "escalation_conditions": [
+        "The proposed request tries to encode the whole ADF dream into the first line instead of one bounded proof loop.",
+        "The request cannot distinguish template-level reusable framing from operator- or line-specific runtime ambition."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BOUNDED-AGENT-CENTERED-ADF-SUCCESSOR-LINE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-SHALLOW-SURFACE-MAP-FIRST-SLICE-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/template-creation-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/materialization-request.schema.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.5,
+      "status": "completed",
+      "summary": "Prepare the bounded creation-planning request for the fresh ADF successor line, using the shallow surface map as the explicit first-wave proof slice.",
+      "task_id": "prepare_adf_successor_creation_request",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory executes the prepared ADF successor template-creation request successfully and records the new template line with the intended agent-native and personality defaults.",
+        "The resulting template is ready for first materialization without pulling later-wave ADF ambitions into the creation step."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The prepared ADF successor template-creation request is executed through the standard PackFactory workflow.",
+        "Registry and template-local evidence make the new successor template line discoverable."
+      ],
+      "dependencies": [
+        "prepare_adf_successor_creation_request"
+      ],
+      "escalation_conditions": [
+        "Executing the prepared request would require unsupported inline custom role/domain data that current request schemas do not admit.",
+        "The template-creation step starts absorbing first-wave implementation work instead of staying a clean line-creation step."
+      ],
+      "files_in_scope": [
+        ".pack-state/tmp/adf-successor-template-creation-request.json",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ADF-SUCCESSOR-CREATION-REQUEST-PLAN.md",
+        "templates/",
+        "registry/templates.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.51,
+      "status": "completed",
+      "summary": "Execute the prepared template-creation request for the fresh ADF successor line and register the new template as the bounded successor baseline.",
+      "task_id": "execute_adf_successor_template_creation",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
     {
       "acceptance_criteria": [
         "The PackFactory root has schema-valid objective, backlog, and work-state files.",
@@ -109,6 +246,74 @@
     },
     {
       "acceptance_criteria": [
+        "The agent-native initialization spec states that v1 is declaration-only and optional.",
+        "The spec keeps the profile tracker-backed, avoids a second planner file, and keeps generated startup snippets concise.",
+        "The root backlog and work-state record the initiative explicitly so the docs and tracker stay synchronized."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The agent-native spec includes an adversarial-review tightening section.",
+        "The suggested profile stays bounded to existing PackFactory control-plane surfaces.",
+        "The matching task is marked completed in `status/work-state.json`."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "The declaration would turn into a runtime subsystem or a second planner file.",
+        "The startup surfaces would need to repeat the entire tracker or planning contents to stay understandable."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-NATIVE-PROJECT-INITIALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 11,
+      "status": "completed",
+      "summary": "Define the v1 agent-native project initialization profile as a declaration-only, tracker-backed root control-plane surface.",
+      "task_id": "declare_agent_native_project_initialization_v1",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The tracker/planner formalization spec keeps planning context advisory and tracker-backed only.",
+        "Task provenance stays lightweight and cannot change execution authority or next-task selection.",
+        "The root backlog and work-state record the formalization explicitly."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The tracker/planner spec includes adversarial-review tightening language.",
+        "The spec keeps `advisory_planning_context` optional and bounded.",
+        "The matching task is marked completed in `status/work-state.json`."
+      ],
+      "dependencies": [
+        "declare_agent_native_project_initialization_v1"
+      ],
+      "escalation_conditions": [
+        "The formalization would add a second planner file or a competing execution document.",
+        "Planner provenance would start influencing task selection instead of describing task origin."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TASK-TRACKER-AND-PLANNER-FORMALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 12,
+      "status": "completed",
+      "summary": "Formalize the tracker-versus-planner distinction as bounded advisory context around the canonical execution tracker.",
+      "task_id": "formalize_task_tracker_and_planner_v1",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
         "The Astro dashboard path has a concrete install, build, and publish plan that keeps the Python snapshot generator canonical.",
         "Operators have a bounded wrapper path for local dev-server and publish usage."
       ],
@@ -140,6 +345,44 @@
       "validation_commands": [
         "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
         "python3 tools/build_factory_dashboard_astro.py --factory-root /home/orchadmin/project-pack-factory --output-dir /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest --app-dir /home/orchadmin/project-pack-factory/apps/factory-dashboard --staging-root /home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging --report-format json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit successor-line spec for a fresh ADF build-pack that keeps the agent at the center, uses bounded slices, and requires early reviewable artifacts.",
+        "The spec reuses the current ADF line as evidence and inheritance input without forcing a mechanical clone of the existing build-pack."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A root-level spec exists for a bounded, agent-centered ADF successor line and explicitly names the role/domain, memory, objective, tracker, and early-proof expectations.",
+        "The spec records how incomplete agent-optimized documentation, live Rocky 8 system discovery, Java runtime inspection, and machine-readable diagnostic content should work together in the successor line."
+      ],
+      "dependencies": [
+        "design_role_domain_template_overlay_system",
+        "declare_agent_native_project_initialization_v1",
+        "formalize_task_tracker_and_planner_v1"
+      ],
+      "escalation_conditions": [
+        "The proposed successor line would start with broad predictive or architecture ambitions before one bounded machine-readable and support-facing proof loop exists.",
+        "The proposal would require retrofitting the existing ADF build-pack in place instead of allowing a cleaner fresh-line creation path."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BOUNDED-AGENT-CENTERED-ADF-SUCCESSOR-LINE-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/contracts/project-objective.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/tasks/active-backlog.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/status/work-state.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/.pack-state/agent-memory/latest-memory.json",
+        "build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.48,
+      "status": "completed",
+      "summary": "Define the bounded agent-centered ADF successor-line model so a fresh ADF build-pack can start with explicit role/domain framing, tracker-backed goals, restart memory, incomplete-doc plus live-discovery inputs, and early tangible proof slices.",
+      "task_id": "define_bounded_agent_centered_adf_successor_line",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
       ]
     },
     {
@@ -420,6 +663,368 @@
     },
     {
       "acceptance_criteria": [
+        "PackFactory has a shared root wrapper tool that implements the bounded `adf_field_manual_hash_target_opens` proof recipe without becoming a raw browser-framework passthrough.",
+        "The wrapper keeps browser runtime state under `.pack-state/browser-proof-runtime/`, proof reports under `.pack-state/browser-proofs/`, and remains read-only against canonical factory control-plane state.",
+        "The tool emits schema-valid request and report artifacts, proves the ADF field-manual interaction when the host can launch Chromium, and otherwise fails closed with explicit host-dependency evidence."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "`tools/run_browser_proof.py` exists with a narrow PackFactory-facing CLI for the ADF proving-ground recipe.",
+        "The request and report schema pair exists under `docs/specs/project-pack-factory/schemas/` and the tool validates against them.",
+        "A real proof run against the ADF preview generates an auditable report under `.pack-state/browser-proofs/`, even when the host blocks browser launch."
+      ],
+      "dependencies": [
+        "design_headless_browser_proof_tool"
+      ],
+      "escalation_conditions": [
+        "The implementation would require turning the wrapper into a raw Playwright passthrough or a default validation gate.",
+        "The runtime cannot stay isolated under `.pack-state/` or the report surface cannot stay supplementary instead of canonical control-plane state."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-PROOF-TOOL-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/browser-proof-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/browser-proof-report.schema.json",
+        "tools/run_browser_proof.py",
+        "tools/browser_proof_runner.cjs",
+        "tools/browser_proof_node_runner.cjs",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        ".pack-state/browser-proof-runtime/",
+        ".pack-state/browser-proofs/"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 10.1,
+      "status": "completed",
+      "summary": "Implement the shared PackFactory browser-proof wrapper and schema pair for the bounded ADF field-manual proving-ground recipe.",
+      "task_id": "implement_headless_browser_proof_tool",
+      "validation_commands": [
+        "python3 tools/run_browser_proof.py --factory-root /home/orchadmin/project-pack-factory --request-file <request.json> --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit adjacent spec that defines the host-level shared-library dependency boundary for the root browser-proof wrapper and makes clear that these packages are host prerequisites rather than build-pack content.",
+        "The spec records a bounded readiness check path that can prove whether a host can launch the Playwright Chromium runtime before operators interpret browser-proof failures as PackFactory logic problems.",
+        "The current blocker is backed by recorded evidence from the live browser-proof report plus a direct shared-library inspection of the downloaded Chromium binary."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A root planner task exists for the host dependency follow-up and points at the adjacent spec and evidence note.",
+        "The adjacent spec names the missing shared libraries, the provisioning boundary, and the rerun path for the existing ADF proving-ground request.",
+        "The evidence note links the schema-valid fail-closed report to the direct `ldd` output so the blocker is auditable outside chat."
+      ],
+      "dependencies": [
+        "implement_headless_browser_proof_tool"
+      ],
+      "escalation_conditions": [
+        "A proposed fix would push host package provisioning into build-packs or otherwise blur the host-versus-factory boundary.",
+        "A proposed fix would weaken the fail-closed proof model by hiding missing host libraries behind a fallback browser path."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-HEADLESS-BROWSER-HOST-DEPENDENCY-PROVISIONING-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/browser-proof-host-readiness-report.schema.json",
+        "eval/history/headless-browser-proof-host-dependency-evidence-20260331.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "tools/browser_proof_host_readiness.py",
+        "tools/run_browser_proof.py",
+        "AGENTS.md",
+        "README.md",
+        ".pack-state/browser-proofs/",
+        ".pack-state/browser-proof-runtime/"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 10.2,
+      "status": "completed",
+      "summary": "Define the host dependency provisioning and readiness-check path for the root browser-proof wrapper so Chromium launch blockers stay explicit and operationally actionable.",
+      "task_id": "define_browser_proof_host_dependency_provisioning_path",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/run_browser_proof.py --factory-root /home/orchadmin/project-pack-factory --request-file /home/orchadmin/project-pack-factory/.pack-state/tmp/browser-proof-request.json --output json",
+        "python3 tools/browser_proof_host_readiness.py --factory-root /home/orchadmin/project-pack-factory --proof-kind adf_field_manual_hash_target_opens --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has a bounded root-level model for agent-native project initialization that stays declaration-only in v1 and does not create a second execution control plane.",
+        "The model distinguishes template-declared intent from build-pack-active operation and mirrors the existing bounded overlay selection pattern."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A root spec exists with repo-local evidence for agent-native project initialization and includes adversarial-review findings.",
+        "The implemented control-plane slice adds explicit request, manifest, report, and generated-startup-surface support without duplicating canonical tracker discovery."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "The proposed model would create a second tracker authority or make templates appear to own active build-pack tracker files.",
+        "The implementation would require retrofitting historical packs instead of applying cleanly to new creation/materialization flows."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-NATIVE-PROJECT-INITIALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/template-creation-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/template-creation-report.schema.json",
+        "docs/specs/project-pack-factory/schemas/materialization-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/materialization-report.schema.json",
+        "docs/specs/project-pack-factory/schemas/pack.schema.json",
+        "tools/create_template_pack.py",
+        "tools/materialize_build_pack.py",
+        "eval/history/agent-native-project-initialization-and-tracker-planner-adversarial-review-20260401.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.4,
+      "status": "completed",
+      "summary": "Design and implement a bounded declaration-only agent-native project initialization model for template creation and build-pack materialization.",
+      "task_id": "design_agent_native_project_initialization_model",
+      "validation_commands": [
+        "python3 -m py_compile tools/create_template_pack.py tools/materialize_build_pack.py",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit authority rule that keeps planner context advisory and tracker state canonical.",
+        "The formalization does not introduce planner lifecycle state or planning provenance into the canonical execution schemas in v1."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A root spec exists for tracker/planner formalization and includes adversarial-review findings and fail-closed authority rules.",
+        "The implemented v1 model is visible through the agent-native declaration surfaces rather than through a second planner state machine."
+      ],
+      "dependencies": [
+        "design_agent_native_project_initialization_model"
+      ],
+      "escalation_conditions": [
+        "The proposed formalization would require planner state to participate in next-task selection, blocker handling, or validator consistency checks.",
+        "The design would add planner fields to objective, backlog, or work-state without strong current repo evidence and a bounded writer/reader model."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TASK-TRACKER-AND-PLANNER-FORMALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-NATIVE-PROJECT-INITIALIZATION-TECH-SPEC.md",
+        "eval/history/agent-native-project-initialization-and-tracker-planner-adversarial-review-20260401.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.41,
+      "status": "completed",
+      "summary": "Formalize the task-tracker versus planner boundary so PackFactory keeps one execution control plane and advisory planning context.",
+      "task_id": "formalize_task_tracker_and_planner_model",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "Newly created templates and materialized build-packs can carry an explicit bounded agent-native declaration without changing canonical tracker discovery.",
+        "Generated startup surfaces clearly distinguish template-declared intent from build-pack-active operation."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Creation/materialization request, report, and manifest schemas accept the new profile declaration cleanly.",
+        "The create/materialize tooling emits the resolved profile and a fresh proving-ground template/build-pack pair validates cleanly after the rollout."
+      ],
+      "dependencies": [
+        "declare_agent_native_project_initialization_v1",
+        "formalize_task_tracker_and_planner_v1"
+      ],
+      "escalation_conditions": [
+        "The implementation requires new planner state in objective/backlog/work-state to function.",
+        "The generated docs cannot make the template-versus-build-pack boundary fail-closed."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-NATIVE-PROJECT-INITIALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TASK-TRACKER-AND-PLANNER-FORMALIZATION-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/schemas/template-creation-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/template-creation-report.schema.json",
+        "docs/specs/project-pack-factory/schemas/materialization-request.schema.json",
+        "docs/specs/project-pack-factory/schemas/materialization-report.schema.json",
+        "docs/specs/project-pack-factory/schemas/pack.schema.json",
+        "tools/create_template_pack.py",
+        "tools/materialize_build_pack.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.42,
+      "status": "completed",
+      "summary": "Implement the declaration-only agent-native initialization control-plane slice and surface the tracker/planner boundary in generated startup guidance.",
+      "task_id": "implement_agent_native_initialization_declaration_slice",
+      "validation_commands": [
+        "python3 -m py_compile tools/create_template_pack.py tools/materialize_build_pack.py",
+        "python3 tools/create_template_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file /home/orchadmin/project-pack-factory/.pack-state/tmp/agent-native-project-initialization-smoke-template-request.json --output json",
+        "python3 tools/materialize_build_pack.py --factory-root /home/orchadmin/project-pack-factory --request-file /home/orchadmin/project-pack-factory/.pack-state/tmp/agent-native-project-initialization-smoke-materialization-request.json --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
+        "python3 tools/refresh_factory_autonomy_memory.py --factory-root /home/orchadmin/project-pack-factory --actor codex --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The root backlog and work-state use one stable set of task ids and summaries for the agent-native initialization initiative without draft-versus-final naming drift.",
+        "The root tracker still preserves the historical proof record while making the current initiative easier for future agents to follow."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Root backlog entries and work-state completed-task references no longer mix redundant draft-oriented and final-oriented task naming for the same initiative.",
+        "The updated tracker passes whole-factory validation."
+      ],
+      "dependencies": [
+        "implement_agent_native_initialization_declaration_slice"
+      ],
+      "escalation_conditions": [
+        "Cleaning the tracker would remove needed historical evidence instead of only reconciling naming and task-shape drift."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-PLANNING-LIST.md"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.43,
+      "status": "pending",
+      "summary": "Reconcile the root tracker naming and task-shape drift around the new agent-native initialization initiative.",
+      "task_id": "reconcile_agent_native_initiative_tracker_naming",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has an explicit decision on whether the fresh agent-native proving-ground template/build-pack pair should stay as durable historical proof or be retired after capture.",
+        "The decision is discoverable in root planning/tracker surfaces and does not leave the new smoke line in an ambiguous limbo."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The intended lifecycle for the smoke template/build-pack pair is recorded explicitly.",
+        "If retirement is chosen, the task points to the normal PackFactory retirement workflow rather than ad hoc deletion."
+      ],
+      "dependencies": [
+        "implement_agent_native_initialization_declaration_slice"
+      ],
+      "escalation_conditions": [
+        "The proof line is already being reused for other work and cannot be cleanly classified as a proving-ground artifact."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "templates/agent-native-project-initialization-smoke-template-pack/",
+        "build-packs/agent-native-project-initialization-smoke-build-pack-v1/"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.44,
+      "status": "pending",
+      "summary": "Decide whether to retain or retire the fresh agent-native proving-ground template/build-pack pair now that the control-plane proof is complete.",
+      "task_id": "decide_agent_native_smoke_proof_line_retention",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has a bounded adoption policy for when future templates or build-packs should opt into the new agent-native profile by default.",
+        "The policy stays selective and evidence-based rather than silently making every line agent-native."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A clear recommendation exists for default adoption versus selective opt-in.",
+        "The recommendation names where future template/build-pack requests should record that choice."
+      ],
+      "dependencies": [
+        "implement_agent_native_initialization_declaration_slice"
+      ],
+      "escalation_conditions": [
+        "The adoption rule would require a factory-wide default change before PackFactory has enough cross-line evidence."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AGENT-NATIVE-PROJECT-INITIALIZATION-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.45,
+      "status": "pending",
+      "summary": "Define the adoption policy for when future templates and build-packs should opt into the new agent-native initialization profile.",
+      "task_id": "define_agent_native_profile_adoption_policy",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has a bounded follow-on plan for richer planning traceability that does not create a second planner control plane.",
+        "Any future planning traceability stays in evidence/report surfaces or another explicitly non-canonical layer."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A clear next-step design exists for planner evidence or provenance without changing objective/backlog/work-state authority.",
+        "The follow-on work names what surfaces would be touched and what must stay out of scope."
+      ],
+      "dependencies": [
+        "formalize_task_tracker_and_planner_v1"
+      ],
+      "escalation_conditions": [
+        "The proposed follow-on path would let planning context influence next-task selection or validator consistency."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TASK-TRACKER-AND-PLANNER-FORMALIZATION-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "eval/history/"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.46,
+      "status": "pending",
+      "summary": "Design a follow-on path for planner evidence traceability without introducing planner state into the canonical execution tracker.",
+      "task_id": "design_planner_evidence_traceability_follow_on",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory has a clear backup and git strategy that distinguishes what should be committed, what should be backed up outside git, and what should remain local-only or reconstructible.",
+        "The strategy includes at least one bounded restore workflow for repository recovery and one bounded restore workflow for local-only operational state that must survive workstation loss or corruption."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A root-level analysis identifies which PackFactory surfaces belong in git, which should be backed up locally or externally, and which should remain transient or disposable.",
+        "The resulting plan names concrete workflows for routine git hygiene, backup cadence, and restoration after failure."
+      ],
+      "dependencies": [
+        "seed_factory_root_work_tracker"
+      ],
+      "escalation_conditions": [
+        "The proposed strategy would treat transient scratch or bulky generated staging payloads as first-class backup targets without a strong recovery reason.",
+        "The proposed strategy cannot distinguish canonical repo truth from host-local operational state such as memory pointers, dashboard latest pointers, or transient local scratch."
+      ],
+      "files_in_scope": [
+        "AGENTS.md",
+        "README.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "contracts/project-objective.json",
+        "registry/",
+        "templates/",
+        "build-packs/",
+        "deployments/",
+        ".pack-state/",
+        "docs/specs/project-pack-factory/"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.47,
+      "status": "pending",
+      "summary": "Define the PackFactory root backup strategy and git strategy, including what belongs in git, what needs separate backup, what stays local-only, and how to restore each class of state.",
+      "task_id": "define_packfactory_backup_and_git_strategy",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
         "PackFactory has an explicit spec for an assistant-UAT remote request builder that can generate the `remote-run-request.json` and `remote-test-request.json` pair from bounded scenario inputs.",
         "The proposed helper preserves the existing remote roundtrip control plane and the existing imported `assistant-uat` evidence contract."
       ],
@@ -465,6 +1070,74 @@
         "python3 tools/build_assistant_uat_remote_request.py --factory-root /home/orchadmin/project-pack-factory --build-pack-id codex-personal-assistant-daily-driver-build-pack-v1 --remote-target-label adf-dev --remote-host adf-dev --remote-user adf --scenario-id recurring-relationship-reflection-loop --reason \"the recurring relationship-reflection loop on the staged Codex personal assistant daily-driver pack\" --output json",
         "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json",
         "python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project-pack-factory --request-file /home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v12/remote-test-request.json --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The role/domain template catalog has additional safe, clearly differentiated entries beyond the initial proving-ground set.",
+        "The catalog expansion keeps the boundary between personality and role/domain framing explicit and avoids credential-implying or regulated titles in V1."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "At least one new high-signal role/domain entry is added with clear framing guidance and schema-valid catalog data.",
+        "The role/domain overlay spec and any relevant naming guidance stay aligned with the expanded catalog."
+      ],
+      "dependencies": [
+        "design_role_domain_template_overlay_system"
+      ],
+      "escalation_conditions": [
+        "Proposed new entries would blur back into personality tone guidance instead of role/domain framing.",
+        "The safest candidate entries still imply regulated expertise, credentialed authority, or literal job-title claims."
+      ],
+      "files_in_scope": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-ROLE-DOMAIN-TEMPLATE-OVERLAY-TECH-SPEC.md",
+        "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+        "docs/specs/project-pack-factory/schemas/agent-role-domain-template-catalog.schema.json",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.2,
+      "status": "completed",
+      "summary": "Expand the role/domain template catalog with more safe reusable framing lenses now that the overlay system is proved.",
+      "task_id": "expand_role_domain_template_catalog",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "PackFactory proves role/domain overlay reuse on a second active non-smoke product line, not just the assistant line or the smoke proving ground.",
+        "The resulting evidence shows that the overlay system transfers cleanly into a more realistic product context without collapsing into one-off assistant behavior."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "One active non-smoke build-pack or template line outside the smoke proving ground carries a bounded composed overlay exercise with auditable evidence.",
+        "Registry or pack-local evidence makes that second non-smoke proof discoverable."
+      ],
+      "dependencies": [
+        "design_role_domain_template_overlay_system"
+      ],
+      "escalation_conditions": [
+        "No current active non-smoke line has a clean enough fit for a bounded role/domain overlay exercise without distorting its product purpose.",
+        "The proof would require broad new tests or a large cross-line rewrite instead of a bounded application of the existing overlay system."
+      ],
+      "files_in_scope": [
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "registry/build-packs.json",
+        "registry/templates.json",
+        ".pack-state/tmp/",
+        "build-packs/",
+        "templates/"
+      ],
+      "objective_link": "project_pack_factory_root_objective",
+      "selection_priority": 4.3,
+      "status": "completed",
+      "summary": "Prove role/domain overlay reuse on a second active non-smoke product line after the assistant and smoke proving-ground exercises.",
+      "task_id": "prove_role_domain_overlay_on_second_non_smoke_line",
+      "validation_commands": [
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
       ]
     }
   ]

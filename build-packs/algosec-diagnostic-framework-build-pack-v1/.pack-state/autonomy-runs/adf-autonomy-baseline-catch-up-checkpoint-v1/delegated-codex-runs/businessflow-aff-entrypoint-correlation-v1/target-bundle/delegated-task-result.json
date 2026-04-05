@@ -1,0 +1,18 @@
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
+  "task_id": "trace_businessflow_aff_entrypoint_v1",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Observed same-window evidence ties /FireFlow/api/session most closely to the shared suite localhost bridge/polling path around getAFASessionInfo, FireFlowAffApi/NoAuth/CommandsDispatcher, and ws.php calls. Allowed-source evidence did not isolate a distinct BusinessFlow-cookie branch as the direct initiator before FireFlow serves the AFF session.",
+  "returned_artifact_paths": [
+    "artifacts/correlation-timeline.txt",
+    "artifacts/source-excerpts.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If higher-confidence attribution is needed, inspect FireFlow-side source or request-level headers for FireFlowAffApi/NoAuth/CommandsDispatcher outside this observe-only PHP/log slice.",
+    "Capture a targeted same-window trace around SuiteLoginSessionValidation.php and FireFlowAffApi requests to distinguish shared suite polling from explicit post-login redirect behavior.",
+    "Restore or locate the missing baseline run summary if operator context from the parent run is required."
+  ]
+}

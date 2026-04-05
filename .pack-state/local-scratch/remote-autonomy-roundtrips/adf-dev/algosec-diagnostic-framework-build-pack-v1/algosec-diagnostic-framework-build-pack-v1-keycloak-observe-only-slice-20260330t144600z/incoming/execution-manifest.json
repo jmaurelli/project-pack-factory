@@ -1,0 +1,33 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": null,
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": null,
+  "export_error": "no matching exported runtime bundle found for recovered execution manifest",
+  "export_status": "not_attempted",
+  "exported_run_id": null,
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "4e5dc617381fd9b2ebbdac2193873c86c0ca3bf7466ceee0c00877ae9c397b88",
+  "remote_runner": "codex exec --skip-git-repo-check --cd . --dangerously-bypass-approvals-and-sandbox -",
+  "request_sha256": "52a56b7ec564c6a32ff70d4fcb572f64a602ab9de929d759f4e544eaff3850be",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z",
+  "runner_interrupted_signal": null,
+  "runner_returncode": -1,
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "stale_active_run_cleanup": null,
+  "started_at": "2026-03-30T14:47:53Z",
+  "stopped_at": "2026-03-30T14:55:50Z",
+  "target_manifest_sha256": "3effac4085d596426ccf6b5d9da387d8b763d5e4066199fa29d26a4cb11fcdb6",
+  "terminal_outcome": "stopped",
+  "terminal_reason": "current_task_incomplete"
+}

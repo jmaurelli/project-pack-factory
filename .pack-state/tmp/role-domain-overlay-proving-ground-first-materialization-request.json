@@ -1,0 +1,18 @@
+{
+  "schema_version": "build-pack-materialization-request/v1",
+  "source_template_id": "role-domain-overlay-proving-ground-template-pack",
+  "target_build_pack_id": "role-domain-overlay-proving-ground-build-pack-v1",
+  "target_display_name": "Role Domain Overlay Proving Ground Build Pack",
+  "target_version": "0.1.0",
+  "target_revision": "role-domain-overlay-proving-ground-v1",
+  "materialized_by": "codex",
+  "materialization_reason": "Exercise the new role/domain overlay materialization path on a fresh proving-ground build-pack that inherits both overlays from its source template.",
+  "personality_template_selection": {
+    "selection_mode": "inherit_template_default"
+  },
+  "role_domain_template_selection": {
+    "selection_mode": "inherit_template_default"
+  },
+  "copy_mode": "copy_pack_root",
+  "include_benchmark_declarations": true
+}

@@ -505,9 +505,10 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
         )
 
     def render_step(step: dict[str, Any]) -> str:
-        intro_block = (
-            f'<div class="step-panel why"><strong>Step focus</strong><p>{html.escape(step["action"])}</p></div>'
-        )
+        step_focus = html.escape(_step_overview_summary(step))
+        step_action = html.escape(step["action"])
+        intro_block = f'<div class="step-panel why"><strong>Step focus</strong><p>{step_focus}</p></div>'
+        action_block = f'<div class="step-panel"><strong>Action</strong><p>{step_action}</p></div>'
         commands_block = (
             '<div class="step-panel"><strong>Run</strong>'
             + "".join(render_command(command) for command in step["recommended_commands"])
@@ -522,17 +523,19 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
             + intro_block
             + "</summary>"
             + '<div class="step-body">'
+            + action_block
             + commands_block
             + "</div>"
             + "</details>"
         )
 
     def render_playbook(playbook: dict[str, Any]) -> str:
+        step_by_id = {step["step_id"]: step for step in playbook.get("steps", [])}
         dependency_path = "".join(
             (
                 f'<a class="dependency-node" href="#{html.escape(item["step_id"])}">'
                 f'<span class="dependency-step">{html.escape(item["step_label"])}</span>'
-                f'<strong>{html.escape(item["label"])}</strong>'
+                f'<strong>{html.escape(_step_overview_summary(step_by_id.get(item["step_id"], item)))}</strong>'
                 f'<span>{html.escape(item["details"])}</span>'
                 "</a>"
             )
@@ -1041,6 +1044,18 @@ def render_support_baseline_html(support_baseline: dict[str, Any]) -> str:
   </script>
 </body>
 </html>"""
+
+
+def _step_overview_summary(step: dict[str, Any]) -> str:
+    summary = str(step.get("overview_summary") or "").strip()
+    if summary:
+        return summary
+    action = str(step.get("action") or "").strip()
+    if "." in action:
+        return action.split(".", 1)[0].strip()
+    if action:
+        return action
+    return str(step.get("label") or "").strip()
 
 
 def _dump_json(path: Path, payload: dict[str, Any]) -> None:
@@ -2591,6 +2606,7 @@ def _playbook_step(
     step_id: str,
     step_number: int,
     action: str,
+    overview_summary: str | None = None,
     why_this_matters: str | None = None,
     next_if_pass: str,
     failure_point: str,
@@ -2602,6 +2618,7 @@ def _playbook_step(
         "step_id": step_id,
         "step_label": f"Step {step_number}",
         "action": action,
+        "overview_summary": overview_summary or "",
         "why_this_matters": why_this_matters or "",
         "next_if_pass": next_if_pass,
         "failure_point": failure_point,
@@ -3262,6 +3279,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             step_id="ui-and-proxy-step-1",
             step_number=1,
             action="Check host health before deeper ASMS UI checks. Confirm storage, inode, memory, load, OOM, and CPU pressure are not already blocking Apache, Keycloak, Metro, log writing, or temp-file work.",
+            overview_summary="Check host pressure first",
             why_this_matters="A lot of GUI-down cases are still host-pressure problems. If the appliance is already out of space, out of inodes, under memory pressure, or killing processes, deeper UI checks will only blur the real stop point.",
             next_if_pass="If the host looks healthy, move to the Apache edge checks.",
             failure_point="Host health pre-check",
@@ -3276,6 +3294,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             step_id="ui-and-proxy-step-2",
             step_number=2,
             action="Check Apache/HTTPD and the ASMS login path. Confirm httpd.service is running, 80 and 443 are listening, the suite login route still lands on the Apache-served UI page, representative /algosec-ui/ assets still load through Apache, and the proxy mapping still points toward the auth and app branches.",
+            overview_summary="Check Apache login route",
             why_this_matters="Once host health looks okay, the next question is simple: can Apache still serve the login path and hand requests to the right next services. If the login page or route fails here, there is no reason to start with auth or app theory.",
             next_if_pass="If Apache still serves the login entry page, the representative UI assets, and the edge still points toward the auth and app branches, move to the first auth-trigger checks.",
             failure_point="Apache/HTTPD edge or route mapping",
@@ -3374,6 +3393,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             step_id="ui-and-proxy-step-3",
             step_number=3,
             action="Check the core ASMS services that a frontline support engineer can actually verify and restart during a live customer session. Stay shallow here: `httpd.service`, `keycloak.service`, `ms-metro.service`, their expected listeners, and one service-specific restart only when the matching shallow check fails.",
+            overview_summary="Check shallow core services",
             why_this_matters="Most real `ASMS UI is down` cases do not need deep auth-chain forensics. They look more like disk pressure, a stopped service, a half-up service, or an edge path that works only partly. This step keeps the engineer on the shortest practical checks and safe restart boundaries before widening into login-bootstrap, BusinessFlow, FireFlow, or other deeper module theory. On this lab the delegated shallow-service pass showed localhost HTTPS and `/algosec/` healthy, `httpd`, `keycloak`, and related listeners up, and no fresh Apache crash clue. That makes this service-and-restart boundary the right frontline default.",
             next_if_pass="If the shallow service checks look healthy, move to the first usable shell boundary and decide whether the case is still truly `GUI down`.",
             failure_point="the first shallow ASMS service or listener that is down, hung, missing, or does not recover cleanly after a targeted restart",
@@ -3485,6 +3505,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             step_id="ui-and-proxy-step-4",
             step_number=4,
             action="Check whether ASMS opens after login once the edge and core services look healthy. Use the rendered login or home shell to decide whether this is still `GUI down` or whether the user has already crossed into a narrower app workflow problem.",
+            overview_summary="Check first usable shell",
             why_this_matters="The support question here is whether the case is still a top-level UI outage. If the customer can already reach `/afa/php/home.php` and navigate the devices tree or open `REPORTS`, the case needs a narrower label even if some later workflow still fails.",
             next_if_pass="If the customer reaches a usable shell, branch out of `GUI down` into the narrower failing workflow.",
             failure_point="the first customer-visible usable shell boundary or the nearest Metro-backed home-shell support surface",
@@ -3612,6 +3633,7 @@ def _ui_and_proxy_playbook_steps(flow: dict[str, Any]) -> list[dict[str, Any]]:
             step_id="ui-and-proxy-step-5",
             step_number=5,
             action="If the shallow host, Apache, service, and first-shell checks still leave the stop point unclear, use one bounded reproduced journey plus logs to decide whether the deeper issue sits in login bootstrap, auth, or a later app path.",
+            overview_summary="Check later branch markers",
             why_this_matters="This is escalation work, not the frontline default. Only move here after the simpler service-up, route-up, and shell-usable questions have failed to explain the case. The goal is to name the first deeper stop point without turning every normal support session into a code-path excavation.",
             next_if_pass="If the stop point is still unclear, move to the narrower escalation path that matches the reproduced journey.",
             failure_point="the first deeper auth, bootstrap, or app seam that the reproduced journey actually proves",

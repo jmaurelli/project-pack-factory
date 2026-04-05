@@ -1,0 +1,11 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "remote-autonomy-distributed-cm-150-run-request.json",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-cm-150-distributed-shallow-surface-map-v1/incoming",
+  "pull_bundle": true,
+  "import_bundle": true,
+  "imported_by": "codex",
+  "import_reason": "Import the refreshed CM node-local shallow-surface-map bundle for 10.167.2.150 so distributed-role comparison uses the live upgraded CM state.",
+  "test_reason": "Exercise the PackFactory remote roundtrip for the upgraded CM node as part of the first distributed-role proof set."
+}

@@ -1,0 +1,80 @@
+{
+  "active_task_id": "deepen_dependency_aware_playbooks",
+  "baseline_readiness_state": "ready_for_review",
+  "block_summary": null,
+  "completed_task_ids": [
+    "define_frontline_operator_language_contract"
+  ],
+  "delta_summary": {
+    "changed_fields": [
+      "last_agent_action",
+      "last_outcome",
+      "last_outcome_at"
+    ],
+    "completed_task_ids_added": [],
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-policy-branch-checkpoint-v1-20260329.json",
+    "previous_run_id": "algosec-diagnostic-framework-build-pack-v1-policy-branch-slice-v1",
+    "status": "changed",
+    "summary_lines": [
+      "The canonical template is now placeholder-only.",
+      "The real `ASMS UI is down` playbook now has its own generated route under `/playbooks/asms-ui-is-down/`."
+    ]
+  },
+  "evidence_paths": [
+    "eval/history/asms-ui-canonical-template-and-live-playbook-split-20260329.md",
+    "dist/candidates/adf-baseline/starlight-site/src/content/docs/canonical-playbook-template.md",
+    "dist/candidates/adf-baseline/starlight-site/src/content/docs/playbooks/asms-ui-is-down.md",
+    "dist/candidates/adf-baseline/starlight-site/src/content/docs/index.md"
+  ],
+  "final_readiness_state": "ready_for_review",
+  "generated_at": "2026-03-29T16:51:18Z",
+  "handoff_summary": [
+    "Use the live playbook route first for operator review.",
+    "Keep future placeholder structure in the canonical template route only.",
+    "The next content work still stays under `deepen_dependency_aware_playbooks`."
+  ],
+  "highest_risk_observation": "The remote review surface still needs to be refreshed after this local split so the live URLs match the new local structure.",
+  "memory_id": "autonomy-feedback-canonical-template-real-playbook-split-20260329",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Restart memory after splitting the canonical template from the real ASMS operator playbook.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "local_template_and_live_route_split"
+    ],
+    "confidence_level": "high",
+    "confidence_score": 0.95,
+    "expires_after_hours": 24,
+    "expires_at": "2026-03-30T16:51:18Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "High-confidence restart memory because the split is reflected in source, generated local pages, and a local evidence note."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_publishing_live_operator_content_under_canonical_template_route"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Do not reuse `canonical-playbook-template` as the live operator route for `ASMS UI is down`."
+    ]
+  },
+  "next_recommended_task_id": "deepen_dependency_aware_playbooks",
+  "operator_intervention_summary": null,
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: sync the refreshed review site to `adf-dev`, then continue bounded content work under `deepen_dependency_aware_playbooks` from the live `/playbooks/asms-ui-is-down/` route.",
+  "resolved_block_summary": "The canonical-template confusion is now resolved locally by splitting the reference shell from the real ASMS operator page.",
+  "run_id": "local-canonical-template-real-playbook-split-20260329",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root /home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1 --output json",
+    "loop_events_path": null,
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-policy-branch-checkpoint-v1-20260329.json",
+    "run_summary_path": null
+  },
+  "summary": "The canonical template and the real `ASMS UI is down` playbook now publish as separate pages, so support review can use the live route without template confusion."
+}

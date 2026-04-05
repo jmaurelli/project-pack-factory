@@ -1,0 +1,45 @@
+{
+  "memory_id": "autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z",
+  "generated_at": "2026-03-30T14:55:50Z",
+  "memory_tier": {
+    "tier": "restart_memory",
+    "status": "active",
+    "summary": "Restart memory after the bounded Keycloak observe-only boundary packet."
+  },
+  "memory_validity": {
+    "status": "active",
+    "scope": "active_pack_restart",
+    "confidence_level": "high",
+    "confidence_score": 0.9,
+    "expires_after_hours": 24,
+    "expires_at": "2026-03-30T14:55:50Z",
+    "summary": "High-confidence restart memory because this slice captured a direct live Keycloak boundary with service, route, and journal evidence."
+  },
+  "summary": "A bounded Keycloak boundary packet is now recorded for the live condition on 10.167.2.150: keycloak.service is failed, 8443 is absent, /algosec-ui/login still returns 200, the Keycloak OIDC path returns 503, and Metro still answers isAlive true.",
+  "highest_risk_observation": "The slice proves the support boundary cleanly, but it does not yet prove the underlying root cause behind the Quarkus EOF startup failure.",
+  "recommended_next_action": "Reuse this packet as the imported-module drilldown pilot proof and only go deeper into Keycloak startup inputs if the next support question truly needs a narrower module-internal classifier.",
+  "next_recommended_task_id": "deepen_dependency_aware_playbooks",
+  "active_task_id": "deepen_dependency_aware_playbooks",
+  "ready_for_deployment": false,
+  "baseline_readiness_state": "ready_for_review",
+  "final_readiness_state": "ready_for_review",
+  "block_summary": null,
+  "resolved_block_summary": "Transport and separation questions are no longer the uncertainty for this slice; the remaining uncertainty is Keycloak-internal startup cause.",
+  "operator_intervention_summary": null,
+  "handoff_summary": [
+    "Target preflight and heartbeat both passed before evidence capture.",
+    "The current live Keycloak-down condition is reproduced as a module boundary, not as a top-level UI edge failure.",
+    "This slice is evidence-bearing and small enough to judge the imported-module drilldown pilot positively.",
+    "The active parent task remains deepen_dependency_aware_playbooks."
+  ],
+  "evidence_paths": [
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/keycloak-boundary-packet/keycloak-boundary-packet.md",
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/keycloak-boundary-packet/keycloak-service-show.json",
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/keycloak-boundary-packet/keycloak-service-status.json",
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/keycloak-boundary-packet/keycloak-oidc-http.json",
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z/artifacts/keycloak-boundary-packet/metro-heartbeat.json"
+  ]
+}

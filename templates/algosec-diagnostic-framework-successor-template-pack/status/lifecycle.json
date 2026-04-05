@@ -1,0 +1,12 @@
+{
+  "current_revision": "create-template-algosec-diagnostic-framework-successor-template-pack-20260402t120921z",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "maintained",
+  "pack_id": "algosec-diagnostic-framework-successor-template-pack",
+  "pack_kind": "template_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "The current ADF line already contains valuable artifacts and lessons, but the successor should start cleanly with the newer agent-native, bounded-slice, early-proof operating model rather than retrofitting the active implementation line in place.",
+  "updated_at": "2026-04-02T12:09:21Z",
+  "updated_by": "codex"
+}

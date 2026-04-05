@@ -1,0 +1,15 @@
+{
+  "schema_version": "build-pack-materialization-request/v1",
+  "source_template_id": "agent-native-project-initialization-smoke-template-pack",
+  "target_build_pack_id": "agent-native-project-initialization-smoke-build-pack-v1",
+  "target_display_name": "Agent-Native Project Initialization Smoke Build Pack",
+  "target_version": "v1",
+  "target_revision": "r1",
+  "materialized_by": "codex",
+  "materialization_reason": "Prove the declaration-only agent-native initialization flow on a fresh build-pack.",
+  "agent_native_project_profile_selection": {
+    "selection_mode": "inherit_template_default"
+  },
+  "copy_mode": "copy_pack_root",
+  "include_benchmark_declarations": true
+}

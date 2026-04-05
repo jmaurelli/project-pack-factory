@@ -1,0 +1,53 @@
+{
+  "command_result": {
+    "attempts": [
+      {
+        "attempt_index": 0,
+        "exit_code": 0,
+        "latency_ms": 346,
+        "status": "completed",
+        "stderr_preview": [
+          "############################################################################",
+          "    WARNING: This system is for the use of authorized clients only.",
+          "             Individuals using the computer network system without",
+          "             authorization, or in excess of their authorization, are",
+          "             subject to having all their activity on this computer",
+          "             network system monitored and recorded by the system",
+          "             personnel.  To protect the computer network system from",
+          "             unauthorized use and to ensure the computer network systems",
+          "             is functioning properly, system administrators monitor this",
+          "             system.  Anyone using this computer network system",
+          "             expressly consents to such monitoring and is advised that",
+          "             if such monitoring reveals possible conduct of criminal",
+          "             activity, system personnel may provide the evidence of",
+          "             such activity to law enforcement officers.",
+          "############################################################################"
+        ],
+        "stdout_preview": [
+          "login_http=200"
+        ]
+      }
+    ],
+    "dry_run": false,
+    "ssh_argv": [
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "PreferredAuthentications=publickey",
+      "-o",
+      "ConnectTimeout=10",
+      "-o",
+      "ServerAliveInterval=15",
+      "-o",
+      "ServerAliveCountMax=2",
+      "root@10.167.2.150",
+      "env -i HOME=/root PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin /bin/bash --noprofile --norc -c 'curl -sk -o /dev/null -w '\"'\"'login_http=%{http_code}\\n'\"'\"' https://127.0.0.1/algosec-ui/login'"
+    ],
+    "status": "pass"
+  },
+  "requested_command": "curl -sk -o /dev/null -w 'login_http=%{http_code}\\n' https://127.0.0.1/algosec-ui/login",
+  "status": "pass",
+  "target_label": "algosec-lab",
+  "timeout_seconds": 120
+}

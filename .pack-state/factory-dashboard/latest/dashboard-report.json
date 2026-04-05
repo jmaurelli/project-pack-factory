@@ -1,17 +1,17 @@
 {
   "asset_paths": [
-    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t221745z/assets/dashboard.css",
-    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t221745z/assets/dashboard.js"
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260403t013309z/assets/dashboard.css",
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260403t013309z/assets/dashboard.js"
   ],
-  "dashboard_build_id": "factory-dashboard-build-20260326t221745z",
+  "dashboard_build_id": "factory-dashboard-build-20260403t013309z",
   "freshness_thresholds": {
     "fresh_hours": 24,
     "recent_motion_hours": 96,
     "stale_hours": 72
   },
-  "generated_at": "2026-03-26T22:17:45Z",
-  "history_build_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t221745z",
-  "index_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t221745z/index.html",
+  "generated_at": "2026-04-03T01:33:09Z",
+  "history_build_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260403t013309z",
+  "index_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260403t013309z/index.html",
   "latest_output_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/latest",
   "latest_published": true,
   "mismatch_warning_count": 0,
@@ -27,15 +27,15 @@
   ],
   "renderer": "astro",
   "renderer_artifact_paths": [
-    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260326t221745z/index.html",
-    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260326t221745z/assets/dashboard.css",
-    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260326t221745z/assets/dashboard.js"
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260403t013309z/index.html",
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260403t013309z/assets/dashboard.css",
+    "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260403t013309z/assets/dashboard.js"
   ],
-  "renderer_output_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260326t221745z",
-  "report_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t221745z/dashboard-report.json",
+  "renderer_output_root": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/astro-staging/factory-dashboard-build-20260403t013309z",
+  "report_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260403t013309z/dashboard-report.json",
   "schema_version": "factory-dashboard-report/v1",
-  "snapshot_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260326t221745z/dashboard-snapshot.json",
-  "source_count": 26,
+  "snapshot_path": "/home/orchadmin/project-pack-factory/.pack-state/factory-dashboard/history/factory-dashboard-build-20260403t013309z/dashboard-snapshot.json",
+  "source_count": 27,
   "source_trace": [
     {
       "kind": "registry",
@@ -59,7 +59,7 @@
     },
     {
       "kind": "root_memory",
-      "path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260326t180345z.json",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/agent-memory/factory-autonomy-memory-20260402t121440z.json",
       "status": "loaded"
     },
     {
@@ -80,6 +80,11 @@
     {
       "kind": "startup_benchmark_report",
       "path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260325t231447z/benchmark-report.json",
+      "status": "loaded"
+    },
+    {
+      "kind": "startup_benchmark_report",
+      "path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/benchmark-report.json",
       "status": "loaded"
     },
     {
@@ -170,16 +175,16 @@
   ],
   "startup_benchmark_comparison": {
     "available": true,
-    "benchmark_id": "factory-root-startup-benchmark-20260325t231514z",
-    "benchmark_report_path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260325t231514z/benchmark-report.json",
+    "benchmark_id": "factory-root-startup-benchmark-20260326t223900z",
+    "benchmark_report_path": "/home/orchadmin/project-pack-factory/.pack-state/startup-benchmarks/factory-root-startup-benchmark-20260326t223900z/benchmark-report.json",
     "summary": "The latest startup benchmark is available and the dashboard consolidates the same operator-summary inputs into one pre-rendered page."
   },
   "summary_counts": {
     "high_priority": 1,
     "historical_baseline": 7,
-    "ideas_lab": 5,
+    "ideas_lab": 2,
     "medium_priority": 6,
-    "worth_watching": 40
+    "worth_watching": 45
   },
   "validations": {
     "errors": [],

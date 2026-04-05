@@ -1,0 +1,3024 @@
+OpenAI Codex v0.117.0 (research preview)
+--------
+workdir: /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: low
+reasoning summaries: none
+session id: 019d44c5-73a5-7312-8148-3335ce0f68bb
+--------
+user
+You are running inside a staged Project Pack Factory build-pack.
+
+Work only inside this pack root. Read AGENTS.md, project-context.md, and pack.json first, then the assistant/operator/partnership contracts needed for the task.
+
+Keep artifacts inside .pack-state/autonomy-runs/<run-id>/assistant-uat. Do not create preview artifacts unless the existing local assistant commands already require them. You may update existing assistant state through sanctioned local assistant commands such as record-operator-intake or record-business-review, but do not write new arbitrary roots. Do not pass refine_profile_json and do not modify contracts/operator-profile.json during this run. Do not modify registry, deployments, promotion state, or unrelated files.
+
+Assistant UAT scenario:
+
+Stay bounded to local assistant behavior, memory, business review, preference calibration, relationship reflection, navigation guidance, bootstrap, doctor, and documentation surfaces. The goal of this scenario is to prove that preference calibration stays anchored to a current business review, remains inspectable, and does not mutate operator-profile contracts by default.
+
+Assistant UAT task:
+
+If the local business review is due, refresh it first with one grounded review tied to the operator's small-business direction. Then use the local record-preference-calibration surface to capture one bounded working preference without passing refine_profile_json and without modifying contracts/operator-profile.json. End by saying what changed.
+
+Do the needed local work. End with a concise plain-language answer.
+warning: Codex could not find system bubblewrap at /usr/bin/bwrap. Please install bubblewrap with your package manager. Codex will use the vendored bubblewrap in the meantime.
+codex
+I’m starting with the pack’s required startup files so we stay inside the build-pack rules and only touch the local assistant surfaces relevant to this UAT. After that I’ll verify whether the business review is due, refresh it if needed, and then record one bounded preference calibration without touching the operator profile contract.
+exec
+/bin/bash -lc "pwd && printf '\\n--- AGENTS.md ---\\n' && sed -n '1,220p' AGENTS.md && printf '\\n--- project-context.md ---\\n' && sed -n '1,220p' project-context.md && printf '\\n--- pack.json ---\\n' && sed -n '1,260p' pack.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+
+--- AGENTS.md ---
+# Codex Personal Assistant Daily Driver Build Pack Build Pack Agent Context
+
+This directory is a PackFactory build pack, not a source template.
+
+Read `status/lifecycle.json`, `status/readiness.json`, and `status/deployment.json` first.
+If `status/readiness.json.operator_hint_status` exists, surface it in your pack-level startup or continuation briefing before going deeper so active, exhausted, cleanup-candidate, and recently consumed operator hints are visible immediately.
+Then read `pack.json` and use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap traversal contract.
+When `pack.json.directory_contract` declares `contracts/project-objective.json`, `tasks/active-backlog.json`, or `status/work-state.json`, read those files as canonical pack-local control-plane handoff files.
+Treat `status/work-state.json.branch_selection_hints` as the canonical operator-guidance source even when readiness has not been refreshed yet, and surface any active, exhausted, or cleanup-relevant hint state during pack entry when it matters.
+Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.
+For assistant-behavior work, inspect `contracts/assistant-profile.json`,
+`contracts/operator-profile.json`, `contracts/partnership-policy.json`, and
+`contracts/context-routing.json` before making claims about identity,
+grounding, or ambiguity handling.
+Treat `.pack-state/assistant-memory/` as advisory relationship and continuity
+memory; it should support the operator profile, not replace canonical pack
+state.
+When present, inspect `.pack-state/agent-memory/latest-memory.json` first, then treat other `.pack-state/agent-memory/*.json` files as supplementary restart memory distilled from prior autonomy runs.
+
+This build pack can export bounded runtime evidence when running externally.
+Use `pack.json.entrypoints.export_runtime_evidence_command` when that capability is present.
+For workflow or remote-session compliance questions, return to the factory root and read `AGENTS.md` plus `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md` before inventing a pack-local alternative.
+From the factory root, use `python3 tools/run_multi_hop_autonomy_rehearsal.py ...` when you want a single fresh-pack rehearsal that materializes a proving ground, checkpoints mid-backlog memory, runs the remote continuity hops, reconciles canonical state, and verifies the ready-boundary loop end to end.
+From the factory root, use `python3 tools/run_local_mid_backlog_checkpoint.py ...` when you want to stop after the current active task, write local feedback memory, and activate a resumable mid-backlog handoff pointer.
+From the factory root, use `python3 tools/run_remote_active_task_continuity_test.py ...` when the pack is already at a compatible active-task boundary and you want to verify the next task resumes remotely from feedback memory.
+From the factory root, use `python3 tools/run_remote_memory_continuity_test.py ...` after the pack reaches `ready_for_deploy` and `.pack-state/agent-memory/latest-memory.json` is active if you want to verify default feedback-memory continuity on a remote target.
+For remote Codex session management, use the PackFactory-local workflows from the factory root. Do not improvise ad hoc `ssh` prompts, handcrafted remote-session runners, or raw stdout/stderr logging loops when an official PackFactory workflow exists for the same job.
+When multiple next tasks are eligible, prefer lower `selection_priority` first. If the top candidates remain tied, honor any operator branch-selection hints recorded in `status/work-state.json.branch_selection_hints` in canonical hint order: apply active avoid-task guidance first so it can narrow the tied set safely, then apply active preferred-task guidance within the remaining tied set, then use bounded semantic alignment to `contracts/project-objective.json`, `status/work-state.json.resume_instructions`, and optional task `selection_signals`; otherwise stop fail-closed for operator review. Hints may also declare `remaining_applications` when they should expire automatically after bounded use.
+From the factory root, use `python3 tools/audit_branch_selection_hints.py ...` when you need one bounded view of active, exhausted, and cleanup-candidate hints plus recent consumed/deactivated hint evidence.
+Export bounded runtime evidence from the pack when needed, but import it only from the factory root through `python3 tools/import_external_runtime_evidence.py ...` or a higher-level PackFactory workflow that wraps that import.
+For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer.
+If this newly materialized build-pack itself may later need promotion-ready remote evidence, do not skip the fresh-pack rehearsal step: run the official fresh-pack autonomy workflow before this pack diverges into long-lived day-to-day use.
+Autonomy quality remains advisory by default, but `contracts/project-objective.json.autonomy_quality_requirement` can opt this build-pack into bounded promotion-time quality thresholds when stronger promotion discipline is required.
+Export bundles remain supplementary runtime evidence only, and raw remote stdout/stderr is supplementary debugging rather than canonical PackFactory evidence.
+
+Derived from template `codex-personal-assistant-template-pack`.
+Pack id: `codex-personal-assistant-daily-driver-build-pack-v1`.
+
+--- project-context.md ---
+# Project Context
+
+This build-pack is the current daily-driver runtime instance for the Codex
+personal assistant line.
+
+Its job is to prove a grounded, operator-aligned assistant that:
+
+- learns orchadmin's goals and working style over time
+- asks for clarification instead of guessing on ambiguity
+- keeps current work tied to long-term direction and practical business goals
+- remains inspectable through explicit local contracts and memory
+
+## Priority
+
+1. Keep the runtime assistant aligned with the declared operator profile and partnership policy.
+2. Keep the reusable assistant model backportable to the source template.
+3. Keep validation and benchmark commands small and deterministic.
+4. Keep the pack useful for real remote user-acceptance testing.
+
+## Primary Runtime Surfaces
+
+- `contracts/assistant-profile.json`
+- `contracts/operator-profile.json`
+- `contracts/partnership-policy.json`
+- `contracts/context-routing.json`
+- `src/codex_personal_assistant_template_pack/cli.py`
+- `src/codex_personal_assistant_template_pack/alignment.py`
+- `src/codex_personal_assistant_template_pack/memory.py`
+- `docs/specs/operator-alignment-model.md`
+- `docs/specs/user-acceptance-playbook.md`
+
+## Local State
+
+- local assistant memory: `.pack-state/assistant-memory/`
+- PackFactory runtime scratch state: `.pack-state/`
+
+## Factory-Level Inheritance Note
+
+This build-pack inherits the PackFactory autonomy baseline from the factory
+root. Use the factory root for rehearsal, remote-session, and runtime-evidence
+control-plane workflows.
+
+--- pack.json ---
+{
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "directory_contract": {
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "benchmarks_dir": "benchmarks",
+    "candidate_release_dir": "dist/candidates",
+    "contracts_dir": "contracts",
+    "deployment_file": "status/deployment.json",
+    "dist_dir": "dist",
+    "docs_dir": "docs",
+    "eval_dir": "eval",
+    "eval_history_dir": "eval/history",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "immutable_release_dir": "dist/releases",
+    "lifecycle_file": "status/lifecycle.json",
+    "lineage_dir": "lineage",
+    "lineage_file": "lineage/source-template.json",
+    "local_state_dir": ".pack-state",
+    "portable_runtime_helper_manifest": ".packfactory-runtime/manifest.json",
+    "portable_runtime_schemas_dir": ".packfactory-runtime/schemas",
+    "portable_runtime_tools_dir": ".packfactory-runtime/tools",
+    "project_objective_file": "contracts/project-objective.json",
+    "prompts_dir": "prompts",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "runtime_evidence_export_dir": "dist/exports/runtime-evidence",
+    "source_dir": "src",
+    "status_dir": "status",
+    "task_backlog_file": "tasks/active-backlog.json",
+    "tasks_dir": "tasks",
+    "template_export_dir": null,
+    "tests_dir": "tests",
+    "work_state_file": "status/work-state.json"
+  },
+  "display_name": "Codex Personal Assistant Daily Driver Build Pack",
+  "entrypoints": {
+    "benchmark_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+    "cli_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack --help",
+    "export_runtime_evidence_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id <run-id> --exported-by <actor> --output-dir dist/exports/runtime-evidence --output json",
+    "validation_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "Materialized from template `codex-personal-assistant-template-pack`.",
+    "materialization_id=materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z"
+  ],
+  "owning_team": "orchadmin",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "lineage/source-template.json",
+    "contracts/project-objective.json",
+    "tasks/active-backlog.json",
+    "status/work-state.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "runtime": "python",
+  "schema_version": "pack-manifest/v2"
+}
+
+exec
+/bin/bash -lc "printf '%s\\n' '--- status/lifecycle.json ---' && sed -n '1,220p' status/lifecycle.json && printf '\\n--- status/readiness.json ---\\n' && sed -n '1,260p' status/readiness.json && printf '\\n--- status/deployment.json ---\\n' && sed -n '1,220p' status/deployment.json && printf '\\n--- status/work-state.json ---\\n' && sed -n '1,260p' status/work-state.json && printf '\\n--- contracts/project-objective.json ---\\n' && sed -n '1,220p' contracts/project-objective.json && printf '\\n--- tasks/active-backlog.json ---\\n' && sed -n '1,260p' tasks/active-backlog.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+--- status/lifecycle.json ---
+{
+  "current_revision": "codex-personal-assistant-daily-driver-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create the first proving-ground build-pack for a Codex-native daily-driver personal assistant environment once the template exists and factory preflight is clean.",
+  "updated_at": "2026-03-29T16:07:24Z",
+  "updated_by": "codex"
+}
+
+--- status/readiness.json ---
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-30T20:49:57Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Recommended next action: review the recurring relationship-reflection output and run a focused remote replay of the new reflection surfaces, then choose the next stronger repeated-signal or promotion-linked workflow."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-29T16:23:03Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation has not been executed yet."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "codex_personal_assistant_template_pack_smoke_small_001",
+      "last_run_at": "2026-03-29T16:23:03Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Prove the smallest end-to-end Codex personal assistant path: bootstrap the workspace, expose the assistant profile and context-routing surfaces, write and read one restart-memory artifact, and validate the pack contract without requiring broad hook or GUI parity on day one."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}
+
+--- status/deployment.json ---
+{
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
+  "deployment_notes": [
+    "Newly materialized build pack; no active deployment candidate."
+  ],
+  "deployment_pointer_path": null,
+  "deployment_state": "not_deployed",
+  "deployment_transaction_id": null,
+  "last_promoted_at": null,
+  "last_rollback": null,
+  "last_verified_at": null,
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "projection_state": "not_required",
+  "schema_version": "pack-deployment/v2"
+}
+
+--- status/work-state.json ---
+{
+  "active_task_id": null,
+  "autonomy_state": "ready_for_review",
+  "blocked_task_ids": [],
+  "branch_selection_hints": [],
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks",
+    "operator_intake_and_profile_refinement",
+    "session_memory_distillation_and_promotion",
+    "grounding_and_accountability_cadence",
+    "relationship_learning_gap_visibility",
+    "business_grounding_review_loop",
+    "preference_signal_strength_tracking",
+    "navigation_and_fundamentals_guidance_loop",
+    "daily_session_continuity_checkpoint",
+    "thin_history_enrichment_follow_through",
+    "recurring_relationship_reflection_loop"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Added a bounded recurring relationship-reflection loop to the runtime and template assistant surfaces, validated the new reflection status and write path locally, and prepared the pack for a focused remote replay of the reflection slice.",
+  "last_outcome": "task_completed",
+  "last_outcome_at": "2026-03-30T20:49:57Z",
+  "last_validation_results": [
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-validation-20260329t161748z/validation-result.json"
+      ],
+      "recorded_at": "2026-03-29T16:17:48Z",
+      "status": "pass",
+      "summary": "Recorded passing validation readiness evidence for the build-pack contract.",
+      "validation_id": "run_build_pack_validation"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-benchmark-20260329t161814z/benchmark-result.json"
+      ],
+      "recorded_at": "2026-03-29T16:18:14Z",
+      "status": "pass",
+      "summary": "Recorded passing inherited benchmark readiness evidence for the assistant smoke path.",
+      "validation_id": "run_inherited_benchmarks"
+    }
+  ],
+  "next_recommended_task_id": null,
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pending_task_ids": [],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Inspect the operator-intake, session-distillation, operator-profile, memory-policy, and partnership-policy surfaces before changing assistant behavior.",
+    "Inspect show-business-review, show-relationship-reflection, show-memory-distillation, and the next remote UAT roundtrip state before choosing the next assistant-behavior slice."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when the current recurring relationship-reflection slice is implemented and existing bounded validation surfaces pass.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}
+
+--- contracts/project-objective.json ---
+{
+  "autonomy_quality_requirement": {
+    "required_for_promotion": false,
+    "summary": "Autonomy quality is advisory by default; promotion only blocks on autonomy quality when this objective explicitly declares bounded thresholds."
+  },
+  "autonomy_rehearsal_requirement": {
+    "required_for_promotion": true,
+    "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state.",
+    "workflow_id": "multi_hop_autonomy_rehearsal"
+  },
+  "completion_definition": [
+    "All starter tasks in tasks/active-backlog.json are completed or explicitly resolved through existing workflows.",
+    "The build-pack is ready for review, ready for deploy, or awaiting the next PackFactory workflow step."
+  ],
+  "generated_at": "2026-03-29T16:07:24Z",
+  "intended_inputs": [
+    "Pack-local source code and configuration under the materialized build-pack.",
+    "Validation and benchmark commands declared in pack.json entrypoints.",
+    "Current readiness, eval, and benchmark state for this build-pack."
+  ],
+  "intended_outputs": [
+    "A schema-valid build-pack with current validation and benchmark evidence.",
+    "Updated readiness and eval state that supports promotion decisions."
+  ],
+  "materialization_id": "materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z",
+  "metrics": [
+    {
+      "evidence_hint": "status/readiness.json and eval/latest/index.json",
+      "metric_id": "validation_gate_status",
+      "summary": "Validation gate reaches a passing state.",
+      "target": "validate_build_pack_contract=pass"
+    },
+    {
+      "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
+      "metric_id": "benchmark_completion",
+      "summary": "All inherited readiness benchmarks complete successfully.",
+      "target": "required inherited benchmark gates=pass or waived"
+    }
+  ],
+  "non_goals": [
+    "Changing deployment state outside the existing PackFactory workflows.",
+    "Creating new tests or benchmarks without explicit operator approval."
+  ],
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "objective_summary": "Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "problem_statement": "# Project Context\n\nThis template was created to support the following project goal:\n\n- Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.\n\n## Priority\n\n1. Keep the template valid for PackFactory traversal and later materialization.\n2. Keep validation and benchmark commands small and deterministic.\n3. Keep the pack easy for a fresh agent to inspect.\n\n## Primary Runtime Surfaces\n\n- `src/codex_personal_assistant_template_pack/cli.py`\n- `src/codex_personal_assistant_template_pack/validate_project_pack.py`\n- `src/codex_personal_assistant_template_pack/benchmark_smoke.py`\n- `benchmarks/active-set.json`\n- `benchmarks/declarations/codex-personal-assistant-template-pack-smoke-small-001.json`\n- `eval/latest/index.json`\n\n## Local State\n\n- local scratch state: `.pack-state/`\n- optional template lineage memory: `.pack-state/template-lineage-memory/latest-memory.json`\n\n## Factory-Level Inheritance Note\n\nThis template is a source template, not the canonical home of the autonomy\nbaseline.\n\nFor inherited PackFactory defaults around agent memory, feedback loops,\nrestart behavior, rehearsal evidence, and branch-choice policy, prefer the\nfactory-level state brief and operations note:\n\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`\n\nWhen present, the template-local lineage memory at\n`.pack-state/template-lineage-memory/latest-memory.json` is the shortest path\nto template-family learning that has already been distilled from derived\nbuild-packs.\n\nThat inherited baseline now also includes startup-compliance expectations for\nremote Codex session management and runtime-evidence flow:\n\n- prefer PackFactory-local remote-session workflows from the factory root\n- do not treat ad hoc `ssh` prompts or raw stdout/stderr logs as canonical\n  PackFactory evidence\n- return to the factory root for external runtime-evidence import",
+  "promotion_readiness_requirements": [
+    "Build-pack validation must pass with recorded evidence.",
+    "Inherited required benchmark gates must pass or be waived.",
+    "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+    "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
+    "Autonomy quality remains advisory by default unless this build-pack later declares a bounded promotion-time autonomy-quality requirement."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "success_criteria": [
+    "The build-pack validation command completes successfully and records passing evidence.",
+    "The inherited benchmark command completes successfully and updates readiness evidence."
+  ]
+}
+
+--- tasks/active-backlog.json ---
+{
+  "generated_at": "2026-03-30T20:49:57Z",
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The validation readiness-evaluation workflow exits successfully.",
+        "The validation gate records passing evidence in status/readiness.json."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "validate_build_pack_contract reaches pass state.",
+        "Validation evaluation evidence is recorded under eval/history and linked from status/readiness.json."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Validation reports schema or contract failures that the current task scope cannot resolve safely."
+      ],
+      "files_in_scope": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
+      "task_id": "run_build_pack_validation",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The benchmark readiness-evaluation workflow exits successfully.",
+        "Inherited benchmark gates update from not_run to pass or waived."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Benchmark evaluation evidence records results in eval/latest/index.json.",
+        "Required benchmark gates advance to pass or waived in status/readiness.json."
+      ],
+      "dependencies": [
+        "run_build_pack_validation"
+      ],
+      "escalation_conditions": [
+        "Benchmark output fails to update readiness or eval state through the existing bounded surfaces."
+      ],
+      "files_in_scope": [
+        "benchmarks/active-set.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
+      "task_id": "run_inherited_benchmarks",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The runtime pack exposes a bounded operator-intake workflow that records inspectable intake artifacts, refines the operator profile in a merge-friendly way, and writes relationship memory for stable signals.",
+        "The new intake workflow is discoverable through local contracts, prompts, and docs without introducing hidden adaptation behavior."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A CLI surface exists to inspect the operator-intake contract and record a bounded intake/refinement update.",
+        "Runtime contracts, docs, and local state surfaces clearly show how intake updates affect operator alignment.",
+        "Existing validation and smoke benchmark surfaces pass after the intake feature is added."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The intake workflow would require hidden profile mutation or non-inspectable adaptation rules.",
+        "The runtime and template models diverge in a way that cannot be backported cleanly."
+      ],
+      "files_in_scope": [
+        "contracts/operator-profile.json",
+        "contracts/operator-intake.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/assistant_contracts.py",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/cli.py",
+        "src/codex_personal_assistant_template_pack/memory.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a structured operator-intake and profile-refinement workflow to the runtime assistant.",
+      "task_id": "operator_intake_and_profile_refinement",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant can distill a bounded session update into durable relationship memory without rewriting the operator profile on weak signals.",
+        "The distillation behavior stays inspectable through local artifacts and existing assistant memory surfaces."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded distillation workflow exists for session-level operator learning.",
+        "Distilled memory promotion rules are documented and validated through existing pack surfaces."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement"
+      ],
+      "escalation_conditions": [
+        "Session distillation would require adding broad new tests or opaque heuristics.",
+        "Stable-signal promotion cannot be expressed through local contracts and assistant memory."
+      ],
+      "files_in_scope": [
+        "contracts/memory-policy.json",
+        "docs/specs/operator-alignment-model.md",
+        "src/codex_personal_assistant_template_pack/memory.py",
+        "src/codex_personal_assistant_template_pack/alignment.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a bounded session-memory distillation and promotion workflow.",
+      "task_id": "session_memory_distillation_and_promotion",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant can surface grounded accountability prompts and drift checks that align with the operator's declared direction.",
+        "Grounding/accountability guidance remains business-like, brief, and fail-closed on ambiguity."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The runtime assistant exposes a discoverable grounding/accountability cadence tied to the operator profile and partnership policy.",
+        "Existing validation and smoke surfaces continue to pass after the grounding cadence is introduced."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement",
+        "session_memory_distillation_and_promotion"
+      ],
+      "escalation_conditions": [
+        "Accountability behavior starts pretending to have human emotion or certainty the local evidence does not support.",
+        "The cadence cannot stay bounded inside the current pack-local contracts and docs."
+      ],
+      "files_in_scope": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/doctor.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a grounded accountability and anti-drift cadence to the runtime assistant.",
+      "task_id": "grounding_and_accountability_cadence",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The relationship-state surface exposes which operator-learning signal categories are already covered, which are still thin, and the next bounded intake prompts that would make the assistant less generic.",
+        "The alignment summary mirrors the relationship-learning gap signals without introducing a second personalization subsystem."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "show-relationship-state returns covered_signal_categories, missing_signal_categories, and next_learning_prompts sourced from the operator-intake contract.",
+        "Existing validation and smoke benchmark surfaces pass after the relationship-learning gap visibility update is added."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement",
+        "session_memory_distillation_and_promotion",
+        "grounding_and_accountability_cadence"
+      ],
+      "escalation_conditions": [
+        "Improving relationship-state visibility would require a parallel personalization model instead of extending the existing inspectable surface.",
+        "The runtime and template relationship-state outputs diverge in a way that cannot be validated through the current bounded surfaces."
+      ],
+      "files_in_scope": [
+        "contracts/operator-intake.json",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/benchmark_smoke.py",
+        "src/codex_personal_assistant_template_pack/relationship_state.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Make relationship-learning coverage gaps and next intake prompts explicit through the existing relationship-state surface.",
+      "task_id": "relationship_learning_gap_visibility",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant exposes an inspectable recurring business-grounding review loop that tells the operator when a review is due, what questions should guide it, and what the latest review concluded.",
+        "The business-grounding review loop reuses the existing grounding, relationship, and partnership-policy surfaces instead of introducing a hidden planner or duplicate personalization system."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "show-business-review returns a bounded review summary with due-state, review questions, and current relationship-learning gaps.",
+        "record-business-review writes inspectable local review artifacts and the alignment summary reflects the latest business review status.",
+        "Existing validation and smoke benchmark surfaces pass after the review loop is added."
+      ],
+      "dependencies": [
+        "grounding_and_accountability_cadence",
+        "relationship_learning_gap_visibility"
+      ],
+      "escalation_conditions": [
+        "The review loop would require a broad planning subsystem or hidden adaptation behavior instead of a bounded inspectable review artifact.",
+        "The runtime and template review-loop surfaces diverge in a way that cannot be proven through the existing validation and smoke benchmark commands."
+      ],
+      "files_in_scope": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/benchmark_smoke.py",
+        "src/codex_personal_assistant_template_pack/cli.py",
+        "src/codex_personal_assistant_template_pack/doctor.py",
+        "src/codex_personal_assistant_template_pack/grounding.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a bounded recurring business-grounding review loop to the assistant runtime.",
+      "task_id": "business_grounding_review_loop",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+        "python3 tools/validate_factory.py --factory-root /home/orchadmin/project-pack-factory --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant can show whether preference evidence is missing, tentative, repeated, or confirmed without inventing a separate hidden scoring system.",
+        "Preference-strength tracking reuses the existing relationship-state, memory, and alignment surfaces so the signal remains inspectable and backportable."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "show-relationship-state exposes signal-strength details by category and a dedicated preference-strength status.",
+        "show-alignment mirrors the current preference-strength status for quick operator inspection.",
+        "Existing validation and smoke benchmark surfaces pass after the preference-strength tracking update is added."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement",
+        "session_memory_distillation_and_promotion",
+        "relationship_learning_gap_visibility"
+      ],
+      "escalation_conditions": [
+        "Preference-strength tracking would require a new opaque scoring subsystem instead of a bounded rollup of existing inspectable evidence.",
+        "The runtime and template preference-strength outputs diverge in a way that cannot be validated through the current bounded surfaces."
+      ],
+      "files_in_scope": [
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+
+codex
+The pack state is clean for this scenario: no active branch hints, and the work-state already points us toward the business review and assistant surfaces. Next I’m reading the identity/alignment contracts plus the latest local memory and CLI surfaces so we can use the sanctioned commands instead of editing state by hand.
+exec
+/bin/bash -lc "printf '%s\\n' '--- contracts/assistant-profile.json ---' && sed -n '1,220p' contracts/assistant-profile.json && printf '\\n--- contracts/operator-profile.json ---\\n' && sed -n '1,260p' contracts/operator-profile.json && printf '\\n--- contracts/partnership-policy.json ---\\n' && sed -n '1,260p' contracts/partnership-policy.json && printf '\\n--- contracts/context-routing.json ---\\n' && sed -n '1,240p' contracts/context-routing.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+--- contracts/assistant-profile.json ---
+{
+  "schema_version": "codex-personal-assistant-profile/v2",
+  "assistant_id": "codex-personal-assistant-daily-driver",
+  "display_name": "Codex Personal Assistant",
+  "runtime": "codex",
+  "operator_id": "orchadmin",
+  "mission": "Act as orchadmin's Codex-native personal assistant and grounded business partner, keeping work aligned with stated goals while learning how to collaborate more effectively over time.",
+  "behavior_principles": [
+    "Prefer bounded, inspectable workflows over hidden automation.",
+    "Ask clarifying questions instead of guessing when intent is ambiguous.",
+    "Treat the operator's goals, constraints, and grounding principles as first-class context.",
+    "Adapt to repeated operator preferences through inspectable local state.",
+    "Challenge drift gently and concretely when current work stops serving stated goals."
+  ],
+  "default_capabilities": [
+    "Show the current assistant identity and working stance.",
+    "Summarize operator alignment and partnership expectations.",
+    "Route requests to the smallest relevant local context surfaces.",
+    "Record and read restart memory for continuity and adaptation.",
+    "Bootstrap a portable assistant workspace preview.",
+    "Run a small doctor surface for local health checks."
+  ],
+  "startup_sequence": [
+    "Read AGENTS.md, project-context.md, and pack.json.",
+    "Read the assistant, operator, and partnership contracts when identity or alignment matters.",
+    "Use route-context before loading deeper local files.",
+    "Inspect restart memory only when it materially helps continuation."
+  ]
+}
+
+--- contracts/operator-profile.json ---
+{
+  "schema_version": "codex-personal-assistant-operator-profile/v1",
+  "operator_id": "orchadmin",
+  "preferred_name": "orchadmin",
+  "current_role": "operator building toward a small business",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "long_horizon_goals": [
+    "Build a small business.",
+    "Develop a durable working partnership with the assistant that becomes more useful over time."
+  ],
+  "near_term_priorities": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner.",
+    "Keep moving even when the roadmap is incomplete or curvy."
+  ],
+  "grounding_principles": [
+    "Do not confuse motion with progress.",
+    "Reconnect tactical work to the larger business direction.",
+    "Surface ambiguity before committing to a path.",
+    "Do not confuse uncertainty about the whole map with inability to take the next step."
+  ],
+  "navigation_preferences": [
+    "Help turn broad direction into the next concrete step even when the full roadmap is unclear.",
+    "Keep the larger business direction stable while allowing the tactical path to stay curvy.",
+    "When several paths are possible, narrow the choice instead of pretending there is only one road."
+  ],
+  "fundamentals_support_preferences": [
+    "Do not assume deep technical fundamentals when the operator is working in a new area.",
+    "Explain the key concept plainly before asking for a high-confidence commitment.",
+    "Name when the next best move is to learn one concept first and then continue."
+  ],
+  "working_preferences": [
+    "Keep support business-like and concrete.",
+    "Prefer clear instructions over implied workflows.",
+    "Ask for refinement when a request is ambiguous.",
+    "Translate broad direction into the next best concrete step.",
+    "Explain fundamentals plainly when depth is thin instead of assuming expert context."
+  ],
+  "ambiguity_preferences": [
+    "Do not guess through ambiguity.",
+    "Ask the minimum clarifying questions needed to proceed safely."
+  ],
+  "known_do_not_assume": [
+    "the intended workflow when multiple PackFactory surfaces could apply",
+    "that a partially formed idea is ready for execution without refinement",
+    "that technical verification is the same as user experience validation",
+    "deep fundamental knowledge of every technology involved in the current path",
+    "that uncertainty about the roadmap means no useful next step exists"
+  ],
+  "success_signals": [
+    "The operator stays aligned with stated goals.",
+    "The assistant gets easier and more useful over repeated sessions.",
+    "Work moves toward a small-business direction rather than drifting.",
+    "The assistant helps the operator keep moving even when the roadmap is curvy or incomplete."
+  ]
+}
+
+--- contracts/partnership-policy.json ---
+{
+  "schema_version": "codex-personal-assistant-partnership-policy/v1",
+  "relationship_mode": "grounded-business-partner",
+  "primary_outcome": "Increase orchadmin's progress toward a sustainable small business while reducing ambiguity and drift.",
+  "grounding_behaviors": [
+    "Reconnect active work to stated goals and business direction.",
+    "Name drift plainly when work no longer supports the larger direction.",
+    "Favor the next grounded step over vague activity."
+  ],
+  "adaptation_rules": [
+    "Learn from repeated operator feedback, requests, and decisions.",
+    "Keep adaptation inspectable through local contracts and assistant memory.",
+    "Ask before changing high-impact goals or constraints."
+  ],
+  "review_prompts": [
+    "How does this work support the operator's larger direction?",
+    "What is still ambiguous enough to justify a clarifying question?",
+    "What stable preference or pattern should be recorded for next time?"
+  ],
+  "grounding_accountability_cadence": {
+    "cadence_name": "grounded-check-in",
+    "trigger_conditions": [
+      "work appears to drift from stated goals",
+      "the operator's intent is ambiguous",
+      "the assistant is about to commit to a path with hidden tradeoffs"
+    ],
+    "response_steps": [
+      "name the current work plainly",
+      "compare it to the operator's stated direction",
+      "surface the mismatch or drift directly",
+      "ask the minimum clarifying question needed or propose the next grounded step"
+    ],
+    "review_prompts": [
+      "What outcome matters most right now?",
+      "Does this still support the operator's larger direction?",
+      "What is the smallest grounded next step?"
+    ]
+  },
+  "business_review_loop": {
+    "cadence_name": "weekly-business-grounding-review",
+    "storage_root": ".pack-state/business-grounding-reviews",
+    "latest_pointer_path": ".pack-state/business-grounding-reviews/latest-review.json",
+    "review_questions": [
+      "What outcome matters most for the business direction right now?",
+      "Which current work is genuinely moving the operator toward that direction?",
+      "What drift, avoidance, or ambiguity needs to be named plainly?",
+      "What is the next grounded step that should happen next?"
+    ],
+    "due_conditions": [
+      "no recorded business grounding review exists yet",
+      "the latest review ended with drift_risk or unclear assessment",
+      "the operator's current focus changed enough to justify a fresh review"
+    ]
+  },
+  "relationship_reflection_loop": {
+    "cadence_name": "relationship-signal-reflection",
+    "review_questions": [
+      "Which missing relationship signal would most improve daily collaboration right now?",
+      "What is one bounded reflection the assistant can record without overgeneralizing from it?",
+      "Which existing intake category should capture that reflection?"
+    ],
+    "due_conditions": [
+      "relationship-state still shows missing signal categories",
+      "thin-history risk is medium or high and durable relationship signals are still sparse",
+      "a fresh business review has completed and one bounded reflection would reduce genericity"
+    ],
+    "target_category_order": [
+      "preference",
+      "communication_pattern",
+      "alignment_risk",
+      "goal"
+    ],
+    "max_prompts_per_reflection": 2,
+    "record_surface": "record-operator-intake"
+  },
+  "navigation_guidance_loop": {
+    "cadence_name": "direction-to-decision-guidance",
+    "trigger_conditions": [
+      "the operator knows the general direction but not the exact path",
+      "the operator is exploring a curvy path and needs the next grounded step",
+      "the operator is working above current fundamentals depth"
+    ],
+    "response_steps": [
+      "name the north star and the current uncertainty plainly",
+      "distinguish exploration from execution before proposing work",
+      "translate broad direction into one bounded next step",
+      "switch into plain-language fundamentals support when depth is thin",
+      "ask one brief clarifying question instead of guessing when the next move is still ambiguous"
+    ],
+    "review_prompts": [
+      "What larger direction is still true even if the path is unclear?",
+      "Is this moment exploratory or execution-oriented?",
+      "What is the smallest next step that still supports the north star?",
+      "What concept needs a plain-language fundamentals explanation before committing?"
+    ],
+    "fundamentals_gap_indicators": [
+      "the operator says they do not have deep fundamentals here",
+      "the operator can name a direction but not the supporting concepts",
+      "the next step depends on concepts that should be explained plainly first"
+    ]
+  },
+  "boundaries": [
+    "Do not pretend to know more than the local artifacts support.",
+    "Do not guess through ambiguity when clarification is cheaper and safer.",
+    "Do not present emotional attachment as if it were human feeling."
+  ],
+  "ambiguity_policy": {
+    "default_behavior": "ask-clarifying-question",
+    "question_style": "brief, concrete, and non-leading",
+    "pause_conditions": [
+      "ambiguous operator intent",
+      "multiple non-obvious paths with hidden tradeoffs",
+      "possible conflict with stated goals or constraints"
+    ]
+  },
+  "accountability_cadence": {
+    "default_behavior": "name-drift-and-propose-grounded-next-step",
+    "checkpoints": [
+      "before committing to side work that may not support the current business direction",
+      "when active work appears to drift from near-term priorities",
+      "at the end of a productive session before promoting durable relationship memory"
+    ],
+    "drift_indicators": [
+      "side work with no clear tie to stated goals",
+      "vague activity without a concrete outcome",
+      "work that conflicts with the operator's current business direction"
+    ],
+    "require_goal_anchor": true
+  }
+}
+
+--- contracts/context-routing.json ---
+{
+  "schema_version": "codex-personal-assistant-context-routing/v2",
+  "routes": [
+    {
+      "route_id": "identity",
+      "keywords": [
+        "identity",
+        "profile",
+        "assistant",
+        "persona"
+      ],
+      "summary": "Assistant identity, mission, and default behavior surfaces.",
+      "paths": [
+        "contracts/assistant-profile.json",
+        "contracts/partnership-policy.json",
+        "AGENTS.md",
+        "project-context.md"
+      ]
+    },
+    {
+      "route_id": "goals",
+      "keywords": [
+        "operator",
+        "goals",
+        "priorities",
+        "grounded"
+      ],
+      "summary": "Structured operator goals, priorities, and grounding principles.",
+      "paths": [
+        "contracts/operator-profile.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md"
+      ]
+    },
+    {
+      "route_id": "partnership",
+      "keywords": [
+        "partner",
+        "alignment",
+        "business",
+        "ambiguity"
+      ],
+      "summary": "How the assistant should work with the operator, handle ambiguity, and surface drift.",
+      "paths": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md"
+      ]
+    },
+    {
+      "route_id": "memory",
+      "keywords": [
+        "memory",
+        "restart",
+        "handoff",
+        "continuity",
+        "adaptation"
+      ],
+      "summary": "Restart-memory policy plus the local pointer used for the latest memory artifact.",
+      "paths": [
+        "contracts/memory-policy.json",
+        "prompts/restart-memory-guide.md",
+        ".pack-state/assistant-memory/latest-memory.json"
+      ]
+    },
+    {
+      "route_id": "skills",
+      "keywords": [
+        "skills",
+        "capabilities",
+        "customization",
+        "tooling"
+      ],
+      "summary": "Assistant skills, how they are grouped, and where custom overlays belong.",
+      "paths": [
+        "contracts/skill-catalog.json",
+        "prompts/skills-guide.md"
+      ]
+    },
+    {
+      "route_id": "bootstrap",
+      "keywords": [
+        "bootstrap",
+        "install",
+        "setup",
+        "workspace"
+      ],
+      "summary": "Workspace bootstrap behavior and the first-run checklist.",
+      "paths": [
+        "prompts/bootstrap-checklist.md",
+        "README.md"
+      ]
+    },
+    {
+      "route_id": "health",
+      "keywords": [
+        "doctor",
+        "health",
+        "validation",
+        "readiness"
+      ],
+      "summary": "Pack health, validation state, and readiness evidence surfaces.",
+      "paths": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ]
+    }
+  ]
+}
+
+exec
+/bin/bash -lc "if [ -f .pack-state/agent-memory/latest-memory.json ]; then printf '%s\\n' '--- .pack-state/agent-memory/latest-memory.json ---' && sed -n '1,260p' .pack-state/agent-memory/latest-memory.json; else echo 'no latest agent memory'; fi
+printf '\\n--- assistant commands ---\\n'
+PYTHONPATH=src python3 -m codex_personal_assistant_template_pack --help
+printf '\\n--- grep business/preference commands ---\\n'
+rg -n \"record-business-review|record-preference-calibration|show-business-review|show-alignment|doctor|bootstrap|relationship\" src/codex_personal_assistant_template_pack" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+--- .pack-state/agent-memory/latest-memory.json ---
+{
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-31T16:25:05Z",
+  "selected_memory_id": "autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v20",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v20.json",
+  "selected_memory_sha256": "21142073c5309e33794b5fea9bde8659dbbdf9d3fd5065c528c5ebe84092714b",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v20",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v20.json",
+  "source_import_id": "import-external-runtime-evidence-20260331t162508z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260331t162508z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-31T16:25:08Z"
+}
+
+--- assistant commands ---
+usage: codex_personal_assistant_template_pack [-h]
+                                              {validate-project-pack,benchmark-smoke,show-profile,show-alignment,show-grounding-cadence,show-business-review,show-navigation-guidance,show-operator-intake,show-relationship-state,show-relationship-reflection,show-preference-calibration,show-memory-distillation,run-grounding-check,run-navigation-check,check-ambiguity,route-context,record-memory,distill-session-memory,record-operator-intake,record-business-review,record-relationship-reflection,record-preference-calibration,read-memory,delete-memory,bootstrap-workspace,doctor}
+                                              ...
+
+positional arguments:
+  {validate-project-pack,benchmark-smoke,show-profile,show-alignment,show-grounding-cadence,show-business-review,show-navigation-guidance,show-operator-intake,show-relationship-state,show-relationship-reflection,show-preference-calibration,show-memory-distillation,run-grounding-check,run-navigation-check,check-ambiguity,route-context,record-memory,distill-session-memory,record-operator-intake,record-business-review,record-relationship-reflection,record-preference-calibration,read-memory,delete-memory,bootstrap-workspace,doctor}
+
+options:
+  -h, --help            show this help message and exit
+
+--- grep business/preference commands ---
+src/codex_personal_assistant_template_pack/memory.py:539:        else "Repeated business-review closeouts with the same category and assessment justify bounded carry-forward into durable relationship memory."
+src/codex_personal_assistant_template_pack/assistant_contracts.py:17:BOOTSTRAP_GUIDE_PATH = Path("prompts/bootstrap-checklist.md")
+src/codex_personal_assistant_template_pack/assistant_contracts.py:57:        "bootstrap_guide": project_root / BOOTSTRAP_GUIDE_PATH,
+src/codex_personal_assistant_template_pack/__init__.py:4:from .doctor import run_doctor
+src/codex_personal_assistant_template_pack/__init__.py:8:from .workspace_bootstrap import bootstrap_workspace
+src/codex_personal_assistant_template_pack/__init__.py:12:    "bootstrap_workspace",
+src/codex_personal_assistant_template_pack/__init__.py:17:    "run_doctor",
+src/codex_personal_assistant_template_pack/cli.py:11:from .doctor import run_doctor
+src/codex_personal_assistant_template_pack/cli.py:16:    record_relationship_reflection,
+src/codex_personal_assistant_template_pack/cli.py:22:    show_relationship_reflection,
+src/codex_personal_assistant_template_pack/cli.py:33:from .relationship_state import show_relationship_state
+src/codex_personal_assistant_template_pack/cli.py:35:from .workspace_bootstrap import bootstrap_workspace
+src/codex_personal_assistant_template_pack/cli.py:54:    alignment_parser = subparsers.add_parser("show-alignment")
+src/codex_personal_assistant_template_pack/cli.py:62:    business_review_parser = subparsers.add_parser("show-business-review")
+src/codex_personal_assistant_template_pack/cli.py:74:    relationship_state_parser = subparsers.add_parser("show-relationship-state")
+src/codex_personal_assistant_template_pack/cli.py:75:    relationship_state_parser.add_argument("--project-root", default=".")
+src/codex_personal_assistant_template_pack/cli.py:76:    relationship_state_parser.add_argument("--output", choices=("json",), default="json")
+src/codex_personal_assistant_template_pack/cli.py:78:    relationship_reflection_parser = subparsers.add_parser("show-relationship-reflection")
+src/codex_personal_assistant_template_pack/cli.py:79:    relationship_reflection_parser.add_argument("--project-root", default=".")
+src/codex_personal_assistant_template_pack/cli.py:80:    relationship_reflection_parser.add_argument("--output", choices=("json",), default="json")
+src/codex_personal_assistant_template_pack/cli.py:177:        help="Override the memory category used for the relationship signal.",
+src/codex_personal_assistant_template_pack/cli.py:181:    business_review_write_parser = subparsers.add_parser("record-business-review")
+src/codex_personal_assistant_template_pack/cli.py:199:    reflection_write_parser = subparsers.add_parser("record-relationship-reflection")
+src/codex_personal_assistant_template_pack/cli.py:217:    preference_write_parser = subparsers.add_parser("record-preference-calibration")
+src/codex_personal_assistant_template_pack/cli.py:239:    bootstrap_parser = subparsers.add_parser("bootstrap-workspace")
+src/codex_personal_assistant_template_pack/cli.py:240:    bootstrap_parser.add_argument("--project-root", default=".")
+src/codex_personal_assistant_template_pack/cli.py:241:    bootstrap_parser.add_argument("--target-dir", required=True)
+src/codex_personal_assistant_template_pack/cli.py:242:    bootstrap_parser.add_argument("--output", choices=("json",), default="json")
+src/codex_personal_assistant_template_pack/cli.py:244:    doctor_parser = subparsers.add_parser("doctor")
+src/codex_personal_assistant_template_pack/cli.py:245:    doctor_parser.add_argument("--project-root", default=".")
+src/codex_personal_assistant_template_pack/cli.py:246:    doctor_parser.add_argument("--output", choices=("json",), default="json")
+src/codex_personal_assistant_template_pack/cli.py:264:    if args.command == "show-alignment":
+src/codex_personal_assistant_template_pack/cli.py:274:    if args.command == "show-business-review":
+src/codex_personal_assistant_template_pack/cli.py:289:    if args.command == "show-relationship-state":
+src/codex_personal_assistant_template_pack/cli.py:290:        result = show_relationship_state(Path(args.project_root).resolve())
+src/codex_personal_assistant_template_pack/cli.py:294:    if args.command == "show-relationship-reflection":
+src/codex_personal_assistant_template_pack/cli.py:295:        result = show_relationship_reflection(Path(args.project_root).resolve())
+src/codex_personal_assistant_template_pack/cli.py:394:    if args.command == "record-business-review":
+src/codex_personal_assistant_template_pack/cli.py:411:    if args.command == "record-relationship-reflection":
+src/codex_personal_assistant_template_pack/cli.py:412:        result = record_relationship_reflection(
+src/codex_personal_assistant_template_pack/cli.py:428:    if args.command == "record-preference-calibration":
+src/codex_personal_assistant_template_pack/cli.py:449:    if args.command == "bootstrap-workspace":
+src/codex_personal_assistant_template_pack/cli.py:450:        result = bootstrap_workspace(Path(args.project_root).resolve(), Path(args.target_dir))
+src/codex_personal_assistant_template_pack/cli.py:454:    if args.command == "doctor":
+src/codex_personal_assistant_template_pack/cli.py:455:        result = run_doctor(Path(args.project_root).resolve())
+src/codex_personal_assistant_template_pack/profile.py:32:        "partnership_mode": partnership.get("relationship_mode"),
+src/codex_personal_assistant_template_pack/alignment.py:15:from .grounding import show_relationship_reflection
+src/codex_personal_assistant_template_pack/alignment.py:18:from .relationship_state import show_relationship_state
+src/codex_personal_assistant_template_pack/alignment.py:27:    relationship_state = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/alignment.py:30:    relationship_reflection = show_relationship_reflection(project_root)
+src/codex_personal_assistant_template_pack/alignment.py:59:        "relationship_mode": partnership.get("relationship_mode"),
+src/codex_personal_assistant_template_pack/alignment.py:98:        "relationship_state_summary": relationship_state.get("relationship_state_summary", {}),
+src/codex_personal_assistant_template_pack/alignment.py:99:        "history_enrichment_status": relationship_state.get("history_enrichment_status", {}),
+src/codex_personal_assistant_template_pack/alignment.py:100:        "preference_strength_status": relationship_state.get("preference_strength_status", {}),
+src/codex_personal_assistant_template_pack/alignment.py:103:        "relationship_reflection_status": relationship_reflection.get("relationship_reflection_status", {}),
+src/codex_personal_assistant_template_pack/alignment.py:104:        "recommended_step_sequence": relationship_reflection.get("recommended_step_sequence", []),
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:11:from .doctor import run_doctor
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:17:    record_relationship_reflection,
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:21:    show_relationship_reflection,
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:32:from .relationship_state import show_relationship_state
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:34:from .workspace_bootstrap import bootstrap_workspace
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:66:    doctor = run_doctor(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:68:    relationship_state_before = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:90:        next_action="Use doctor and PackFactory validation before wider rollout.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:112:            "Use operator-intake records to refine the relationship model explicitly."
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:138:        stable_signal_reason="The benchmark combines a direct session memory and an intake-backed relationship signal to justify an explicit promoted pattern.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:145:        next_action="Use the promoted relationship memory in future sessions only as advisory context.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:153:    relationship_state_after = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:159:        grounded_next_step="Keep the next assistant iteration tied to business direction, relationship gaps, and the smallest high-value behavior change.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:181:    relationship_state_after_preference = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:183:    relationship_reflection_after_review = show_relationship_reflection(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:185:    relationship_state_after_review = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:187:    reflection_write = record_relationship_reflection(
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:193:        tags=["benchmark", "smoke", "relationship-reflection"],
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:199:    relationship_reflection_after_write = show_relationship_reflection(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:200:    relationship_state_after_reflection = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:203:    doctor_after_review = run_doctor(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:215:        bootstrap_result = bootstrap_workspace(project_root, Path(tmp_dir))
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:234:        "Use operator-intake records to refine the relationship model explicitly." in refined_preferences
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:249:    relationship_state_summary = alignment_after_review.get("relationship_state_summary", {})
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:252:    preference_strength_status = relationship_state_after_review.get("preference_strength_status", {})
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:254:    relationship_covered_categories = relationship_state_after.get("covered_signal_categories", [])
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:255:    relationship_missing_categories = relationship_state_after.get("missing_signal_categories", [])
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:256:    relationship_covered_categories_after_review = relationship_state_after_review.get("covered_signal_categories", [])
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:257:    relationship_missing_categories_after_review = relationship_state_after_review.get("missing_signal_categories", [])
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:270:        for category_id in relationship_missing_categories
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:278:        for category_id in relationship_missing_categories_after_review
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:317:        "missing_signal_category_count": len(relationship_missing_categories_after_review),
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:326:        "recommended_record_surface": "record-preference-calibration",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:327:        "recommended_next_step": "Use record-preference-calibration to capture one bounded working or communication preference tied to the latest business review.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:331:                "surface": "record-preference-calibration",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:339:        "latest_business_review_grounded_next_step": "Keep the next assistant iteration tied to business direction, relationship gaps, and the smallest high-value behavior change.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:349:        "recommended_record_surface": "record-preference-calibration",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:360:        "latest_business_review_grounded_next_step": "Keep the next assistant iteration tied to business direction, relationship gaps, and the smallest high-value behavior change.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:363:    expected_relationship_reflection_status = {
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:364:        "cadence_name": "relationship-signal-reflection",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:377:                "step_id": "capture_missing_relationship_signal",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:379:                "reason": "missing_relationship_signal",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:381:                "summary": "Capture one bounded reflection for the first missing relationship signal category.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:389:    expected_relationship_reflection_status_after_write = {
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:390:        "cadence_name": "relationship-signal-reflection",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:394:        "due_reason": "No missing relationship signal categories require a fresh reflection right now.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:438:            for entry in relationship_state_after_review.get("signal_strength_by_category", [])
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:484:        "show_relationship_state": relationship_state_before["status"],
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:500:        "relationship_state_personalization_stage": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:501:        if relationship_state_after.get("personalization_stage") in {"learning", "grounded"}
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:503:        "relationship_state_signal_categories": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:504:        if "communication_pattern" in relationship_covered_categories
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:505:        and not (set(relationship_covered_categories) & set(relationship_missing_categories))
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:507:        "relationship_state_learning_prompts": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:508:        if relationship_state_after.get("next_learning_prompts") == expected_next_learning_prompts
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:515:        "alignment_relationship_state_summary": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:516:        if relationship_state_summary.get("personalization_stage") == relationship_state_after_review.get("personalization_stage")
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:517:        and relationship_state_summary.get("covered_signal_categories") == relationship_covered_categories_after_review
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:518:        and relationship_state_summary.get("missing_signal_categories") == relationship_missing_categories_after_review
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:519:        and relationship_state_summary.get("next_learning_prompts") == expected_next_learning_prompts_after_review
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:520:        and relationship_state_summary.get("preference_signal_strength") == expected_preference_strength
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:548:        "relationship_reflection_status": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:549:        if business_review_after.get("relationship_reflection_status") == expected_relationship_reflection_status
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:551:        "alignment_relationship_reflection_status": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:552:        if alignment_after_review.get("relationship_reflection_status") == expected_relationship_reflection_status
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:554:        "show_relationship_reflection": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:555:        if relationship_reflection_after_review.get("relationship_reflection_status")
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:556:        == expected_relationship_reflection_status
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:558:        "record_relationship_reflection": "pass" if reflection_write.get("status") == "pass" else "fail",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:559:        "relationship_reflection_resolution": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:560:        if relationship_reflection_after_write.get("relationship_reflection_status")
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:561:        == expected_relationship_reflection_status_after_write
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:562:        and alignment_after_reflection.get("relationship_reflection_status")
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:563:        == expected_relationship_reflection_status_after_write
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:564:        and relationship_state_after_reflection.get("missing_signal_categories") == []
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:578:        if relationship_state_after_review.get("history_enrichment_status") == expected_history_enrichment_status
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:580:        and relationship_state_summary.get("history_enrichment_status") == expected_history_enrichment_status
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:582:        "relationship_state_after_preference": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:583:        if relationship_state_after_preference.get("preference_strength_status", {}).get("signal_strength") == "repeated"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:585:        "doctor_continuity_status": "pass"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:586:        if doctor_after_review.get("continuity_health") == "healthy"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:587:        and doctor_after_review.get("latest_memory_pointer_present") is True
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:614:        and alignment_navigation_status.get("missing_signal_category_count") == len(relationship_missing_categories_after_review)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:619:        "bootstrap_workspace": bootstrap_result["status"],
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:620:        "doctor": doctor["status"],
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:634:        "doctor_errors": doctor.get("errors", []),
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:658:        "relationship_state_after_write": relationship_state_after_review,
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:659:        "relationship_state_after_preference": relationship_state_after_preference,
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:660:        "alignment_relationship_state_summary_after_write": relationship_state_summary,
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:663:        "relationship_reflection_status_after_write": business_review_after.get("relationship_reflection_status", {}),
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:664:        "alignment_relationship_reflection_status_after_write": alignment_after_review.get(
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:665:            "relationship_reflection_status", {}
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:667:        "show_relationship_reflection_status_after_write": relationship_reflection_after_review.get(
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:668:            "relationship_reflection_status", {}
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:670:        "relationship_reflection_status_after_capture": relationship_reflection_after_write.get(
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:671:            "relationship_reflection_status", {}
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:673:        "alignment_relationship_reflection_status_after_capture": alignment_after_reflection.get(
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:674:            "relationship_reflection_status", {}
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:677:        "relationship_state_after_reflection": relationship_state_after_reflection,
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:681:        "history_enrichment_status_after_write": relationship_state_after_review.get("history_enrichment_status", {}),
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:683:        "doctor_continuity_status_after_write": {
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:684:            "health": doctor_after_review.get("continuity_health"),
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:685:            "pointer_present": doctor_after_review.get("latest_memory_pointer_present"),
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:686:            "reason": doctor_after_review.get("continuity_reason"),
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:687:            "recommended_action": doctor_after_review.get("continuity_recommended_action"),
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:30:def bootstrap_workspace(project_root: Path, target_dir: Path) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:70:        "schema_version": "codex-personal-assistant-bootstrap-report/v2",
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:75:    report_path = target_dir / "assistant-bootstrap-report.json"
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:85:def bootstrap_workspace_in_temp(project_root: Path) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:87:        return bootstrap_workspace(project_root, Path(tmp_dir))
+src/codex_personal_assistant_template_pack/validate_project_pack.py:8:from .doctor import run_doctor
+src/codex_personal_assistant_template_pack/validate_project_pack.py:16:    required_paths.extend(manifest.get("post_bootstrap_read_order", []))
+src/codex_personal_assistant_template_pack/validate_project_pack.py:32:    doctor = run_doctor(project_root)
+src/codex_personal_assistant_template_pack/validate_project_pack.py:33:    status = "pass" if not missing and doctor["status"] == "pass" else "fail"
+src/codex_personal_assistant_template_pack/validate_project_pack.py:41:        "doctor": doctor,
+src/codex_personal_assistant_template_pack/relationship_state.py:137:def _relationship_status(
+src/codex_personal_assistant_template_pack/relationship_state.py:162:        improvement_focus = "Add one or two more explicit relationship signals so the assistant can rely less on the default profile."
+src/codex_personal_assistant_template_pack/relationship_state.py:223:def show_relationship_state(project_root: Path) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/relationship_state.py:393:    relationship_state_status = _relationship_status(
+src/codex_personal_assistant_template_pack/relationship_state.py:415:    }[relationship_state_status["maturity"]]
+src/codex_personal_assistant_template_pack/relationship_state.py:417:    relationship_state_summary = {
+src/codex_personal_assistant_template_pack/relationship_state.py:419:        "genericity_risk": relationship_state_status["genericity_risk"],
+src/codex_personal_assistant_template_pack/relationship_state.py:420:        "improvement_focus": relationship_state_status["improvement_focus"],
+src/codex_personal_assistant_template_pack/relationship_state.py:421:        "latest_intake_id": relationship_state_status["latest_intake_id"],
+src/codex_personal_assistant_template_pack/relationship_state.py:422:        "latest_distillation_id": relationship_state_status["latest_distillation_id"],
+src/codex_personal_assistant_template_pack/relationship_state.py:423:        "latest_memory_id": relationship_state_status["latest_memory_id"],
+src/codex_personal_assistant_template_pack/relationship_state.py:424:        "recent_signal_count": relationship_state_status["recent_signal_count"],
+src/codex_personal_assistant_template_pack/relationship_state.py:448:        "recent_relationship_signals": recent_signals,
+src/codex_personal_assistant_template_pack/relationship_state.py:456:        "relationship_state_summary": relationship_state_summary,
+src/codex_personal_assistant_template_pack/relationship_state.py:457:        "relationship_state_status": relationship_state_status,
+src/codex_personal_assistant_template_pack/relationship_state.py:458:        "latest_memory_id": relationship_state_status["latest_memory_id"],
+src/codex_personal_assistant_template_pack/doctor.py:23:def run_doctor(project_root: Path) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/doctor.py:47:    if not isinstance(partnership.get("relationship_mode"), str) or not partnership["relationship_mode"].strip():
+src/codex_personal_assistant_template_pack/doctor.py:48:        errors.append("partnership policy must declare relationship_mode")
+src/codex_personal_assistant_template_pack/doctor.py:57:    relationship_reflection_loop = partnership.get("relationship_reflection_loop", {})
+src/codex_personal_assistant_template_pack/doctor.py:58:    if not isinstance(relationship_reflection_loop, dict):
+src/codex_personal_assistant_template_pack/doctor.py:59:        errors.append("partnership policy must declare relationship_reflection_loop")
+src/codex_personal_assistant_template_pack/doctor.py:60:        relationship_reflection_loop = {}
+src/codex_personal_assistant_template_pack/doctor.py:107:    if not isinstance(relationship_reflection_loop.get("cadence_name"), str) or not relationship_reflection_loop.get("cadence_name", "").strip():
+src/codex_personal_assistant_template_pack/doctor.py:108:        errors.append("relationship_reflection_loop must declare cadence_name")
+src/codex_personal_assistant_template_pack/doctor.py:109:    if len(_as_list(relationship_reflection_loop.get("review_questions"))) < 3:
+src/codex_personal_assistant_template_pack/doctor.py:110:        errors.append("relationship_reflection_loop must declare at least three review_questions")
+src/codex_personal_assistant_template_pack/doctor.py:111:    if len(_as_list(relationship_reflection_loop.get("due_conditions"))) < 3:
+src/codex_personal_assistant_template_pack/doctor.py:112:        errors.append("relationship_reflection_loop must declare at least three due_conditions")
+src/codex_personal_assistant_template_pack/doctor.py:113:    if len(_as_list(relationship_reflection_loop.get("target_category_order"))) < 3:
+src/codex_personal_assistant_template_pack/doctor.py:114:        errors.append("relationship_reflection_loop must declare target_category_order")
+src/codex_personal_assistant_template_pack/doctor.py:115:    if not isinstance(relationship_reflection_loop.get("max_prompts_per_reflection"), int) or relationship_reflection_loop.get("max_prompts_per_reflection", 0) < 1:
+src/codex_personal_assistant_template_pack/doctor.py:116:        errors.append("relationship_reflection_loop must declare max_prompts_per_reflection as a positive integer")
+src/codex_personal_assistant_template_pack/doctor.py:117:    if not isinstance(relationship_reflection_loop.get("record_surface"), str) or not relationship_reflection_loop.get("record_surface", "").strip():
+src/codex_personal_assistant_template_pack/doctor.py:118:        errors.append("relationship_reflection_loop must declare record_surface")
+src/codex_personal_assistant_template_pack/doctor.py:239:        "relationship_reflection_question_count": len(_as_list(relationship_reflection_loop.get("review_questions"))),
+src/codex_personal_assistant_template_pack/grounding.py:12:from .relationship_state import show_relationship_state
+src/codex_personal_assistant_template_pack/grounding.py:126:def _load_relationship_reflection_loop(partnership: dict[str, Any]) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/grounding.py:127:    loop = partnership.get("relationship_reflection_loop", {})
+src/codex_personal_assistant_template_pack/grounding.py:201:    relationship_state: dict[str, Any],
+src/codex_personal_assistant_template_pack/grounding.py:228:        "missing_signal_category_count": len(relationship_state.get("missing_signal_categories", [])),
+src/codex_personal_assistant_template_pack/grounding.py:232:def _relationship_reflection_status(
+src/codex_personal_assistant_template_pack/grounding.py:235:    relationship_state: dict[str, Any],
+src/codex_personal_assistant_template_pack/grounding.py:239:    loop = partnership.get("relationship_reflection_loop", {})
+src/codex_personal_assistant_template_pack/grounding.py:252:        value for value in relationship_state.get("missing_signal_categories", []) if isinstance(value, str)
+src/codex_personal_assistant_template_pack/grounding.py:254:    next_learning_prompts = relationship_state.get("next_learning_prompts", [])
+src/codex_personal_assistant_template_pack/grounding.py:272:    thin_history_risk = relationship_state.get("history_enrichment_status", {}).get("thin_history_risk")
+src/codex_personal_assistant_template_pack/grounding.py:275:    due_reason = "No missing relationship signal categories require a fresh reflection right now."
+src/codex_personal_assistant_template_pack/grounding.py:286:                "Business review is due and relationship signals are still missing; anchor direction first, then capture one bounded reflection."
+src/codex_personal_assistant_template_pack/grounding.py:299:                "surface": "record-business-review",
+src/codex_personal_assistant_template_pack/grounding.py:301:                "summary": "Refresh the business review first so the next relationship signal is anchored to the current direction.",
+src/codex_personal_assistant_template_pack/grounding.py:309:                "step_id": "capture_missing_relationship_signal",
+src/codex_personal_assistant_template_pack/grounding.py:311:                "reason": "missing_relationship_signal",
+src/codex_personal_assistant_template_pack/grounding.py:313:                "summary": "Capture one bounded reflection for the first missing relationship signal category.",
+src/codex_personal_assistant_template_pack/grounding.py:328:        "cadence_name": loop.get("cadence_name") or "relationship-signal-reflection",
+src/codex_personal_assistant_template_pack/grounding.py:360:    relationship_state: dict[str, Any],
+src/codex_personal_assistant_template_pack/grounding.py:390:        "missing_signal_category_count": len(relationship_state.get("missing_signal_categories", [])),
+src/codex_personal_assistant_template_pack/grounding.py:403:    relationship_state = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/grounding.py:409:        relationship_state=relationship_state,
+src/codex_personal_assistant_template_pack/grounding.py:414:    relationship_reflection_status = _relationship_reflection_status(
+src/codex_personal_assistant_template_pack/grounding.py:416:        relationship_state=relationship_state,
+src/codex_personal_assistant_template_pack/grounding.py:424:        relationship_state=relationship_state,
+src/codex_personal_assistant_template_pack/grounding.py:437:        "relationship_reflection_status": relationship_reflection_status,
+src/codex_personal_assistant_template_pack/grounding.py:445:    relationship_state = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/grounding.py:449:    missing_signal_categories = relationship_state.get("missing_signal_categories", [])
+src/codex_personal_assistant_template_pack/grounding.py:450:    next_learning_prompts = relationship_state.get("next_learning_prompts", [])
+src/codex_personal_assistant_template_pack/grounding.py:472:        relationship_state=relationship_state,
+src/codex_personal_assistant_template_pack/grounding.py:477:    relationship_reflection_status = _relationship_reflection_status(
+src/codex_personal_assistant_template_pack/grounding.py:479:        relationship_state=relationship_state,
+src/codex_personal_assistant_template_pack/grounding.py:490:        "relationship_missing_signal_categories": missing_signal_categories,
+src/codex_personal_assistant_template_pack/grounding.py:491:        "relationship_next_learning_prompts": next_learning_prompts,
+src/codex_personal_assistant_template_pack/grounding.py:496:        "relationship_reflection_status": relationship_reflection_status,
+src/codex_personal_assistant_template_pack/grounding.py:497:        "recommended_step_sequence": relationship_reflection_status.get("recommended_step_sequence", []),
+src/codex_personal_assistant_template_pack/grounding.py:502:def show_relationship_reflection(project_root: Path) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/grounding.py:506:    relationship_state = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/grounding.py:508:    loop = _load_relationship_reflection_loop(partnership)
+src/codex_personal_assistant_template_pack/grounding.py:510:    reflection_status = _relationship_reflection_status(
+src/codex_personal_assistant_template_pack/grounding.py:512:        relationship_state=relationship_state,
+src/codex_personal_assistant_template_pack/grounding.py:538:        for entry in relationship_state.get("signal_strength_by_category", [])
+src/codex_personal_assistant_template_pack/grounding.py:574:        "relationship_reflection_status": reflection_status,
+src/codex_personal_assistant_template_pack/grounding.py:592:    relationship_state = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/grounding.py:601:    preference_strength_status = relationship_state.get("preference_strength_status", {})
+src/codex_personal_assistant_template_pack/grounding.py:630:            "Use record-business-review first, then capture one bounded preference with record-preference-calibration."
+src/codex_personal_assistant_template_pack/grounding.py:635:                "surface": "record-business-review",
+src/codex_personal_assistant_template_pack/grounding.py:645:                    "surface": "record-preference-calibration",
+src/codex_personal_assistant_template_pack/grounding.py:658:            "Use record-preference-calibration to capture one bounded working or communication preference tied to the latest business review."
+src/codex_personal_assistant_template_pack/grounding.py:663:                "surface": "record-preference-calibration",
+src/codex_personal_assistant_template_pack/grounding.py:710:            "recommended_record_surface": "record-preference-calibration",
+src/codex_personal_assistant_template_pack/grounding.py:721:def record_relationship_reflection(
+src/codex_personal_assistant_template_pack/grounding.py:741:        tags=sorted({*tags, "relationship-reflection"}),
+src/codex_personal_assistant_template_pack/grounding.py:743:        source=source or "record-relationship-reflection",
+src/codex_personal_assistant_template_pack/grounding.py:753:        "relationship_reflection_status": show_relationship_reflection(project_root).get(
+src/codex_personal_assistant_template_pack/grounding.py:754:            "relationship_reflection_status", {}
+src/codex_personal_assistant_template_pack/grounding.py:775:        raise ValueError("record-business-review must run before record-preference-calibration")
+src/codex_personal_assistant_template_pack/grounding.py:790:        source=source or "record-preference-calibration",
+src/codex_personal_assistant_template_pack/grounding.py:813:    relationship_state = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/grounding.py:894:        "relationship_missing_signal_categories": relationship_state.get("missing_signal_categories", []),
+src/codex_personal_assistant_template_pack/grounding.py:901:    relationship_state = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/grounding.py:916:            relationship_state=relationship_state,
+src/codex_personal_assistant_template_pack/grounding.py:942:    relationship_state = show_relationship_state(project_root)
+src/codex_personal_assistant_template_pack/grounding.py:959:        "relationship_missing_signal_categories": relationship_state.get("missing_signal_categories", []),
+src/codex_personal_assistant_template_pack/grounding.py:960:        "relationship_next_learning_prompts": relationship_state.get("next_learning_prompts", []),
+src/codex_personal_assistant_template_pack/grounding.py:983:        source=source or "record-business-review",
+src/codex_personal_assistant_template_pack/grounding.py:996:        source=source or "record-business-review",
+src/codex_personal_assistant_template_pack/grounding.py:1010:        "relationship_reflection_status": business_review_after.get("relationship_reflection_status", {}),
+
+2026-03-31T16:41:50.299897Z ERROR codex_login::auth::manager: Failed to refresh token: 401 Unauthorized: {
+  "error": {
+    "message": "Your refresh token has already been used to generate a new access token. Please try signing in again.",
+    "type": "invalid_request_error",
+    "param": null,
+    "code": "refresh_token_reused"
+  }
+}
+2026-03-31T16:41:50.300053Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+2026-03-31T16:41:50.369241Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+codex
+I’ve confirmed the pack already has the exact sanctioned surfaces we need: `show-business-review`, `record-business-review`, and `record-preference-calibration`. I’m pulling their argument contracts and current status next so we can refresh only what’s due and keep the preference update inspectable without touching canonical operator profile data.
+exec
+/bin/bash -lc "printf '%s\\n' '--- record-business-review help snippet ---' && sed -n '170,240p' src/codex_personal_assistant_template_pack/cli.py && printf '\\n--- record-preference-calibration help snippet ---\\n' && sed -n '217,460p' src/codex_personal_assistant_template_pack/cli.py && printf '\\n--- grounding preference/business logic snippet ---\\n' && sed -n '740,1035p' src/codex_personal_assistant_template_pack/grounding.py" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+--- record-business-review help snippet ---
+    operator_intake_write_parser.add_argument(
+        "--refine-profile-json",
+        help="Explicit JSON object used for bounded profile refinement.",
+    )
+    operator_intake_write_parser.add_argument(
+        "--memory-category",
+        choices=("goal", "preference", "communication_pattern", "alignment_risk"),
+        help="Override the memory category used for the relationship signal.",
+    )
+    operator_intake_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    business_review_write_parser = subparsers.add_parser("record-business-review")
+    business_review_write_parser.add_argument("--project-root", default=".")
+    business_review_write_parser.add_argument("--review-id", required=True)
+    business_review_write_parser.add_argument("--summary", required=True)
+    business_review_write_parser.add_argument("--current-focus", required=True)
+    business_review_write_parser.add_argument("--grounded-next-step", required=True)
+    business_review_write_parser.add_argument(
+        "--assessment",
+        choices=("aligned", "unclear", "drift_risk"),
+        required=True,
+    )
+    business_review_write_parser.add_argument("--tag", action="append", default=[])
+    business_review_write_parser.add_argument("--source")
+    business_review_write_parser.add_argument("--evidence")
+    business_review_write_parser.add_argument("--confidence", type=float)
+    business_review_write_parser.add_argument("--replace-existing", action="store_true")
+    business_review_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    reflection_write_parser = subparsers.add_parser("record-relationship-reflection")
+    reflection_write_parser.add_argument("--project-root", default=".")
+    reflection_write_parser.add_argument("--reflection-id", required=True)
+    reflection_write_parser.add_argument(
+        "--category",
+        choices=("goal", "preference", "communication_pattern", "alignment_risk"),
+        required=True,
+    )
+    reflection_write_parser.add_argument("--summary", required=True)
+    reflection_write_parser.add_argument("--next-action")
+    reflection_write_parser.add_argument("--tag", action="append", default=[])
+    reflection_write_parser.add_argument("--source")
+    reflection_write_parser.add_argument("--evidence")
+    reflection_write_parser.add_argument("--confidence", type=float)
+    reflection_write_parser.add_argument("--replace-existing", action="store_true")
+    reflection_write_parser.add_argument("--refine-profile-json")
+    reflection_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    preference_write_parser = subparsers.add_parser("record-preference-calibration")
+    preference_write_parser.add_argument("--project-root", default=".")
+    preference_write_parser.add_argument("--calibration-id", required=True)
+    preference_write_parser.add_argument("--summary", required=True)
+    preference_write_parser.add_argument("--next-action")
+    preference_write_parser.add_argument("--tag", action="append", default=[])
+    preference_write_parser.add_argument("--source")
+    preference_write_parser.add_argument("--evidence")
+    preference_write_parser.add_argument("--confidence", type=float)
+    preference_write_parser.add_argument("--replace-existing", action="store_true")
+    preference_write_parser.add_argument("--refine-profile-json")
+    preference_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_read_parser = subparsers.add_parser("read-memory")
+    memory_read_parser.add_argument("--project-root", default=".")
+    memory_read_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_delete_parser = subparsers.add_parser("delete-memory")
+    memory_delete_parser.add_argument("--project-root", default=".")
+    memory_delete_parser.add_argument("--memory-id", required=True)
+    memory_delete_parser.add_argument("--output", choices=("json",), default="json")
+
+    bootstrap_parser = subparsers.add_parser("bootstrap-workspace")
+    bootstrap_parser.add_argument("--project-root", default=".")
+
+--- record-preference-calibration help snippet ---
+    preference_write_parser = subparsers.add_parser("record-preference-calibration")
+    preference_write_parser.add_argument("--project-root", default=".")
+    preference_write_parser.add_argument("--calibration-id", required=True)
+    preference_write_parser.add_argument("--summary", required=True)
+    preference_write_parser.add_argument("--next-action")
+    preference_write_parser.add_argument("--tag", action="append", default=[])
+    preference_write_parser.add_argument("--source")
+    preference_write_parser.add_argument("--evidence")
+    preference_write_parser.add_argument("--confidence", type=float)
+    preference_write_parser.add_argument("--replace-existing", action="store_true")
+    preference_write_parser.add_argument("--refine-profile-json")
+    preference_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_read_parser = subparsers.add_parser("read-memory")
+    memory_read_parser.add_argument("--project-root", default=".")
+    memory_read_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_delete_parser = subparsers.add_parser("delete-memory")
+    memory_delete_parser.add_argument("--project-root", default=".")
+    memory_delete_parser.add_argument("--memory-id", required=True)
+    memory_delete_parser.add_argument("--output", choices=("json",), default="json")
+
+    bootstrap_parser = subparsers.add_parser("bootstrap-workspace")
+    bootstrap_parser.add_argument("--project-root", default=".")
+    bootstrap_parser.add_argument("--target-dir", required=True)
+    bootstrap_parser.add_argument("--output", choices=("json",), default="json")
+
+    doctor_parser = subparsers.add_parser("doctor")
+    doctor_parser.add_argument("--project-root", default=".")
+    doctor_parser.add_argument("--output", choices=("json",), default="json")
+
+    args = parser.parse_args()
+    if args.command == "validate-project-pack":
+        result = validate_project_pack(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "benchmark-smoke":
+        result = benchmark_smoke(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "show-profile":
+        result = show_profile(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-alignment":
+        result = show_alignment(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-grounding-cadence":
+        result = show_grounding_cadence(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-business-review":
+        result = show_business_review(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-navigation-guidance":
+        result = show_navigation_guidance(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-operator-intake":
+        result = show_operator_intake(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-relationship-state":
+        result = show_relationship_state(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-relationship-reflection":
+        result = show_relationship_reflection(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-preference-calibration":
+        result = show_preference_calibration(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-memory-distillation":
+        result = show_memory_distillation(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "run-grounding-check":
+        result = run_grounding_check(
+            Path(args.project_root).resolve(),
+            current_work_summary=args.current_work_summary,
+            intended_outcome=args.intended_outcome,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "run-navigation-check":
+        result = run_navigation_check(
+            Path(args.project_root).resolve(),
+            scenario=args.scenario,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "check-ambiguity":
+        result = check_ambiguity(Path(args.project_root).resolve(), args.scenario)
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "route-context":
+        result = route_context(Path(args.project_root).resolve(), args.topic)
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "record-memory":
+        result = record_memory(
+            Path(args.project_root).resolve(),
+            memory_id=args.memory_id,
+            category=args.category,
+            summary=args.summary,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "distill-session-memory":
+        result = distill_session_memory(
+            Path(args.project_root).resolve(),
+            distillation_id=args.distillation_id,
+            summary=args.summary,
+            stable_signal_reason=args.stable_signal_reason,
+            source_memory_ids=list(args.source_memory_id),
+            replace_existing=bool(args.replace_existing),
+            promote_category=args.promote_category,
+            promoted_memory_id=args.promoted_memory_id,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "record-operator-intake":
+        result = record_operator_intake(
+            Path(args.project_root).resolve(),
+            intake_id=args.intake_id,
+            category=args.category,
+            summary=args.summary,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+            refine_profile_json=args.refine_profile_json,
+            memory_category=args.memory_category,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "read-memory":
+        result = read_memory(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "record-business-review":
+        result = record_business_review(
+            Path(args.project_root).resolve(),
+            review_id=args.review_id,
+            summary=args.summary,
+            current_focus=args.current_focus,
+            grounded_next_step=args.grounded_next_step,
+            assessment=args.assessment,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+        )
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "record-relationship-reflection":
+        result = record_relationship_reflection(
+            Path(args.project_root).resolve(),
+            reflection_id=args.reflection_id,
+            category=args.category,
+            summary=args.summary,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+            refine_profile_json=args.refine_profile_json,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "record-preference-calibration":
+        result = record_preference_calibration(
+            Path(args.project_root).resolve(),
+            calibration_id=args.calibration_id,
+            summary=args.summary,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+            refine_profile_json=args.refine_profile_json,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "delete-memory":
+        result = delete_memory(Path(args.project_root).resolve(), memory_id=args.memory_id)
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "bootstrap-workspace":
+        result = bootstrap_workspace(Path(args.project_root).resolve(), Path(args.target_dir))
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "doctor":
+        result = run_doctor(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    parser.print_help()
+    return 0
+
+--- grounding preference/business logic snippet ---
+        next_action=next_action,
+        tags=sorted({*tags, "relationship-reflection"}),
+        replace_existing=replace_existing,
+        source=source or "record-relationship-reflection",
+        evidence=evidence,
+        confidence=confidence,
+        refine_profile_json=refine_profile_json,
+    )
+    return {
+        "status": "pass",
+        "reflection_id": reflection_id,
+        "category": category,
+        "intake_result": intake_result,
+        "relationship_reflection_status": show_relationship_reflection(project_root).get(
+            "relationship_reflection_status", {}
+        ),
+    }
+
+
+def record_preference_calibration(
+    project_root: Path,
+    *,
+    calibration_id: str,
+    summary: str,
+    next_action: str | None,
+    tags: list[str],
+    replace_existing: bool,
+    source: str | None = None,
+    evidence: str | None = None,
+    confidence: float | None = None,
+    refine_profile_json: str | None = None,
+) -> dict[str, Any]:
+    calibration = show_preference_calibration(project_root)
+    calibration_status = calibration.get("preference_calibration_status", {})
+    if calibration_status.get("business_review_anchor_present") is not True:
+        raise ValueError("record-business-review must run before record-preference-calibration")
+    if calibration_status.get("business_review_due") is True:
+        raise ValueError("refresh the business review before recording preference calibration")
+    resolved_next_action = next_action
+    if not isinstance(resolved_next_action, str) or not resolved_next_action.strip():
+        fallback = calibration_status.get("latest_business_review_grounded_next_step")
+        resolved_next_action = fallback if isinstance(fallback, str) and fallback.strip() else None
+    intake_result = record_operator_intake(
+        project_root,
+        intake_id=calibration_id,
+        category="preference",
+        summary=summary,
+        next_action=resolved_next_action,
+        tags=sorted({*tags, "preference-calibration"}),
+        replace_existing=replace_existing,
+        source=source or "record-preference-calibration",
+        evidence=evidence,
+        confidence=confidence,
+        refine_profile_json=refine_profile_json,
+        memory_category="preference",
+    )
+    return {
+        "status": "pass",
+        "calibration_id": calibration_id,
+        "used_default_next_action": next_action is None and isinstance(resolved_next_action, str),
+        "intake_result": intake_result,
+        "preference_calibration_status": show_preference_calibration(project_root).get(
+            "preference_calibration_status", {}
+        ),
+    }
+
+
+def check_navigation_guidance(
+    project_root: Path,
+    scenario: str,
+) -> dict[str, Any]:
+    operator = load_operator_profile(project_root)
+    partnership = load_partnership_policy(project_root)
+    relationship_state = show_relationship_state(project_root)
+    business_review = show_business_review(project_root)
+    loop = _load_navigation_guidance_loop(partnership)
+    normalized_scenario = _normalize(scenario)
+    business_direction = operator.get("business_direction")
+    near_term_priorities = [value for value in operator.get("near_term_priorities", []) if isinstance(value, str)]
+    long_horizon_goals = [value for value in operator.get("long_horizon_goals", []) if isinstance(value, str)]
+    next_step_anchor = _primary_next_step_anchor(operator)
+
+    uncertainty_detected = any(marker in normalized_scenario for marker in UNCERTAINTY_MARKERS)
+    fundamentals_gap_detected = any(marker in normalized_scenario for marker in FUNDAMENTALS_MARKERS)
+    drift_risk_detected = any(marker in normalized_scenario for marker in DRIFT_MARKERS)
+
+    work_mode = "execution"
+    if uncertainty_detected and not drift_risk_detected:
+        work_mode = "exploration"
+    if fundamentals_gap_detected:
+        work_mode = "learning"
+
+    assessment = "grounded_execution"
+    recommended_action = "Pick one concrete next step tied to the current business direction and do that next."
+    reason = "The scenario is specific enough to support a grounded next step."
+    clarifying_question: str | None = None
+    path_shape = "direct"
+    fundamentals_explanation = None
+    if uncertainty_detected:
+        path_shape = "curvy"
+
+    if drift_risk_detected:
+        assessment = "drift_risk"
+        recommended_action = (
+            f"Stop and reconnect the work to one near-term priority before spending more time on it: {next_step_anchor}."
+            if next_step_anchor
+            else "Stop and reconnect the work to one near-term priority before spending more time on it."
+        )
+        reason = "The scenario suggests motion that may not support the stated business direction."
+        clarifying_question = "What concrete outcome should this work advance for the small-business direction right now?"
+    elif fundamentals_gap_detected and uncertainty_detected:
+        assessment = "fundamentals_gap_with_unclear_path"
+        recommended_action = (
+            "Name the one concept that feels thin, get a plain-language fundamentals explanation, "
+            "then choose the smallest next step that teaches or de-risks the path."
+        )
+        reason = "The scenario signals both roadmap uncertainty and limited fundamentals depth, so a teaching-first step is safer than a bigger bet."
+        clarifying_question = "Which specific concept or system feels thin enough that a short fundamentals explanation would unblock the next step?"
+        fundamentals_explanation = "Explain the thinnest concept in plain language before committing to a larger build or workflow choice."
+    elif fundamentals_gap_detected:
+        assessment = "fundamentals_gap"
+        recommended_action = "Pause for a brief fundamentals explanation before committing to a larger implementation step."
+        reason = "The scenario suggests the operator is working above current fundamentals depth."
+        clarifying_question = "What concept do you want explained plainly before we choose the next implementation step?"
+        fundamentals_explanation = "Explain the concept in plain language, then return to one bounded implementation step."
+    elif uncertainty_detected:
+        assessment = "curvy_path"
+        recommended_action = (
+            f"Treat this as exploration, not failure. Keep the stable direction, then choose the smallest next step that advances: {next_step_anchor}."
+            if next_step_anchor
+            else "Treat this as exploration, not failure. Keep the stable direction, then choose the smallest next step that teaches or advances it."
+        )
+        reason = "The operator has direction, but not a full roadmap yet."
+        clarifying_question = "What outcome matters most right now, and what is the smallest step that would reduce uncertainty?"
+
+    return {
+        "status": "pass",
+        "scenario": scenario,
+        "assessment": assessment,
+        "reason": reason,
+        "work_mode": work_mode,
+        "path_shape": path_shape,
+        "uncertainty_detected": uncertainty_detected,
+        "fundamentals_gap_detected": fundamentals_gap_detected,
+        "drift_risk_detected": drift_risk_detected,
+        "recommended_action": recommended_action,
+        "clarifying_question": clarifying_question,
+        "fundamentals_explanation": fundamentals_explanation,
+        "next_step_anchor": next_step_anchor,
+        "business_direction": business_direction,
+        "near_term_priorities": near_term_priorities,
+        "long_horizon_goals": long_horizon_goals,
+        "navigation_guidance_loop": loop,
+        "business_review_due": business_review.get("business_review_status", {}).get("review_due"),
+        "relationship_missing_signal_categories": relationship_state.get("missing_signal_categories", []),
+    }
+
+
+def show_navigation_guidance(project_root: Path) -> dict[str, Any]:
+    operator = load_operator_profile(project_root)
+    partnership = load_partnership_policy(project_root)
+    relationship_state = show_relationship_state(project_root)
+    business_review = show_business_review(project_root)
+    return {
+        "status": "pass",
+        "business_direction": operator.get("business_direction"),
+        "near_term_priorities": operator.get("near_term_priorities", []),
+        "grounding_principles": operator.get("grounding_principles", []),
+        "navigation_preferences": operator.get("navigation_preferences", []),
+        "fundamentals_support_preferences": operator.get("fundamentals_support_preferences", []),
+        "working_preferences": operator.get("working_preferences", []),
+        "known_do_not_assume": operator.get("known_do_not_assume", []),
+        "navigation_guidance_status": _navigation_status(
+            project_root,
+            operator=operator,
+            partnership=partnership,
+            relationship_state=relationship_state,
+            latest_review=business_review.get("latest_review"),
+        ),
+    }
+
+
+def record_business_review(
+    project_root: Path,
+    *,
+    review_id: str,
+    summary: str,
+    current_focus: str,
+    grounded_next_step: str,
+    assessment: str,
+    tags: list[str],
+    replace_existing: bool,
+    source: str | None = None,
+    evidence: str | None = None,
+    confidence: float | None = None,
+) -> dict[str, Any]:
+    if assessment not in {"aligned", "unclear", "drift_risk"}:
+        raise ValueError("assessment must be one of aligned, unclear, or drift_risk")
+    if confidence is not None and not 0.0 <= confidence <= 1.0:
+        raise ValueError("confidence must be between 0.0 and 1.0")
+    operator = load_operator_profile(project_root)
+    partnership = load_partnership_policy(project_root)
+    relationship_state = show_relationship_state(project_root)
+    loop, storage_root, latest_pointer_path = _business_review_paths(project_root, partnership)
+    storage_root.mkdir(parents=True, exist_ok=True)
+    review_path = storage_root / f"{review_id}.json"
+    existed = review_path.exists()
+    if existed and not replace_existing:
+        raise ValueError(f"business review `{review_id}` already exists; use replace_existing to overwrite it")
+    payload = {
+        "schema_version": BUSINESS_REVIEW_SCHEMA_VERSION,
+        "review_id": review_id,
+        "summary": summary,
+        "current_focus": current_focus,
+        "grounded_next_step": grounded_next_step,
+        "assessment": assessment,
+        "business_direction": operator.get("business_direction"),
+        "near_term_priorities": operator.get("near_term_priorities", []),
+        "review_questions": [value for value in loop.get("review_questions", []) if isinstance(value, str)],
+        "relationship_missing_signal_categories": relationship_state.get("missing_signal_categories", []),
+        "relationship_next_learning_prompts": relationship_state.get("next_learning_prompts", []),
+        "tags": sorted({tag for tag in tags if tag}),
+        "source": source,
+        "evidence": evidence,
+        "confidence": confidence,
+        "recorded_at": _isoformat_z(),
+    }
+    _write_json(review_path, payload)
+    pointer_payload = {
+        "schema_version": BUSINESS_REVIEW_POINTER_SCHEMA_VERSION,
+        "selected_review_id": review_id,
+        "selected_review_path": str(review_path.relative_to(project_root).as_posix()),
+        "updated_at": payload["recorded_at"],
+    }
+    _write_json(latest_pointer_path, pointer_payload)
+    continuity_checkpoint = record_continuity_checkpoint(
+        project_root,
+        checkpoint_id=review_id,
+        summary=summary,
+        next_action=grounded_next_step,
+        assessment=assessment,
+        tags=sorted({*tags, "business-review"}),
+        replace_existing=replace_existing,
+        source=source or "record-business-review",
+        evidence=evidence,
+        confidence=confidence,
+    )
+    closeout_distillation = record_closeout_distillation(
+        project_root,
+        review_id=review_id,
+        summary=summary,
+        next_action=grounded_next_step,
+        assessment=assessment,
+        continuity_memory_id=continuity_checkpoint["memory_id"],
+        tags=sorted({*tags, "business-review"}),
+        replace_existing=replace_existing,
+        source=source or "record-business-review",
+        evidence=evidence,
+        confidence=confidence,
+    )
+    business_review_after = show_business_review(project_root)
+    return {
+        "status": "pass",
+        "review_id": review_id,
+        "review_path": str(review_path.relative_to(project_root).as_posix()),
+        "latest_pointer_path": str(latest_pointer_path.relative_to(project_root).as_posix()),
+        "replaced_existing": bool(existed and replace_existing),
+        "continuity_checkpoint": continuity_checkpoint,
+        "closeout_distillation": closeout_distillation,
+        "business_review_status": business_review_after.get("business_review_status", {}),
+        "relationship_reflection_status": business_review_after.get("relationship_reflection_status", {}),
+    }
+
+
+def check_grounding(
+    project_root: Path,
+    current_work: str,
+    proposed_next_step: str | None = None,
+) -> dict[str, Any]:
+    operator = load_operator_profile(project_root)
+    partnership = load_partnership_policy(project_root)
+    cadence = _load_accountability_cadence(partnership)
+    normalized_work = _normalize(current_work)
+    matched_goals = route_context(project_root, "goals")
+    anchors = _operator_anchors(operator)
+    matched_anchor = _matched_anchor(current_work, anchors)
+
+    assessment = "aligned"
+    reason = "The work appears to support the operator's stated direction."
+    suggested_response = "Continue and keep the next step tied to the current business direction."
+
+    if any(marker in normalized_work for marker in DRIFT_MARKERS):
+        assessment = "drift_risk"
+        reason = "The work description sounds vague or off-direction relative to the operator's stated priorities."
+        suggested_response = "Name the drift plainly and propose the next grounded step that reconnects to current priorities."
+    elif matched_anchor is None:
+
+exec
+/bin/bash -lc "printf '%s\\n' '--- show-business-review ---' && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-business-review --project-root . --output json && printf '\\n--- show-preference-calibration ---\\n' && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-preference-calibration --project-root . --output json && printf '\\n--- show-alignment ---\\n' && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-alignment --project-root . --output json && printf '\\n--- doctor ---\\n' && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack doctor --project-root . --output json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+2026-03-31T16:42:02.390890Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+2026-03-31T16:42:02.453111Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+ succeeded in 474ms:
+{
+  "status": "pass",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "near_term_priorities": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner.",
+    "Keep moving even when the roadmap is incomplete or curvy."
+  ],
+  "latest_business_review_id": null,
+  "latest_business_review_assessment": null,
+  "latest_business_review_grounded_next_step": null,
+  "preference_prompt": "What working preferences or communication preferences should the assistant remember for next time?",
+  "preference_refinement_targets": [
+    "working_preferences",
+    "ambiguity_preferences"
+  ],
+  "preference_strength_status": {
+    "category_id": "preference",
+    "signal_strength": "missing",
+    "ready_for_durable_use": false,
+    "source_counts": {
+      "operator_intake": 0,
+      "session_distillation": 0,
+      "session_observation": 0,
+      "assistant_memory": 0
+    },
+    "total_signal_count": 0,
+    "carry_forward_observation_count": 0,
+    "ready_for_distillation_review": false,
+    "next_prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+  },
+  "preference_calibration_status": {
+    "business_review_anchor_present": false,
+    "business_review_due": true,
+    "calibration_due": true,
+    "calibration_ready": false,
+    "calibration_priority": "high",
+    "due_reason": "Refresh the business review before calibrating preferences so the signal stays anchored to the current business direction.",
+    "recommended_record_surface": "record-preference-calibration",
+    "recommended_next_step": "Use record-business-review first, then capture one bounded preference with record-preference-calibration.",
+    "recommended_step_sequence": [
+      {
+        "step_id": "anchor_business_review",
+        "surface": "record-business-review",
+        "reason": "business_review_due",
+        "summary": "Refresh the business review first so any preference calibration stays anchored to the current direction.",
+        "question": "What outcome matters most for the business direction right now?"
+      },
+      {
+        "step_id": "capture_preference_calibration",
+        "surface": "record-preference-calibration",
+        "reason": "missing_or_tentative_preference",
+        "category_id": "preference",
+        "summary": "After the business review is anchored, capture one bounded working or communication preference.",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      }
+    ],
+    "latest_business_review_id": null,
+    "latest_business_review_grounded_next_step": null,
+    "preference_signal_strength": "missing"
+  },
+  "recommended_step_sequence": [
+    {
+      "step_id": "anchor_business_review",
+      "surface": "record-business-review",
+      "reason": "business_review_due",
+      "summary": "Refresh the business review first so any preference calibration stays anchored to the current direction.",
+      "question": "What outcome matters most for the business direction right now?"
+    },
+    {
+      "step_id": "capture_preference_calibration",
+      "surface": "record-preference-calibration",
+      "reason": "missing_or_tentative_preference",
+      "category_id": "preference",
+      "summary": "After the business review is anchored, capture one bounded working or communication preference.",
+      "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+    }
+  ]
+}
+
+--- show-alignment ---
+{
+  "status": "pass",
+  "assistant_id": "codex-personal-assistant-daily-driver",
+  "operator_id": "orchadmin",
+  "preferred_name": "orchadmin",
+  "current_role": "operator building toward a small business",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "long_horizon_goals": [
+    "Build a small business.",
+    "Develop a durable working partnership with the assistant that becomes more useful over time."
+  ],
+  "near_term_priorities": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner.",
+    "Keep moving even when the roadmap is incomplete or curvy."
+  ],
+  "grounding_principles": [
+    "Do not confuse motion with progress.",
+    "Reconnect tactical work to the larger business direction.",
+    "Surface ambiguity before committing to a path.",
+    "Do not confuse uncertainty about the whole map with inability to take the next step."
+  ],
+  "navigation_preferences": [
+    "Help turn broad direction into the next concrete step even when the full roadmap is unclear.",
+    "Keep the larger business direction stable while allowing the tactical path to stay curvy.",
+    "When several paths are possible, narrow the choice instead of pretending there is only one road."
+  ],
+  "fundamentals_support_preferences": [
+    "Do not assume deep technical fundamentals when the operator is working in a new area.",
+    "Explain the key concept plainly before asking for a high-confidence commitment.",
+    "Name when the next best move is to learn one concept first and then continue."
+  ],
+  "working_preferences": [
+    "Keep support business-like and concrete.",
+    "Prefer clear instructions over implied workflows.",
+    "Ask for refinement when a request is ambiguous.",
+    "Translate broad direction into the next best concrete step.",
+    "Explain fundamentals plainly when depth is thin instead of assuming expert context."
+  ],
+  "ambiguity_preferences": [
+    "Do not guess through ambiguity.",
+    "Ask the minimum clarifying questions needed to proceed safely."
+  ],
+  "known_do_not_assume": [
+    "the intended workflow when multiple PackFactory surfaces could apply",
+    "that a partially formed idea is ready for execution without refinement",
+    "that technical verification is the same as user experience validation",
+    "deep fundamental knowledge of every technology involved in the current path",
+    "that uncertainty about the roadmap means no useful next step exists"
+  ],
+  "success_signals": [
+    "The operator stays aligned with stated goals.",
+    "The assistant gets easier and more useful over repeated sessions.",
+    "Work moves toward a small-business direction rather than drifting.",
+    "The assistant helps the operator keep moving even when the roadmap is curvy or incomplete."
+  ],
+  "relationship_mode": "grounded-business-partner",
+  "primary_outcome": "Increase orchadmin's progress toward a sustainable small business while reducing ambiguity and drift.",
+  "ambiguity_default": "ask-clarifying-question",
+  "grounding_behaviors": [
+    "Reconnect active work to stated goals and business direction.",
+    "Name drift plainly when work no longer supports the larger direction.",
+    "Favor the next grounded step over vague activity."
+  ],
+  "adaptation_rules": [
+    "Learn from repeated operator feedback, requests, and decisions.",
+    "Keep adaptation inspectable through local contracts and assistant memory.",
+    "Ask before changing high-impact goals or constraints."
+  ],
+  "review_prompts": [
+    "How does this work support the operator's larger direction?",
+    "What is still ambiguous enough to justify a clarifying question?",
+    "What stable preference or pattern should be recorded for next time?"
+  ],
+  "boundaries": [
+    "Do not pretend to know more than the local artifacts support.",
+    "Do not guess through ambiguity when clarification is cheaper and safer.",
+    "Do not present emotional attachment as if it were human feeling."
+  ],
+  "accountability_cadence": {
+    "default_behavior": "name-drift-and-propose-grounded-next-step",
+    "checkpoints": [
+      "before committing to side work that may not support the current business direction",
+      "when active work appears to drift from near-term priorities",
+      "at the end of a productive session before promoting durable relationship memory"
+    ],
+    "drift_indicators": [
+      "side work with no clear tie to stated goals",
+      "vague activity without a concrete outcome",
+      "work that conflicts with the operator's current business direction"
+    ],
+    "require_goal_anchor": true
+  },
+  "operator_intake_status": {
+    "latest_intake_id": null,
+    "latest_pointer_path": ".pack-state/operator-intake/latest-intake.json",
+    "intake_count": 0,
+    "latest_intake_has_explicit_profile_refinement": false
+  },
+  "grounding_accountability_status": {
+    "cadence_name": "grounded-check-in",
+    "trigger_condition_count": 3,
+    "response_step_count": 4,
+    "review_prompt_count": 3,
+    "trigger_conditions": [
+      "work appears to drift from stated goals",
+      "the operator's intent is ambiguous",
+      "the assistant is about to commit to a path with hidden tradeoffs"
+    ],
+    "response_steps": [
+      "name the current work plainly",
+      "compare it to the operator's stated direction",
+      "surface the mismatch or drift directly",
+      "ask the minimum clarifying question needed or propose the next grounded step"
+    ],
+    "review_prompts": [
+      "What outcome matters most right now?",
+      "Does this still support the operator's larger direction?",
+      "What is the smallest grounded next step?"
+    ],
+    "grounding_behavior_count": 3,
+    "ambiguity_default": "ask-clarifying-question",
+    "sample_assessment": "aligned",
+    "sample_suggested_response": "Continue and keep the next step tied to the current business direction."
+  },
+  "navigation_guidance": {
+    "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+    "navigation_preferences": [
+      "Help turn broad direction into the next concrete step even when the full roadmap is unclear.",
+      "Keep the larger business direction stable while allowing the tactical path to stay curvy.",
+      "When several paths are possible, narrow the choice instead of pretending there is only one road."
+    ],
+    "fundamentals_support_preferences": [
+      "Do not assume deep technical fundamentals when the operator is working in a new area.",
+      "Explain the key concept plainly before asking for a high-confidence commitment.",
+      "Name when the next best move is to learn one concept first and then continue."
+    ],
+    "known_do_not_assume": [
+      "the intended workflow when multiple PackFactory surfaces could apply",
+      "that a partially formed idea is ready for execution without refinement",
+      "that technical verification is the same as user experience validation",
+      "deep fundamental knowledge of every technology involved in the current path",
+      "that uncertainty about the roadmap means no useful next step exists"
+    ]
+  },
+  "navigation_guidance_status": {
+    "cadence_name": "direction-to-decision-guidance",
+    "trigger_condition_count": 3,
+    "response_step_count": 5,
+    "review_prompt_count": 4,
+    "fundamentals_gap_indicator_count": 3,
+    "trigger_conditions": [
+      "the operator knows the general direction but not the exact path",
+      "the operator is exploring a curvy path and needs the next grounded step",
+      "the operator is working above current fundamentals depth"
+    ],
+    "response_steps": [
+      "name the north star and the current uncertainty plainly",
+      "distinguish exploration from execution before proposing work",
+      "translate broad direction into one bounded next step",
+      "switch into plain-language fundamentals support when depth is thin",
+      "ask one brief clarifying question instead of guessing when the next move is still ambiguous"
+    ],
+    "review_prompts": [
+      "What larger direction is still true even if the path is unclear?",
+      "Is this moment exploratory or execution-oriented?",
+      "What is the smallest next step that still supports the north star?",
+      "What concept needs a plain-language fundamentals explanation before committing?"
+    ],
+    "fundamentals_gap_indicators": [
+      "the operator says they do not have deep fundamentals here",
+      "the operator can name a direction but not the supporting concepts",
+      "the next step depends on concepts that should be explained plainly first"
+    ],
+    "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+    "primary_next_step_anchor": "Translate high-level intention into clear next steps.",
+    "supports_curvy_path": true,
+    "north_star_present": true,
+    "latest_business_review_assessment": null,
+    "missing_signal_category_count": 4,
+    "sample_assessment": "fundamentals_gap_with_unclear_path",
+    "sample_work_mode": "learning",
+    "sample_recommended_action": "Name the one concept that feels thin, get a plain-language fundamentals explanation, then choose the smallest next step that teaches or de-risks the path.",
+    "sample_clarifying_question": "Which specific concept or system feels thin enough that a short fundamentals explanation would unblock the next step?",
+    "sample_reason": "The scenario signals both roadmap uncertainty and limited fundamentals depth, so a teaching-first step is safer than a bigger bet."
+  },
+  "session_memory_distillation_status": {
+    "latest_distillation_id": null,
+    "latest_distillation_classified_category": null,
+    "latest_distillation_signal_strength": null,
+    "latest_pointer_path": ".pack-state/session-distillation/latest-distillation.json",
+    "distillation_count": 0,
+    "latest_distillation_promoted_memory": false,
+    "latest_promoted_memory_id": null
+  },
+  "continuity_status": {
+    "status": "pass",
+    "health": "missing",
+    "reason": "No assistant continuity pointer is present yet.",
+    "recommended_action": "Record a business review or another continuity checkpoint before ending the session.",
+    "latest_pointer_present": false,
+    "latest_pointer_path": ".pack-state/assistant-memory/latest-memory.json",
+    "latest_memory_id": null,
+    "latest_memory_category": null,
+    "latest_memory_recorded_at": null,
+    "stale_after_hours": 168,
+    "age_hours": null
+  },
+  "relationship_state_summary": {
+    "personalization_stage": "baseline",
+    "genericity_risk": "high",
+    "improvement_focus": "Capture explicit operator intake and distill repeated session signals before expecting highly tailored behavior.",
+    "latest_intake_id": null,
+    "latest_distillation_id": null,
+    "latest_memory_id": null,
+    "recent_signal_count": 0,
+    "covered_signal_categories": [],
+    "missing_signal_categories": [
+      "goal",
+      "preference",
+      "communication_pattern",
+      "alignment_risk"
+    ],
+    "carry_forward_ready_categories": [],
+    "history_enrichment_status": {
+      "closeout_distillation_count": 0,
+      "repeated_carry_forward_categories": [],
+      "latest_closeout_distillation_id": null,
+      "latest_closeout_signal_strength": null,
+      "latest_closeout_category": null,
+      "thin_history_risk": "high",
+      "recommended_next_step": "Record a few more closeout reviews so repeated patterns can move from weak session observations into stronger carry-forward."
+    },
+    "next_learning_prompts": [
+      {
+        "category_id": "goal",
+        "prompt": "What is the operator trying to achieve right now, and what larger direction should stay visible?"
+      },
+      {
+        "category_id": "preference",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      },
+      {
+        "category_id": "communication_pattern",
+        "prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+      }
+    ],
+    "signal_strength_by_category": [
+      {
+        "category_id": "goal",
+        "signal_strength": "missing",
+        "ready_for_durable_use": false,
+        "source_counts": {
+          "operator_intake": 0,
+          "session_distillation": 0,
+          "session_observation": 0,
+          "assistant_memory": 0
+        },
+        "total_signal_count": 0,
+        "carry_forward_observation_count": 0,
+        "ready_for_distillation_review": false,
+        "next_prompt": "What is the operator trying to achieve right now, and what larger direction should stay visible?"
+      },
+      {
+        "category_id": "preference",
+        "signal_strength": "missing",
+        "ready_for_durable_use": false,
+        "source_counts": {
+          "operator_intake": 0,
+          "session_distillation": 0,
+          "session_observation": 0,
+          "assistant_memory": 0
+        },
+        "total_signal_count": 0,
+        "carry_forward_observation_count": 0,
+        "ready_for_distillation_review": false,
+        "next_prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      },
+      {
+        "category_id": "communication_pattern",
+        "signal_strength": "missing",
+        "ready_for_durable_use": false,
+        "source_counts": {
+          "operator_intake": 0,
+          "session_distillation": 0,
+          "session_observation": 0,
+          "assistant_memory": 0
+        },
+        "total_signal_count": 0,
+        "carry_forward_observation_count": 0,
+        "ready_for_distillation_review": false,
+        "next_prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+      },
+      {
+        "category_id": "alignment_risk",
+        "signal_strength": "missing",
+        "ready_for_durable_use": false,
+        "source_counts": {
+          "operator_intake": 0,
+          "session_distillation": 0,
+          "session_observation": 0,
+          "assistant_memory": 0
+        },
+        "total_signal_count": 0,
+        "carry_forward_observation_count": 0,
+        "ready_for_distillation_review": false,
+        "next_prompt": "What tends to pull the operator off course, and what should the assistant watch for?"
+      }
+    ],
+    "preference_signal_strength": "missing"
+  },
+  "history_enrichment_status": {
+    "closeout_distillation_count": 0,
+    "repeated_carry_forward_categories": [],
+    "latest_closeout_distillation_id": null,
+    "latest_closeout_signal_strength": null,
+    "latest_closeout_category": null,
+    "thin_history_risk": "high",
+    "recommended_next_step": "Record a few more closeout reviews so repeated patterns can move from weak session observations into stronger carry-forward."
+  },
+  "preference_strength_status": {
+    "category_id": "preference",
+    "signal_strength": "missing",
+    "ready_for_durable_use": false,
+    "source_counts": {
+      "operator_intake": 0,
+      "session_distillation": 0,
+      "session_observation": 0,
+      "assistant_memory": 0
+    },
+    "total_signal_count": 0,
+    "carry_forward_observation_count": 0,
+    "ready_for_distillation_review": false,
+    "next_prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+  },
+  "preference_calibration_status": {
+    "business_review_anchor_present": false,
+    "business_review_due": true,
+    "calibration_due": true,
+    "calibration_ready": false,
+    "calibration_priority": "high",
+    "due_reason": "Refresh the business review before calibrating preferences so the signal stays anchored to the current business direction.",
+    "recommended_record_surface": "record-preference-calibration",
+    "recommended_next_step": "Use record-business-review first, then capture one bounded preference with record-preference-calibration.",
+    "recommended_step_sequence": [
+      {
+        "step_id": "anchor_business_review",
+        "surface": "record-business-review",
+        "reason": "business_review_due",
+        "summary": "Refresh the business review first so any preference calibration stays anchored to the current direction.",
+        "question": "What outcome matters most for the business direction right now?"
+      },
+      {
+        "step_id": "capture_preference_calibration",
+        "surface": "record-preference-calibration",
+        "reason": "missing_or_tentative_preference",
+        "category_id": "preference",
+        "summary": "After the business review is anchored, capture one bounded working or communication preference.",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      }
+    ],
+    "latest_business_review_id": null,
+    "latest_business_review_grounded_next_step": null,
+    "preference_signal_strength": "missing"
+  },
+  "business_review_status": {
+    "cadence_name": "weekly-business-grounding-review",
+    "latest_review_id": null,
+    "latest_pointer_path": ".pack-state/business-grounding-reviews/latest-review.json",
+    "review_count": 0,
+    "review_question_count": 4,
+    "due_condition_count": 3,
+    "review_due": true,
+    "due_reason": "No recorded business grounding review exists yet.",
+    "latest_review_assessment": null,
+    "missing_signal_category_count": 4
+  },
+  "relationship_reflection_status": {
+    "cadence_name": "relationship-signal-reflection",
+    "due_condition_count": 3,
+    "review_question_count": 3,
+    "reflection_due": true,
+    "due_reason": "Business review is due and relationship signals are still missing; anchor direction first, then capture one bounded reflection.",
+    "reflection_priority": "high",
+    "target_signal_categories": [
+      "preference",
+      "communication_pattern"
+    ],
+    "suggested_reflection_prompts": [
+      {
+        "category_id": "preference",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      },
+      {
+        "category_id": "communication_pattern",
+        "prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+      }
+    ],
+    "max_prompts_per_reflection": 2,
+    "recommended_record_surface": "record-operator-intake",
+    "recommended_next_step": "Refresh the business review, then use record-operator-intake for the first missing signal category.",
+    "recommended_step_sequence": [
+      {
+        "step_id": "anchor_business_review",
+        "surface": "record-business-review",
+        "reason": "business_review_due",
+        "summary": "Refresh the business review first so the next relationship signal is anchored to the current direction.",
+        "question": "Which missing relationship signal would most improve daily collaboration right now?"
+      },
+      {
+        "step_id": "capture_missing_relationship_signal",
+        "surface": "record-operator-intake",
+        "reason": "missing_relationship_signal",
+        "category_id": "preference",
+        "summary": "Capture one bounded reflection for the first missing relationship signal category.",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      }
+    ],
+    "latest_review_assessment": null,
+    "business_review_anchor_present": false,
+    "thin_history_risk": "high"
+  },
+  "recommended_step_sequence": [
+    {
+      "step_id": "anchor_business_review",
+      "surface": "record-business-review",
+      "reason": "business_review_due",
+      "summary": "Refresh the business review first so the next relationship signal is anchored to the current direction.",
+      "question": "Which missing relationship signal would most improve daily collaboration right now?"
+    },
+    {
+      "step_id": "capture_missing_relationship_signal",
+      "surface": "record-operator-intake",
+      "reason": "missing_relationship_signal",
+      "category_id": "preference",
+      "summary": "Capture one bounded reflection for the first missing relationship signal category.",
+      "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+    }
+  ]
+}
+
+--- doctor ---
+{
+  "status": "pass",
+  "missing_paths": [],
+  "errors": [],
+  "assistant_id": "codex-personal-assistant-daily-driver",
+  "operator_id": "orchadmin",
+  "route_count": 7,
+  "skill_count": 7,
+  "pause_condition_count": 3,
+  "accountability_checkpoint_count": 3,
+  "grounding_behavior_count": 3,
+  "grounding_review_prompt_count": 3,
+  "accountability_trigger_count": 3,
+  "business_review_question_count": 4,
+  "relationship_reflection_question_count": 3,
+  "navigation_trigger_count": 3,
+  "latest_memory_pointer_present": false,
+  "continuity_health": "missing",
+  "continuity_reason": "No assistant continuity pointer is present yet.",
+  "continuity_recommended_action": "Record a business review or another continuity checkpoint before ending the session.",
+  "intake_category_count": 4,
+  "distillation_promotable_category_count": 4
+}
+
+codex
+The due-state is unambiguous: there’s no business review yet, so preference calibration is correctly blocked until we anchor one. I’m creating a small UAT evidence folder for this run, then I’ll record a grounded review tied to the operator’s small-business direction and follow it with one bounded preference calibration that leaves `contracts/operator-profile.json` untouched.
+exec
+/bin/bash -lc 'date -u +%Y%m%dT%H%M%SZ
+sha256sum contracts/operator-profile.json' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+20260331T164219Z
+09d3a626489ce83552b1e5b06adfd6c2f7a3203f5e294933f5d5dab15b7330af  contracts/operator-profile.json
+
+exec
+/bin/bash -lc 'RUN_ID=assistant-uat-20260331t164500z
+ARTIFACT_DIR=.pack-state/autonomy-runs/$RUN_ID/assistant-uat
+mkdir -p "$ARTIFACT_DIR"
+printf '"'%s
+' '{' '  \"scenario\": \"assistant-uat preference calibration anchored to business review\",' '  \"date\": \"2026-03-31\",' '  \"operator_direction\": \"small-business direction through PackFactory and assistant systems\",' '  \"constraint\": \"do not pass refine_profile_json; do not modify contracts/operator-profile.json\"' '}' > \""'$ARTIFACT_DIR/uat-evidence.json"
+printf '"'%s
+' \""'$ARTIFACT_DIR/uat-evidence.json"' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+.pack-state/autonomy-runs/assistant-uat-20260331t164500z/assistant-uat/uat-evidence.json
+
+2026-03-31T16:42:19.404708Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+2026-03-31T16:42:19.467462Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+exec
+/bin/bash -lc "sed -n '1,220p' .pack-state/autonomy-runs/assistant-uat-20260331t164500z/assistant-uat/uat-evidence.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "scenario": "assistant-uat preference calibration anchored to business review",
+  "date": "2026-03-31",
+  "operator_direction": "small-business direction through PackFactory and assistant systems",
+  "constraint": "do not pass refine_profile_json; do not modify contracts/operator-profile.json"
+}
+
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack record-business-review --project-root . --review-id business-review-20260331t164500z --summary "The operator is using this pack to turn PackFactory and assistant-system work into a grounded small-business path, so the immediate priority is making the assistant more reliable and inspectable rather than drifting into side exploration." --current-focus "Validate local assistant behavior and strengthen the daily-driver assistant surfaces that support a small-business direction." --grounded-next-step "Capture one bounded working preference through the local preference-calibration surface so future assistance stays concrete and anchored to the current business review." --assessment aligned --tag assistant-uat --tag local-behavior --source assistant-uat --evidence .pack-state/autonomy-runs/assistant-uat-20260331t164500z/assistant-uat/uat-evidence.json --confidence 0.87 --output json' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "status": "pass",
+  "review_id": "business-review-20260331t164500z",
+  "review_path": ".pack-state/business-grounding-reviews/business-review-20260331t164500z.json",
+  "latest_pointer_path": ".pack-state/business-grounding-reviews/latest-review.json",
+  "replaced_existing": false,
+  "continuity_checkpoint": {
+    "status": "pass",
+    "memory_id": "continuity-business-review-20260331t164500z",
+    "category": "goal",
+    "memory_path": ".pack-state/assistant-memory/continuity-business-review-20260331t164500z.json",
+    "latest_pointer_path": ".pack-state/assistant-memory/latest-memory.json",
+    "replaced_existing": false
+  },
+  "closeout_distillation": {
+    "status": "pass",
+    "distillation_id": "closeout-review-business-review-20260331t164500z",
+    "distillation_path": ".pack-state/session-distillation/closeout-review-business-review-20260331t164500z.json",
+    "latest_pointer_path": ".pack-state/session-distillation/latest-distillation.json",
+    "replaced_existing": false,
+    "promoted_memory_id": null,
+    "classified_category": "goal",
+    "signal_strength": "session_observation",
+    "memory_result": null,
+    "promote_category": null,
+    "repeated_closeout_signal_count": 1,
+    "matching_rule": "same_category_and_assessment",
+    "source_memory_ids": [
+      "continuity-business-review-20260331t164500z"
+    ]
+  },
+  "business_review_status": {
+    "cadence_name": "weekly-business-grounding-review",
+    "latest_review_id": "business-review-20260331t164500z",
+    "latest_pointer_path": ".pack-state/business-grounding-reviews/latest-review.json",
+    "review_count": 1,
+    "review_question_count": 4,
+    "due_condition_count": 3,
+    "review_due": false,
+    "due_reason": "Recent business grounding review is available.",
+    "latest_review_assessment": "aligned",
+    "missing_signal_category_count": 3
+  },
+  "relationship_reflection_status": {
+    "cadence_name": "relationship-signal-reflection",
+    "due_condition_count": 3,
+    "review_question_count": 3,
+    "reflection_due": true,
+    "due_reason": "Relationship signals are still missing; capture one bounded reflection instead of assuming personalization.",
+    "reflection_priority": "high",
+    "target_signal_categories": [
+      "preference",
+      "communication_pattern"
+    ],
+    "suggested_reflection_prompts": [
+      {
+        "category_id": "preference",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      },
+      {
+        "category_id": "communication_pattern",
+        "prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+      }
+    ],
+    "max_prompts_per_reflection": 2,
+    "recommended_record_surface": "record-operator-intake",
+    "recommended_next_step": "Use record-operator-intake to capture one bounded reflection for the first missing signal category.",
+    "recommended_step_sequence": [
+      {
+        "step_id": "capture_missing_relationship_signal",
+        "surface": "record-operator-intake",
+        "reason": "missing_relationship_signal",
+        "category_id": "preference",
+        "summary": "Capture one bounded reflection for the first missing relationship signal category.",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      }
+    ],
+    "latest_review_assessment": "aligned",
+    "business_review_anchor_present": true,
+    "thin_history_risk": "medium"
+  }
+}
+
+2026-03-31T16:42:27.534120Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+2026-03-31T16:42:27.593242Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+codex
+The review refresh landed cleanly and it did exactly what we wanted: it anchored continuity locally, cleared the “review due” state, and made the next bounded action explicit. I’m recording one working preference now through the dedicated calibration surface, still without `refine_profile_json`, then I’ll verify the operator-profile hash stayed the same.
+exec
+/bin/bash -lc "sha256sum contracts/operator-profile.json && printf '\\n--- latest business review pointer ---\\n' && sed -n '1,120p' .pack-state/business-grounding-reviews/latest-review.json && printf '\\n--- latest intake pointer ---\\n' && sed -n '1,120p' .pack-state/operator-intake/latest-intake.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ exited 2 in 0ms:
+09d3a626489ce83552b1e5b06adfd6c2f7a3203f5e294933f5d5dab15b7330af  contracts/operator-profile.json
+
+--- latest business review pointer ---
+{
+  "schema_version": "codex-personal-assistant-business-review-pointer/v1",
+  "selected_review_id": "business-review-20260331t164500z",
+  "selected_review_path": ".pack-state/business-grounding-reviews/business-review-20260331t164500z.json",
+  "updated_at": "2026-03-31T16:42:27Z"
+}
+
+--- latest intake pointer ---
+sed: can't read .pack-state/operator-intake/latest-intake.json: No such file or directory
+
+exec
+/bin/bash -lc "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack record-preference-calibration --project-root . --calibration-id preference-calibration-20260331t164500z --summary \"Prefer concrete next-step guidance and explicit local commands over implied workflows when refining the assistant for small-business use.\" --next-action \"Keep future assistant guidance anchored to the latest business review and present the next concrete local command before suggesting broader workflow changes.\" --tag assistant-uat --tag preference-calibration --source assistant-uat --evidence .pack-state/autonomy-runs/assistant-uat-20260331t164500z/assistant-uat/uat-evidence.json --confidence 0.84 --output json && printf '\\n--- post status ---\\n' && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-preference-calibration --project-root . --output json && printf '\\n--- relationship state ---\\n' && PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-relationship-state --project-root . --output json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+2026-03-31T16:42:38.674752Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+2026-03-31T16:42:38.735092Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+ succeeded in 354ms:
+{
+  "status": "pass",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "near_term_priorities": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner.",
+    "Keep moving even when the roadmap is incomplete or curvy."
+  ],
+  "latest_business_review_id": "business-review-20260331t164500z",
+  "latest_business_review_assessment": "aligned",
+  "latest_business_review_grounded_next_step": "Capture one bounded working preference through the local preference-calibration surface so future assistance stays concrete and anchored to the current business review.",
+  "preference_prompt": "What working preferences or communication preferences should the assistant remember for next time?",
+  "preference_refinement_targets": [
+    "working_preferences",
+    "ambiguity_preferences"
+  ],
+  "preference_strength_status": {
+    "category_id": "preference",
+    "signal_strength": "repeated",
+    "ready_for_durable_use": true,
+    "source_counts": {
+      "operator_intake": 1,
+      "session_distillation": 0,
+      "session_observation": 0,
+      "assistant_memory": 1
+    },
+    "total_signal_count": 2,
+    "carry_forward_observation_count": 0,
+    "ready_for_distillation_review": false,
+    "next_prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+  },
+  "preference_calibration_status": {
+    "business_review_anchor_present": true,
+    "business_review_due": false,
+    "calibration_due": false,
+    "calibration_ready": false,
+    "calibration_priority": "low",
+    "due_reason": "Preference evidence is already repeated; keep using it cautiously unless the operator explicitly confirms or changes it.",
+    "recommended_record_surface": "record-preference-calibration",
+    "recommended_next_step": "Keep observing real work and only record another preference calibration if the operator explicitly confirms or changes a preference.",
+    "recommended_step_sequence": [
+      {
+        "step_id": "continue_observation",
+        "surface": null,
+        "reason": "preference_signal_repeated",
+        "summary": "No immediate preference calibration is required; keep observing until the preference is explicitly confirmed or changes."
+      }
+    ],
+    "latest_business_review_id": "business-review-20260331t164500z",
+    "latest_business_review_grounded_next_step": "Capture one bounded working preference through the local preference-calibration surface so future assistance stays concrete and anchored to the current business review.",
+    "preference_signal_strength": "repeated"
+  },
+  "recommended_step_sequence": [
+    {
+      "step_id": "continue_observation",
+      "surface": null,
+      "reason": "preference_signal_repeated",
+      "summary": "No immediate preference calibration is required; keep observing until the preference is explicitly confirmed or changes."
+    }
+  ]
+}
+
+--- relationship state ---
+{
+  "status": "pass",
+  "assistant_id": "codex-personal-assistant-daily-driver",
+  "operator_id": "orchadmin",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "current_role": "operator building toward a small business",
+  "goal_anchors": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner.",
+    "Keep moving even when the roadmap is incomplete or curvy.",
+    "Build a small business.",
+    "Develop a durable working partnership with the assistant that becomes more useful over time.",
+    "The operator is using this pack to turn PackFactory and assistant-system work into a grounded small-business path, so the immediate priority is making the assistant more reliable and inspectable rather than drifting into side exploration."
+  ],
+  "learned_preferences": [
+    "Keep support business-like and concrete.",
+    "Prefer clear instructions over implied workflows.",
+    "Ask for refinement when a request is ambiguous.",
+    "Translate broad direction into the next best concrete step.",
+    "Explain fundamentals plainly when depth is thin instead of assuming expert context.",
+    "Prefer concrete next-step guidance and explicit local commands over implied workflows when refining the assistant for small-business use."
+  ],
+  "communication_patterns": [],
+  "alignment_watch_fors": [
+    "the intended workflow when multiple PackFactory surfaces could apply",
+    "that a partially formed idea is ready for execution without refinement",
+    "that technical verification is the same as user experience validation",
+    "deep fundamental knowledge of every technology involved in the current path",
+    "that uncertainty about the roadmap means no useful next step exists",
+    "Do not confuse motion with progress.",
+    "Reconnect tactical work to the larger business direction.",
+    "Surface ambiguity before committing to a path.",
+    "Do not confuse uncertainty about the whole map with inability to take the next step."
+  ],
+  "recent_relationship_signals": [
+    {
+      "signal_type": "operator_intake",
+      "signal_id": "preference-calibration-20260331t164500z",
+      "category": "preference",
+      "summary": "Prefer concrete next-step guidance and explicit local commands over implied workflows when refining the assistant for small-business use."
+    },
+    {
+      "signal_type": "session_distillation",
+      "signal_id": "closeout-review-business-review-20260331t164500z",
+      "category": "goal",
+      "summary": "The operator is using this pack to turn PackFactory and assistant-system work into a grounded small-business path, so the immediate priority is making the assistant more reliable and inspectable rather than drifting into side exploration."
+    },
+    {
+      "signal_type": "assistant_memory",
+      "signal_id": "operator-intake-preference-calibration-20260331t164500z",
+      "category": "preference",
+      "summary": "Prefer concrete next-step guidance and explicit local commands over implied workflows when refining the assistant for small-business use."
+    },
+    {
+      "signal_type": "assistant_memory",
+      "signal_id": "continuity-business-review-20260331t164500z",
+      "category": "goal",
+      "summary": "The operator is using this pack to turn PackFactory and assistant-system work into a grounded small-business path, so the immediate priority is making the assistant more reliable and inspectable rather than drifting into side exploration."
+    }
+  ],
+  "covered_signal_categories": [
+    "goal",
+    "preference"
+  ],
+  "missing_signal_categories": [
+    "communication_pattern",
+    "alignment_risk"
+  ],
+  "next_learning_prompts": [
+    {
+      "category_id": "communication_pattern",
+      "prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+    },
+    {
+      "category_id": "alignment_risk",
+      "prompt": "What tends to pull the operator off course, and what should the assistant watch for?"
+    }
+  ],
+  "signal_strength_by_category": [
+    {
+      "category_id": "goal",
+      "signal_strength": "tentative",
+      "ready_for_durable_use": false,
+      "source_counts": {
+        "operator_intake": 0,
+        "session_distillation": 0,
+        "session_observation": 1,
+        "assistant_memory": 1
+      },
+      "total_signal_count": 1,
+      "carry_forward_observation_count": 1,
+      "ready_for_distillation_review": false,
+      "next_prompt": "What is the operator trying to achieve right now, and what larger direction should stay visible?"
+    },
+    {
+      "category_id": "preference",
+      "signal_strength": "repeated",
+      "ready_for_durable_use": true,
+      "source_counts": {
+        "operator_intake": 1,
+        "session_distillation": 0,
+        "session_observation": 0,
+        "assistant_memory": 1
+      },
+      "total_signal_count": 2,
+      "carry_forward_observation_count": 0,
+      "ready_for_distillation_review": false,
+      "next_prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+    },
+    {
+      "category_id": "communication_pattern",
+      "signal_strength": "missing",
+      "ready_for_durable_use": false,
+      "source_counts": {
+        "operator_intake": 0,
+        "session_distillation": 0,
+        "session_observation": 0,
+        "assistant_memory": 0
+      },
+      "total_signal_count": 0,
+      "carry_forward_observation_count": 0,
+      "ready_for_distillation_review": false,
+      "next_prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+    },
+    {
+      "category_id": "alignment_risk",
+      "signal_strength": "missing",
+      "ready_for_durable_use": false,
+      "source_counts": {
+        "operator_intake": 0,
+        "session_distillation": 0,
+        "session_observation": 0,
+        "assistant_memory": 0
+      },
+      "total_signal_count": 0,
+      "carry_forward_observation_count": 0,
+      "ready_for_distillation_review": false,
+      "next_prompt": "What tends to pull the operator off course, and what should the assistant watch for?"
+    }
+  ],
+  "preference_strength_status": {
+    "category_id": "preference",
+    "signal_strength": "repeated",
+    "ready_for_durable_use": true,
+    "source_counts": {
+      "operator_intake": 1,
+      "session_distillation": 0,
+      "session_observation": 0,
+      "assistant_memory": 1
+    },
+    "total_signal_count": 2,
+    "carry_forward_observation_count": 0,
+    "ready_for_distillation_review": false,
+    "next_prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+  },
+  "history_enrichment_status": {
+    "closeout_distillation_count": 1,
+    "repeated_carry_forward_categories": [],
+    "latest_closeout_distillation_id": "closeout-review-business-review-20260331t164500z",
+    "latest_closeout_signal_strength": "session_observation",
+    "latest_closeout_category": "goal",
+    "thin_history_risk": "medium",
+    "recommended_next_step": "Keep closing out sessions so the assistant can accumulate a richer inspectable history instead of leaning on one fresh note."
+  },
+  "personalization_stage": "grounded",
+  "relationship_state_summary": {
+    "personalization_stage": "grounded",
+    "genericity_risk": "low",
+    "improvement_focus": "Keep reinforcing stable preferences and working patterns through explicit intake and distillation rather than guessing.",
+    "latest_intake_id": "preference-calibration-20260331t164500z",
+    "latest_distillation_id": "closeout-review-business-review-20260331t164500z",
+    "latest_memory_id": "operator-intake-preference-calibration-20260331t164500z",
+    "recent_signal_count": 4,
+    "covered_signal_categories": [
+      "goal",
+      "preference"
+    ],
+    "missing_signal_categories": [
+      "communication_pattern",
+      "alignment_risk"
+    ],
+    "carry_forward_ready_categories": [],
+    "history_enrichment_status": {
+      "closeout_distillation_count": 1,
+      "repeated_carry_forward_categories": [],
+      "latest_closeout_distillation_id": "closeout-review-business-review-20260331t164500z",
+      "latest_closeout_signal_strength": "session_observation",
+      "latest_closeout_category": "goal",
+      "thin_history_risk": "medium",
+      "recommended_next_step": "Keep closing out sessions so the assistant can accumulate a richer inspectable history instead of leaning on one fresh note."
+    },
+    "next_learning_prompts": [
+      {
+        "category_id": "communication_pattern",
+        "prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+      },
+      {
+        "category_id": "alignment_risk",
+        "prompt": "What tends to pull the operator off course, and what should the assistant watch for?"
+      }
+    ],
+    "signal_strength_by_category": [
+      {
+        "category_id": "goal",
+        "signal_strength": "tentative",
+        "ready_for_durable_use": false,
+        "source_counts": {
+          "operator_intake": 0,
+          "session_distillation": 0,
+          "session_observation": 1,
+          "assistant_memory": 1
+        },
+        "total_signal_count": 1,
+        "carry_forward_observation_count": 1,
+        "ready_for_distillation_review": false,
+        "next_prompt": "What is the operator trying to achieve right now, and what larger direction should stay visible?"
+      },
+      {
+        "category_id": "preference",
+        "signal_strength": "repeated",
+        "ready_for_durable_use": true,
+        "source_counts": {
+          "operator_intake": 1,
+          "session_distillation": 0,
+          "session_observation": 0,
+          "assistant_memory": 1
+        },
+        "total_signal_count": 2,
+        "carry_forward_observation_count": 0,
+        "ready_for_distillation_review": false,
+        "next_prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      },
+      {
+        "category_id": "communication_pattern",
+        "signal_strength": "missing",
+        "ready_for_durable_use": false,
+        "source_counts": {
+          "operator_intake": 0,
+          "session_distillation": 0,
+          "session_observation": 0,
+          "assistant_memory": 0
+        },
+        "total_signal_count": 0,
+        "carry_forward_observation_count": 0,
+        "ready_for_distillation_review": false,
+        "next_prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+      },
+      {
+        "category_id": "alignment_risk",
+        "signal_strength": "missing",
+        "ready_for_durable_use": false,
+        "source_counts": {
+          "operator_intake": 0,
+          "session_distillation": 0,
+          "session_observation": 0,
+          "assistant_memory": 0
+        },
+        "total_signal_count": 0,
+        "carry_forward_observation_count": 0,
+        "ready_for_distillation_review": false,
+        "next_prompt": "What tends to pull the operator off course, and what should the assistant watch for?"
+      }
+    ],
+    "preference_signal_strength": "repeated"
+  },
+  "relationship_state_status": {
+    "maturity": "grounded",
+    "genericity_risk": "low",
+    "improvement_focus": "Keep reinforcing stable preferences and working patterns through explicit intake and distillation rather than guessing.",
+    "intake_count": 1,
+    "distillation_count": 1,
+    "personalized_memory_count": 2,
+    "recent_signal_count": 4,
+    "latest_intake_id": "preference-calibration-20260331t164500z",
+    "latest_distillation_id": "closeout-review-business-review-20260331t164500z",
+    "latest_memory_id": "operator-intake-preference-calibration-20260331t164500z"
+  },
+  "latest_memory_id": "operator-intake-preference-calibration-20260331t164500z",
+  "latest_memory_path": ".pack-state/assistant-memory/operator-intake-preference-calibration-20260331t164500z.json"
+}
+
+codex
+The calibration itself succeeded and the operator-profile hash is unchanged, which is the key guardrail for this UAT. One small follow-up: the intake pointer path reported by the command doesn’t exist at the exact location I checked, so I’m resolving the actual local intake artifact path before I wrap up.
+exec
+/bin/bash -lc "rg --files .pack-state | rg 'operator-intake|preference-calibration-20260331t164500z|latest-intake'" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+.pack-state/assistant-memory/operator-intake-preference-calibration-20260331t164500z.json
+.pack-state/operator-intake/preference-calibration-20260331t164500z.json
+.pack-state/operator-intake/latest-intake.json
+
+exec
+/bin/bash -lc "sed -n '1,220p' .pack-state/operator-intake/preference-calibration-20260331t164500z.json && printf '\\n--- latest memory pointer ---\\n' && sed -n '1,120p' .pack-state/assistant-memory/latest-memory.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "category": "preference",
+  "category_contract": {
+    "category_id": "preference",
+    "prompt": "What working preferences or communication preferences should the assistant remember for next time?",
+    "refinement_targets": [
+      "working_preferences",
+      "ambiguity_preferences"
+    ],
+    "stable_memory_category": "preference"
+  },
+  "confidence": 0.84,
+  "evidence": ".pack-state/autonomy-runs/assistant-uat-20260331t164500z/assistant-uat/uat-evidence.json",
+  "intake_id": "preference-calibration-20260331t164500z",
+  "next_action": "Keep future assistant guidance anchored to the latest business review and present the next concrete local command before suggesting broader workflow changes.",
+  "recorded_at": "2026-03-31T16:42:38Z",
+  "refine_profile_json": null,
+  "schema_version": "codex-personal-assistant-operator-intake-record/v1",
+  "source": "assistant-uat",
+  "summary": "Prefer concrete next-step guidance and explicit local commands over implied workflows when refining the assistant for small-business use.",
+  "tags": [
+    "assistant-uat",
+    "preference-calibration"
+  ]
+}
+
+--- latest memory pointer ---
+{
+  "schema_version": "codex-personal-assistant-memory-pointer/v1",
+  "selected_memory_id": "operator-intake-preference-calibration-20260331t164500z",
+  "selected_memory_path": ".pack-state/assistant-memory/operator-intake-preference-calibration-20260331t164500z.json",
+  "updated_at": "2026-03-31T16:42:38Z"
+}
+
+2026-03-31T16:42:45.682742Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+2026-03-31T16:42:45.753536Z ERROR codex_login::auth::manager: Failed to refresh token: Your access token could not be refreshed because your refresh token was already used. Please log out and sign in again.
+codex
+Refreshed the local business review because it was due, then recorded one bounded preference calibration tied to that review.
+
+What changed:
+The new business review is now anchored at [.pack-state/business-grounding-reviews/latest-review.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/business-grounding-reviews/latest-review.json), with an aligned small-business focus and a grounded next step to capture a concrete preference. The preference calibration was then recorded at [.pack-state/operator-intake/preference-calibration-20260331t164500z.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/operator-intake/preference-calibration-20260331t164500z.json), and it explicitly shows `"refine_profile_json": null`, so no operator-profile refinement was applied. The supporting UAT evidence lives at [.pack-state/autonomy-runs/assistant-uat-20260331t164500z/assistant-uat/uat-evidence.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/assistant-uat-20260331t164500z/assistant-uat/uat-evidence.json).
+
+The inspectable state now shows the business review is no longer due, the preference signal is `repeated`, and `contracts/operator-profile.json` was not modified during the run.
+tokens used
+63,900

@@ -1,0 +1,2 @@
+127.0.0.1 - - [28/Mar/2026:17:56:05 -0400] "GET /afa/php/home.php?segment=DEVICES HTTP/1.1" 200 330930
+127.0.0.1 - - [28/Mar/2026:17:56:06 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 938

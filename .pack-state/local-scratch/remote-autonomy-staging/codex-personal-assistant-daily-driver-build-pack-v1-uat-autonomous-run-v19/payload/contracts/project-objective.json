@@ -1,0 +1,61 @@
+{
+  "autonomy_quality_requirement": {
+    "required_for_promotion": false,
+    "summary": "Autonomy quality is advisory by default; promotion only blocks on autonomy quality when this objective explicitly declares bounded thresholds."
+  },
+  "autonomy_rehearsal_requirement": {
+    "required_for_promotion": true,
+    "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state.",
+    "workflow_id": "multi_hop_autonomy_rehearsal"
+  },
+  "completion_definition": [
+    "All starter tasks in tasks/active-backlog.json are completed or explicitly resolved through existing workflows.",
+    "The build-pack is ready for review, ready for deploy, or awaiting the next PackFactory workflow step."
+  ],
+  "generated_at": "2026-03-29T16:07:24Z",
+  "intended_inputs": [
+    "Pack-local source code and configuration under the materialized build-pack.",
+    "Validation and benchmark commands declared in pack.json entrypoints.",
+    "Current readiness, eval, and benchmark state for this build-pack."
+  ],
+  "intended_outputs": [
+    "A schema-valid build-pack with current validation and benchmark evidence.",
+    "Updated readiness and eval state that supports promotion decisions."
+  ],
+  "materialization_id": "materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z",
+  "metrics": [
+    {
+      "evidence_hint": "status/readiness.json and eval/latest/index.json",
+      "metric_id": "validation_gate_status",
+      "summary": "Validation gate reaches a passing state.",
+      "target": "validate_build_pack_contract=pass"
+    },
+    {
+      "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
+      "metric_id": "benchmark_completion",
+      "summary": "All inherited readiness benchmarks complete successfully.",
+      "target": "required inherited benchmark gates=pass or waived"
+    }
+  ],
+  "non_goals": [
+    "Changing deployment state outside the existing PackFactory workflows.",
+    "Creating new tests or benchmarks without explicit operator approval."
+  ],
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "objective_summary": "Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "problem_statement": "# Project Context\n\nThis template was created to support the following project goal:\n\n- Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.\n\n## Priority\n\n1. Keep the template valid for PackFactory traversal and later materialization.\n2. Keep validation and benchmark commands small and deterministic.\n3. Keep the pack easy for a fresh agent to inspect.\n\n## Primary Runtime Surfaces\n\n- `src/codex_personal_assistant_template_pack/cli.py`\n- `src/codex_personal_assistant_template_pack/validate_project_pack.py`\n- `src/codex_personal_assistant_template_pack/benchmark_smoke.py`\n- `benchmarks/active-set.json`\n- `benchmarks/declarations/codex-personal-assistant-template-pack-smoke-small-001.json`\n- `eval/latest/index.json`\n\n## Local State\n\n- local scratch state: `.pack-state/`\n- optional template lineage memory: `.pack-state/template-lineage-memory/latest-memory.json`\n\n## Factory-Level Inheritance Note\n\nThis template is a source template, not the canonical home of the autonomy\nbaseline.\n\nFor inherited PackFactory defaults around agent memory, feedback loops,\nrestart behavior, rehearsal evidence, and branch-choice policy, prefer the\nfactory-level state brief and operations note:\n\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`\n\nWhen present, the template-local lineage memory at\n`.pack-state/template-lineage-memory/latest-memory.json` is the shortest path\nto template-family learning that has already been distilled from derived\nbuild-packs.\n\nThat inherited baseline now also includes startup-compliance expectations for\nremote Codex session management and runtime-evidence flow:\n\n- prefer PackFactory-local remote-session workflows from the factory root\n- do not treat ad hoc `ssh` prompts or raw stdout/stderr logs as canonical\n  PackFactory evidence\n- return to the factory root for external runtime-evidence import",
+  "promotion_readiness_requirements": [
+    "Build-pack validation must pass with recorded evidence.",
+    "Inherited required benchmark gates must pass or be waived.",
+    "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+    "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
+    "Autonomy quality remains advisory by default unless this build-pack later declares a bounded promotion-time autonomy-quality requirement."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "success_criteria": [
+    "The build-pack validation command completes successfully and records passing evidence.",
+    "The inherited benchmark command completes successfully and updates readiness evidence."
+  ]
+}

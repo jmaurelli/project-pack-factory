@@ -1,0 +1,30 @@
+Relevant source excerpts
+========================
+
+1. /usr/share/fa/php/SuiteLoginSessionValidation.php
+
+- Lines 16-21 state that BusinessFlow's cookie is not available in this file because its path is `/BusinessFlow`, and that validating AFA plus FireFlow is considered sufficient.
+
+2. /usr/share/fa/php/ci/application/controllers/Environment.php
+
+- `getAFASessionInfo()` returns:
+  - `faSession`
+  - `faDomain`
+  - `phpSession`
+  - `isAdmin`
+  - `username`
+  - `authenticated`
+
+3. /usr/share/fa/php/ci/application/libraries/Algosec.php
+
+- Requests to `/fa/environment/getAFASessionInfo` are treated as read-only session requests.
+
+4. /usr/share/fa/php/utils.php
+
+- `getFireflowCookie()` extracts only `AFF_COOKIE`.
+- `checkFireFlowAuth()` validates FireFlow by calling `/FireFlow/SelfService/CheckAuthentication/?login=1` with the FireFlow cookie.
+
+5. /usr/share/fa/php/SSOLogin.php
+
+- `issueBFlowSSO()` sets the BusinessFlow cookie on path `/BusinessFlow`.
+- Separate SSO logic also supports setting FireFlow and BusinessFlow cookies, but this is an explicit SSO path, not the repeating poll pattern seen in the March 25 access logs.

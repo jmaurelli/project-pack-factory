@@ -1,0 +1,11 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "remote-autonomy-shallow-surface-map-run-request.json",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1/incoming",
+  "pull_bundle": true,
+  "import_bundle": true,
+  "imported_by": "codex",
+  "import_reason": "Pull the bounded target-backed shallow-surface-map evidence back for factory review and import it through the standard external runtime-evidence path.",
+  "test_reason": "Exercise the PackFactory remote roundtrip for the successor shallow-surface-map slice against target 10.167.2.150 while `adf-dev` remains the operational runtime home."
+}

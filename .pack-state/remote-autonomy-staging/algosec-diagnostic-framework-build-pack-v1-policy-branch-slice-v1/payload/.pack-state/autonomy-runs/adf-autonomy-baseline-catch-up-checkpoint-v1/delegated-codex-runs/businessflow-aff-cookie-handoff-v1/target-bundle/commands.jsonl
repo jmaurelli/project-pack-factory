@@ -1,0 +1,18 @@
+{"cmd":"pwd","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/delegated-task-request.json","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1/artifacts","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n --hidden --no-ignore -S \"SSOLogin.php|SuiteLoginSessionValidation.php|AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh\" /usr/share/fa/php /var/log/httpd /usr/share/fireflow/var/log /etc/httpd","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"find /var/log/httpd /usr/share/fireflow/var/log -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"find /usr/share/fa/php /etc/httpd -maxdepth 4 \\( -name '*.php' -o -name '*.conf' -o -name '*.log' \\) | sort | sed -n '1,400p'","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n -C 4 -S \"AFF_COOKIE|BFCookie|getAFASessionInfo|bridge/refresh|FireFlow/api/session|SuiteLoginSessionValidation|SSOLogin\" /usr/share/fa/php/SSOLogin.php /usr/share/fa/php/SuiteLoginSessionValidation.php /usr/share/fa/php /etc/httpd/conf.d","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh|SSOLogin.php|SuiteLoginSessionValidation.php\" /var/log/httpd/access_log /var/log/httpd/ssl_access_log /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-27.txt /usr/share/fireflow/var/log/aff-boot.access_log.2026-03-26.txt","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n -S \"AFF_COOKIE|BFCookie|session=.*domain=0\\?session|getAFASessionInfo|bridge/refresh|FireFlow/api/session\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"rg -n -C 6 -S \"storeFireflowCookie|bridge/storeFireflowCookie|storeFireflowCookie\\?session|BFCookie|AFF_COOKIE\" /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 /var/log/httpd/ssl_access_log /usr/share/fa/php","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '140,210p' /usr/share/fa/php/SSOLogin.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '1,120p' /usr/share/fa/php/ci/application/controllers/Environment.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '109345,109357p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '94157,94165p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '120017,120023p' /var/log/httpd/ssl_access_log","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '16602,16616p' /usr/share/fireflow/var/log/fireflow.log","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"sed -n '180,205p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false,"shell":"/bin/bash"}
+{"cmd":"find /root/.pack-state/delegated-codex-runs/businessflow-aff-cookie-handoff-v1 -maxdepth 2 -type f | sort","workdir":"/root","login":false,"shell":"/bin/bash"}

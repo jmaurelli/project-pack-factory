@@ -1,0 +1,25 @@
+{
+  "apache_minute_key": "28/Mar/2026:17:56",
+  "artifacts": {
+    "analyze_body": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.body.html",
+    "analyze_headers": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/analyze-options.headers.txt",
+    "apache_minute": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/apache-minute-20260328-1756.log",
+    "home_body_head": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.body-head.html",
+    "home_headers": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/home-devices.headers.txt",
+    "metro_nearby_recent": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-nearby-heartbeat-20260328-1753-1756.log",
+    "metro_session_recent": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/metro-session-i4dan9561hl2uc0gj7b3pipsea.log",
+    "session_summary": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v4/artifacts/session-summary-i4dan9561hl2uc0gj7b3pipsea.txt"
+  },
+  "captured_at": "2026-03-28T21:59:58Z",
+  "device_id": "200132",
+  "exact_minute_local": "2026-03-28 17:56 EDT",
+  "observations": [
+    "Reused a live Backup_user PHP session from /var/lib/php/session/sess_i4dan9561hl2uc0gj7b3pipsea.",
+    "GET /afa/php/home.php?segment=DEVICES returned HTTP 200 with title AlgoSec - Home and the live session id embedded in the page.",
+    "POST /afa/php/commands.php with cmd=GET_ANALYSIS_OPTIONS, SelectedFirewalls=200132, SelectedType=firewall returned HTTP 200 and a 938-byte Analyze dialog body.",
+    "Apache access log captured the exact minute with the post-home DEVICES page and the follow-up commands.php call.",
+    "Nearby Metro evidence in the same session family remained active on March 28, including session-specific /afa/api/v1/config refreshes and a same-minute /afa/report/search/findByDeviceAndStatus device lookup after the Analyze dialog fetch."
+  ],
+  "session_id": "i4dan9561hl2uc0gj7b3pipsea",
+  "user": "Backup_user"
+}

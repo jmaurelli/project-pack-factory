@@ -9,6 +9,7 @@ from typing import Any
 from .runtime_baseline import (
     DEFAULT_ARTIFACT_ROOT,
     SUPPORT_BASELINE_NAME,
+    TARGET_PROFILE_ARTIFACT_ROOT,
     derive_command_linux_note,
     derive_known_working_example,
 )
@@ -19,138 +20,159 @@ STARLIGHT_SITE_PNPM_LOCK = (
 )
 CANONICAL_PLAYBOOK_TEMPLATE = {
     "template_id": "field-manual",
-    "label": "Field Manual",
-    "summary": "ADF's canonical playbook shell: a chapter-style runbook with editorial pacing, wider reading flow, and calmer operator guidance.",
+    "label": "Canonical Template",
+    "summary": "Lab-validated ASMS frontline diagnostic steps.",
 }
 CANONICAL_PLAYBOOK_TEMPLATE_SLUG = "canonical-playbook-template"
 FALLBACK_CANONICAL_PLAYBOOK = {
     "playbook_id": PRIMARY_PLAYBOOK_ID,
     "label": "ASMS UI is down",
-    "symptom_focus": "The suite login shell or UI is not doing useful work.",
-    "decision_rule": "Work from host to edge to auth to app. Stop at the first checkpoint that cannot do useful work.",
-    "likely_failing_services": ["httpd", "keycloak", "ms-metro"],
+    "symptom_focus": "Use this when the customer says the ASMS GUI is down, blank, or not usable.",
+    "decision_rule": "Stay shallow first: host sanity, Apache/HTTPD, core services, first usable shell, then branch into the narrower workflow.",
+    "likely_failing_services": ["httpd", "ms-metro", "keycloak"],
     "dependency_path": [
         {
             "step_id": "ui-and-proxy-step-1",
             "step_label": "Step 1",
-            "label": "Host can support useful work",
-            "details": "Confirm the box itself is healthy before blaming higher services.",
+            "label": "Check host pressure",
+            "details": "Capture load, memory, and disk evidence first.",
         },
         {
             "step_id": "ui-and-proxy-step-2",
             "step_label": "Step 2",
-            "label": "Apache/HTTPD serving the UI",
-            "details": "Validate the edge and the first real HTTP surface.",
+            "label": "Check Apache and login page",
+            "details": "Capture httpd, listeners, and login-page evidence.",
         },
         {
             "step_id": "ui-and-proxy-step-3",
             "step_label": "Step 3",
-            "label": "Auth branch can do useful work",
-            "details": "Check whether the login and identity hop can complete real work.",
+            "label": "Check core services",
+            "details": "Check core services and restart only the failed one.",
         },
         {
             "step_id": "ui-and-proxy-step-4",
             "step_label": "Step 4",
-            "label": "App branch can do useful work",
-            "details": "Validate the first useful-work application hop behind the shell.",
+            "label": "Check shell access",
+            "details": "Check whether the session already reaches the first usable shell.",
         },
         {
             "step_id": "ui-and-proxy-step-5",
             "step_label": "Step 5",
-            "label": "Useful work stops here",
-            "details": "Use bounded evidence to name the first real stop point.",
+            "label": "Check later workflow markers",
+            "details": "Check whether the case already moved into reports, policy, or changes.",
         },
     ],
     "steps": [
         {
             "step_id": "ui-and-proxy-step-1",
             "step_label": "Step 1",
-            "action": "Confirm the host is healthy before you chase Apache, auth, or app signals.",
-            "why_this_matters": "If the host cannot support useful work, every higher branch is downstream noise.",
+            "overview_summary": "Check host pressure first",
+            "action": "Check host pressure.",
+            "why_this_matters": "A lot of real GUI-down cases are still basic appliance health problems. If disk or memory is exhausted, deeper app checks are noise.",
             "recommended_commands": [
                 {
                     "label": "Check host pressure",
-                    "command": "uptime && free -m && df -h /",
+                    "command": "uptime && free -h && df -h /",
                     "expected_signal": "Load is reasonable, memory is available, and the root filesystem is not full.",
                     "healthy_markers": ["load average", "Mem:", "Filesystem"],
-                    "interpretation": "If the host is clearly under pressure, stop here and stabilize the box first.",
-                    "example_output": "load average: 0.32, 0.41, 0.55\nMem: 16000 6200 4200 120 5600 9300\n/dev/sda1 80G 31G 47G 40% /",
+                    "interpretation": "If load is high, memory is low, or disk is full, save the output and troubleshoot server pressure before checking the application.",
+                    "example_output": "load average: 0.32, 0.41, 0.55\nMem: 16Gi 6.1Gi 4.1Gi 120Mi 5.5Gi 9.1Gi\n/dev/sda1 80G 31G 47G 40% /",
                 }
             ],
-            "if_pass": "Move to the HTTP edge and prove Apache can serve useful work.",
-            "if_fail": "Treat host pressure as the first stop point.",
+            "if_pass": "Move to Apache/HTTPD and the login page.",
+            "if_fail": "Treat host pressure as the first stop point and stabilize the appliance first.",
         },
         {
             "step_id": "ui-and-proxy-step-2",
             "step_label": "Step 2",
-            "action": "Prove Apache is answering and routing the suite shell correctly.",
-            "why_this_matters": "If the edge cannot serve the shell, deeper auth and app checks are premature.",
+            "overview_summary": "Check Apache login route",
+            "action": "Check Apache and login page.",
+            "why_this_matters": "If Apache cannot answer the login route, there is no reason to start with auth or backend theory.",
             "recommended_commands": [
                 {
-                    "label": "Check Apache service and shell response",
-                    "command": "systemctl is-active httpd && curl -k -I https://127.0.0.1/algosec/suite/login",
-                    "expected_signal": "Apache is active and the suite login returns an expected HTTP response.",
-                    "healthy_markers": ["active", "HTTP/1.1 302", "Location:"],
-                    "interpretation": "If Apache is down or the shell route is missing, stop at the edge.",
-                    "example_output": "active\nHTTP/1.1 302 Found\nLocation: https://127.0.0.1/algosec-ui/login",
+                    "label": "Check Apache service, listeners, and login page",
+                    "command": "systemctl is-active httpd && ss -lnt | grep -E ':(80|443)\\b' && curl -k -I https://127.0.0.1/algosec-ui/login | sed -n '1,8p'",
+                    "expected_signal": "Apache is active, ports 80 and 443 are listening, and the login page returns an expected HTTP response.",
+                    "healthy_markers": ["active", ":80", ":443", "HTTP/1.1 200"],
+                    "interpretation": "If httpd is not active, ports 80 or 443 are missing, or the login page does not return HTTP 200, save the output and diagnose Apache/HTTPD.",
+                    "example_output": "active\nLISTEN 0 511 0.0.0.0:443 0.0.0.0:*\nLISTEN 0 511 0.0.0.0:80 0.0.0.0:*\nHTTP/1.1 200 OK",
                 }
             ],
-            "if_pass": "Continue into the auth branch.",
-            "if_fail": "Treat Apache or the edge route as the first stop point.",
+            "if_pass": "Move to the shallow core services only if the login page still does not explain the case.",
+            "if_fail": "Treat Apache/HTTPD or the UI edge route as the first stop point.",
         },
         {
             "step_id": "ui-and-proxy-step-3",
             "step_label": "Step 3",
-            "action": "Check whether the auth branch can complete useful work instead of just redirecting.",
-            "why_this_matters": "A healthy shell with a broken auth hop still leaves the operator blocked.",
+            "overview_summary": "Check shallow core services",
+            "action": "Check core services.",
+            "why_this_matters": "This keeps the engineer on practical service checks instead of deep architecture. Restart only the service that actually failed.",
             "recommended_commands": [
                 {
-                    "label": "Check Keycloak reachability",
-                    "command": "systemctl is-active keycloak && curl -k -I https://127.0.0.1/auth/",
-                    "expected_signal": "Keycloak is active and the auth route responds instead of timing out.",
-                    "healthy_markers": ["active", "HTTP/1.1"],
-                    "interpretation": "If auth cannot answer useful requests, stop on the auth branch.",
+                    "label": "Check the shallow core services once",
+                    "command": "systemctl is-active httpd; systemctl is-active ms-metro; systemctl is-active keycloak",
+                    "expected_signal": "The shallow services are active. If one is inactive, that is the current stop point.",
+                    "healthy_markers": ["active"],
+                    "interpretation": "If one service is not active, save the service name and status. Diagnose or restart only that service.",
+                    "example_output": "active\nactive\nactive",
+                },
+                {
+                    "label": "Restart Apache only if Apache failed",
+                    "command": "sudo systemctl restart httpd.service && sleep 5 && systemctl is-active httpd.service && curl -k -I https://127.0.0.1/algosec-ui/login | sed -n '1,8p'",
+                    "expected_signal": "Apache returns to active and the login page answers again.",
+                    "healthy_markers": ["active", "HTTP/1.1 200"],
+                    "interpretation": "Run this only if Apache failed in the previous check.",
                     "example_output": "active\nHTTP/1.1 200 OK",
+                },
+                {
+                    "label": "Restart Metro only if the shell is blank or partly loaded",
+                    "command": "sudo systemctl restart ms-metro.service && sleep 10 && systemctl is-active ms-metro.service && curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10",
+                    "expected_signal": "Metro returns to active and the heartbeat answers.",
+                    "healthy_markers": ["active", "\"isAlive\" : true"],
+                    "interpretation": "Run this only if the login page works but the shell is blank, partial, or not loading correctly.",
+                    "example_output": "active\n{\n  \"isAlive\" : true\n}",
                 }
             ],
-            "if_pass": "Move to the first useful-work app hop.",
-            "if_fail": "Treat auth as the first stop point.",
+            "if_pass": "Move to the first usable shell check.",
+            "if_fail": "Name the failed shallow service directly and stop there until it recovers or clearly proves healthy.",
         },
         {
             "step_id": "ui-and-proxy-step-4",
             "step_label": "Step 4",
-            "action": "Validate the first app-side dependency that should answer real UI work.",
-            "why_this_matters": "This separates a generic shell problem from an app-branch failure.",
+            "overview_summary": "Check first usable shell",
+            "action": "Check shell access.",
+            "why_this_matters": "If the customer can already reach the login page or home shell, the top-level UI path is doing useful work and the case needs a narrower label.",
             "recommended_commands": [
                 {
-                    "label": "Check Metro health",
-                    "command": "systemctl is-active ms-metro && curl -sS http://127.0.0.1:8080/afa/api/v1/config | head",
-                    "expected_signal": "Metro is active and returns application config data instead of failing.",
-                    "healthy_markers": ["active", "config"],
-                    "interpretation": "If Metro cannot answer, the app branch is the first stop point.",
-                    "example_output": "active\n{\"configVersion\":\"ok\"}",
+                    "label": "Check the login page and home-shell clues",
+                    "command": "curl -k -I https://127.0.0.1/algosec-ui/login | sed -n '1,8p'; echo '---'; grep -E '/afa/php/SuiteLoginSessionValidation.php|/afa/php/home.php' /var/log/httpd/ssl_access_log | tail -n 20",
+                    "expected_signal": "The login page answers, and recent log lines show whether the session ever reached SuiteLoginSessionValidation or /afa/php/home.php.",
+                    "healthy_markers": ["HTTP/1.1 200", "SuiteLoginSessionValidation.php", "/afa/php/home.php"],
+                    "interpretation": "If the login page answers or /afa/php/home.php appears, save that evidence and continue with shell or workflow diagnosis.",
+                    "example_output": "HTTP/1.1 200 OK\n---\n127.0.0.1 - - [28/Mar/2026:19:27:29 -0400] \"GET /afa/php/home.php?segment=DEVICES HTTP/1.1\" 200 328934",
                 }
             ],
-            "if_pass": "Use one bounded reproduction minute to name the actual stop point.",
-            "if_fail": "Stop here and treat the local app path as the current failure point.",
+            "if_pass": "Branch out of GUI down into the narrower workflow the customer is actually in.",
+            "if_fail": "If the shell is still not usable, keep the stop point on the first shell boundary before widening further.",
         },
         {
             "step_id": "ui-and-proxy-step-5",
             "step_label": "Step 5",
-            "action": "If useful work still stops here, use Apache, Keycloak, and Metro clues to find the first clear stop point.",
-            "why_this_matters": "Only move into heavier log correlation after the host, edge, auth, and app branches have all been checked.",
+            "overview_summary": "Check later branch markers",
+            "action": "Check later workflow markers.",
+            "why_this_matters": "This is the clean branch-out rule. If later content is already visible, support should stop treating the case as GUI down.",
             "recommended_commands": [
                 {
-                    "label": "Correlate one reproduced minute across the edge and app services",
-                    "command": "journalctl -u httpd -u keycloak -u ms-metro --since '5 minutes ago' --no-pager | tail -n 120",
-                    "expected_signal": "The same bounded minute shows the first branch that stops doing useful work.",
-                    "healthy_markers": ["httpd", "keycloak", "ms-metro"],
-                    "interpretation": "If only one branch degrades in the same minute, that branch owns the stop point.",
-                    "example_output": "Mar 27 15:00:11 httpd[...]: GET /algosec/suite/login 302\nMar 27 15:00:12 keycloak[...]: login flow ok\nMar 27 15:00:13 ms-metro[...]: config fetch ok",
+                    "label": "Look for later content markers",
+                    "command": "grep -E '/fa/tree/create|/afa/php/commands.php\\?cmd=(GET_REPORTS|GET_POLICY_TAB|GET_DEVICE_POLICY|GET_MONITORING_CHANGES|GET_ANALYSIS_OPTIONS)' /var/log/httpd/ssl_access_log | tail -n 40",
+                    "expected_signal": "Recent Apache lines show device-tree activity plus a later content marker like GET_REPORTS, GET_POLICY_TAB, or GET_MONITORING_CHANGES.",
+                    "healthy_markers": ["/fa/tree/create", "GET_REPORTS", "GET_POLICY_TAB", "GET_DEVICE_POLICY", "GET_MONITORING_CHANGES", "GET_ANALYSIS_OPTIONS"],
+                    "interpretation": "If one of these markers appears, save the marker and continue with the matching workflow diagnosis.",
+                    "example_output": "127.0.0.1 - - [28/Mar/2026:19:27:30 -0400] \"GET /afa/php/commands.php?cmd=GET_REPORTS HTTP/1.1\" 200 99",
                 }
             ],
-            "if_pass": "Record the bounded proof and move to the next symptom slice.",
-            "if_fail": "Name the first failing branch and stop the walk there.",
+            "if_pass": "Move to the matching workflow playbook or targeted service diagnosis for that later branch.",
+            "if_fail": "If no later marker appears and the shell is still not usable, keep the stop point on the first usable shell boundary.",
         },
     ],
 }
@@ -159,6 +181,238 @@ FALLBACK_CANONICAL_SYMPTOMS = [
     {"symptom_label": "UI shell appears, but the first app action stalls immediately."},
     {"symptom_label": "Support needs one bounded route to prove where useful work stops."},
 ]
+KEYCLOAK_PLAYBOOK = {
+    "playbook_id": "keycloak-auth",
+    "label": "ASMS Keycloak auth is down",
+    "symptom_focus": "Use this when the login page still opens but ASMS auth looks down, loops, or returns an auth error.",
+    "decision_rule": "If Apache still serves the login page, keep the stop point on Keycloak until the service, listener, and OIDC path prove healthy again.",
+    "imported_module_drilldown": {
+        "observed_boundary_on_appliance": [
+            "Apache can still serve `https://127.0.0.1/algosec-ui/login` while the proxied Keycloak OIDC path is unhealthy.",
+            "Keycloak service state, listener `8443`, and the OIDC well-known probe together define whether the auth module can still do useful work.",
+            "Use current appliance evidence first. In the validated March 30, 2026 slice on `10.167.2.150`, the login page stayed `200`, the Keycloak OIDC path returned `503`, `keycloak.service` was failed, `8443` was absent, and Metro still reported `isAlive: true`.",
+        ],
+        "what_that_boundary_means_in_asms": [
+            "The browser-facing UI edge is still alive enough to serve the login page, so this is not yet a top-level Apache outage.",
+            "Keycloak sits behind Apache as the imported auth module boundary for this path. If the login page works but the OIDC path does not, keep the case on Keycloak before widening into unrelated services.",
+            "Metro can help separate auth failure from deeper app failure, but a healthy Metro heartbeat does not make Keycloak healthy again.",
+        ],
+        "generic_failure_classes": [
+            {
+                "label": "startup_failure",
+                "details": "Use this when `keycloak.service` exits, flaps, or never reaches `active`. Journal and service-status clues belong here."
+            },
+            {
+                "label": "listener_absent",
+                "details": "Use this when the expected local Keycloak listener on `8443` is missing even though Apache still points there."
+            },
+            {
+                "label": "useful_work_path_failed",
+                "details": "Use this when the service may look present but the OIDC path still fails, loops, or returns unhealthy HTTP while the login page still loads."
+            },
+            {
+                "label": "apache_proxy_mismatch",
+                "details": "Use this when `/keycloak/` is no longer mapped to `https://localhost:8443/` or the proxy path itself drifted."
+            },
+            {
+                "label": "dependency_or_resource_unknown",
+                "details": "Use this when the Keycloak boundary is proven but the current slice still cannot tell whether the real cause is config, filesystem, secret, database, or host pressure."
+            },
+        ],
+        "bounded_next_checks": [
+            "Classify the module first: service state, listener state, OIDC useful-work check, and proxy path.",
+            "Keep the next support step on the smallest failing Keycloak boundary instead of widening back into Apache or later ASMS modules too early.",
+            "If the boundary is still unresolved after the shallow checks, gather the escalation packet and only then branch into deeper module-specific interpretation.",
+        ],
+        "escalation_ready_evidence": [
+            "`systemctl status keycloak.service --no-pager` and `systemctl show keycloak.service ...` output",
+            "Listener output for `8443`",
+            "The paired login-page and OIDC probe outputs from the same troubleshooting minute",
+            "Apache proxy evidence showing whether `/keycloak/` still maps to `https://localhost:8443/`",
+            "Recent Keycloak journal lines that show the startup or runtime clue",
+            "Any supporting separation clue such as Metro heartbeat when the customer reports a broader UI symptom",
+        ],
+        "upstream_references": [
+            {
+                "label": "Keycloak documentation",
+                "url": "https://www.keycloak.org/documentation",
+                "details": "Use this after the appliance evidence proves the Keycloak boundary and you need bounded interpretation of Keycloak server behavior."
+            },
+            {
+                "label": "Keycloak server configuration guide",
+                "url": "https://www.keycloak.org/server/configuration",
+                "details": "Use this for deeper configuration or startup interpretation only after the local service and listener checks narrow the failure class."
+            },
+        ],
+    },
+    "dependency_path": [
+        {
+            "step_id": "keycloak-step-1",
+            "step_label": "Step 1",
+            "label": "Check login page and OIDC path",
+            "details": "Compare the UI shell with the Keycloak OIDC well-known path.",
+        },
+        {
+            "step_id": "keycloak-step-2",
+            "step_label": "Step 2",
+            "label": "Check Keycloak service",
+            "details": "Check service state and the local 8443 listener.",
+        },
+        {
+            "step_id": "keycloak-step-3",
+            "step_label": "Step 3",
+            "label": "Check Apache proxy",
+            "details": "Confirm Apache still proxies /keycloak/ to localhost:8443.",
+        },
+        {
+            "step_id": "keycloak-step-4",
+            "step_label": "Step 4",
+            "label": "Check failure clues",
+            "details": "Read the recent Keycloak startup and service clues.",
+        },
+        {
+            "step_id": "keycloak-step-5",
+            "step_label": "Step 5",
+            "label": "Restart Keycloak",
+            "details": "Restart only if the service is actually down or failed.",
+        },
+    ],
+    "steps": [
+        {
+            "step_id": "keycloak-step-1",
+            "step_label": "Step 1",
+            "overview_summary": "Check login and OIDC",
+            "action": "Check the login page and the Keycloak OIDC path together.",
+            "recommended_commands": [
+                {
+                    "label": "Compare login page and Keycloak OIDC",
+                    "command": "curl -k -I https://127.0.0.1/algosec-ui/login | sed -n '1,8p'; echo '---'; curl -k -I https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration | sed -n '1,12p'",
+                    "expected_signal": "The login page returns HTTP 200 and the Keycloak OIDC path also returns HTTP 200.",
+                    "healthy_markers": ["HTTP/1.1 200"],
+                    "interpretation": "If the login page is still HTTP 200 but the Keycloak OIDC path returns 503 or another failure, save both outputs and diagnose Keycloak instead of Apache.",
+                    "example_output": "HTTP/1.1 200 OK\n---\nHTTP/1.1 200 OK",
+                }
+            ],
+        },
+        {
+            "step_id": "keycloak-step-2",
+            "step_label": "Step 2",
+            "overview_summary": "Check service and listener",
+            "action": "Check Keycloak service state and the local 8443 listener.",
+            "recommended_commands": [
+                {
+                    "label": "Check Keycloak service and 8443 listener",
+                    "command": "systemctl status keycloak.service --no-pager; echo '--- listeners ---'; ss -lntp | grep -E ':(8443)\\b'",
+                    "expected_signal": "Keycloak is active and a Java process is listening on port 8443.",
+                    "healthy_markers": ["Active: active (running)", "LISTEN", ":8443"],
+                    "interpretation": "If keycloak.service is failed or 8443 is missing, keep the stop point on Keycloak.",
+                    "example_output": "● keycloak.service - Keycloak Service\n   Active: active (running)\n--- listeners ---\nLISTEN 0 100 0.0.0.0:8443 0.0.0.0:* users:((\"java\",pid=2745,fd=91))",
+                }
+            ],
+        },
+        {
+            "step_id": "keycloak-step-3",
+            "step_label": "Step 3",
+            "overview_summary": "Check Apache proxy",
+            "action": "Check the Apache proxy path for Keycloak.",
+            "recommended_commands": [
+                {
+                    "label": "Check Apache Keycloak proxy config",
+                    "command": "grep -R -n -E '<Location /keycloak/|ProxyPass https://localhost:8443/|ProxyPassReverse https://localhost:8443/' /etc/httpd/conf.d 2>/dev/null",
+                    "expected_signal": "Apache still exposes /keycloak/ and proxies it to https://localhost:8443/.",
+                    "healthy_markers": ["<Location /keycloak/>", "ProxyPass https://localhost:8443/", "ProxyPassReverse https://localhost:8443/"],
+                    "interpretation": "If these proxy lines are missing, save the output and diagnose Apache Keycloak proxy configuration before going deeper into the service.",
+                    "example_output": "/etc/httpd/conf.d/keycloak.conf:1:<Location /keycloak/>\n/etc/httpd/conf.d/keycloak.conf:2:        ProxyPass https://localhost:8443/ timeout=300\n/etc/httpd/conf.d/keycloak.conf:3:        ProxyPassReverse https://localhost:8443/",
+                }
+            ],
+        },
+        {
+            "step_id": "keycloak-step-4",
+            "step_label": "Step 4",
+            "overview_summary": "Check failure clues",
+            "action": "Check recent failure clues from the service journal.",
+            "recommended_commands": [
+                {
+                    "label": "Check recent Keycloak journal clues",
+                    "command": "journalctl -u keycloak.service -n 80 --no-pager",
+                    "expected_signal": "Recent lines show Keycloak starting normally or show the failure clue that explains why it did not come up.",
+                    "healthy_markers": ["started", "Listening on", "8443"],
+                    "interpretation": "If you see repeated startup failures such as java.io.EOFException or exit-code failure, save the output and keep the case on the Keycloak service boundary.",
+                    "example_output": "Exception in thread \"main\" java.lang.reflect.UndeclaredThrowableException\nCaused by: java.io.EOFException\n... SerializedApplication.read(...)\n... QuarkusEntryPoint.doRun(...)\nkeycloak.service: Main process exited, status=1/FAILURE",
+                }
+            ],
+        },
+        {
+            "step_id": "keycloak-step-5",
+            "step_label": "Step 5",
+            "overview_summary": "Restart Keycloak only if down",
+            "action": "Restart Keycloak only when the service is down or failed.",
+            "recommended_commands": [
+                {
+                    "label": "Restart Keycloak and recheck auth",
+                    "command": "sudo systemctl restart keycloak.service && sleep 30 && systemctl is-active keycloak.service && ss -lntp | grep -E ':(8443)\\b' && curl -k -I https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration | sed -n '1,12p'",
+                    "expected_signal": "Keycloak returns to active, 8443 is listening again, and the OIDC path returns HTTP 200.",
+                    "healthy_markers": ["active", "LISTEN", ":8443", "HTTP/1.1 200"],
+                    "interpretation": "If the service still fails, 8443 does not return, or the OIDC path stays unhealthy, save all output and keep the case on Keycloak.",
+                    "example_output": "active\nLISTEN 0 100 0.0.0.0:8443 0.0.0.0:* users:((\"java\",pid=2745,fd=91))\nHTTP/1.1 200 OK",
+                }
+            ],
+        },
+    ],
+}
+KEYCLOAK_PLAYBOOK_SLUG = "asms-keycloak-auth-is-down"
+CORE_AFF_PLAYBOOK_SUPPLEMENT = {
+    "imported_module_drilldown": {
+        "intro": "Use this page to prove the FireFlow backend boundary first, separate Apache route ownership from aff-boot runtime health, and gather a support-ready evidence packet before widening into later workflow or broker theory.",
+        "observed_boundary_on_appliance": [
+            "Apache owns the newer FireFlow session edge and proxies `/FireFlow/api` and `/aff/api` into aff-boot on `1989`.",
+            "The closest readable backend seam for this path is aff-boot plus its direct route ownership, not generic FireFlow workflow theory.",
+            "Current lab evidence keeps PostgreSQL closer than ActiveMQ for first-pass troubleshooting even though aff-boot can also hold live broker sockets on `61616`.",
+        ],
+        "what_that_boundary_means_in_asms": [
+            "If the Apache-fronted FireFlow session path and the direct `1989` AFF session path disagree, stop on Apache proxying or aff-boot route ownership before widening.",
+            "If the routes match but the action still fails, the next support seam is the FireFlow session or config boundary, not a generic broker-first guess.",
+            "Treat ActiveMQ as later supporting evidence unless the same failing minute points directly at broker-side behavior.",
+        ],
+        "generic_failure_classes": [
+            {
+                "label": "route_proxy_mismatch",
+                "details": "Use this when `/FireFlow/api` no longer matches the direct `1989` AFF session path or Apache route ownership drifted."
+            },
+            {
+                "label": "aff_boot_unhealthy",
+                "details": "Use this when `aff-boot.service` is down, flapping, or not holding the expected `1989` listener."
+            },
+            {
+                "label": "session_parity_drift",
+                "details": "Use this when the Apache-fronted session path and the direct AFF session path stop returning the same invalid-session or session-shape response."
+            },
+            {
+                "label": "downstream_config_refresh",
+                "details": "Use this when the same failing minute rolls into `ms-configuration`, swagger refresh, or downstream `502` clues after the FireFlow route itself still looks healthy."
+            },
+            {
+                "label": "later_broker_or_database_supporting",
+                "details": "Use this when route ownership and aff-boot look healthy but the current evidence starts pointing at PostgreSQL or broker-side supporting dependencies."
+            },
+        ],
+        "bounded_next_checks": [
+            "Prove Apache-fronted `/FireFlow/api/session` parity against the direct `1989` AFF session path first.",
+            "Check `aff-boot.service`, the `1989` listener, and PostgreSQL state before widening into later FireFlow workflow theory.",
+            "Only promote ActiveMQ when the same failing minute points directly at broker-side evidence instead of route or service ownership.",
+        ],
+        "escalation_ready_evidence": [
+            "The exact failing FireFlow action, route, or screen",
+            "Visible status for `aff-boot.service` and `postgresql.service`",
+            "Apache-fronted and direct `1989` session probe outputs from the same troubleshooting minute",
+            "Same-minute Apache, FireFlow, or `ms-configuration` lines that show where the route stops doing useful work",
+        ],
+    }
+}
+PLAYBOOK_SUPPLEMENTS = {
+    "keycloak-auth": KEYCLOAK_PLAYBOOK,
+    "core-aff": CORE_AFF_PLAYBOOK_SUPPLEMENT,
+}
 
 
 def generate_starlight_site(
@@ -167,19 +421,19 @@ def generate_starlight_site(
     artifact_root: str | Path | None = None,
     site_root: str | Path | None = None,
 ) -> dict[str, Any]:
-    baseline_root = project_root / (Path(artifact_root) if artifact_root else DEFAULT_ARTIFACT_ROOT)
+    baseline_root = project_root / _default_starlight_artifact_root(project_root, artifact_root)
     support_baseline_path = baseline_root / SUPPORT_BASELINE_NAME
     support_baseline = json.loads(support_baseline_path.read_text(encoding="utf-8"))
 
     output_root = project_root / Path(site_root) if site_root else baseline_root / "starlight-site"
     docs_root = output_root / "src" / "content" / "docs"
     playbooks_root = docs_root / "playbooks"
+    guides_root = docs_root / "guides"
     template_lab_root = docs_root / "template-lab"
     canonical_template_path = docs_root / f"{CANONICAL_PLAYBOOK_TEMPLATE_SLUG}.md"
     for stale_path in (
         output_root / ".astro",
         output_root / "dist",
-        output_root / "node_modules",
         output_root / "package-lock.json",
         output_root / "pnpm-lock.yaml",
     ):
@@ -196,6 +450,8 @@ def generate_starlight_site(
         stale_not_found.unlink()
     if playbooks_root.exists():
         shutil.rmtree(playbooks_root)
+    if guides_root.exists():
+        shutil.rmtree(guides_root)
     if template_lab_root.exists():
         shutil.rmtree(template_lab_root)
     for stale_doc in docs_root.glob("*.md"):
@@ -203,6 +459,7 @@ def generate_starlight_site(
             stale_doc.unlink()
 
     symptom_lookup = _symptoms_by_playbook(support_baseline)
+    page_records_by_id = _page_records_by_id(support_baseline)
     primary_playbook: dict[str, Any] | None = None
     for playbook in support_baseline.get("decision_playbooks", []):
         if playbook.get("playbook_id") == PRIMARY_PLAYBOOK_ID:
@@ -212,36 +469,157 @@ def generate_starlight_site(
         decision_playbooks = support_baseline.get("decision_playbooks", [])
         primary_playbook = decision_playbooks[0] if decision_playbooks else FALLBACK_CANONICAL_PLAYBOOK
 
-    canonical_template_entry: dict[str, str | int] | None = None
-    if primary_playbook is not None:
-        canonical_template_path.write_text(
-            _render_canonical_playbook_template_markdown(
-                playbook=primary_playbook,
-                symptom_entries=symptom_lookup.get(primary_playbook["playbook_id"], []) or FALLBACK_CANONICAL_SYMPTOMS,
+    canonical_template_entry: dict[str, str | int] | None = {
+        "label": str(CANONICAL_PLAYBOOK_TEMPLATE["label"]),
+        "slug": CANONICAL_PLAYBOOK_TEMPLATE_SLUG,
+        "relative_path": f"src/content/docs/{CANONICAL_PLAYBOOK_TEMPLATE_SLUG}.md",
+        "order": 1,
+    }
+    canonical_template_path.write_text(
+        _render_canonical_playbook_template_markdown(),
+        encoding="utf-8",
+    )
+    supplemental_boundary_playbooks = _supplemental_boundary_playbooks(page_records_by_id)
+    keycloak_page_record = page_records_by_id.get("keycloak-auth")
+    keycloak_playbook = supplemental_boundary_playbooks.get(
+        "keycloak-auth",
+        _merge_page_record_into_playbook(
+            KEYCLOAK_PLAYBOOK,
+            keycloak_page_record,
+        ),
+    )
+
+    playbook_nav_entries: list[dict[str, str | int]] = []
+    rendered_playbooks = support_baseline.get("decision_playbooks", []) or (
+        [primary_playbook] if primary_playbook is not None else []
+    )
+    for order, playbook in enumerate(rendered_playbooks, start=1):
+        page_record = _page_record_for_playbook(playbook, page_records_by_id)
+        rendered_playbook = _apply_playbook_supplement(playbook, _supplement_for_page_record(page_record))
+        playbook_slug = _playbook_slug(rendered_playbook)
+        playbook_path = playbooks_root / f"{playbook_slug}.md"
+        playbook_path.parent.mkdir(parents=True, exist_ok=True)
+        playbook_path.write_text(
+            _render_playbook_markdown(
+                playbook=rendered_playbook,
+                order=order,
+                symptom_entries=symptom_lookup.get(playbook["playbook_id"], []) or FALLBACK_CANONICAL_SYMPTOMS,
+                page_record=page_record,
             ),
             encoding="utf-8",
         )
-        canonical_template_entry = {
-            "label": str(CANONICAL_PLAYBOOK_TEMPLATE["label"]),
-            "slug": CANONICAL_PLAYBOOK_TEMPLATE_SLUG,
-            "relative_path": f"src/content/docs/{CANONICAL_PLAYBOOK_TEMPLATE_SLUG}.md",
-            "order": 1,
-        }
+        playbook_nav_entries.append(
+            {
+                "label": str(rendered_playbook["label"]),
+                "slug": f"playbooks/{playbook_slug}",
+                "relative_path": str(playbook_path.relative_to(project_root)),
+                "order": order,
+                "playbook_id": str(playbook["playbook_id"]),
+            }
+        )
+
+    rendered_page_ids = {str(entry["playbook_id"]) for entry in playbook_nav_entries}
+    generated_boundary_records = [
+        page_record
+        for page_record in page_records_by_id.values()
+        if page_record.get("page_type") == "boundary_confirmation"
+        and str(page_record.get("page_id") or "") not in rendered_page_ids
+    ]
+    for page_record in generated_boundary_records:
+        order = len(playbook_nav_entries) + 1
+        playbook_slug = _page_record_slug(page_record)
+        playbook_path = playbooks_root / f"{playbook_slug}.md"
+        playbook_path.parent.mkdir(parents=True, exist_ok=True)
+        supplemental_playbook = supplemental_boundary_playbooks.get(str(page_record.get("page_id") or ""))
+        playbook_path.write_text(
+            _render_boundary_page_markdown(
+                page_record=page_record,
+                order=order,
+                supplemental_playbook=supplemental_playbook,
+            ),
+            encoding="utf-8",
+        )
+        playbook_nav_entries.append(
+            {
+                "label": str(page_record.get("label") or page_record.get("page_id") or "Generated page"),
+                "slug": f"playbooks/{playbook_slug}",
+                "relative_path": str(playbook_path.relative_to(project_root)),
+                "order": order,
+                "playbook_id": str(page_record.get("page_id") or playbook_slug),
+            }
+        )
+        rendered_page_ids.add(str(page_record.get("page_id") or ""))
+
+    guide_nav_entries: list[dict[str, str | int]] = []
+    generated_guide_records = [
+        page_record
+        for page_record in page_records_by_id.values()
+        if page_record.get("page_type") == "deep_guide"
+    ]
+    for page_record in generated_guide_records:
+        guide_slug = f"guides/{_page_record_slug(page_record)}"
+        guide_path = guides_root / f"{_page_record_slug(page_record)}.md"
+        guide_path.parent.mkdir(parents=True, exist_ok=True)
+        guide_path.write_text(
+            _render_generated_page_record_markdown(page_record=page_record, order=len(guide_nav_entries) + 1),
+            encoding="utf-8",
+        )
+        guide_nav_entries.append(
+            {
+                "label": str(page_record.get("label") or page_record.get("page_id") or "Generated guide"),
+                "slug": guide_slug,
+                "relative_path": str(guide_path.relative_to(project_root)),
+                "order": len(guide_nav_entries) + 1,
+            }
+        )
+
+    for guide_entry in _related_guides_for_page_record(keycloak_page_record):
+        order = len(guide_nav_entries) + 1
+        rendered_guide = _render_authored_guide_markdown(
+            guide_entry=guide_entry,
+            order=order,
+            page_record=keycloak_page_record,
+            playbook=keycloak_playbook,
+        )
+        if rendered_guide is None:
+            continue
+        guide_slug = str(guide_entry.get("slug") or "")
+        guide_name = Path(guide_slug).name if guide_slug else f"guide-{order}"
+        guide_path = guides_root / f"{guide_name}.md"
+        guide_path.parent.mkdir(parents=True, exist_ok=True)
+        guide_path.write_text(rendered_guide, encoding="utf-8")
+        guide_nav_entries.append(
+            {
+                "label": str(guide_entry.get("label") or guide_name),
+                "slug": guide_slug or f"guides/{guide_name}",
+                "relative_path": str(guide_path.relative_to(project_root)),
+                "order": order,
+                "summary": str(guide_entry.get("summary") or ""),
+                "detail": str(guide_entry.get("detail") or ""),
+            }
+        )
 
     (docs_root / "index.md").write_text(
-        _render_index_markdown(support_baseline, canonical_template_entry),
+        _render_index_markdown(
+            support_baseline,
+            canonical_template_entry,
+            playbook_nav_entries,
+            guide_nav_entries,
+        ),
         encoding="utf-8",
     )
     (output_root / "package.json").write_text(_render_package_json(), encoding="utf-8")
     (output_root / "pnpm-lock.yaml").write_text(STARLIGHT_SITE_PNPM_LOCK.read_text(encoding="utf-8"), encoding="utf-8")
     (output_root / "astro.config.mjs").write_text(
-        _render_astro_config(canonical_template_entry),
+        _render_astro_config(canonical_template_entry, playbook_nav_entries, guide_nav_entries),
         encoding="utf-8",
     )
     (output_root / "tsconfig.json").write_text(_render_tsconfig(), encoding="utf-8")
     (output_root / "src" / "content.config.ts").parent.mkdir(parents=True, exist_ok=True)
     (output_root / "src" / "content.config.ts").write_text(_render_content_config(), encoding="utf-8")
     (output_root / "src" / "custom.css").write_text(_render_custom_css(), encoding="utf-8")
+    (output_root / "public").mkdir(parents=True, exist_ok=True)
+    (output_root / "public" / "adf-field-manual.js").write_text(_render_field_manual_script(), encoding="utf-8")
 
     generated_files = [
         str((output_root / "package.json").relative_to(project_root)),
@@ -249,23 +627,38 @@ def generate_starlight_site(
         str((output_root / "tsconfig.json").relative_to(project_root)),
         str((output_root / "src" / "content.config.ts").relative_to(project_root)),
         str((output_root / "src" / "custom.css").relative_to(project_root)),
+        str((output_root / "public" / "adf-field-manual.js").relative_to(project_root)),
         str((docs_root / "index.md").relative_to(project_root)),
         str((output_root / "pnpm-lock.yaml").relative_to(project_root)),
     ]
-    if canonical_template_entry is not None:
-        generated_files.append(str(canonical_template_path.relative_to(project_root)))
+    generated_files.append(str(canonical_template_path.relative_to(project_root)))
+    for entry in playbook_nav_entries:
+        generated_files.append(str(entry["relative_path"]))
+    for entry in guide_nav_entries:
+        generated_files.append(str(entry["relative_path"]))
 
     return {
         "status": "pass",
         "artifact_root": str(output_root.relative_to(project_root)),
         "generated_files": generated_files,
         "summary": {
-            "playbook_count": 0,
+            "playbook_count": len(playbook_nav_entries),
+            "guide_count": len(guide_nav_entries),
             "canonical_template": CANONICAL_PLAYBOOK_TEMPLATE["template_id"],
             "symptom_count": len(support_baseline.get("symptom_lookup", [])),
             "source_artifact": str(support_baseline_path.relative_to(project_root)),
         },
     }
+
+
+def _default_starlight_artifact_root(project_root: Path, artifact_root: str | Path | None) -> Path:
+    if artifact_root is not None:
+        return Path(artifact_root)
+
+    target_profile_candidate = project_root / TARGET_PROFILE_ARTIFACT_ROOT / SUPPORT_BASELINE_NAME
+    if target_profile_candidate.exists():
+        return TARGET_PROFILE_ARTIFACT_ROOT
+    return DEFAULT_ARTIFACT_ROOT
 
 
 def _render_package_json() -> str:
@@ -287,7 +680,11 @@ def _render_package_json() -> str:
     return json.dumps(payload, indent=2) + "\n"
 
 
-def _render_astro_config(canonical_template_entry: dict[str, str | int] | None) -> str:
+def _render_astro_config(
+    canonical_template_entry: dict[str, str | int] | None,
+    playbook_nav_entries: list[dict[str, str | int]],
+    guide_nav_entries: list[dict[str, str | int]],
+) -> str:
     canonical_sidebar = (
         "{\n        label: 'Canonical Template',\n        items: [\n          { label: "
         + json.dumps(str(canonical_template_entry["label"]))
@@ -297,6 +694,34 @@ def _render_astro_config(canonical_template_entry: dict[str, str | int] | None) 
         if canonical_template_entry
         else "{\n        label: 'Canonical Template',\n        items: [],\n      }"
     )
+    if playbook_nav_entries:
+        playbook_items = ",\n".join(
+            [
+                "          { label: "
+                + json.dumps(str(entry["label"]))
+                + ", slug: "
+                + json.dumps(str(entry["slug"]))
+                + " }"
+                for entry in playbook_nav_entries
+            ]
+        )
+        playbook_sidebar = "{\n        label: 'Playbooks',\n        items: [\n" + playbook_items + "\n        ],\n      }"
+    else:
+        playbook_sidebar = "{\n        label: 'Playbooks',\n        items: [],\n      }"
+    if guide_nav_entries:
+        guide_items = ",\n".join(
+            [
+                "          { label: "
+                + json.dumps(str(entry["label"]))
+                + ", slug: "
+                + json.dumps(str(entry["slug"]))
+                + " }"
+                for entry in guide_nav_entries
+            ]
+        )
+        guide_sidebar = "{\n        label: 'Guides',\n        items: [\n" + guide_items + "\n        ],\n      }"
+    else:
+        guide_sidebar = "{\n        label: 'Guides',\n        items: [],\n      }"
     return (
         "import { defineConfig } from 'astro/config';\n"
         "import starlight from '@astrojs/starlight';\n\n"
@@ -307,12 +732,20 @@ def _render_astro_config(canonical_template_entry: dict[str, str | int] | None) 
         "      description: 'Target-backed diagnostic playbooks for support engineers.',\n"
         "      disable404Route: true,\n"
         "      customCss: ['./src/custom.css'],\n"
+        "      head: [\n"
+        "        {\n"
+        "          tag: 'script',\n"
+        "          attrs: { type: 'module', src: '/adf-field-manual.js' },\n"
+        "        },\n"
+        "      ],\n"
         "      tableOfContents: false,\n"
         "      sidebar: [\n"
         "        {\n"
         "          label: 'Start Here',\n"
         "          items: [{ label: 'Overview', slug: 'index' }],\n"
         "        },\n"
+        f"        {playbook_sidebar},\n"
+        f"        {guide_sidebar},\n"
         f"        {canonical_sidebar}\n"
         "      ],\n"
         "    }),\n"
@@ -338,14 +771,23 @@ def _render_content_config() -> str:
 def _render_index_markdown(
     support_baseline: dict[str, Any],
     canonical_template_entry: dict[str, str | int] | None,
+    playbook_nav_entries: list[dict[str, str | int]],
+    guide_nav_entries: list[dict[str, str | int]],
 ) -> str:
     observed = support_baseline.get("observed", {})
     service_summary = observed.get("service_summary", {})
     runtime_identity = observed.get("runtime_identity", {})
     os_release = runtime_identity.get("os_release", {})
+    page_records = support_baseline.get("page_records", [])
     symptoms = support_baseline.get("symptom_lookup", [])
     first_response_steps = support_baseline.get("first_response_steps", [])
     canonical_target = f'/{canonical_template_entry["slug"]}/' if canonical_template_entry else "/"
+    primary_nav_entry = _primary_nav_entry(playbook_nav_entries)
+    primary_target = f'/{primary_nav_entry["slug"]}/' if primary_nav_entry else "/"
+    published_playbook_count = len(playbook_nav_entries)
+    published_guide_count = len(guide_nav_entries)
+    playbook_cards = "".join(_home_card_for_playbook_entry(entry, primary_nav_entry) for entry in playbook_nav_entries)
+    guide_cards = "".join(_home_card_for_guide_entry(entry) for entry in guide_nav_entries)
 
     lines = [
         "---",
@@ -358,7 +800,7 @@ def _render_index_markdown(
         "",
         "# AlgoSec Diagnostic Framework",
         "",
-        "Field Manual is now the canonical ADF playbook template. The old published playbooks have been intentionally cleared so we can rebuild the catalog from scratch on one consistent shell.",
+        "Open the live playbook first. Use the canonical template only as a reusable shell.",
         "",
         '<div class="adf-home-shell">',
         '  <div class="adf-home-topbar">',
@@ -372,11 +814,11 @@ def _render_index_markdown(
         "    </div>",
         "  </div>",
         "",
-        "## First response",
+        "## Start here",
         "",
         '<div class="adf-home-grid">',
         '  <div class="adf-panel">',
-        '    <p class="adf-panel-label">How to use this site</p>',
+        '    <p class="adf-panel-label">Operator route</p>',
         "    <ul>",
     ]
     lines.extend([f"      <li>{step}</li>" for step in first_response_steps])
@@ -385,38 +827,40 @@ def _render_index_markdown(
             "    </ul>",
             "  </div>",
             '  <div class="adf-panel">',
-            '    <p class="adf-panel-label">Why this shape</p>',
+            '    <p class="adf-panel-label">Build rule</p>',
             "    <ul>",
-            "      <li>ADF now has one canonical playbook shell instead of competing page grammars.</li>",
-            "      <li>The old playbook set was cleared from publication on purpose so rebuild work starts from one template baseline.</li>",
-            "      <li>The JSON baseline and pack state remain canonical. This site is still a render layer over that evidence.</li>",
+            "      <li>Keep the real troubleshooting steps in the playbook routes.</li>",
+            "      <li>Keep placeholders in the canonical template only.</li>",
+            "      <li>Use one page grammar across future playbooks.</li>",
             "    </ul>",
             "  </div>",
             "</div>",
-            "",
-            "## Canonical template",
-            "",
-            '<div class="adf-home-card-grid">',
-            f'<a class="adf-home-card" href="{canonical_target}">',
-            '  <p class="adf-panel-label">Field Manual</p>',
-            '  <strong>Canonical ADF playbook shell</strong>',
-            '  <span>This is now the only approved playbook template. Existing playbooks were intentionally dropped from publication and will be rebuilt on top of this shell.</span>',
-            '  <span class="adf-home-card-list">Open the canonical template and use it as the rebuild reference.</span>',
-            "</a>",
-            "</div>",
-            "",
-            "## Rebuild status",
+        "",
+        "## Published pages",
+        "",
+        '<div class="adf-home-card-grid">',
+        f'<a class="adf-home-card" href="{canonical_target}">',
+        '  <p class="adf-panel-label">Template</p>',
+        '  <strong>Canonical ADF playbook shell</strong>',
+        '  <span>Reference shell only. Keep placeholders here.</span>',
+        '  <span class="adf-home-card-list">Open the template for page structure.</span>',
+        "</a>",
+        playbook_cards,
+        guide_cards,
+        "</div>",
+        "",
+        "## Catalog status",
             "",
             '<div class="adf-home-grid">',
             '  <div class="adf-panel">',
             '    <p class="adf-panel-label">Published catalog</p>',
-            "    <p>Zero playbooks are currently published on purpose. This prevents the older mixed shells from pretending to be canonical while we rebuild.</p>",
+        f"    <p>{published_playbook_count} playbook{'s are' if published_playbook_count != 1 else ' is'} and {published_guide_count} guide{'s are' if published_guide_count != 1 else ' is'} currently published from the new shell.</p>",
             "  </div>",
             '  <div class="adf-panel">',
             '    <p class="adf-panel-label">Next build rule</p>',
-            "    <p>Every new playbook should be authored against the Field Manual shell first. We can add content families later, but not another competing page grammar.</p>",
+            "    <p>Build new playbooks from the canonical template and keep the generated page-record layer behind the scenes so the operator catalog stays cleaner.</p>",
             "  </div>",
-            "</div>",
+        "</div>",
             "",
             "## Symptom lookup",
             "",
@@ -437,32 +881,44 @@ def _render_index_markdown(
     return "\n".join(lines) + "\n"
 
 
-def _render_canonical_playbook_template_markdown(
-    *,
-    playbook: dict[str, Any],
-    symptom_entries: list[dict[str, str]],
-) -> str:
-    title_value = json.dumps(f"Canonical Playbook Template: {CANONICAL_PLAYBOOK_TEMPLATE['label']}")
-    description_value = json.dumps(CANONICAL_PLAYBOOK_TEMPLATE["summary"])
+def _render_canonical_playbook_template_markdown() -> str:
+    title_value = json.dumps("Canonical Playbook Template")
+    description_value = json.dumps("Placeholder shell for future ADF diagnostic playbooks.")
     lines = [
         "---",
         f"title: {title_value}",
         f"description: {description_value}",
         "sidebar:",
-        f"  label: {json.dumps(CANONICAL_PLAYBOOK_TEMPLATE['label'])}",
+        f"  label: {json.dumps(str(CANONICAL_PLAYBOOK_TEMPLATE['label']))}",
         "  order: 1",
         "---",
         "",
-        CANONICAL_PLAYBOOK_TEMPLATE["summary"],
+        "# Canonical Playbook Template",
         "",
-        '<div class="adf-template-intro adf-panel">',
-        '  <p class="adf-panel-label">Canonical template</p>',
-        f"  <h2>{CANONICAL_PLAYBOOK_TEMPLATE['label']}</h2>",
-        "  <p>This is now the only approved ADF playbook shell. The older playbook set and the earlier template experiments were intentionally removed from publication.</p>",
-        "  <p><strong>Rebuild rule:</strong> New ADF playbooks should be authored against this shell first and only then published.</p>",
-        "</div>",
+        "Placeholder page only.",
         "",
-        _render_template_field_manual(playbook=playbook, symptom_entries=symptom_entries).rstrip(),
+        "Do not put real ASMS troubleshooting content here.",
+        "",
+        "## Placeholders",
+        "",
+        "- `<Playbook title>`",
+        "- `Check <surface>`",
+        "- `Run`",
+        "- `Expected result`",
+        "- `Check output for`",
+        "- `If result is different`",
+        "- `Example`",
+        "",
+        "## Writing rules",
+        "",
+        "- use short verb-based check names",
+        "- use direct support language",
+        "- keep placeholders obvious",
+        "- move real troubleshooting content into a playbook route",
+        "",
+        "## Live example",
+        "",
+        "Use the real `ASMS UI is down` playbook under `/playbooks/asms-ui-is-down/` as the working example built from this shell.",
         "",
     ]
     return "\n".join(lines) + "\n"
@@ -547,7 +1003,11 @@ def _render_template_preview_body(
         return _render_template_atlas_map(playbook=playbook, symptom_entries=symptom_entries)
     if template_id == "incident-console":
         return _render_template_incident_console(playbook=playbook, symptom_entries=symptom_entries)
-    return _render_template_field_manual(playbook=playbook, symptom_entries=symptom_entries)
+    return _render_template_field_manual(
+        playbook=playbook,
+        symptom_entries=symptom_entries,
+        anchor_prefix="",
+    )
 
 
 def _render_template_atlas_map(
@@ -676,7 +1136,7 @@ def _render_template_incident_console(
     lines.extend(["    </aside>", '    <div class="adf-preview-console-panel adf-preview-console-feed">', '      <p class="adf-panel-label">Incident feed</p>'])
     for step in playbook.get("steps", []):
         dependency_item = dependency_by_step.get(step["step_id"])
-        label = dependency_item["label"] if dependency_item else _step_summary_label(step)
+        label = _step_navigation_label(step, dependency_item)
         lines.extend(
             [
                 f'<article id="console-{step["step_id"]}" class="adf-preview-console-step">',
@@ -710,7 +1170,7 @@ def _render_template_incident_console(
             [
                 '<section class="adf-preview-console-action-group">',
                 f'  <p class="adf-panel-label">{step["step_label"]}</p>',
-                f"  <strong>{_step_summary_label(step)}</strong>",
+                f"  <strong>{_step_navigation_label(step)}</strong>",
             ]
         )
         for command in commands:
@@ -743,29 +1203,24 @@ def _render_template_field_manual(
     *,
     playbook: dict[str, Any],
     symptom_entries: list[dict[str, str]],
+    anchor_prefix: str = "",
 ) -> str:
     dependency_path = playbook.get("dependency_path", [])
     dependency_by_step = {item["step_id"]: item for item in dependency_path}
-    prompt_items = [
-        f"        <li>{entry['symptom_label']}</li>"
-        for entry in symptom_entries[:4]
-    ] or ["        <li>Bring the exact operator wording into chapter one.</li>"]
+    del symptom_entries
     lines = [
         '<div class="adf-preview-shell adf-preview-field-manual">',
         '  <section class="adf-preview-manual-cover">',
-        '    <p class="adf-panel-label">Field Manual</p>',
         f"    <h2>{playbook['label']}</h2>",
-        f"    <p>{playbook['symptom_focus']}</p>",
-        '    <p class="adf-preview-manual-when"><strong>When to use this:</strong> Reach for this version when the operator needs a calmer chapter-by-chapter guide instead of a board or console.</p>',
         "  </section>",
         '  <section class="adf-preview-manual-contents">',
-        '    <p class="adf-panel-label">Contents</p>',
+        '    <p class="adf-panel-label">Steps</p>',
         '    <ol class="adf-preview-manual-list">',
     ]
     for step in playbook.get("steps", []):
         lines.extend(
             [
-                f'<li><a href="#manual-{step["step_id"]}"><span>{step["step_label"]}</span><strong>{_step_summary_label(step)}</strong></a></li>'
+                f'<li><a class="adf-preview-manual-link" href="{anchor_prefix}#manual-{step["step_id"]}" data-adf-manual-target="manual-{step["step_id"]}"><span>{step["step_label"]}</span><strong>{_step_navigation_label(step)}</strong></a></li>'
             ]
         )
     lines.extend(
@@ -773,67 +1228,340 @@ def _render_template_field_manual(
             "    </ol>",
             "  </section>",
             '  <section class="adf-preview-manual-body">',
-            '    <article class="adf-preview-manual-prologue">',
-            '      <p class="adf-panel-label">Operator note</p>',
-            '      <p>This version reads like a guided field manual. Each chapter is meant to be read, then executed, instead of skimmed like a dashboard card.</p>',
-            "    </article>",
         ]
     )
     for step in playbook.get("steps", []):
         dependency_item = dependency_by_step.get(step["step_id"])
-        chapter_label = dependency_item["label"] if dependency_item else _step_summary_label(step)
-        command_count = len(step.get("recommended_commands", []))
+        chapter_label = _step_navigation_label(step, dependency_item)
+        command_count_label = _step_command_count_label(step)
         lines.extend(
             [
-                f'<details id="manual-{step["step_id"]}" class="adf-preview-manual-step">',
+                f'<details id="manual-{step["step_id"]}" class="adf-preview-manual-step" data-adf-manual-step="true">',
                 '  <summary class="adf-preview-manual-summary">',
                 '    <span class="adf-preview-manual-summary-copy">',
                 f'      <span class="adf-preview-manual-kicker">{step["step_label"]}</span>',
                 f'      <span class="adf-preview-manual-summary-title">{chapter_label}</span>',
-                f'      <span class="adf-preview-manual-action">{step["action"]}</span>',
                 "    </span>",
                 '    <span class="adf-preview-manual-summary-meta">',
-                f'      <span class="adf-preview-manual-summary-count">{command_count} command{"s" if command_count != 1 else ""}</span>',
+                f'      <span class="adf-preview-manual-summary-count" title="Commands to run in this step">{command_count_label}</span>',
                 "    </span>",
                 "  </summary>",
                 '  <div class="adf-preview-manual-step-body">',
             ]
         )
-        if step.get("why_this_matters"):
-            lines.append(f'  <p>{step["why_this_matters"]}</p>')
         if step.get("recommended_commands"):
-            lines.extend(['  <div class="adf-preview-manual-callout">', '    <p class="adf-panel-label">Field note</p>'])
+            lines.extend(['  <div class="adf-preview-manual-callout">'])
             for command in step.get("recommended_commands", []):
-                lines.extend(_render_command_markdown(command))
-            lines.extend(["  </div>"])
-        if step.get("if_pass") or step.get("if_fail"):
-            lines.extend(['  <div class="adf-preview-manual-branch">'])
-            if step.get("if_pass"):
-                lines.append(f'    <p><strong>If healthy:</strong> {step["if_pass"]}</p>')
-            if step.get("if_fail"):
-                lines.append(f'    <p><strong>If not healthy:</strong> {step["if_fail"]}</p>')
+                lines.extend(_render_operator_command_markdown(command))
             lines.extend(["  </div>"])
         lines.extend(["  </div>", "</details>"])
     lines.extend(
         [
-            "  </section>",
-            '  <section class="adf-preview-manual-appendix">',
-            '    <div class="adf-preview-manual-note">',
-            '      <p class="adf-panel-label">Appendix</p>',
-            "      <p>Use the dependency path as orientation only. The chapter order matters more than the map in this template.</p>",
-            "    </div>",
-            '    <div class="adf-preview-manual-note">',
-            '      <p class="adf-panel-label">Matching symptom prompts</p>',
-            "      <ul>",
-            *prompt_items,
-            "      </ul>",
-            "    </div>",
             "  </section>",
             "</div>",
             "",
         ]
     )
     return "\n".join(lines)
+
+
+def _render_keycloak_integration_guide_markdown(
+    *,
+    order: int,
+    page_record: dict[str, Any] | None = None,
+    playbook: dict[str, Any] | None = None,
+    guide_entry: dict[str, Any] | None = None,
+) -> str:
+    drilldown = playbook.get("imported_module_drilldown", {}) if isinstance(playbook, dict) else {}
+    route_summary = (
+        str(page_record.get("use_this_when") or page_record.get("symptom_focus") or "").strip()
+        if isinstance(page_record, dict)
+        else ""
+    )
+    handoff_target = (
+        str(page_record.get("handoff_target") or "").strip()
+        if isinstance(page_record, dict)
+        else ""
+    )
+    next_checks = drilldown.get("bounded_next_checks")
+    observed_boundary = drilldown.get("observed_boundary_on_appliance")
+    upstream_references = drilldown.get("upstream_references")
+    what_to_save = page_record.get("what_to_save") if isinstance(page_record, dict) else None
+
+    lines = [
+        "---",
+        f"title: {json.dumps(str((guide_entry or {}).get('label') or 'ASMS / Keycloak integration guide'))}",
+        'description: ""',
+        "sidebar:",
+        f"  label: {json.dumps(str((guide_entry or {}).get('label') or 'ASMS / Keycloak integration guide'))}",
+        f"  order: {order}",
+        "---",
+        "",
+        "# ASMS / Keycloak integration guide",
+        "",
+    ]
+    if route_summary:
+        lines.extend(
+            [
+                "## Current route contract",
+                "",
+                f"- Use this route when: {route_summary}",
+                f"- Current handoff target: `{handoff_target}`" if handoff_target else "- Current handoff target: not declared",
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "## What Keycloak does in ASMS",
+            "",
+            "- Keycloak is the auth service used in the ASMS login chain.",
+            "- Apache exposes Keycloak through `/keycloak/` and proxies that path to `https://localhost:8443/`.",
+            "- The UI login page can still load even when Keycloak is down. That means Keycloak failure is not always a top-level Apache failure.",
+            "",
+            "## Proven integration points",
+            "",
+            "1. Apache rewrites `/algosec/suite/login...` to `/algosec-ui/login` before the operator reaches the browser-facing login shell.",
+            "2. Apache proxies `/keycloak/` to local Keycloak on `8443` through `/etc/httpd/conf.d/keycloak.conf`.",
+            "3. The preserved login-bootstrap window on this lab was `/seikan/login/setup` -> `SuiteLoginSessionValidation.php` -> same-window Keycloak OIDC request.",
+            "4. In the clean Keycloak-down simulation, Apache still returned `HTTP 200` for `/algosec-ui/login` while the Keycloak OIDC well-known path returned `503`.",
+            "",
+            "## What this means for support",
+            "",
+            "- If the login page itself is down, stay on Apache or the UI edge.",
+            "- If the login page still loads but auth is failing, move to Keycloak.",
+            "- Do not treat Keycloak as the first browser-facing edge. Treat it as the auth branch behind Apache.",
+            "",
+            "## Imported-module drilldown summary",
+            "",
+        ]
+    )
+    if isinstance(next_checks, list) and next_checks:
+        lines.extend([f"- {item}" for item in next_checks])
+    else:
+        lines.extend(
+            [
+                "- Prove the module boundary first: login page versus OIDC path.",
+                "- Classify the failure next: service state, listener state, proxy mapping, and journal clue.",
+                "- Stop with a support-ready evidence packet before expanding into many Keycloak-specific branches.",
+            ]
+        )
+    lines.extend(["", "## Proven runtime clues", ""])
+    if isinstance(observed_boundary, list) and observed_boundary:
+        lines.extend([f"- {item}" for item in observed_boundary])
+    else:
+        lines.extend(
+            [
+                "- Healthy baseline from March 29, 2026 around `19:59:50 EDT`: `httpd`, `keycloak`, and `ms-metro` were active, the login page returned `HTTP 200`, Keycloak OIDC returned `200`, and Metro heartbeat returned `isAlive: true`.",
+                "- Keycloak-down simulation from March 29, 2026: login page stayed `HTTP 200`, OIDC returned `503`, and Metro stayed healthy.",
+                "- Live observe-only validation from March 30, 2026 around `10:10:55 EDT` on `10.167.2.150`: login page stayed `HTTP 200`, OIDC returned `503`, `keycloak.service` was failed, `8443` was absent, Metro stayed healthy, and the journal showed a repeated `java.io.EOFException` startup clue.",
+                "- Current failure clue from the same troubleshooting line: repeated `java.io.EOFException` in the Keycloak startup path can leave `keycloak.service` failed while Apache still serves the login page.",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            "## Useful files and endpoints",
+            "",
+            "- Apache Keycloak proxy config: `/etc/httpd/conf.d/keycloak.conf`",
+            "- Apache login rewrite config: `/etc/httpd/conf.d/zzz_fa.conf`",
+            "- Browser-facing login page: `https://127.0.0.1/algosec-ui/login`",
+            "- Browser-facing OIDC well-known probe: `https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration`",
+            "- Local Keycloak listener: `8443`",
+            "",
+        ]
+    )
+    if isinstance(what_to_save, list) and what_to_save:
+        lines.extend(
+            [
+                "## Save these items",
+                "",
+                *[f"- {item}" for item in what_to_save],
+                "",
+            ]
+        )
+    lines.extend(["## Upstream references", ""])
+    if isinstance(upstream_references, list) and upstream_references:
+        for entry in upstream_references:
+            if not isinstance(entry, dict):
+                continue
+            label = entry.get("label")
+            url = entry.get("url")
+            details = entry.get("details")
+            if isinstance(label, str) and isinstance(url, str):
+                if isinstance(details, str) and details.strip():
+                    lines.append(f"- [{label}]({url}): {details}")
+                else:
+                    lines.append(f"- [{label}]({url})")
+    else:
+        lines.extend(
+            [
+                "- [Keycloak documentation](https://www.keycloak.org/documentation)",
+                "- [Configuring Keycloak](https://www.keycloak.org/server/configuration)",
+                "- [Keycloak GitHub repository](https://github.com/keycloak/keycloak)",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            "## Evidence",
+            "",
+            "- `eval/history/asms-ui-login-bootstrap-observe-only-delegation-20260327.md`",
+            "- `eval/history/asms-ui-keycloak-simulation-and-metro-blocked-20260330.md`",
+            "- `eval/history/asms-ui-keycloak-and-metro-service-fault-simulation-attempt-20260330.md`",
+            "",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def _render_keycloak_tier_2_support_guide_markdown(
+    *,
+    order: int,
+    page_record: dict[str, Any] | None = None,
+    playbook: dict[str, Any] | None = None,
+    guide_entry: dict[str, Any] | None = None,
+) -> str:
+    drilldown = playbook.get("imported_module_drilldown", {}) if isinstance(playbook, dict) else {}
+    route_summary = (
+        str(page_record.get("use_this_when") or page_record.get("symptom_focus") or "").strip()
+        if isinstance(page_record, dict)
+        else ""
+    )
+    handoff_target = (
+        str(page_record.get("handoff_target") or "").strip()
+        if isinstance(page_record, dict)
+        else ""
+    )
+    login_vs_oidc_command = {
+        "label": "Compare login page and Keycloak OIDC",
+        "command": "curl -k -I https://127.0.0.1/algosec-ui/login | sed -n '1,8p'; echo '---'; curl -k -I https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration | sed -n '1,12p'",
+        "expected_signal": "The login page and the Keycloak OIDC path both return HTTP 200.",
+        "healthy_markers": ["HTTP/1.1 200"],
+        "interpretation": "If the login page is still HTTP 200 but the OIDC path is not, keep the case on Keycloak.",
+        "example_output": "HTTP/1.1 200 OK\n---\nHTTP/1.1 200 OK",
+    }
+    service_command = {
+        "label": "Check Keycloak service and 8443 listener",
+        "command": "systemctl status keycloak.service --no-pager; echo '--- listeners ---'; ss -lntp | grep -E ':(8443)\\b'",
+        "expected_signal": "Keycloak is active and 8443 is listening.",
+        "healthy_markers": ["Active: active (running)", "LISTEN", ":8443"],
+        "interpretation": "If keycloak.service is failed or 8443 is missing, save the output and keep the case on Keycloak.",
+        "example_output": "● keycloak.service - Keycloak Service\n   Active: active (running)\n--- listeners ---\nLISTEN 0 100 0.0.0.0:8443 0.0.0.0:* users:((\"java\",pid=2745,fd=91))",
+    }
+    journal_command = {
+        "label": "Check the recent Keycloak journal",
+        "command": "journalctl -u keycloak.service -n 80 --no-pager",
+        "expected_signal": "Recent lines show either a normal start or the failure clue that stopped startup.",
+        "healthy_markers": ["started", "Listening on", "8443"],
+        "interpretation": "If the service failed to start, save the clue. One proven example in this lab was `java.io.EOFException`.",
+        "example_output": "Exception in thread \"main\" java.lang.reflect.UndeclaredThrowableException\nCaused by: java.io.EOFException\n... SerializedApplication.read(...)\n... QuarkusEntryPoint.doRun(...)\nkeycloak.service: Main process exited, status=1/FAILURE",
+    }
+    restart_command = {
+        "label": "Optional: run one bounded restart if recovery validation is needed",
+        "command": "sudo systemctl restart keycloak.service && sleep 30 && systemctl is-active keycloak.service && ss -lntp | grep -E ':(8443)\\b' && curl -k -I https://127.0.0.1/keycloak/realms/master/.well-known/openid-configuration | sed -n '1,12p'",
+        "expected_signal": "Keycloak comes back active, 8443 listens again, and the OIDC path returns HTTP 200.",
+        "healthy_markers": ["active", "LISTEN", ":8443", "HTTP/1.1 200"],
+        "interpretation": "If the service still fails after one bounded restart, stop there. Save the output and escalate with the Keycloak failure clue instead of inventing many extra branches.",
+        "example_output": "active\nLISTEN 0 100 0.0.0.0:8443 0.0.0.0:* users:((\"java\",pid=2745,fd=91))\nHTTP/1.1 200 OK",
+    }
+    lines = [
+        "---",
+        f"title: {json.dumps(str((guide_entry or {}).get('label') or 'ASMS / Keycloak Tier 2 support guide'))}",
+        'description: ""',
+        "sidebar:",
+        f"  label: {json.dumps(str((guide_entry or {}).get('label') or 'ASMS / Keycloak Tier 2 support guide'))}",
+        f"  order: {order}",
+        "---",
+        "",
+        "# ASMS / Keycloak Tier 2 support guide",
+        "",
+        "## Use this guide for this kind of case",
+        "",
+        f"- {route_summary}" if route_summary else "- The login page opens, but login or auth does not finish.",
+        "- The customer reports auth failure, redirect loop, or login not working.",
+        "- Apache still looks healthy and you need to decide whether the problem is Keycloak.",
+        "",
+        "## Fast rule",
+        "",
+        "- If `/algosec-ui/login` is still `HTTP 200` but the Keycloak OIDC path is failing, diagnose Keycloak.",
+        "- Do not move back to Apache unless the login page itself stops loading.",
+        f"- If the Keycloak boundary proves healthy again, hand off to `{handoff_target}`." if handoff_target else "- If the Keycloak boundary proves healthy again, hand off to the next deeper ASMS layer.",
+        "",
+        "## Failure classes",
+        "",
+        "",
+        "## Check 1",
+        "",
+    ]
+    failure_classes = drilldown.get("generic_failure_classes")
+    if isinstance(failure_classes, list) and failure_classes:
+        for entry in failure_classes:
+            if not isinstance(entry, dict):
+                continue
+            label = entry.get("label")
+            details = entry.get("details")
+            if isinstance(label, str) and isinstance(details, str):
+                lines.insert(-3, f"- `{label}`: {details}")
+    else:
+        lines[-3:-3] = [
+            "- `startup_failure`: the service fails or exits during startup.",
+            "- `listener_absent`: the Keycloak service is supposed to listen on `8443`, but that listener is missing.",
+            "- `useful_work_path_failed`: the service may look partly alive, but the OIDC path still fails while the login page loads.",
+            "- `dependency_or_resource_unknown`: the Keycloak boundary is proven, but the current clues do not yet show whether the deeper cause is config, storage, secrets, or host pressure.",
+        ]
+    lines.extend(_render_operator_command_markdown(login_vs_oidc_command))
+    lines.extend(
+        [
+            "## Check 2",
+            "",
+        ]
+    )
+    lines.extend(_render_operator_command_markdown(service_command))
+    lines.extend(
+        [
+            "## Check 3",
+            "",
+        ]
+    )
+    lines.extend(_render_operator_command_markdown(journal_command))
+    lines.extend(
+        [
+            "## Check 4",
+            "",
+        ]
+    )
+    lines.extend(_render_operator_command_markdown(restart_command))
+    lines.extend(
+        [
+            "## When to escalate",
+            "",
+            "- Escalate when the login page still loads but the OIDC path is failing and you already captured the service, listener, proxy, and journal clues.",
+            "- Escalate when one bounded restart does not restore useful auth work.",
+            "- Escalate with the failure class you proved, not with a vague `login broken` summary.",
+            "",
+            "## What to save before the next session",
+            "",
+            "",
+            "## Upstream references",
+            "",
+            "- [Keycloak documentation](https://www.keycloak.org/documentation)",
+            "- [Configuring Keycloak](https://www.keycloak.org/server/configuration)",
+            "- [Keycloak GitHub repository](https://github.com/keycloak/keycloak)",
+            "",
+        ]
+    )
+    save_index = lines.index("## Upstream references") - 1
+    what_to_save = page_record.get("what_to_save") if isinstance(page_record, dict) else None
+    if isinstance(what_to_save, list) and what_to_save:
+        lines[save_index:save_index] = [f"- {item}" for item in what_to_save]
+    else:
+        lines[save_index:save_index] = [
+            "- output from the login-page and OIDC comparison",
+            "- output from `systemctl status keycloak.service`",
+            "- the recent Keycloak journal clue",
+            "- the result of the restart attempt if you ran it",
+        ]
+    return "\n".join(lines) + "\n"
 
 
 def _render_template_step_panel(
@@ -844,7 +1572,7 @@ def _render_template_step_panel(
     section_prefix: str,
     show_outcomes: bool,
 ) -> list[str]:
-    label = dependency_item["label"] if dependency_item else _step_summary_label(step)
+    label = _step_navigation_label(step, dependency_item)
     lines = [
         f'<article id="{section_prefix}-{step["step_id"]}" class="adf-preview-step-panel {panel_class}">',
         '  <div class="adf-preview-step-head">',
@@ -895,12 +1623,20 @@ def _render_playbook_markdown(
     playbook: dict[str, Any],
     order: int,
     symptom_entries: list[dict[str, str]],
+    page_record: dict[str, Any] | None = None,
 ) -> str:
     if playbook["playbook_id"] == PRIMARY_PLAYBOOK_ID:
-        return _render_asms_ui_playbook_markdown(
+        return _render_operator_playbook_markdown(
             playbook=playbook,
             order=order,
             symptom_entries=symptom_entries,
+            page_record=page_record,
+        )
+    if page_record and page_record.get("page_type") == "boundary_confirmation":
+        return _render_canonical_boundary_playbook_markdown(
+            playbook=playbook,
+            order=order,
+            page_record=page_record,
         )
 
     dependency_path = playbook.get("dependency_path", [])
@@ -958,6 +1694,12 @@ def _render_playbook_markdown(
             "  </div>",
         ]
     )
+    drilldown_lines = _render_imported_module_drilldown_markdown(
+        playbook,
+        include_symptom_focus=False,
+    )
+    if drilldown_lines:
+        lines.extend(drilldown_lines)
     if dependency_path:
         lines.extend(
             [
@@ -1034,108 +1776,763 @@ def _render_playbook_markdown(
     return "\n".join(lines) + "\n"
 
 
-def _render_asms_ui_playbook_markdown(
+def _render_operator_playbook_markdown(
     *,
     playbook: dict[str, Any],
     order: int,
     symptom_entries: list[dict[str, str]],
+    page_record: dict[str, Any] | None = None,
 ) -> str:
-    dependency_path = playbook.get("dependency_path", [])
-    dependency_by_step = {item["step_id"]: item for item in dependency_path}
+    if page_record and page_record.get("page_type") == "boundary_confirmation":
+        return _render_boundary_confirmation_playbook_markdown(
+            playbook=playbook,
+            order=order,
+            page_record=page_record,
+        )
 
     lines = [
         "---",
         f"title: {playbook['label']}",
-        f"description: {playbook['symptom_focus']}",
+        'description: ""',
         "sidebar:",
         f"  label: {playbook['label']}",
         f"  order: {order}",
         "---",
         "",
-        playbook["symptom_focus"],
-        "",
-        "## ASMS UI Working Map",
-        "",
-        '<div class="adf-system-shell">',
-        '  <div class="adf-system-topbar">',
-        '    <div class="adf-panel">',
-        '      <p class="adf-panel-label">Working rule</p>',
-        "      <p>Start at the host, move into Apache/HTTPD serving the UI, then split into auth and app branches. Stop at the first place where useful work no longer happens.</p>",
-        "    </div>",
-        '    <div class="adf-panel">',
-        '      <p class="adf-panel-label">What this page is proving</p>',
-        "      <p>The goal is not to prove that services merely exist. The goal is to prove whether the ASMS UI path can do useful work for the current customer scenario.</p>",
-        "    </div>",
-        "  </div>",
-        '  <div class="adf-system-map adf-panel">',
-        '    <p class="adf-panel-label">Useful-work path</p>',
-        '    <ol class="adf-system-map-list">',
     ]
-    for item in dependency_path:
-        lines.extend(
-            [
-                '      <li class="adf-system-map-item">',
-                f'        <a class="adf-system-map-link" href="#{item["step_id"]}">',
-                f'          <span class="adf-route-step">{item["step_label"]}</span>',
-                f"          <strong>{item['label']}</strong>",
-                f"          <span>{item['details']}</span>",
-                "        </a>",
-                "      </li>",
-            ]
-        )
+    lines.extend(_render_imported_module_drilldown_markdown(playbook))
+    if lines[-1] != "":
+        lines.append("")
     lines.extend(
         [
-            "    </ol>",
-            "  </div>",
-            '  <div class="adf-system-grid">',
-            '    <aside class="adf-system-nav adf-panel">',
-            '      <p class="adf-panel-label">Quick jump</p>',
-            '      <div class="adf-system-jumps">',
-        ]
-    )
-    for item in dependency_path:
-        lines.extend(
-            [
-                f'<a class="adf-system-jump" href="#{item["step_id"]}">',
-                f'  <span class="adf-route-step">{item["step_label"]}</span>',
-                f'  <strong>{item["label"]}</strong>',
-                f'  <span>{item["details"]}</span>',
-                "</a>",
-            ]
-        )
-    lines.extend(["      </div>"])
-    if symptom_entries:
-        lines.extend(
-            [
-                '      <div class="adf-system-sideblock">',
-                '        <p class="adf-panel-label">Symptoms that fit here</p>',
-                "        <ul>",
-                *[f"          <li>{entry['symptom_label']}</li>" for entry in symptom_entries],
-                "        </ul>",
-                "      </div>",
-            ]
-        )
-    lines.extend(
-        [
-            "    </aside>",
-            '    <div class="adf-system-main">',
-        ]
-    )
-    for step in playbook.get("steps", []):
-        lines.extend(_render_system_checkpoint_markdown(step, dependency_by_step.get(step["step_id"])))
-    lines.extend(
-        [
-            "</div>",
-            "</div>",
-            "</div>",
-            "",
-        ]
-    )
+        "## Command flow",
+        "",
+        _render_template_field_manual(
+            playbook=playbook,
+            symptom_entries=symptom_entries,
+            anchor_prefix=f"/playbooks/{_playbook_slug(playbook)}/",
+        ).rstrip(),
+        "",
+    ])
     return "\n".join(lines) + "\n"
 
 
+def _render_boundary_confirmation_playbook_markdown(
+    *,
+    playbook: dict[str, Any],
+    order: int,
+    page_record: dict[str, Any],
+) -> str:
+    lines = [
+        "---",
+        f"title: {playbook['label']}",
+        'description: ""',
+        "sidebar:",
+        f"  label: {playbook['label']}",
+        f"  order: {order}",
+        "---",
+        "",
+    ]
+
+    lines.extend(_render_boundary_use_this_when_markdown(playbook, page_record))
+    lines.extend(_render_boundary_check_this_service_markdown(playbook, page_record))
+
+    if lines[-1] != "":
+        lines.append("")
+    lines.extend(
+        [
+            "## Command flow",
+            "",
+            _render_template_field_manual(
+                playbook=playbook,
+                symptom_entries=[],
+                anchor_prefix=f"/playbooks/{_playbook_slug(playbook)}/",
+            ).rstrip(),
+            "",
+        ]
+    )
+    lines.extend(_render_boundary_what_to_save_markdown(playbook, page_record))
+    lines.extend(_render_boundary_when_to_escalate_markdown(page_record))
+    lines.extend(_render_boundary_reference_notes_markdown(playbook))
+    lines.extend(_render_route_notes_markdown(page_record))
+    return "\n".join(lines) + "\n"
+
+
+def _render_imported_module_drilldown_markdown(
+    playbook: dict[str, Any],
+    *,
+    include_symptom_focus: bool = True,
+    section_title: str = "Imported-module drilldown",
+) -> list[str]:
+    drilldown = playbook.get("imported_module_drilldown")
+    if not isinstance(drilldown, dict):
+        return []
+
+    lines: list[str] = []
+    if include_symptom_focus:
+        lines.extend([playbook["symptom_focus"], ""])
+    lines.extend(
+        [
+            f"## {section_title}",
+            "",
+            str(
+                drilldown.get("intro")
+                or "Use this page to prove the current boundary first, classify the failure, and gather a support-ready evidence packet before you widen the case."
+            ),
+            "",
+        ]
+    )
+
+    observed_boundary = drilldown.get("observed_boundary_on_appliance")
+    if isinstance(observed_boundary, list) and observed_boundary:
+        lines.extend(
+            [
+                "### Observed boundary on this appliance",
+                "",
+                *[f"- {item}" for item in observed_boundary],
+                "",
+            ]
+        )
+
+    asms_meaning = drilldown.get("what_that_boundary_means_in_asms")
+    if isinstance(asms_meaning, list) and asms_meaning:
+        lines.extend(
+            [
+                "### What that boundary means in ASMS",
+                "",
+                *[f"- {item}" for item in asms_meaning],
+                "",
+            ]
+        )
+
+    failure_classes = drilldown.get("generic_failure_classes")
+    if isinstance(failure_classes, list) and failure_classes:
+        lines.extend(
+            [
+                "### Generic failure classes",
+                "",
+            ]
+        )
+        for entry in failure_classes:
+            if not isinstance(entry, dict):
+                continue
+            label = entry.get("label")
+            details = entry.get("details")
+            if isinstance(label, str) and isinstance(details, str):
+                lines.append(f"- `{label}`: {details}")
+        lines.append("")
+
+    next_checks = drilldown.get("bounded_next_checks")
+    if isinstance(next_checks, list) and next_checks:
+        lines.extend(
+            [
+                "### Bounded next checks",
+                "",
+                *[f"- {item}" for item in next_checks],
+                "",
+            ]
+        )
+
+    escalation_evidence = drilldown.get("escalation_ready_evidence")
+    if isinstance(escalation_evidence, list) and escalation_evidence:
+        lines.extend(
+            [
+                "### Escalation-ready evidence",
+                "",
+                *[f"- {item}" for item in escalation_evidence],
+                "",
+            ]
+        )
+
+    upstream_references = drilldown.get("upstream_references")
+    if isinstance(upstream_references, list) and upstream_references:
+        lines.extend(
+            [
+                "### Upstream references",
+                "",
+            ]
+        )
+        for entry in upstream_references:
+            if not isinstance(entry, dict):
+                continue
+            label = entry.get("label")
+            url = entry.get("url")
+            details = entry.get("details")
+            if isinstance(label, str) and isinstance(url, str) and url:
+                if isinstance(details, str) and details:
+                    lines.append(f"- [{label}]({url}): {details}")
+                else:
+                    lines.append(f"- [{label}]({url})")
+        lines.append("")
+
+    return lines
+
+
+def _render_page_record_panel_markdown(page_record: dict[str, Any]) -> list[str]:
+    lines = [
+        "## Generated page record",
+        "",
+        f"- `Page type`: {page_record.get('page_type', '')}",
+        f"- `Page id`: {page_record.get('page_id', '')}",
+    ]
+    if page_record.get("label"):
+        lines.append(f"- `Label`: {page_record['label']}")
+    if page_record.get("symptom_focus"):
+        lines.append(f"- `Symptom focus`: {page_record['symptom_focus']}")
+    if page_record.get("entry_question"):
+        lines.append(f"- `Entry question`: {page_record['entry_question']}")
+    if page_record.get("first_action"):
+        lines.append(f"- `First action`: {page_record['first_action']}")
+    if page_record.get("handoff_target"):
+        lines.append(f"- `Handoff target`: {page_record['handoff_target']}")
+    if page_record.get("handoff_target_type"):
+        lines.append(f"- `Handoff target type`: {page_record['handoff_target_type']}")
+    if page_record.get("route_kind"):
+        lines.append(f"- `Route kind`: {page_record['route_kind']}")
+    if page_record.get("branch_if_pass"):
+        lines.append(f"- `Branch if pass`: {page_record['branch_if_pass']}")
+    if page_record.get("branch_if_fail"):
+        lines.append(f"- `Branch if fail`: {page_record['branch_if_fail']}")
+    what_to_save = page_record.get("what_to_save")
+    if isinstance(what_to_save, list) and what_to_save:
+        lines.append(f"- `What to save`: {', '.join(str(item) for item in what_to_save)}")
+    lines.append("")
+    return lines
+
+
+def _render_boundary_use_this_when_markdown(
+    playbook: dict[str, Any],
+    page_record: dict[str, Any],
+) -> list[str]:
+    use_this_when = _normalized_use_this_when(
+        page_record.get("use_this_when") or playbook.get("symptom_focus"),
+    )
+    if not use_this_when:
+        return []
+    return [
+        "## Use this when",
+        "",
+        f"- {use_this_when}",
+        "",
+    ]
+
+
+def _render_boundary_check_this_service_markdown(
+    playbook: dict[str, Any],
+    page_record: dict[str, Any],
+) -> list[str]:
+    lines = ["## Check this service", ""]
+    service_name = page_record.get("service_name")
+    if isinstance(service_name, str) and service_name:
+        lines.append(f"- Service to check first: `{service_name}.service`.")
+    first_action = page_record.get("first_action")
+    if isinstance(first_action, str) and first_action:
+        lines.append(f"- Start here: {first_action}")
+    decision_rule = playbook.get("decision_rule")
+    if isinstance(decision_rule, str) and decision_rule:
+        lines.append(f"- Decision rule: {decision_rule}")
+
+    drilldown = playbook.get("imported_module_drilldown")
+    observed_boundary = drilldown.get("observed_boundary_on_appliance") if isinstance(drilldown, dict) else None
+    if isinstance(observed_boundary, list) and observed_boundary:
+        lines.extend(["", "### What to look for", ""])
+        lines.extend([f"- {item}" for item in observed_boundary if isinstance(item, str) and item])
+
+    failure_classes = drilldown.get("generic_failure_classes") if isinstance(drilldown, dict) else None
+    if isinstance(failure_classes, list) and failure_classes:
+        lines.extend(["", "### If the service is still unhealthy", ""])
+        for entry in failure_classes:
+            if not isinstance(entry, dict):
+                continue
+            label = entry.get("label")
+            details = entry.get("details")
+            if isinstance(label, str) and isinstance(details, str) and label and details:
+                lines.append(f"- `{label}`: {details}")
+
+    next_checks = drilldown.get("bounded_next_checks") if isinstance(drilldown, dict) else None
+    if isinstance(next_checks, list) and next_checks:
+        lines.extend(["", "### If the cause is still not clear", ""])
+        lines.extend([f"- {item}" for item in next_checks if isinstance(item, str) and item])
+
+    lines.append("")
+    return lines
+
+
+def _render_boundary_what_to_save_markdown(
+    playbook: dict[str, Any],
+    page_record: dict[str, Any],
+) -> list[str]:
+    evidence_items: list[str] = []
+    what_to_save = page_record.get("what_to_save")
+    if isinstance(what_to_save, list):
+        evidence_items.extend(str(item) for item in what_to_save if isinstance(item, str) and item)
+
+    drilldown = playbook.get("imported_module_drilldown")
+    escalation_evidence = drilldown.get("escalation_ready_evidence") if isinstance(drilldown, dict) else None
+    if isinstance(escalation_evidence, list):
+        evidence_items.extend(str(item) for item in escalation_evidence if isinstance(item, str) and item)
+
+    deduped_items: list[str] = []
+    seen: set[str] = set()
+    for item in evidence_items:
+        if item not in seen:
+            deduped_items.append(item)
+            seen.add(item)
+
+    if not deduped_items:
+        return []
+    return [
+        "## What to save",
+        "",
+        *[f"- {item}" for item in deduped_items],
+        "",
+    ]
+
+
+def _render_boundary_when_to_escalate_markdown(page_record: dict[str, Any]) -> list[str]:
+    lines = ["## When to escalate", ""]
+    branch_if_fail = page_record.get("branch_if_fail")
+    if isinstance(branch_if_fail, str) and branch_if_fail:
+        lines.append(f"- {branch_if_fail}")
+    branch_if_pass = page_record.get("branch_if_pass")
+    if isinstance(branch_if_pass, str) and branch_if_pass:
+        lines.append(f"- If the service looks healthy again, {branch_if_pass[0].lower() + branch_if_pass[1:]}")
+    lines.append("")
+    return lines
+
+
+def _render_boundary_reference_notes_markdown(playbook: dict[str, Any]) -> list[str]:
+    drilldown = playbook.get("imported_module_drilldown")
+    if not isinstance(drilldown, dict):
+        return []
+
+    lines: list[str] = []
+    asms_meaning = drilldown.get("what_that_boundary_means_in_asms")
+    if isinstance(asms_meaning, list) and asms_meaning:
+        lines.extend(["## Deeper notes", ""])
+        lines.extend([f"- {item}" for item in asms_meaning if isinstance(item, str) and item])
+        lines.append("")
+
+    upstream_references = drilldown.get("upstream_references")
+    if isinstance(upstream_references, list) and upstream_references:
+        lines.extend(["## Reference links", ""])
+        for entry in upstream_references:
+            if not isinstance(entry, dict):
+                continue
+            label = entry.get("label")
+            url = entry.get("url")
+            details = entry.get("details")
+            if isinstance(label, str) and isinstance(url, str) and url:
+                if isinstance(details, str) and details:
+                    lines.append(f"- [{label}]({url}): {details}")
+                else:
+                    lines.append(f"- [{label}]({url})")
+        lines.append("")
+
+    return lines
+
+
+def _render_route_notes_markdown(page_record: dict[str, Any]) -> list[str]:
+    lines = [
+        "<details class=\"adf-route-notes\">",
+        "<summary>Route notes</summary>",
+        "",
+        f"- Page type: `{page_record.get('page_type', '')}`",
+        f"- Page id: `{page_record.get('page_id', '')}`",
+    ]
+    if page_record.get("handoff_target"):
+        lines.append(f"- Next page: `{page_record['handoff_target']}`")
+    if page_record.get("handoff_target_type"):
+        lines.append(f"- Next page type: `{page_record['handoff_target_type']}`")
+    if page_record.get("route_kind"):
+        lines.append(f"- Route kind: `{page_record['route_kind']}`")
+    lines.extend(["", "</details>", ""])
+    return lines
+
+
+def _render_generated_page_record_markdown(*, page_record: dict[str, Any], order: int) -> str:
+    title = str(page_record.get("label") or page_record.get("page_id") or "Generated page")
+    intro = (
+        page_record.get("use_this_when")
+        or page_record.get("symptom_focus")
+        or page_record.get("purpose")
+        or page_record.get("customer_symptom")
+        or ""
+    )
+    lines = [
+        "---",
+        f"title: {json.dumps(title)}",
+        'description: ""',
+        "sidebar:",
+        f"  label: {json.dumps(title)}",
+        f"  order: {order}",
+        "---",
+        "",
+    ]
+    if isinstance(intro, str) and intro:
+        lines.extend([intro, ""])
+    steps = page_record.get("steps")
+    if isinstance(steps, list) and steps:
+        lines.extend(["## Steps", ""])
+        for step in steps:
+            if not isinstance(step, dict):
+                continue
+            step_label = step.get("step_label") or "Step"
+            action = step.get("action")
+            if isinstance(action, str) and action:
+                lines.append(f"- **{step_label}**: {action}")
+        lines.append("")
+    what_to_save = page_record.get("what_to_save")
+    if isinstance(what_to_save, list) and what_to_save:
+        lines.extend(["## What to save", ""])
+        lines.extend([f"- {item}" for item in what_to_save if isinstance(item, str) and item])
+        lines.append("")
+    if page_record.get("branch_if_fail"):
+        lines.extend(["## When to escalate", "", f"- {page_record['branch_if_fail']}", ""])
+    return "\n".join(lines) + "\n"
+
+
+def _page_rendering(page_record: dict[str, Any] | None) -> dict[str, Any]:
+    rendering = page_record.get("rendering") if isinstance(page_record, dict) else None
+    return rendering if isinstance(rendering, dict) else {}
+
+
+def _supplement_id_for_page_record(page_record: dict[str, Any] | None) -> str | None:
+    supplement_id = _page_rendering(page_record).get("supplement_id")
+    return supplement_id if isinstance(supplement_id, str) and supplement_id else None
+
+
+def _supplement_for_page_record(page_record: dict[str, Any] | None) -> dict[str, Any] | None:
+    supplement_id = _supplement_id_for_page_record(page_record)
+    if supplement_id is None:
+        return None
+    supplement = PLAYBOOK_SUPPLEMENTS.get(supplement_id)
+    return supplement if isinstance(supplement, dict) else None
+
+
+def _apply_playbook_supplement(
+    playbook: dict[str, Any],
+    supplement: dict[str, Any] | None,
+) -> dict[str, Any]:
+    if supplement is None:
+        return dict(playbook)
+
+    merged = dict(playbook)
+    imported_module_drilldown = supplement.get("imported_module_drilldown")
+    if isinstance(imported_module_drilldown, dict):
+        merged["imported_module_drilldown"] = imported_module_drilldown
+    return merged
+
+
+def _related_guides_for_page_record(page_record: dict[str, Any] | None) -> list[dict[str, Any]]:
+    related_guides = _page_rendering(page_record).get("related_guides")
+    if not isinstance(related_guides, list):
+        return []
+    return [entry for entry in related_guides if isinstance(entry, dict)]
+
+
+def _render_authored_guide_markdown(
+    *,
+    guide_entry: dict[str, Any],
+    order: int,
+    page_record: dict[str, Any] | None = None,
+    playbook: dict[str, Any] | None = None,
+) -> str | None:
+    guide_id = guide_entry.get("guide_id")
+    if guide_id == "keycloak-integration":
+        return _render_keycloak_integration_guide_markdown(
+            order=order,
+            page_record=page_record,
+            playbook=playbook,
+            guide_entry=guide_entry,
+        )
+    if guide_id == "keycloak-tier-2-support":
+        return _render_keycloak_tier_2_support_guide_markdown(
+            order=order,
+            page_record=page_record,
+            playbook=playbook,
+            guide_entry=guide_entry,
+        )
+    return None
+
+
+def _canonical_boundary_service_heading(
+    *,
+    playbook: dict[str, Any],
+    page_record: dict[str, Any],
+) -> str:
+    service_name = str(page_record.get("service_name") or "").strip()
+    if service_name:
+        if service_name.endswith(".service"):
+            return f"Check {service_name}"
+        return f"Check the {service_name.title()} service"
+    return f"Check {playbook['label']}"
+
+
+def _normalized_use_this_when(value: Any) -> str:
+    if not isinstance(value, str):
+        return ""
+    text = value.strip()
+    if not text:
+        return ""
+    prefix = "use this when "
+    if text.lower().startswith(prefix):
+        return text[len(prefix):].strip()
+    return text
+
+
+def _canonical_boundary_if_healthy(
+    *,
+    playbook: dict[str, Any],
+    page_record: dict[str, Any],
+) -> str:
+    service_name = str(page_record.get("service_name") or "this service").strip()
+    service_phrase = service_name.title() if service_name and service_name != "this service" else service_name
+    handoff_type = str(page_record.get("handoff_target_type") or "").strip()
+    if handoff_type == "deep_guide":
+        return (
+            f"If {service_phrase} looks healthy, move to the deeper ASMS guide for the next layer."
+        )
+    if handoff_type == "boundary_confirmation":
+        return (
+            f"If {service_phrase} looks healthy, move to the next named service check."
+        )
+    return (
+        f"If {service_phrase} looks healthy, move to the next page in the diagnosis."
+    )
+
+
+def _canonical_boundary_if_unhealthy(
+    *,
+    playbook: dict[str, Any],
+    page_record: dict[str, Any],
+) -> str:
+    branch_if_fail = str(page_record.get("branch_if_fail") or "").strip()
+    if branch_if_fail:
+        branch_if_fail = branch_if_fail.replace(
+            "Stop on the Keycloak boundary and escalate with the saved evidence.",
+            "Keep the case on Keycloak and escalate with the saved evidence.",
+        )
+        branch_if_fail = branch_if_fail.replace(
+            "Stop on this boundary and escalate with the saved evidence.",
+            "Keep the case on this service and escalate with the saved evidence.",
+        )
+        return branch_if_fail
+    service_name = str(page_record.get("service_name") or "this service").strip()
+    service_phrase = service_name.title() if service_name and service_name != "this service" else service_name
+    return f"If {service_phrase} still looks unhealthy, keep the case on this service and escalate with the saved evidence."
+
+
+def _render_canonical_boundary_playbook_markdown(
+    *,
+    playbook: dict[str, Any],
+    order: int,
+    page_record: dict[str, Any],
+) -> str:
+    lines = [
+        "---",
+        f"title: {playbook['label']}",
+        'description: ""',
+        "sidebar:",
+        f"  label: {playbook['label']}",
+        f"  order: {order}",
+        "---",
+        "",
+        "## Use this page when",
+        "",
+    ]
+
+    use_this_when = _normalized_use_this_when(
+        page_record.get("use_this_when")
+        or playbook.get("symptom_focus")
+        or "",
+    )
+    if use_this_when:
+        lines.append(f"- {use_this_when}")
+    symptom_focus = _normalized_use_this_when(playbook.get("symptom_focus") or "")
+    if symptom_focus and symptom_focus != use_this_when:
+        lines.append(f"- {symptom_focus}")
+    lines.extend(
+        [
+            "",
+            f"## {_canonical_boundary_service_heading(playbook=playbook, page_record=page_record)}",
+            "",
+            "Use the checks below to confirm whether this service or module is the current failure point.",
+            "",
+            "## Command flow",
+            "",
+            _render_template_field_manual(playbook=playbook, symptom_entries=[]).rstrip(),
+            "",
+            "## If this boundary still looks unhealthy",
+            "",
+            f"- {_canonical_boundary_if_unhealthy(playbook=playbook, page_record=page_record)}",
+            "",
+            "## If this boundary looks healthy",
+            "",
+            f"- {_canonical_boundary_if_healthy(playbook=playbook, page_record=page_record)}",
+            "",
+            "## What to save",
+            "",
+        ]
+    )
+
+    what_to_save = page_record.get("what_to_save")
+    if isinstance(what_to_save, list) and what_to_save:
+        lines.extend([f"- {item}" for item in what_to_save if isinstance(item, str) and item])
+    else:
+        lines.append("- Save the command output that shows where this boundary first stops looking healthy.")
+    lines.extend(
+        [
+            "",
+            "## When to escalate",
+            "",
+            f"- {_canonical_boundary_if_unhealthy(playbook=playbook, page_record=page_record)}",
+            "- Escalate after the bounded checks and any approved safe restart step if the saved evidence still points to this boundary.",
+            "",
+        ]
+    )
+
+    drilldown_lines = _render_imported_module_drilldown_markdown(
+        playbook,
+        include_symptom_focus=False,
+        section_title="Optional deeper notes",
+    )
+    if drilldown_lines:
+        lines.extend(drilldown_lines)
+
+    return "\n".join(lines) + "\n"
+
+
+def _render_boundary_page_markdown(
+    *,
+    page_record: dict[str, Any],
+    order: int,
+    supplemental_playbook: dict[str, Any] | None = None,
+) -> str:
+    canonical_playbook = supplemental_playbook or _minimal_boundary_playbook(page_record)
+    return _render_canonical_boundary_playbook_markdown(
+        playbook=canonical_playbook,
+        order=order,
+        page_record=page_record,
+    )
+
+
+def _minimal_boundary_playbook(page_record: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "label": str(page_record.get("label") or page_record.get("page_id") or "Boundary page"),
+        "symptom_focus": str(page_record.get("use_this_when") or page_record.get("symptom_focus") or ""),
+        "decision_rule": str(page_record.get("decision_rule") or "Run the checks in order and stop at the first unhealthy boundary."),
+        "steps": list(page_record.get("steps") or []),
+        "playbook_id": str(page_record.get("page_id") or "boundary-page"),
+    }
+
+
+def _supplemental_boundary_playbooks(
+    page_records_by_id: dict[str, dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    supplemental_playbooks: dict[str, dict[str, Any]] = {}
+    for page_id, page_record in page_records_by_id.items():
+        supplement = _supplement_for_page_record(page_record)
+        if supplement is None or "steps" not in supplement:
+            continue
+        supplemental_playbooks[page_id] = _merge_page_record_into_playbook(
+            supplement,
+            page_record,
+        )
+    return supplemental_playbooks
+
+
+def _page_records_by_id(support_baseline: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    page_records: dict[str, dict[str, Any]] = {}
+    for item in support_baseline.get("page_records", []):
+        if not isinstance(item, dict):
+            continue
+        page_id = item.get("page_id")
+        if not isinstance(page_id, str) or not page_id:
+            continue
+        if page_id in page_records:
+            raise ValueError(f"duplicate page_records entry for page_id {page_id!r}")
+        page_records[page_id] = item
+    return page_records
+
+
+def _page_record_for_playbook(
+    playbook: dict[str, Any],
+    page_records_by_id: dict[str, dict[str, Any]],
+) -> dict[str, Any] | None:
+    page_key = playbook.get("page_id") or playbook.get("playbook_id")
+    embedded_page_record = playbook.get("page_record") if isinstance(playbook.get("page_record"), dict) else None
+
+    if not isinstance(page_key, str) or not page_key:
+        return embedded_page_record
+
+    page_record = page_records_by_id.get(page_key) or embedded_page_record
+    if page_record is not None:
+        _assert_page_record_alignment(playbook, page_record, source="page record")
+    if embedded_page_record is not None and page_records_by_id.get(page_key) is not None:
+        _assert_page_record_alignment(playbook, embedded_page_record, source="embedded page record")
+    return page_record
+
+
+def _merge_page_record_into_playbook(
+    playbook: dict[str, Any],
+    page_record: dict[str, Any] | None,
+) -> dict[str, Any]:
+    if page_record is None:
+        return dict(playbook)
+
+    merged_playbook = dict(playbook)
+    route_overrides = {
+        "label": page_record.get("label"),
+        "symptom_focus": page_record.get("use_this_when") or page_record.get("symptom_focus"),
+        "decision_rule": page_record.get("decision_rule"),
+        "page_id": page_record.get("page_id"),
+        "page_type": page_record.get("page_type"),
+        "route_kind": page_record.get("route_kind"),
+        "handoff_target": page_record.get("handoff_target"),
+        "handoff_target_type": page_record.get("handoff_target_type"),
+    }
+    for field, value in route_overrides.items():
+        if value:
+            merged_playbook[field] = value
+    merged_playbook["page_record"] = page_record
+    return merged_playbook
+
+
+def _assert_page_record_alignment(
+    playbook: dict[str, Any],
+    page_record: dict[str, Any],
+    *,
+    source: str,
+) -> None:
+    expected_page_id = playbook.get("page_id") or playbook.get("playbook_id")
+    if isinstance(expected_page_id, str) and page_record.get("page_id") and page_record["page_id"] != expected_page_id:
+        raise ValueError(
+            f"{source} page_id {page_record['page_id']!r} does not match playbook {expected_page_id!r}"
+        )
+    for field in ("page_type", "handoff_target", "handoff_target_type", "route_kind"):
+        expected_value = playbook.get(field)
+        actual_value = page_record.get(field)
+        if expected_value and actual_value and actual_value != expected_value:
+            raise ValueError(
+                f"{source} {field} {actual_value!r} does not match playbook {field} {expected_value!r}"
+            )
+
+
+def _playbook_slug(playbook: dict[str, Any]) -> str:
+    if playbook.get("playbook_id") == PRIMARY_PLAYBOOK_ID:
+        return "asms-ui-is-down"
+    return _slugify(str(playbook.get("label", playbook.get("playbook_id", "playbook"))))
+
+
+def _page_record_slug(page_record: dict[str, Any]) -> str:
+    if page_record.get("page_id") == "keycloak-auth":
+        return KEYCLOAK_PLAYBOOK_SLUG
+    return _slugify(str(page_record.get("label") or page_record.get("page_id") or "generated-page"))
+
+
 def _render_system_checkpoint_markdown(step: dict[str, Any], dependency_item: dict[str, str] | None) -> list[str]:
-    checkpoint_label = dependency_item["label"] if dependency_item else _step_summary_label(step)
+    checkpoint_label = _step_navigation_label(step, dependency_item)
     lines = [
         f'<details id="{step["step_id"]}" class="adf-system-checkpoint">',
         '<summary class="adf-system-summary">',
@@ -1166,7 +2563,7 @@ def _render_system_checkpoint_markdown(step: dict[str, Any], dependency_item: di
 
 
 def _render_step_markdown(step: dict[str, Any], dependency_item: dict[str, str] | None) -> list[str]:
-    summary_label = dependency_item["label"] if dependency_item else _step_summary_label(step)
+    summary_label = _step_navigation_label(step, dependency_item)
     lines = [
         f'<details id="{step["step_id"]}" class="adf-checkpoint">',
         '<summary class="adf-step-summary">',
@@ -1295,6 +2692,64 @@ def _render_command_markdown(command: dict[str, Any]) -> list[str]:
     if known_working_example:
         example = known_working_example.get("output")
         example_title = known_working_example.get("title") or example_title
+    else:
+        example = command.get("example_output")
+    if example:
+        lines.extend(
+            [
+                f'<p class="adf-inline-label">{example_title}</p>',
+                "",
+                "```text",
+                example.rstrip(),
+                "```",
+            ]
+        )
+    lines.extend(["</div>", ""])
+    return lines
+
+
+def _render_operator_command_markdown(command: dict[str, Any]) -> list[str]:
+    known_working_example = command.get("known_working_example") or derive_known_working_example(command)
+    healthy_markers = command.get("healthy_markers", [])
+    lines = [
+        '<div class="adf-check">',
+        f'<p class="adf-check-label">{command["label"]}</p>',
+        "",
+        '<p class="adf-inline-label">Run</p>',
+        "",
+        "```bash",
+        command["command"],
+        "```",
+        "",
+        '<p class="adf-check-signal">',
+        '  <span class="adf-inline-label">Expected result:</span> ',
+        f"{command['expected_signal']}",
+        "</p>",
+        "",
+    ]
+    if healthy_markers:
+        lines.extend(
+            [
+                '<p class="adf-check-reference">',
+                f"Check output for: {', '.join(healthy_markers)}",
+                "</p>",
+                "",
+            ]
+        )
+    if command.get("interpretation"):
+        lines.extend(
+            [
+                '<p class="adf-check-failure">',
+                '  <span class="adf-inline-label">If result is different:</span> ',
+                f"{command['interpretation']}",
+                "</p>",
+                "",
+            ]
+        )
+    example = None
+    example_title = "Example"
+    if known_working_example:
+        example = known_working_example.get("output")
     else:
         example = command.get("example_output")
     if example:
@@ -2485,6 +3940,11 @@ def _render_custom_css() -> str:
             "  border-color: rgba(210, 176, 107, 0.22);",
             "}",
             "",
+            ".adf-preview-manual-step:target {",
+            "  border-color: rgba(145, 114, 61, 0.42);",
+            "  box-shadow: 0 18px 36px rgba(137, 104, 53, 0.18);",
+            "}",
+            "",
             ".adf-preview-manual-step-body {",
             "  display: grid;",
             "  gap: 1rem;",
@@ -2665,6 +4125,11 @@ def _render_custom_css() -> str:
             "  padding-bottom: 0.55rem;",
             "}",
             "",
+            ".adf-preview-manual-list a:hover,",
+            ".adf-preview-manual-list a:focus-visible {",
+            "  border-bottom-color: rgba(145, 114, 61, 0.34);",
+            "}",
+            "",
             ".adf-preview-manual-list span {",
             "  min-width: 4rem;",
             "  color: #8c6d3a;",
@@ -2796,6 +4261,67 @@ def _starlight_target_for_playbook_id(playbook_nav_entries: list[dict[str, str |
     return "/"
 
 
+def _home_card_for_playbook_entry(
+    entry: dict[str, str | int],
+    primary_nav_entry: dict[str, str | int] | None,
+) -> str:
+    label = str(entry.get("label", "Playbook"))
+    slug = str(entry.get("slug", ""))
+    playbook_id = str(entry.get("playbook_id", ""))
+    is_primary = primary_nav_entry is not None and entry.get("slug") == primary_nav_entry.get("slug")
+
+    summary = "Target-backed generated playbook."
+    detail = "Open the live playbook for support use."
+    if is_primary:
+        summary = "Lab-validated operator playbook."
+    elif playbook_id == "keycloak-auth":
+        summary = "Dedicated auth-service diagnostic route."
+        detail = "Use this when the login page still loads but auth fails."
+
+    return (
+        f'<a class="adf-home-card" href="/{slug}/">\n'
+        '  <p class="adf-panel-label">Live playbook</p>\n'
+        f"  <strong>{label}</strong>\n"
+        f"  <span>{summary}</span>\n"
+        f'  <span class="adf-home-card-list">{detail}</span>\n'
+        "</a>"
+    )
+
+
+def _home_card_for_guide_entry(entry: dict[str, str | int]) -> str:
+    label = str(entry.get("label", "Guide"))
+    slug = str(entry.get("slug", ""))
+    summary = str(entry.get("summary") or "Generated support guide.")
+    detail = str(entry.get("detail") or "Open this for supporting context.")
+
+    return (
+        f'<a class="adf-home-card" href="/{slug}/">\n'
+        '  <p class="adf-panel-label">Guide</p>\n'
+        f"  <strong>{label}</strong>\n"
+        f"  <span>{summary}</span>\n"
+        f'  <span class="adf-home-card-list">{detail}</span>\n'
+        "</a>"
+    )
+
+
+def _home_card_for_page_record(page_record: dict[str, Any]) -> str:
+    label = str(page_record.get("label") or page_record.get("page_id") or "Generated page")
+    page_id = str(page_record.get("page_id") or "")
+    page_type = str(page_record.get("page_type") or "page")
+    handoff_target = str(page_record.get("handoff_target") or "n/a")
+    summary = str(page_record.get("symptom_focus") or page_record.get("use_this_when") or "Generated from the page-record layer.")
+    return (
+        '<div class="adf-home-card adf-home-card-generated">\n'
+        '  <p class="adf-panel-label">Generated page record</p>\n'
+        f"  <strong>{label}</strong>\n"
+        f"  <span>{page_type.replace('_', ' ')}</span>\n"
+        f'  <span class="adf-home-card-list">Handoff: {handoff_target}</span>\n'
+        f"  <span>{summary}</span>\n"
+        f'  <span class="adf-home-card-list">Page id: {page_id}</span>\n'
+        "</div>"
+    )
+
+
 def _primary_nav_entry(playbook_nav_entries: list[dict[str, str | int]]) -> dict[str, str | int] | None:
     for entry in playbook_nav_entries:
         if entry.get("playbook_id") == PRIMARY_PLAYBOOK_ID:
@@ -2804,10 +4330,64 @@ def _primary_nav_entry(playbook_nav_entries: list[dict[str, str | int]]) -> dict
 
 
 def _step_summary_label(step: dict[str, Any]) -> str:
-    action = step["action"]
+    overview_summary = str(step.get("overview_summary") or "").strip()
+    if overview_summary:
+        return overview_summary
+    action = str(step.get("action") or "").strip()
     if "." in action:
         return action.split(".", 1)[0].strip()
-    return action
+    if action:
+        return action
+    return str(step.get("label") or "").strip()
+
+
+def _step_command_count_label(step: dict[str, Any]) -> str:
+    count = len(step.get("recommended_commands", []))
+    noun = "command" if count == 1 else "commands"
+    return f"{count} {noun}"
+
+
+def _step_navigation_label(step: dict[str, Any], dependency_item: dict[str, str] | None = None) -> str:
+    overview_summary = str(step.get("overview_summary") or "").strip()
+    if overview_summary:
+        return overview_summary
+    if dependency_item and dependency_item.get("label"):
+        return str(dependency_item["label"]).strip()
+    return _step_summary_label(step)
+
+
+def _render_field_manual_script() -> str:
+    return """const FIELD_MANUAL_SELECTOR = 'details.adf-preview-manual-step[data-adf-manual-step=\"true\"]';
+
+function resolveFieldManualTarget(hash = window.location.hash) {
+  if (!hash || !hash.startsWith('#manual-')) return null;
+  const id = decodeURIComponent(hash.slice(1));
+  const target = document.getElementById(id);
+  if (!target) return null;
+  if (target.matches(FIELD_MANUAL_SELECTOR)) return target;
+  return target.closest(FIELD_MANUAL_SELECTOR);
+}
+
+function openFieldManualTarget(hash = window.location.hash) {
+  const details = resolveFieldManualTarget(hash);
+  if (details) details.open = true;
+}
+
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href*=\"#manual-\"]');
+  if (!link) return;
+  const hash = new URL(link.href, window.location.href).hash;
+  window.requestAnimationFrame(() => openFieldManualTarget(hash));
+});
+
+window.addEventListener('hashchange', () => {
+  window.requestAnimationFrame(() => openFieldManualTarget(window.location.hash));
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  window.requestAnimationFrame(() => openFieldManualTarget(window.location.hash));
+});
+"""
 
 
 def _symptoms_by_playbook(support_baseline: dict[str, Any]) -> dict[str, list[dict[str, str]]]:

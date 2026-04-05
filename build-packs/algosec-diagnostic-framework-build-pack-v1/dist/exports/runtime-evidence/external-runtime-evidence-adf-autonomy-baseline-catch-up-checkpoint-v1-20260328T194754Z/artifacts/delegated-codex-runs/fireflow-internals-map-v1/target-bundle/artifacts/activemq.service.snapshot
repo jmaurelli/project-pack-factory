@@ -1,0 +1,18 @@
+[Unit]
+Description=ActiveMQ service
+After=network.target
+
+[Service]
+Type=forking
+User=activemq
+Group=activemq
+PIDFile=/opt/activemq/data/activemq.pid
+ExecStart=/bin/sh -c "/opt/activemq/bin/algosec_activemq_start.sh"
+ExecStop=/opt/activemq/bin/activemq stop
+ExecStartPre=-/bin/sh -c '[ -f /opt/activemq/data/activemq.pid ] && kill -9 $(cat /opt/activemq/data/activemq.pid)'
+RestartSec=10
+Restart=always
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

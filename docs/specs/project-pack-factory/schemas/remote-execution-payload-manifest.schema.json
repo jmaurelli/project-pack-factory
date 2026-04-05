@@ -9,6 +9,8 @@
     "payload_policy_version",
     "source_build_pack_id",
     "source_build_pack_root",
+    "local_scratch_root",
+    "local_staging_root",
     "run_id",
     "remote_target_label",
     "remote_parent_dir",
@@ -39,6 +41,14 @@
       "maxLength": 128
     },
     "source_build_pack_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_scratch_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_staging_root": {
       "type": "string",
       "minLength": 1
     },

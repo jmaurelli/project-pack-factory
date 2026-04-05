@@ -1,0 +1,36 @@
+{
+  "approval_profile": "approval_not_required",
+  "benchmark_category": "workflow-smoke",
+  "benchmark_revision": "rev-agent-native-project-initialization-smoke-template-pack-smoke-small-001",
+  "benchmark_size_class": "small",
+  "benchmark_suite_id": "packfactory-template-creation-suite",
+  "benchmark_task_id": "task-agent-native-project-initialization-smoke-template-pack-smoke-small-001",
+  "complexity_profile": "single-package-low",
+  "description": "Confirm the starter template validates and runs its smoke benchmark.",
+  "intended_languages": [
+    "python"
+  ],
+  "intended_pack_family": "template-pack",
+  "manifest_defaults": {
+    "orchestration_core_version": "create-template-agent-native-project-initialization-smoke-template-pack-20260401t132529z",
+    "pack_family": "template-pack",
+    "pack_version": "0.1.0",
+    "terminal_benchmark_classification": "completed_within_envelope"
+  },
+  "owners": [
+    "orchadmin"
+  ],
+  "schema_version": "benchmark-declaration/v1",
+  "status": "active",
+  "tags": [
+    "factory-native",
+    "template-pack",
+    "small",
+    "created"
+  ],
+  "target_project": {
+    "default_relative_root": "templates/agent-native-project-initialization-smoke-template-pack",
+    "target_locator": "repo-local",
+    "target_project_id": "agent-native-project-initialization-smoke-template-pack"
+  }
+}

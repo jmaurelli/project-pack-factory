@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/browser-proof-request.schema.json",
+  "title": "Browser Proof Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "proof_kind",
+    "target_kind",
+    "target_url",
+    "preview_root",
+    "page_path",
+    "step_number"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "browser-proof-request/v1"
+    },
+    "proof_kind": {
+      "const": "adf_field_manual_hash_target_opens"
+    },
+    "target_kind": {
+      "const": "packfactory_local_preview"
+    },
+    "target_url": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1
+    },
+    "preview_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "page_path": {
+      "const": "/playbooks/asms-ui-is-down/"
+    },
+    "step_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "capture_console": {
+      "type": "boolean"
+    },
+    "capture_screenshot": {
+      "type": "boolean"
+    },
+    "timeout_ms": {
+      "type": "integer",
+      "minimum": 1000,
+      "maximum": 120000
+    }
+  }
+}

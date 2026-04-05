@@ -1,0 +1,12 @@
+{
+  "current_revision": "create-template-codex-personal-assistant-template-pack-20260329t160700z",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "maintained",
+  "pack_id": "codex-personal-assistant-template-pack",
+  "pack_kind": "template_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "The current active templates cover smoke scaffolding and bounded utility tools such as JSON validation, config drift checks, release evidence summarization, API contract checks, and appliance diagnostics. None of them model a Codex-native personal assistant environment with operator identity, context routing, restart memory, skills, and install/bootstrap behavior. The retired ai-native-codex line is a Python package scaffold rather than a full assistant environment, so this needs a dedicated new template.",
+  "updated_at": "2026-03-29T16:07:00Z",
+  "updated_by": "codex"
+}

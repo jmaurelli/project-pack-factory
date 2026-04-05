@@ -240,6 +240,11 @@ For newly materialized build-packs, the pack-local `AGENTS.md` should:
   - `contracts/project-objective.json` when present
   - `tasks/active-backlog.json` when present
   - `status/work-state.json` when present
+- state that if the build-pack itself is expected to become the operator's
+  long-lived working instance or a future promotion candidate, the official
+  fresh-pack autonomy workflow should happen before the pack diverges into
+  day-to-day use, because a later rehearsal on another build-pack from the
+  same template line does not retroactively certify the older existing pack
 
 ### 2. Eligible Build-Packs Must Mention Export Discoverability
 

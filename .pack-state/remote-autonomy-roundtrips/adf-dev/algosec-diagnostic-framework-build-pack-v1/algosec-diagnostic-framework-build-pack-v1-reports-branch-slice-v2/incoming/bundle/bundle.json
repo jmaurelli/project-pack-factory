@@ -1,0 +1,77 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "314c2e543f6553020ca0317ab4106513b26064fdad12e672435bbd0d055faa45",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2.json"
+    },
+    {
+      "bundle_path": "artifacts/adf-remote-checkpoint-bundle.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "b9ec40d7e14358b5c4dc9f813430f28fb28a20c83436af676d586d557044173e",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2/adf-remote-checkpoint-bundle.json"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/reports-branch-minute-20260328-1927-edt.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "9e6584248f99e67525601f5728440dc30b54a24e1005f43e15e5e9130399be97",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2/artifacts/reports-branch-minute-20260328-1927-edt.json"
+    },
+    {
+      "bundle_path": "artifacts/artifacts/reports-branch-minute-20260328-1927-edt.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "bd3fc9e5f1de849332619d08c0dedcf7de52f3636321812376b6bdfd3e972775",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2/artifacts/reports-branch-minute-20260328-1927-edt.md"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "8a0420fd7784af61ef4371c5e7505e32e02b8d04cb834d2cea7c388434f3c587",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "f9292bdafaf3126ef98fef131ad7bd03aecab1318a469178507851bff5a96a86",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2-20260328T233107Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2-20260328T233107Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-28T23:31:07Z",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v2",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-28T23:31:07Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 0,
+    "started_at": "2026-03-28T23:20:24Z",
+    "stop_reason": "current_task_incomplete",
+    "task_completion_rate": 0.8182
+  }
+}

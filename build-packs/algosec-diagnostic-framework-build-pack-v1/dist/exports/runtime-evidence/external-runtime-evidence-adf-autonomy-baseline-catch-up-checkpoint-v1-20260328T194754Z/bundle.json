@@ -1,0 +1,560 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-adf-autonomy-baseline-catch-up-checkpoint-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "2aba820737ce2fdb94db8941bc40542e1af3128f8242354cf2b9c44e7c1a01db",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-adf-autonomy-baseline-catch-up-checkpoint-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/adf-remote-checkpoint-bundle.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "0d045102c0d7373d595a36234935fb30b13d287a3f5ebba6e0c2b4bfe272427e",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/adf-remote-checkpoint-bundle.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/artifacts/seam-evidence.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "ec57840282461d08881fce2ba4c79bca356a5e1858c7a5ef158216c6398c2a4c",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/artifacts/seam-evidence.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/commands.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "8aa4496ed3086eeddbdeccaee0d890df606e46eff55e7d209a74075d1e37b453",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/commands.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/delegated-task-request.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "e0b5cd2a1295896fc369e8b752b7182b39f040b73b76961aa9b0921ff24428bd",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/delegated-task-request.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/delegated-task-result.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "72a9e75c468fd8e4f216ebbec533b006b6b08a4db92146bf7f833ac46d441161",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/delegated-task-result.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/findings.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "92f82164b7e44bc9b707c98f314f4d8fd7b05595bf47e4eba5516b69d95713b8",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-config-observe-v1/target-bundle/findings.md"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/SuiteLoginSessionValidation-head.php.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "8d2a9563f3b55c471c33f23bbab321e9fdcdf7c3b4776e4f7c4af04fb398e84a",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/SuiteLoginSessionValidation-head.php.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/baseline-apache-window.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "57c5e24d533cce62685dbc13aeb92e97491a469a62b6edb33fe9e7075fef6482",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/baseline-apache-window.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/baseline-metro-window.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "d1d95a3a3f8f2ae46b7674173a855e7688d4c30407d056c5da252d1d6a74ea61",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/baseline-metro-window.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/failure-apache-window.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "c72945961c287876394a2302856e47be87b7f609682fd740adb6472a333e5422",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/artifacts/failure-apache-window.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/commands.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "6846e16fc60c30477bc658045df51acf01893c72113c004f2c50c29b60cd870e",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/commands.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/delegated-task-request.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "1dbfc82c696346340cbd83485daf23688603ad7b7578642d787e408eabe52b1b",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/delegated-task-request.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/delegated-task-result.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "709ac1b57b518517a010bc5077a77d7aefe77f84381ea316b523889b70adf646",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/delegated-task-result.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/findings.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "b781cf964785a6ca3c287b460ca714faf76df844ee7de84958e73ba6d26ae159",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-failure-diff-v1/target-bundle/findings.md"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/SuiteLoginSessionValidation.php.snippet",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "8d2a9563f3b55c471c33f23bbab321e9fdcdf7c3b4776e4f7c4af04fb398e84a",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/SuiteLoginSessionValidation.php.snippet"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/TopbarMenu.php.snippet",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "67d1808aec245e8ac55b0a0f29b70ed51eed464d2d95bf1b6e0f099fee9556b6",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/TopbarMenu.php.snippet"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/apache_transition_window.log",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "72752294903feeee882e12b3a20a69606889a8bad92563c50102e4ce85d14c90",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/apache_transition_window.log"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/home.js.init.snippet",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "08287a5593f75f967eaeca7210a9ba1598a485a259a91092daa9de0806670a42",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/home.js.init.snippet"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/home.php.snippet",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "1aaab97218c62a826630bad8aa91208af837d14f460fa24e325d906de509de22",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/home.php.snippet"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "b90ebc9db41ce35659185d16b63f7e4fd3a47cbe6e3ae01ead2415b154dd6f06",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/metro_session_i88p8vb1s79p6nb0f4o2jkpb07.log"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/prod_stat.php.snippet",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "dd7061413a35be8676e9b7193fb0a365e6362c90493b0c3e940140b4a465b722",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/artifacts/prod_stat.php.snippet"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/commands.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "48ad9c104f1a5c81a92d9a4c09484979abd9a027620c05a02907800210115bc8",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/commands.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/delegated-task-request.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "98787feab7e13fe5f4c32c1f55d66cd7d2aa74753b3e6a6371031057107712fd",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/delegated-task-request.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/delegated-task-result.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "3fce3d8e0e9714ce49d32d1acc1deb3cb9dfdfcd7e2c1665d08c2f463fcfe59c",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/delegated-task-result.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/findings.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "371cdf893f1bd3cdc474c051c4cdc8651c686d332948c772c1889f157e5c5462",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/asms-home-shell-request-correlation-v1/target-bundle/findings.md"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/apache-autodiscovery-conf.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "16c1b5664ea3049a86171e36c8ac258ce1dfb9d965c2a9defb00af2289a41b53",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/apache-autodiscovery-conf.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/autodiscovery-http-checks.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "1fc8a69804185870da46be9576905bd1d7cd6e3e7af68eca7c4f94c2f98f03a9",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/autodiscovery-http-checks.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/delegated-task-result.pretty.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "fc783e4d29464c0aad6e615966da4d3ecf6903babecf3eb57ec4b24b1ba24958",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/delegated-task-result.pretty.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/httpd-files.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "2c6cc9f8b1d344eb35e728d52b15e437b3994f951b1a6c8e371bb334f8a339d7",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/httpd-files.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/httpd-log-snippets.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "884943e0eb5d29748e37140d73096938f2df78e5233bfbe8cd3bb2739646d50d",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/httpd-log-snippets.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-autodiscovery-service.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "b1b7927e81e3fb3b76d98c8c32ba446cdda6265a497acf1aba510e8f46460035",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-autodiscovery-service.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-autodiscovery-show.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "ab04e2893ed9afbf81130c89cbafed2a21034bd1db05e2d3f96cab30d2127c56",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-autodiscovery-show.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-configuration-service.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "9b07797437890b842d7b92365566c4ea29e96a3d9715fc6bf7e626c723b5ba43",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-configuration-service.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-configuration-show.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "d6e5371fbe35f7f031ed6d18f589f5c90082f738792f51cf48d84120448d5b3b",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ms-configuration-show.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/port-8095.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "14f4ea5bdea2bd6f8d856ec28619243555e53de100d4bca155a751876e97a843",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/port-8095.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ssl_error_log-matches.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "18e8609c3c78d052159160deef2c029a55f188440dd269b5cf0ee68d514dd164",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ssl_error_log-matches.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ssl_error_log-tail.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "6acbf07591f9232fada80ce6e14127f1fbf3079a23c913e2a1296b4dd459e3f3",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/artifacts/ssl_error_log-tail.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/commands.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "0b7a514e7fe12a7b43fa1bbe1582bb2fceac9c51dad47e7e33c0e8d2e8c69be1",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/commands.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/delegated-task-request.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "0ceab82eac38592b655a52a685e0e133bb2e34eab2a475e5cf660520d5a77145",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/delegated-task-request.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/delegated-task-result.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "a0412694ad6c10799526505f9de7720b69b0baf901fa6e3ac75950abdf2fca0f",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/delegated-task-result.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/findings.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "60cb8d8fcff86689fd670ffe47bfa29d6b32289cc638b4ccfbb3236e55eed81e",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/autodiscovery-502-observe-v1/target-bundle/findings.md"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/activemq.service.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "0ca7b0cd0755648fc78c0ccdc1340058d7058f659f2c9aa1b69c215fac9ba149",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/activemq.service.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/aff-boot.service.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "5cfd8ac060e03f007ff05d85e831a651815f360be3e4a4cc139f27baff894461",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/aff-boot.service.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/aff.conf.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "8065ff762085e3f386663fb4e96fec1f4b4883dae3a7571a3daa818e3113b7f6",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/aff.conf.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/algosec-ms.ms-batch-application.conf.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "5ea0432c4eda725f1ca195e831d4d6a6dcb3c418dccaa57eab2457d2d901787b",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/algosec-ms.ms-batch-application.conf.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/algosec-ms.ms-cloudflow-broker.conf.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "00f6932edc140b863fe2d80849a155a443a1e960ad184faf0b4de7b7015fb9b6",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/algosec-ms.ms-cloudflow-broker.conf.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/algosec-ms.ms-configuration.conf.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "99e55ea00298b9169a1e04b22beaa2b3ccc3aa9ab51029c7f02e7515e2f939d2",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/algosec-ms.ms-configuration.conf.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/fireflow.conf.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "799b2018ce73a8003617f1631e8478e85577a7f1e0672ec26f4d837dca2b0e47",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/fireflow.conf.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/ms-cloudflow-broker.properties.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "db2ea58a48374db72b50c1980b1920e083e11b583c4f8f470277ad984fbd0070",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/ms-cloudflow-broker.properties.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/ms-cloudflow-broker.service.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "079fac1303172624a2d6fbd340004c95e2cccedf96d1b11c8c04588ab2c40151",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/ms-cloudflow-broker.service.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/postgresql.service.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "67cbf30254ee331e7c47bded18f91e3d6ec397a3d2eb593e6f0df4b54cfe9b45",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/postgresql.service.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/postgresql_dynamic.conf.snapshot",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "91837808f9368ef6d4b8964f905717e7bd7bc65b5d6733d1a7b89c4bb8a3c89c",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/artifacts/postgresql_dynamic.conf.snapshot"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/commands.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "127153dd81a088587c93199d1d5c256168b0acba459794dc04da7300599e96fb",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/commands.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/delegated-task-request.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "137e40911698257fcb9af9a3fe77181432131c5ea6923ec347857c8a5f161bb9",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/delegated-task-request.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/delegated-task-result.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "bfbe3716696740702b1e5dc2ea42e8dcfc721bf6deaa597920d25b9a99bbe62a",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/delegated-task-result.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/findings.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "9a4d43814e798adf67098683d3eba01c3ff63100b7faf9da57e3f3c440d5079e",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-internals-map-v1/target-bundle/findings.md"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/activemq-store-evidence.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "7a86f55c44cc983058c75466e3424ff4067e4914f8c2779c83838661e5928a91",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/activemq-store-evidence.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/aff-boot-2026-03-21-0430-snippet.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "e77bf5b0ffa46f8dd1ac1c7c2324939e3d021566ba8b712a4b09d1e9a3acb4a0",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/aff-boot-2026-03-21-0430-snippet.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/fireflow-2026-03-26-analogy-snippet.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "f17b1758d1a3a047d8267df1c726b53463bc0f6f328387a3fef32b8ec7370814",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/fireflow-2026-03-26-analogy-snippet.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/httpd-2026-03-21-0430-snippet.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "75aaefb61aae8f4994873b0aac70a9195e847cfbd5e609590190155594532e29",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/httpd-2026-03-21-0430-snippet.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/postgresql-sat-0430-snippet.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "60ef77d6381b0f1dce1115cf693e137621732c0f753f23f25a80508a2d7d58d7",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/artifacts/postgresql-sat-0430-snippet.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/commands.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "3719215ae30ebb22637e17fd2a71cb6993035288d2fc71c2d39b16c358f10e41",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/commands.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/delegated-task-request.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "cbfa9dda71247764bd6ec64ec1fb88e6b45dfc9f24ea0166d0c1b8b00cfc6d07",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/delegated-task-request.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/delegated-task-result.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "5e766e88a6767f13dbf4b6e73ddff8aeee57fd72f85d48ab30a9e89954e87564",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/delegated-task-result.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/findings.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "29de51aed925d259172f0a5523a7e1dac79b101366b2fa39a1746eb316d9ba80",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-submission-async-correlation-v1/target-bundle/findings.md"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/apache-fireflow-minute.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "0b496f3d0a439ed7ddd0dc6fc4defb3ee5e4fd95e827cdcf12260d4b6c9bb39e",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/apache-fireflow-minute.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/ms-configuration-correlation.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "22bdd299dbe44e250c4ebf05659871e84b8f205b31e0a40bdc236e8a94882ad8",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/ms-configuration-correlation.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/pg-and-broker-correlation.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "78b9004dd8721627a81157af1e98ec690f51f87eaaa236d417d75655fe44aa32",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/artifacts/pg-and-broker-correlation.txt"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/commands.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "22a2fe2fd922b54218e29d2d926cef0a97967666b00a32a3354bd6612b6f93b3",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/commands.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/delegated-task-request.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "872f29b932779468934137af8d6249045880fb11df3d4595614f03c51d4cb9e4",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/delegated-task-request.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/delegated-task-result.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "d20f6c68bed3ffe1c39f242727e4def7cd19d85a11c38da82da3a1f9d7bce732",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/delegated-task-result.json"
+    },
+    {
+      "bundle_path": "artifacts/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/findings.md",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "3c82a86d44e4a69afc1061f3644b350c90b7c54cd8f572745a2436d516fbb52a",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/target-bundle/findings.md"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "93e90bb82114bf8b8c5f405d5609a4289d83e23efe768e6c625e5037f8ed7f55",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "ea59aa58b4ee372fedbbc4aa29d7c389c91a888e60ec6b1178232dc8a542195f",
+      "source_pack_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-adf-autonomy-baseline-catch-up-checkpoint-v1-20260328T194754Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-adf-autonomy-baseline-catch-up-checkpoint-v1-20260328T194754Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-28T19:47:54Z",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-26T14:36:27Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 1,
+    "started_at": "2026-03-26T14:36:27Z",
+    "stop_reason": "mid_backlog_checkpoint_created",
+    "task_completion_rate": 0.4138
+  }
+}

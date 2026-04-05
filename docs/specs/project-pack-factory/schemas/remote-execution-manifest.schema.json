@@ -11,6 +11,9 @@
     "request_sha256",
     "target_manifest_sha256",
     "remote_runner",
+    "runner_returncode",
+    "runner_interrupted_signal",
+    "stale_active_run_cleanup",
     "prompt_sha256",
     "prompt_artifact_path",
     "bootstrap_mode",
@@ -51,6 +54,22 @@
     "remote_runner": {
       "type": "string",
       "minLength": 1
+    },
+    "runner_returncode": {
+      "type": "integer"
+    },
+    "runner_interrupted_signal": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "stale_active_run_cleanup": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true
     },
     "prompt_sha256": {
       "type": "string",

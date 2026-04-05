@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-03-30T21:09:49Z",
+  "improvement_id": "codex-personal-assistant-grounded-relationship-learning",
+  "operator_summary": "Proved autonomy improvement `codex-personal-assistant-grounded-relationship-learning` from `codex-personal-assistant-daily-driver-build-pack-v1`. Adopted surfaces: source_template_tracking. Pending surfaces: factory_root_discoverability, factory_root_memory.",
+  "proof_paths": [
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-last-message.txt",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json",
+    "templates/codex-personal-assistant-template-pack/contracts/partnership-policy.json"
+  ],
+  "recorded_by": "codex",
+  "report_id": "codex-personal-assistant-grounded-relationship-learning-20260330t210949z",
+  "schema_version": "autonomy-improvement-promotion-report/v1",
+  "source_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "summary": "Record the grounded business-partner, navigation, continuity, thin-history, and recurring relationship-reflection behavior bundle now inherited by the Codex personal assistant template line.",
+  "surface_records": [
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "template_source_tracking",
+      "notes": [
+        "This records whether the source template itself has been updated to describe or carry the improvement.",
+        "Pending here means the improvement may still be inherited through factory tooling without being reflected directly in the template source."
+      ],
+      "surface_id": "source_template_tracking",
+      "target_paths": [
+        "templates/codex-personal-assistant-template-pack/AGENTS.md",
+        "templates/codex-personal-assistant-template-pack/pack.json",
+        "templates/codex-personal-assistant-template-pack/project-context.md"
+      ]
+    },
+    {
+      "adoption_status": "pending",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether a fresh factory-root agent can discover the improvement without entering a pack."
+      ],
+      "surface_id": "factory_root_discoverability",
+      "target_paths": [
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md"
+      ]
+    },
+    {
+      "adoption_status": "pending",
+      "inheritance_effect": "factory_root_default",
+      "notes": [
+        "This captures whether the improvement is reflected in the factory's own restart-memory handoff."
+      ],
+      "surface_id": "factory_root_memory",
+      "target_paths": [
+        ".pack-state/agent-memory/latest-memory.json",
+        "tools/refresh_factory_autonomy_memory.py"
+      ]
+    }
+  ]
+}

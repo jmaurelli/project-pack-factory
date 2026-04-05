@@ -1,0 +1,119 @@
+{
+  "artifacts": {
+    "report_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t141715z/proof-report.json",
+    "report_relative_path": ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t141715z/proof-report.json",
+    "screenshot_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t141715z/debug-screenshot.png",
+    "screenshot_relative_path": ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t141715z/debug-screenshot.png",
+    "validated_request_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t141715z/validated-request.json",
+    "validated_request_relative_path": ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t141715z/validated-request.json"
+  },
+  "assertions": [
+    {
+      "name": "overview_link_present",
+      "status": "pass",
+      "summary": "Found overview link for manual-ui-and-proxy-step-3."
+    },
+    {
+      "name": "target_card_initially_collapsed",
+      "status": "pass",
+      "summary": "Target field-manual card starts collapsed before navigation."
+    },
+    {
+      "name": "hash_navigation_matches_target",
+      "status": "pass",
+      "summary": "Navigation landed on #manual-ui-and-proxy-step-3."
+    },
+    {
+      "name": "target_card_opens_after_navigation",
+      "status": "pass",
+      "summary": "Target field-manual card is open after overview-link navigation."
+    },
+    {
+      "actual_value": 7,
+      "expected_value": "7 commands",
+      "name": "summary_command_count_matches_run_blocks",
+      "status": "pass",
+      "summary": "Summary count 7 matches detected run blocks."
+    }
+  ],
+  "console": {
+    "enabled": true,
+    "message_count": 3,
+    "messages": [
+      {
+        "text": "[vite] connecting...",
+        "type": "debug"
+      },
+      {
+        "text": "[astro] Initializing prefetch script",
+        "type": "debug"
+      },
+      {
+        "text": "[vite] connected.",
+        "type": "debug"
+      }
+    ],
+    "page_errors": []
+  },
+  "failure_summary": null,
+  "host_readiness": {
+    "browser_executable_exists": true,
+    "browser_executable_kind": "chromium-headless-shell",
+    "browser_executable_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+    "browser_executable_relative_path": ".pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+    "browser_executable_source": "active_runtime",
+    "browser_name": "chromium",
+    "browser_revision": "1208",
+    "browser_version": "145.0.7632.6",
+    "checked_at": "2026-04-01T14:17:15Z",
+    "ldd_available": true,
+    "ldd_exit_code": 0,
+    "missing_libraries": [],
+    "missing_library_count": 0,
+    "status": "ready",
+    "summary": "Chromium executable resolved and ldd reported no missing shared-library dependencies."
+  },
+  "packfactory_provenance": {
+    "preview_markers": [
+      "src/content/docs/playbooks/asms-ui-is-down.md",
+      "public/adf-field-manual.js"
+    ],
+    "preview_root": "/home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/adf-target-profile-baseline/starlight-site",
+    "preview_root_relative_path": "build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/adf-target-profile-baseline/starlight-site"
+  },
+  "page_path": "/playbooks/asms-ui-is-down/",
+  "proof_kind": "adf_field_manual_hash_target_opens",
+  "proof_run_id": "browser-proof-adf_field_manual_hash_target_opens-20260401t141715z",
+  "recorded_at": "2026-04-01T14:17:20Z",
+  "runtime": {
+    "browser_executable_kind": "chromium-headless-shell",
+    "browser_executable_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+    "browser_executable_relative_path": ".pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell",
+    "browser_executable_source": "active_runtime",
+    "browser_name": "chromium",
+    "browser_revision": "1208",
+    "browser_root": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers",
+    "browser_root_relative_path": ".pack-state/browser-proof-runtime/playwright-browsers",
+    "browser_version": "145.0.7632.6",
+    "node_root": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/node-runtime",
+    "node_root_relative_path": ".pack-state/browser-proof-runtime/node-runtime",
+    "npm_package_version": "1.58.2",
+    "runtime_root": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime",
+    "runtime_root_relative_path": ".pack-state/browser-proof-runtime"
+  },
+  "schema_version": "browser-proof-report/v1",
+  "status": "pass",
+  "step_number": 3,
+  "target_id": "manual-ui-and-proxy-step-3",
+  "target_kind": "packfactory_local_preview",
+  "target_state": {
+    "details_open_after_navigation": true,
+    "detected_run_block_count": 7,
+    "final_hash": "#manual-ui-and-proxy-step-3",
+    "final_url": "http://10.167.2.152:18082/playbooks/asms-ui-is-down/#manual-ui-and-proxy-step-3",
+    "initially_collapsed": true,
+    "overview_label": "Check shallow core services",
+    "summary_command_count_text": "7 commands"
+  },
+  "target_url": "http://10.167.2.152:18082/playbooks/asms-ui-is-down/"
+}

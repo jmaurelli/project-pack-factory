@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AlgoSec Support Playbooks</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f2eee5;
+      --card: #fffdfa;
+      --ink: #13212a;
+      --accent: #0f6c7a;
+      --accent-soft: #d8eef0;
+      --rule: #d8ccbc;
+      --ok: #edf8ef;
+      --ok-ink: #1e6a33;
+      --warn: #fff0db;
+      --warn-ink: #8a4b00;
+      --fail: #fff1ef;
+      --fail-ink: #9d2d20;
+      --muted: #5d6970;
+      --code: #1f2933;
+    }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top right, #d8eef0 0, transparent 28%),
+        linear-gradient(180deg, #f6f1e8 0%, var(--bg) 100%);
+      color: var(--ink);
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+    }
+    section {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 20px;
+      padding: 22px;
+      margin-top: 18px;
+      box-shadow: 0 16px 40px rgba(19, 33, 42, 0.08);
+    }
+    h1, h2, h3, h4 {
+      margin: 0 0 12px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      line-height: 1.05;
+    }
+    h2 {
+      font-size: 1.6rem;
+    }
+    .meta {
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .hero {
+      display: grid;
+      gap: 18px;
+    }
+    .hero-grid,
+    .playbook-meta,
+    .step-grid,
+    .jump-grid,
+    .symptom-grid,
+    .reference-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .hero-grid,
+    .playbook-meta {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .jump-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .symptom-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .reference-grid {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .meta-card,
+    .jump-card,
+    .symptom-chip,
+    .reference-card,
+    .step-panel,
+    .command-card,
+    .path-node {
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      background: #fff;
+      padding: 14px 16px;
+    }
+    .jump-card,
+    .symptom-chip,
+    .top-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    .jump-card {
+      background: linear-gradient(180deg, #fffdfa 0%, #f4fbfb 100%);
+      display: block;
+      min-height: 84px;
+    }
+    .jump-title {
+      display: block;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .jump-subtitle,
+    .playbook-focus,
+    .command-label,
+    .path-node span,
+    .symptom-chip span {
+      color: var(--muted);
+    }
+    .symptom-chip {
+      display: block;
+      background: linear-gradient(180deg, #fffdfa 0%, #f4fbfb 100%);
+      min-height: 126px;
+    }
+    .symptom-chip strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    .symptom-title {
+      color: var(--accent);
+    }
+    .symptom-path,
+    .symptom-start {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .symptom-start {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .symptom-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .symptom-tag {
+      display: inline-block;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .playbook-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+    .dependency-map {
+      display: grid;
+      gap: 10px;
+      margin: 10px 0 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f7fbfb 0%, #eef6f7 100%);
+      border: 1px solid #cfe1e4;
+    }
+    .dependency-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .dependency-steps {
+      display: grid;
+      gap: 10px;
+    }
+    .dependency-node {
+      display: grid;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid #d7e6e8;
+      position: relative;
+      color: inherit;
+      text-decoration: none;
+    }
+    .dependency-node:not(:last-child)::after {
+      content: "↓";
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      transform: translateX(-50%);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .dependency-step {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .dependency-node strong {
+      font-size: 1rem;
+    }
+    .dependency-node span:last-child {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .top-link {
+      color: var(--accent);
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .step-card {
+      border-top: 1px solid var(--rule);
+      padding-top: 18px;
+      margin-top: 18px;
+    }
+    .step-summary {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .step-summary::-webkit-details-marker {
+      display: none;
+    }
+    .step-summary::marker {
+      display: none;
+    }
+    .step-summary::after {
+      content: "Expand";
+      margin-left: auto;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+      padding-top: 6px;
+    }
+    .step-card[open] > .step-summary::after {
+      content: "Collapse";
+    }
+    .step-number {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-weight: bold;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-top: 4px;
+      flex: 0 0 auto;
+    }
+    .step-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin: 14px 0;
+    }
+    .pass {
+      background: var(--ok);
+      color: var(--ok-ink);
+    }
+    .fail {
+      background: var(--fail);
+      color: var(--fail-ink);
+    }
+    .next,
+    .evidence {
+      background: #f7f3ea;
+    }
+    .why {
+      background: #eef6f1;
+      color: #214a33;
+      margin-bottom: 0;
+      flex: 1 1 auto;
+    }
+    .step-body {
+      margin-top: 12px;
+    }
+    .command-card {
+      margin-top: 12px;
+      background: #fbfcfe;
+    }
+    .command-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .copy-button {
+      border: 1px solid var(--rule);
+      background: #fffdfa;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+    }
+    .copy-button:hover {
+      background: var(--accent-soft);
+      border-color: #b7dadd;
+    }
+    .copy-button.copied {
+      background: var(--ok);
+      color: var(--ok-ink);
+      border-color: #b9dfc2;
+    }
+    .knowledge-list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+    .knowledge-list li {
+      margin: 6px 0;
+      line-height: 1.4;
+    }
+    pre {
+      background: var(--code);
+      color: #f4f7fb;
+      padding: 12px 14px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.95rem;
+    }
+    .signal {
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 8px;
+    }
+    .signal.ok {
+      background: var(--ok);
+      color: var(--ok-ink);
+    }
+    .signal.tip {
+      background: var(--accent-soft);
+      color: #184c55;
+    }
+    .signal.example {
+      background: #eef4fb;
+      color: #1a3550;
+    }
+    .signal.warn {
+      background: var(--warn);
+      color: var(--warn-ink);
+    }
+    .example-output {
+      margin-top: 10px;
+      background: #101820;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    p {
+      line-height: 1.45;
+    }
+    details {
+      margin-top: 18px;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main id="top">
+    <section class="hero">
+      <h1>AlgoSec Diagnostic Playbooks</h1>
+      <p class="meta">Target: algosec-lab | Host: algosec | Generated: 2026-03-30T19:51:13Z</p>
+      <p>Use this page to get to the right playbook quickly, run the next command, validate the output, and isolate the likely failure point.</p>
+      <div class="hero-grid">
+        <div class="meta-card">
+          <strong>System baseline</strong>
+          <p>OS: Rocky Linux 8.10 (Green Obsidian)</p>
+          <p>Kernel: 4.18.0-553.89.1.el8_10.x86_64</p>
+        </div>
+        <div class="meta-card">
+          <strong>Runtime footprint</strong>
+          <p>Services observed: 261</p>
+          <p>Product services: 29</p>
+        </div>
+        <div class="meta-card">
+          <strong>Support focus</strong>
+          <p>Critical services: 27</p>
+          <p>Listening endpoints: 52</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Jump To The Right Playbook</h2>
+      <p class="step-order-note">Scan the symptom, read the start clue, and open the playbook that best matches what the customer is reporting.</p>
+      <div class="symptom-grid"><a class="symptom-chip" href="#playbook-ui-and-proxy"><strong class="symptom-title">ASMS UI is down</strong><span class="symptom-path">Open: ASMS UI is down</span><span class="symptom-start">Start here: Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.</span><span class="symptom-tags"><span class="symptom-tag">UI down</span><span class="symptom-tag">login</span><span class="symptom-tag">httpd</span><span class="symptom-tag">80/443</span><span class="symptom-tag">keycloak</span><span class="symptom-tag">metro</span></span></a><a class="symptom-chip" href="#playbook-ui-and-proxy"><strong class="symptom-title">ASMS login page not loading</strong><span class="symptom-path">Open: ASMS UI is down</span><span class="symptom-start">Start here: Check whether the host is under storage, inode, memory, or CPU pressure before blaming the ASMS UI path.</span><span class="symptom-tags"><span class="symptom-tag">UI down</span><span class="symptom-tag">login</span><span class="symptom-tag">httpd</span><span class="symptom-tag">80/443</span><span class="symptom-tag">keycloak</span><span class="symptom-tag">metro</span></span></a><a class="symptom-chip" href="#playbook-core-aff"><strong class="symptom-title">FireFlow action failing</strong><span class="symptom-path">Open: FireFlow Backend</span><span class="symptom-start">Start here: Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.</span><span class="symptom-tags"><span class="symptom-tag">FireFlow</span><span class="symptom-tag">/FireFlow/api</span><span class="symptom-tag">1989</span><span class="symptom-tag">aff-boot</span><span class="symptom-tag">postgres</span></span></a><a class="symptom-chip" href="#playbook-core-aff"><strong class="symptom-title">FireFlow API error</strong><span class="symptom-path">Open: FireFlow Backend</span><span class="symptom-start">Start here: Confirm aff-boot.service is active and /FireFlow/api or /aff/api still proxy to localhost:1989.</span><span class="symptom-tags"><span class="symptom-tag">FireFlow</span><span class="symptom-tag">/FireFlow/api</span><span class="symptom-tag">1989</span><span class="symptom-tag">aff-boot</span><span class="symptom-tag">postgres</span></span></a><a class="symptom-chip" href="#playbook-microservice-platform"><strong class="symptom-title">Feature failing behind UI</strong><span class="symptom-path">Open: Microservice Platform</span><span class="symptom-start">Start here: Confirm algosec-ms.service completed successfully and the top ms-* services are active.</span><span class="symptom-tags"><span class="symptom-tag">feature fails</span><span class="symptom-tag">ms-*</span><span class="symptom-tag">routes</span><span class="symptom-tag">ms-configuration</span></span></a><a class="symptom-chip" href="#playbook-microservice-platform"><strong class="symptom-title">Specific microservice path failing</strong><span class="symptom-path">Open: Microservice Platform</span><span class="symptom-start">Start here: Confirm algosec-ms.service completed successfully and the top ms-* services are active.</span><span class="symptom-tags"><span class="symptom-tag">feature fails</span><span class="symptom-tag">ms-*</span><span class="symptom-tag">routes</span><span class="symptom-tag">ms-configuration</span></span></a><a class="symptom-chip" href="#playbook-messaging-and-data"><strong class="symptom-title">Job stuck or not progressing</strong><span class="symptom-path">Open: Messaging and Data</span><span class="symptom-start">Start here: Confirm activemq.service is active and listener 61616 is present.</span><span class="symptom-tags"><span class="symptom-tag">job stuck</span><span class="symptom-tag">queue</span><span class="symptom-tag">activemq</span><span class="symptom-tag">61616</span><span class="symptom-tag">postgres</span></span></a><a class="symptom-chip" href="#playbook-messaging-and-data"><strong class="symptom-title">Data-backed action failing</strong><span class="symptom-path">Open: Messaging and Data</span><span class="symptom-start">Start here: Confirm activemq.service is active and listener 61616 is present.</span><span class="symptom-tags"><span class="symptom-tag">job stuck</span><span class="symptom-tag">queue</span><span class="symptom-tag">activemq</span><span class="symptom-tag">61616</span><span class="symptom-tag">postgres</span></span></a></div>
+    </section>
+    <section class="playbook" id="playbook-ui-and-proxy"><div class="playbook-header"><div><h2>ASMS UI is down</h2><p class="playbook-focus">Use this when the ASMS UI is down and the engineer is checking the appliance from SSH.</p></div><a class="top-link" href="#top">Back to top</a></div><div class="dependency-map"><div class="dependency-title">Dependency path</div><div class="dependency-steps"><a class="dependency-node" href="#ui-and-proxy-step-1"><span class="dependency-step">Step 1</span><strong>Host sanity gate for ASMS runtime</strong><span>Start here with a short sanity gate. Check storage, inode, memory, OOM, load, and CPU pressure to decide whether the Rocky host can still support the ASMS runtime and its supporting services before you deepen the ASMS path itself.</span></a><a class="dependency-node" href="#ui-and-proxy-step-2"><span class="dependency-step">Step 2</span><strong>Apache/HTTPD serving the UI</strong><span>If the host looks healthy, confirm Apache/HTTPD can answer local UI traffic and still route requests into the auth and app branches.</span></a><a class="dependency-node" href="#ui-and-proxy-step-3"><span class="dependency-step">Step 3</span><strong>Core ASMS services and safe restart boundary</strong><span>If the host and Apache edge look healthy, stay shallow first. Confirm the core ASMS services that support the UI are up, listening, and restartable: `httpd.service`, `keycloak.service`, and `ms-metro.service`. Use restart steps only for the service whose shallow check actually failed or hung.</span></a><a class="dependency-node" href="#ui-and-proxy-step-4"><span class="dependency-step">Step 4</span><strong>First usable shell and case classification</strong><span>Use the customer-visible shell boundary to decide whether the case is still `GUI down`. If the login page loads or the user reaches a usable home shell, stop treating it as a top-level UI outage and branch into the narrower failing workflow.</span></a><a class="dependency-node" href="#ui-and-proxy-step-5"><span class="dependency-step">Step 5</span><strong>Escalation-only deeper auth and app correlation</strong><span>Only if the shallow host, Apache, service, and first-shell checks still do not explain the case should you replay the login bootstrap, auth chain, or deeper module seams. Those are escalation paths, not the frontline default.</span></a></div></div><details class="step-card" id="ui-and-proxy-step-1"><summary class="step-summary"><div class="step-number">Step 1</div><div class="step-panel why"><strong>Step focus</strong><p>Check whether the host can support useful work for the ASMS UI path. Confirm storage, inode, memory, load, OOM, and CPU pressure are not already blocking Apache, Keycloak, Metro, log writing, or temp-file work.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check storage pressure on runtime filesystems</div><button class="copy-button" type="button" data-command="df -h" aria-label="Copy command">Copy</button></div><pre><code>df -h</code></pre><div class="signal ok"><strong>Healthy means:</strong> Runtime filesystems still have enough free space for logs, temp files, and service work.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This checks human-readable disk usage for the main filesystems.</li><li>Focus on `Use%` and `Avail`, especially for `/` and `/data`.</li><li>If disk is full, services can fail to write logs, temp files, or runtime data.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>Filesystem           Size  Used Avail Use% Mounted on
+/dev/mapper/rl-root   60G   16G   45G  27% /
+/dev/mapper/rl-data  238G   21G  218G   9% /data</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check inode pressure on runtime filesystems</div><button class="copy-button" type="button" data-command="df -ih" aria-label="Copy command">Copy</button></div><pre><code>df -ih</code></pre><div class="signal ok"><strong>Healthy means:</strong> Runtime filesystems still have free inodes for logs, temp files, sockets, and service output.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This checks inode usage, which is different from normal disk space.</li><li>A filesystem can still have free space but fail because it has no free inodes left.</li><li>Focus on `IUse%` and whether `IFree` is close to zero.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>Filesystem          Inodes IUsed IFree IUse% Mounted on
+/dev/mapper/rl-root    30M  343K   30M    2% /
+/dev/mapper/rl-data   119M   21K  119M    1% /data</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check memory pressure on JVM-backed services</div><button class="copy-button" type="button" data-command="free -h" aria-label="Copy command">Copy</button></div><pre><code>free -h</code></pre><div class="signal ok"><strong>Healthy means:</strong> Available memory is still present and swap is not carrying active pressure for the host.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This is the quick memory check for the host.</li><li>Focus on `available` memory and whether swap is starting to grow heavily.</li><li>Low available memory can slow down or crash Java services before the whole server looks down.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>              total        used        free      shared  buff/cache   available
+Mem:           32Gi        13Gi       8.6Gi       2.4Gi         9Gi        15Gi
+Swap:          24Gi          0B        24Gi</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check current host load pressure</div><button class="copy-button" type="button" data-command="uptime" aria-label="Copy command">Copy</button></div><pre><code>uptime</code></pre><div class="signal ok"><strong>Healthy means:</strong> Load is not unexpectedly high for the host and does not already explain the UI symptom.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>14:42:03 up 17 days,  1:52,  1 user,  load average: 0.25, 0.18, 0.11</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check recent memory-kill pressure</div><button class="copy-button" type="button" data-command="journalctl -k --since &quot;24 hours ago&quot; --no-pager | grep -i -E &quot;out of memory|oom|killed process&quot;" aria-label="Copy command">Copy</button></div><pre><code>journalctl -k --since &quot;24 hours ago&quot; --no-pager | grep -i -E &quot;out of memory|oom|killed process&quot;</code></pre><div class="signal ok"><strong>Healthy means:</strong> No recent Out Of Memory lines are returned.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This checks the Linux kernel log for memory-pressure kills.</li><li>OOM means Out Of Memory. Linux may kill a process to protect the server.</li><li>If you see OOM or `Killed process` lines, memory pressure is likely part of the failure.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>No output</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check which process owns CPU pressure right now</div><button class="copy-button" type="button" data-command="ps -eo pid,comm,%cpu,%mem --sort=-%cpu | head -n 10" aria-label="Copy command">Copy</button></div><pre><code>ps -eo pid,comm,%cpu,%mem --sort=-%cpu | head -n 10</code></pre><div class="signal ok"><strong>Healthy means:</strong> No unexpected process is consuming enough CPU to starve the rest of the ASMS path.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>  PID COMMAND         %CPU %MEM
+ 6012 java             8.1  7.4
+ 1018 httpd            1.2  0.4
+ 3758 algosec_keycloa  0.8  1.6</code></pre></div></div></div></div></details><details class="step-card" id="ui-and-proxy-step-2"><summary class="step-summary"><div class="step-number">Step 2</div><div class="step-panel why"><strong>Step focus</strong><p>Check whether Apache/HTTPD can do useful edge work for the ASMS UI path. Confirm httpd.service is running, 80 and 443 are listening, the suite login route still lands on the Apache-served UI page, representative /algosec-ui/ assets still load through Apache, and the proxy mapping still points toward the auth and app branches.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check httpd.service status</div><button class="copy-button" type="button" data-command="systemctl status httpd.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status httpd.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sat 2026-03-07 13:37:12 EST; 2 weeks 2 days ago
+ Main PID: 1018 (/usr/sbin/httpd)</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check edge listeners</div><button class="copy-button" type="button" data-command="ss -lntp | grep -E &#x27;:(80|443)\b&#x27;" aria-label="Copy command">Copy</button></div><pre><code>ss -lntp | grep -E &#x27;:(80|443)\b&#x27;</code></pre><div class="signal ok"><strong>Healthy means:</strong> A listening socket is present for 80, 443.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command shows whether Linux is listening on the expected port.</li><li>`LISTEN` means a process has opened the port and is waiting for connections.</li><li>If the port is missing, the service may be down, starting slowly, or bound to the wrong place.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>LISTEN 0 511 0.0.0.0:443 0.0.0.0:* users:((&quot;/usr/sbin/httpd&quot;,pid=1018,fd=4),...)
+LISTEN 0 511 0.0.0.0:80  0.0.0.0:* users:((&quot;/usr/sbin/httpd&quot;,pid=1018,fd=3),...)</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check the legacy suite login route</div><button class="copy-button" type="button" data-command="curl -k -I --max-time 5 https://127.0.0.1/algosec/suite/login" aria-label="Copy command">Copy</button></div><pre><code>curl -k -I --max-time 5 https://127.0.0.1/algosec/suite/login</code></pre><div class="signal ok"><strong>Healthy means:</strong> Apache returns a redirect from the legacy suite login path into the current UI login page.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>HTTP/1.1 302 Found
+Server: Apache
+Location: https://127.0.0.1/algosec-ui/login</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check the Apache-served UI login page</div><button class="copy-button" type="button" data-command="curl -k -I --max-time 5 https://127.0.0.1/algosec-ui/login" aria-label="Copy command">Copy</button></div><pre><code>curl -k -I --max-time 5 https://127.0.0.1/algosec-ui/login</code></pre><div class="signal ok"><strong>Healthy means:</strong> Apache returns the current UI login page with HTTP 200.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>HTTP/1.1 200 OK
+Server: Apache
+Content-Type: text/html; charset=UTF-8</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check representative /algosec-ui/ assets through Apache</div><button class="copy-button" type="button" data-command="for path in /algosec-ui/styles.css /algosec-ui/runtime.js /algosec-ui/main.js; do echo &quot;=== $path ===&quot;; curl -k -sS -D - -o /tmp/asms-ui-asset.out &quot;https://127.0.0.1$path&quot; | sed -n &#x27;1,8p&#x27;; printf &#x27;BODY_BYTES &#x27;; wc -c &lt; /tmp/asms-ui-asset.out; done" aria-label="Copy command">Copy</button></div><pre><code>for path in /algosec-ui/styles.css /algosec-ui/runtime.js /algosec-ui/main.js; do echo &quot;=== $path ===&quot;; curl -k -sS -D - -o /tmp/asms-ui-asset.out &quot;https://127.0.0.1$path&quot; | sed -n &#x27;1,8p&#x27;; printf &#x27;BODY_BYTES &#x27;; wc -c &lt; /tmp/asms-ui-asset.out; done</code></pre><div class="signal ok"><strong>Healthy means:</strong> Apache returns HTTP 200 for representative CSS and JS assets and each body is non-empty.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>=== /algosec-ui/styles.css ===
+HTTP/1.1 200 OK
+Server: Apache
+Content-Type: text/css
+BODY_BYTES 758180
+=== /algosec-ui/runtime.js ===
+HTTP/1.1 200 OK
+Content-Type: application/javascript
+BODY_BYTES 2737</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check Apache routes for login, auth, and app branches</div><button class="copy-button" type="button" data-command="grep -R -n -E &#x27;algosec-ui|algosec/suite|ProxyPass|ProxyPassReverse|keycloak|8443|afa/api/v1|8080&#x27; /etc/httpd/conf.d 2&gt;/dev/null" aria-label="Copy command">Copy</button></div><pre><code>grep -R -n -E &#x27;algosec-ui|algosec/suite|ProxyPass|ProxyPassReverse|keycloak|8443|afa/api/v1|8080&#x27; /etc/httpd/conf.d 2&gt;/dev/null</code></pre><div class="signal ok"><strong>Healthy means:</strong> Apache config still shows the login redirect, the UI alias, and the auth and app route mapping needed by the ASMS UI path.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>78:RewriteRule &quot;^/algosec/suite/login(.*)$&quot; &quot;/algosec-ui/login&quot; [R]
+299:AliasMatch (?i)^/algosec-ui/(.*)$ /usr/share/fa/suite/client/app/suite-new-ui/$1
+1:&lt;Location /keycloak/&gt;
+2:        ProxyPass https://localhost:8443/ timeout=300
+139:&lt;Location /afa/api/v1&gt;
+140:  ProxyPass http://localhost:8080/afa/api/v1 timeout=18000 retry=0</code></pre></div></div></div></div></details><details class="step-card" id="ui-and-proxy-step-3"><summary class="step-summary"><div class="step-number">Step 3</div><div class="step-panel why"><strong>Step focus</strong><p>Check the core ASMS services that a frontline support engineer can actually verify and restart during a live customer session. Stay shallow here: `httpd.service`, `keycloak.service`, `ms-metro.service`, their expected listeners, and one service-specific restart only when the matching shallow check fails.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check httpd.service status</div><button class="copy-button" type="button" data-command="systemctl status httpd.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status httpd.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2026-03-26 18:42:56 EDT; 17h ago
+ Main PID: 1018 (/usr/sbin/httpd)</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check keycloak.service status</div><button class="copy-button" type="button" data-command="systemctl status keycloak.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status keycloak.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>● keycloak.service - Keycloak Service
+   Loaded: loaded (/etc/systemd/system/keycloak.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2026-03-26 18:43:11 EDT; 17h ago
+ Main PID: 2745 (java)</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check ms-metro.service status</div><button class="copy-button" type="button" data-command="systemctl status ms-metro.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status ms-metro.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>● ms-metro.service - ms-metro Application Container
+   Loaded: loaded (/etc/systemd/system/ms-metro.service; disabled; vendor preset: disabled)
+   Active: active (running) since Sat 2026-03-07 13:39:32 EST; 2 weeks 2 days ago
+ Main PID: 6012 (java)</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check the wrapper and listener surfaces once</div><button class="copy-button" type="button" data-command="systemctl status algosec-ms.service --no-pager; echo &#x27;--- listeners ---&#x27;; ss -lntp | grep -E &#x27;:(80|443|8080|8443)\b&#x27;" aria-label="Copy command">Copy</button></div><pre><code>systemctl status algosec-ms.service --no-pager; echo &#x27;--- listeners ---&#x27;; ss -lntp | grep -E &#x27;:(80|443|8080|8443)\b&#x27;</code></pre><div class="signal ok"><strong>Healthy means:</strong> The wrapper unit is present, and the expected shallow listeners remain present on `80`, `443`, `8080`, and `8443`.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>● algosec-ms.service - AlgoSec Platform Wrapper
+   Active: active (exited)
+--- listeners ---
+LISTEN 0 511 0.0.0.0:443 0.0.0.0:* users:((&quot;/usr/sbin/httpd&quot;,pid=1018,fd=4),...)
+LISTEN 0 100 0.0.0.0:8080 0.0.0.0:* users:((&quot;java&quot;,pid=6012,fd=44))
+LISTEN 0 100 0.0.0.0:8443 0.0.0.0:* users:((&quot;java&quot;,pid=2745,fd=91))</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Restart Apache only if the UI edge check failed</div><button class="copy-button" type="button" data-command="sudo systemctl restart httpd.service &amp;&amp; sleep 5 &amp;&amp; systemctl is-active httpd.service &amp;&amp; curl -k -sS -I https://127.0.0.1/algosec-ui/login | sed -n &#x27;1,8p&#x27;" aria-label="Copy command">Copy</button></div><pre><code>sudo systemctl restart httpd.service &amp;&amp; sleep 5 &amp;&amp; systemctl is-active httpd.service &amp;&amp; curl -k -sS -I https://127.0.0.1/algosec-ui/login | sed -n &#x27;1,8p&#x27;</code></pre><div class="signal ok"><strong>Healthy means:</strong> Apache returns to `active`, and the login page immediately answers again through localhost HTTPS.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>active
+HTTP/1.1 200 OK
+Server: Apache</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Restart Keycloak only if the login page loads but auth service looks down</div><button class="copy-button" type="button" data-command="sudo systemctl restart keycloak.service &amp;&amp; sleep 10 &amp;&amp; systemctl is-active keycloak.service &amp;&amp; ss -lntp | grep -E &#x27;:8443\b&#x27;" aria-label="Copy command">Copy</button></div><pre><code>sudo systemctl restart keycloak.service &amp;&amp; sleep 10 &amp;&amp; systemctl is-active keycloak.service &amp;&amp; ss -lntp | grep -E &#x27;:8443\b&#x27;</code></pre><div class="signal ok"><strong>Healthy means:</strong> Keycloak returns to `active`, and the auth listener on `8443` is present again.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>active
+LISTEN 0 100 0.0.0.0:8443 0.0.0.0:* users:((&quot;java&quot;,pid=2745,fd=91))</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Restart Metro only if the UI reaches the app shell but it is blank or partly loaded</div><button class="copy-button" type="button" data-command="sudo systemctl restart ms-metro.service &amp;&amp; sleep 10 &amp;&amp; systemctl is-active ms-metro.service &amp;&amp; curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10" aria-label="Copy command">Copy</button></div><pre><code>sudo systemctl restart ms-metro.service &amp;&amp; sleep 10 &amp;&amp; systemctl is-active ms-metro.service &amp;&amp; curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10</code></pre><div class="signal ok"><strong>Healthy means:</strong> Metro returns to `active`, and the heartbeat shows `&quot;isAlive&quot; : true`.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>active
+{
+  &quot;isAlive&quot; : true
+}</code></pre></div></div></div></div></details><details class="step-card" id="ui-and-proxy-step-4"><summary class="step-summary"><div class="step-number">Step 4</div><div class="step-panel why"><strong>Step focus</strong><p>Check the first usable ASMS shell only after the edge and core service checks are already healthy. Use the rendered login or home shell to decide whether this is still `GUI down` or whether the user has already crossed into a narrower app workflow problem.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check ms-metro.service status</div><button class="copy-button" type="button" data-command="systemctl status ms-metro.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status ms-metro.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>● ms-metro.service - ms-metro Application Container
+   Loaded: loaded (/etc/systemd/system/ms-metro.service; disabled; vendor preset: disabled)
+   Active: active (running) since Sat 2026-03-07 13:39:32 EST; 2 weeks 2 days ago
+ Main PID: 6012 (java)</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check Metro listener</div><button class="copy-button" type="button" data-command="ss -lntp | grep -E &#x27;:8080\b&#x27;" aria-label="Copy command">Copy</button></div><pre><code>ss -lntp | grep -E &#x27;:8080\b&#x27;</code></pre><div class="signal ok"><strong>Healthy means:</strong> Port 8080 is listening for ms-metro.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command shows whether Linux is listening on the expected port.</li><li>`LISTEN` means a process has opened the port and is waiting for connections.</li><li>If the port is missing, the service may be down, starting slowly, or bound to the wrong place.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>LISTEN 0 100 0.0.0.0:8080 0.0.0.0:* users:((&quot;java&quot;,pid=6012,fd=44))</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Compare the first usable shell gate with Metro bootstrap clues</div><button class="copy-button" type="button" data-command="minute=$(grep -E &#x27;/afa/php/SuiteLoginSessionValidation.php|/afa/php/home.php|dynamic\.js\.php|/afa/php/home.js&#x27; /var/log/httpd/ssl_access_log | tail -n 1 | sed -E &#x27;s/.*\[([^]]{17})[^]]*\].*/\1/&#x27;); printf &#x27;WINDOW=%s\n&#x27; &quot;$minute&quot;; printf &#x27;=== apache shell minute ===\n&#x27;; grep &quot;$minute&quot; /var/log/httpd/ssl_access_log | grep -E &#x27;/afa/php/SuiteLoginSessionValidation.php|/afa/php/home.php|dynamic\.js\.php|/afa/php/home.js&#x27; | tail -n 20; printf &#x27;=== metro same minute ===\n&#x27;; grep &quot;$minute&quot; /data/ms-metro/logs/localhost_access_log.txt | grep -E &#x27;/afa/getStatus|/afa/api/v1/config\?|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth&#x27; | tail -n 20" aria-label="Copy command">Copy</button></div><pre><code>minute=$(grep -E &#x27;/afa/php/SuiteLoginSessionValidation.php|/afa/php/home.php|dynamic\.js\.php|/afa/php/home.js&#x27; /var/log/httpd/ssl_access_log | tail -n 1 | sed -E &#x27;s/.*\[([^]]{17})[^]]*\].*/\1/&#x27;); printf &#x27;WINDOW=%s\n&#x27; &quot;$minute&quot;; printf &#x27;=== apache shell minute ===\n&#x27;; grep &quot;$minute&quot; /var/log/httpd/ssl_access_log | grep -E &#x27;/afa/php/SuiteLoginSessionValidation.php|/afa/php/home.php|dynamic\.js\.php|/afa/php/home.js&#x27; | tail -n 20; printf &#x27;=== metro same minute ===\n&#x27;; grep &quot;$minute&quot; /data/ms-metro/logs/localhost_access_log.txt | grep -E &#x27;/afa/getStatus|/afa/api/v1/config\?|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth&#x27; | tail -n 20</code></pre><div class="signal ok"><strong>Healthy means:</strong> The same shell-transition minute shows `SuiteLoginSessionValidation.php -&gt; /afa/php/home.php -&gt; dynamic.js.php/home.js` on the Apache side and the nearest Metro bootstrap clues such as `GET /afa/getStatus`, `GET /afa/api/v1/config?...`, `POST /afa/api/v1/session/extend?...`, or `GET /afa/api/v1/config/all/noauth?...` on the Metro side.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>WINDOW=25/Mar/2026:17:29
+=== apache shell minute ===
+127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &quot;POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1&quot; 200 65
+127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] &quot;GET /afa/php/home.php HTTP/1.1&quot; 200 35713
+127.0.0.1 - - [25/Mar/2026:16:09:10 -0400] &quot;GET /afa/php/JSlib1768164240/dynamic.js.php?sid=abc123fresh HTTP/1.1&quot; 200 23846
+=== metro same minute ===
+127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-7] &quot;POST /afa/api/v1/session/extend?session=abc123fresh&amp;domain=0 HTTP/1.1&quot; 200 - 246 33410 -
+127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-8] &quot;GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1&quot; 200 812 1543 33411 -
+127.0.0.1 [25/Mar/2026:17:29:43 -0400] [http-nio-0.0.0.0-8080-exec-9] &quot;GET /afa/getStatus HTTP/1.1&quot; 200 33 506 33738 -</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check post-home shell and dashboard hydration traffic</div><button class="copy-button" type="button" data-command="printf &#x27;=== apache ===\n&#x27;; grep -E &#x27;/afa/php/home.php|dynamic\.js\.php|/afa/php/commands.php\?cmd=DISPLAY_ISSUES_CENTER|/fa/tree/create|/afa/php/prod_stat.php|/fa/tree/get_update|FireFlowBridge.js|/afa/php/logo.php|/afa/api/v1/license|/ms-watchdog/v1/api/issues-center/issues/countAll&#x27; /var/log/httpd/ssl_access_log | tail -n 60; printf &#x27;=== metro ===\n&#x27;; grep -E &#x27;/afa/getStatus|/afa/api/v1/bridge/refresh|/afa/api/v1/license|/afa/api/v1/config\?|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth&#x27; /data/ms-metro/logs/localhost_access_log.txt | tail -n 30" aria-label="Copy command">Copy</button></div><pre><code>printf &#x27;=== apache ===\n&#x27;; grep -E &#x27;/afa/php/home.php|dynamic\.js\.php|/afa/php/commands.php\?cmd=DISPLAY_ISSUES_CENTER|/fa/tree/create|/afa/php/prod_stat.php|/fa/tree/get_update|FireFlowBridge.js|/afa/php/logo.php|/afa/api/v1/license|/ms-watchdog/v1/api/issues-center/issues/countAll&#x27; /var/log/httpd/ssl_access_log | tail -n 60; printf &#x27;=== metro ===\n&#x27;; grep -E &#x27;/afa/getStatus|/afa/api/v1/bridge/refresh|/afa/api/v1/license|/afa/api/v1/config\?|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth&#x27; /data/ms-metro/logs/localhost_access_log.txt | tail -n 30</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent lines show `/afa/php/home.php`, the first dashboard-hydration routes such as `dynamic.js.php`, `DISPLAY_ISSUES_CENTER`, `/fa/tree/create`, `/afa/php/prod_stat.php`, or `/fa/tree/get_update`, and the nearby Metro clues such as `GET /afa/getStatus`, `GET /afa/api/v1/license`, or the same-minute `config` and `session/extend` requests that surround the first usable shell.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>=== apache ===
+127.0.0.1 - - [25/Mar/2026:17:29:38 -0400] &quot;GET /afa/php/home.php HTTP/1.1&quot; 200 35714
+127.0.0.1 - - [26/Mar/2026:05:13:14 -0400] &quot;GET /afa/php/JSlib1768164240/dynamic.js.php?sid=nqo0c2b0dda9d9a4gas11vc6h6 HTTP/1.1&quot; 200 23846
+127.0.0.1 - - [26/Mar/2026:05:13:15 -0400] &quot;GET /afa/php/commands.php?cmd=DISPLAY_ISSUES_CENTER HTTP/1.1&quot; 200 741
+127.0.0.1 - - [26/Mar/2026:05:13:15 -0400] &quot;POST /fa/tree/create HTTP/1.1&quot; 200 4211
+127.0.0.1 - - [26/Mar/2026:05:13:19 -0400] &quot;GET /afa/php/prod_stat.php HTTP/1.1&quot; 200 169
+127.0.0.1 - - [26/Mar/2026:05:13:19 -0400] &quot;POST /fa/tree/get_update HTTP/1.1&quot; 200 1642
+127.0.0.1 - - [25/Mar/2026:17:29:39 -0400] &quot;GET /afa/php/JSlib1768164240/FireFlowBridge.js HTTP/1.1&quot; 200 484
+127.0.0.1 - - [25/Mar/2026:17:29:39 -0400] &quot;GET /afa/php/logo.php HTTP/1.1&quot; 200 -
+127.0.0.1 - - [25/Mar/2026:17:29:36 -0400] &quot;GET /afa/api/v1/license HTTP/1.1&quot; 200 311
+=== metro ===
+127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-7] &quot;POST /afa/api/v1/session/extend?session=abc123fresh&amp;domain=0 HTTP/1.1&quot; 200 - 246 33410 -
+127.0.0.1 [25/Mar/2026:17:29:35 -0400] [http-nio-0.0.0.0-8080-exec-8] &quot;GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1&quot; 200 812 1543 33411 -
+127.0.0.1 [25/Mar/2026:17:29:43 -0400] [http-nio-0.0.0.0-8080-exec-9] &quot;GET /afa/getStatus HTTP/1.1&quot; 200 33 506 33738 -
+127.0.0.1 [25/Mar/2026:17:29:44 -0400] [http-nio-0.0.0.0-8080-exec-8] &quot;POST /afa/api/v1/bridge/refresh?session=kk4msqvndoc0c8lmjka8i93vj4&amp;domain=0 HTTP/1.1&quot; 200 - 1739954 33412 -</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check whether the case already crossed into a later content branch</div><button class="copy-button" type="button" data-command="grep -E &#x27;/fa/tree/create|/afa/php/commands.php\?cmd=(GET_REPORTS|GET_POLICY_TAB|GET_DEVICE_POLICY|GET_MONITORING_CHANGES|GET_ANALYSIS_OPTIONS|GET_ANALYZE_DATA|ANALYZE)&#x27; /var/log/httpd/ssl_access_log | tail -n 40" aria-label="Copy command">Copy</button></div><pre><code>grep -E &#x27;/fa/tree/create|/afa/php/commands.php\?cmd=(GET_REPORTS|GET_POLICY_TAB|GET_DEVICE_POLICY|GET_MONITORING_CHANGES|GET_ANALYSIS_OPTIONS|GET_ANALYZE_DATA|ANALYZE)&#x27; /var/log/httpd/ssl_access_log | tail -n 40</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent Apache lines show the device tree refresh plus any later content-branch markers such as `GET_REPORTS`, `GET_POLICY_TAB`, `GET_DEVICE_POLICY`, `GET_MONITORING_CHANGES`, or `GET_ANALYSIS_OPTIONS`.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>127.0.0.1 - - [26/Mar/2026:05:13:15 -0400] &quot;POST /fa/tree/create HTTP/1.1&quot; 200 4211
+127.0.0.1 - - [26/Mar/2026:05:16:42 -0400] &quot;GET /afa/php/commands.php?cmd=GET_REPORTS HTTP/1.1&quot; 200 812
+127.0.0.1 - - [26/Mar/2026:05:18:09 -0400] &quot;GET /afa/php/commands.php?cmd=GET_POLICY_TAB HTTP/1.1&quot; 200 2213
+127.0.0.1 - - [26/Mar/2026:05:18:09 -0400] &quot;GET /afa/php/commands.php?cmd=GET_DEVICE_POLICY HTTP/1.1&quot; 200 744
+127.0.0.1 - - [26/Mar/2026:05:20:41 -0400] &quot;GET /afa/php/commands.php?cmd=GET_ANALYSIS_OPTIONS HTTP/1.1&quot; 200 1304</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check Metro heartbeat</div><button class="copy-button" type="button" data-command="curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10" aria-label="Copy command">Copy</button></div><pre><code>curl -sS http://127.0.0.1:8080/afa/getStatus --max-time 10</code></pre><div class="signal ok"><strong>Healthy means:</strong> The JSON response shows `&quot;isAlive&quot; : true`.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>{
+  &quot;isAlive&quot; : true
+}</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check Metro app traffic</div><button class="copy-button" type="button" data-command="grep -E &#x27;/afa/getStatus|/afa/api/v1/config\?|/afa/api/v1/license|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth&#x27; /data/ms-metro/logs/localhost_access_log.txt | tail -n 40" aria-label="Copy command">Copy</button></div><pre><code>grep -E &#x27;/afa/getStatus|/afa/api/v1/config\?|/afa/api/v1/license|/afa/api/v1/session/extend|/afa/api/v1/config/all/noauth&#x27; /data/ms-metro/logs/localhost_access_log.txt | tail -n 40</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent access lines show normal 200 responses for the Metro heartbeat and the light authenticated `/afa/api/v1/...` paths that appear immediately after the home page loads.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check what Metro is busy doing</div><button class="copy-button" type="button" data-command="ps -p $(cat /var/run/ms-metro/ms-metro.pid) -o pid,etime,%cpu,%mem,nlwp,cmd --cols 160" aria-label="Copy command">Copy</button></div><pre><code>ps -p $(cat /var/run/ms-metro/ms-metro.pid) -o pid,etime,%cpu,%mem,nlwp,cmd --cols 160</code></pre><div class="signal ok"><strong>Healthy means:</strong> The Metro JVM is present, has a stable elapsed runtime, and its CPU, memory, and thread count look reasonable for the current case.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check Metro JVM error clues</div><button class="copy-button" type="button" data-command="grep -n -i -E &#x27;error|exception|failed|caused by|outofmemory|unable|refused|timed out&#x27; /data/ms-metro/logs/catalina.out | tail -n 40" aria-label="Copy command">Copy</button></div><pre><code>grep -n -i -E &#x27;error|exception|failed|caused by|outofmemory|unable|refused|timed out&#x27; /data/ms-metro/logs/catalina.out | tail -n 40</code></pre><div class="signal ok"><strong>Healthy means:</strong> No fresh Metro error signatures appear, or the returned lines clearly point to the real Java, dependency, or application failure.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div></div></div></details><details class="step-card" id="ui-and-proxy-step-5"><summary class="step-summary"><div class="step-number">Step 5</div><div class="step-panel why"><strong>Step focus</strong><p>If the shallow host, Apache, service, and first-shell checks still leave the stop point unclear, use one bounded reproduced journey plus logs to decide whether the deeper issue sits in login bootstrap, auth, or a later app seam.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Replay one browser-like login journey with cookies before chasing neighbors</div><button class="copy-button" type="button" data-command="rm -f /tmp/asms-journey.cookies /tmp/asms-journey.headers /tmp/asms-journey.body; curl -k -sS -L -c /tmp/asms-journey.cookies -b /tmp/asms-journey.cookies -A &#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36&#x27; -H &#x27;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#x27; -H &#x27;Accept-Language: en-US,en;q=0.9&#x27; -H &#x27;Upgrade-Insecure-Requests: 1&#x27; -D /tmp/asms-journey.headers -o /tmp/asms-journey.body https://127.0.0.1/algosec/suite/login; printf &#x27;=== headers ===\n&#x27;; sed -n &#x27;1,30p&#x27; /tmp/asms-journey.headers; printf &#x27;=== cookies ===\n&#x27;; cat /tmp/asms-journey.cookies 2&gt;/dev/null; printf &#x27;=== html markers ===\n&#x27;; grep -E &#x27;base href=|runtime.js|main.js|styles.css&#x27; /tmp/asms-journey.body | head -n 10" aria-label="Copy command">Copy</button></div><pre><code>rm -f /tmp/asms-journey.cookies /tmp/asms-journey.headers /tmp/asms-journey.body; curl -k -sS -L -c /tmp/asms-journey.cookies -b /tmp/asms-journey.cookies -A &#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36&#x27; -H &#x27;Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#x27; -H &#x27;Accept-Language: en-US,en;q=0.9&#x27; -H &#x27;Upgrade-Insecure-Requests: 1&#x27; -D /tmp/asms-journey.headers -o /tmp/asms-journey.body https://127.0.0.1/algosec/suite/login; printf &#x27;=== headers ===\n&#x27;; sed -n &#x27;1,30p&#x27; /tmp/asms-journey.headers; printf &#x27;=== cookies ===\n&#x27;; cat /tmp/asms-journey.cookies 2&gt;/dev/null; printf &#x27;=== html markers ===\n&#x27;; grep -E &#x27;base href=|runtime.js|main.js|styles.css&#x27; /tmp/asms-journey.body | head -n 10</code></pre><div class="signal ok"><strong>Healthy means:</strong> The replay proves the legacy suite redirect, the static shell markers, and whether the browser-like startup already picked up cookies before any deeper auth path is tested.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>HTTP/1.1 302 Found
+Location: https://127.0.0.1/algosec-ui/login
+&lt;base href=&quot;/algosec-ui/&quot;&gt;
+&lt;script src=&quot;runtime.js?v=1768164271&quot; type=&quot;module&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;main.js?v=1768164271&quot; type=&quot;module&quot;&gt;&lt;/script&gt;</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Correlate the reproduced minute in Apache access logs</div><button class="copy-button" type="button" data-command="grep -E &#x27;/algosec/suite/login|/algosec-ui/login|/algosec-ui/(styles.css|runtime.js|main.js)|/afa/php/commands.php\?cmd=IS_SESSION_ACTIVE|/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|/seikan/login/setup|/aff/api/internal/noauth/getStatus|/BusinessFlow|/afa/php/SuiteLoginSessionValidation.php|/keycloak/|/FireFlow/SelfService/CheckAuthentication/|/afa/php/home.php|/afa/api/v1&#x27; /var/log/httpd/ssl_access_log | tail -n 120" aria-label="Copy command">Copy</button></div><pre><code>grep -E &#x27;/algosec/suite/login|/algosec-ui/login|/algosec-ui/(styles.css|runtime.js|main.js)|/afa/php/commands.php\?cmd=IS_SESSION_ACTIVE|/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|/seikan/login/setup|/aff/api/internal/noauth/getStatus|/BusinessFlow|/afa/php/SuiteLoginSessionValidation.php|/keycloak/|/FireFlow/SelfService/CheckAuthentication/|/afa/php/home.php|/afa/api/v1&#x27; /var/log/httpd/ssl_access_log | tail -n 120</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent Apache access lines show the same reproduced journey and make it clear whether the request stopped at the shell, moved through the legacy setup and session-validation paths, and only later reached downstream modules such as BusinessFlow, Keycloak, FireFlow, the PHP home page, and Metro-backed app paths.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &quot;GET /algosec-ui/login HTTP/1.1&quot; 200 13345
+127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] &quot;GET /seikan/login/setup HTTP/1.1&quot; 200 217
+127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &quot;GET /BusinessFlow/login HTTP/1.1&quot; 302 30
+127.0.0.1 - - [25/Mar/2026:16:09:01 -0400] &quot;POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1&quot; 200 65
+127.0.0.1 - - [25/Mar/2026:16:09:02 -0400] &quot;POST //keycloak/realms/master/protocol/openid-connect/token? HTTP/1.1&quot; 200 1562
+127.0.0.1 - - [25/Mar/2026:16:09:06 -0400] &quot;POST /BusinessFlow/rest/v1/login HTTP/1.1&quot; 200 49
+127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] &quot;GET /afa/php/home.php HTTP/1.1&quot; 200 35713</code></pre></div></div><div class="command-card"><div class="command-header"><div class="command-label">Review recent Apache/HTTPD logs</div><button class="copy-button" type="button" data-command="journalctl -u httpd.service -n 50 --no-pager" aria-label="Copy command">Copy</button></div><pre><code>journalctl -u httpd.service -n 50 --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> No obvious disk, permission, startup, or crash errors appear in recent lines.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>Recent service logs are often the fastest way to find the real failure clue.</li><li>Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.</li><li>Use this after the status check when the service looks up but still behaves badly.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Review recent Keycloak logs</div><button class="copy-button" type="button" data-command="tail -n 80 /var/log/keycloak/keycloak.log" aria-label="Copy command">Copy</button></div><pre><code>tail -n 80 /var/log/keycloak/keycloak.log</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent lines show healthy startup or a clear auth, database, TLS, or startup clue.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Review Metro error clues</div><button class="copy-button" type="button" data-command="grep -n -i -E &#x27;error|exception|failed|caused by|outofmemory|unable|refused|timed out&#x27; /data/ms-metro/logs/catalina.out | tail -n 40" aria-label="Copy command">Copy</button></div><pre><code>grep -n -i -E &#x27;error|exception|failed|caused by|outofmemory|unable|refused|timed out&#x27; /data/ms-metro/logs/catalina.out | tail -n 40</code></pre><div class="signal ok"><strong>Healthy means:</strong> No fresh Metro error signatures appear, or the returned lines clearly point to the real Java, dependency, or application failure.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div></div></div></details></section><section class="playbook" id="playbook-core-aff"><div class="playbook-header"><div><h2>FireFlow Backend</h2><p class="playbook-focus">Use this when a FireFlow action fails or FireFlow returns an error.</p></div><a class="top-link" href="#top">Back to top</a></div><details class="step-card" id="core-aff-step-1"><summary class="step-summary"><div class="step-number">Step 1</div><div class="step-panel why"><strong>Step focus</strong><p>Identify the failing FireFlow action and confirm that the symptom is tied to /FireFlow/api or /aff/api.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check config mapping</div><button class="copy-button" type="button" data-command="grep -n 1989 /etc/httpd/conf.d/aff.conf" aria-label="Copy command">Copy</button></div><pre><code>grep -n 1989 /etc/httpd/conf.d/aff.conf</code></pre><div class="signal ok"><strong>Healthy means:</strong> The expected mapping token 1989 appears in /etc/httpd/conf.d/aff.conf.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This checks whether the expected mapping still exists in the service config.</li><li>Use it to confirm the route, port, or target value is still what the application expects.</li></ul></div></div></div></div></details><details class="step-card" id="core-aff-step-2"><summary class="step-summary"><div class="step-number">Step 2</div><div class="step-panel why"><strong>Step focus</strong><p>Confirm aff-boot.service is active and that the failing FireFlow route still proxies to localhost:1989.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check aff-boot.service status</div><button class="copy-button" type="button" data-command="systemctl status aff-boot.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status aff-boot.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check FireFlow listener</div><button class="copy-button" type="button" data-command="ss -lntp | grep -E &#x27;:1989\b&#x27;" aria-label="Copy command">Copy</button></div><pre><code>ss -lntp | grep -E &#x27;:1989\b&#x27;</code></pre><div class="signal ok"><strong>Healthy means:</strong> A listening socket is present for 1989.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command shows whether Linux is listening on the expected port.</li><li>`LISTEN` means a process has opened the port and is waiting for connections.</li><li>If the port is missing, the service may be down, starting slowly, or bound to the wrong place.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check config mapping</div><button class="copy-button" type="button" data-command="grep -n 1989 /etc/httpd/conf.d/aff.conf" aria-label="Copy command">Copy</button></div><pre><code>grep -n 1989 /etc/httpd/conf.d/aff.conf</code></pre><div class="signal ok"><strong>Healthy means:</strong> The expected mapping token 1989 appears in /etc/httpd/conf.d/aff.conf.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This checks whether the expected mapping still exists in the service config.</li><li>Use it to confirm the route, port, or target value is still what the application expects.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check the FireFlow session path behind BusinessFlow AFF connection</div><button class="copy-button" type="button" data-command="curl -sk -D - https://localhost/FireFlow/api/session | sed -n &#x27;1,12p&#x27;; echo &#x27;--- direct aff-boot ---&#x27;; curl -sk -D - https://localhost:1989/aff/api/external/session | sed -n &#x27;1,12p&#x27;" aria-label="Copy command">Copy</button></div><pre><code>curl -sk -D - https://localhost/FireFlow/api/session | sed -n &#x27;1,12p&#x27;; echo &#x27;--- direct aff-boot ---&#x27;; curl -sk -D - https://localhost:1989/aff/api/external/session | sed -n &#x27;1,12p&#x27;</code></pre><div class="signal ok"><strong>Healthy means:</strong> The Apache-fronted FireFlow session route and the direct aff-boot session route should return the same invalid-session shape.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check aff-boot database and broker sockets</div><button class="copy-button" type="button" data-command="pid=$(systemctl show -p MainPID --value aff-boot.service); echo PID=$pid; lsof -Pan -p &quot;$pid&quot; -i 2&gt;/dev/null | egrep &#x27;(:1989|:5432|:61616)&#x27; || true" aria-label="Copy command">Copy</button></div><pre><code>pid=$(systemctl show -p MainPID --value aff-boot.service); echo PID=$pid; lsof -Pan -p &quot;$pid&quot; -i 2&gt;/dev/null | egrep &#x27;(:1989|:5432|:61616)&#x27; || true</code></pre><div class="signal ok"><strong>Healthy means:</strong> The aff-boot Java PID still owns the 1989 listener and usually shows local PostgreSQL and broker connections for its live runtime.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div><div class="signal example"><strong>Known-good example</strong><pre class="example-output"><code>PID=1687
+java 1687 root   24u  IPv6 ... TCP *:1989 (LISTEN)
+java 1687 root  146u  IPv6 ... TCP 127.0.0.1:20770-&gt;127.0.0.1:5432 (ESTABLISHED)
+java 1687 root  165u  IPv6 ... TCP 127.0.0.1:21910-&gt;127.0.0.1:61616 (ESTABLISHED)</code></pre></div></div></div></div></details><details class="step-card" id="core-aff-step-3"><summary class="step-summary"><div class="step-number">Step 3</div><div class="step-panel why"><strong>Step focus</strong><p>Confirm postgresql.service is active and local database access is healthy before assuming a FireFlow-only fault.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check postgresql.service status</div><button class="copy-button" type="button" data-command="systemctl status postgresql.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status postgresql.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div></div></div></div></details><details class="step-card" id="core-aff-step-4"><summary class="step-summary"><div class="step-number">Step 4</div><div class="step-panel why"><strong>Step focus</strong><p>Collect the latest FireFlow-related error lines or status output and decide whether the failure stays in FireFlow logic or must move deeper into dependencies.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Review aff-boot.service logs</div><button class="copy-button" type="button" data-command="journalctl -u aff-boot.service -n 50 --no-pager" aria-label="Copy command">Copy</button></div><pre><code>journalctl -u aff-boot.service -n 50 --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent lines show healthy startup or a clear error signature to classify.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>Recent service logs are often the fastest way to find the real failure clue.</li><li>Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.</li><li>Use this after the status check when the service looks up but still behaves badly.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check same-minute configuration refresh clues</div><button class="copy-button" type="button" data-command="grep -E &#x27;AlgoSec_FireFlow|AlgoSec_ApplicationDiscovery|swagger|BAD_GATEWAY&#x27; /data/algosec-ms/logs/ms-configuration.log | tail -n 40; echo &#x27;--- apache ---&#x27;; grep -E &#x27;AutoDiscovery|swagger/v2/api-docs&#x27; /var/log/httpd/ssl_error_log | tail -n 20" aria-label="Copy command">Copy</button></div><pre><code>grep -E &#x27;AlgoSec_FireFlow|AlgoSec_ApplicationDiscovery|swagger|BAD_GATEWAY&#x27; /data/algosec-ms/logs/ms-configuration.log | tail -n 40; echo &#x27;--- apache ---&#x27;; grep -E &#x27;AutoDiscovery|swagger/v2/api-docs&#x27; /var/log/httpd/ssl_error_log | tail -n 20</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent lines either stay quiet or show whether the failing FireFlow minute rolled into unified swagger refresh, downstream service-definition fetches, or a concrete Apache-side 502.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check whether CommandsDispatcher stayed on journal or session maintenance</div><button class="copy-button" type="button" data-command="grep -E &#x27;CommandsDispatcher|/journal/getChangesInOrigRulesByDate|/FireFlow/api/session|/session/extend&#x27; /var/log/httpd/ssl_access_log | tail -n 60" aria-label="Copy command">Copy</button></div><pre><code>grep -E &#x27;CommandsDispatcher|/journal/getChangesInOrigRulesByDate|/FireFlow/api/session|/session/extend&#x27; /var/log/httpd/ssl_access_log | tail -n 60</code></pre><div class="signal ok"><strong>Healthy means:</strong> The returned window shows whether the FireFlow branch stayed on journal refresh and session maintenance or moved into a different workflow shape.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check whether the branch is config broadcast plus FireFlow auth bootstrap</div><button class="copy-button" type="button" data-command="grep -E &#x27;application-afaConfig.properties|notify ActiveMq broadcast|MicroserviceConfigurationBroadcast|Refreshing application context&#x27; /data/algosec-ms/logs/ms-configuration.log /data/algosec-ms/logs/ms-initial-plan.log | tail -n 60; echo &#x27;--- fireflow ---&#x27;; grep -E &#x27;authenticateUser|GetUserInfo&#x27; /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 2&gt;/dev/null | tail -n 40" aria-label="Copy command">Copy</button></div><pre><code>grep -E &#x27;application-afaConfig.properties|notify ActiveMq broadcast|MicroserviceConfigurationBroadcast|Refreshing application context&#x27; /data/algosec-ms/logs/ms-configuration.log /data/algosec-ms/logs/ms-initial-plan.log | tail -n 60; echo &#x27;--- fireflow ---&#x27;; grep -E &#x27;authenticateUser|GetUserInfo&#x27; /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 2&gt;/dev/null | tail -n 40</code></pre><div class="signal ok"><strong>Healthy means:</strong> The returned window shows whether the same FireFlow minute is really a config-broadcast ripple with nearby authentication and user bootstrap rather than a ticket-progression branch.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check whether FireFlow is active but the lab has zero tickets</div><button class="copy-button" type="button" data-command="grep -E &#x27;Total tickets in DB|tickets updated in the last 10 minutes|setup/fireflow/is_enabled|allowedDevices|brandConfig&#x27; /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 2&gt;/dev/null | tail -n 80; echo &#x27;--- apache ---&#x27;; grep -E &#x27;/setup/fireflow/is_enabled|/allowedDevices|/bridge/refresh|/config/all/noauth&#x27; /var/log/httpd/ssl_access_log | tail -n 40" aria-label="Copy command">Copy</button></div><pre><code>grep -E &#x27;Total tickets in DB|tickets updated in the last 10 minutes|setup/fireflow/is_enabled|allowedDevices|brandConfig&#x27; /usr/share/fireflow/var/log/fireflow.log /usr/share/fireflow/var/log/fireflow.log.1 /usr/share/fireflow/var/log/fireflow.log.2 2&gt;/dev/null | tail -n 80; echo &#x27;--- apache ---&#x27;; grep -E &#x27;/setup/fireflow/is_enabled|/allowedDevices|/bridge/refresh|/config/all/noauth&#x27; /var/log/httpd/ssl_access_log | tail -n 40</code></pre><div class="signal ok"><strong>Healthy means:</strong> The returned window shows whether FireFlow is enabled and polling neighboring dependencies successfully while still reporting zero tickets in DB.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command gives a focused check for the current step.</li><li>Use the healthy example below as the main output reference for what good looks like.</li></ul></div></div></div></div></details></section><section class="playbook" id="playbook-microservice-platform"><div class="playbook-header"><div><h2>Microservice Platform</h2><p class="playbook-focus">Use this when one product feature fails after login and the UI itself is still up.</p></div><a class="top-link" href="#top">Back to top</a></div><details class="step-card" id="microservice-platform-step-1"><summary class="step-summary"><div class="step-number">Step 1</div><div class="step-panel why"><strong>Step focus</strong><p>Identify the exact failing feature or ms-* path in the customer session so the diagnostic path stays anchored to one concrete product behavior.</p></div></summary><div class="step-body"></div></details><details class="step-card" id="microservice-platform-step-2"><summary class="step-summary"><div class="step-number">Step 2</div><div class="step-panel why"><strong>Step focus</strong><p>Confirm algosec-ms.service completed successfully and that the likely target service set is healthy: ms-batch-application.service, ms-bflow.service, ms-cloudlicensing.service.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check algosec-ms.service status</div><button class="copy-button" type="button" data-command="systemctl status algosec-ms.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status algosec-ms.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check ms-batch-application.service status</div><button class="copy-button" type="button" data-command="systemctl status ms-batch-application.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status ms-batch-application.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div></div></div></div></details><details class="step-card" id="microservice-platform-step-3"><summary class="step-summary"><div class="step-number">Step 3</div><div class="step-panel why"><strong>Step focus</strong><p>Confirm the customer-facing failing path still maps to the expected local target port for that microservice.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check config mapping</div><button class="copy-button" type="button" data-command="sed -n &#x27;1,160p&#x27; /etc/httpd/conf.d/algosec-ms.conf" aria-label="Copy command">Copy</button></div><pre><code>sed -n &#x27;1,160p&#x27; /etc/httpd/conf.d/algosec-ms.conf</code></pre><div class="signal ok"><strong>Healthy means:</strong> The expected proxy or service mapping is visible in /etc/httpd/conf.d/algosec-ms.conf.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This checks whether the expected mapping still exists in the service config.</li><li>Use it to confirm the route, port, or target value is still what the application expects.</li></ul></div></div></div></div></details><details class="step-card" id="microservice-platform-step-4"><summary class="step-summary"><div class="step-number">Step 4</div><div class="step-panel why"><strong>Step focus</strong><p>Confirm ms-configuration.service is healthy before assuming the issue is isolated to the single feature path.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check ms-configuration.service status</div><button class="copy-button" type="button" data-command="systemctl status ms-configuration.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status ms-configuration.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div></div></div></div></details><details class="step-card" id="microservice-platform-step-5"><summary class="step-summary"><div class="step-number">Step 5</div><div class="step-panel why"><strong>Step focus</strong><p>Collect the relevant ms-* service status or error snippet and decide whether the issue stays in the target service or moves to shared dependencies like httpd.service.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Review ms-batch-application.service logs</div><button class="copy-button" type="button" data-command="journalctl -u ms-batch-application.service -n 50 --no-pager" aria-label="Copy command">Copy</button></div><pre><code>journalctl -u ms-batch-application.service -n 50 --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent lines show healthy startup or a clear error signature to classify.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>Recent service logs are often the fastest way to find the real failure clue.</li><li>Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.</li><li>Use this after the status check when the service looks up but still behaves badly.</li></ul></div></div></div></div></details></section><section class="playbook" id="playbook-messaging-and-data"><div class="playbook-header"><div><h2>Messaging and Data</h2><p class="playbook-focus">Use this when jobs stop, queues back up, or data actions fail.</p></div><a class="top-link" href="#top">Back to top</a></div><details class="step-card" id="messaging-and-data-step-1"><summary class="step-summary"><div class="step-number">Step 1</div><div class="step-panel why"><strong>Step focus</strong><p>Confirm the customer symptom is really a stuck job, stalled event, or data-backed action failure instead of a pure UI-path issue.</p></div></summary><div class="step-body"></div></details><details class="step-card" id="messaging-and-data-step-2"><summary class="step-summary"><div class="step-number">Step 2</div><div class="step-panel why"><strong>Step focus</strong><p>Confirm activemq.service is active and listener 61616 is present before assuming the issue is only downstream data state.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check activemq.service status</div><button class="copy-button" type="button" data-command="systemctl status activemq.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status activemq.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Check broker listener</div><button class="copy-button" type="button" data-command="ss -lntp | grep -E &#x27;:61616\b&#x27;" aria-label="Copy command">Copy</button></div><pre><code>ss -lntp | grep -E &#x27;:61616\b&#x27;</code></pre><div class="signal ok"><strong>Healthy means:</strong> A listening socket is present for 61616.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command shows whether Linux is listening on the expected port.</li><li>`LISTEN` means a process has opened the port and is waiting for connections.</li><li>If the port is missing, the service may be down, starting slowly, or bound to the wrong place.</li></ul></div></div></div></div></details><details class="step-card" id="messaging-and-data-step-3"><summary class="step-summary"><div class="step-number">Step 3</div><div class="step-panel why"><strong>Step focus</strong><p>Confirm postgresql.service is active and that the customer environment shows no obvious database connectivity or state error.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Check postgresql.service status</div><button class="copy-button" type="button" data-command="systemctl status postgresql.service --no-pager" aria-label="Copy command">Copy</button></div><pre><code>systemctl status postgresql.service --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Unit is loaded and active (running).</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>This command asks systemd whether the service is known and running right now.</li><li>`Loaded` means the unit file exists on the server. `Active (running)` means the service is up now.</li><li>`Main PID` means systemd still sees a live main process for the service.</li></ul></div></div></div></div></details><details class="step-card" id="messaging-and-data-step-4"><summary class="step-summary"><div class="step-number">Step 4</div><div class="step-panel why"><strong>Step focus</strong><p>Review the visible queue, backlog, or stuck-job signal and decide whether the problem stays in broker/data infrastructure or should move back to a feature-specific domain.</p></div></summary><div class="step-body"><div class="step-panel"><strong>Run</strong><div class="command-card"><div class="command-header"><div class="command-label">Review activemq.service logs</div><button class="copy-button" type="button" data-command="journalctl -u activemq.service -n 50 --no-pager" aria-label="Copy command">Copy</button></div><pre><code>journalctl -u activemq.service -n 50 --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent lines show healthy startup or a clear error signature to classify.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>Recent service logs are often the fastest way to find the real failure clue.</li><li>Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.</li><li>Use this after the status check when the service looks up but still behaves badly.</li></ul></div></div><div class="command-card"><div class="command-header"><div class="command-label">Review postgresql.service logs</div><button class="copy-button" type="button" data-command="journalctl -u postgresql.service -n 50 --no-pager" aria-label="Copy command">Copy</button></div><pre><code>journalctl -u postgresql.service -n 50 --no-pager</code></pre><div class="signal ok"><strong>Healthy means:</strong> Recent lines show healthy startup or a clear error signature to classify.</div><div class="signal tip"><strong>Why this check matters</strong><ul class="knowledge-list"><li>Recent service logs are often the fastest way to find the real failure clue.</li><li>Focus on startup errors, permission errors, heap errors, dependency failures, and repeated retries.</li><li>Use this after the status check when the service looks up but still behaves badly.</li></ul></div></div></div></div></details></section>
+    <section>
+      <h2>Reference</h2>
+      <div class="reference-grid"><article class="reference-card"><h4>aff-boot.service</h4><p>route local listener ports 1989</p></article><article class="reference-card"><h4>ssh-connections-monitor.service</h4><p>No direct path summary captured yet.</p></article><article class="reference-card"><h4>ms-batch-application.service</h4><p>No direct path summary captured yet.</p></article><article class="reference-card"><h4>ms-bflow.service</h4><p>No direct path summary captured yet.</p></article><article class="reference-card"><h4>ms-cloudlicensing.service</h4><p>No direct path summary captured yet.</p></article></div>
+      <details>
+        <summary>Known Unknowns</summary>
+        <ul><li>Only first-pass config and log checkpoints are collected in this slice.</li><li>Dependency mapping between AlgoSec services is not yet collected directly.</li></ul>
+      </details>
+    </section>
+  </main>
+  <script>
+    (function () {
+      async function copyCommand(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+        const fallback = document.createElement('textarea');
+        fallback.value = text;
+        fallback.setAttribute('readonly', '');
+        fallback.style.position = 'absolute';
+        fallback.style.left = '-9999px';
+        document.body.appendChild(fallback);
+        fallback.select();
+        document.execCommand('copy');
+        document.body.removeChild(fallback);
+      }
+
+      document.querySelectorAll('.copy-button').forEach((button) => {
+        const defaultLabel = button.textContent;
+        button.addEventListener('click', async () => {
+          try {
+            await copyCommand(button.dataset.command || '');
+            button.textContent = 'Copied';
+            button.classList.add('copied');
+            setTimeout(() => {
+              button.textContent = defaultLabel;
+              button.classList.remove('copied');
+            }, 1400);
+          } catch (error) {
+            button.textContent = 'Copy failed';
+            setTimeout(() => {
+              button.textContent = defaultLabel;
+            }, 1400);
+          }
+        });
+      });
+
+      function openHashTarget() {
+        const rawHash = window.location.hash;
+        if (!rawHash || rawHash.length < 2) {
+          return;
+        }
+        const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));
+        if (!target) {
+          return;
+        }
+        const step = target.matches('details.step-card') ? target : target.closest('details.step-card');
+        if (step) {
+          step.open = true;
+        }
+      }
+
+      window.addEventListener('hashchange', openHashTarget);
+      openHashTarget();
+    })();
+  </script>
+</body>
+</html>

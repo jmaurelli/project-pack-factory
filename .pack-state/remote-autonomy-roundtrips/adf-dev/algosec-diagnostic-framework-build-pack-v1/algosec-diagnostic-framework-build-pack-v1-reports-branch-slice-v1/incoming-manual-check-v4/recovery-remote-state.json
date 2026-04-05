@@ -1,0 +1,22 @@
+{
+  "bundle_present": false,
+  "invocation_context": {},
+  "recovered_at": "2026-03-28T23:04:28Z",
+  "remote_run_state": {
+    "checkpoint_exists": false,
+    "invocation_context_exists": false,
+    "loop_events_exists": false,
+    "run_dir_exists": true,
+    "run_summary_exists": false
+  },
+  "request_sha256": "d38505d373b5398be78a7100cdffc0d97414157d72820b559252c6dbe99b4d0a",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-reports-branch-slice-v1",
+  "schema_version": "remote-runtime-recovery-snapshot/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "synthetic_manifest_fields": {
+    "prompt_sha256_synthetic": true,
+    "remote_runner_synthetic": true,
+    "timestamps_synthetic": true
+  },
+  "terminal_reason": "pre_invocation_control_plane_startup_stall"
+}

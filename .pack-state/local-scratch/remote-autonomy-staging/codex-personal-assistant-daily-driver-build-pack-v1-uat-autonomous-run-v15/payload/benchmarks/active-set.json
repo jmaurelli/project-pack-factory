@@ -1,0 +1,14 @@
+{
+  "active_benchmarks": [
+    {
+      "benchmark_id": "codex-personal-assistant-template-pack-smoke-small-001",
+      "declaration_path": "benchmarks/declarations/codex-personal-assistant-template-pack-smoke-small-001.json",
+      "objective": "Prove the smallest end-to-end Codex personal assistant path: bootstrap the workspace, expose the assistant profile and context-routing surfaces, write and read one restart-memory artifact, and validate the pack contract without requiring broad hook or GUI parity on day one.",
+      "required_for_readiness": true
+    }
+  ],
+  "default_benchmark_id": "codex-personal-assistant-template-pack-smoke-small-001",
+  "pack_id": "codex-personal-assistant-template-pack",
+  "pack_kind": "template_pack",
+  "schema_version": "pack-benchmark-active-set/v1"
+}

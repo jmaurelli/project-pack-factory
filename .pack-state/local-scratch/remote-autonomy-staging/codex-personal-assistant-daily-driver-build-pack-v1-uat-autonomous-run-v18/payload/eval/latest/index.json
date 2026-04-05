@@ -1,0 +1,15 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "codex-personal-assistant-template-pack-smoke-small-001",
+      "latest_run_id": "pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z",
+      "run_artifact_path": "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/benchmark-result.json",
+      "status": "pass",
+      "summary_artifact_path": "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/benchmark-result.json"
+    }
+  ],
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "schema_version": "pack-eval-index/v1",
+  "updated_at": "2026-03-29T16:23:03Z"
+}

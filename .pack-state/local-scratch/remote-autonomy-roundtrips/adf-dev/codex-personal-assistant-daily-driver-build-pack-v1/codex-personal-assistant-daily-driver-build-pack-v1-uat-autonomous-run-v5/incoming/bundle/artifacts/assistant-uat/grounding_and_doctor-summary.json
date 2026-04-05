@@ -1,0 +1,43 @@
+{
+  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
+  "generated_at": "2026-03-30T17:29:50Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "scenario": {
+    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
+    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
+  },
+  "grounding_result": {
+    "status": "pass",
+    "assessment": "drift_risk",
+    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
+    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
+    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
+    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
+  },
+  "doctor_result": {
+    "status": "pass",
+    "missing_paths": [],
+    "errors": [],
+    "route_count": 7,
+    "skill_count": 7,
+    "latest_memory_pointer_present": true,
+    "pause_condition_count": 3,
+    "accountability_checkpoint_count": 3,
+    "accountability_trigger_count": 3
+  },
+  "real_caution": {
+    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
+    "evidence": [
+      "show-alignment reports operator_intake_status.intake_count = 0",
+      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
+    ],
+    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
+  },
+  "source_paths": [
+    "contracts/operator-profile.json",
+    "contracts/partnership-policy.json",
+    "docs/specs/operator-alignment-model.md",
+    "src/codex_personal_assistant_template_pack/grounding.py",
+    "src/codex_personal_assistant_template_pack/doctor.py"
+  ]
+}

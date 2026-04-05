@@ -1,0 +1,25 @@
+{
+  "durable_promoted_artifacts": {
+    "execution-manifest.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1/artifacts/execution-manifest.json",
+    "portable-runtime-helper-manifest.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1/artifacts/portable-runtime-helper-manifest.json",
+    "scratch-lifecycle.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1/artifacts/scratch-lifecycle.json",
+    "target-manifest.json": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1/artifacts/target-manifest.json"
+  },
+  "execution_manifest_sha256": "947421c352c85cb657cf670a1d288aa783282a7b7d0572a0d82cc9154af58f30",
+  "generated_import_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1/artifacts/generated-import-request.json",
+  "generated_import_request_sha256": "7c1c36d6e4e468419558795ba2ef300f3e71879df8c26965b2fd1ba09ad52b13",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1/incoming",
+  "local_roundtrip_artifacts_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1/artifacts",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "portable_helper_manifest_sha256": "7cdbc5e59273d08615e9d606f9f4c78dce0b31c0d8fa2bd1bd656b09f1889aac",
+  "pulled_at": "2026-04-04T13:51:16Z",
+  "pulled_bundle_path": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1/incoming/bundle",
+  "pulled_bundle_sha256": "74612f93dca2bfc102827acee80f0a94b5c6d81acf9b6cf23d60c3c341f89147",
+  "remote_run_request_sha256": "e382f840083c1bb224d8a9bfe31305c98343853b2991efedf0fa115476827b5a",
+  "remote_target_label": "adf-dev",
+  "run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-213-shallow-surface-map-v1",
+  "schema_version": "remote-roundtrip-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "target_manifest_sha256": "ce3c7ece9cc2a8ac7174c14a53578a7bf77944bd7f6125057a8417c1f279a22c",
+  "wrapper_request_sha256": "33ec505c11171e20814dd3d2aada6a95e7b548c91201b53ce849d309d52af3e8"
+}

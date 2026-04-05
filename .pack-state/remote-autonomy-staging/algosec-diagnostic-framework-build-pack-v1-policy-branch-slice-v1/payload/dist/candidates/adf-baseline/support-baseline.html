@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AlgoSec Support Playbooks</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f2eee5;
+      --card: #fffdfa;
+      --ink: #13212a;
+      --accent: #0f6c7a;
+      --accent-soft: #d8eef0;
+      --rule: #d8ccbc;
+      --ok: #edf8ef;
+      --ok-ink: #1e6a33;
+      --warn: #fff0db;
+      --warn-ink: #8a4b00;
+      --fail: #fff1ef;
+      --fail-ink: #9d2d20;
+      --muted: #5d6970;
+      --code: #1f2933;
+    }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top right, #d8eef0 0, transparent 28%),
+        linear-gradient(180deg, #f6f1e8 0%, var(--bg) 100%);
+      color: var(--ink);
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+    }
+    section {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 20px;
+      padding: 22px;
+      margin-top: 18px;
+      box-shadow: 0 16px 40px rgba(19, 33, 42, 0.08);
+    }
+    h1, h2, h3, h4 {
+      margin: 0 0 12px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      line-height: 1.05;
+    }
+    h2 {
+      font-size: 1.6rem;
+    }
+    .meta {
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .hero {
+      display: grid;
+      gap: 18px;
+    }
+    .hero-grid,
+    .playbook-meta,
+    .step-grid,
+    .jump-grid,
+    .symptom-grid,
+    .reference-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .hero-grid,
+    .playbook-meta {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .jump-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .symptom-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .reference-grid {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .meta-card,
+    .jump-card,
+    .symptom-chip,
+    .reference-card,
+    .step-panel,
+    .command-card,
+    .path-node {
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      background: #fff;
+      padding: 14px 16px;
+    }
+    .jump-card,
+    .symptom-chip,
+    .top-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    .jump-card {
+      background: linear-gradient(180deg, #fffdfa 0%, #f4fbfb 100%);
+      display: block;
+      min-height: 84px;
+    }
+    .jump-title {
+      display: block;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .jump-subtitle,
+    .playbook-focus,
+    .command-label,
+    .path-node span,
+    .symptom-chip span {
+      color: var(--muted);
+    }
+    .symptom-chip {
+      display: block;
+      background: linear-gradient(180deg, #fffdfa 0%, #f4fbfb 100%);
+      min-height: 126px;
+    }
+    .symptom-chip strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    .symptom-title {
+      color: var(--accent);
+    }
+    .symptom-path,
+    .symptom-start {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .symptom-start {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .symptom-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .symptom-tag {
+      display: inline-block;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .playbook-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+    .dependency-map {
+      display: grid;
+      gap: 10px;
+      margin: 10px 0 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f7fbfb 0%, #eef6f7 100%);
+      border: 1px solid #cfe1e4;
+    }
+    .dependency-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .dependency-steps {
+      display: grid;
+      gap: 10px;
+    }
+    .dependency-node {
+      display: grid;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid #d7e6e8;
+      position: relative;
+      color: inherit;
+      text-decoration: none;
+    }
+    .dependency-node:not(:last-child)::after {
+      content: "↓";
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      transform: translateX(-50%);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .dependency-step {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .dependency-node strong {
+      font-size: 1rem;
+    }
+    .dependency-node span:last-child {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .top-link {
+      color: var(--accent);
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .step-card {
+      border-top: 1px solid var(--rule);
+      padding-top: 18px;
+      margin-top: 18px;
+    }
+    .step-summary {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .step-summary::-webkit-details-marker {
+      display: none;
+    }
+    .step-summary::marker {
+      display: none;
+    }
+    .step-summary::after {
+      content: "Expand";
+      margin-left: auto;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+      padding-top: 6px;
+    }
+    .step-card[open] > .step-summary::after {
+      content: "Collapse";
+    }
+    .step-number {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-weight: bold;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-top: 4px;
+      flex: 0 0 auto;
+    }
+    .step-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin: 14px 0;
+    }
+    .pass {
+      background: var(--ok);
+      color: var(--ok-ink);
+    }
+    .fail {
+      background: var(--fail);
+      color: var(--fail-ink);
+    }
+    .next,
+    .evidence {
+      background: #f7f3ea;
+    }
+    .why {
+      background: #eef6f1;
+      color: #214a33;
+      margin-bottom: 0;
+      flex: 1 1 auto;
+    }
+    .step-body {
+      margin-top: 12px;
+    }
+    .command-card {
+      margin-top: 12px;
+      background: #fbfcfe;
+    }
+    .command-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .copy-button {
+      border: 1px solid var(--rule);
+      background: #fffdfa;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+    }
+    .copy-button:hover {
+      background: var(--accent-soft);
+      border-color: #b7dadd;
+    }
+    .copy-button.copied {
+      background: var(--ok);
+      color: var(--ok-ink);
+      border-color: #b9dfc2;
+    }
+    .knowledge-list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+    .knowledge-list li {
+      margin: 6px 0;
+      line-height: 1.4;
+    }
+    pre {
+      background: var(--code);
+      color: #f4f7fb;
+      padding: 12px 14px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.95rem;
+    }
+    .signal {
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 8px;
+    }
+    .signal.ok {
+      background: var(--ok);
+      color: var(--ok-ink);
+    }
+    .signal.tip {
+      background: var(--accent-soft);
+      color: #184c55;
+    }
+    .signal.example {
+      background: #eef4fb;
+      color: #1a3550;
+    }
+    .signal.warn {
+      background: var(--warn);
+      color: var(--warn-ink);
+    }
+    .example-output {
+      margin-top: 10px;
+      background: #101820;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    p {
+      line-height: 1.45;
+    }
+    details {
+      margin-top: 18px;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main id="top">
+    <section class="hero">
+      <h1>AlgoSec Diagnostic Playbooks</h1>
+      <p class="meta">Target: algosec-lab | Host: orch-lab-01 | Generated: 2026-03-26T12:17:22Z</p>
+      <p>Use this page to get to the right playbook quickly, run the next command, validate the output, and isolate the likely failure point.</p>
+      <div class="hero-grid">
+        <div class="meta-card">
+          <strong>System baseline</strong>
+          <p>OS: Ubuntu 24.04.4 LTS</p>
+          <p>Kernel: 6.8.0-106-generic</p>
+        </div>
+        <div class="meta-card">
+          <strong>Runtime footprint</strong>
+          <p>Services observed: 223</p>
+          <p>Product services: 0</p>
+        </div>
+        <div class="meta-card">
+          <strong>Support focus</strong>
+          <p>Critical services: 1</p>
+          <p>Listening endpoints: 6</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Jump To The Right Playbook</h2>
+      <p class="step-order-note">Scan the symptom, read the start clue, and open the playbook that best matches what the customer is reporting.</p>
+      <div class="symptom-grid"></div>
+    </section>
+    
+    <section>
+      <h2>Reference</h2>
+      <div class="reference-grid"></div>
+      <details>
+        <summary>Known Unknowns</summary>
+        <ul><li>Only first-pass config and log checkpoints are collected in this slice.</li><li>Dependency mapping between AlgoSec services is not yet collected directly.</li></ul>
+      </details>
+    </section>
+  </main>
+  <script>
+    (function () {
+      async function copyCommand(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+        const fallback = document.createElement('textarea');
+        fallback.value = text;
+        fallback.setAttribute('readonly', '');
+        fallback.style.position = 'absolute';
+        fallback.style.left = '-9999px';
+        document.body.appendChild(fallback);
+        fallback.select();
+        document.execCommand('copy');
+        document.body.removeChild(fallback);
+      }
+
+      document.querySelectorAll('.copy-button').forEach((button) => {
+        const defaultLabel = button.textContent;
+        button.addEventListener('click', async () => {
+          try {
+            await copyCommand(button.dataset.command || '');
+            button.textContent = 'Copied';
+            button.classList.add('copied');
+            setTimeout(() => {
+              button.textContent = defaultLabel;
+              button.classList.remove('copied');
+            }, 1400);
+          } catch (error) {
+            button.textContent = 'Copy failed';
+            setTimeout(() => {
+              button.textContent = defaultLabel;
+            }, 1400);
+          }
+        });
+      });
+
+      function openHashTarget() {
+        const rawHash = window.location.hash;
+        if (!rawHash || rawHash.length < 2) {
+          return;
+        }
+        const target = document.getElementById(decodeURIComponent(rawHash.slice(1)));
+        if (!target) {
+          return;
+        }
+        const step = target.matches('details.step-card') ? target : target.closest('details.step-card');
+        if (step) {
+          step.open = true;
+        }
+      }
+
+      window.addEventListener('hashchange', openHashTarget);
+      openHashTarget();
+    })();
+  </script>
+</body>
+</html>

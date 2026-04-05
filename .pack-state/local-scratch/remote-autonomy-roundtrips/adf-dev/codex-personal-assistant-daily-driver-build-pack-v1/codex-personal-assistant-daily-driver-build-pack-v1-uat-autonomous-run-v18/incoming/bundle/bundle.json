@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "b0b6338b92440593c6ef7461a084c15a5a0de9d653c007bcdc9a36ea21d5bc70",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "b4b3176e481cbc97bb844a860264eb7bae608b0ee00e51563e95010268127328",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "b29dbe6766570eb6ea7b572cae5456f7e0d75e63cba844a88f070368d880e2b5",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18-20260331T144942Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18-20260331T144942Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-31T14:49:42Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-31T14:49:42Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 0,
+    "started_at": "2026-03-31T14:49:42Z",
+    "stop_reason": "runner_exited_nonzero_with_incomplete_pack_state",
+    "task_completion_rate": 1.0
+  }
+}

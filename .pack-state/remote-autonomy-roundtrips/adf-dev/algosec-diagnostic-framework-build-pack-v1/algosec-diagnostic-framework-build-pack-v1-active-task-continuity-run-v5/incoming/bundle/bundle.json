@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v5.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "0d5d75673df0b10a32b430cc366e2bdfa6fef3dbcae024167808fbd99ea47e66",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v5.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "b502090b28612528179bc3f88bd85defe437b66ebd9f3023582dc1654e4a98f7",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v5/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "9092c695462c16a46b65878df9f1d6045ea4e2792893415286d1444a230b4233",
+      "source_pack_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v5/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v5-20260328T180025Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v5-20260328T180025Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-28T18:00:25Z",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v5",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-active-task-continuity-run-v5",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-28T18:00:25Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 1,
+    "started_at": "2026-03-28T18:00:12Z",
+    "stop_reason": "current_task_incomplete",
+    "task_completion_rate": 0.7436
+  }
+}

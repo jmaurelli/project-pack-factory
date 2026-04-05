@@ -224,6 +224,11 @@ It must not:
 - become canonical PackFactory readiness state
 - replace imported history under the target build-pack
 
+For the transient local scratch-root design, this local staging root should be
+treated as scratch workspace. If PackFactory needs to preserve operator-facing
+artifacts such as generated import requests or roundtrip manifests, it must
+write or copy them to a durable path outside scratch before cleanup runs.
+
 ## Import Contract
 
 If `import_bundle = true`, the wrapper must create an explicit import request

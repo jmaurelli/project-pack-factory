@@ -1,0 +1,40 @@
+{"cmd":"pwd","workdir":"/root","login":false}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/fireflow-workflow-broker-correlation-v1/delegated-task-request.json","workdir":"/root","login":false}
+{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/fireflow-workflow-broker-correlation-v1","workdir":"/root","login":false}
+{"cmd":"cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","workdir":"/root","login":false}
+{"cmd":"find /var/log/httpd -maxdepth 2 -type f | sort | tail -n 20","workdir":"/root","login":false}
+{"cmd":"find /data/algosec-ms/logs -maxdepth 2 -type f | sort | tail -n 40","workdir":"/root","login":false}
+{"cmd":"find /opt/activemq -maxdepth 3 -type f | sort | tail -n 40","workdir":"/root","login":false}
+{"cmd":"find /data/algosec-ms/logs -maxdepth 1 -type f | sed 's#.*/##' | rg 'fireflow|workflow|broker|queue|approval|aff|boot|tomcat|catalina|ms-' | sort","workdir":"/root","login":false}
+{"cmd":"find /usr/share/fireflow -maxdepth 3 -type f | sort | head -n 200","workdir":"/root","login":false}
+{"cmd":"find /usr/share/aff -maxdepth 3 -type f | sort | head -n 200","workdir":"/root","login":false}
+{"cmd":"find /data/pgsql -maxdepth 3 -type f | sort | tail -n 100","workdir":"/root","login":false}
+{"cmd":"tail -n 300 /var/log/httpd/ssl_access_log | rg -i 'fireflow|ticket|workflow|approve|approval|request|change'","workdir":"/root","login":false}
+{"cmd":"tail -n 300 /var/log/httpd/access_log | rg -i 'fireflow|ticket|workflow|approve|approval|request|change'","workdir":"/root","login":false}
+{"cmd":"cat /data/pgsql/15/data/current_logfiles","workdir":"/root","login":false}
+{"cmd":"find /data/pgsql/15/data -maxdepth 2 -type d | sort | tail -n 40","workdir":"/root","login":false}
+{"cmd":"find /opt/activemq -type f | sort | rg 'log|data|kahadb|activemq'","workdir":"/root","login":false}
+{"cmd":"find /data/algosec-ms/logs -maxdepth 1 -type f | sed 's#.*/##' | rg -i 'activemq|broker|queue|jms|amq|fireflow|approval|workflow|batch' | sort","workdir":"/root","login":false}
+{"cmd":"for f in /data/algosec-ms/logs/*.log; do if rg -q '2026-03-26 19:3[8-9]|2026-03-26 19:4[0-3]' \"$f\"; then echo \"$f\"; fi; done","workdir":"/root","login":false}
+{"cmd":"tail -n 200 /data/pgsql/15/data/pg_log/postgresql-Thu.log","workdir":"/root","login":false}
+{"cmd":"rg -n '2026-03-26 19:38|2026-03-26 19:39|2026-03-26 19:40|2026-03-26 19:41|2026-03-26 19:42|2026-03-26 19:43' /data/algosec-ms/logs/ms-configuration.log","workdir":"/root","login":false}
+{"cmd":"rg -n '2026-03-26 19:38|2026-03-26 19:39|2026-03-26 19:40|2026-03-26 19:41|2026-03-26 19:42|2026-03-26 19:43' /data/algosec-ms/logs/ms-mapDiagnostics.log","workdir":"/root","login":false}
+{"cmd":"rg -n '2026-03-26 19:38|2026-03-26 19:39|2026-03-26 19:40|2026-03-26 19:41|2026-03-26 19:42|2026-03-26 19:43' /data/algosec-ms/logs/ms-policy-optimizations.log","workdir":"/root","login":false}
+{"cmd":"rg -n '2026-03-26 19:38|2026-03-26 19:39|2026-03-26 19:40|2026-03-26 19:41|2026-03-26 19:42|2026-03-26 19:43' /data/algosec-ms/logs/ms-vulnerabilities.log /data/algosec-ms/logs/ms-watchdog.log","workdir":"/root","login":false}
+{"cmd":"tail -n 1200 /var/log/httpd/ssl_access_log | rg '/FireFlow|/afa/external'","workdir":"/root","login":false}
+{"cmd":"tail -n 1200 /var/log/httpd/ssl_request_log | rg 'FireFlow|afa/external'","workdir":"/root","login":false}
+{"cmd":"tail -n 400 /var/log/httpd/ssl_error_log","workdir":"/root","login":false}
+{"cmd":"rg -n -i 'activemq|amq|jms|broker|queue|destination|consumer|producer|stomp|openwire|kahadb|advisory' /data/algosec-ms/logs /var/log/httpd /usr/share/fireflow /usr/share/aff /opt/activemq /data/pgsql/15/data/pg_log 2>/dev/null | head -n 300","workdir":"/root","login":false}
+{"cmd":"find / -maxdepth 4 -type f 2>/dev/null | rg 'activemq.*log|amq.*log|broker.*log|kahadb|jetty.*log'","workdir":"/root","login":false}
+{"cmd":"rg -n '2026-03-26 19:3[8-9]|2026-03-26 19:4[0-5]' /opt/apache-activemq-6.1.7/data/activemq.log /opt/apache-activemq-6.1.7/data/audit.log","workdir":"/root","login":false}
+{"cmd":"tail -n 300 /opt/apache-activemq-6.1.7/data/activemq.log","workdir":"/root","login":false}
+{"cmd":"tail -n 300 /opt/apache-activemq-6.1.7/data/audit.log","workdir":"/root","login":false}
+{"cmd":"find /opt/apache-activemq-6.1.7/data -maxdepth 3 -type f -printf '%TY-%Tm-%Td %TH:%TM:%TS %p\\n' | sort | tail -n 120","workdir":"/root","login":false}
+{"cmd":"find /data/algosec-ms/logs -maxdepth 1 -type f | sed 's#.*/##' | rg '^ms-(batch-application|initial-plan|configuration|watchdog|mapDiagnostics|policy-optimizations|vulnerabilities)\\\\.log$' | sort","workdir":"/root","login":false}
+{"cmd":"rg -n -i 'fireflow|approval|workflow|ticket|queue|jms|broker|async|job|batch|dispatcher|CommandsDispatcher|allowedDevices|swagger|session/validate|extendSession' /data/algosec-ms/logs/ms-batch-application.log /data/algosec-ms/logs/ms-initial-plan.log /data/algosec-ms/logs/ms-configuration.log /data/algosec-ms/logs/ms-watchdog.log 2>/dev/null | tail -n 300","workdir":"/root","login":false}
+{"cmd":"rg -n '26/Mar/2026:19:40:(39|43|44)|26/Mar/2026:19:41:14' /var/log/httpd/ssl_access_log","workdir":"/root","login":false}
+{"cmd":"rg -n '2026-03-26 19:41:14|2026-03-26 19:41:15' /data/algosec-ms/logs/ms-configuration.log /var/log/httpd/ssl_error_log","workdir":"/root","login":false}
+{"cmd":"rg -n '2026-03-26 19:(35:29|37:41|45:10|45:27|45:28)' /data/pgsql/15/data/pg_log/postgresql-Thu.log /opt/apache-activemq-6.1.7/data/activemq.log 2>/dev/null","workdir":"/root","login":false}
+{"cmd":"find /opt/apache-activemq-6.1.7/data/kahadb -maxdepth 2 -type f -printf '%TY-%Tm-%Td %TH:%TM:%TS %p\\n' | rg '2026-03-26 19:45:(10|27|28)'","workdir":"/root","login":false}
+{"cmd":"find /opt/apache-activemq-6.1.7/data/kahadb -maxdepth 2 -type f -printf '%TY-%Tm-%Td %TH:%TM:%TS %p\\n' | rg '2026-03-26 19:45:2[78]' | sort","workdir":"/root","login":false}
+{"cmd":"rg -n 'Thu Mar 26 19:41:15|Thu Mar 26 19:36:14|AutoDiscovery' /var/log/httpd/ssl_error_log | tail -n 20","workdir":"/root","login":false}

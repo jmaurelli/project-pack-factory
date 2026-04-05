@@ -8,6 +8,9 @@ page into the same visible section scaffold.
 This contract keeps the page-type split and the broad-to-narrow diagnostic
 logic. It relaxes the older assumption that every page must render headings
 like `Use this when`, `Start here`, `What to save`, or `When to escalate`.
+It also treats the field-manual top step list as a separate quick-look
+publication surface, with `steps[].overview_summary` carrying the scan-first
+label for that list and any matching quick-jump labels.
 
 ## Why This Matters
 
@@ -123,6 +126,10 @@ The operator should be able to decide quickly:
 
 Do not spend the first screenful on backend metadata, architecture notes, or
 authoring commentary.
+The top step list may use `overview_summary` as a separate quick-look surface,
+but it should still stay distinct from the detailed step-card text.
+If that top step list links to collapsed step cards farther down the same page,
+the targeted card should open automatically after navigation lands there.
 
 ## Wrapper Heading Rule
 
@@ -152,6 +159,8 @@ The published page must still make these things visible in some form:
 
 If those cues are not obvious from the title, check labels, branch text, and
 flow shape, the page fails this contract.
+For field-manual pages, collapsed step cards should also surface the command
+count cue before the operator opens the card.
 
 ## Check Grammar Rule
 

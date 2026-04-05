@@ -1,0 +1,10 @@
+-- m_sessionId: 129
+llsGroupName|s:13:"ALL_FIREWALLS";AlgosecSession|O:14:"AlgosecSession":63:{s:29:"getDevicesListInputParameters";N;s:11:"m_sessionId";s:26:"i4dan9561hl2uc0gj7b3pipsea";s:10:"m_userName";s:11:"Backup_user";s:17:"m_userPassEncoded";N;s:8:"m_domain";s:0:"";s:10:"m_userAuth";N;s:10:"m_metaData";a:25:{s:18:"start_session_time";s:28:"Sat Mar 28 12:30:08 EDT 2026";s:4:"User";s:11:"Backup_user";s:13:"admin
+-- m_userName: 182
+:"AlgosecSession":63:{s:29:"getDevicesListInputParameters";N;s:11:"m_sessionId";s:26:"i4dan9561hl2uc0gj7b3pipsea";s:10:"m_userName";s:11:"Backup_user";s:17:"m_userPassEncoded";N;s:8:"m_domain";s:0:"";s:10:"m_userAuth";N;s:10:"m_metaData";a:25:{s:18:"start_session_time";s:28:"Sat Mar 28 12:30:08 EDT 2026";s:4:"User";s:11:"Backup_user";s:13:"administrator";s:3:"yes";s:12:"user_manager";s:2:"no";s:11
+-- start_session_time: 312
+";s:11:"Backup_user";s:17:"m_userPassEncoded";N;s:8:"m_domain";s:0:"";s:10:"m_userAuth";N;s:10:"m_metaData";a:25:{s:18:"start_session_time";s:28:"Sat Mar 28 12:30:08 EDT 2026";s:4:"User";s:11:"Backup_user";s:13:"administrator";s:3:"yes";s:12:"user_manager";s:2:"no";s:11:"user_authen";s:5:"Local";s:17:"user_display_name";s:15:"user for backup";s:19:"user_denied_actions";s:0:"";s:16:"config_director
+-- permitted: 860
+calhost";s:17:"run_file_analysis";s:3:"yes";s:20:"global_customisation";s:3:"yes";s:15:"art_permissions";s:3:"yes";s:9:"permitted";s:104:"ALL_FIREWALLS,200132,10_2_34_100_P4PANDRFW1B_vsys1_,case200201_default,Marcos_Blackbaud_test1,case200201";s:18:"standard_permitted";s:118:"ALL_FIREWALLS,ALL_FIREWALLS,200132,10_2_34_100_P4PANDRFW1B_vsys1_,case200201_default,Marcos_Blackbaud_test1,case200201";s:2
+-- 200132: 892
+";s:3:"yes";s:20:"global_customisation";s:3:"yes";s:15:"art_permissions";s:3:"yes";s:9:"permitted";s:104:"ALL_FIREWALLS,200132,10_2_34_100_P4PANDRFW1B_vsys1_,case200201_default,Marcos_Blackbaud_test1,case200201";s:18:"standard_permitted";s:118:"ALL_FIREWALLS,ALL_FIREWALLS,200132,10_2_34_100_P4PANDRFW1B_vsys1_,case200201_default,Marcos_Blackbaud_test1,case200201";s:24:"all_firewalls_permission";s:8

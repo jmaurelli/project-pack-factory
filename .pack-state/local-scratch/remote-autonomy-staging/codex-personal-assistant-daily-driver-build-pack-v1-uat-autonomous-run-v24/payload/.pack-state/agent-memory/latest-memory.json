@@ -1,0 +1,15 @@
+{
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-31T17:16:34Z",
+  "selected_memory_id": "autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23.json",
+  "selected_memory_sha256": "9417a3d5a06ffc99962c54958461dc7f01ffd19c1ed7cead8ce542edcd07192c",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23.json",
+  "source_import_id": "import-external-runtime-evidence-20260331t171636z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260331t171636z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-31T17:16:36Z"
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v1/remote-run-request.json",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-build-pack-v1/algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v1/incoming",
+  "pull_bundle": true,
+  "import_bundle": false,
+  "imported_by": "codex",
+  "import_reason": "Review the launcher-hardening proof slice bundle locally before accepting any canonical state changes.",
+  "test_reason": "Run one real PackFactory wrapper-based launcher-hardening proof slice on adf-dev so the new execution-timeout and delayed-pullback path can be judged from returned evidence."
+}

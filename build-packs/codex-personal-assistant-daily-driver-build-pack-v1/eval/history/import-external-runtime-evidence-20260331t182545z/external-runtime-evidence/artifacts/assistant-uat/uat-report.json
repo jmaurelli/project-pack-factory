@@ -1,0 +1,72 @@
+{
+  "allow_preview_bundle": false,
+  "assistant_memory_files": [
+    "continuity-assistant-uat-20260331t142418-business-review.json",
+    "continuity-uat-20260331T182206Z-business-review.json",
+    "latest-memory.json",
+    "operator-intake-assistant-uat-20260331t142418-idea-grounding-preference.json",
+    "operator-intake-uat-20260331T182206Z-communication-calibration.json",
+    "session-distillation-closeout-review-assistant-uat-20260331t142418-business-review.json"
+  ],
+  "expected_sidecar_artifacts": [],
+  "extra_artifacts": [],
+  "generated_at": "2026-03-31T18:25:42Z",
+  "latest_memory_pointer_present": true,
+  "present_expected_sidecar_artifacts": [],
+  "preview_exists": false,
+  "preview_paths": [],
+  "prompt_results": [
+    {
+      "name": "hello_session_opening",
+      "output_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/hello_session_opening-last-message.txt",
+      "returncode": 0,
+      "stderr_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/hello_session_opening-stderr.txt",
+      "stdout_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/hello_session_opening-stdout.txt"
+    },
+    {
+      "name": "startup_partner_orientation",
+      "output_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/startup_partner_orientation-last-message.txt",
+      "returncode": 0,
+      "stderr_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/startup_partner_orientation-stderr.txt",
+      "stdout_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/startup_partner_orientation-stdout.txt"
+    },
+    {
+      "name": "realistic_idea_shaping",
+      "output_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/realistic_idea_shaping-last-message.txt",
+      "returncode": 0,
+      "stderr_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/realistic_idea_shaping-stderr.txt",
+      "stdout_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24/assistant-uat/realistic_idea_shaping-stdout.txt"
+    }
+  ],
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24",
+  "scenario_id": "hello-first-startup-partner",
+  "scenario_summary": "The hello-first startup-partner flow on the staged Codex personal assistant daily-driver pack.",
+  "schema_version": "codex-personal-assistant-uat-report/v1",
+  "stale_process_cleanup": {
+    "cleanup_boundary": {
+      "aged_threshold_seconds": 900,
+      "assistant_uat_root": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs",
+      "current_run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24",
+      "pack_root": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+      "pgid_aware": true,
+      "scope": "pack-scoped-assistant-uat-only"
+    },
+    "killed_process_count": 0,
+    "killed_process_group_count": 0,
+    "killed_process_groups": [],
+    "killed_processes": [],
+    "matched_process_count": 0,
+    "safe_process_group_count": 0,
+    "scan_command": "ps -eo pid=,pgid=,etimes=,args=",
+    "skipped_processes": [],
+    "status": "pass"
+  },
+  "stale_process_cleanup_boundary": {
+    "aged_threshold_seconds": 900,
+    "assistant_uat_root": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs",
+    "current_run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v24",
+    "pack_root": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+    "pgid_aware": true,
+    "scope": "pack-scoped-assistant-uat-only"
+  }
+}

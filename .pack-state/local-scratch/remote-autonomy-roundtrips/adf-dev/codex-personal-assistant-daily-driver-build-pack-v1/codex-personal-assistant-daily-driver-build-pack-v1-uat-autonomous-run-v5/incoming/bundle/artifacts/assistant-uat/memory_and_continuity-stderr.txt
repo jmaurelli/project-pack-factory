@@ -1,0 +1,1540 @@
+OpenAI Codex v0.117.0 (research preview)
+--------
+workdir: /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 019d3fc6-560b-7821-84c9-f037c4725a76
+--------
+user
+You are running inside a staged Project Pack Factory build-pack. Work only inside this pack root. Read AGENTS.md, project-context.md, and pack.json first, then the assistant/operator/partnership contracts needed for the task. Stay bounded to local assistant behavior, memory, bootstrap, doctor, and documentation surfaces. Keep all artifacts inside .pack-state/autonomy-runs/<run-id>/assistant-uat, dist/candidates/uat-preview, or existing allowed assistant state surfaces. Do not modify registry, deployment, promotion, or unrelated files. Keep responses concise and concrete.
+
+Assistant UAT task:
+I prefer concise answers and I often switch contexts. Use the local assistant memory surface to record that as a preference, read it back, and tell me briefly how you would use it in future sessions.
+
+Do the needed local work. End with a concise plain-language answer.
+warning: Codex could not find system bubblewrap at /usr/bin/bwrap. Please install bubblewrap with your package manager. Codex will use the vendored bubblewrap in the meantime.
+codex
+I’m going to inspect the pack guidance first so we stay inside the right surfaces, then I’ll update the local assistant memory with your preference and verify it by reading it back.
+exec
+/bin/bash -lc "sed -n '1,220p' AGENTS.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# Codex Personal Assistant Daily Driver Build Pack Build Pack Agent Context
+
+This directory is a PackFactory build pack, not a source template.
+
+Read `status/lifecycle.json`, `status/readiness.json`, and `status/deployment.json` first.
+If `status/readiness.json.operator_hint_status` exists, surface it in your pack-level startup or continuation briefing before going deeper so active, exhausted, cleanup-candidate, and recently consumed operator hints are visible immediately.
+Then read `pack.json` and use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap traversal contract.
+When `pack.json.directory_contract` declares `contracts/project-objective.json`, `tasks/active-backlog.json`, or `status/work-state.json`, read those files as canonical pack-local control-plane handoff files.
+Treat `status/work-state.json.branch_selection_hints` as the canonical operator-guidance source even when readiness has not been refreshed yet, and surface any active, exhausted, or cleanup-relevant hint state during pack entry when it matters.
+Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.
+For assistant-behavior work, inspect `contracts/assistant-profile.json`,
+`contracts/operator-profile.json`, `contracts/partnership-policy.json`, and
+`contracts/context-routing.json` before making claims about identity,
+grounding, or ambiguity handling.
+Treat `.pack-state/assistant-memory/` as advisory relationship and continuity
+memory; it should support the operator profile, not replace canonical pack
+state.
+When present, inspect `.pack-state/agent-memory/latest-memory.json` first, then treat other `.pack-state/agent-memory/*.json` files as supplementary restart memory distilled from prior autonomy runs.
+
+This build pack can export bounded runtime evidence when running externally.
+Use `pack.json.entrypoints.export_runtime_evidence_command` when that capability is present.
+For workflow or remote-session compliance questions, return to the factory root and read `AGENTS.md` plus `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md` before inventing a pack-local alternative.
+From the factory root, use `python3 tools/run_multi_hop_autonomy_rehearsal.py ...` when you want a single fresh-pack rehearsal that materializes a proving ground, checkpoints mid-backlog memory, runs the remote continuity hops, reconciles canonical state, and verifies the ready-boundary loop end to end.
+From the factory root, use `python3 tools/run_local_mid_backlog_checkpoint.py ...` when you want to stop after the current active task, write local feedback memory, and activate a resumable mid-backlog handoff pointer.
+From the factory root, use `python3 tools/run_remote_active_task_continuity_test.py ...` when the pack is already at a compatible active-task boundary and you want to verify the next task resumes remotely from feedback memory.
+From the factory root, use `python3 tools/run_remote_memory_continuity_test.py ...` after the pack reaches `ready_for_deploy` and `.pack-state/agent-memory/latest-memory.json` is active if you want to verify default feedback-memory continuity on a remote target.
+For remote Codex session management, use the PackFactory-local workflows from the factory root. Do not improvise ad hoc `ssh` prompts, handcrafted remote-session runners, or raw stdout/stderr logging loops when an official PackFactory workflow exists for the same job.
+When multiple next tasks are eligible, prefer lower `selection_priority` first. If the top candidates remain tied, honor any operator branch-selection hints recorded in `status/work-state.json.branch_selection_hints` in canonical hint order: apply active avoid-task guidance first so it can narrow the tied set safely, then apply active preferred-task guidance within the remaining tied set, then use bounded semantic alignment to `contracts/project-objective.json`, `status/work-state.json.resume_instructions`, and optional task `selection_signals`; otherwise stop fail-closed for operator review. Hints may also declare `remaining_applications` when they should expire automatically after bounded use.
+From the factory root, use `python3 tools/audit_branch_selection_hints.py ...` when you need one bounded view of active, exhausted, and cleanup-candidate hints plus recent consumed/deactivated hint evidence.
+Export bounded runtime evidence from the pack when needed, but import it only from the factory root through `python3 tools/import_external_runtime_evidence.py ...` or a higher-level PackFactory workflow that wraps that import.
+For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer.
+If this newly materialized build-pack itself may later need promotion-ready remote evidence, do not skip the fresh-pack rehearsal step: run the official fresh-pack autonomy workflow before this pack diverges into long-lived day-to-day use.
+Autonomy quality remains advisory by default, but `contracts/project-objective.json.autonomy_quality_requirement` can opt this build-pack into bounded promotion-time quality thresholds when stronger promotion discipline is required.
+Export bundles remain supplementary runtime evidence only, and raw remote stdout/stderr is supplementary debugging rather than canonical PackFactory evidence.
+
+Derived from template `codex-personal-assistant-template-pack`.
+Pack id: `codex-personal-assistant-daily-driver-build-pack-v1`.
+
+exec
+/bin/bash -lc "sed -n '1,220p' project-context.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# Project Context
+
+This build-pack is the current daily-driver runtime instance for the Codex
+personal assistant line.
+
+Its job is to prove a grounded, operator-aligned assistant that:
+
+- learns orchadmin's goals and working style over time
+- asks for clarification instead of guessing on ambiguity
+- keeps current work tied to long-term direction and practical business goals
+- remains inspectable through explicit local contracts and memory
+
+## Priority
+
+1. Keep the runtime assistant aligned with the declared operator profile and partnership policy.
+2. Keep the reusable assistant model backportable to the source template.
+3. Keep validation and benchmark commands small and deterministic.
+4. Keep the pack useful for real remote user-acceptance testing.
+
+## Primary Runtime Surfaces
+
+- `contracts/assistant-profile.json`
+- `contracts/operator-profile.json`
+- `contracts/partnership-policy.json`
+- `contracts/context-routing.json`
+- `src/codex_personal_assistant_template_pack/cli.py`
+- `src/codex_personal_assistant_template_pack/alignment.py`
+- `src/codex_personal_assistant_template_pack/memory.py`
+- `docs/specs/operator-alignment-model.md`
+- `docs/specs/user-acceptance-playbook.md`
+
+## Local State
+
+- local assistant memory: `.pack-state/assistant-memory/`
+- PackFactory runtime scratch state: `.pack-state/`
+
+## Factory-Level Inheritance Note
+
+This build-pack inherits the PackFactory autonomy baseline from the factory
+root. Use the factory root for rehearsal, remote-session, and runtime-evidence
+control-plane workflows.
+
+exec
+/bin/bash -lc "sed -n '1,260p' pack.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "directory_contract": {
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "benchmarks_dir": "benchmarks",
+    "candidate_release_dir": "dist/candidates",
+    "contracts_dir": "contracts",
+    "deployment_file": "status/deployment.json",
+    "dist_dir": "dist",
+    "docs_dir": "docs",
+    "eval_dir": "eval",
+    "eval_history_dir": "eval/history",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "immutable_release_dir": "dist/releases",
+    "lifecycle_file": "status/lifecycle.json",
+    "lineage_dir": "lineage",
+    "lineage_file": "lineage/source-template.json",
+    "local_state_dir": ".pack-state",
+    "portable_runtime_helper_manifest": ".packfactory-runtime/manifest.json",
+    "portable_runtime_schemas_dir": ".packfactory-runtime/schemas",
+    "portable_runtime_tools_dir": ".packfactory-runtime/tools",
+    "project_objective_file": "contracts/project-objective.json",
+    "prompts_dir": "prompts",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "runtime_evidence_export_dir": "dist/exports/runtime-evidence",
+    "source_dir": "src",
+    "status_dir": "status",
+    "task_backlog_file": "tasks/active-backlog.json",
+    "tasks_dir": "tasks",
+    "template_export_dir": null,
+    "tests_dir": "tests",
+    "work_state_file": "status/work-state.json"
+  },
+  "display_name": "Codex Personal Assistant Daily Driver Build Pack",
+  "entrypoints": {
+    "benchmark_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+    "cli_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack --help",
+    "export_runtime_evidence_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id <run-id> --exported-by <actor> --output-dir dist/exports/runtime-evidence --output json",
+    "validation_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "Materialized from template `codex-personal-assistant-template-pack`.",
+    "materialization_id=materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z"
+  ],
+  "owning_team": "orchadmin",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "lineage/source-template.json",
+    "contracts/project-objective.json",
+    "tasks/active-backlog.json",
+    "status/work-state.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "runtime": "python",
+  "schema_version": "pack-manifest/v2"
+}
+
+codex
+I’ve got the pack entry guidance. Next I’m checking the status and contract files that govern assistant behavior so the memory update stays aligned with the pack’s local rules.
+exec
+/bin/bash -lc "sed -n '1,220p' status/lifecycle.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "current_revision": "codex-personal-assistant-daily-driver-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create the first proving-ground build-pack for a Codex-native daily-driver personal assistant environment once the template exists and factory preflight is clean.",
+  "updated_at": "2026-03-29T16:07:24Z",
+  "updated_by": "codex"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' status/readiness.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-30T16:55:20Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Recommended next action: review the latest imported remote UAT evidence when it lands, then choose the next assistant-behavior slice or deployment-linked workflow."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-29T16:23:03Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation has not been executed yet."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "codex_personal_assistant_template_pack_smoke_small_001",
+      "last_run_at": "2026-03-29T16:23:03Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Prove the smallest end-to-end Codex personal assistant path: bootstrap the workspace, expose the assistant profile and context-routing surfaces, write and read one restart-memory artifact, and validate the pack contract without requiring broad hook or GUI parity on day one."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}
+
+exec
+/bin/bash -lc "sed -n '1,220p' status/deployment.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
+  "deployment_notes": [
+    "Newly materialized build pack; no active deployment candidate."
+  ],
+  "deployment_pointer_path": null,
+  "deployment_state": "not_deployed",
+  "deployment_transaction_id": null,
+  "last_promoted_at": null,
+  "last_rollback": null,
+  "last_verified_at": null,
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "projection_state": "not_required",
+  "schema_version": "pack-deployment/v2"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' contracts/project-objective.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "autonomy_quality_requirement": {
+    "required_for_promotion": false,
+    "summary": "Autonomy quality is advisory by default; promotion only blocks on autonomy quality when this objective explicitly declares bounded thresholds."
+  },
+  "autonomy_rehearsal_requirement": {
+    "required_for_promotion": true,
+    "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state.",
+    "workflow_id": "multi_hop_autonomy_rehearsal"
+  },
+  "completion_definition": [
+    "All starter tasks in tasks/active-backlog.json are completed or explicitly resolved through existing workflows.",
+    "The build-pack is ready for review, ready for deploy, or awaiting the next PackFactory workflow step."
+  ],
+  "generated_at": "2026-03-29T16:07:24Z",
+  "intended_inputs": [
+    "Pack-local source code and configuration under the materialized build-pack.",
+    "Validation and benchmark commands declared in pack.json entrypoints.",
+    "Current readiness, eval, and benchmark state for this build-pack."
+  ],
+  "intended_outputs": [
+    "A schema-valid build-pack with current validation and benchmark evidence.",
+    "Updated readiness and eval state that supports promotion decisions."
+  ],
+  "materialization_id": "materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z",
+  "metrics": [
+    {
+      "evidence_hint": "status/readiness.json and eval/latest/index.json",
+      "metric_id": "validation_gate_status",
+      "summary": "Validation gate reaches a passing state.",
+      "target": "validate_build_pack_contract=pass"
+    },
+    {
+      "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
+      "metric_id": "benchmark_completion",
+      "summary": "All inherited readiness benchmarks complete successfully.",
+      "target": "required inherited benchmark gates=pass or waived"
+    }
+  ],
+  "non_goals": [
+    "Changing deployment state outside the existing PackFactory workflows.",
+    "Creating new tests or benchmarks without explicit operator approval."
+  ],
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "objective_summary": "Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "problem_statement": "# Project Context\n\nThis template was created to support the following project goal:\n\n- Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.\n\n## Priority\n\n1. Keep the template valid for PackFactory traversal and later materialization.\n2. Keep validation and benchmark commands small and deterministic.\n3. Keep the pack easy for a fresh agent to inspect.\n\n## Primary Runtime Surfaces\n\n- `src/codex_personal_assistant_template_pack/cli.py`\n- `src/codex_personal_assistant_template_pack/validate_project_pack.py`\n- `src/codex_personal_assistant_template_pack/benchmark_smoke.py`\n- `benchmarks/active-set.json`\n- `benchmarks/declarations/codex-personal-assistant-template-pack-smoke-small-001.json`\n- `eval/latest/index.json`\n\n## Local State\n\n- local scratch state: `.pack-state/`\n- optional template lineage memory: `.pack-state/template-lineage-memory/latest-memory.json`\n\n## Factory-Level Inheritance Note\n\nThis template is a source template, not the canonical home of the autonomy\nbaseline.\n\nFor inherited PackFactory defaults around agent memory, feedback loops,\nrestart behavior, rehearsal evidence, and branch-choice policy, prefer the\nfactory-level state brief and operations note:\n\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`\n\nWhen present, the template-local lineage memory at\n`.pack-state/template-lineage-memory/latest-memory.json` is the shortest path\nto template-family learning that has already been distilled from derived\nbuild-packs.\n\nThat inherited baseline now also includes startup-compliance expectations for\nremote Codex session management and runtime-evidence flow:\n\n- prefer PackFactory-local remote-session workflows from the factory root\n- do not treat ad hoc `ssh` prompts or raw stdout/stderr logs as canonical\n  PackFactory evidence\n- return to the factory root for external runtime-evidence import",
+  "promotion_readiness_requirements": [
+    "Build-pack validation must pass with recorded evidence.",
+    "Inherited required benchmark gates must pass or be waived.",
+    "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+    "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
+    "Autonomy quality remains advisory by default unless this build-pack later declares a bounded promotion-time autonomy-quality requirement."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "success_criteria": [
+    "The build-pack validation command completes successfully and records passing evidence.",
+    "The inherited benchmark command completes successfully and updates readiness evidence."
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' status/work-state.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "active_task_id": null,
+  "autonomy_state": "ready_for_review",
+  "blocked_task_ids": [],
+  "branch_selection_hints": [],
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks",
+    "operator_intake_and_profile_refinement",
+    "session_memory_distillation_and_promotion",
+    "grounding_and_accountability_cadence"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Completed the grounded accountability and anti-drift cadence slice in the runtime pack, backported the contract/runtime updates into the template line, and reran the bounded validation and smoke benchmark commands successfully.",
+  "last_outcome": "task_completed",
+  "last_outcome_at": "2026-03-30T16:55:20Z",
+  "last_validation_results": [
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-validation-20260329t161748z/validation-result.json"
+      ],
+      "recorded_at": "2026-03-29T16:17:48Z",
+      "status": "pass",
+      "summary": "Recorded passing validation readiness evidence for the build-pack contract.",
+      "validation_id": "run_build_pack_validation"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-benchmark-20260329t161814z/benchmark-result.json"
+      ],
+      "recorded_at": "2026-03-29T16:18:14Z",
+      "status": "pass",
+      "summary": "Recorded passing inherited benchmark readiness evidence for the assistant smoke path.",
+      "validation_id": "run_inherited_benchmarks"
+    }
+  ],
+  "next_recommended_task_id": null,
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pending_task_ids": [],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Inspect the operator-intake, session-distillation, operator-profile, memory-policy, and partnership-policy surfaces before changing assistant behavior.",
+    "Review the newest remote UAT evidence if it lands, then choose the next assistant-behavior slice before reopening implementation."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when the current grounding/accountability slice is implemented and existing bounded validation surfaces pass.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,240p' contracts/assistant-profile.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-profile/v2",
+  "assistant_id": "codex-personal-assistant-daily-driver",
+  "display_name": "Codex Personal Assistant",
+  "runtime": "codex",
+  "operator_id": "orchadmin",
+  "mission": "Act as orchadmin's Codex-native personal assistant and grounded business partner, keeping work aligned with stated goals while learning how to collaborate more effectively over time.",
+  "behavior_principles": [
+    "Prefer bounded, inspectable workflows over hidden automation.",
+    "Ask clarifying questions instead of guessing when intent is ambiguous.",
+    "Treat the operator's goals, constraints, and grounding principles as first-class context.",
+    "Adapt to repeated operator preferences through inspectable local state.",
+    "Challenge drift gently and concretely when current work stops serving stated goals."
+  ],
+  "default_capabilities": [
+    "Show the current assistant identity and working stance.",
+    "Summarize operator alignment and partnership expectations.",
+    "Route requests to the smallest relevant local context surfaces.",
+    "Record and read restart memory for continuity and adaptation.",
+    "Bootstrap a portable assistant workspace preview.",
+    "Run a small doctor surface for local health checks."
+  ],
+  "startup_sequence": [
+    "Read AGENTS.md, project-context.md, and pack.json.",
+    "Read the assistant, operator, and partnership contracts when identity or alignment matters.",
+    "Use route-context before loading deeper local files.",
+    "Inspect restart memory only when it materially helps continuation."
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,240p' contracts/operator-profile.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-operator-profile/v1",
+  "operator_id": "orchadmin",
+  "preferred_name": "orchadmin",
+  "current_role": "operator building toward a small business",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "long_horizon_goals": [
+    "Build a small business.",
+    "Develop a durable working partnership with the assistant that becomes more useful over time."
+  ],
+  "near_term_priorities": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner."
+  ],
+  "grounding_principles": [
+    "Do not confuse motion with progress.",
+    "Reconnect tactical work to the larger business direction.",
+    "Surface ambiguity before committing to a path."
+  ],
+  "working_preferences": [
+    "Keep support business-like and concrete.",
+    "Prefer clear instructions over implied workflows.",
+    "Ask for refinement when a request is ambiguous."
+  ],
+  "ambiguity_preferences": [
+    "Do not guess through ambiguity.",
+    "Ask the minimum clarifying questions needed to proceed safely."
+  ],
+  "known_do_not_assume": [
+    "the intended workflow when multiple PackFactory surfaces could apply",
+    "that a partially formed idea is ready for execution without refinement",
+    "that technical verification is the same as user experience validation"
+  ],
+  "success_signals": [
+    "The operator stays aligned with stated goals.",
+    "The assistant gets easier and more useful over repeated sessions.",
+    "Work moves toward a small-business direction rather than drifting."
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,240p' contracts/context-routing.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+exec
+/bin/bash -lc "sed -n '1,240p' contracts/partnership-policy.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-context-routing/v2",
+  "routes": [
+    {
+      "route_id": "identity",
+      "keywords": [
+        "identity",
+        "profile",
+        "assistant",
+        "persona"
+      ],
+      "summary": "Assistant identity, mission, and default behavior surfaces.",
+      "paths": [
+        "contracts/assistant-profile.json",
+        "contracts/partnership-policy.json",
+        "AGENTS.md",
+        "project-context.md"
+      ]
+    },
+    {
+      "route_id": "goals",
+      "keywords": [
+        "operator",
+        "goals",
+        "priorities",
+        "grounded"
+      ],
+      "summary": "Structured operator goals, priorities, and grounding principles.",
+      "paths": [
+        "contracts/operator-profile.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md"
+      ]
+    },
+    {
+      "route_id": "partnership",
+      "keywords": [
+        "partner",
+        "alignment",
+        "business",
+        "ambiguity"
+      ],
+      "summary": "How the assistant should work with the operator, handle ambiguity, and surface drift.",
+      "paths": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md"
+      ]
+    },
+    {
+      "route_id": "memory",
+      "keywords": [
+        "memory",
+        "restart",
+        "handoff",
+        "continuity",
+        "adaptation"
+      ],
+      "summary": "Restart-memory policy plus the local pointer used for the latest memory artifact.",
+      "paths": [
+        "contracts/memory-policy.json",
+        "prompts/restart-memory-guide.md",
+        ".pack-state/assistant-memory/latest-memory.json"
+      ]
+    },
+    {
+      "route_id": "skills",
+      "keywords": [
+        "skills",
+        "capabilities",
+        "customization",
+        "tooling"
+      ],
+      "summary": "Assistant skills, how they are grouped, and where custom overlays belong.",
+      "paths": [
+        "contracts/skill-catalog.json",
+        "prompts/skills-guide.md"
+      ]
+    },
+    {
+      "route_id": "bootstrap",
+      "keywords": [
+        "bootstrap",
+        "install",
+        "setup",
+        "workspace"
+      ],
+      "summary": "Workspace bootstrap behavior and the first-run checklist.",
+      "paths": [
+        "prompts/bootstrap-checklist.md",
+        "README.md"
+      ]
+    },
+    {
+      "route_id": "health",
+      "keywords": [
+        "doctor",
+        "health",
+        "validation",
+        "readiness"
+      ],
+      "summary": "Pack health, validation state, and readiness evidence surfaces.",
+      "paths": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ]
+    }
+  ]
+}
+
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-partnership-policy/v1",
+  "relationship_mode": "grounded-business-partner",
+  "primary_outcome": "Increase orchadmin's progress toward a sustainable small business while reducing ambiguity and drift.",
+  "grounding_behaviors": [
+    "Reconnect active work to stated goals and business direction.",
+    "Name drift plainly when work no longer supports the larger direction.",
+    "Favor the next grounded step over vague activity."
+  ],
+  "adaptation_rules": [
+    "Learn from repeated operator feedback, requests, and decisions.",
+    "Keep adaptation inspectable through local contracts and assistant memory.",
+    "Ask before changing high-impact goals or constraints."
+  ],
+  "review_prompts": [
+    "How does this work support the operator's larger direction?",
+    "What is still ambiguous enough to justify a clarifying question?",
+    "What stable preference or pattern should be recorded for next time?"
+  ],
+  "grounding_accountability_cadence": {
+    "cadence_name": "grounded-check-in",
+    "trigger_conditions": [
+      "work appears to drift from stated goals",
+      "the operator's intent is ambiguous",
+      "the assistant is about to commit to a path with hidden tradeoffs"
+    ],
+    "response_steps": [
+      "name the current work plainly",
+      "compare it to the operator's stated direction",
+      "surface the mismatch or drift directly",
+      "ask the minimum clarifying question needed or propose the next grounded step"
+    ],
+    "review_prompts": [
+      "What outcome matters most right now?",
+      "Does this still support the operator's larger direction?",
+      "What is the smallest grounded next step?"
+    ]
+  },
+  "boundaries": [
+    "Do not pretend to know more than the local artifacts support.",
+    "Do not guess through ambiguity when clarification is cheaper and safer.",
+    "Do not present emotional attachment as if it were human feeling."
+  ],
+  "ambiguity_policy": {
+    "default_behavior": "ask-clarifying-question",
+    "question_style": "brief, concrete, and non-leading",
+    "pause_conditions": [
+      "ambiguous operator intent",
+      "multiple non-obvious paths with hidden tradeoffs",
+      "possible conflict with stated goals or constraints"
+    ]
+  },
+  "accountability_cadence": {
+    "default_behavior": "name-drift-and-propose-grounded-next-step",
+    "checkpoints": [
+      "before committing to side work that may not support the current business direction",
+      "when active work appears to drift from near-term priorities",
+      "at the end of a productive session before promoting durable relationship memory"
+    ],
+    "drift_indicators": [
+      "side work with no clear tie to stated goals",
+      "vague activity without a concrete outcome",
+      "work that conflicts with the operator's current business direction"
+    ],
+    "require_goal_anchor": true
+  }
+}
+
+codex
+There are no active operator branch hints in the current status files. I’m looking at the memory-specific contract and existing local memory next so I can add your preference without stepping outside the approved surfaces.
+exec
+/bin/bash -lc "sed -n '1,240p' contracts/memory-policy.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-memory-policy/v3",
+  "storage_root": ".pack-state/assistant-memory",
+  "latest_pointer_path": ".pack-state/assistant-memory/latest-memory.json",
+  "distillation_storage_root": ".pack-state/session-distillation",
+  "distillation_latest_pointer_path": ".pack-state/session-distillation/latest-distillation.json",
+  "memory_categories": [
+    "note",
+    "decision",
+    "blocker",
+    "preference",
+    "goal",
+    "communication_pattern",
+    "alignment_risk"
+  ],
+  "distillation_signal_strengths": [
+    "session_observation",
+    "repeated_pattern",
+    "explicit_confirmation"
+  ],
+  "promotion_signal_strengths": [
+    "repeated_pattern",
+    "explicit_confirmation"
+  ],
+  "profile_refinement_from_distillation": "disallowed",
+  "required_fields": [
+    "memory_id",
+    "category",
+    "summary",
+    "recorded_at"
+  ],
+  "session_distillation_policy": {
+    "storage_root": ".pack-state/session-distillation",
+    "latest_pointer_path": ".pack-state/session-distillation/latest-distillation.json",
+    "allowed_source_categories": [
+      "note",
+      "decision",
+      "blocker",
+      "preference",
+      "goal",
+      "communication_pattern",
+      "alignment_risk"
+    ],
+    "promotable_memory_categories": [
+      "preference",
+      "goal",
+      "communication_pattern",
+      "alignment_risk"
+    ],
+    "stability_levels": [
+      "tentative",
+      "repeated",
+      "confirmed"
+    ],
+    "min_stability_for_memory_promotion": "repeated",
+    "profile_refinement_allowed": false,
+    "require_explicit_promotion": true,
+    "policy_notes": [
+      "Session distillation is inspectable local state, not hidden adaptation.",
+      "A distillation record may summarize multiple session signals before any durable promotion occurs.",
+      "Promotion into relationship memory must be explicit and category-bounded.",
+      "Weak signals should remain inspectable local artifacts instead of rewriting the operator profile."
+    ]
+  },
+  "policy_notes": [
+    "Assistant memory is local restart state for continuity, not canonical lifecycle state.",
+    "Duplicate memory ids fail closed unless replace-existing is explicit.",
+    "The latest-memory pointer should reference only files under the declared storage root.",
+    "Use communication_pattern and alignment_risk categories to keep adaptation inspectable instead of hidden.",
+    "Session distillation should stay inspectable even when a weak signal is not promoted into durable relationship memory.",
+    "Session distillation must not refine the operator profile directly.",
+    "Only repeated or confirmed session signals should promote into durable assistant memory by default."
+  ]
+}
+
+exec
+/bin/bash -lc "if [ -f .pack-state/agent-memory/latest-memory.json ]; then sed -n '1,240p' .pack-state/agent-memory/latest-memory.json; else echo '__MISSING__'; fi" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-30T00:11:58Z",
+  "selected_memory_id": "autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3.json",
+  "selected_memory_sha256": "6d4bd27787ea279f93786c7e0516682ffbc049124f68df851163a2b0100fcfe8",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3.json",
+  "source_import_id": "import-external-runtime-evidence-20260330t001358z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260330t001358z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-30T00:13:58Z"
+}
+
+exec
+/bin/bash -lc 'find .pack-state/assistant-memory -maxdepth 2 -type f | sort' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+exec
+/bin/bash -lc "if [ -f .pack-state/assistant-memory/latest-memory.json ]; then sed -n '1,260p' .pack-state/assistant-memory/latest-memory.json; else echo '__MISSING__'; fi" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+__MISSING__
+
+codex
+The local assistant-memory area is currently empty, so I’m checking the pack’s own memory implementation to match its expected JSON shape before I write anything.
+exec
+/bin/bash -lc "rg -n \"assistant-memory|latest-memory|memory_id|communication_pattern|explicit_confirmation|preference\" src docs prompts tests -g '"'!**/__pycache__/**'"'" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+prompts/bootstrap-checklist.md:10:   preferences are concrete enough to guide behavior.
+docs/specs/assistant-architecture.md:13:- local assistant memory captures continuity about goals, preferences, and
+docs/specs/assistant-architecture.md:29:- orchadmin's concrete goals and working preferences
+prompts/restart-memory-guide.md:10:- an operator preference that should not be rediscovered
+docs/specs/operator-alignment-model.md:10:- the operator's declared goals and preferences live in
+docs/specs/operator-alignment-model.md:17:  `.pack-state/assistant-memory/`
+docs/specs/operator-alignment-model.md:27:- orchadmin's current goals and working preferences
+docs/specs/operator-alignment-model.md:65:- working and communication preferences
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:52:    memory_root = project_root / ".pack-state/assistant-memory"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:64:        memory_id="benchmark-smoke-memory",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:65:        category="communication_pattern",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:76:        "working_preferences": [
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:86:        category="communication_pattern",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:104:        source_memory_ids=[
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:109:        promote_category="communication_pattern",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:132:    refined_preferences = set(alignment_after_intake.get("working_preferences", []))
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:143:        "Use operator-intake records to refine the relationship model explicitly." in refined_preferences
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:153:        "latest_promoted_memory_id": "session-distillation-benchmark-session-distillation",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:229:        "session_memory_distillation_promoted_memory_id": distillation_write.get("promoted_memory_id"),
+src/codex_personal_assistant_template_pack/doctor.py:93:    expected_categories = {"preference", "goal", "communication_pattern", "alignment_risk"}
+src/codex_personal_assistant_template_pack/doctor.py:95:        errors.append("memory policy must include preference, goal, communication_pattern, and alignment_risk categories")
+src/codex_personal_assistant_template_pack/doctor.py:143:        memory_policy.get("latest_pointer_path", ".pack-state/assistant-memory/latest-memory.json")
+src/codex_personal_assistant_template_pack/memory.py:53:def _load_memory_record(project_root: Path, memory_id: str) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/memory.py:55:    memory_path = storage_root / f"{memory_id}.json"
+src/codex_personal_assistant_template_pack/memory.py:57:        raise ValueError(f"memory `{memory_id}` does not exist")
+src/codex_personal_assistant_template_pack/memory.py:64:    memory_id: str,
+src/codex_personal_assistant_template_pack/memory.py:75:    memory_path = storage_root / f"{memory_id}.json"
+src/codex_personal_assistant_template_pack/memory.py:78:        raise ValueError(f"memory `{memory_id}` already exists; use replace_existing to overwrite it")
+src/codex_personal_assistant_template_pack/memory.py:83:        "schema_version": "codex-personal-assistant-memory/v2",
+src/codex_personal_assistant_template_pack/memory.py:84:        "memory_id": memory_id,
+src/codex_personal_assistant_template_pack/memory.py:96:        "schema_version": "codex-personal-assistant-memory-pointer/v1",
+src/codex_personal_assistant_template_pack/memory.py:97:        "selected_memory_id": memory_id,
+src/codex_personal_assistant_template_pack/memory.py:104:        "memory_id": memory_id,
+src/codex_personal_assistant_template_pack/memory.py:137:        "available_memory_ids": [path.stem for path in memory_files],
+src/codex_personal_assistant_template_pack/memory.py:142:def delete_memory(project_root: Path, *, memory_id: str) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/memory.py:144:    memory_path = storage_root / f"{memory_id}.json"
+src/codex_personal_assistant_template_pack/memory.py:153:        selected_memory_id = latest_pointer.get("selected_memory_id")
+src/codex_personal_assistant_template_pack/memory.py:156:        if selected_memory_id == memory_id or selected_memory_path == expected_relative:
+src/codex_personal_assistant_template_pack/memory.py:162:        "memory_id": memory_id,
+src/codex_personal_assistant_template_pack/memory.py:198:                isinstance(latest_distillation, dict) and latest_distillation.get("promoted_memory_id")
+src/codex_personal_assistant_template_pack/memory.py:200:            "latest_promoted_memory_id": latest_distillation.get("promoted_memory_id")
+src/codex_personal_assistant_template_pack/memory.py:213:    source_memory_ids: list[str],
+src/codex_personal_assistant_template_pack/memory.py:216:    promoted_memory_id: str | None = None,
+src/codex_personal_assistant_template_pack/memory.py:223:    if not source_memory_ids:
+src/codex_personal_assistant_template_pack/memory.py:224:        raise ValueError("distillation requires at least one source_memory_id")
+src/codex_personal_assistant_template_pack/memory.py:238:    unique_source_ids = list(dict.fromkeys(source_memory_ids))
+src/codex_personal_assistant_template_pack/memory.py:240:    for memory_id in unique_source_ids:
+src/codex_personal_assistant_template_pack/memory.py:241:        memory_record = _load_memory_record(project_root, memory_id)
+src/codex_personal_assistant_template_pack/memory.py:245:                f"memory `{memory_id}` has category `{memory_category}` which is not allowed for distillation"
+src/codex_personal_assistant_template_pack/memory.py:258:    resolved_promoted_memory_id = promoted_memory_id
+src/codex_personal_assistant_template_pack/memory.py:259:    if promote_category is not None and not resolved_promoted_memory_id:
+src/codex_personal_assistant_template_pack/memory.py:260:        resolved_promoted_memory_id = f"session-distillation-{distillation_id}"
+src/codex_personal_assistant_template_pack/memory.py:267:        "source_memory_ids": unique_source_ids,
+src/codex_personal_assistant_template_pack/memory.py:270:        "promoted_memory_id": resolved_promoted_memory_id,
+src/codex_personal_assistant_template_pack/memory.py:288:    if promote_category is not None and resolved_promoted_memory_id is not None:
+src/codex_personal_assistant_template_pack/memory.py:291:            memory_id=resolved_promoted_memory_id,
+src/codex_personal_assistant_template_pack/memory.py:308:        "promoted_memory_id": resolved_promoted_memory_id,
+src/codex_personal_assistant_template_pack/alignment.py:42:        "working_preferences": operator.get("working_preferences", []),
+src/codex_personal_assistant_template_pack/alignment.py:43:        "ambiguity_preferences": operator.get("ambiguity_preferences", []),
+src/codex_personal_assistant_template_pack/operator_intake.py:239:        memory_id=f"operator-intake-{intake_id}",
+src/codex_personal_assistant_template_pack/cli.py:83:            "preference",
+src/codex_personal_assistant_template_pack/cli.py:85:            "communication_pattern",
+src/codex_personal_assistant_template_pack/cli.py:107:        choices=("preference", "goal", "communication_pattern", "alignment_risk"),
+src/codex_personal_assistant_template_pack/cli.py:123:        choices=("goal", "preference", "communication_pattern", "alignment_risk"),
+src/codex_personal_assistant_template_pack/cli.py:139:        choices=("goal", "preference", "communication_pattern", "alignment_risk"),
+src/codex_personal_assistant_template_pack/cli.py:220:            memory_id=args.memory_id,
+src/codex_personal_assistant_template_pack/cli.py:239:            source_memory_ids=list(args.source_memory_id),
+src/codex_personal_assistant_template_pack/cli.py:242:            promoted_memory_id=args.promoted_memory_id,
+src/codex_personal_assistant_template_pack/cli.py:276:        result = delete_memory(Path(args.project_root).resolve(), memory_id=args.memory_id)
+
+exec
+/bin/bash -lc "sed -n '1,260p' src/codex_personal_assistant_template_pack/memory.py" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+from __future__ import annotations
+
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+from .assistant_contracts import load_memory_policy
+
+
+DISTILLATION_RECORD_SCHEMA_VERSION = "codex-personal-assistant-session-distillation/v1"
+DISTILLATION_POINTER_SCHEMA_VERSION = "codex-personal-assistant-session-distillation-pointer/v1"
+
+
+def _isoformat_z() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def _memory_paths(project_root: Path) -> tuple[Path, Path]:
+    policy = load_memory_policy(project_root)
+    storage_root = project_root / str(policy["storage_root"])
+    latest_pointer_path = project_root / str(policy["latest_pointer_path"])
+    return storage_root, latest_pointer_path
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _session_distillation_policy(project_root: Path) -> dict[str, Any]:
+    policy = load_memory_policy(project_root)
+    distillation_policy = policy.get("session_distillation_policy", {})
+    if not isinstance(distillation_policy, dict):
+        raise ValueError("memory policy must declare session_distillation_policy")
+    return distillation_policy
+
+
+def _session_distillation_paths(project_root: Path) -> tuple[Path, Path]:
+    policy = _session_distillation_policy(project_root)
+    storage_root = project_root / str(policy["storage_root"])
+    latest_pointer_path = project_root / str(policy["latest_pointer_path"])
+    return storage_root, latest_pointer_path
+
+
+def _load_json(path: Path) -> dict[str, Any]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"{path}: expected a JSON object")
+    return payload
+
+
+def _load_memory_record(project_root: Path, memory_id: str) -> dict[str, Any]:
+    storage_root, _ = _memory_paths(project_root)
+    memory_path = storage_root / f"{memory_id}.json"
+    if not memory_path.exists():
+        raise ValueError(f"memory `{memory_id}` does not exist")
+    return _load_json(memory_path)
+
+
+def record_memory(
+    project_root: Path,
+    *,
+    memory_id: str,
+    category: str,
+    summary: str,
+    next_action: str | None,
+    tags: list[str],
+    replace_existing: bool,
+    source: str | None = None,
+    evidence: str | None = None,
+    confidence: float | None = None,
+) -> dict[str, Any]:
+    storage_root, latest_pointer_path = _memory_paths(project_root)
+    memory_path = storage_root / f"{memory_id}.json"
+    existed = memory_path.exists()
+    if existed and not replace_existing:
+        raise ValueError(f"memory `{memory_id}` already exists; use replace_existing to overwrite it")
+    if confidence is not None and not 0.0 <= confidence <= 1.0:
+        raise ValueError("confidence must be between 0.0 and 1.0")
+
+    payload = {
+        "schema_version": "codex-personal-assistant-memory/v2",
+        "memory_id": memory_id,
+        "category": category,
+        "summary": summary,
+        "next_action": next_action,
+        "tags": sorted({tag for tag in tags if tag}),
+        "source": source,
+        "evidence": evidence,
+        "confidence": confidence,
+        "recorded_at": _isoformat_z(),
+    }
+    _write_json(memory_path, payload)
+    pointer_payload = {
+        "schema_version": "codex-personal-assistant-memory-pointer/v1",
+        "selected_memory_id": memory_id,
+        "selected_memory_path": str(memory_path.relative_to(project_root).as_posix()),
+        "updated_at": payload["recorded_at"],
+    }
+    _write_json(latest_pointer_path, pointer_payload)
+    return {
+        "status": "pass",
+        "memory_id": memory_id,
+        "memory_path": str(memory_path.relative_to(project_root).as_posix()),
+        "latest_pointer_path": str(latest_pointer_path.relative_to(project_root).as_posix()),
+        "replaced_existing": bool(existed and replace_existing),
+    }
+
+
+def read_memory(project_root: Path) -> dict[str, Any]:
+    storage_root, latest_pointer_path = _memory_paths(project_root)
+    latest_pointer_name = latest_pointer_path.name
+    memory_files = sorted(
+        path
+        for path in storage_root.glob("*.json")
+        if path.is_file() and path.name != latest_pointer_name
+    )
+    latest_pointer: dict[str, Any] | None = None
+    latest_memory: dict[str, Any] | None = None
+    if latest_pointer_path.exists():
+        latest_pointer = _load_json(latest_pointer_path)
+        selected_path = latest_pointer.get("selected_memory_path")
+        if isinstance(selected_path, str) and selected_path:
+            candidate = project_root / selected_path
+            if candidate.exists():
+                latest_memory = _load_json(candidate)
+
+    distillation_status = show_memory_distillation(project_root).get("session_memory_distillation_status", {})
+
+    return {
+        "status": "pass",
+        "latest_pointer_path": str(latest_pointer_path.relative_to(project_root).as_posix()),
+        "latest_pointer": latest_pointer,
+        "latest_memory": latest_memory,
+        "memory_count": len(memory_files),
+        "available_memory_ids": [path.stem for path in memory_files],
+        "session_memory_distillation_status": distillation_status,
+    }
+
+
+def delete_memory(project_root: Path, *, memory_id: str) -> dict[str, Any]:
+    storage_root, latest_pointer_path = _memory_paths(project_root)
+    memory_path = storage_root / f"{memory_id}.json"
+    deleted = False
+    if memory_path.exists():
+        memory_path.unlink()
+        deleted = True
+
+    cleared_latest_pointer = False
+    if latest_pointer_path.exists():
+        latest_pointer = _load_json(latest_pointer_path)
+        selected_memory_id = latest_pointer.get("selected_memory_id")
+        selected_memory_path = latest_pointer.get("selected_memory_path")
+        expected_relative = str(memory_path.relative_to(project_root).as_posix())
+        if selected_memory_id == memory_id or selected_memory_path == expected_relative:
+            latest_pointer_path.unlink()
+            cleared_latest_pointer = True
+
+    return {
+        "status": "pass",
+        "memory_id": memory_id,
+        "deleted": deleted,
+        "cleared_latest_pointer": cleared_latest_pointer,
+    }
+
+
+def show_memory_distillation(project_root: Path) -> dict[str, Any]:
+    storage_root, latest_pointer_path = _session_distillation_paths(project_root)
+    latest_pointer: dict[str, Any] | None = None
+    latest_distillation: dict[str, Any] | None = None
+    distillation_count = 0
+    if storage_root.exists():
+        distillation_files = sorted(path for path in storage_root.glob("*.json") if path.is_file())
+        distillation_count = len([path for path in distillation_files if path.name != latest_pointer_path.name])
+    if latest_pointer_path.exists():
+        latest_pointer = _load_json(latest_pointer_path)
+        selected_path = latest_pointer.get("selected_distillation_path")
+        if isinstance(selected_path, str) and selected_path:
+            candidate = project_root / selected_path
+            if candidate.exists():
+                latest_distillation = _load_json(candidate)
+
+    return {
+        "status": "pass",
+        "storage_root": str(storage_root.relative_to(project_root).as_posix()),
+        "latest_pointer_path": str(latest_pointer_path.relative_to(project_root).as_posix()),
+        "latest_pointer": latest_pointer,
+        "latest_distillation": latest_distillation,
+        "distillation_count": distillation_count,
+        "session_memory_distillation_status": {
+            "latest_distillation_id": latest_distillation.get("distillation_id")
+            if isinstance(latest_distillation, dict)
+            else None,
+            "latest_pointer_path": str(latest_pointer_path.relative_to(project_root).as_posix()),
+            "distillation_count": distillation_count,
+            "latest_distillation_promoted_memory": bool(
+                isinstance(latest_distillation, dict) and latest_distillation.get("promoted_memory_id")
+            ),
+            "latest_promoted_memory_id": latest_distillation.get("promoted_memory_id")
+            if isinstance(latest_distillation, dict)
+            else None,
+        },
+    }
+
+
+def distill_session_memory(
+    project_root: Path,
+    *,
+    distillation_id: str,
+    summary: str,
+    stable_signal_reason: str,
+    source_memory_ids: list[str],
+    replace_existing: bool,
+    promote_category: str | None = None,
+    promoted_memory_id: str | None = None,
+    next_action: str | None = None,
+    tags: list[str],
+    source: str | None = None,
+    evidence: str | None = None,
+    confidence: float | None = None,
+) -> dict[str, Any]:
+    if not source_memory_ids:
+        raise ValueError("distillation requires at least one source_memory_id")
+    if confidence is not None and not 0.0 <= confidence <= 1.0:
+        raise ValueError("confidence must be between 0.0 and 1.0")
+
+    policy = _session_distillation_policy(project_root)
+    allowed_source_categories = {
+        category for category in policy.get("allowed_source_categories", []) if isinstance(category, str)
+    }
+    promotable_categories = {
+        category for category in policy.get("promotable_memory_categories", []) if isinstance(category, str)
+    }
+    if promote_category is not None and promote_category not in promotable_categories:
+        raise ValueError(f"promote_category `{promote_category}` is not allowed by session_distillation_policy")
+
+    unique_source_ids = list(dict.fromkeys(source_memory_ids))
+    source_memories: list[dict[str, Any]] = []
+    for memory_id in unique_source_ids:
+        memory_record = _load_memory_record(project_root, memory_id)
+        memory_category = memory_record.get("category")
+        if allowed_source_categories and memory_category not in allowed_source_categories:
+            raise ValueError(
+                f"memory `{memory_id}` has category `{memory_category}` which is not allowed for distillation"
+            )
+        source_memories.append(memory_record)
+
+    storage_root, latest_pointer_path = _session_distillation_paths(project_root)
+    storage_root.mkdir(parents=True, exist_ok=True)
+    distillation_path = storage_root / f"{distillation_id}.json"
+    existed = distillation_path.exists()
+    if existed and not replace_existing:
+        raise ValueError(
+            f"session distillation `{distillation_id}` already exists; use replace_existing to overwrite it"
+        )
+
+    resolved_promoted_memory_id = promoted_memory_id
+    if promote_category is not None and not resolved_promoted_memory_id:
+        resolved_promoted_memory_id = f"session-distillation-{distillation_id}"
+
+exec
+/bin/bash -lc "sed -n '1,260p' prompts/restart-memory-guide.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# Restart Memory Guide
+
+Restart memory is local continuity state for the next Codex session.
+
+Use it for:
+
+- the last important decision
+- the next recommended action
+- a blocker worth preserving
+- an operator preference that should not be rediscovered
+- a goal or alignment risk worth keeping in view
+- a stable communication pattern that improves future collaboration
+
+When a session produces a candidate stable pattern, prefer
+`distill-session-memory` first. That keeps weak signals inspectable in
+`.pack-state/session-distillation/` before they are promoted into durable
+assistant memory.
+
+Prefer explicit contracts first. Use memory for continuity and adaptation, not
+as a replacement for PackFactory lifecycle, readiness, or deployment state.
+
+codex
+The memory schema is clear now. I’m using the pack’s own CLI to write a single explicit preference record and then read the latest memory pointer back so we can confirm exactly what was saved.
+exec
+/bin/bash -lc 'date -u +%Y%m%dT%H%M%SZ' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+20260330T172513Z
+
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack --help' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+usage: codex_personal_assistant_template_pack [-h]
+                                              {validate-project-pack,benchmark-smoke,show-profile,show-alignment,show-grounding-cadence,show-operator-intake,show-memory-distillation,run-grounding-check,check-ambiguity,route-context,record-memory,distill-session-memory,record-operator-intake,read-memory,delete-memory,bootstrap-workspace,doctor}
+                                              ...
+
+positional arguments:
+  {validate-project-pack,benchmark-smoke,show-profile,show-alignment,show-grounding-cadence,show-operator-intake,show-memory-distillation,run-grounding-check,check-ambiguity,route-context,record-memory,distill-session-memory,record-operator-intake,read-memory,delete-memory,bootstrap-workspace,doctor}
+
+options:
+  -h, --help            show this help message and exit
+
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack read-memory --help' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack record-memory --help' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+usage: codex_personal_assistant_template_pack record-memory
+       [-h] [--project-root PROJECT_ROOT] --memory-id MEMORY_ID --category
+       {note,decision,blocker,preference,goal,communication_pattern,alignment_risk}
+       --summary SUMMARY [--next-action NEXT_ACTION] [--tag TAG]
+       [--source SOURCE] [--evidence EVIDENCE] [--confidence CONFIDENCE]
+       [--replace-existing] [--output {json}]
+
+options:
+  -h, --help            show this help message and exit
+  --project-root PROJECT_ROOT
+  --memory-id MEMORY_ID
+  --category {note,decision,blocker,preference,goal,communication_pattern,alignment_risk}
+  --summary SUMMARY
+  --next-action NEXT_ACTION
+  --tag TAG
+  --source SOURCE
+  --evidence EVIDENCE
+  --confidence CONFIDENCE
+  --replace-existing
+  --output {json}
+
+ succeeded in 103ms:
+codex
+I’m writing one durable preference record with explicit confirmation as the signal, then I’ll read back the pointer and the saved record so the result stays inspectable.
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack read-memory --project-root . --output json' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "status": "pass",
+  "latest_pointer_path": ".pack-state/assistant-memory/latest-memory.json",
+  "latest_pointer": null,
+  "latest_memory": null,
+  "memory_count": 0,
+  "available_memory_ids": [],
+  "session_memory_distillation_status": {
+    "latest_distillation_id": null,
+    "latest_pointer_path": ".pack-state/session-distillation/latest-distillation.json",
+    "distillation_count": 0,
+    "latest_distillation_promoted_memory": false,
+    "latest_promoted_memory_id": null
+  }
+}
+
+exec
+/bin/bash -lc "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack record-memory --project-root . --memory-id operator-preference-concise-context-switching-20260330t172513z --category preference --summary 'Operator prefers concise answers and often switches contexts; responses should stay brief and quickly re-anchor to the current task.' --next-action 'Keep future replies short by default and include a fast context re-anchor when the operator changes topics or resumes later.' --tag concise --tag context-switching --tag communication-style --tag continuity --source explicit_confirmation --evidence 'User explicitly requested that this preference be recorded in local assistant memory during assistant UAT on 2026-03-30.' --confidence 1.0 --output json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "status": "pass",
+  "memory_id": "operator-preference-concise-context-switching-20260330t172513z",
+  "memory_path": ".pack-state/assistant-memory/operator-preference-concise-context-switching-20260330t172513z.json",
+  "latest_pointer_path": ".pack-state/assistant-memory/latest-memory.json",
+  "replaced_existing": false
+}
+
+codex
+The write succeeded, but the pack’s `read-memory` command didn’t surface the record back. I’m checking the pointer file and saved JSON directly now so I can separate a real write issue from a CLI/read-path bug.
+exec
+/bin/bash -lc 'find .pack-state/assistant-memory -maxdepth 2 -type f -print | sort' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+.pack-state/assistant-memory/latest-memory.json
+.pack-state/assistant-memory/operator-preference-concise-context-switching-20260330t172513z.json
+
+exec
+/bin/bash -lc "sed -n '1,220p' .pack-state/assistant-memory/latest-memory.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-memory-pointer/v1",
+  "selected_memory_id": "operator-preference-concise-context-switching-20260330t172513z",
+  "selected_memory_path": ".pack-state/assistant-memory/operator-preference-concise-context-switching-20260330t172513z.json",
+  "updated_at": "2026-03-30T17:25:30Z"
+}
+
+exec
+/bin/bash -lc "sed -n '1,220p' .pack-state/assistant-memory/operator-preference-concise-context-switching-20260330t172513z.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "category": "preference",
+  "confidence": 1.0,
+  "evidence": "User explicitly requested that this preference be recorded in local assistant memory during assistant UAT on 2026-03-30.",
+  "memory_id": "operator-preference-concise-context-switching-20260330t172513z",
+  "next_action": "Keep future replies short by default and include a fast context re-anchor when the operator changes topics or resumes later.",
+  "recorded_at": "2026-03-30T17:25:30Z",
+  "schema_version": "codex-personal-assistant-memory/v2",
+  "source": "explicit_confirmation",
+  "summary": "Operator prefers concise answers and often switches contexts; responses should stay brief and quickly re-anchor to the current task.",
+  "tags": [
+    "communication-style",
+    "concise",
+    "context-switching",
+    "continuity"
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' src/codex_personal_assistant_template_pack/cli.py" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from .ambiguity import check_ambiguity
+from .alignment import show_alignment
+from .benchmark_smoke import benchmark_smoke
+from .context_router import route_context
+from .doctor import run_doctor
+from .grounding import run_grounding_check, show_grounding_cadence
+from .memory import (
+    delete_memory,
+    distill_session_memory,
+    read_memory,
+    record_memory,
+    show_memory_distillation,
+)
+from .operator_intake import record_operator_intake, show_operator_intake
+from .profile import show_profile
+from .validate_project_pack import validate_project_pack
+from .workspace_bootstrap import bootstrap_workspace
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(prog="codex_personal_assistant_template_pack")
+    subparsers = parser.add_subparsers(dest="command")
+
+    validate_parser = subparsers.add_parser("validate-project-pack")
+    validate_parser.add_argument("--project-root", default=".")
+    validate_parser.add_argument("--output", choices=("json",), default="json")
+
+    benchmark_parser = subparsers.add_parser("benchmark-smoke")
+    benchmark_parser.add_argument("--project-root", default=".")
+    benchmark_parser.add_argument("--output", choices=("json",), default="json")
+
+    profile_parser = subparsers.add_parser("show-profile")
+    profile_parser.add_argument("--project-root", default=".")
+    profile_parser.add_argument("--output", choices=("json",), default="json")
+
+    alignment_parser = subparsers.add_parser("show-alignment")
+    alignment_parser.add_argument("--project-root", default=".")
+    alignment_parser.add_argument("--output", choices=("json",), default="json")
+
+    grounding_parser = subparsers.add_parser("show-grounding-cadence")
+    grounding_parser.add_argument("--project-root", default=".")
+    grounding_parser.add_argument("--output", choices=("json",), default="json")
+
+    operator_intake_parser = subparsers.add_parser("show-operator-intake")
+    operator_intake_parser.add_argument("--project-root", default=".")
+    operator_intake_parser.add_argument("--output", choices=("json",), default="json")
+
+    distillation_show_parser = subparsers.add_parser("show-memory-distillation")
+    distillation_show_parser.add_argument("--project-root", default=".")
+    distillation_show_parser.add_argument("--output", choices=("json",), default="json")
+
+    grounding_check_parser = subparsers.add_parser("run-grounding-check")
+    grounding_check_parser.add_argument("--project-root", default=".")
+    grounding_check_parser.add_argument("--current-work-summary", required=True)
+    grounding_check_parser.add_argument("--intended-outcome")
+    grounding_check_parser.add_argument("--output", choices=("json",), default="json")
+
+    ambiguity_parser = subparsers.add_parser("check-ambiguity")
+    ambiguity_parser.add_argument("--project-root", default=".")
+    ambiguity_parser.add_argument("--scenario", required=True)
+    ambiguity_parser.add_argument("--output", choices=("json",), default="json")
+
+    route_parser = subparsers.add_parser("route-context")
+    route_parser.add_argument("--project-root", default=".")
+    route_parser.add_argument("--topic", required=True)
+    route_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_write_parser = subparsers.add_parser("record-memory")
+    memory_write_parser.add_argument("--project-root", default=".")
+    memory_write_parser.add_argument("--memory-id", required=True)
+    memory_write_parser.add_argument(
+        "--category",
+        choices=(
+            "note",
+            "decision",
+            "blocker",
+            "preference",
+            "goal",
+            "communication_pattern",
+            "alignment_risk",
+        ),
+        required=True,
+    )
+    memory_write_parser.add_argument("--summary", required=True)
+    memory_write_parser.add_argument("--next-action")
+    memory_write_parser.add_argument("--tag", action="append", default=[])
+    memory_write_parser.add_argument("--source")
+    memory_write_parser.add_argument("--evidence")
+    memory_write_parser.add_argument("--confidence", type=float)
+    memory_write_parser.add_argument("--replace-existing", action="store_true")
+    memory_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    distillation_parser = subparsers.add_parser("distill-session-memory")
+    distillation_parser.add_argument("--project-root", default=".")
+    distillation_parser.add_argument("--distillation-id", required=True)
+    distillation_parser.add_argument("--summary", required=True)
+    distillation_parser.add_argument("--stable-signal-reason", required=True)
+    distillation_parser.add_argument("--source-memory-id", action="append", default=[], required=True)
+    distillation_parser.add_argument(
+        "--promote-category",
+        choices=("preference", "goal", "communication_pattern", "alignment_risk"),
+    )
+    distillation_parser.add_argument("--promoted-memory-id")
+    distillation_parser.add_argument("--next-action")
+    distillation_parser.add_argument("--tag", action="append", default=[])
+    distillation_parser.add_argument("--source")
+    distillation_parser.add_argument("--evidence")
+    distillation_parser.add_argument("--confidence", type=float)
+    distillation_parser.add_argument("--replace-existing", action="store_true")
+    distillation_parser.add_argument("--output", choices=("json",), default="json")
+
+    operator_intake_write_parser = subparsers.add_parser("record-operator-intake")
+    operator_intake_write_parser.add_argument("--project-root", default=".")
+    operator_intake_write_parser.add_argument("--intake-id", required=True)
+    operator_intake_write_parser.add_argument(
+        "--category",
+        choices=("goal", "preference", "communication_pattern", "alignment_risk"),
+        required=True,
+    )
+    operator_intake_write_parser.add_argument("--summary", required=True)
+    operator_intake_write_parser.add_argument("--next-action")
+    operator_intake_write_parser.add_argument("--tag", action="append", default=[])
+    operator_intake_write_parser.add_argument("--source")
+    operator_intake_write_parser.add_argument("--evidence")
+    operator_intake_write_parser.add_argument("--confidence", type=float)
+    operator_intake_write_parser.add_argument("--replace-existing", action="store_true")
+    operator_intake_write_parser.add_argument(
+        "--refine-profile-json",
+        help="Explicit JSON object used for bounded profile refinement.",
+    )
+    operator_intake_write_parser.add_argument(
+        "--memory-category",
+        choices=("goal", "preference", "communication_pattern", "alignment_risk"),
+        help="Override the memory category used for the relationship signal.",
+    )
+    operator_intake_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_read_parser = subparsers.add_parser("read-memory")
+    memory_read_parser.add_argument("--project-root", default=".")
+    memory_read_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_delete_parser = subparsers.add_parser("delete-memory")
+    memory_delete_parser.add_argument("--project-root", default=".")
+    memory_delete_parser.add_argument("--memory-id", required=True)
+    memory_delete_parser.add_argument("--output", choices=("json",), default="json")
+
+    bootstrap_parser = subparsers.add_parser("bootstrap-workspace")
+    bootstrap_parser.add_argument("--project-root", default=".")
+    bootstrap_parser.add_argument("--target-dir", required=True)
+    bootstrap_parser.add_argument("--output", choices=("json",), default="json")
+
+    doctor_parser = subparsers.add_parser("doctor")
+    doctor_parser.add_argument("--project-root", default=".")
+    doctor_parser.add_argument("--output", choices=("json",), default="json")
+
+    args = parser.parse_args()
+    if args.command == "validate-project-pack":
+        result = validate_project_pack(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "benchmark-smoke":
+        result = benchmark_smoke(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "show-profile":
+        result = show_profile(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-alignment":
+        result = show_alignment(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-grounding-cadence":
+        result = show_grounding_cadence(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-operator-intake":
+        result = show_operator_intake(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-memory-distillation":
+        result = show_memory_distillation(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "run-grounding-check":
+        result = run_grounding_check(
+            Path(args.project_root).resolve(),
+            current_work_summary=args.current_work_summary,
+            intended_outcome=args.intended_outcome,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "check-ambiguity":
+        result = check_ambiguity(Path(args.project_root).resolve(), args.scenario)
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "route-context":
+        result = route_context(Path(args.project_root).resolve(), args.topic)
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "record-memory":
+        result = record_memory(
+            Path(args.project_root).resolve(),
+            memory_id=args.memory_id,
+            category=args.category,
+            summary=args.summary,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "distill-session-memory":
+        result = distill_session_memory(
+            Path(args.project_root).resolve(),
+            distillation_id=args.distillation_id,
+            summary=args.summary,
+            stable_signal_reason=args.stable_signal_reason,
+            source_memory_ids=list(args.source_memory_id),
+            replace_existing=bool(args.replace_existing),
+            promote_category=args.promote_category,
+            promoted_memory_id=args.promoted_memory_id,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "record-operator-intake":
+        result = record_operator_intake(
+            Path(args.project_root).resolve(),
+            intake_id=args.intake_id,
+            category=args.category,
+            summary=args.summary,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+
+codex
+The saved files look correct on disk. I’m rerunning the pack’s `read-memory` path once more to see whether the empty result was transient or a reproducible read-surface bug.
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack read-memory --project-root . --output json' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "status": "pass",
+  "latest_pointer_path": ".pack-state/assistant-memory/latest-memory.json",
+  "latest_pointer": {
+    "schema_version": "codex-personal-assistant-memory-pointer/v1",
+    "selected_memory_id": "operator-preference-concise-context-switching-20260330t172513z",
+    "selected_memory_path": ".pack-state/assistant-memory/operator-preference-concise-context-switching-20260330t172513z.json",
+    "updated_at": "2026-03-30T17:25:30Z"
+  },
+  "latest_memory": {
+    "category": "preference",
+    "confidence": 1.0,
+    "evidence": "User explicitly requested that this preference be recorded in local assistant memory during assistant UAT on 2026-03-30.",
+    "memory_id": "operator-preference-concise-context-switching-20260330t172513z",
+    "next_action": "Keep future replies short by default and include a fast context re-anchor when the operator changes topics or resumes later.",
+    "recorded_at": "2026-03-30T17:25:30Z",
+    "schema_version": "codex-personal-assistant-memory/v2",
+    "source": "explicit_confirmation",
+    "summary": "Operator prefers concise answers and often switches contexts; responses should stay brief and quickly re-anchor to the current task.",
+    "tags": [
+      "communication-style",
+      "concise",
+      "context-switching",
+      "continuity"
+    ]
+  },
+  "memory_count": 1,
+  "available_memory_ids": [
+    "operator-preference-concise-context-switching-20260330t172513z"
+  ],
+  "session_memory_distillation_status": {
+    "latest_distillation_id": null,
+    "latest_pointer_path": ".pack-state/session-distillation/latest-distillation.json",
+    "distillation_count": 0,
+    "latest_distillation_promoted_memory": false,
+    "latest_promoted_memory_id": null
+  }
+}
+
+codex
+Recorded and verified. Your preference is now stored in local assistant memory at [.pack-state/assistant-memory/operator-preference-concise-context-switching-20260330t172513z.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/assistant-memory/operator-preference-concise-context-switching-20260330t172513z.json), with the latest pointer at [.pack-state/assistant-memory/latest-memory.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/assistant-memory/latest-memory.json). The saved summary reads: you prefer concise answers and you often switch contexts.
+
+In future sessions, I’d use that by defaulting to shorter replies, minimizing extra detail unless you ask for it, and quickly re-anchoring to the current task when you change topics or come back after a context switch.
+tokens used
+42,756

@@ -1,12 +1,19 @@
 from __future__ import annotations
 
 import hashlib
+import shutil
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final
 
 from factory_ops import dump_json, load_json, resolve_factory_root, schema_path, validate_json_document, write_json
-from remote_autonomy_staging_common import load_remote_autonomy_request
+from remote_autonomy_staging_common import (
+    canonical_local_roundtrip_artifacts_dir,
+    canonical_local_roundtrip_incoming_dir,
+    canonical_local_roundtrip_root,
+    load_remote_autonomy_request,
+    resolve_local_scratch_root,
+)
 
 
 REMOTE_AUTONOMY_TEST_REQUEST_SCHEMA_NAME: Final[str] = "remote-autonomy-test-request.schema.json"
@@ -14,6 +21,16 @@ REMOTE_AUTONOMY_TEST_REQUEST_SCHEMA_VERSION: Final[str] = "remote-autonomy-test-
 REMOTE_ROUNDTRIP_MANIFEST_SCHEMA_NAME: Final[str] = "remote-roundtrip-manifest.schema.json"
 REMOTE_ROUNDTRIP_MANIFEST_SCHEMA_VERSION: Final[str] = "remote-roundtrip-manifest/v1"
 LOCAL_ROUNDTRIP_ROOT: Final[Path] = Path(".pack-state") / "remote-autonomy-roundtrips"
+DURABLE_AUDIT_FILENAMES: Final[tuple[str, ...]] = (
+    "target-manifest.json",
+    "execution-manifest.json",
+    "recovery-remote-state.json",
+    "portable-runtime-helper-manifest.json",
+    "scratch-lifecycle.json",
+)
+DURABLE_AUDIT_DIRNAMES: Final[tuple[str, ...]] = (
+    "checkpoint-artifacts",
+)
 
 
 @dataclass(frozen=True)
@@ -22,6 +39,7 @@ class RemoteAutonomyTestRequest:
     request_path: Path
     remote_run_request_path: Path
     remote_run_request: Any
+    local_scratch_root: Path
     local_bundle_staging_dir: Path
     pull_bundle: bool
     import_bundle: bool
@@ -45,19 +63,49 @@ def _validate_schema(factory_root: Path, path: Path, schema_name: str) -> dict[s
     return _load_object(path)
 
 
-def canonical_local_bundle_staging_dir(*, factory_root: Path, remote_target_label: str, build_pack_id: str, run_id: str) -> Path:
-    return (factory_root / LOCAL_ROUNDTRIP_ROOT / remote_target_label / build_pack_id / run_id / "incoming").resolve()
+def canonical_local_bundle_staging_dir(
+    *,
+    factory_root: Path,
+    remote_target_label: str,
+    build_pack_id: str,
+    run_id: str,
+    local_scratch_root: Path | None = None,
+) -> Path:
+    selected_scratch_root = (
+        resolve_local_scratch_root(factory_root) if local_scratch_root is None else local_scratch_root.resolve()
+    )
+    return canonical_local_roundtrip_incoming_dir(
+        selected_scratch_root,
+        remote_target_label,
+        build_pack_id,
+        run_id,
+    )
 
 
-def resolve_local_bundle_staging_dir(*, factory_root: Path, value: str) -> Path:
+def canonical_local_roundtrip_artifacts_root(
+    *,
+    factory_root: Path,
+    remote_target_label: str,
+    build_pack_id: str,
+    run_id: str,
+) -> Path:
+    return canonical_local_roundtrip_artifacts_dir(
+        factory_root,
+        remote_target_label,
+        build_pack_id,
+        run_id,
+    ).parent
+
+
+def resolve_local_bundle_staging_dir(*, selected_scratch_root: Path, value: str) -> Path:
     candidate = Path(value).expanduser()
     if not candidate.is_absolute():
-        candidate = factory_root / candidate
+        candidate = selected_scratch_root / candidate
     resolved = candidate.resolve()
     try:
-        resolved.relative_to(factory_root)
+        resolved.relative_to(selected_scratch_root)
     except ValueError as exc:
-        raise ValueError("local_bundle_staging_dir must resolve under the selected factory root") from exc
+        raise ValueError("local_bundle_staging_dir must resolve under the selected PackFactory scratch root") from exc
     return resolved
 
 
@@ -79,8 +127,14 @@ def load_remote_autonomy_test_request(*, factory_root: Path, request_path: Path)
         factory_root=factory_root,
         request_path=remote_run_request_path,
     )
+    local_scratch_root = resolve_local_scratch_root(factory_root, str(payload["local_scratch_root"]))
+    current_local_scratch_root = resolve_local_scratch_root(factory_root)
+    if current_local_scratch_root != local_scratch_root:
+        raise ValueError(
+            "local_scratch_root in the request does not match the currently selected PackFactory scratch root"
+        )
     local_bundle_staging_dir = resolve_local_bundle_staging_dir(
-        factory_root=factory_root,
+        selected_scratch_root=local_scratch_root,
         value=str(payload["local_bundle_staging_dir"]),
     )
     expected_local_bundle_staging_dir = canonical_local_bundle_staging_dir(
@@ -88,6 +142,7 @@ def load_remote_autonomy_test_request(*, factory_root: Path, request_path: Path)
         remote_target_label=remote_run_request.remote_target_label,
         build_pack_id=remote_run_request.source_build_pack_id,
         run_id=remote_run_request.run_id,
+        local_scratch_root=local_scratch_root,
     )
     if local_bundle_staging_dir != expected_local_bundle_staging_dir:
         raise ValueError(
@@ -100,6 +155,7 @@ def load_remote_autonomy_test_request(*, factory_root: Path, request_path: Path)
         request_path=request_path.resolve(),
         remote_run_request_path=remote_run_request_path,
         remote_run_request=remote_run_request,
+        local_scratch_root=local_scratch_root,
         local_bundle_staging_dir=local_bundle_staging_dir,
         pull_bundle=bool(payload["pull_bundle"]),
         import_bundle=bool(payload["import_bundle"]),
@@ -148,3 +204,26 @@ def write_validated_roundtrip_manifest(*, factory_root: Path, path: Path, payloa
     errors = validate_json_document(path, schema_path(factory_root, REMOTE_ROUNDTRIP_MANIFEST_SCHEMA_NAME))
     if errors:
         raise ValueError("; ".join(errors))
+
+
+def promote_roundtrip_audit_artifacts(*, local_stage_dir: Path, durable_artifacts_dir: Path) -> dict[str, str]:
+    durable_artifacts_dir.mkdir(parents=True, exist_ok=True)
+    promoted: dict[str, str] = {}
+    for filename in DURABLE_AUDIT_FILENAMES:
+        source_path = local_stage_dir / filename
+        if not source_path.exists() or not source_path.is_file():
+            continue
+        target_path = durable_artifacts_dir / filename
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_path, target_path)
+        promoted[filename] = str(target_path)
+    for dirname in DURABLE_AUDIT_DIRNAMES:
+        source_dir = local_stage_dir / dirname
+        if not source_dir.exists() or not source_dir.is_dir():
+            continue
+        target_dir = durable_artifacts_dir / dirname
+        if target_dir.exists():
+            shutil.rmtree(target_dir)
+        shutil.copytree(source_dir, target_dir)
+        promoted[dirname] = str(target_dir)
+    return promoted

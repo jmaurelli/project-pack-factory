@@ -1,0 +1,11 @@
+[Unit]
+Description=aff-boot
+After=syslog.target postgresql.service
+
+[Service]
+User=afa
+ExecStart=/usr/share/aff/lib/aff-boot.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

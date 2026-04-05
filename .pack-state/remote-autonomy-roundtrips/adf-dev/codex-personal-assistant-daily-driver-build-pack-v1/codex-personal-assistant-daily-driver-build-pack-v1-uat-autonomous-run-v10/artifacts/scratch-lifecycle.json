@@ -1,0 +1,14 @@
+{
+  "factory_root": "/home/orchadmin/project-pack-factory",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "local_stage_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10/incoming",
+  "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/dist/exports/runtime-evidence",
+  "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+  "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10",
+  "remote_target_label": "adf-dev",
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10",
+  "schema_version": "scratch-lifecycle/v1",
+  "source_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "status": "pulled",
+  "updated_at": "2026-03-30T20:37:22Z"
+}

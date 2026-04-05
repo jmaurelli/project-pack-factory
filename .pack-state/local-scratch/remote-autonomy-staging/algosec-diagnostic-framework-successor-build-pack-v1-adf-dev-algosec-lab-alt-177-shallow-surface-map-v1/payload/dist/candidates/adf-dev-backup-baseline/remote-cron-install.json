@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "project_root": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-successor-build-pack-v1",
+  "backup_root": "/home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1",
+  "install_root": "/home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/job",
+  "script_path": "/home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/job/run-pack-backup.sh",
+  "schedule": "17 3 * * *",
+  "retain_count": 7,
+  "dry_run": false,
+  "cron_block_preview": "# BEGIN PACKFACTORY BACKUP algosec-diagnostic-framework-successor-build-pack-v1\n17 3 * * * /home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/job/run-pack-backup.sh\n# END PACKFACTORY BACKUP algosec-diagnostic-framework-successor-build-pack-v1",
+  "log_path": "/home/adf/.local/share/packfactory-backups/algosec-diagnostic-framework-successor-build-pack-v1/logs/backup.log"
+}

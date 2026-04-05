@@ -42,6 +42,7 @@
         "blocked",
         "awaiting_operator",
         "ready_for_review",
+        "ready_for_next_iteration",
         "ready_for_deploy",
         "completed"
       ]
@@ -63,13 +64,7 @@
     },
     "last_outcome": {
       "type": "string",
-      "enum": [
-        "task_completed",
-        "validation_failed",
-        "blocked",
-        "escalated",
-        "stopped"
-      ]
+      "minLength": 1
     },
     "last_outcome_at": {
       "type": "string",
@@ -109,12 +104,7 @@
     },
     "escalation_state": {
       "type": "string",
-      "enum": [
-        "none",
-        "pending",
-        "raised",
-        "resolved"
-      ]
+      "minLength": 1
     }
   },
   "$defs": {

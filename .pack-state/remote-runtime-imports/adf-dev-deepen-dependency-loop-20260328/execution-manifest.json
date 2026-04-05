@@ -1,0 +1,30 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1-20260328T170533Z",
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1 --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": "2026-03-28T17:05:33Z",
+  "export_error": null,
+  "export_status": "succeeded",
+  "exported_run_id": "algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1",
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "d65dd14c3e792a193065650769166f9ed0db80aa5bba734d93c7cd77cdf21a01",
+  "remote_runner": "codex exec --skip-git-repo-check --cd . --dangerously-bypass-approvals-and-sandbox -",
+  "request_sha256": "691139809efe1e576264a37f02eff675a2cf19d3bf2f4d86231f627c79ff7076",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-split-host-smoke-run-v1",
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "started_at": "2026-03-28T17:04:00Z",
+  "stopped_at": "2026-03-28T17:05:33Z",
+  "target_manifest_sha256": "d7019d728e1d1dab64c31e6ac6b8344c3aaeaff37cde85b5ed2e5513697d8424",
+  "terminal_outcome": "stopped",
+  "terminal_reason": "current_task_incomplete"
+}

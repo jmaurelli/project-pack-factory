@@ -1,0 +1,49 @@
+ASMS first-shell config seam evidence
+====================================
+
+Code path
+---------
+1. Login/session bootstrap caches config before home shell:
+   - /usr/share/fa/php/AlgosecSessionManager.php:58-69
+   - /usr/share/fa/php/utils.php:2482-2490
+   - /usr/share/fa/php/AlgosecSession.php:1257-1278
+
+2. Metro REST base and config endpoints:
+   - /usr/share/fa/php/inc/rest-client.inc.php:53-56 -> PestJSON('http://127.0.0.1:8080/afa')
+   - /usr/share/fa/php/inc/rest-client.inc.php:176-205 -> /config/ and reload
+
+3. home.php uses cached config and same-request non-config reads:
+   - /usr/share/fa/php/home.php:54-67, 76-119
+   - /usr/share/fa/php/home.php:69-74 -> GetDevicesData(), ResetReportsDataConfig(), LoadFirewallDisplayNameArray()
+   - /usr/share/fa/php/home.php:235 -> RestClient::GetUserInfo()
+   - /usr/share/fa/php/inc/rest-client.inc.php:412-416 -> /noauth/device/
+   - /usr/share/fa/php/inc/rest-client.inc.php:516-530 -> /UsersInfo/<user>
+
+Apache/Tomcat mapping
+---------------------
+- /etc/httpd/conf.d/zzz_fa.conf maps external /afa/api/v1 to http://localhost:8080/afa/api/v1
+- /etc/httpd/conf.d/algosec-ms.ms-configuration.conf rewrites host ms-configuration from 127.0.0.1 to http://127.0.0.1:8185/
+- /data/ms-metro/conf/Catalina/localhost/afa.xml mounts the Metro WAR as the /afa Tomcat context
+
+Log correlation
+---------------
+Observed in /var/log/httpd/ssl_access_log on 2026-03-26 05:11-05:12:
+- 05:11:05 GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW -> 401
+- 05:11:05 GET /afa/external//config/all/noauth?domain=0 -> 200
+- 05:11:09 and 05:11:10 GET /afa/external//config?session=...&domain=0 -> 200
+- 05:11:12 GET /afa/php/SuiteLoginSessionValidation.php -> 302
+- 05:11:12 GET /afa/php/home.php -> 200
+
+Observed in /data/ms-metro/logs/localhost_access_log.txt repeatedly on 2026-03-26:
+- paired GET /afa/api/v1/config/all/noauth?domain=0 -> 200
+- followed by paired GET /afa/api/v1/config?session=...&domain=0 -> 200
+
+Observed in /var/log/httpd/ssl_access_log on 2026-03-25 19:20:54:
+- GET /afa/api/v1/config?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 200
+- GET /afa/config/?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 404
+
+Interpretation
+--------------
+- Backend PHP depends on Metro config via the internal Tomcat /afa context.
+- External /afa/api/v1/config is the Apache-exposed equivalent of that backend seam.
+- External /afa/config is not a valid Apache route on this appliance, so operator checks should use /afa/api/v1/config when validating from outside Apache/PHP.

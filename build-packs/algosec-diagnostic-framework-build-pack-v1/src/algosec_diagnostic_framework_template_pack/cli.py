@@ -8,6 +8,7 @@ from .benchmark_smoke import benchmark_smoke
 from .delegated_codex import (
     launch_target_local_codex,
     pull_delegated_result_bundle,
+    record_remote_checkpoint_bundle,
     record_delegated_review,
     write_delegated_task_request,
 )
@@ -15,7 +16,7 @@ from .runtime_baseline import generate_support_baseline
 from .serve_generated_content import serve_generated_content
 from .starlight_site import generate_starlight_site
 from .starlight_prototypes import generate_starlight_prototypes
-from .target_connection import target_heartbeat, target_preflight, target_shell_command
+from .target_connection import DEFAULT_TARGET_PROFILE, target_heartbeat, target_preflight, target_shell_command
 from .validate_project_pack import validate_project_pack
 
 
@@ -35,6 +36,8 @@ def main() -> int:
     baseline_parser.add_argument("--project-root", default=".")
     baseline_parser.add_argument("--target-label", default="algosec-lab")
     baseline_parser.add_argument("--artifact-root", default=None)
+    baseline_parser.add_argument("--use-target-connection", action="store_true")
+    baseline_parser.add_argument("--target-profile-path", default=None)
     baseline_parser.add_argument("--output", choices=("json",), default="json")
 
     starlight_parser = subparsers.add_parser("generate-starlight-site")
@@ -129,6 +132,19 @@ def main() -> int:
     delegation_review_parser.add_argument("--profile-path", default=None)
     delegation_review_parser.add_argument("--output", choices=("json",), default="json")
 
+    checkpoint_parser = subparsers.add_parser("record-remote-checkpoint-bundle")
+    checkpoint_parser.add_argument("--project-root", default=".")
+    checkpoint_parser.add_argument("--run-id", required=True)
+    checkpoint_parser.add_argument(
+        "--checkpoint-reason",
+        choices=("paused_for_review", "task_slice_complete", "evidence_ready", "blocked_boundary", "recovery_snapshot"),
+        default="task_slice_complete",
+    )
+    checkpoint_parser.add_argument("--generated-by", default="adf-dev")
+    checkpoint_parser.add_argument("--remote-target-label", default=None)
+    checkpoint_parser.add_argument("--note", action="append", default=[])
+    checkpoint_parser.add_argument("--output", choices=("json",), default="json")
+
     args = parser.parse_args()
     if args.command == "validate-project-pack":
         result = validate_project_pack(Path(args.project_root).resolve())
@@ -141,10 +157,14 @@ def main() -> int:
         return 0 if result["status"] == "pass" else 1
 
     if args.command == "generate-support-baseline":
+        selected_profile_path = None
+        if args.use_target_connection:
+            selected_profile_path = args.target_profile_path or str(DEFAULT_TARGET_PROFILE)
         result = generate_support_baseline(
             project_root=Path(args.project_root).resolve(),
             target_label=args.target_label,
             artifact_root=args.artifact_root,
+            profile_path=selected_profile_path,
         )
         print(json.dumps(result, indent=2))
         return 0 if result["status"] == "pass" else 1
@@ -261,6 +281,19 @@ def main() -> int:
             review_outcome=args.review_outcome,
             generated_by=args.generated_by,
             profile_path=args.profile_path,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "record-remote-checkpoint-bundle":
+        note = "\n".join(note for note in args.note if note)
+        result = record_remote_checkpoint_bundle(
+            project_root=Path(args.project_root).resolve(),
+            run_id=args.run_id,
+            checkpoint_reason=args.checkpoint_reason,
+            generated_by=args.generated_by,
+            remote_target_label=args.remote_target_label,
+            note=note or None,
         )
         print(json.dumps(result, indent=2))
         return 0 if result["status"] == "pass" else 1

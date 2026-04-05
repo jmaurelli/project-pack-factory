@@ -1,0 +1,95 @@
+{
+  "artifacts": {
+    "report_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t121252z/proof-report.json",
+    "report_relative_path": ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t121252z/proof-report.json",
+    "screenshot_path": null,
+    "screenshot_relative_path": null,
+    "validated_request_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t121252z/validated-request.json",
+    "validated_request_relative_path": ".pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260401t121252z/validated-request.json"
+  },
+  "assertions": [
+    {
+      "name": "browser_helper_completed",
+      "status": "fail",
+      "summary": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-l8pr2t --remote-debugging-pipe --no-startup-window\n<launched> pid=701534\n[pid=701534][err] /home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libatk-1.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n\u001b[2m  - <launching> /home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-l8pr2t --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=701534\u001b[22m\n\u001b[2m  - [pid=701534][err] /home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libatk-1.0.so.0: cannot open shared object file: No such file or directory\u001b[22m\n\u001b[2m  - [pid=701534] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=701534] <kill>\u001b[22m\n\u001b[2m  - [pid=701534] <will force kill>\u001b[22m\n\u001b[2m  - [pid=701534] exception while trying to kill process: Error: kill ESRCH\u001b[22m\n\u001b[2m  - [pid=701534] <process did exit: exitCode=127, signal=null>\u001b[22m\n\u001b[2m  - [pid=701534] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=701534] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=701534] <gracefully close end>\u001b[22m\n"
+    }
+  ],
+  "console": {
+    "enabled": true,
+    "message_count": 0,
+    "messages": [],
+    "page_errors": []
+  },
+  "failure_summary": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-l8pr2t --remote-debugging-pipe --no-startup-window\n<launched> pid=701534\n[pid=701534][err] /home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libatk-1.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n\u001b[2m  - <launching> /home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-l8pr2t --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=701534\u001b[22m\n\u001b[2m  - [pid=701534][err] /home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libatk-1.0.so.0: cannot open shared object file: No such file or directory\u001b[22m\n\u001b[2m  - [pid=701534] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=701534] <kill>\u001b[22m\n\u001b[2m  - [pid=701534] <will force kill>\u001b[22m\n\u001b[2m  - [pid=701534] exception while trying to kill process: Error: kill ESRCH\u001b[22m\n\u001b[2m  - [pid=701534] <process did exit: exitCode=127, signal=null>\u001b[22m\n\u001b[2m  - [pid=701534] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=701534] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=701534] <gracefully close end>\u001b[22m",
+  "host_readiness": {
+    "browser_executable_exists": true,
+    "browser_executable_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium-1208/chrome-linux64/chrome",
+    "browser_executable_relative_path": ".pack-state/browser-proof-runtime/playwright-browsers/chromium-1208/chrome-linux64/chrome",
+    "browser_executable_source": "active_runtime",
+    "browser_name": "chromium",
+    "browser_revision": "1208",
+    "browser_version": "145.0.7632.6",
+    "checked_at": "2026-04-01T12:12:53Z",
+    "ldd_available": true,
+    "ldd_exit_code": 0,
+    "missing_libraries": [
+      "libatk-1.0.so.0 => not found",
+      "libatk-bridge-2.0.so.0 => not found",
+      "libcups.so.2 => not found",
+      "libatspi.so.0 => not found",
+      "libXcomposite.so.1 => not found",
+      "libXdamage.so.1 => not found",
+      "libXfixes.so.3 => not found",
+      "libXrandr.so.2 => not found",
+      "libgbm.so.1 => not found",
+      "libcairo.so.2 => not found",
+      "libpango-1.0.so.0 => not found",
+      "libasound.so.2 => not found"
+    ],
+    "missing_library_count": 12,
+    "status": "missing_host_dependencies",
+    "summary": "Chromium executable resolved, but host shared-library dependencies are still missing."
+  },
+  "packfactory_provenance": {
+    "preview_markers": [
+      "src/content/docs/playbooks/asms-ui-is-down.md",
+      "public/adf-field-manual.js"
+    ],
+    "preview_root": "/home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/adf-target-profile-baseline/starlight-site",
+    "preview_root_relative_path": "build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/adf-target-profile-baseline/starlight-site"
+  },
+  "page_path": "/playbooks/asms-ui-is-down/",
+  "proof_kind": "adf_field_manual_hash_target_opens",
+  "proof_run_id": "browser-proof-adf_field_manual_hash_target_opens-20260401t121252z",
+  "recorded_at": "2026-04-01T12:12:53Z",
+  "runtime": {
+    "browser_executable_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers/chromium-1208/chrome-linux64/chrome",
+    "browser_executable_relative_path": ".pack-state/browser-proof-runtime/playwright-browsers/chromium-1208/chrome-linux64/chrome",
+    "browser_executable_source": "active_runtime",
+    "browser_name": "chromium",
+    "browser_revision": "1208",
+    "browser_root": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers",
+    "browser_root_relative_path": ".pack-state/browser-proof-runtime/playwright-browsers",
+    "browser_version": "145.0.7632.6",
+    "node_root": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/node-runtime",
+    "node_root_relative_path": ".pack-state/browser-proof-runtime/node-runtime",
+    "npm_package_version": "1.58.2",
+    "runtime_root": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime",
+    "runtime_root_relative_path": ".pack-state/browser-proof-runtime"
+  },
+  "schema_version": "browser-proof-report/v1",
+  "status": "fail",
+  "step_number": 3,
+  "target_id": "manual-ui-and-proxy-step-3",
+  "target_kind": "packfactory_local_preview",
+  "target_state": {
+    "details_open_after_navigation": false,
+    "detected_run_block_count": 0,
+    "final_hash": "",
+    "final_url": "",
+    "initially_collapsed": false,
+    "overview_label": "",
+    "summary_command_count_text": ""
+  },
+  "target_url": "http://10.167.2.152:18082/playbooks/asms-ui-is-down/"
+}

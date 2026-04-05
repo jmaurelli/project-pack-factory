@@ -1,0 +1,7 @@
+{
+  "build_pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-177-shallow-surface-map-v1/incoming/bundle/bundle.json",
+  "import_reason": "Import the bounded standalone calibration-node shallow-surface-map bundle for 10.167.2.177 so the successor can widen the independent-node calibration set across the A33.20 family.",
+  "imported_by": "codex",
+  "schema_version": "external-runtime-evidence-import-request/v1"
+}

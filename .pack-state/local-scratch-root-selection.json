@@ -1,0 +1,11 @@
+{
+  "factory_root": "/home/orchadmin/project-pack-factory",
+  "filesystem_free_bytes": 14181388288,
+  "same_filesystem_as_factory_root": true,
+  "schema_version": "local-scratch-root-selection/v1",
+  "selected_at": "2026-03-29T21:58:27Z",
+  "selected_by": "packfactory-local-scratch-resolver",
+  "selected_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "selection_basis": "repo_local_fallback",
+  "selection_mode": "repo_fallback"
+}

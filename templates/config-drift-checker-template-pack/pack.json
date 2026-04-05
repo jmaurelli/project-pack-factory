@@ -39,6 +39,8 @@
     "Created through the PackFactory template creation workflow.",
     "creation_id=create-template-config-drift-checker-template-pack-20260322t202017z",
     "project_goal=Create a small PackFactory-native template for detecting configuration drift between a current JSON or YAML file and a declared baseline before promotion.",
+    "role_domain_template_id=research-analyst",
+    "role_domain_template_default_for_derivatives=false",
     "factory_autonomy_baseline=This source template inherits the PackFactory autonomy baseline from docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md and docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md.",
     "factory_autonomy_tracking=Template-level autonomy notes are pointers to factory defaults; the factory root remains the canonical baseline for inherited memory, feedback, restart, branch-choice behavior, and remote-session compliance.",
     "factory_startup_compliance=Inherited startup guidance requires PackFactory-local remote-session workflows and treats external runtime-evidence import as factory-only."
@@ -46,6 +48,15 @@
   "owning_team": "orchadmin",
   "pack_id": "config-drift-checker-template-pack",
   "pack_kind": "template_pack",
+  "role_domain_template": {
+    "apply_to_derived_build_packs_by_default": false,
+    "catalog_path": "docs/specs/project-pack-factory/agent-role-domain-template-catalog.json",
+    "display_name": "Research Analyst",
+    "selection_origin": "template_selected",
+    "selection_reason": "This bounded proof keeps a disciplined evidence-review lens on the config-drift source line without turning the lens into a family-wide default for future derivatives.",
+    "summary": "A disciplined framing lens for evidence review, synthesis, and careful distinction between signal, gap, and inference.",
+    "template_id": "research-analyst"
+  },
   "post_bootstrap_read_order": [
     "status/lifecycle.json",
     "status/readiness.json",

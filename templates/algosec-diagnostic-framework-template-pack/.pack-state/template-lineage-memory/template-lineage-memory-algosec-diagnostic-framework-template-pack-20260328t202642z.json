@@ -1,0 +1,45 @@
+{
+  "active_build_pack_ids": [
+    "algosec-diagnostic-framework-build-pack-v1"
+  ],
+  "capability_family": null,
+  "discovery_entrypoints": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json",
+    ".pack-state/template-lineage-memory/latest-memory.json",
+    "registry/build-packs.json"
+  ],
+  "distilled_lessons": [],
+  "generated_at": "2026-03-28T20:26:42Z",
+  "latest_distillation_report_path": ".pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260328t202642z/distillation-report.json",
+  "memory_id": "template-lineage-memory-algosec-diagnostic-framework-template-pack-20260328t202642z",
+  "notes": [
+    "This lineage memory is template-local advisory context, not canonical deployment or promotion truth.",
+    "Use build-pack lineage plus proven factory artifacts to decide what this template family has already taught the factory.",
+    "When a repeated lesson becomes template-agnostic, prefer promoting it into factory-level autonomy memory and distillation artifacts instead of overfitting the template."
+  ],
+  "producer": "codex",
+  "recommended_next_step": "Use this template lineage memory when deciding whether the next proof should extend this template family or whether the lesson already belongs at the factory root.",
+  "relevant_artifact_paths": [
+    ".pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260328t202642z/distillation-report.json",
+    "build-packs/algosec-diagnostic-framework-build-pack-v1/lineage/source-template.json",
+    "registry/build-packs.json",
+    "registry/templates.json"
+  ],
+  "retired_build_pack_ids": [],
+  "schema_version": "template-lineage-memory/v1",
+  "source_build_pack_ids": [
+    "algosec-diagnostic-framework-build-pack-v1"
+  ],
+  "status_snapshot": {
+    "active_build_pack_count": 1,
+    "build_pack_count": 1,
+    "build_registry_path": "registry/build-packs.json",
+    "retired_build_pack_count": 0,
+    "template_registry_path": "registry/templates.json"
+  },
+  "summary": "Template `algosec-diagnostic-framework-template-pack` currently anchors 1 known derived build-packs. No factory-level distilled lessons intersect this template family yet.",
+  "template_id": "algosec-diagnostic-framework-template-pack",
+  "template_root": "/home/orchadmin/project-pack-factory/templates/algosec-diagnostic-framework-template-pack"
+}

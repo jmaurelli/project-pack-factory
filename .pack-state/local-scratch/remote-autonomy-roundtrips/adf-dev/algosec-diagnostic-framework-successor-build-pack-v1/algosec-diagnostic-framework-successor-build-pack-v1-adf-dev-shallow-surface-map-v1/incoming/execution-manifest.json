@@ -1,0 +1,33 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1-20260403T121630Z",
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1 --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": "2026-04-03T12:16:31Z",
+  "export_error": null,
+  "export_status": "succeeded",
+  "exported_run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1",
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "de9df41a399ddac100826e9c5b097c03e07794972a5024cf72bb83d481b8d1a3",
+  "remote_runner": "set -euo pipefail; PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack generate-shallow-surface-map --project-root . --target-label 10.167.2.150 --target-connection-profile docs/remote-targets/algosec-lab/target-connection-profile.json --mirror-into-run-id algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1 --output json",
+  "request_sha256": "35017081771acd228ed212f1c1171da750b401374499ce1900e6fd58006eabba",
+  "run_id": "algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-shallow-surface-map-v1",
+  "runner_interrupted_signal": null,
+  "runner_returncode": 0,
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "stale_active_run_cleanup": null,
+  "started_at": "2026-04-03T12:16:14Z",
+  "stopped_at": "2026-04-03T12:16:31Z",
+  "target_manifest_sha256": "158253bee46d3361b8e5c22e7d0a145057451009748a47be8a01dc6bc41d8e09",
+  "terminal_outcome": "stopped",
+  "terminal_reason": "current_task_incomplete"
+}

@@ -1,0 +1,62 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/assistant-uat/identity_and_grounding-last-message.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "a4fab715cce3256fb665b708b0ded1203e5afd727c201ebc0519b06d99648cd4",
+      "source_pack_path": ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/assistant-uat/identity_and_grounding-last-message.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/uat-report.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "efdace0c5f18140210d66cc3536277897d3ff9bd361f28a36538bca1cef253d3",
+      "source_pack_path": ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/assistant-uat/uat-report.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "6548b19f660f65d4644ae06dc7375e5a1ec5d580c593410890cbc0f27193e117",
+      "source_pack_path": ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "e671b25df461b06f8aa2d5b6e0293b8eadbab6a1ef75271f37d3b6f51d9caffe",
+      "source_pack_path": ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-30T00:11:11Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "export-helper-assistant-uat-smoke",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke"
+  ],
+  "summary": {
+    "ended_at": "2026-03-30T00:20:00Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 0,
+    "started_at": "2026-03-30T00:19:00Z",
+    "stop_reason": "smoke_test",
+    "task_completion_rate": 1.0
+  }
+}

@@ -30,6 +30,8 @@ framing, but it is not a clean home for role/domain prompts such as:
 - `startup operator`
 - `research analyst`
 - `product strategy advisor`
+- `grounded startup partner`
+- `operator coach`
 
 Those examples are not only about tone. They mix:
 
@@ -58,6 +60,22 @@ The overlay should describe:
 
 V1 should treat the overlay as a framing lens, not as literal job-title
 authority.
+
+Safe catalog growth should prefer reusable framing lenses like
+`grounded-startup-partner` and `operator-coach` over regulated, credentialed,
+or title-heavy roles. Those additions stay useful because they shape problem
+framing and operator support style without implying licensure, managerial
+authority, or therapy.
+
+When a candidate label risks sounding like a relationship or authority claim,
+the stored summary and context lines must stay heuristic-centric:
+
+- explain what decisions the lens changes
+- keep guidance in terms like `frame`, `prefer`, `keep visible`, or `shape`
+- avoid turning the entry into a tone, relationship, therapy, or management
+  authority claim
+- make the lens distinguishable from adjacent entries by its decision
+  heuristic, not by adjectives alone
 
 The overlay should not:
 

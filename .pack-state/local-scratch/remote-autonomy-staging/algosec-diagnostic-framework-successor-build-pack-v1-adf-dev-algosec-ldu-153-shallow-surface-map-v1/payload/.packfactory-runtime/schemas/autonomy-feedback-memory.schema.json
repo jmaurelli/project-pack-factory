@@ -1,0 +1,631 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/autonomy-feedback-memory.schema.json",
+  "title": "Autonomy Feedback Memory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "memory_id",
+    "pack_id",
+    "run_id",
+    "generated_at",
+    "memory_tier",
+    "summary",
+    "memory_validity",
+    "handoff_summary",
+    "highest_risk_observation",
+    "recommended_next_action",
+    "autonomy_budget",
+    "block_summary",
+    "resolved_block_summary",
+    "delta_summary",
+    "negative_memory_summary",
+    "baseline_readiness_state",
+    "final_readiness_state",
+    "active_task_id",
+    "next_recommended_task_id",
+    "ready_for_deployment",
+    "completed_task_ids",
+    "operator_intervention_summary",
+    "evidence_paths",
+    "source_artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "autonomy-feedback-memory/v1"
+    },
+    "memory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "memory_tier": {
+      "$ref": "#/$defs/memory_tier"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "memory_validity": {
+      "$ref": "#/$defs/memory_validity"
+    },
+    "handoff_summary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "highest_risk_observation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recommended_next_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "autonomy_budget": {
+      "$ref": "#/$defs/autonomy_budget"
+    },
+    "block_summary": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/block_summary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "resolved_block_summary": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/resolved_block_summary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "delta_summary": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/delta_summary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "negative_memory_summary": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/negative_memory_summary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "baseline_readiness_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "final_readiness_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "active_task_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "next_recommended_task_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ready_for_deployment": {
+      "type": "boolean"
+    },
+    "completed_task_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9_-]*$"
+      }
+    },
+    "operator_intervention_summary": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/operator_intervention_summary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "evidence_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loop_events_path",
+        "run_summary_path"
+      ],
+      "properties": {
+        "loop_events_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_summary_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch_selection_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_memory_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "factory_validation_command": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "autonomy_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "limits",
+        "observed",
+        "summary"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "within_budget",
+            "budget_exceeded"
+          ]
+        },
+        "limits": {
+          "$ref": "#/$defs/autonomy_budget_values"
+        },
+        "observed": {
+          "$ref": "#/$defs/autonomy_budget_values"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "autonomy_budget_values": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_step_count",
+        "max_failed_command_count",
+        "max_escalation_count",
+        "max_elapsed_minutes"
+      ],
+      "properties": {
+        "max_step_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_failed_command_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_escalation_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_elapsed_minutes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "memory_tier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "tier",
+        "summary"
+      ],
+      "properties": {
+        "status": {
+          "const": "active"
+        },
+        "tier": {
+          "type": "string",
+          "enum": [
+            "scratch_memory",
+            "restart_memory",
+            "promoted_factory_memory",
+            "retired_memory"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "operator_intervention_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "selection_method",
+        "applied_hint_ids",
+        "applied_hint_summary",
+        "chosen_task_id",
+        "branch_selection_path",
+        "learning_summary"
+      ],
+      "properties": {
+        "status": {
+          "const": "observed"
+        },
+        "selection_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "applied_hint_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "applied_hint_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chosen_task_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9_-]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "branch_selection_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "learning_summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "memory_validity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "confidence_level",
+        "confidence_score",
+        "scope",
+        "expires_at",
+        "expires_after_hours",
+        "basis",
+        "summary"
+      ],
+      "properties": {
+        "status": {
+          "const": "active"
+        },
+        "confidence_level": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "ready_boundary_restart",
+            "active_pack_restart",
+            "blocked_restart",
+            "pack_local_restart"
+          ]
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_after_hours": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "block_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "summary",
+        "blocking_artifact_kind",
+        "blocking_artifact_path",
+        "recommended_recovery_action"
+      ],
+      "properties": {
+        "status": {
+          "const": "blocked"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking_artifact_kind": {
+          "type": "string",
+          "enum": [
+            "work_state",
+            "readiness",
+            "loop_events",
+            "factory_validation",
+            "runtime_evidence_export",
+            "remote_execution",
+            "memory_compatibility"
+          ]
+        },
+        "blocking_artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommended_recovery_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "resolved_block_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "prior_block_reason",
+        "prior_blocking_artifact_kind",
+        "prior_blocking_artifact_path",
+        "prior_recommended_recovery_action",
+        "prior_memory_path",
+        "recovery_summary",
+        "recovery_evidence_paths"
+      ],
+      "properties": {
+        "status": {
+          "const": "resolved"
+        },
+        "prior_block_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prior_blocking_artifact_kind": {
+          "type": "string",
+          "enum": [
+            "work_state",
+            "readiness",
+            "loop_events",
+            "factory_validation",
+            "runtime_evidence_export",
+            "remote_execution",
+            "memory_compatibility"
+          ]
+        },
+        "prior_blocking_artifact_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prior_recommended_recovery_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prior_memory_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recovery_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recovery_evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "delta_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "previous_memory_path",
+        "previous_run_id",
+        "changed_fields",
+        "completed_task_ids_added",
+        "summary_lines"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "changed",
+            "unchanged"
+          ]
+        },
+        "previous_memory_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "previous_run_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "changed_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "completed_task_ids_added": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]*$"
+          }
+        },
+        "summary_lines": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "negative_memory_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "avoidance_ids",
+        "summary_lines"
+      ],
+      "properties": {
+        "status": {
+          "const": "observed"
+        },
+        "avoidance_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "summary_lines": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

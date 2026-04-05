@@ -1,0 +1,11 @@
+{
+  "schema_version": "remote-autonomy-test-request/v1",
+  "remote_run_request_path": "remote-autonomy-second-node-shallow-surface-map-run-request-177.json",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/algosec-diagnostic-framework-successor-build-pack-v1/algosec-diagnostic-framework-successor-build-pack-v1-adf-dev-algosec-lab-alt-177-shallow-surface-map-v1/incoming",
+  "pull_bundle": true,
+  "import_bundle": true,
+  "imported_by": "codex",
+  "import_reason": "Import the bounded standalone calibration-node shallow-surface-map bundle for 10.167.2.177 so the successor can widen the independent-node calibration set across the A33.20 family.",
+  "test_reason": "Exercise the PackFactory remote roundtrip for an additional standalone-node ADF successor calibration pass while adf-dev remains the operational runtime home."
+}

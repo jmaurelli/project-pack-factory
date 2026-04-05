@@ -1,0 +1,80 @@
+{
+  "adapter_result": {
+    "adapter_id": "local-test-adapter",
+    "artifacts": [
+      "dist/releases/codex-personal-assistant-daily-driver-build-pack-v1-r1/release.json"
+    ],
+    "deployment_handle": "codex-personal-assistant-daily-driver-build-pack-v1:codex-personal-assistant-daily-driver-build-pack-v1-r1:testing",
+    "deployment_url": "https://example.invalid/codex-personal-assistant-daily-driver-build-pack-v1/testing/codex-personal-assistant-daily-driver-build-pack-v1-r1",
+    "logs": [
+      "Pipeline deployed codex-personal-assistant-daily-driver-build-pack-v1 to testing."
+    ],
+    "provider": "local-test-adapter",
+    "status": "completed"
+  },
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "build_pack_root": "build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+  "canonical_assignment_status": "unchanged",
+  "canonical_state_changed": false,
+  "cloud_adapter_id": "local-test-adapter",
+  "commit_promotion_on_success": false,
+  "evidence_paths": [
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/pipeline-report.json",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/validation-result.json",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/benchmark-result.json",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/dist/candidates/codex-personal-assistant-daily-driver-build-pack-v1-r1/release.json",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/dist/releases/codex-personal-assistant-daily-driver-build-pack-v1-r1/release.json",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/verification-result.json"
+  ],
+  "final_status": "completed",
+  "generated_at": "2026-03-29T16:23:03Z",
+  "invoked_by": "codex",
+  "operation_log_update": {
+    "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+    "event_type": "pipeline_executed",
+    "pipeline_id": "pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z",
+    "pipeline_report_path": "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/pipeline-report.json",
+    "promotion_log_path": "registry/promotion-log.json"
+  },
+  "pipeline_id": "pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z",
+  "release_id": "codex-personal-assistant-daily-driver-build-pack-v1-r1",
+  "schema_version": "deployment-pipeline-report/v1",
+  "stage_results": [
+    {
+      "stage_id": "validate_factory_state",
+      "status": "completed",
+      "summary": "Factory validation passed."
+    },
+    {
+      "stage_id": "validate_build_pack",
+      "status": "completed",
+      "summary": "Build-pack validation command passed."
+    },
+    {
+      "stage_id": "run_required_benchmarks",
+      "status": "completed",
+      "summary": "Executed benchmark command for 1 mandatory benchmark gates."
+    },
+    {
+      "stage_id": "package_release",
+      "status": "completed",
+      "summary": "Created candidate and release artifacts."
+    },
+    {
+      "stage_id": "deploy_release",
+      "status": "completed",
+      "summary": "Provider-neutral deployment adapter completed."
+    },
+    {
+      "stage_id": "verify_deployment",
+      "status": "completed",
+      "summary": "Post-deploy verification commands passed."
+    },
+    {
+      "stage_id": "finalize_promotion",
+      "status": "completed",
+      "summary": "Promotion commit was intentionally deferred by request."
+    }
+  ],
+  "target_environment": "testing"
+}

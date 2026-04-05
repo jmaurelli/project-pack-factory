@@ -1,0 +1,12 @@
+{
+  "current_revision": "codex-personal-assistant-daily-driver-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create the first proving-ground build-pack for a Codex-native daily-driver personal assistant environment once the template exists and factory preflight is clean.",
+  "updated_at": "2026-03-29T16:07:24Z",
+  "updated_by": "codex"
+}

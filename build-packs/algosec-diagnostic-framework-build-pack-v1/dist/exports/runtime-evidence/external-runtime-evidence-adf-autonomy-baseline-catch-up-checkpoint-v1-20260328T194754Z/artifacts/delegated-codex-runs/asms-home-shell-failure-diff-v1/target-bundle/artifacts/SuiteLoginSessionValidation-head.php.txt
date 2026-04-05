@@ -1,0 +1,140 @@
+<?php
+require_once("RequireHeaders.php");
+require_once("AlgosecSession.php");
+
+// if suite login is called with last_url param we want to clean all cookies
+// to force login with username and password
+if (isset($_GET['clean']) && $_GET['clean'] == "true") {
+	utils::PrintLog("Info", "login page was accessed with last_url parameter (clear all products cookies)");
+	redirectOrRespond();
+}
+
+$AlgosecSession = utils::GetAlgosecSession();
+session_write_close();
+
+/*
+In the context of this file we have the cookies of afa and fireflow, but not businessflow, because businessflow's cookie has the path "/BusinessFlow"
+After discussing with Linor Cohen, I understood from her that businessflow's authentication strictly relies on the other products' authentications.
+In other words, if fireflow is installed, businessflow validates against both afa and fireflow, and if only afa is installed, it validates against afa.
+Fireflow is different in that it has it's own authentication system that "communicates" with afa's, but does not depend or rely on it.
+Therefor, in order to validate a session, we do not need to check businessflow (and can't because we can't get the cookie here), but checking afa and
+fireflow is sufficient. This is what we do.
+*/
+
+$index = getDistElemPage();
+if ($index != "") {
+	redirectOrRespond("/afa/php/".$index);
+}
+
+
+
+$headers = getallheaders();
+$fireflowCookie = utils::getFireflowCookie();
+
+if (empty($AlgosecSession) && empty($fireflowCookie)) {
+	redirectOrRespond(); // No cookies, no service!
+}
+
+$machineSetup = getMachineSetup();
+$check_aff = $machineSetup['isAffEnabled'] && $machineSetup['affVersionOK'];
+
+$username = "";
+$domain = "";
+
+$is_afa_authenticated = false;
+$is_aff_authenticated = false;
+$isRequestor = false;
+
+$auth = checkAfaAuth($AlgosecSession);
+// If not authenticated with afa, it could be a requestor, which can be authenticated only in fireflow, so don't exit yet
+if (!empty($auth)) {
+	list($username, $domain) = $auth;
+	$is_afa_authenticated = true;
+}
+
+if ($check_aff) {
+	$auth = utils::checkFireFlowAuth($fireflowCookie);
+
+	if (!empty($auth)) {
+
+        $is_aff_authenticated = true;
+
+        list($affUsername, $affDomain, $isManagementDomainUser, $affIsRequestor) = $auth;
+
+        if ($is_afa_authenticated) {
+			try {
+				$usernamesMatch = checkUsernamesMatch($username, $affUsername);
+			} catch (Exception $e) {
+				utils::PrintLog("Error", "Failed to check for matching usernames: " . $e->getMessage());
+				redirectOrRespond();
+			}
+
+			if (!$usernamesMatch) {
+				utils::PrintLog("Error", "Authenticated with AFA and FireFlow, but got different usernames ($username, $affUsername)");
+				redirectOrRespond();
+			}
+
+            // Because in FireFlow, management domain users can switch the active domain (which doesn't change AFA's domain),
+            // we check if the user is in the management domain. If he is - a domain mismatch is irrelevant.
+            if (!$isManagementDomainUser && $domain != $affDomain) {
+                utils::PrintLog("Error", "Authenticated with AFA and FireFlow, but got different domains ($domain, $affDomain)");
+                redirectOrRespond();
+            }
+        } else {
+            $username = $affUsername;
+            $domain = $affDomain;
+
+            $isRequestor = $affIsRequestor && !isAfaUser($username, $domain);
+        }
+    }
+}
+
+if (empty($username)) {
+	utils::PrintLog("Info", "Found no user name");
+	redirectOrRespond(); // Either way we don't continue in this flow
+}
+
+if (!$is_afa_authenticated && (!$check_aff || !$isRequestor)) {
+	utils::PrintLog("Info", "Couldn't authenticate AFA session");
+	redirectOrRespond();
+}
+
+utils::PrintLog("Info", "User '$username' (domain '$domain') is authenticated". ($isRequestor ? " (requestor)" : ""));
+
+// There is a valid session, get landing page according to the username and redirect there
+$landingPage = getLandingPage($username, $domain);
+
+if ($landingPage === "aff") {
+    if ($is_aff_authenticated) {
+		redirectOrRespond(utils::GetFireFlowAddress() . "/FireFlow/");
+    } else {
+        redirectOrRespond("/afa/php/home.php");
+	}
+} else if ($landingPage === "abf") {
+	// Gets ABF web url
+	$abfWebUrl = (!empty($AlgosecSession) && isset($AlgosecSession->m_configurationSettings['ABF_Web_Url'])) ? $AlgosecSession->m_configurationSettings['ABF_Web_Url'] : NULL;
+    $businessFlowURL = RestClient::getBusinessFlowURL();
+    redirectOrRespond(empty($abfWebUrl) ? $businessFlowURL : $abfWebUrl);
+} else {
+	// Use afa as the default landing page, so it goes to afa anyway, but if the landing page is not explicitly afa, report an error and still go to afa
+	if ($landingPage !== "afa") {
+		utils::PrintLog("Error", "Unknown landing page: $landingPage, redirecting to afa");
+	}
+
+	redirectOrRespond("/afa/php/home.php");
+}
+
+// ===================================================================
+
+function getMachineSetup() {
+	try {
+		return RestClient::getMachineSetup();
+	} catch (Exception $e) {
+		utils::PrintLog("Fatal", "Failed to get machine setup: ". $e->getMessage());
+		redirectOrRespond();
+	}
+}
+
+function isAfaUser($username, $domain) {
+	utils::PrintLog("Info", "Going to check if user is a requestor...");
+

@@ -137,9 +137,9 @@ python3 tools/run_remote_autonomy_test.py --factory-root /home/orchadmin/project
 Generate and serve the current human-facing content directly from `adf-dev`:
 
 ```bash
-PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-support-baseline --project-root . --target-label algosec-lab --artifact-root dist/candidates/algosec-lab-baseline --output json
-PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --artifact-root dist/candidates/algosec-lab-baseline --output json
-PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack serve-generated-content --project-root . --artifact-root dist/candidates/algosec-lab-baseline --host 0.0.0.0 --port 18082
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-support-baseline --project-root . --target-label algosec-lab --use-target-connection --output json
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --artifact-root dist/candidates/adf-target-profile-baseline --output json
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack serve-generated-content --project-root . --artifact-root dist/candidates/adf-target-profile-baseline --host 0.0.0.0 --port 18082
 ```
 
 Serving rule:
@@ -164,6 +164,13 @@ Those helpers read the default target profile from:
 
 Use them to keep target reachability, menu-safe shell launch, and bounded
 command timing inside the build pack rather than in ad hoc terminal history.
+
+Important generation rule:
+
+- `generate-support-baseline` only targets the downstream AlgoSec appliance
+  when `--use-target-connection --target-profile-path docs/remote-targets/algosec-lab/target-connection-profile.json`
+  is supplied
+- without those flags, it baselines the host where the command is running
 
 If a task slice is delegated to target-local Codex instead, treat that as a
 secondary mode:

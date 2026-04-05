@@ -1,0 +1,84 @@
+{
+  "active_build_pack_ids": [
+    "codex-personal-assistant-daily-driver-build-pack-v1",
+    "codex-personal-assistant-remote-rehearsal-build-pack-v1"
+  ],
+  "capability_family": "codex-personal-assistant-infrastructure",
+  "discovery_entrypoints": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json",
+    ".pack-state/template-lineage-memory/latest-memory.json",
+    "registry/build-packs.json"
+  ],
+  "distilled_lessons": [],
+  "generated_at": "2026-03-31T16:15:03Z",
+  "latest_distillation_report_path": ".pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260331t161503z/distillation-report.json",
+  "latest_template_parity_report_path": ".pack-state/template-parity-reports/template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t212000z/parity-report.json",
+  "memory_id": "template-lineage-memory-codex-personal-assistant-template-pack-20260331t161503z",
+  "notes": [
+    "This lineage memory is template-local advisory context, not canonical deployment or promotion truth.",
+    "Use build-pack lineage plus proven factory artifacts to decide what this template family has already taught the factory.",
+    "Runtime-template parity reports capture whether reusable runtime behavior has actually been backported into the template source.",
+    "When a repeated lesson becomes template-agnostic, prefer promoting it into factory-level autonomy memory and distillation artifacts instead of overfitting the template."
+  ],
+  "producer": "codex",
+  "recommended_next_step": "Use this template lineage memory when deciding whether the next proof should extend this template family or whether the lesson already belongs at the factory root.",
+  "relevant_artifact_paths": [
+    ".pack-state/autonomy-memory-distillations/autonomy-memory-distillation-20260331t161503z/distillation-report.json",
+    ".pack-state/template-parity-reports/template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t212000z/parity-report.json",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/lineage/source-template.json",
+    "build-packs/codex-personal-assistant-remote-rehearsal-build-pack-v1/lineage/source-template.json",
+    "registry/build-packs.json",
+    "registry/templates.json"
+  ],
+  "retired_build_pack_ids": [],
+  "schema_version": "template-lineage-memory/v1",
+  "source_build_pack_ids": [
+    "codex-personal-assistant-daily-driver-build-pack-v1",
+    "codex-personal-assistant-remote-rehearsal-build-pack-v1"
+  ],
+  "status_snapshot": {
+    "active_build_pack_count": 2,
+    "build_pack_count": 2,
+    "build_registry_path": "registry/build-packs.json",
+    "retired_build_pack_count": 0,
+    "template_parity_report_count": 3,
+    "template_registry_path": "registry/templates.json"
+  },
+  "summary": "Template `codex-personal-assistant-template-pack` currently anchors 2 known derived build-packs. No factory-level distilled lessons intersect this template family yet. 3 runtime-template parity report(s) now reference this template family.",
+  "template_id": "codex-personal-assistant-template-pack",
+  "template_parity_reports": [
+    {
+      "parity_status": "template_backported_and_lineage_refreshed",
+      "proof_paths": [
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-last-message.txt",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json"
+      ],
+      "report_id": "template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t211736z",
+      "runtime_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+      "summary": "Record that the grounded relationship-learning assistant bundle proved in the daily-driver runtime pack has been backported into the codex personal assistant source template and refreshed into template-lineage memory."
+    },
+    {
+      "parity_status": "template_backported",
+      "proof_paths": [
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/identity_and_navigation-last-message.txt",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json"
+      ],
+      "report_id": "template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t211936z",
+      "runtime_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+      "summary": "Record that the grounded relationship-learning assistant bundle proved in the daily-driver runtime has been backported into the codex personal assistant template source surfaces."
+    },
+    {
+      "parity_status": "template_backported_and_lineage_refreshed",
+      "proof_paths": [
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/identity_and_navigation-last-message.txt",
+        "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json"
+      ],
+      "report_id": "template-parity-codex-personal-assistant-grounded-relationship-learning-20260330t212000z",
+      "runtime_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+      "summary": "Record that the grounded relationship-learning assistant bundle proved in the daily-driver runtime has been backported into the codex personal assistant template source surfaces and refreshed through template lineage memory."
+    }
+  ],
+  "template_root": "/home/orchadmin/project-pack-factory/templates/codex-personal-assistant-template-pack"
+}

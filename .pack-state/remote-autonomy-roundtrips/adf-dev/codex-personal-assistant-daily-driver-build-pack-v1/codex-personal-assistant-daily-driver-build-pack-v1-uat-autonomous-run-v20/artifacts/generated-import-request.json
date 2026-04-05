@@ -1,0 +1,7 @@
+{
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v20/incoming/bundle/bundle.json",
+  "import_reason": "Import supplementary runtime evidence from autonomous remote assistant UAT of rerun recurring relationship reflection after guided-step sequencing and stale assistant-UAT process cleanup hardening.",
+  "imported_by": "codex",
+  "schema_version": "external-runtime-evidence-import-request/v1"
+}

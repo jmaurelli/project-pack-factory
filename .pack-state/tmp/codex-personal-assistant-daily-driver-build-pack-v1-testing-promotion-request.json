@@ -1,0 +1,9 @@
+{
+  "schema_version": "build-pack-promotion-request/v1",
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "target_environment": "testing",
+  "release_id": "codex-personal-assistant-daily-driver-build-pack-v1-r1",
+  "promoted_by": "codex",
+  "promotion_reason": "Promote the first PackFactory-backed Codex personal assistant daily-driver release into testing after rehearsal evidence and testing-slot approval are in place.",
+  "verification_timestamp": null
+}

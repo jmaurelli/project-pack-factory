@@ -1,0 +1,45 @@
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-04-03T18:31:06Z",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Treat the original bounded successor frontier, the deeper provider-health pass, and the bounded cross-node directionality pass as complete post-frontier widening steps, not as regressions in the earlier topology, dependency, health, or behavior artifacts.",
+    "The latest directionality proof now says one explicit CM-to-RA ingress clue is visible: the remote-agent node `10.167.2.153` retains an `httpd` connection on `443` from `10.167.2.150`.",
+    "The remote-agent side also retains stronger refresh or broadcast-consumer hints for `ms-devicemanager`, `ms-devicedriver-aws`, and `ms-devicedriver-azure`, with repeated `LegacyContextRefresher`, `ConfigurationChangeListener`, and `ActiveMQService` markers.",
+    "Keep that claim fail-closed: the current proof still does not say the exact provider orchestration direction is fully known, that hidden east-west links are mapped, or that cloud-side provider success or credentials are known.",
+    "The CM-side imported bundle does not retain a reciprocal peer clue or comparable directionality markers in the same bounded window, so the current readout stays asymmetric rather than smoothing the pair into a cleaner shared story.",
+    "Use the existing adf-dev-owned bounded request pattern for later distributed-lab nodes too, but keep node-local truth first and keep unseen links explicitly unresolved.",
+    "Keep using the remote-owned runtime flow: adf-dev at 10.167.2.151 remains the runtime and support-facing host, while 10.167.2.150 and 10.167.2.153 are the current imported runtime evidence sources.",
+    "The current bounded health model now says the CM-side AFF session boundary is healthy at its current edge, the AFA-facing Metro bridge is reachable, the AWS and Azure driver families on both nodes are locally degraded, and deeper provider-side or cross-node health remains uncertain.",
+    "The current bounded behavior model still says the CM fronts the clearest FireFlow or AFF session path, that FireFlow carries AFA session context into the Metro bridge, and that the observed distributed architecture behaves like a CM-plus-remote-agent split rather than two identical peer nodes.",
+    "Choose the next widening step explicitly from another distributed architecture such as `standalone + LDU`, `high availability`, or `disaster recovery with a remote agent`.",
+    "Treat the current lab posture as exploration-friendly: bounded misconfiguration or temporary breakage on 10.167.2.150 is acceptable because the lab is quickly redeployable and later distributed-architecture labs are expected.",
+    "If promotion-compatible remote proof later matters for this pack, record and address the missed fresh-pack rehearsal step separately rather than pretending the current long-lived pack already has that certification."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-algosec-diagnostic-framework-successor-build-pack-v1-validation-20260402t121235z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-04-02T12:12:35Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation executed successfully."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "algosec_diagnostic_framework_successor_template_pack_smoke_small_001",
+      "last_run_at": "2026-04-02T12:12:39Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Confirm the fresh successor template remains PackFactory-valid and can materialize a first proving-ground build-pack without broadening the testing surface."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

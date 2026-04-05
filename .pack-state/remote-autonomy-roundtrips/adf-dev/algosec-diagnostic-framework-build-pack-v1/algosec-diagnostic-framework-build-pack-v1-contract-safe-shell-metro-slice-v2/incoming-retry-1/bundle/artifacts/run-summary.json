@@ -1,0 +1,113 @@
+{
+  "artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": null,
+    "feedback_memory_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1/.pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2.json",
+    "loop_events_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/loop-events.jsonl",
+    "run_summary_path": "/home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/run-summary.json"
+  },
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 6,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 3
+    },
+    "status": "within_budget",
+    "summary": "Autonomy stayed within the default bounded run budget."
+  },
+  "baseline_snapshot": {
+    "active_task_id": "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency",
+    "eval_result_statuses": {
+      "algosec-diagnostic-framework-template-pack-smoke-small-001": "pass"
+    },
+    "gate_statuses": {
+      "algosec_diagnostic_framework_template_pack_smoke_small_001": "pass",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency",
+    "readiness_state": "ready_for_review",
+    "ready_for_deployment": false
+  },
+  "block_summary": null,
+  "completed_task_ids": [
+    "adopt_support_cockpit_direction",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs",
+    "prototype_starlight_publishing",
+    "tune_operator_language_for_priority_domains",
+    "expand_service_command_coverage",
+    "formalize_shared_host_health_precheck_pack",
+    "prove_asms_ui_system_thinking_with_authenticated_flow",
+    "capture_asms_post_home_followups_before_subsystem_split",
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "validate_frontline_asms_ui_shallow_healthy_path_trial",
+    "rebuild_asms_ui_system_thinking_playbook",
+    "investigate_asms_ui_components_for_useful_work_checks",
+    "validate_frontline_playbook_with_small_trial_series",
+    "reframe_host_precheck_around_pressure_signals",
+    "explore_scenario_based_dashboard_direction",
+    "build_adf_autonomous_iteration_loop",
+    "clarify_adf_iteration_loop_completion_boundary",
+    "plan_controlled_fault_injection_playbook_validation",
+    "execute_httpd_shallow_fault_validation_trial",
+    "deepen_asms_ui_service_command_packs",
+    "define_adf_checkpointed_sync_model",
+    "refine_support_cockpit_right_rail_layout",
+    "decouple_codex_runtime_from_target_lab_environment",
+    "evaluate_adf_dev_remote_autonomy_continuity",
+    "tighten_adf_dev_remote_autonomy_contract_for_real_tasks",
+    "consider_horizontal_dependency_path_in_center_pane"
+  ],
+  "ended_at": "2026-03-28T19:08:58Z",
+  "escalation_count": 0,
+  "failed_command_count": 0,
+  "final_snapshot": {
+    "active_task_id": "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency",
+    "eval_result_statuses": {
+      "algosec-diagnostic-framework-template-pack-smoke-small-001": "pass"
+    },
+    "gate_statuses": {
+      "algosec_diagnostic_framework_template_pack_smoke_small_001": "pass",
+      "validate_build_pack_contract": "pass"
+    },
+    "next_recommended_task_id": "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency",
+    "readiness_state": "ready_for_review",
+    "ready_for_deployment": false
+  },
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary.",
+  "metrics": {
+    "benchmark_evidence_gain": false,
+    "canonical_state_integrity": {
+      "command": null,
+      "error_count": null,
+      "status": "not_run",
+      "valid": null
+    },
+    "iterations_to_first_evidence": null,
+    "iterations_to_readiness_change": null,
+    "readiness_change_summary": {
+      "deployability_changed": false,
+      "gates_advanced_count": 0,
+      "state_advanced": false
+    },
+    "task_completion_rate": 0.7,
+    "validation_evidence_gain": false
+  },
+  "operator_summary": "Metrics `task_completion_rate`, `readiness_change_summary`, `validation_evidence_gain`, and `benchmark_evidence_gain` were computed from /home/adf/packfactory-source__adf-dev__autonomous-build-packs/algosec-diagnostic-framework-build-pack-v1/.pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2/loop-events.jsonl, status/readiness.json, eval/latest/index.json, and tasks/active-backlog.json.",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "recommended_next_action": "Recommended next action: continue with canonical next task `define_contract_safe_remote_checkpoint_slice_for_deepen_dependency` from status/work-state.json and use this summary as local measurement evidence only.",
+  "resume_count": 0,
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-contract-safe-shell-metro-slice-v2",
+  "schema_version": "autonomy-run-summary/v1",
+  "started_at": "2026-03-28T19:02:58Z",
+  "step_count": 3,
+  "stop_reason": "current_task_incomplete"
+}

@@ -1,0 +1,11 @@
+{
+  "import_bundle": true,
+  "import_reason": "Import supplementary runtime evidence from autonomous remote assistant UAT of Rerun recurring relationship reflection with contract-profile refinement explicitly disabled so assistant-UAT remains inside approved writable surfaces..",
+  "imported_by": "codex",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v16/incoming",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "pull_bundle": true,
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v16/remote-run-request.json",
+  "schema_version": "remote-autonomy-test-request/v1",
+  "test_reason": "Run a bounded remote Codex acceptance pass for Rerun recurring relationship reflection with contract-profile refinement explicitly disabled so assistant-UAT remains inside approved writable surfaces., then preserve the resulting runtime evidence for review."
+}

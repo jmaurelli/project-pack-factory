@@ -1,0 +1,19 @@
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "businessflow-aff-session-seam-validation-v1",
+  "task_id": "businessflow-aff-session-seam-validation-v1",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Validated that BusinessFlow AFF still resolves through Apache to AFF on localhost:1989. Apache /FireFlow/api/session proxies to /aff/api/external/session, the Apache-fronted and direct 1989 session probes returned the same 200 invalid-session JSON body, and aff-boot.service is active.",
+  "returned_artifact_paths": [
+    "artifacts/aff.conf.snapshot",
+    "artifacts/apache-fireflow-session.txt",
+    "artifacts/direct-aff-session.txt",
+    "artifacts/aff-boot.service.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If a later delegation tier permits it, inspect /etc/systemd/system/aff-boot.service to confirm override details because systemctl status shows the active unit is loaded from /etc rather than /usr/lib.",
+    "If deeper seam validation is needed, capture a BusinessFlow-side request path or Apache access log correlation for the same endpoint under /var/log/httpd."
+  ]
+}

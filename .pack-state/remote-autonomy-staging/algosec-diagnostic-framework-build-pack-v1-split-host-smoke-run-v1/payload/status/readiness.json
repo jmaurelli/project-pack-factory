@@ -2,7 +2,7 @@
   "blocking_issues": [
     "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary."
   ],
-  "last_evaluated_at": "2026-03-27T10:29:28Z",
+  "last_evaluated_at": "2026-03-29T19:36:33Z",
   "operator_hint_status": {
     "active_hint_ids": [],
     "cleanup_candidate_hint_ids": [],
@@ -18,31 +18,28 @@
   "readiness_state": "ready_for_review",
   "ready_for_deployment": false,
   "recommended_next_actions": [
-    "Recommended next action: continue with canonical next task `deepen_dependency_aware_playbooks` from status/work-state.json and use `docs/specs/asms-ui-bounded-dependency-map-v1.md`, `docs/specs/asms-ui-dependency-order-validation-v1.md`, `docs/specs/fireflow-internals-bounded-map-v1.md`, and `docs/specs/adf-remote-runtime-decoupling-plan-v1.md` for the next bounded remote investigation runs.",
-    "Keep the live review surface on `http://10.167.2.151:18082/playbooks/asms-ui-is-down/` as the current operator baseline while deepening content. The approved `124rem / 22rem / 88ch` layout is now preserved on plain playbook URLs through the staged `adf-dev` content server."
+    "Recommended next action: keep `deepen_dependency_aware_playbooks` active, reuse the proven three-node helper path, and wait for a fresh sibling later-workflow marker such as `GET_MONITORING_CHANGES` or `GET_ANALYSIS_OPTIONS` before trying to preserve another sibling proof."
   ],
   "required_gates": [
     {
       "evidence_paths": [
-        "docs/specs/adf-remote-runtime-decoupling-plan-v1.md",
-        "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260326t145200z/validation-result.json",
-        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json"
+        "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260326t145200z/validation-result.json"
       ],
       "gate_id": "validate_build_pack_contract",
-      "last_run_at": "2026-03-26T18:28:45Z",
+      "last_run_at": "2026-03-28T19:47:54Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "Build-pack contract validation remains passing after the split-host remote runtime model was recorded for ADF."
+      "summary": "Build-pack contract validation still passes after the recovered v3 shell-versus-Metro checkpoint was pulled through manifest recovery, imported canonically, and followed by the exporter/importer fix for checkpoint-declared delegated artifacts."
     },
     {
       "evidence_paths": [
-        "eval/history/import-external-runtime-evidence-20260326t144613z/external-runtime-evidence/artifacts/run-summary.json"
+        "eval/latest/index.json"
       ],
       "gate_id": "algosec_diagnostic_framework_template_pack_smoke_small_001",
-      "last_run_at": "2026-03-26T15:19:22Z",
+      "last_run_at": "2026-03-28T19:47:54Z",
       "mandatory": true,
       "status": "pass",
-      "summary": "The existing smoke benchmark still passes while the build-pack adds the Support Cockpit prototype direction and refreshed Starlight prototype generation path."
+      "summary": "The existing smoke benchmark still passes after the recovered v3 shell-versus-Metro checkpoint was pulled through manifest recovery, imported canonically, and followed by the exporter/importer fix for checkpoint-declared delegated artifacts."
     }
   ],
   "schema_version": "pack-readiness/v2"

@@ -118,6 +118,17 @@ This spec does not:
 - let a remote agent promote or deploy a build-pack directly
 - let a remote run import its own evidence into PackFactory
 
+## Local Scratch Note
+
+The transient local staging path that prepares a remote execution run is
+PackFactory scratch, not canonical evidence.
+
+- the configured scratch root may live on another directory or partition
+- the remote execution contract does not allow a request payload to choose a
+  different scratch root than the local PackFactory runtime selected
+- if a workflow needs durable artifacts from the staging side, it must copy or
+  write them outside scratch before cleanup runs
+
 ## Proposed Reusable Script
 
 V1 should add:
@@ -152,6 +163,11 @@ directory listing alone.
 
 V1 should keep the shared run request as the cross-spec operator intent
 contract.
+
+Request-authoring helpers may generate `remote-autonomy-run-request/v1`
+documents for bounded scenarios such as assistant-UAT, but those helpers must
+still emit the shared request contract rather than inventing a parallel remote
+execution format.
 
 Execution-specific resolved behavior that is not already modeled in
 `remote-autonomy-run-request/v1` must be recorded in execution-side evidence,
@@ -213,6 +229,24 @@ portable helper manifest before agent launch.
 The execution layer must not infer canonical file paths from directory contents
 alone when `pack.json` already declares them.
 
+## Runner Lifecycle Safety
+
+The remote execution layer must manage remote runner lifecycle state explicitly
+enough that replaying a bounded run does not require manual process cleanup.
+
+At minimum it must:
+
+- record the currently managed remote run under `.packfactory-remote/`
+- clean up a stale recorded run when the same staged pack is replayed and the
+  previous managed process is no longer authoritative
+- preserve durable execution-manifest fields that show whether stale cleanup
+  ran and whether the remote runner was interrupted by a controller-side signal
+
+This lifecycle tracking is execution-plane state only.
+
+It does not change the rule that imported runtime evidence remains
+supplementary rather than canonical local control-plane truth.
+
 At minimum it should read:
 
 - `AGENTS.md`
@@ -252,6 +286,11 @@ That means the remote runner and agent must not rewrite, by default:
 - `.packfactory-remote/target-manifest.json`
 - prompts, docs, or source files unrelated to the declared starter backlog
 - deployment pointers or other factory-level artifacts
+
+Execution-plane metadata under `.packfactory-remote/` may still be rewritten by
+the control plane itself to restore canonical staged contents before boundary
+diffing. That restoration is a controller-owned integrity step, not added agent
+write authority.
 
 ## Remote Agent Prompt Boundary
 

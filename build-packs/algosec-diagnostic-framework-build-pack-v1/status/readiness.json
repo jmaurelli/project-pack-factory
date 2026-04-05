@@ -2,7 +2,7 @@
   "blocking_issues": [
     "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary."
   ],
-  "last_evaluated_at": "2026-03-31T16:32:52Z",
+  "last_evaluated_at": "2026-03-31T18:04:08Z",
   "operator_hint_status": {
     "active_hint_ids": [],
     "cleanup_candidate_hint_ids": [],
@@ -18,6 +18,9 @@
   "readiness_state": "ready_for_review",
   "ready_for_deployment": false,
   "recommended_next_actions": [
+    "UI review note: the field-manual shell now auto-opens the targeted collapsed step card when a top overview link lands on that step, and each collapsed step summary now shows a literal per-step command count such as `6 commands`. Use the live preview to confirm that both cues feel natural and useful in a real support scan.",
+    "UI review note: the field-manual top step list now uses dedicated `overview_summary` text instead of recycled action prose. Review the live `ASMS UI is down` and `ASMS Keycloak auth is down` pages in the preview to judge whether the new quick-look wording is concise enough for real support scanning, and tune the summaries further if any still sound too formal or too abstract.",
+    "UI review note: the shared field-manual shell now emits playbook-local overview anchors, so the `ASMS UI is down` summary-step links should land on the matching command sections in the live preview instead of a missing route. Use the current preview pass to confirm that operator navigation now feels reliable before judging more wording and shell details.",
     "Immediate next action: use the completed flow-first publication contract wave as the new publication baseline. The new contract plus the revised page-type and support-language notes now match the real support workflow better, so the next pass should judge Keycloak and the remaining boundary playbooks against that tighter baseline instead of the older wrapper-heavy assumptions.",
     "Target-helper note: the saved `algosec-lab` profile remains the working bounded proof path under `dist/candidates/adf-target-profile-baseline/`. In the latest slice the target-backed site renders 5 playbooks and 3 guides, including the generated `asms-runtime-taxonomy` guide, on top of the already-proven 4 diagnostic flows, 6 page records, 4 generated decision playbooks, and 8 symptom routes.",
     "Taxonomy note: `docs/specs/adf-cross-playbook-system-layer-taxonomy-v1.md` is now the canonical shared ADF layer map. Use it to keep the next content pass ASMS-runtime-first, and treat host integration plus Linux operating evidence as supporting surfaces rather than the first architectural layer.",

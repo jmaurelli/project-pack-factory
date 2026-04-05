@@ -1,0 +1,64 @@
+{
+  "schema_version": "autonomy-run-summary/v1",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z",
+  "started_at": "2026-03-30T14:47:53Z",
+  "ended_at": "2026-03-30T14:55:50Z",
+  "stop_reason": "current_task_incomplete",
+  "resume_count": 0,
+  "escalation_count": 0,
+  "metrics": {
+    "task_completion_rate": 0.0
+  },
+  "artifacts": {
+    "feedback_memory_path": ".pack-state/agent-memory/autonomy-feedback-algosec-diagnostic-framework-build-pack-v1-keycloak-observe-only-slice-20260330t144600z.json"
+  },
+  "final_snapshot": {
+    "active_task_id": "deepen_dependency_aware_playbooks",
+    "next_recommended_task_id": "deepen_dependency_aware_playbooks",
+    "readiness_state": "ready_for_review",
+    "ready_for_deployment": false,
+    "completed_task_ids": [
+      "adopt_support_cockpit_direction",
+      "define_adf_artifact_model",
+      "implement_safe_runtime_collection",
+      "render_baseline_outputs",
+      "prototype_starlight_publishing",
+      "tune_operator_language_for_priority_domains",
+      "expand_service_command_coverage",
+      "formalize_shared_host_health_precheck_pack",
+      "prove_asms_ui_system_thinking_with_authenticated_flow",
+      "capture_asms_post_home_followups_before_subsystem_split",
+      "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+      "validate_frontline_asms_ui_shallow_healthy_path_trial",
+      "rebuild_asms_ui_system_thinking_playbook",
+      "investigate_asms_ui_components_for_useful_work_checks",
+      "validate_frontline_playbook_with_small_trial_series",
+      "reframe_host_precheck_around_pressure_signals",
+      "explore_scenario_based_dashboard_direction",
+      "build_adf_autonomous_iteration_loop",
+      "clarify_adf_iteration_loop_completion_boundary",
+      "plan_controlled_fault_injection_playbook_validation",
+      "execute_httpd_shallow_fault_validation_trial",
+      "deepen_asms_ui_service_command_packs",
+      "define_adf_checkpointed_sync_model",
+      "refine_support_cockpit_right_rail_layout",
+      "decouple_codex_runtime_from_target_lab_environment",
+      "evaluate_adf_dev_remote_autonomy_continuity",
+      "tighten_adf_dev_remote_autonomy_contract_for_real_tasks",
+      "consider_horizontal_dependency_path_in_center_pane",
+      "define_contract_safe_remote_checkpoint_slice_for_deepen_dependency",
+      "diagnose_remote_codex_startup_stall_for_strict_evidence_slices",
+      "compare_successful_vs_stalled_remote_run_shapes",
+      "stabilize_remote_codex_launcher_against_interactive_menu",
+      "capture_fresh_later_content_branch_checkpoint",
+      "tune_late_export_pullback_recovery",
+      "define_frontline_operator_language_contract"
+    ]
+  },
+  "notes": [
+    "Bounded evidence-only Keycloak observe-only slice.",
+    "Observed boundary minute: 2026-03-30 10:10:55 EDT.",
+    "Pilot judgment: proves_reusable_module_boundary_packet."
+  ]
+}

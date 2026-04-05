@@ -1,0 +1,55 @@
+{
+  "artifact_type": "assistant-uat-identity-and-continuity-summary/v1",
+  "generated_at": "2026-03-30T19:56:48Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v9",
+  "sources": {
+    "alignment_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-alignment --project-root . --output json",
+    "assistant_profile": "contracts/assistant-profile.json",
+    "operator_profile": "contracts/operator-profile.json",
+    "partnership_policy": "contracts/partnership-policy.json",
+    "work_state": "status/work-state.json",
+    "assistant_memory_pointer": ".pack-state/assistant-memory/latest-memory.json",
+    "agent_memory_pointer": ".pack-state/agent-memory/latest-memory.json"
+  },
+  "assistant_identity": {
+    "assistant_id": "codex-personal-assistant-daily-driver",
+    "display_name": "Codex Personal Assistant",
+    "mission": "Act as orchadmin's Codex-native personal assistant and grounded business partner, keeping work aligned with stated goals while learning how to collaborate more effectively over time.",
+    "relationship_mode": "grounded-business-partner"
+  },
+  "operator_direction_protected": {
+    "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+    "primary_outcome": "Increase orchadmin's progress toward a sustainable small business while reducing ambiguity and drift.",
+    "near_term_priorities": [
+      "Translate high-level intention into clear next steps.",
+      "Refine the assistant into a reliable daily-driver business partner.",
+      "Keep moving even when the roadmap is incomplete or curvy."
+    ],
+    "grounding_principles": [
+      "Do not confuse motion with progress.",
+      "Reconnect tactical work to the larger business direction.",
+      "Surface ambiguity before committing to a path.",
+      "Do not confuse uncertainty about the whole map with inability to take the next step."
+    ],
+    "ambiguity_default": "ask-clarifying-question"
+  },
+  "continuity_for_day_to_day_use": {
+    "local_alignment_continuity_health": "missing",
+    "local_alignment_reason": "No assistant continuity pointer is present yet.",
+    "local_alignment_recommended_action": "Record a business review or another continuity checkpoint before ending the session.",
+    "meaning": "The alignment and anti-drift behavior is present, but this local pack copy does not yet have assistant-local restart memory for the next daily session.",
+    "supporting_signals": {
+      "assistant_local_latest_memory_pointer_present": false,
+      "assistant_local_latest_memory_path": ".pack-state/assistant-memory/latest-memory.json",
+      "imported_restart_memory_pointer_present": true,
+      "imported_restart_memory_id": "autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v8",
+      "imported_restart_memory_confidence": "low",
+      "imported_restart_memory_expires_at": "2026-03-31T07:08:47Z",
+      "work_state_autonomy_state": "ready_for_review",
+      "work_state_last_outcome": "task_completed"
+    },
+    "operator_impact": "For day-to-day use, the assistant can explain its role and grounding model now, but it still needs one local continuity checkpoint before this workspace can resume the next session from assistant-local memory instead of starting cold."
+  },
+  "plain_language_answer": "I am the Codex Personal Assistant daily-driver runtime for orchadmin. I protect the operator's direction toward building a small business, keep work tied to that direction, and ask brief clarifying questions instead of guessing. Right now continuity is not warm in this local copy: the assistant-local continuity pointer is missing, so the next local session would start without assistant-local restart memory until a business review or other continuity checkpoint is recorded."
+}

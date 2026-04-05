@@ -1,0 +1,49 @@
+{
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "build_pack_root": "build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10/incoming/bundle/bundle.json",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_history_written": true,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "copied_artifact_paths": [
+    "external-runtime-evidence/bundle.json",
+    "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10.json",
+    "external-runtime-evidence/artifacts/assistant-uat/alignment-thin-history-summary.json",
+    "external-runtime-evidence/artifacts/assistant-uat/alignment_and_history-last-message.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/alignment_and_history-stderr.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/alignment_and_history-stdout.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/carry_forward_caution-last-message.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/carry_forward_caution-stderr.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/carry_forward_caution-stdout.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/closeout_and_distillation-last-message.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/closeout_and_distillation-stderr.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/closeout_and_distillation-stdout.txt",
+    "external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "external-runtime-evidence/artifacts/loop-events.jsonl",
+    "external-runtime-evidence/artifacts/run-summary.json"
+  ],
+  "generated_at": "2026-03-30T20:37:22Z",
+  "hash_verification_status": "pass",
+  "import_id": "import-external-runtime-evidence-20260330t203722z",
+  "import_reason": "Import supplementary runtime evidence from autonomous remote UAT of the thin-history enrichment and carry-forward loop on the Codex personal assistant daily-driver pack.",
+  "imported_by": "codex",
+  "memory_intake": {
+    "block_summary": null,
+    "latest_pointer_path": ".pack-state/agent-memory/latest-memory.json",
+    "promoted_memory_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10.json",
+    "selected_memory_id": "autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10",
+    "selected_memory_sha256": "d3c65d67a2ecfb03a6c924201e4752f3b76e01c15903fb97a8dd2f6e71f84ee2",
+    "selected_run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10",
+    "source_bundle_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10.json",
+    "status": "activated"
+  },
+  "schema_version": "external-runtime-evidence-import-report/v1",
+  "status": "completed",
+  "warnings": []
+}

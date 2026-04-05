@@ -23,6 +23,7 @@ from remote_autonomy_staging_common import (
     canonical_remote_pack_dir,
     canonical_remote_parent_dir,
     canonical_remote_run_dir,
+    resolve_local_scratch_root,
 )
 
 REQUEST_SCHEMA_NAME = "remote-autonomy-run-request.schema.json"
@@ -108,6 +109,14 @@ def _validate_request_contract(factory_root: Path, request_payload: dict[str, An
     if source_build_pack_root.name != source_build_pack_id:
         raise ValueError("`source_build_pack_root` must end with the source build-pack id")
 
+    local_scratch_root_value = request_payload.get("local_scratch_root")
+    if not isinstance(local_scratch_root_value, str) or not local_scratch_root_value.strip():
+        raise ValueError("`local_scratch_root` must be a non-empty string")
+    local_scratch_root = resolve_local_scratch_root(factory_root, local_scratch_root_value)
+    current_local_scratch_root = resolve_local_scratch_root(factory_root)
+    if current_local_scratch_root != local_scratch_root:
+        raise ValueError("`local_scratch_root` must match the currently selected PackFactory scratch root")
+
     remote_parent_dir = str(request_payload.get("remote_parent_dir", ""))
     remote_pack_dir = str(request_payload.get("remote_pack_dir", ""))
     remote_run_dir = str(request_payload.get("remote_run_dir", ""))
@@ -159,6 +168,7 @@ def _validate_request_contract(factory_root: Path, request_payload: dict[str, An
         "source_factory_root": str(source_factory_root),
         "source_build_pack_id": source_build_pack_id,
         "source_build_pack_root": str(source_build_pack_root),
+        "local_scratch_root": str(local_scratch_root),
         "source_build_pack_manifest": pack_manifest,
         "run_id": run_id,
         "remote_host": str(remote_host),
@@ -255,6 +265,7 @@ def _build_remote_preparation_result(
         "factory_root": validated["source_factory_root"],
         "source_build_pack_id": validated["source_build_pack_id"],
         "source_build_pack_root": validated["source_build_pack_root"],
+        "local_scratch_root": validated["local_scratch_root"],
         "remote_host": validated["remote_host"],
         "remote_user": validated["remote_user"],
         "remote_target_label": validated["remote_target_label"],

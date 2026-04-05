@@ -1,0 +1,36 @@
+{
+  "schema_version": "template-creation-request/v1",
+  "template_pack_id": "role-domain-overlay-proving-ground-template-pack",
+  "display_name": "Role Domain Overlay Proving Ground Template Pack",
+  "owning_team": "orchadmin",
+  "requested_by": "codex",
+  "runtime": "python",
+  "scaffold_strategy": "minimal_python_text_pack",
+  "planning_summary": {
+    "project_goal": "Prove that PackFactory can create a new template with both a personality overlay and a role/domain overlay selected explicitly, while keeping those layers distinct and optional.",
+    "capability_family": "packfactory-overlay-proving-ground",
+    "delivery_shape": "application",
+    "reuse_active_template": false,
+    "new_template_rationale": "This proving-ground template exists only to exercise the new role/domain-template overlay path end to end without mutating an existing product line. It is intentionally disposable and bounded.",
+    "initial_benchmark_intent": "Prove that a newly created template can carry both overlay types, remain schema-valid, and still materialize a valid derived build-pack that inherits the selected defaults cleanly.",
+    "expected_build_pack_variants": [
+      "default inherited-overlay proving ground",
+      "override-or-clear overlay proving ground"
+    ],
+    "first_materialization_purpose": "default inherited-overlay proving ground",
+    "personality_template_selection": {
+      "personality_template_id": "business-partner-concierge",
+      "selection_reason": "Use the existing business-partner personality overlay as the communication layer so the proving ground exercises real composition rather than a role/domain-only case.",
+      "apply_to_derived_build_packs_by_default": true
+    },
+    "role_domain_template_selection": {
+      "role_domain_template_id": "startup-operator",
+      "selection_reason": "Use the new startup-operator role/domain overlay as the framing layer so the proving ground exercises a clear tone-versus-framing split.",
+      "apply_to_derived_build_packs_by_default": true
+    }
+  },
+  "notes": [
+    "This template is a bounded PackFactory control-plane proof artifact for overlay composition.",
+    "The template is intentionally generic so it validates the overlay system rather than a specific product line."
+  ]
+}

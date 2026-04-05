@@ -23,7 +23,7 @@
       ],
       "command_id": "systemd_units",
       "exit_code": 0,
-      "observed_at": "2026-03-27T10:32:46Z",
+      "observed_at": "2026-04-01T21:27:55Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -202,7 +202,7 @@
       ],
       "command_id": "systemd_unit_files",
       "exit_code": 0,
-      "observed_at": "2026-03-27T10:32:46Z",
+      "observed_at": "2026-04-01T21:27:55Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -456,7 +456,7 @@
       ],
       "command_id": "listening_tcp_ports",
       "exit_code": 0,
-      "observed_at": "2026-03-27T10:32:46Z",
+      "observed_at": "2026-04-01T21:27:56Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
@@ -478,11 +478,11 @@
       ],
       "command_id": "process_inventory",
       "exit_code": 0,
-      "observed_at": "2026-03-27T10:32:46Z",
+      "observed_at": "2026-04-01T21:27:56Z",
       "status": "completed",
       "stderr_line_count": 0,
       "stderr_preview": [],
-      "stdout_line_count": 266,
+      "stdout_line_count": 267,
       "stdout_preview": [
         "      1       0 root     systemd         /usr/lib/systemd/systemd --system --deserialize=66",
         "      2       0 root     kthreadd        [kthreadd]",
@@ -687,7 +687,7 @@
       ]
     }
   ],
-  "generated_at": "2026-03-27T10:32:46Z",
+  "generated_at": "2026-04-01T21:27:56Z",
   "observation_boundaries": {
     "inferred": [
       "Support-priority hints and service roles are derived from command output heuristics in the build-pack."
@@ -724,5 +724,9 @@
   "target": {
     "execution_host": "orch-lab-01",
     "target_label": "benchmark-smoke"
+  },
+  "target_connection": {
+    "collection_mode": "local_host",
+    "profile_path": null
   }
 }

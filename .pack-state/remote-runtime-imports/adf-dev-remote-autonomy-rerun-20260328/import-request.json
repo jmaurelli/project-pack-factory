@@ -1,0 +1,7 @@
+{
+  "schema_version": "external-runtime-evidence-import-request/v1",
+  "build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-runtime-imports/adf-dev-remote-autonomy-rerun-20260328/bundle/bundle.json",
+  "import_reason": "Import the exported bundle from the first post-fix adf-dev remote autonomy rerun so the resumed checkpoint and feedback memory can be preserved canonically.",
+  "imported_by": "codex"
+}

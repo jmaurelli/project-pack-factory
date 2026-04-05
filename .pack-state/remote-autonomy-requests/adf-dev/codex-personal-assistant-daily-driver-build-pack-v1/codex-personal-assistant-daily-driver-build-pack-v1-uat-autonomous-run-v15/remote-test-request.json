@@ -1,0 +1,11 @@
+{
+  "import_bundle": true,
+  "import_reason": "Import supplementary runtime evidence from autonomous remote assistant UAT of the recurring relationship-reflection loop on the staged Codex personal assistant daily-driver pack.",
+  "imported_by": "codex",
+  "local_bundle_staging_dir": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-roundtrips/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v15/incoming",
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "pull_bundle": true,
+  "remote_run_request_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-requests/adf-dev/codex-personal-assistant-daily-driver-build-pack-v1/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v15/remote-run-request.json",
+  "schema_version": "remote-autonomy-test-request/v1",
+  "test_reason": "Run a bounded remote Codex acceptance pass for the recurring relationship-reflection loop on the staged Codex personal assistant daily-driver pack, then preserve the resulting runtime evidence for review."
+}

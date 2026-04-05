@@ -1,0 +1,260 @@
+{
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "excluded_paths": [
+    ".packfactory-runtime/tools/__pycache__",
+    ".packfactory-runtime/tools/__pycache__/factory_ops.cpython-312.pyc",
+    "dist/exports/runtime-evidence",
+    "eval/history",
+    "eval/history/materialize-codex-personal-assistant-remote-rehearsal-build-pack-v1-20260329t162825z",
+    "eval/history/materialize-codex-personal-assistant-remote-rehearsal-build-pack-v1-20260329t162825z/materialization-report.json",
+    "eval/history/readiness-eval-codex-personal-assistant-remote-rehearsal-build-pack-v1-validation-20260329t162826z",
+    "eval/history/readiness-eval-codex-personal-assistant-remote-rehearsal-build-pack-v1-validation-20260329t162826z/validation-result.json",
+    "src/codex_personal_assistant_template_pack/__pycache__",
+    "src/codex_personal_assistant_template_pack/__pycache__/__init__.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/__main__.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/benchmark_smoke.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/cli.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/validate_project_pack.cpython-312.pyc"
+  ],
+  "payload_entries": [
+    {
+      "relative_path": ".gitignore",
+      "sha256": "c3fae528d26966c94641ff9123a1cef4a42571bd3d7fcd49c82a381135407ef9",
+      "size_bytes": 79
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-remote-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1.json",
+      "sha256": "210bfa3361a48680c1c4482648655cbf21a3ba4ef2536dfecc1d046a819dbad3",
+      "size_bytes": 4791
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/latest-memory.json",
+      "sha256": "50e9dc385e87d6d4c99f7272b471fef81b1ef39a69398921406294a80c37d17a",
+      "size_bytes": 1020
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/codex-personal-assistant-remote-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1/loop-events.jsonl",
+      "sha256": "d4a1c31ed3a7c3f5969c4689afee4388bb3d627b9270230457c4a485f8746bdf",
+      "size_bytes": 6176
+    },
+    {
+      "relative_path": ".pack-state/autonomy-runs/codex-personal-assistant-remote-rehearsal-build-pack-v1-mid-backlog-checkpoint-v1/run-summary.json",
+      "sha256": "b8b5b7b63949761bd468953fe3296ef15ce8d781729d5d0a89c5ce31318d0935",
+      "size_bytes": 4112
+    },
+    {
+      "relative_path": ".packfactory-remote/request.json",
+      "sha256": "2ed2764b9f98195f91c81df60a0a8449ad099b44af61b778299ef10bdb1b2ce4",
+      "size_bytes": 42728
+    },
+    {
+      "relative_path": ".packfactory-runtime/manifest.json",
+      "sha256": "02c6a19465d1df7b42cc5df82239076931ddad295ea795f134c83f24f54b75e4",
+      "size_bytes": 3136
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory-pointer.schema.json",
+      "sha256": "01aaee509ff29c30f22c5929d3ec1cc84abff5c0f4d36dfc9bb6b6b66e3c5bf4",
+      "size_bytes": 2303
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory.schema.json",
+      "sha256": "ffa6014902a3d117af5e06e78dc6548be12395711e54a57e8c70dddd1b1047ad",
+      "size_bytes": 13853
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+      "sha256": "8c7427ea3199030ca8df7e6de55fbdbaa3ed5d9bc5251bad1d253a2247bc17a8",
+      "size_bytes": 4442
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+      "sha256": "9a7dfadbe33cbf3bd3595c1ee3699bcc40494b3ce5dde25e7986181ab3160d44",
+      "size_bytes": 10512
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+      "sha256": "c51959a6e627c26eeeb49f690e329a1b61a667a575775a2a5d5594afaa21b206",
+      "size_bytes": 1801
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+      "sha256": "04d712f8830acb83ae57fb116ce7690d7b883f7de90662490d8a95f490c098e7",
+      "size_bytes": 1950
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/readiness.schema.json",
+      "sha256": "603ef507f38c31dccd58f1977fd1671cc0742ea3f60e794015aa42c78533e236",
+      "size_bytes": 7295
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/factory_ops.py",
+      "sha256": "996649576ae33d259d60b853767af4faa7944014a540007b854fa36206eb7562",
+      "size_bytes": 18408
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/record_autonomy_run.py",
+      "sha256": "2568670ad36300d34310e4d09bb21895b67d1715914f3f3439f7d663f3411a6f",
+      "size_bytes": 52025
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+      "sha256": "89d7216125ba9b207ae2436fdb8396bbb7ae1f3c1329ae70e4dc2f6edee70372",
+      "size_bytes": 17585
+    },
+    {
+      "relative_path": "AGENTS.md",
+      "sha256": "8665ae93d50e803c7ce817601dc1c08f36a8d64df58f5e47f0101cef61010512",
+      "size_bytes": 4934
+    },
+    {
+      "relative_path": "README.md",
+      "sha256": "db7c758d41115631eba326dd3f050cf4d7a7e622409524521f0c078d775333d8",
+      "size_bytes": 445
+    },
+    {
+      "relative_path": "benchmarks/active-set.json",
+      "sha256": "8832c6ae61a5ca93a6aaa5d08a36d68247a6622ccc816bd2e9ac260202aff206",
+      "size_bytes": 795
+    },
+    {
+      "relative_path": "benchmarks/declarations/codex-personal-assistant-template-pack-smoke-small-001.json",
+      "sha256": "235b640059b05f3a99cfe0da6d5461b611a5224ff656ac161e1f7cf85ff43e87",
+      "size_bytes": 1465
+    },
+    {
+      "relative_path": "contracts/README.md",
+      "sha256": "26d0051ab37e23966b3d7b39c1c529620469191a38c0599c0384af3055c5d475",
+      "size_bytes": 170
+    },
+    {
+      "relative_path": "contracts/project-objective.json",
+      "sha256": "bf13bc16365e97adcb101c046e9616830a0548f1180bc14f78f86d65cf4b1772",
+      "size_bytes": 5642
+    },
+    {
+      "relative_path": "docs/specs/README.md",
+      "sha256": "f274eb0c0fcc25bd90f16ae00be8779db4824e25f56184534ba447c2b695cc77",
+      "size_bytes": 129
+    },
+    {
+      "relative_path": "eval/latest/index.json",
+      "sha256": "1419e15a85924f07c7af657c22fa501d906e6b725fde9b4e594d57f7ae07b32a",
+      "size_bytes": 761
+    },
+    {
+      "relative_path": "lineage/source-template.json",
+      "sha256": "9217efe8b2bca37651cec7cb74f29c334439696dbffa3a622a5815b1b508b21b",
+      "size_bytes": 707
+    },
+    {
+      "relative_path": "pack.json",
+      "sha256": "bcee8bb14fa168a54b2ebad6ad0dfe4bacb21856b410f6924c25de536ead5d73",
+      "size_bytes": 2912
+    },
+    {
+      "relative_path": "project-context.md",
+      "sha256": "bb1ad8d2d1f34781055559d4dba294c4523ab028808d644b90b42b5f2fdac363",
+      "size_bytes": 2128
+    },
+    {
+      "relative_path": "prompts/README.md",
+      "sha256": "fbf699c4950133c023264d5bc30cfa4e3cd914fae6ddea2e5db05536f8a73ab8",
+      "size_bytes": 92
+    },
+    {
+      "relative_path": "pyproject.toml",
+      "sha256": "4a18cffc62665ab79d0778944d31a29b788e43251ead9b3896d812db59447ef7",
+      "size_bytes": 544
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/__init__.py",
+      "sha256": "7d747afc2b886329d5e309a87e59ee8f3eb222fac210351c79bb0742ee11c426",
+      "size_bytes": 19
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/__main__.py",
+      "sha256": "3d2438ae92f4746e9ffaa1f837b1fe803f6281091d1f31f8c95643716f257d9a",
+      "size_bytes": 80
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/benchmark_smoke.py",
+      "sha256": "21c5683c1ca26ee94750ed30b5bec3917937d51918dc6d77a29388e3e3721443",
+      "size_bytes": 855
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/cli.py",
+      "sha256": "6d919476041cc6e7d017476a60ecd5b49893d489f44e1350c205c4e12d37186c",
+      "size_bytes": 1276
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/validate_project_pack.py",
+      "sha256": "ec6b19a53627fcd531387e40b3842c78d18b05c3cca22e2929be95c94a3faeea",
+      "size_bytes": 1153
+    },
+    {
+      "relative_path": "src/pack_export_runtime_evidence.py",
+      "sha256": "39d7703163cb0d31df9187559e6808e0c613ecd88c1ee4350ff782999f34782e",
+      "size_bytes": 12038
+    },
+    {
+      "relative_path": "status/deployment.json",
+      "sha256": "fea11ee79ecea1c6254c528b4b8aae5e245c1641f4e0fab42dab2e7b9a0ceb5d",
+      "size_bytes": 565
+    },
+    {
+      "relative_path": "status/lifecycle.json",
+      "sha256": "468cc7bf4ffdf14c0c5a93f48dd84521bbae5e8705e5013e90f0373afbe8e610",
+      "size_bytes": 460
+    },
+    {
+      "relative_path": "status/readiness.json",
+      "sha256": "ae7e22258bc387795ad4240aadf8b2005467208e67b468668da3de8b03b6e6b5",
+      "size_bytes": 1472
+    },
+    {
+      "relative_path": "status/retirement.json",
+      "sha256": "a51be0debccf2848a5c6631a1010994cee4cdea81e8d993722e041517d00c3b1",
+      "size_bytes": 492
+    },
+    {
+      "relative_path": "status/work-state.json",
+      "sha256": "31b06e4f35323e3c49b9e7637766856d4a1fb96b9797aeb0f61d074b67f11cd5",
+      "size_bytes": 1875
+    },
+    {
+      "relative_path": "tasks/active-backlog.json",
+      "sha256": "ddad1fd5ee8329456b0bbfb0925241ae4ec562439e7aaf2f8cd1b6c2b45eec2e",
+      "size_bytes": 2702
+    },
+    {
+      "relative_path": "tests/README.md",
+      "sha256": "49edefd89fd0a6dd98ecfd6774a32119d8db542b610e89d4b88e1ba585030edf",
+      "size_bytes": 114
+    }
+  ],
+  "payload_policy_version": "fresh-staging/v1",
+  "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-remote-rehearsal-build-pack-v1/dist/exports/runtime-evidence",
+  "remote_host": "adf-dev",
+  "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-remote-rehearsal-build-pack-v1",
+  "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+  "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-remote-rehearsal-build-pack-v1/runs/codex-personal-assistant-remote-rehearsal-build-pack-v1-active-task-continuity-run-v1",
+  "remote_target_label": "adf-dev",
+  "remote_user": "adf",
+  "request_sha256": "2ed2764b9f98195f91c81df60a0a8449ad099b44af61b778299ef10bdb1b2ce4",
+  "run_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1-active-task-continuity-run-v1",
+  "schema_version": "remote-execution-payload-manifest/v1",
+  "source_build_pack_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1",
+  "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-remote-rehearsal-build-pack-v1",
+  "staged_at": "2026-03-29T16:28:26Z",
+  "staged_by": "codex",
+  "transport_mode": "rsync"
+}

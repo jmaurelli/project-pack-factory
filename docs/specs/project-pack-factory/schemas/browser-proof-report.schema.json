@@ -1,0 +1,446 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/browser-proof-report.schema.json",
+  "title": "Browser Proof Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "proof_run_id",
+    "proof_kind",
+    "target_kind",
+    "status",
+    "recorded_at",
+    "target_url",
+    "page_path",
+    "step_number",
+    "target_id",
+    "packfactory_provenance",
+    "runtime",
+    "host_readiness",
+    "target_state",
+    "assertions",
+    "console",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "browser-proof-report/v1"
+    },
+    "proof_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proof_kind": {
+      "const": "adf_field_manual_hash_target_opens"
+    },
+    "target_kind": {
+      "const": "packfactory_local_preview"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "target_url": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1
+    },
+    "page_path": {
+      "const": "/playbooks/asms-ui-is-down/"
+    },
+    "step_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "target_id": {
+      "type": "string",
+      "pattern": "^manual-ui-and-proxy-step-[1-9][0-9]*$"
+    },
+    "packfactory_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preview_root",
+        "preview_root_relative_path",
+        "preview_markers"
+      ],
+      "properties": {
+        "preview_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preview_root_relative_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preview_markers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_root",
+        "runtime_root_relative_path",
+        "node_root",
+        "node_root_relative_path",
+        "browser_root",
+        "browser_root_relative_path",
+        "browser_name",
+        "browser_executable_kind",
+        "browser_revision",
+        "browser_version",
+        "browser_executable_path",
+        "browser_executable_relative_path",
+        "browser_executable_source",
+        "npm_package_version"
+      ],
+      "properties": {
+        "runtime_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_root_relative_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_root_relative_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "browser_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "browser_root_relative_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "browser_name": {
+          "const": "chromium"
+        },
+        "browser_executable_kind": {
+          "type": "string",
+          "enum": [
+            "chromium",
+            "chromium-headless-shell",
+            "unknown"
+          ]
+        },
+        "browser_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "browser_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "browser_executable_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "browser_executable_relative_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "browser_executable_source": {
+          "type": "string",
+          "enum": [
+            "active_runtime",
+            "proof_report_reference",
+            "unknown"
+          ]
+        },
+        "npm_package_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "host_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checked_at",
+        "status",
+        "browser_name",
+        "browser_executable_kind",
+        "browser_revision",
+        "browser_version",
+        "browser_executable_path",
+        "browser_executable_relative_path",
+        "browser_executable_exists",
+        "browser_executable_source",
+        "ldd_available",
+        "ldd_exit_code",
+        "missing_libraries",
+        "missing_library_count",
+        "summary"
+      ],
+      "properties": {
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ready",
+            "missing_browser_executable",
+            "missing_host_dependencies",
+            "ldd_unavailable",
+            "inspection_error"
+          ]
+        },
+        "browser_name": {
+          "const": "chromium"
+        },
+        "browser_executable_kind": {
+          "type": "string",
+          "enum": [
+            "chromium",
+            "chromium-headless-shell",
+            "unknown"
+          ]
+        },
+        "browser_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "browser_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "browser_executable_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "browser_executable_relative_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "browser_executable_exists": {
+          "type": "boolean"
+        },
+        "browser_executable_source": {
+          "type": "string",
+          "enum": [
+            "active_runtime",
+            "proof_report_reference",
+            "unknown"
+          ]
+        },
+        "ldd_available": {
+          "type": "boolean"
+        },
+        "ldd_exit_code": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "missing_libraries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "missing_library_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "target_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overview_label",
+        "summary_command_count_text",
+        "detected_run_block_count",
+        "initially_collapsed",
+        "details_open_after_navigation",
+        "final_url",
+        "final_hash"
+      ],
+      "properties": {
+        "overview_label": {
+          "type": "string"
+        },
+        "summary_command_count_text": {
+          "type": "string"
+        },
+        "detected_run_block_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "initially_collapsed": {
+          "type": "boolean"
+        },
+        "details_open_after_navigation": {
+          "type": "boolean"
+        },
+        "final_url": {
+          "type": "string"
+        },
+        "final_hash": {
+          "type": "string"
+        }
+      }
+    },
+    "assertions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "name",
+          "status",
+          "summary"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "console": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "message_count",
+        "messages",
+        "page_errors"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "message_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "text"
+            ],
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "page_errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_path",
+        "report_relative_path",
+        "validated_request_path",
+        "validated_request_relative_path",
+        "screenshot_path",
+        "screenshot_relative_path"
+      ],
+      "properties": {
+        "report_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "report_relative_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validated_request_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validated_request_relative_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screenshot_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "screenshot_relative_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "failure_summary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

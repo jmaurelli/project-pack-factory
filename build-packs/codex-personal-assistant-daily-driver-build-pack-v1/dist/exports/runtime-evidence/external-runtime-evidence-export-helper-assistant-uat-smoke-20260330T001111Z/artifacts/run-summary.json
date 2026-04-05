@@ -1,0 +1,17 @@
+{
+  "artifacts": {},
+  "ended_at": "2026-03-30T00:20:00Z",
+  "escalation_count": 0,
+  "final_snapshot": {
+    "readiness_state": "ready_for_deploy",
+    "ready_for_deployment": true
+  },
+  "metrics": {
+    "task_completion_rate": 1.0
+  },
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "resume_count": 0,
+  "run_id": "export-helper-assistant-uat-smoke",
+  "started_at": "2026-03-30T00:19:00Z",
+  "stop_reason": "smoke_test"
+}

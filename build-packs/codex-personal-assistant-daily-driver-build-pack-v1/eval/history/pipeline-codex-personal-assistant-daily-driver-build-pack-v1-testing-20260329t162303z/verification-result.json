@@ -1,0 +1,7 @@
+{
+  "commands": [
+    "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack doctor --project-root . --output json >/dev/null"
+  ],
+  "failures": [],
+  "status": "passed"
+}

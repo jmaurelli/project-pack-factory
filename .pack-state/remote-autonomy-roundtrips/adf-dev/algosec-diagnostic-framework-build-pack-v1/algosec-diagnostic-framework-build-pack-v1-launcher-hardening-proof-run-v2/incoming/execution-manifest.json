@@ -1,0 +1,30 @@
+{
+  "bootstrap_mode": "presence-check-only",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_bundle_path": "dist/exports/runtime-evidence/external-runtime-evidence-algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2-20260328T214303Z",
+  "export_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2 --exported-by codex --output-dir dist/exports/runtime-evidence --output json",
+  "export_completed_at": "2026-03-28T21:43:03Z",
+  "export_error": null,
+  "export_status": "succeeded",
+  "exported_run_id": "algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2",
+  "prompt_artifact_path": ".packfactory-remote/invocation-prompt.txt",
+  "prompt_sha256": "3215dc0031bbb47ec952b5ba52615f3c6c2d87e83c6a65f038e172e64aed8a62",
+  "remote_runner": "codex exec --skip-git-repo-check --cd . --dangerously-bypass-approvals-and-sandbox -",
+  "request_sha256": "2dcd663d74a525eab3448a9413f641ed9898cc2607643aa1a5ca220f4fdef7cc",
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-launcher-hardening-proof-run-v2",
+  "schema_version": "remote-execution-manifest/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "started_at": "2026-03-28T21:35:25Z",
+  "stopped_at": "2026-03-28T21:43:03Z",
+  "target_manifest_sha256": "c8bafa7fbd3acdf2d741f7ab0586ac39d4e550eb040cdd499a66fec97dc47e25",
+  "terminal_outcome": "stopped",
+  "terminal_reason": "current_task_incomplete"
+}

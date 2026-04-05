@@ -1,0 +1,1765 @@
+OpenAI Codex v0.116.0 (research preview)
+--------
+workdir: /root
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 019d2ee0-0aad-7653-8e6e-fdc581e26021
+--------
+user
+You are Codex CLI running on the target appliance for a bounded delegated ADF task.
+Read the delegated request JSON at `.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-request.json`.
+Keep all output inside `.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1`.
+
+Rules:
+- Stay within the delegated scope and allowed targets from the request.
+- Do not modify files outside the delegated bundle root unless the request tier explicitly allows bounded lab changes.
+- Always write `delegated-task-result.json` even if blocked or partially complete.
+- Record the shell commands you ran in `commands.jsonl` as one JSON object per line.
+- Write a short operator-facing summary in `findings.md`.
+- Put any captured artifacts under `artifacts/`.
+- For `observe_only`, leave `intentional_mutations` as an empty array unless you truly changed the target.
+
+Required output files:
+- `.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json`
+- `.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl`
+- `.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md`
+- `.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/`
+
+Suggested result schema:
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
+  "task_id": "trace_businessflow_aff_entrypoint_v1",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Short operator-facing result summary.",
+  "returned_artifact_paths": [
+    "artifacts/example.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "Optional next step."
+  ]
+}
+
+Begin by reading the request file and then complete the delegated slice.
+
+mcp startup: no servers
+codex
+I’m reading the delegated request first, then I’ll work strictly inside the bundle root and produce the required result files and artifacts.
+exec
+/bin/bash -lc "pwd && ls -la .pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1 && printf '\\n---REQUEST---\\n' && cat .pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-request.json" in /rootexec
+/bin/bash -lc 'mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts' in /rootcodex
+The appliance shell is auto-entering an interactive menu on login shells. I’m switching to non-login command execution so I can inspect the delegated bundle without leaving scope.
+exec
+/bin/bash -c pwd in /root succeeded in 0ms:
+/root
+exec
+/bin/bash -c 'ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1' in /root succeeded in 0ms:
+total 20
+drwxr-xr-x  3 root root  136 Mar 27 06:38 .
+drwxr-xr-x 20 root root 4096 Mar 27 06:38 ..
+drwxr-xr-x  2 root root    6 Mar 27 06:38 artifacts
+-rw-r--r--  1 root root 2879 Mar 27 06:39 codex-launch.log
+-rw-r--r--  1 root root 1870 Mar 27 06:38 codex-prompt.txt
+-rw-r--r--  1 root root 1665 Mar 27 06:38 delegated-task-request.json
+-rwxr-xr-x  1 root root  759 Mar 27 06:38 run-delegated-codex.sh
+exec
+/bin/bash -c 'cat /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-request.json' in /root succeeded in 0ms:
+{
+  "allowed_targets": [
+    "/usr/share/fa/php",
+    "/usr/share/fireflow/var/log",
+    "/var/log/httpd"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md"
+  ],
+  "generated_at": "2026-03-27T10:38:40Z",
+  "generated_by": "adf-dev",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+  "remote_target_label": "algosec-lab",
+exec
+/bin/bash -c 'mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts' in /root succeeded in 0ms:
+
+ succeeded in 11.01s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+ succeeded in 11.44s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+codex
+I have the delegated scope now: observe-only correlation around the AFF session path, with source focus in `/usr/share/fa/php` and evidence in Apache/FireFlow logs. Next I’m locating the PHP entrypoints and the same-window log lines for the three target endpoints.
+exec
+/bin/bash -c 'cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json' in /root exited 1 in 0ms:
+cat: /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json: No such file or directory
+exec
+/bin/bash -c 'rg -n "(FireFlow/api/session|getAFASessionInfo|bridge/refresh|SSOLogin|SuiteLoginSessionValidation|AlgosecSessionManager|ExtUtils)" /usr/share/fa/php' in /root succeeded in 0ms:
+/usr/share/fa/php/AlgosecSessionManager.php:3:class AlgosecSessionManager {
+/usr/share/fa/php/AlgosecSessionManager.php:29:		AlgosecSessionManager::preLoginActions($loginRequestDescription);
+/usr/share/fa/php/AlgosecSessionManager.php:31:		AlgosecSessionManager::postLoginActions($loginRequestDescription, $AlgosecSession);
+/usr/share/fa/php/AlgosecSessionManager.php:47:		AlgosecSessionManager::preLoginActions($loginRequestDescription);
+/usr/share/fa/php/AlgosecSessionManager.php:49:		AlgosecSessionManager::postLoginActions($loginRequestDescription, $AlgosecSession);
+/usr/share/fa/php/AlgosecSessionManager.php:64:			AlgosecSessionManager::GenerateNewRandomToken($AlgosecSession);
+/usr/share/fa/php/AlgosecSessionManager.php:72:		    AlgosecSessionManager::destroyClientSession();
+/usr/share/fa/php/AlgosecSessionManager.php:100:		// AlgosecSessionManager::SetSessionToken($AlgosecSession, md5(microtime() . RandStr(25)));
+/usr/share/fa/php/AlgosecSessionManager.php:101:		AlgosecSessionManager::SetSessionToken($AlgosecSession,  $AlgosecSession->GetSessionId());
+/usr/share/fa/php/AlgosecSessionManager.php:174:		if (AlgosecSessionManager::logoutIfSessionWasExpired(true)) {
+/usr/share/fa/php/AlgosecSession.php:13:require_once("AlgosecSessionManager.php");
+/usr/share/fa/php/AlgosecSession.php:581:            $this->m_userPassEncoded = $encryptedPassword; // we are assuming that the password was already encrypted by AlgosecSessionManager::encryptLoginPassword method
+/usr/share/fa/php/ExtUtils.php:3: * File: ExtUtils.php
+/usr/share/fa/php/ExtUtils.php:21:		utils::PrintLog("Info", "ExtUtils returning output: [" . substr($xml_str,0,$maxchars) . "]" . (strlen($xml_str) > $maxchars ? "..." : ""), true);    	
+/usr/share/fa/php/ExtUtils.php:101:    //	https://192.168.2.57/~eynat/algosec/php/ExtUtils.php?action=Ping
+/usr/share/fa/php/ExtUtils.php:111:    //	https://192.168.2.57/~eynat/algosec/php/ExtUtils.php?action=ListFirewalls
+/usr/share/fa/php/ExtUtils.php:168:    //	https://192.168.2.57/~eynat/algosec/php/ExtUtils.php?action=GetFirewallLastReport&firewall=192_168_2_53_root
+/usr/share/fa/php/ExtUtils.php:203:    //	https://192.168.2.57/~eynat/algosec/php/ExtUtils.php?action=ListFirewallHostgroups&firewall=192_168_2_53_root
+/usr/share/fa/php/ExtUtils.php:236:    //	https://192.168.2.57/~eynat/algosec/php/ExtUtils.php?action=GetFirewallHostgroupsIPs&firewall=192_168_2_53_root&hostgroup=*
+/usr/share/fa/php/ExtUtils.php:238:    //	https://192.168.2.57/~eynat/algosec/php/ExtUtils.php?action=GetFirewallHostgroupsIPs&firewall=192_168_2_53_root&hostgroup[]=*
+exec
+/bin/bash -c 'rg -n "(/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh)" /var/log/httpd /usr/share/fireflow/var/log' in /root succeeded in 1ms:
+/usr/share/fireflow/var/log/fireflow.log.4:45:[1092299] [x_c4879   ] [2026-03-24 09:59:38,871] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:56:[1550339] [c04aae0d5a] [2026-03-24 10:00:00,042] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log.4:139:[1572037] [x_1f55a   ] [2026-03-24 10:00:24,910] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:217:[977278] [x_b8832   ] [2026-03-24 10:00:54,890] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:448:[1155217] [x_3a1ba   ] [2026-03-24 10:04:07,600] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:508:[1558357] [x_b4424   ] [2026-03-24 10:05:36,311] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:564:[1581592] [c04aae0d5a] [2026-03-24 10:05:44,003] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log.4:693:[1092299] [x_c4879   ] [2026-03-24 10:09:44,275] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:726:[1572037] [x_1f55a   ] [2026-03-24 10:10:30,654] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:765:[1537493] [c04aae0d5a] [2026-03-24 10:10:43,959] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log.4:794:[977278] [x_b8832   ] [2026-03-24 10:11:00,200] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:899:[1155217] [x_3a1ba   ] [2026-03-24 10:14:12,845] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:954:[1586632] [x_be81b   ] [2026-03-24 10:15:25,228] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:1005:[1558357] [x_b4424   ] [2026-03-24 10:15:41,770] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:1016:[1595368] [c04aae0d5a] [2026-03-24 10:15:43,979] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log.4:1162:[1092299] [x_c4879   ] [2026-03-24 10:19:49,578] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:1195:[1572037] [x_1f55a   ] [2026-03-24 10:20:35,867] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:1201:[1028626] [x_5ebb9   ] [2026-03-24 10:20:36,846] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+/usr/share/fireflow/var/log/fireflow.log.4:1239:[1357928] [c04aae0d5a] [2026-03-24 10:20:43,943] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log.4:1269:[977278] [x_b8832   ] [2026-03-24 10:21:05,469] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=6k754n6ljlrfck1p5mkgud0tqf&domain=0?session=6k754n6ljl&domain=0]
+codex
+I have the broad pattern already: localhost traffic repeatedly hits `getAFASessionInfo`, then `GET /FireFlow/api/session`, with `bridge/refresh` on its own cadence. I’m narrowing that to code paths and a concrete minute-long window so the initiator claim is defensible.
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/SuiteLoginSessionValidation.php | sed -n '1,260p'" in /rootexec
+/bin/bash -c "nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '1,260p'" in /rootexec
+/bin/bash -c "nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '200,280p'" in /root succeeded in 0ms:
+     1	<?php
+     2	require_once("RequireHeaders.php");
+     3	require_once("AlgosecSession.php");
+     4	
+     5	// if suite login is called with last_url param we want to clean all cookies
+     6	// to force login with username and password
+     7	if (isset($_GET['clean']) && $_GET['clean'] == "true") {
+     8		utils::PrintLog("Info", "login page was accessed with last_url parameter (clear all products cookies)");
+     9		redirectOrRespond();
+    10	}
+    11	
+    12	$AlgosecSession = utils::GetAlgosecSession();
+    13	session_write_close();
+    14	
+    15	/*
+    16	In the context of this file we have the cookies of afa and fireflow, but not businessflow, because businessflow's cookie has the path "/BusinessFlow"
+    17	After discussing with Linor Cohen, I understood from her that businessflow's authentication strictly relies on the other products' authentications.
+    18	In other words, if fireflow is installed, businessflow validates against both afa and fireflow, and if only afa is installed, it validates against afa.
+    19	Fireflow is different in that it has it's own authentication system that "communicates" with afa's, but does not depend or rely on it.
+    20	Therefor, in order to validate a session, we do not need to check businessflow (and can't because we can't get the cookie here), but checking afa and
+ succeeded in 0ms:
+   200	
+   201			$sRedirectURL .= SSO::$SSO_DONE.'=1';
+   202	
+   203			utils::RedirectUrl($sRedirectURL);
+   204		}
+   205	
+   206	
+   207		// Generic funtion to get a URL parameter, the parameter must be of SSOSaml's so it is checked against a whitelist.
+   208		function getURLParameter($paramName = NULL)
+   209		{
+   210			$paramValue = '';
+   211			if (		(in_array($paramName, SSO::$ALLOWED_PARAMS)	) // Whitelist of parameters.
+   212					&&	(array_key_exists($paramName, $_REQUEST)) // Validate parameter in array.
+   213				)
+   214			{
+   215				$paramValue = $_REQUEST[$paramName];
+   216			}
+   217			else
+   218			{
+   219				$paramValue = '';
+ succeeded in 0ms:
+     1	<?php
+     2	
+     3	class AlgosecSessionManager {
+     4	
+     5		public static function executeLogin($username, $encryptedPassword, $domain, $impersonateUser = '') {
+     6	
+     7			$username = (!empty($username) ? $username : '');
+     8			$encryptedPassword = (!empty($encryptedPassword) ? $encryptedPassword : '');
+     9			$domain   = (!empty($domain) ? $domain : '');
+    10			$impersonateUser = (!empty($impersonateUser) ? $impersonateUser : '');
+    11	
+    12			$loginRequestDescription = "local login for user '${username}'";
+    13	
+    14			if ($domain != '') {
+    15				$loginRequestDescription .= ", domain: '${domain}'";
+    16			}
+    17	
+    18			if ($impersonateUser != '') {
+    19				$loginRequestDescription .= ", Impersonate user '${impersonateUser}'";
+    20			}
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/ci/application/controllers/Environment.php | sed -n '1,180p'" in /rootexec
+/bin/bash -c "nl -ba /usr/share/fa/php/ci/application/libraries/Algosec.php | sed -n '1,180p'" in /root succeeded in 0ms:
+     1	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+     2	
+     3	require_once("RequireHeaders.php");
+     4	require_once("AlgosecSession.php");
+     5	
+     6	class Algosec
+     7	{
+     8	  protected 	$ci;
+     9	  public $session;
+    10	
+    11		public function __construct()
+    12		{
+    13	        $this->ci = get_instance();
+    14	
+    15	        if ($this->shouldSkipSessionInit()) {
+    16	        	return;
+    17	        }
+    18			
+    19			// some controller just need to read the session
+    20			// data regardless if other call is using the
+ succeeded in 0ms:
+     1	<?php
+     2	if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+     3	
+     4	class Environment extends CI_Controller 
+     5	{
+     6		public function __construct()
+     7		{
+     8			parent::__construct();
+     9	        $this->ci = get_instance();
+    10	
+    11			// this controller does not write to session
+    12			session_write_close();
+    13		}
+    14	
+    15		/**
+    16		 *	Controller that supply multy resources
+    17		 *	Recives a single GET param: "list" - an array of enviroment keys to fetch
+    18		 */
+    19		public function index()
+    20		{
+exec
+/bin/bash -c 'rg -n "function checkFireFlowAuth|getFireflowCookie|GetFireFlowAddress|AFF_COOKIE|FireFlow" /usr/share/fa/php/utils.php /usr/share/fa/php/RequireHeaders.php /usr/share/fa/php/*.php' in /root succeeded in 0ms:
+/usr/share/fa/php/AlgosecLocateObject.php:99:   * IMPORTANT NOTE: the error strings that RunLocateObject returns are displayed as is in FireFlow UI.
+/usr/share/fa/php/AlgosecLocateObject.php:100:   *                 This means that FireFlow should know them and have a translation of them to various languages.
+/usr/share/fa/php/AlgosecLocateObject.php:101:   *                 See FireFlow::FABridge::IssueFirewallGroupQuery
+/usr/share/fa/php/CompareProgressRefresh.php:30:  Group query from FireFlow via php's ExtUtils GroupQuery.Includes aggregating all firewall's query.out file into one out file in the group directory.
+/usr/share/fa/php/data_collection.php:192:		var g_isFireflowLic = <?php echo $AlgosecSession->canUseFireFlow() ? 1 : 0; ?>;
+/usr/share/fa/php/data_collection.php:855:if ($bHasActiveChangeLicense && $AlgosecSession->canUseFireFlow()) {
+/usr/share/fa/php/data_collection.php:1066:if ($bHasActiveChangeLicense && $AlgosecSession->canUseFireFlow()) {
+/usr/share/fa/php/data_collection.php:2023:    if($bHasActiveChangeLicense && $AlgosecSession->canUseFireFlow()) {
+/usr/share/fa/php/data_collection.php:2721:if ($bHasActiveChangeLicense && $AlgosecSession->canUseFireFlow()) {
+/usr/share/fa/php/SSOLogin.php:78:				$isFireFlowConfigured = AlgosecSession::isFireFlowConfigured();
+/usr/share/fa/php/SSOLogin.php:81:				UpdateUserAttrFromLDAP($ssoUID, $LDAPAttr, $isFireFlowConfigured);
+/usr/share/fa/php/SSOLogin.php:94:			// For FireFlow it means that the user is privileged.
+/usr/share/fa/php/SSOLogin.php:97:	            if ($isFireFlowConfigured)
+/usr/share/fa/php/SSOLogin.php:99:	                issueFireFlowSSO($AlgosecSession, $_SESSION["TOKEN"], $destination);
+/usr/share/fa/php/SSOLogin.php:127:				if ($isFireFlowConfigured) {
+/usr/share/fa/php/SSOLogin.php:128:					createFireFlowUserAndRedirect($ssoUID, $destination);
+/usr/share/fa/php/SSOLogin.php:132:				// If we got back here - it means createFireFlowUserAndRedirect failed
+/usr/share/fa/php/SSOLogin.php:133:				echo "You were successfully authenticated but have no permissions to access FireFlow.<br/>";
+/usr/share/fa/php/SSOLogin.php:143:	function createFireFlowUserAndRedirect($username, $destination)
+/usr/share/fa/php/SSOLogin.php:148:		$NoAuthDir = "FireFlow/XML/NoAuth";
+exec
+/bin/bash -c 'rg -n "574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh" /usr/share/fireflow/var/log/fireflow.log*' in /root succeeded in 0ms:
+/usr/share/fireflow/var/log/fireflow.log:54:[729487] [x_a7aa5   ] [2026-03-26 18:18:36,355] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:55:[729487] [x_a7aa5   ] [2026-03-26 18:18:36,356] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+/usr/share/fireflow/var/log/fireflow.log:63:[710980] [x_73146   ] [2026-03-26 18:18:45,850] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:64:[710980] [x_73146   ] [2026-03-26 18:18:45,851] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+/usr/share/fireflow/var/log/fireflow.log:74:[582933] [x_5d170   ] [2026-03-26 18:19:49,677] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:75:[582933] [x_5d170   ] [2026-03-26 18:19:49,679] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+/usr/share/fireflow/var/log/fireflow.log:138:[1031897] [bc86040555] [2026-03-26 18:20:43,968] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log:310:[551127] [x_7da10   ] [2026-03-26 18:25:11,588] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:311:[551127] [x_7da10   ] [2026-03-26 18:25:11,589] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+/usr/share/fireflow/var/log/fireflow.log:350:[1031897] [bc86040555] [2026-03-26 18:25:43,964] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/fa/environment/getAFASessionInfo]
+/usr/share/fireflow/var/log/fireflow.log:380:[492569] [x_60add   ] [2026-03-26 18:25:48,627] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:381:[492569] [x_60add   ] [2026-03-26 18:25:48,628] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+/usr/share/fireflow/var/log/fireflow.log:387:[461359] [x_b7c9b   ] [2026-03-26 18:26:04,266] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:388:[461359] [x_b7c9b   ] [2026-03-26 18:26:04,267] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+/usr/share/fireflow/var/log/fireflow.log:487:[729487] [x_a7aa5   ] [2026-03-26 18:28:41,645] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:488:[729487] [x_a7aa5   ] [2026-03-26 18:28:41,646] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+/usr/share/fireflow/var/log/fireflow.log:496:[710980] [x_73146   ] [2026-03-26 18:28:51,121] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:497:[710980] [x_73146   ] [2026-03-26 18:28:51,122] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+/usr/share/fireflow/var/log/fireflow.log:518:[582933] [x_5d170   ] [2026-03-26 18:29:54,981] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/refresh], method=[post]
+/usr/share/fireflow/var/log/fireflow.log:519:[582933] [x_5d170   ] [2026-03-26 18:29:54,982] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0?session=uimmr6u9e8&domain=0]
+exec
+/bin/bash -c 'rg -n "574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh" /var/log/httpd/*20260325*' in /root succeeded in 0ms:
+/var/log/httpd/ssl_request_log-20260325:20:[21/Mar/2026:03:30:02 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log-20260325:25:[21/Mar/2026:03:30:04 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log-20260325:26:[21/Mar/2026:03:30:04 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 160
+/var/log/httpd/ssl_request_log-20260325:29:[21/Mar/2026:03:30:09 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log-20260325:30:[21/Mar/2026:03:30:09 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 160
+/var/log/httpd/ssl_request_log-20260325:33:[21/Mar/2026:03:30:20 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=pbo6bqbo3ukoauq5gsa8hq5pmc&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log-20260325:50:[21/Mar/2026:03:30:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 129
+/var/log/httpd/ssl_request_log-20260325:51:[21/Mar/2026:03:30:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 129
+/var/log/httpd/ssl_request_log-20260325:54:[21/Mar/2026:03:30:43 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session HTTP/1.1" 49
+/var/log/httpd/ssl_request_log-20260325:58:[21/Mar/2026:03:30:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session HTTP/1.1" 55
+/var/log/httpd/ssl_request_log-20260325:61:[21/Mar/2026:03:30:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session HTTP/1.1" 49
+/var/log/httpd/ssl_request_log-20260325:63:[21/Mar/2026:03:30:45 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=pbo6bqbo3ukoauq5gsa8hq5pmc&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log-20260325:68:[21/Mar/2026:03:31:03 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=pbo6bqbo3ukoauq5gsa8hq5pmc&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log-20260325:69:[21/Mar/2026:03:31:11 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=pbo6bqbo3ukoauq5gsa8hq5pmc&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log-20260325:91:[21/Mar/2026:03:31:44 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/external//bridge/refresh?session=pbo6bqbo3ukoauq5gsa8hq5pmc&domain=0 HTTP/1.1" -
+/var/log/httpd/ssl_request_log-20260325:110:[21/Mar/2026:03:32:48 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log-20260325:112:[21/Mar/2026:03:32:48 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /FireFlow/api/session/extendSession?sessionId=d17176f752673f8e8bd8117734abeb1c&isFullSessionExtend=false HTTP/1.1" 29
+/var/log/httpd/ssl_request_log-20260325:165:[21/Mar/2026:03:35:02 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log-20260325:170:[21/Mar/2026:03:35:10 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 29
+/var/log/httpd/ssl_request_log-20260325:171:[21/Mar/2026:03:35:10 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /fa/environment/getAFASessionInfo HTTP/1.1" 160
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '60,190p'" in /root succeeded in 0ms:
+    60				}
+    61	
+    62				// *** If we got to this line, the user is authenticated with the IdP. ***
+    63	
+    64				// Set the UID & attributes parser.
+    65				$ssoModule->setUIDParser($UIDParser);
+    66				$ssoModule->setAttributesParser($AttributesParser);
+    67				
+    68	
+    69				// Get the UID & attributes.
+    70				$ssoUID 	= $ssoModule->getUID();
+    71				$LDAPAttr 	= getUserDetails($ssoUID, $ssoModule, $fetchUserDataFromLdap, $fetchUserDataFromModule);
+    72				$domain 	= NULL; // TODO: Handle domains, at least handle as error (?).
+    73	
+    74				// Update AFA/FF users (must be done before init session to update the session permissions correctly)
+    75				if ($fetchUserDataFromLdap && is_null($LDAPAttr)) {
+    76				    throw new Exception("Failed to get user attributes from LDAP");
+    77				} else {
+    78					$isFireFlowConfigured = AlgosecSession::isFireFlowConfigured();
+    79					$isBFlowConfigured = utils::is_businessflow_installed();
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/utils.php | sed -n '3180,3245p'" in /root succeeded in 0ms:
+  3180	            utils::PrintLog("Warning", "Failed to get licenses" . $e->getMessage() . " Business flow will be disabled");
+  3181	            return false;
+  3182	        }
+  3183	    }
+  3184	
+  3185	    public static function getFireflowCookie()
+  3186	    {
+  3187	        foreach (getallheaders() as $key => $header) {
+  3188	            if ('cookie' === strtolower($key)) {
+  3189	                foreach (explode(";", $header) as $c) {
+  3190	                    $cookie = trim($c);
+  3191	                    if (empty($cookie)) continue;
+  3192	
+  3193	                    list($name, $value) = explode("=", $cookie);
+  3194	                    if ($name === AFF_COOKIE) {
+  3195	                        return $value;
+  3196	                    }
+  3197	                }
+  3198	            }
+  3199	        }
+exec
+/bin/bash -c 'rg -n "03:00:(00|02|05|11|15|23|43|44)|03:02:(23|24|40|59)|03:08:(13|14|38)|03:15:(05|10|23|43|44)" /var/log/httpd/ssl_access_log-20260325' in /root succeeded in 0ms:
+41356:127.0.0.1 - - [21/Mar/2026:03:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+41357:127.0.0.1 - - [21/Mar/2026:03:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 129
+41358:127.0.0.1 - - [21/Mar/2026:03:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=iavb5ohc174mriv0a2dvggdbl2 HTTP/1.1" 200 -
+41359:127.0.0.1 - - [21/Mar/2026:03:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
+41360:127.0.0.1 - - [21/Mar/2026:03:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+41361:127.0.0.1 - - [21/Mar/2026:03:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+41362:127.0.0.1 - - [21/Mar/2026:03:00:00 -0400] "GET /FireFlow/REST/1.0/search/users?hide_privileged=0 HTTP/1.1" 200 209
+41363:127.0.0.1 - - [21/Mar/2026:03:00:02 -0400] "GET /fa/environment/isSessionAlive HTTP/1.1" 200 -
+41364:127.0.0.1 - - [21/Mar/2026:03:00:02 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 28
+41365:127.0.0.1 - - [21/Mar/2026:03:00:02 -0400] "GET /FireFlow/api/session/validate?fireflowSessionOnly=true HTTP/1.1" 200 29
+41374:127.0.0.1 - - [21/Mar/2026:03:00:11 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 28
+41376:127.0.0.1 - - [21/Mar/2026:03:00:11 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 160
+41377:127.0.0.1 - - [21/Mar/2026:03:00:11 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+41378:127.0.0.1 - - [21/Mar/2026:03:00:11 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 275
+41385:127.0.0.1 - - [21/Mar/2026:03:00:23 -0400] "GET /aff/api/internal/noauth/health/shallow HTTP/1.1" 200 -
+41386:127.0.0.1 - - [21/Mar/2026:03:00:23 -0400] "GET /BusinessFlow/shallow_health_check HTTP/1.1" 200 109
+41396:127.0.0.1 - - [21/Mar/2026:03:00:43 -0400] "GET / HTTP/1.1" 200 164
+41397:127.0.0.1 - - [21/Mar/2026:03:00:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+41398:127.0.0.1 - - [21/Mar/2026:03:00:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+41399:127.0.0.1 - - [21/Mar/2026:03:00:43 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+codex
+The access log pattern is more specific now. Around each `GET /FireFlow/api/session`, the appliance also hits `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`, multiple `POST /afa/php/ws.php`, and the BusinessFlow health checks, which points to a shared suite UI poller rather than a direct BusinessFlow-auth redirect.
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/home.php | sed -n '150,260p'" in /root succeeded in 0ms:
+   150			var g_bflowHostname;
+   151	        var g_bIsDisplayTreeRightClick = <?php echo($bIsDisplayTreeRightClick ? 'true' : 'false');?>;
+   152	        var g_bIsCloudflowAutoOnboard = <?php echo ($cloudflowAutoOnboardEnabled ? 'true' : 'false');?>;
+   153	        var g_bIsCfTenantId = <?php echo ($bIsCfTenantId ? 'true' : 'false');?>;
+   154	        var g_bIsDisplayPolicyAutomationUi = <?php echo ($bIsDisplayPolicyAutomationUi ? 'true' : 'false');?>;
+   155			<?php if (utils::isBusinessFlowLicenseAndInstalled()) {?>
+   156				g_bflowHostname = "<?php echo $AlgosecSession->m_configurationSettings['BUSINESSFLOW_ADDRESS'] ?>";
+   157			<?php } ?>
+   158		//]]>
+   159		</script>
+   160	<?php
+   161	PrintAdditionalHTMLheaders();
+   162	?>
+   163		<link href="themes/<?php echo(ALGOSEC_THEME);?>/css/tree.css" rel="stylesheet" type="text/css" />
+   164	
+   165		<!-- <script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/3rdParty/jquery/jquery.jstree.min.js"></script> -->
+   166		<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/3rdParty/jquery/jquery.jstree.js"></script>
+   167		<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/AlgosecGeneral.js"></script>
+   168		<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/dynamic.js.php?sid=<?php echo $sessionId;?>"></script>
+   169		<script type="text/javascript" src="JSlib<?php echo GENERATED_TIMESTAMP;?>/home.js"></script>
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/inc/ws.inc.php | sed -n '1,180p'" in /root succeeded in 0ms:
+     1	<?php
+     2	require_once('inc/validations.inc.php');
+     3	require_once("data_collection.inc.php");
+     4	require_once("rules_DAO.php"); // messes up the global variables otherwise
+     5	
+     6	/*
+     7	 * AFA SOAP server class
+     8	 *
+     9	 *
+    10	 */
+    11	final class AFA_SoapServer
+    12	{
+    13	    private $objSession;
+    14	    private $arrMessages;
+    15	    public  $bIsConnected;
+    16	
+    17	    /**
+    18	     * Construct.
+    19	     *
+    20	     */
+exec
+/bin/bash -c 'rg -n "FireFlowAffApi|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|/afa/php/ws.php|getAFASessionInfo|FireFlow/api/session" /usr/share/fa/php' in /root succeeded in 0ms:
+/usr/share/fa/php/commands/del_users.cmd.php:179:	if ($_SERVER['SCRIPT_NAME'] == '/afa/php/ws.php') {
+/usr/share/fa/php/ci/application/libraries/Algosec.php:38:			if ($_SERVER['REQUEST_URI'] == "/fa/environment/getAFASessionInfo") {
+/usr/share/fa/php/ci/application/controllers/Environment.php:42:	public function getAFASessionInfo()
+/usr/share/fa/php/ci/application/controllers/Environment.php:65:		utils::PrintLog("Debug","getAFASessionInfo -  result: " .json_encode($result), true);
+/usr/share/fa/php/afa_ws.wsdl:2748:      <soap:address location="https://localhost/afa/php/ws.php"/>
+/usr/share/fa/php/help/Data/SearchTopic_Chunk6.js:1:define({"465":{i:0.000563529484664294,u:"../Content/api-guide/No-Device-Selected-Search.htm",a:"No Device Selected - Search All Devices [EMPTY] – all fields SOURCE DESTINATION SOURCE_DESTINATION (Source or Destination) SERVICE ACTION FROM (from zone) TO (to zone) USER APPLICATION NAME COMMENT LOG TIME ENABLE DOCUMENTATION",t:"No Device Selected - Search All Devices"},"466":{i:0.000563529484664294,u:"../Content/api-guide/Symantec-Blue-Coat-Devices.htm",a:"Symantec Blue Coat Devices [EMPTY] – all fields RULE (rule number)  SOURCE DESTINATION SOURCE_DESTINATION (source or destination) SERVICE Service TIME ACTION TRACK COMMENTS",t:"Symantec Blue Coat Devices"},"467":{i:0.000563529484664294,u:"../Content/api-guide/Check-Point-Devices.htm",a:"Check Point Devices [EMPTY] – all fields ACTION COMMENTS DESTINATION ENABLE INSTALL (installed on) NAME (rule name) RULENUM (rule number) SERVICES SOURCE SOURCE_DESTINATION (Source or Destination) TIME TRACK VPN",t:"Check Point Devices"},"468":{i:0.000563529484664294,u:"../Content/api-guide/Cisco-Firewalls.htm",a:"Cisco Firewalls [EMPTY] – all fields ENABLE SOURCE DESTINATION SOURCE_DESTINATION (source or destination) SERVICE ACTION LOG TIME COMMENTS",t:"Cisco Firewalls"},"469":{i:0.000563529484664294,u:"../Content/api-guide/Cisco-Routers.htm",a:"Cisco Routers [EMPTY] – all fields NAME (rule id)  LINE (text in the configuration line)",t:"Cisco Routers"},"470":{i:0.000563529484664294,u:"../Content/api-guide/Forcepoint-McAfee-Sidewinder.htm",a:"[EMPTY] – all fields NAME (rule name)  ENABLE ACTION SERVICE FROM (source burb)  SOURCE TO (destination burb)  DESTINATION SOURCE_DESTINATION (source or destination)  COMMENT (description)  APPLICATION DEFENSE AUTHENTICATION DESCRIPTION PORTS IPS SIGNATURE GROUP IPS RESPONSE TRUSTEDSOURCE SOURCE NAT ...",t:"Forcepoint (McAfee) Sidewinder Devices"},"471":{i:0.000563529484664294,u:"../Content/api-guide/Fortinet-FortiGate-and-FortiManager.htm",a:"Fortinet FortiGate and FortiManager Devices [EMPTY] – all fields RULE (rule ID) FROM TO SOURCE DESTINATION SOURCE_DESTINATION (source or destination) SERVICE ACTION COMMENT LOG SCHEDULE",t:"Fortinet FortiGate and FortiManager Devices"},"472":{i:0.000563529484664294,u:"../Content/api-guide/Juniper-Space-and-SRX-Devices.htm",a:"Juniper Space and SRX Devices [EMPTY] – all fields RULE (rule name) FROM (from zone) TO (to zone) SOURCE DESTINATION SOURCE_DESTINATION (source or destination) SERVICE (Application) ACTION LOG TIME",t:"Juniper Space and SRX Devices"},"473":{i:0.000563529484664294,u:"../Content/api-guide/Juniper-NSM-and-NetScreen.htm",a:"Juniper NSM and NetScreen Devices [EMPTY] – all fields RULE (rule ID) NAME (rule name) FROM ZONE TO ZONE SOURCE DESTINATION SOURCE_DESTINATION (source or destination) SERVICE ACTION SOURCENAT (source NAT) DESTINATIONNAT (destination NAT)  TIMECLAUSE ENABLE TRACK",t:"Juniper NSM and NetScreen Devices"},"474":{i:0.000563529484664294,u:"../Content/api-guide/Palo-Alto-Devices.htm",a:"Palo Alto Devices [EMPTY] – all fields NAME TAG FROM (from zone) SOURCE USER HIP PROFILE TO (to zone) DESTINATION SOURCE_DESTINATION (source or destination)  APPLICATION SERVICE ACTION PROFILE OPTIONS COMMENT    ",t:"Palo Alto Devices"},"475":{i:0.00056709724466673,u:"../Content/api-guide/FireFlow-REST-Web-Services.htm",a:"FireFlow REST Web Services The FireFlow REST Web Services API supports FireFlow remote operations.  ",t:"FireFlow REST Web Services"},"476":{i:0.000532901668394082,u:"../Content/api-guide/Requests_1.htm",a:"The base URL for all REST requests is the following: https://\u003calgosec_server\u003e/FireFlow/api where \u003calgosec_server\u003e is the AFA/FireFlow server URL. Note: Every request must be in JSON format. Each request must include the content-type header with the value application/json. The FireFlow REST interface ...",t:"Overview"},"477":{i:0.000589522745838091,u:"../Content/api-guide/Authenticating.htm",a:"The FireFlow REST API uses cookie-based authentication. The authentication request returns a sessionId that you use to manually create a cookie. The cookie is required for all other API requests.  Resource Name: /FireFlow/api/authentication/authenticate Request Method: POST Request Body:  Response ...",t:"Authenticating"},"478":{i:0.000589522745838091,u:"../Content/api-guide/Running-an-Advanced-Search.htm",a:"The savedsearch method allows you to run an advanced search that is currently saved in FireFlow by specifying the name of the search. Resource Name: /FireFlow/api/savedsearch Request Method: GET Header Requirements: Request Query Parameters: Response: Example Request: ...",t:"Run an advanced search"},"479":{i:0.000589522745838091,u:"../Content/api-guide/checkifsessionisalive_request.htm",a:"Check if session is alive Check if a session is alive by entering a cookie. Resource Name: /FireFlow/api/session Request Method: GET Request Body:  Response Body: Response Example: { \"message\": { \"code\": \"string\", \"message\": \"string\" }, \"valid\": true }",t:"Check if session is alive"},"480":{i:0.000589522745838091,u:"../Content/api-guide/gettingpermittedrequesttemplates_request.htm",a:"The templates method gets a list of permitted change request templates. Resource Name: /FireFlow/api/templates Request Method: GET Request Parameters: None Response: Response Example {\n \"status\": \"Success\",\n \"messages\": [\n {\n  \"code\": \"success\",\n  \"message\": \"Success\"\n }\n],\n\"data\": [\n {\n  \"id\": ...",t:"Get permitted request templates"},"481":{i:0.000589522745838091,u:"../Content/api-guide/createatrafficchangerequest_request.htm",a:"The FireFlow REST API creates a Traffic Change Request. FireFlow validates the API to ensure that mandatory elements are in place, such as permissions, template, date formats, that any specified device exists in AFA, and so on. Resource Name: /FireFlow/api/change-requests/traffic Request Method: ...",t:"Create a traffic change request"},"482":{i:0.000589522745838091,u:"../Content/api-guide/Creating-a-Multiple-Device.htm",a:"This REST call supports opening object change requests where objects from multiple devices are being changed. FireFlow validates the API to ensure that mandatory elements are in place, such as permissions, template, date formats, that any specified device exists in AFA, and so on. The change request ...",t:"Create a multiple device object change request"},"483":{i:0.00392985124439706,u:"../Content/api-guide/rule-removal-change-request.htm",a:"The ruleRemovalChangeRequest creates a FireFlow change request to remove or disable a device rule, using the rule removal workflow.  FireFlow validates the API to ensure that mandatory elements are in place, such as permissions, template, date formats, and that any specified device exists in AFA. ...",t:"Create a rule removal change request"},"484":{i:0.000589522745838091,u:"../Content/api-guide/updatetrafficchangerequestscustomfields_request1.htm",a:"The FireFlow REST API updates a Traffic Change Request\u0027s Custom Fields. FireFlow validates the API to ensure that mandatory elements are in place, such as permissions, template, date formats, that any specified device exists in AFA, and so on. Resource Name: ...",t:"Update a traffic change request\u0027s custom fields"},"485":{i:0.000783450081704854,u:"../Content/api-guide/Data-Types_3.htm",a:"Data types customFields Type",t:"Data types"},"486":{i:0.000484698166178036,u:"../Content/api-guide/actionInformation-Type.htm",a:"actionInformation Type    ",t:"actionInformation Type"},"487":{i:0.000484698166178036,u:"../Content/api-guide/objectchangerequestdetails_type.htm",a:"ObjectChangeRequestDetails Type",t:"ObjectChangeRequestDetails Type"},"488":{i:0.000985794992799579,u:"../Content/api-guide/response_type.htm",a:"Response Type",t:"Response Type"},"489":{i:0.00056709724466673,u:"../Content/api-guide/BusinessFlow-REST-Web-Services.htm",a:"BusinessFlow REST Web Services The BusinessFlow Web Services API supports BusinessFlow remote operations.  ",t:"BusinessFlow REST Web Services"},"490":{i:0.000524867751358075,u:"../Content/api-guide/Requests_2.htm",a:"The base URL for all REST requests is the following: https://\u003calgosec_server\u003e/BusinessFlow/rest/v1 where \u003calgosec_server\u003e is the BusinessFlow server URL. Some of the requests provided in this API are restricted for users with specific permissions. See BusinessFlow Permissions (see  BusinessFlow ...",t:"Requests"},"491":{i:0.000484698166178036,u:"../Content/api-guide/Swagger.htm",a:"The BusinessFlow REST API includes Swagger support. Swagger provides descriptions of every REST request and the ability to make simplified API request calls. You can access Swagger at https://\u003cASMS IP ADDRESS\u003e/BusinessFlow/swagger-ui.html.  You must be logged into BusinessFlow to access the Swagger ...",t:"Swagger"},"492":{i:0.000747937625541726,u:"../Content/api-guide/Logging-In_1.htm",a:"To perform many requests, you can authenticate with an authentication cookie. You obtain the cookie with the method described below.  Every request must be in JSON format. Each request must include the content-type header with the value application/json. Note: If you are using a development platform ...",t:"Logging In"},"493":{i:0.000524867751358075,u:"../Content/api-guide/Logging-Out_1.htm",a:"Logging Out If you obtained an authentication cookie by logging in, you can nullify it with the following method. Resource Name: /logout Request Method: POST Response:",t:"Logging Out"},"494":{i:0.000524867751358075,u:"../Content/api-guide/Error-Codes.htm",a:"When errors occur, a JSON status object and an HTTP status code are returned. HTTP Status codes: 200 - When returning a correct result of an empty set. 404 - When an object is not found or the address is incorrect. 403 - When the user used for authentication does not have permissions to view a ...",t:"Error Codes"},"495":{i:0.000524867751358075,u:"../Content/api-guide/applications.htm",a:"/applications The following are requests for application related resources. The base URL for applications is /BusinessFlow/rest/v1/applications.",t:"/applications"},"496":{i:0.000484698166178036,u:"../Content/api-guide/GET.htm",a:"GET / Returns a list of all applications. Return: Array of Application (see  Application )",t:"GET /"},"497":{i:0.000484698166178036,u:"../Content/api-guide/GET-id.htm",a:"GET /{id} Returns a single application revision. Parameters: id - The application revision ID. Return: Application (see  Application )",t:"GET /{id}"},"498":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-application_id-revisions.htm",a:"GET /id/{application_id}/revisions Returns all revisions for the application ID. Parameters: application_id - The application ID. Return: Array of ApplicationRevision (see  ApplicationRevision )",t:"GET /id/{application_id}/revisions"},"499":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-application_id.htm",a:"GET /id/{application_id} Returns the latest revision for the application ID. Parameters: application_id - The application ID. Return: Application (see  Application )",t:"GET /id/{application_id}"},"500":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-authorized_users_and_roles.htm",a:"Gets lists of users and roles that are permitted to view and/or edit a specific application. Resource Name: /applications/{id}/authorized_users_and_roles Permissions Required: administrator Request URL Parameters: Return: Return Example: {   \"applicationName\": \"DNS\",   \"usersView\": [     ...",t:"GET /{id}/authorized_users_and_roles"},"501":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-change_requests.htm",a:"GET /{id}/change_requests Returns a list of change requests for an application revision. Parameters: id - The application revision ID. Return: Array of ChangeRequest (see  ChangeRequest )",t:"GET /{id}/change_requests"},"502":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-contacts.htm",a:"GET /{id}/contacts Returns a list of contacts for the application. Parameters: id - The application revision ID. Return: Array of ApplicationContactInfo (see  ApplicationContactInfo )",t:"GET /{id}/contacts"},"503":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-flows.htm",a:"GET /{id}/flows Returns all flows for an application. Parameters: id - The application revision ID. Return: Array of Flow (see  Flow )",t:"GET /{id}/flows"},"504":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-flows-flowid.htm",a:"GET /{id}/flows/{flowid} Returns a single flow from an application. Parameters: id - The application revision ID. flowID - The flow ID. Return: Flow (see  Flow )",t:"GET /{id}/flows/{flowid}"},"505":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-revisions.htm",a:"GET /{id}/revisions Returns a list of all revisions for the application. Parameters: id - The application revision ID. Return: Array of ApplicationRevision (see  ApplicationRevision )",t:"GET /{id}/revisions"},"506":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-vulnerabilities.htm",a:"GET /{id}/vulnerabilities Returns a list of vulnerabilities for the application revision. Parameters: id - The application revision ID. Return: ApplicationVulnerability (see  ApplicationVulnerability )",t:"GET /{id}/vulnerabilities"},"507":{i:0.000484698166178036,u:"../Content/api-guide/GET-name-appName.htm",a:"GET /name/{appName} Returns the latest revision for an application with the specified name. Parameters: appName - The application name. Return: Application (see  Application )",t:"GET /name/{appName}"},"508":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-risks.htm",a:"GET /{id}/risks Returns a list of risks for the application revision. Parameters: id - The application revision ID. Return: Array of Risk (see  Risk )",t:"GET /{id}/risks"},"509":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-flows-flowId-risks.htm",a:"GET /{id}/flows/{flowId}/risks Returns a list of risks for a flow. Parameters: id - The application revision ID. flowID - The flow ID. Return: Array of Risk (see  Risk )",t:"GET /{id}/flows/{flowId}/risks"},"510":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-apply.htm",a:"POST /{id}/apply Applies an application\u0027s draft revision. Resource Name: /applications/{id}/apply Permissions Required: Apply draft Edit application Request URL Parameters: Request Body: (optional) Return: A ChangeApplicationResponse (see  ChangeApplicationResponse ) object.",t:"POST /{id}/apply"},"511":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-check_connectivity.htm",a:"Runs connectivity check on all flows of an application revision and returns the results. Resource Name: /applications/{id}/check_connectivity Permissions Required: Update connectivity Edit application Request URL Parameters: Return: An ApplicationConnectivity (see  ApplicationConnectivity ) object.",t:"POST /{id}/check_connectivity"},"512":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-contacts.htm",a:"Edits an application\u0027s contacts. Resource Name: /applications/{id}/contacts Permissions Required: editAllApplications Request URL Parameters: Return: Error Codes: 404 (Not found) - Application wasn\u0027t found. 403 (Forbidden) - User doesn\u0027t have permission to edit the application. 403 (Forbidden) - ...",t:"POST /{id}/contacts"},"513":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-custom_fields.htm",a:"Edits an application\u0027s custom fields. Resource Name: /applications/{id}/custom_fields Permissions Required: editAllApplications Request URL Parameters: Return: Error Codes: 404 (Not found) - Application wasn\u0027t found. 403 (Forbidden) - User doesn\u0027t have permission to edit the application. 403 ...",t:"POST /{id}/custom_fields"},"514":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-decommission.htm",a:"POST /{id}/decommission Decommissions the application. Resource Name: /applications/{id}/decommisson Permissions Required: Edit application Request URL Parameters: Return: A ChangeApplicationResponse (see  ChangeApplicationResponse ) object.",t:"POST /{id}/decommission"},"515":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-discard.htm",a:"POST /{id}/discard Discards an application\u0027s draft revision. Resource Name: /applications/{id}/discard Permissions Required: Edit application Request URL Parameters: Return: A Status (see  Status ) object.",t:"POST /{id}/discard"},"516":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-flows.htm",a:"Edits an application\u0027s flows. Resource Name: /applications/{id}/flows Permissions Required: editAllApplications createSharedFlows Request URL Parameters: Return: Error Codes: 404 (Not found) - Application wasn\u0027t found. 404 (Not found) - Flow ID wasn\u0027t found. 403 (Forbidden) - User doesn\u0027t have ...",t:"POST /{id}/flows"},"517":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-flows-flowid-check_connectivity.htm",a:"Runs check connectivity on a specific flow and returns the results. Resource Name: /applications/{id}/flows/{flowID}/check_connectivity Permissions Required: Update connectivity Edit application Request URL Parameters: Return: A FlowConnectivity (see  FlowConnectivity ) object.",t:"POST /{id}/flows/{flowid}/check_connectivity"},"518":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-labels.htm",a:"Edits an application\u0027s labels. Resource Name: /applications/{id}/labels Permissions Required: editAllApplications createLabels Request URL Parameters: Return: Error Codes: 404 (Not found) - Application wasn\u0027t found. 403 (Forbidden) - User doesn\u0027t have permission to edit the application. 403 ...",t:"POST /{id}/labels"},"519":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-resolve.htm",a:"POST /{id}/resolve Resolves blocked flows for an application revision. Resource Name: /applications/{id}/resolve Permissions Required: Edit application Request URL Parameters: Return: A ChangeApplicationResponse (see  ChangeApplicationResponse ) object.",t:"POST /{id}/resolve"},"520":{i:0.000484698166178036,u:"../Content/api-guide/POST-new.htm",a:"Creates a new application. Resource Name: /applications/new Permissions Required: Create new application Request Body: Validation: Invalid value for existing application custom field. Existing application with the same name. No exiting contact with such email. No exiting contact role. No existing ...",t:"POST /new"},"521":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-flows-new.htm",a:"Adds new flows to an application. Resource Name: /applications/{id}/flows/new Permissions Required: Edit application Create shared flow (only required when creating a shared flow) Request URL Parameters: Request Body: A list of NewFlow (see  NewFlow ) objects describing the flows to add to the ...",t:"POST /{id}/flows/new"},"522":{i:0.000484698166178036,u:"../Content/api-guide/DELETE-id-contacts.htm",a:"Removes all of an application\u0027s contacts. Resource Name: /applications/{id}/contacts Permissions Required: editAllApplications Request URL Parameters: Return: 200 - OK Error Codes: 404 (Not found) - Application wasn\u0027t found. 403 (Forbidden) - User doesn\u0027t have permission to edit the application. 403 ...",t:"DELETE /{id}/contacts"},"523":{i:0.000484698166178036,u:"../Content/api-guide/DELETE-id-custom_fields.htm",a:"Removes all custom fields for an application. Resource Name: /applications/{id}/custom_fields Permissions Required: editAllApplications Request URL Parameters: Return: 200 OK Error Codes: 404 (Not found) - Application wasn\u0027t found. 403 (Forbidden) - User doesn\u0027t have permission to edit the ...",t:"DELETE /{id}/custom_fields"},"524":{i:0.000484698166178036,u:"../Content/api-guide/DELETE-id-flows-flow_id.htm",a:"DELETE /{id}/flows/{flow_id} Deletes a flow from an application revision. Resource Name: /applications/{id}/flows/{flow_id}/ Permissions Required: Edit application Request URL Parameters: Validation: Existing application. Existing flow. Return: A Status (see  Status ) object.",t:"DELETE /{id}/flows/{flow_id}"},"525":{i:0.000484698166178036,u:"../Content/api-guide/DELETE-id-labels.htm",a:"Removes all user-defined application labels from an application. Resource Name: /applications/{id}/labels Permissions Required: editAllApplications Request URL Parameters: Return: 200 - OK Error Codes: 404 (Not found) - Application wasn\u0027t found. 403 (Forbidden) - User doesn\u0027t have permission to edit ...",t:"DELETE /{id}/labels"},"526":{i:0.000524867751358075,u:"../Content/api-guide/network_objects.htm",a:"/network_objects The following are requests for network object related resources. The base URL for network objects is /BusinessFlow/rest/v1/network_objects.",t:"/network_objects"},"527":{i:0.000484698166178036,u:"../Content/api-guide/GET_1.htm",a:"Returns a list of all network objects. Parameters: (optional) page_size - The number of results per page (Default is 1000). (optional) page_number - The page number you want to return (Default is 1). For example, if you set this parameter to 2, only the second page of objects will be returned. ...",t:"GET /"},"528":{i:0.000484698166178036,u:"../Content/api-guide/GET-id_1.htm",a:"GET /{id} Returns a network object by ID. Parameters: id - The network object revision ID. Return: NetworkObject (see  NetworkObject )",t:"GET /{id}"},"529":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-applications.htm",a:"GET /{id}/applications Returns all relevant applications for the network object. Parameters: id - The network object revision ID. Return: Array of Application (see  Application )",t:"GET /{id}/applications"},"530":{i:0.000484698166178036,u:"../Content/api-guide/GET-id-vulnerabilities_1.htm",a:"GET /{id}/vulnerabilities Returns vulnerabilities for the network object. Parameters: id - The network object revision ID. Return: ObjectVulnerability (see  ObjectVulnerability )",t:"GET /{id}/vulnerabilities"},"531":{i:0.000484698166178036,u:"../Content/api-guide/GET-name-name.htm",a:"GET /name/{name} Returns a network object by name. Parameters: name - The network object (exact) name. Return: String of NetworkObject (see  NetworkService )",t:"GET /name/{name}"},"532":{i:0.000484698166178036,u:"../Content/api-guide/GET-find.htm",a:"GET /find Finds network objects related to IP addresses. Parameters: address - The IP address or subnet (optional) type - The search method for the address. One of the following: INTERSECT (Default) CONTAINED CONTAINING EXACT Return: Array of NetworkObject (see  NetworkObject )",t:"GET /find"},"533":{i:0.000484698166178036,u:"../Content/api-guide/GET-find-applications.htm",a:"Finds applications containing network objects related to IP addresses. Parameters: address - The IP address or subnet (optional) type - The search method for the address. One of the following: INTERSECT (Default) CONTAINED CONTAINING EXACT Return: Array of Application (see  Application )",t:"GET /find/applications"},"534":{i:0.000484698166178036,u:"../Content/api-guide/DELETE-id.htm",a:"Deletes a network object by ID. Note: When BusinessFlow is configured to manage changes to device objects with traffic changes only (the default configuration), BusinessFlow does not support deleting device objects. Using this request to delete a device object will succeed in deleting the object ...",t:"DELETE /{id}"},"535":{i:0.000484698166178036,u:"../Content/api-guide/POST-id.htm",a:"Edits network object. Resource Name: /network_objects/{id} Permissions Required: editNetworkObjects Request URL Parameters: Return: Error Codes: Errors: A failure status with the reasons or the network object\u0027s new representation. 404 (Not found) – Network object wasn\u0027t found 403 (Forbidden) - User ...",t:"POST /{id}"},"536":{i:0.000484698166178036,u:"../Content/api-guide/POST-id-replace.htm",a:"Replaces an abstract object with a real object. Resource Name: /network_objects/{id}/replace Permissions Required: editNetworkObjects Request URL Parameters: Return: Error Codes: Errors: A failure status with the reasons. 404 (Not found) – Network object wasn\u0027t found 403 (Forbidden) - User doesn\u0027t ...",t:"POST /{id}/replace"},"537":{i:0.000484698166178036,u:"../Content/api-guide/POST-new_1.htm",a:"Creates a new network object. The created network object\u0027s origin will appear in the Web Interface as \"from file\". Resource Name: /network_objects/new Permissions Required: Edit network object Request Body: Validation: Existing network object with the same name. Invalid value for custom field. ...",t:"POST /new"},"538":{i:0.000524867751358075,u:"../Content/api-guide/network_services.htm",a:"/network_services The following are requests for service object related resources. The base URL for service objects is /BusinessFlow/rest/v1/network_services.",t:"/network_services"},"539":{i:0.000484698166178036,u:"../Content/api-guide/GET_2.htm",a:"Returns a list of the service objects. Parameters: (optional) page_size - The number of results per page (Default is 1000). (optional) page_number - The page number you want to return (Default is 1). For example, if you set this parameter to 2, only the second page of objects will be returned. ...",t:"GET /"},"540":{i:0.000484698166178036,u:"../Content/api-guide/GET-id_2.htm",a:"GET /{id} Returns a service object by ID. Parameters: id - The service object ID. Return: NetworkService (see  NetworkService )",t:"GET /{id}"},"541":{i:0.000484698166178036,u:"../Content/api-guide/GET-name-name_1.htm",a:"GET /name/{name} Returns service objects by name. Parameters: name - The name of the service object. Return: Array of NetworkService (see  NetworkService )",t:"GET /name/{name}"},"542":{i:0.000484698166178036,u:"../Content/api-guide/DELETE-id_1.htm",a:"Deletes a service object by ID. Note: BusinessFlow does not support deleting device service objects. Using this request to delete a device object will succeed in deleting the object from BusinessFlow, but because the object will never be deleted from the device, the object will be automatically ...",t:"DELETE /{id}"},"543":{i:0.000484698166178036,u:"../Content/api-guide/POST-id_1.htm",a:"Edits a service object. Resource Name: /network_services/{id} Permissions Required: editServiceObjects Request URL Parameters: Return: Error Codes: Errors: A failure status with the reasons or the network service object\u0027s new representation. 404 (Not found) – Network service object wasn\u0027t found 403 ...",t:"POST /{id}"},"544":{i:0.000484698166178036,u:"../Content/api-guide/POST-new_2.htm",a:"Creates a new service object. The created service object\u0027s origin will appear in the Web Interface as \"from file\". Resource Name: /network_services/new Permissions Required: Edit service object Request Body: Validation: Existing service object with the same name. Invalid value for custom field. ...",t:"POST /new"},"545":{i:0.000524867751358075,u:"../Content/api-guide/settings-permissions.htm",a:"The following are requests related to permissions for users and roles. The base URL is /BusinessFlow/rest/v1/settings/permissions. Important: When ASMS is configured to fetch user data from an LDAP server, the current permissions in the LDAP may not reflect the current permissions in ASMS. The ...",t:"/settings/permissions"},"546":{i:0.000484698166178036,u:"../Content/api-guide/GET-default.htm",a:"Gets the default permissions of new users. Resource Name: /settings/permissions/default Permissions Required: administrator Return: Return Example: {   \"requestor\": [     {       \"name\": \"viewChangeRequests\",       \"allowed\": true     },     {       \"name\": \"createNewApplications\",       \"allowed\": ...",t:"GET /default"},"547":{i:0.000484698166178036,u:"../Content/api-guide/GET-role.htm",a:"Gets the permissions of a specific role. Resource Name: /settings/permissions/role Permissions Required: administrator Request URL Parameters: Return: Return Example: {   \"name\": \"DNS-role\",   \"authorizedViewsAndActions\": [     {       \"name\": \"viewActivityLog\",       \"allowed\": false     },     { ...",t:"GET /role"},"548":{i:0.00093083791454534,u:"../Content/api-guide/GET-user.htm",a:"Gets the permissions of a specific user. Resource Name: /settings/permissions/user Permissions Required: administrator Request URL Parameters: Return: Return Example: {   \"name\": \"Joe\",   \"authorizedViewsAndActions\": [     {       \"name\": \"updateObjectFromDevice\",       \"allowed\": false,       ...",t:"GET /user"},"549":{i:0.000484698166178036,u:"../Content/api-guide/DELETE-role.htm",a:"DELETE /role Deletes a specific role. Resource Name: /settings/permissions/role Permissions Required: administrator Request URL Parameters:",t:"DELETE /role"},"550":{i:0.000484698166178036,u:"../Content/api-guide/POST-role.htm",a:"Edits the permissions of a specific role. Resource Name: /settings/permissions/role Permissions Required: administrator Request URL Parameters: Request Body Parameters: Return: Request Example: { \"authorizedApplicationsChanges\": { \"add\": [ { \"applicationID\": 10, \"permission\": \"view\" }, { ...",t:"POST /role"},"551":{i:0.000484698166178036,u:"../Content/api-guide/POST-role-new.htm",a:"Creates a new role. Resource Name: /settings/permissions/role/new Permissions Required: administrator Request Body Parameters: Return: Request Example: {   \"authorizedApplications\": [     {       \"applicationID\": 1,       \"permission\": \"view\"     },     {       \"applicationID\": 2,       ...",t:"POST /role/new"},"552":{i:0.000484698166178036,u:"../Content/api-guide/POST-user.htm",a:"Edits the permissions of a specific user. Resource Name: /settings/permissions/user Permissions Required: administrator Request URL Parameters: Request Body Parameters Return: Request Example: {   \"authorizedApplicationsChanges\": {     \"add\": [       {         \"applicationID\": 10,         ...",t:"POST /user"},});
+/usr/share/fa/php/help/Content/api-guide/checkifsessionisalive_request.htm:115:            <p><span class="SpecialBold">Resource Name:</span><span class="monospace"> /FireFlow/api/session</span>
+exec
+/bin/bash -c "find /usr/share/fa/php -maxdepth 2 -type f \\( -name 'FireFlowBridge.js' -o -name 'home.js' -o -name '*.js.php' \\) | sort | sed -n '1,120p'" in /root succeeded in 0ms:
+/usr/share/fa/php/JSlib1768164240/FireFlowBridge.js
+/usr/share/fa/php/JSlib1768164240/dynamic.js.php
+/usr/share/fa/php/JSlib1768164240/home.js
+exec
+/bin/bash -c 'rg -n "getAFASessionInfo|FireFlow/api/session|extendSession|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|isSessionAlive" /usr/share/fa/php/JSlib* /usr/share/fa/php/*.js /usr/share/fa/php/*.php' in /root exited 2 in 0ms:
+rg: /usr/share/fa/php/*.js: No such file or directory (os error 2)
+/usr/share/fa/php/is_session_active.php:7: * /fa/environment/isSessionAlive endpoint. It's designed to be used
+/usr/share/fa/php/is_session_active.php:67:    // Validate session by checking with isSessionAlive endpoint
+/usr/share/fa/php/is_session_active.php:70:    $url = "$protocol://$host/fa/environment/isSessionAlive";
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/JSlib1768164240/FireFlowBridge.js | sed -n '1,260p'" in /root succeeded in 0ms:
+     1	
+     2	
+     3	
+     4	
+     5	function ShowMsg(bFromFA, sMsg, sMsgType, iDlgWidth, iDlgHeight, sTitle, sReferer)
+     6	{
+     7		GenerateMsgDialog(true, sMsg, sMsgType, iDlgWidth, iDlgHeight, sTitle);
+     8		var sHref;
+     9		if (bFromFA == 'yes'){
+    10			hRef = "CloseWindow();";
+    11		} else {
+    12			hRef = 'history.go(-1);';
+    13		}
+    14		
+    15		$("#ErrorMsgBlock span.Btn1 a").each(function() {
+    16			$(this).unbind('click');
+    17			$(this).click(function(){ 
+    18				$('#ErrorMsgBlock').dialog('close');
+    19				if (bFromFA == 'yes'){
+    20					CloseWindow();
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/JSlib1768164240/home.js | sed -n '1,260p'" in /root succeeded in 0ms:
+     1	
+     2	
+     3	
+     4	
+     5	if ((typeof g_bIsDevEnv === 'boolean') && g_bIsDevEnv ) {
+     6	    require.config({
+     7	        urlArgs: "bust=" + (new Date()).getTime()
+     8	    });
+     9	}
+    10	
+    11	
+    12	
+    13	var g_sBaseIconsFolder = '/algosec-ui/brands/brands-icons';
+    14	var g_mapBaseIconsFolder = 'themes/'+g_ALGOSEC_THEME+'/images/tree_icons';
+    15	var sLastSelectedItem = null;
+    16	var g_DevicesCheckIsRunning = false;
+    17	var g_sLastUpdateTime = '';
+    18	var g_sLastXMLUpdateTime = '';
+    19	var g_sLastSessionUpdateTime = '';
+    20	var g_isInButtonsAction = false;
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/is_session_active.php | sed -n '1,180p'" in /root succeeded in 0ms:
+     1	#!/usr/bin/env php
+     2	<?php
+     3	/**
+     4	 * Session validation script for Apache RewriteMap prg: provider
+     5	 * 
+     6	 * This script validates if a session is active by checking with the
+     7	 * /fa/environment/isSessionAlive endpoint. It's designed to be used
+     8	 * with Apache's RewriteMap prg: provider.
+     9	 * 
+    10	 * For RewriteMap prg:, Apache passes input via stdin (one line at a time)
+    11	 * and expects output via stdout. The script runs continuously.
+    12	 * 
+    13	 * Input: Cookie header value
+    14	 * Output: "OK" if session is valid, "FAIL" if invalid
+    15	 */
+    16	
+    17	// Disable output buffering
+    18	if (ob_get_level()) {
+    19	    ob_end_clean();
+    20	}
+exec
+/bin/bash -c 'rg -n "getAFASessionInfo|isSessionAlive|FireFlow/api/session|extendSession|CommandsDispatcher|shallow_health_check|deep_health_check|FireFlowAffApi" /usr/share/fa/php/JSlib1768164240' in /root exited 1 in 0ms:
+
+exec
+/bin/bash -c 'rg -n "businessflow|BusinessFlow|aff/api/internal|health_check|FireFlowAffApi|CommandsDispatcher" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php' in /root succeeded in 1ms:
+/usr/share/fa/php/BusinessFlowAPI.php:2:class BusinessFlowAPI {
+/usr/share/fa/php/BusinessFlowAPI.php:5:		return self::callBusinessFlowByGetCall("rest/v1/applications/edit");
+/usr/share/fa/php/BusinessFlowAPI.php:10:		return self::callBusinessFlowByPost("rest/v1/applications/import/flows", array(
+/usr/share/fa/php/BusinessFlowAPI.php:22:			return self::callBusinessFlowByGetCall("rest/v1/logout");
+/usr/share/fa/php/BusinessFlowAPI.php:29:        	return self::callBusinessFlowByGetCall("rest/v1/login", array(), $AlgosecSession , $bfCookieName);
+/usr/share/fa/php/BusinessFlowAPI.php:33:    private static function callBusinessFlowByPost($sUrl, $arrArgs = array())
+/usr/share/fa/php/BusinessFlowAPI.php:43:	        "context" => "BusinessFlow",
+/usr/share/fa/php/BusinessFlowAPI.php:71:        utils::PrintLog("Info", "Connecting to BusinessFlow by Post call on: ".$sBflowURL);
+/usr/share/fa/php/BusinessFlowAPI.php:74:        utils::PrintLog("Debug", "Response from BusinessFlow: " . $responseContent, true);
+/usr/share/fa/php/BusinessFlowAPI.php:80:    private static function callBusinessFlowByGetCall($sUrl, $arrArgs = array(), $AlgosecSession = null, $bfCookieName = null)
+/usr/share/fa/php/BusinessFlowAPI.php:93:		        "context" => "BusinessFlow",
+/usr/share/fa/php/BusinessFlowAPI.php:124:		utils::PrintLog("Info", "Connecting to BusinessFlow by get call on: ".$sBflowURL);
+/usr/share/fa/php/BusinessFlowAPI.php:129:		utils::PrintLog("Debug", "Response from BusinessFlow: " . $responseContent, true);
+/usr/share/fa/php/BusinessFlowAPI.php:143:            if (utils::is_businessflow_licensed() && $tenantId) {
+/usr/share/fa/php/BusinessFlowAPI.php:148:            if (utils::is_businessflow_licensed()) {
+/usr/share/fa/php/BusinessFlowAPI.php:150:                $url = '/BusinessFlow';
+/usr/share/fa/php/JSlib1768164240/home.js:2431:                window.open(window.location.origin + "/BusinessFlow/", '_blank');
+/usr/share/fa/php/SuiteLogout.php:3:include_once("BusinessFlowAPI.php");
+/usr/share/fa/php/SuiteLogout.php:29:	utils::PrintLog("Info", "Going to logout from BusinessFlow session...");
+/usr/share/fa/php/SuiteLogout.php:30:	$res = BusinessFlowAPI::logout();
+codex
+I found the strongest code-level hint in the allowed tree: `SuiteLoginSessionValidation.php` explicitly says BusinessFlow’s own cookie is not available there and that BusinessFlow auth is inferred from AFA plus FireFlow. That matters because it weakens the “BusinessFlow cookie branch” theory for the observed `/FireFlow/api/session` requests.
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '286,320p'" in /root succeeded in 0ms:
+   286				 	</body>
+   287				</html>
+   288			<?PHP
+   289	    }
+   290	
+   291	    function issueBFlowSSO($AlgosecSession)
+   292	    {
+   293	        $bfCookieName = "jsessionid";
+   294	        utils::PrintLog("Info", "In SSO, going to login to a BusinessFlow session...");
+   295	        $responseContent = BusinessFlowAPI::login($AlgosecSession, $bfCookieName);
+   296	        $bfCookieValue = $responseContent[$bfCookieName];
+   297	
+   298	        if (!empty($bfCookieValue)) {
+   299	           utils::PrintLog("Info", "Received cookie from BusinessFlow: $bfCookieValue");
+   300	            setcookie(strtoupper($bfCookieName), $bfCookieValue, NULL, "/BusinessFlow", NULL, 1);
+   301	        } else {
+   302	            utils::PrintLog("Warning", "Failed to set BusinessFlow cookie");
+   303	        }
+   304	    }
+   305	
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/prod_stat.php | sed -n '1,180p'" in /root succeeded in 0ms:
+     1	<?php
+     2	require_once("RequireHeaders.php");
+     3	require_once("AlgosecSession.php");
+     4	header('Content-Type: application/json');
+     5	session_start();
+     6	
+     7	// Impotant to release the lock from the session since there are no more session writes after this action
+     8	session_write_close();
+     9	
+    10	$emptyAlgosecSession = empty($_SESSION['AlgosecSession']);
+    11	$machineSetup = getMachineSetup();
+    12	$isNoAuthUrl = isNoAuthUrl();
+    13	$fireflowAuth = utils::checkFireFlowAuth();
+    14	
+    15	// NoAuth urls don't require any authentication
+    16	if($isNoAuthUrl)
+    17	{
+    18	    utils::PrintLog("Debug", "Allowing No Auth urls without validated session, URL=[".$_SERVER['HTTP_REFERER']."].");
+    19	}
+    20	else
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/BusinessFlowAPI.php | sed -n '1,170p'" in /root succeeded in 0ms:
+     1	<?php
+     2	class BusinessFlowAPI {
+     3		public static function getApplicationList()
+     4		{
+     5			return self::callBusinessFlowByGetCall("rest/v1/applications/edit");
+     6		}
+     7	
+     8		public static function importFlows($sBflowRulesCSV)
+     9		{
+    10			return self::callBusinessFlowByPost("rest/v1/applications/import/flows", array(
+    11			 	"rules" => $sBflowRulesCSV
+    12			));
+    13		}
+    14	
+    15		public static function logout()
+    16		{
+    17			if (empty($_SESSION) || empty($_SESSION['AlgosecSession'])) {
+    18				return false;
+    19			}
+    20			$AlgosecSession = $_SESSION['AlgosecSession'];
+exec
+/bin/bash -c "ls -1 /var/log/httpd | sed -n '1,120p'" in /root succeeded in 0ms:
+access_log
+error_log
+ssl_access_log
+ssl_access_log-20260222.gz
+ssl_access_log-20260227.gz
+ssl_access_log-20260304.gz
+ssl_access_log-20260310.gz
+ssl_access_log-20260315.gz
+ssl_access_log-20260320.gz
+ssl_access_log-20260325
+ssl_error_log
+ssl_request_log
+ssl_request_log-20260228.gz
+ssl_request_log-20260304.gz
+ssl_request_log-20260309.gz
+ssl_request_log-20260313.gz
+ssl_request_log-20260317.gz
+ssl_request_log-20260321.gz
+ssl_request_log-20260325
+exec
+/bin/bash -c "rg -n \"getAFASessionInfo -  result|SuiteLoginSessionValidation|FireFlow CheckAuthentication response object|User '.*' \\(domain|In SSO, going to login to a BusinessFlow session|Received cookie from BusinessFlow|FireFlow session validated successfully\" /var/log/httpd /usr/share/fireflow/var/log" in /root succeeded in 0ms:
+/var/log/httpd/ssl_error_log:148:[Mon Nov 17 21:54:52.733121 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Array to string conversion in /usr/share/fa/php/commands/keycloak.cmd.php on line 19, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:149:[Mon Nov 17 21:54:52.733256 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Undefined index: cmd in /usr/share/fa/php/commands/keycloak.cmd.php on line 23, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:150:[Mon Nov 17 21:54:52.733264 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Undefined index: cmd in /usr/share/fa/php/commands/keycloak.cmd.php on line 37, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:151:[Mon Nov 17 21:54:52.733268 2025] [php7:notice] [pid 13062] [client 10.167.2.40:58520] PHP Notice:  Undefined index: cmd in /usr/share/fa/php/commands/keycloak.cmd.php on line 37, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:40327:[Mon Feb 09 10:21:39.988915 2026] [proxy_http:error] [pid 7918] [client 172.27.185.221:63514] AH01114: HTTP: failed to make connection to backend: localhost, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:40328:[Mon Feb 09 10:21:39.988938 2026] [proxy_http:error] [pid 7125] [client 172.27.185.221:63499] AH01114: HTTP: failed to make connection to backend: localhost, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_error_log:40330:[Mon Feb 09 10:21:40.225025 2026] [proxy_http:error] [pid 7100] [client 172.27.185.221:63515] AH01114: HTTP: failed to make connection to backend: localhost, referer: https://10.167.2.150/algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php
+/var/log/httpd/ssl_request_log:16738:[25/Mar/2026:12:56:01 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /AFA/php/SuiteLoginSessionValidation.php HTTP/1.1" -
+/var/log/httpd/ssl_request_log:16739:[25/Mar/2026:12:56:01 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /AFA/php/SuiteLoginSessionValidation.php HTTP/1.1" -
+/var/log/httpd/ssl_request_log:16747:[25/Mar/2026:12:56:19 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php HTTP/1.1" 100025
+/var/log/httpd/ssl_request_log:16748:[25/Mar/2026:12:56:19 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php HTTP/1.1" 100025
+/var/log/httpd/ssl_request_log:16750:[25/Mar/2026:12:56:19 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /algosec-ui/login?last_url=%2FAFA%2Fphp%2FSuiteLoginSessionValidation.php HTTP/1.1" 100025
+/var/log/httpd/ssl_request_log:21496:[25/Mar/2026:15:39:16 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" -
+/var/log/httpd/ssl_request_log:21796:[25/Mar/2026:15:48:10 -0400] 172.27.144.75 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 65
+/var/log/httpd/ssl_request_log:21841:[25/Mar/2026:15:48:25 -0400] 172.27.144.75 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" -
+/var/log/httpd/ssl_request_log:22104:[25/Mar/2026:15:51:53 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 65
+/var/log/httpd/ssl_request_log:22143:[25/Mar/2026:15:52:05 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 65
+/var/log/httpd/ssl_request_log:22183:[25/Mar/2026:15:52:35 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 65
+/var/log/httpd/ssl_request_log:22228:[25/Mar/2026:15:52:49 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" -
+/var/log/httpd/ssl_request_log:22933:[25/Mar/2026:16:07:07 -0400] 127.0.0.1 TLSv1.3 TLS_AES_256_GCM_SHA384 "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 65
+codex
+I have enough to write the delegated output now: a short evidence-backed conclusion, a compact timeline artifact, and the command log. I’m keeping mutations confined to the bundle root and leaving `intentional_mutations` empty.
+file update
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+Relevant source excerpts
+========================
+
+1. /usr/share/fa/php/SuiteLoginSessionValidation.php
+
+- Lines 16-21 state that BusinessFlow's cookie is not available in this file because its path is `/BusinessFlow`, and that validating AFA plus FireFlow is considered sufficient.
+
+2. /usr/share/fa/php/ci/application/controllers/Environment.php
+
+- `getAFASessionInfo()` returns:
+  - `faSession`
+  - `faDomain`
+  - `phpSession`
+  - `isAdmin`
+  - `username`
+  - `authenticated`
+
+3. /usr/share/fa/php/ci/application/libraries/Algosec.php
+
+- Requests to `/fa/environment/getAFASessionInfo` are treated as read-only session requests.
+
+4. /usr/share/fa/php/utils.php
+
+- `getFireflowCookie()` extracts only `AFF_COOKIE`.
+- `checkFireFlowAuth()` validates FireFlow by calling `/FireFlow/SelfService/CheckAuthentication/?login=1` with the FireFlow cookie.
+
+5. /usr/share/fa/php/SSOLogin.php
+
+- `issueBFlowSSO()` sets the BusinessFlow cookie on path `/BusinessFlow`.
+- Separate SSO logic also supports setting FireFlow and BusinessFlow cookies, but this is an explicit SSO path, not the repeating poll pattern seen in the March 25 access logs.
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+## Summary
+
+Observed evidence does not support a distinct BusinessFlow cookie-driven handoff as the initiator of `GET /FireFlow/api/session`.
+
+The strongest correlation is a shared suite polling path on localhost:
+
+- `POST /fa/environment/getAFASessionInfo`
+- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
+- `GET /FireFlow/api/session`
+- repeated `POST /afa/php/ws.php`
+
+This sequence appears in the same second on March 25, 2026 at `03:00:43-03:00:44`, `03:15:43-03:15:44`, and other repeating windows in `/var/log/httpd/ssl_access_log-20260325`.
+
+## Key findings
+
+1. `SuiteLoginSessionValidation.php` explicitly cannot read the BusinessFlow cookie and intentionally validates only AFA and FireFlow state.
+   Source: `/usr/share/fa/php/SuiteLoginSessionValidation.php`
+
+2. `getAFASessionInfo` is a read-only AFA session endpoint that returns `faSession`, `faDomain`, `phpSession`, `username`, and `authenticated`.
+   Source: `/usr/share/fa/php/ci/application/controllers/Environment.php`
+
+3. FireFlow validation on the AFA side is based on the FireFlow cookie alone via `checkFireFlowAuth()`, not on a BusinessFlow cookie branch.
+   Source: `/usr/share/fa/php/utils.php`
+
+4. BusinessFlow SSO does exist, but it is only visible in explicit SSO code paths where AFA sets a `/BusinessFlow` cookie.
+   Source: `/usr/share/fa/php/SSOLogin.php`, `/usr/share/fa/php/BusinessFlowAPI.php`
+
+5. The repeating access-log sequence around `/FireFlow/api/session` also includes `GET /BusinessFlow/shallow_health_check` and `GET /aff/api/internal/noauth/health/*`, which looks like appliance health/UI polling rather than a one-time BusinessFlow-auth redirect.
+
+## Assessment
+
+Most likely immediate caller for the observed AFF session checks is the shared suite UI/bridge polling loop, not a BusinessFlow-only cookie branch.
+
+BusinessFlow is still present in the same windows via health checks, but the allowed-source evidence here does not isolate a BusinessFlow-side entrypoint that directly triggers `/FireFlow/api/session` before the shared bridge/poller does.
+
+## Limits
+
+- The baseline summary file referenced by the request was not present at the stated path.
+- I did not find a readable local source file in the allowed PHP tree for `FireFlowAffApi/NoAuth/CommandsDispatcher`.
+- I did not find per-request cookie dumps in the allowed logs, so the initiator claim is necessarily based on timing and local-source behavior, not raw cookie capture.
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
+  "task_id": "trace_businessflow_aff_entrypoint_v1",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Observed same-window evidence ties /FireFlow/api/session most closely to the shared suite localhost bridge/polling path around getAFASessionInfo, FireFlowAffApi/NoAuth/CommandsDispatcher, and ws.php calls. Allowed-source evidence did not isolate a distinct BusinessFlow-cookie branch as the direct initiator before FireFlow serves the AFF session.",
+  "returned_artifact_paths": [
+    "artifacts/correlation-timeline.txt",
+    "artifacts/source-excerpts.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If higher-confidence attribution is needed, inspect FireFlow-side source or request-level headers for FireFlowAffApi/NoAuth/CommandsDispatcher outside this observe-only PHP/log slice.",
+    "Capture a targeted same-window trace around SuiteLoginSessionValidation.php and FireFlowAffApi requests to distinguish shared suite polling from explicit post-login redirect behavior.",
+    "Restore or locate the missing baseline run summary if operator context from the parent run is required."
+  ]
+}
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+BusinessFlow/AFF correlation timeline
+====================================
+
+Window: 2026-03-25 03:15:05 through 03:15:44 -0400
+Source: /var/log/httpd/ssl_access_log-20260325
+
+03:15:05  GET  /fa/environment/isSessionAlive
+03:15:05  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
+03:15:05  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
+03:15:05  POST /fa/environment/getAFASessionInfo
+
+03:15:10  GET  /fa/environment/isSessionAlive
+03:15:10  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
+03:15:10  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
+03:15:10  POST /fa/environment/getAFASessionInfo
+
+03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
+03:15:23  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
+03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
+03:15:23  POST /FireFlow/api/session/extendSession?sessionId=574749ce7b6c9a05c430d3e81d7df85e&isFullSessionExtend=false
+03:15:23  GET  /aff/api/internal/noauth/health/shallow
+03:15:23  GET  /BusinessFlow/shallow_health_check
+
+03:15:43  GET  /
+03:15:43  POST /afa/php/ws.php
+03:15:43  POST /afa/php/ws.php
+03:15:43  POST /afa/php/ws.php
+03:15:43  POST /afa/php/ws.php
+03:15:43  GET  /
+03:15:43  GET  /BusinessFlow/shallow_health_check
+03:15:43  GET  /aff/api/internal/noauth/health/shallow
+03:15:43  GET  /aff/api/internal/noauth/health/deep
+03:15:43  POST /fa/environment/getAFASessionInfo
+03:15:43  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
+03:15:43  GET  /FireFlow/api/session
+03:15:43  GET  /BusinessFlow/deep_health_check
+03:15:44  POST /fa/environment/getAFASessionInfo
+03:15:44  POST /afa/external//session/extend?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0
+03:15:44  POST /afa/php/ws.php
+03:15:44  POST /afa/php/ws.php
+03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
+03:15:44  GET  /FireFlow/api/session
+03:15:44  POST /afa/php/ws.php
+03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
+03:15:44  GET  /FireFlow/api/session
+
+Interpretation
+--------------
+
+- `/fa/environment/getAFASessionInfo` is part of the same local poll/bridge window as `/FireFlow/api/session`.
+- BusinessFlow appears in the same window through health checks, not through a unique pre-session redirect in the observed evidence.
+- The repeated `CommandsDispatcher` calls immediately before the REST session checks are the closest same-window initiator visible in logs.
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+{"cmd":"pwd","workdir":"/root","login":false}
+{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1","workdir":"/root","login":false}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-request.json","workdir":"/root","login":false}
+{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts","workdir":"/root","login":false}
+{"cmd":"rg -n \"(FireFlow/api/session|getAFASessionInfo|bridge/refresh|SSOLogin|SuiteLoginSessionValidation|AlgosecSessionManager|ExtUtils)\" /usr/share/fa/php","workdir":"/root","login":false}
+{"cmd":"rg -n \"(/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh)\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
+{"cmd":"cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '200,280p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/SuiteLoginSessionValidation.php | sed -n '1,260p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '1,260p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/ci/application/controllers/Environment.php | sed -n '1,180p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/ci/application/libraries/Algosec.php | sed -n '1,180p'","workdir":"/root","login":false}
+{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /usr/share/fireflow/var/log/fireflow.log*","workdir":"/root","login":false}
+{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /var/log/httpd/*20260325*","workdir":"/root","login":false}
+{"cmd":"rg -n \"function checkFireFlowAuth|getFireflowCookie|GetFireFlowAddress|AFF_COOKIE|FireFlow\" /usr/share/fa/php/utils.php /usr/share/fa/php/RequireHeaders.php /usr/share/fa/php/*.php","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/utils.php | sed -n '3180,3245p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '60,190p'","workdir":"/root","login":false}
+{"cmd":"rg -n \"03:00:(00|02|05|11|15|23|43|44)|03:02:(23|24|40|59)|03:08:(13|14|38)|03:15:(05|10|23|43|44)\" /var/log/httpd/ssl_access_log-20260325","workdir":"/root","login":false}
+{"cmd":"rg -n \"FireFlowAffApi|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|/afa/php/ws.php|getAFASessionInfo|FireFlow/api/session\" /usr/share/fa/php","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '150,260p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/inc/ws.inc.php | sed -n '1,180p'","workdir":"/root","login":false}
+{"cmd":"rg -n \"getAFASessionInfo|FireFlow/api/session|extendSession|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|isSessionAlive\" /usr/share/fa/php/JSlib1768164240","workdir":"/root","login":false}
+{"cmd":"find /usr/share/fa/php -maxdepth 2 -type f \\( -name 'FireFlowBridge.js' -o -name 'home.js' -o -name '*.js.php' \\) | sort | sed -n '1,120p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/FireFlowBridge.js | sed -n '1,260p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/home.js | sed -n '1,260p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/is_session_active.php | sed -n '1,180p'","workdir":"/root","login":false}
+{"cmd":"rg -n \"businessflow|BusinessFlow|aff/api/internal|health_check|FireFlowAffApi|CommandsDispatcher\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/prod_stat.php | sed -n '1,180p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '286,320p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/BusinessFlowAPI.php | sed -n '1,170p'","workdir":"/root","login":false}
+{"cmd":"rg -n \"getAFASessionInfo -  result|SuiteLoginSessionValidation|FireFlow CheckAuthentication response object|User '.*' \\(domain|In SSO, going to login to a BusinessFlow session|Received cookie from BusinessFlow|FireFlow session validated successfully\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
+{"cmd":"ls -1 /var/log/httpd | sed -n '1,120p'","workdir":"/root","login":false}
+apply_patch(auto_approved=true) exited 0 in 121ms:
+Success. Updated the following files:
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+A /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c7ce65122f12ee3640c46c29d78581be23e90ab
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+@@ -0,0 +1,52 @@
++BusinessFlow/AFF correlation timeline
++====================================
++
++Window: 2026-03-25 03:15:05 through 03:15:44 -0400
++Source: /var/log/httpd/ssl_access_log-20260325
++
++03:15:05  GET  /fa/environment/isSessionAlive
++03:15:05  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:05  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:05  POST /fa/environment/getAFASessionInfo
++
++03:15:10  GET  /fa/environment/isSessionAlive
++03:15:10  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:10  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:10  POST /fa/environment/getAFASessionInfo
++
++03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:23  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:23  POST /FireFlow/api/session/extendSession?sessionId=574749ce7b6c9a05c430d3e81d7df85e&isFullSessionExtend=false
++03:15:23  GET  /aff/api/internal/noauth/health/shallow
++03:15:23  GET  /BusinessFlow/shallow_health_check
++
++03:15:43  GET  /
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  GET  /
++03:15:43  GET  /BusinessFlow/shallow_health_check
++03:15:43  GET  /aff/api/internal/noauth/health/shallow
++03:15:43  GET  /aff/api/internal/noauth/health/deep
++03:15:43  POST /fa/environment/getAFASessionInfo
++03:15:43  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:43  GET  /FireFlow/api/session
++03:15:43  GET  /BusinessFlow/deep_health_check
++03:15:44  POST /fa/environment/getAFASessionInfo
++03:15:44  POST /afa/external//session/extend?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:44  GET  /FireFlow/api/session
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:44  GET  /FireFlow/api/session
++
++Interpretation
++--------------
++
++- `/fa/environment/getAFASessionInfo` is part of the same local poll/bridge window as `/FireFlow/api/session`.
++- BusinessFlow appears in the same window through health checks, not through a unique pre-session redirect in the observed evidence.
++- The repeated `CommandsDispatcher` calls immediately before the REST session checks are the closest same-window initiator visible in logs.
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..2cd3fa03bfb2febc3eb7d5d885da1c6dc2a215ee
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+@@ -0,0 +1,30 @@
++Relevant source excerpts
++========================
++
++1. /usr/share/fa/php/SuiteLoginSessionValidation.php
++
++- Lines 16-21 state that BusinessFlow's cookie is not available in this file because its path is `/BusinessFlow`, and that validating AFA plus FireFlow is considered sufficient.
++
++2. /usr/share/fa/php/ci/application/controllers/Environment.php
++
++- `getAFASessionInfo()` returns:
++  - `faSession`
++  - `faDomain`
++  - `phpSession`
++  - `isAdmin`
++  - `username`
++  - `authenticated`
++
++3. /usr/share/fa/php/ci/application/libraries/Algosec.php
++
++- Requests to `/fa/environment/getAFASessionInfo` are treated as read-only session requests.
++
++4. /usr/share/fa/php/utils.php
++
++- `getFireflowCookie()` extracts only `AFF_COOKIE`.
++- `checkFireFlowAuth()` validates FireFlow by calling `/FireFlow/SelfService/CheckAuthentication/?login=1` with the FireFlow cookie.
++
++5. /usr/share/fa/php/SSOLogin.php
++
++- `issueBFlowSSO()` sets the BusinessFlow cookie on path `/BusinessFlow`.
++- Separate SSO logic also supports setting FireFlow and BusinessFlow cookies, but this is an explicit SSO path, not the repeating poll pattern seen in the March 25 access logs.
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..5fbb0ee0f5dc2c15e0d8f49aa3ab60d56690346b
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+@@ -0,0 +1,32 @@
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts","workdir":"/root","login":false}
++{"cmd":"rg -n \"(FireFlow/api/session|getAFASessionInfo|bridge/refresh|SSOLogin|SuiteLoginSessionValidation|AlgosecSessionManager|ExtUtils)\" /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh)\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '200,280p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SuiteLoginSessionValidation.php | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/ci/application/controllers/Environment.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/ci/application/libraries/Algosec.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /usr/share/fireflow/var/log/fireflow.log*","workdir":"/root","login":false}
++{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /var/log/httpd/*20260325*","workdir":"/root","login":false}
++{"cmd":"rg -n \"function checkFireFlowAuth|getFireflowCookie|GetFireFlowAddress|AFF_COOKIE|FireFlow\" /usr/share/fa/php/utils.php /usr/share/fa/php/RequireHeaders.php /usr/share/fa/php/*.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/utils.php | sed -n '3180,3245p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '60,190p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"03:00:(00|02|05|11|15|23|43|44)|03:02:(23|24|40|59)|03:08:(13|14|38)|03:15:(05|10|23|43|44)\" /var/log/httpd/ssl_access_log-20260325","workdir":"/root","login":false}
++{"cmd":"rg -n \"FireFlowAffApi|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|/afa/php/ws.php|getAFASessionInfo|FireFlow/api/session\" /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '150,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/ws.inc.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"getAFASessionInfo|FireFlow/api/session|extendSession|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|isSessionAlive\" /usr/share/fa/php/JSlib1768164240","workdir":"/root","login":false}
++{"cmd":"find /usr/share/fa/php -maxdepth 2 -type f \\( -name 'FireFlowBridge.js' -o -name 'home.js' -o -name '*.js.php' \\) | sort | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/FireFlowBridge.js | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/home.js | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/is_session_active.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"businessflow|BusinessFlow|aff/api/internal|health_check|FireFlowAffApi|CommandsDispatcher\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/prod_stat.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '286,320p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/BusinessFlowAPI.php | sed -n '1,170p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"getAFASessionInfo -  result|SuiteLoginSessionValidation|FireFlow CheckAuthentication response object|User '.*' \\(domain|In SSO, going to login to a BusinessFlow session|Received cookie from BusinessFlow|FireFlow session validated successfully\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd | sed -n '1,120p'","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..e40685ddbbefb5a4b7544efd418e0e562c0507e0
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+@@ -0,0 +1,18 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
++  "task_id": "trace_businessflow_aff_entrypoint_v1",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Observed same-window evidence ties /FireFlow/api/session most closely to the shared suite localhost bridge/polling path around getAFASessionInfo, FireFlowAffApi/NoAuth/CommandsDispatcher, and ws.php calls. Allowed-source evidence did not isolate a distinct BusinessFlow-cookie branch as the direct initiator before FireFlow serves the AFF session.",
++  "returned_artifact_paths": [
++    "artifacts/correlation-timeline.txt",
++    "artifacts/source-excerpts.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If higher-confidence attribution is needed, inspect FireFlow-side source or request-level headers for FireFlowAffApi/NoAuth/CommandsDispatcher outside this observe-only PHP/log slice.",
++    "Capture a targeted same-window trace around SuiteLoginSessionValidation.php and FireFlowAffApi requests to distinguish shared suite polling from explicit post-login redirect behavior.",
++    "Restore or locate the missing baseline run summary if operator context from the parent run is required."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..55833ce912ef493d21e46dadf1bd782c14adec7e
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+@@ -0,0 +1,40 @@
++## Summary
++
++Observed evidence does not support a distinct BusinessFlow cookie-driven handoff as the initiator of `GET /FireFlow/api/session`.
++
++The strongest correlation is a shared suite polling path on localhost:
++
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- repeated `POST /afa/php/ws.php`
++
++This sequence appears in the same second on March 25, 2026 at `03:00:43-03:00:44`, `03:15:43-03:15:44`, and other repeating windows in `/var/log/httpd/ssl_access_log-20260325`.
++
++## Key findings
++
++1. `SuiteLoginSessionValidation.php` explicitly cannot read the BusinessFlow cookie and intentionally validates only AFA and FireFlow state.
++   Source: `/usr/share/fa/php/SuiteLoginSessionValidation.php`
++
++2. `getAFASessionInfo` is a read-only AFA session endpoint that returns `faSession`, `faDomain`, `phpSession`, `username`, and `authenticated`.
++   Source: `/usr/share/fa/php/ci/application/controllers/Environment.php`
++
++3. FireFlow validation on the AFA side is based on the FireFlow cookie alone via `checkFireFlowAuth()`, not on a BusinessFlow cookie branch.
++   Source: `/usr/share/fa/php/utils.php`
++
++4. BusinessFlow SSO does exist, but it is only visible in explicit SSO code paths where AFA sets a `/BusinessFlow` cookie.
++   Source: `/usr/share/fa/php/SSOLogin.php`, `/usr/share/fa/php/BusinessFlowAPI.php`
++
++5. The repeating access-log sequence around `/FireFlow/api/session` also includes `GET /BusinessFlow/shallow_health_check` and `GET /aff/api/internal/noauth/health/*`, which looks like appliance health/UI polling rather than a one-time BusinessFlow-auth redirect.
++
++## Assessment
++
++Most likely immediate caller for the observed AFF session checks is the shared suite UI/bridge polling loop, not a BusinessFlow-only cookie branch.
++
++BusinessFlow is still present in the same windows via health checks, but the allowed-source evidence here does not isolate a BusinessFlow-side entrypoint that directly triggers `/FireFlow/api/session` before the shared bridge/poller does.
++
++## Limits
++
++- The baseline summary file referenced by the request was not present at the stated path.
++- I did not find a readable local source file in the allowed PHP tree for `FireFlowAffApi/NoAuth/CommandsDispatcher`.
++- I did not find per-request cookie dumps in the allowed logs, so the initiator claim is necessarily based on timing and local-source behavior, not raw cookie capture.
+
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c7ce65122f12ee3640c46c29d78581be23e90ab
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+@@ -0,0 +1,52 @@
++BusinessFlow/AFF correlation timeline
++====================================
++
++Window: 2026-03-25 03:15:05 through 03:15:44 -0400
++Source: /var/log/httpd/ssl_access_log-20260325
++
++03:15:05  GET  /fa/environment/isSessionAlive
++03:15:05  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:05  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:05  POST /fa/environment/getAFASessionInfo
++
++03:15:10  GET  /fa/environment/isSessionAlive
++03:15:10  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:10  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:10  POST /fa/environment/getAFASessionInfo
++
++03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:23  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:23  POST /FireFlow/api/session/extendSession?sessionId=574749ce7b6c9a05c430d3e81d7df85e&isFullSessionExtend=false
++03:15:23  GET  /aff/api/internal/noauth/health/shallow
++03:15:23  GET  /BusinessFlow/shallow_health_check
++
++03:15:43  GET  /
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  GET  /
++03:15:43  GET  /BusinessFlow/shallow_health_check
++03:15:43  GET  /aff/api/internal/noauth/health/shallow
++03:15:43  GET  /aff/api/internal/noauth/health/deep
++03:15:43  POST /fa/environment/getAFASessionInfo
++03:15:43  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:43  GET  /FireFlow/api/session
++03:15:43  GET  /BusinessFlow/deep_health_check
++03:15:44  POST /fa/environment/getAFASessionInfo
++03:15:44  POST /afa/external//session/extend?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:44  GET  /FireFlow/api/session
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:44  GET  /FireFlow/api/session
++
++Interpretation
++--------------
++
++- `/fa/environment/getAFASessionInfo` is part of the same local poll/bridge window as `/FireFlow/api/session`.
++- BusinessFlow appears in the same window through health checks, not through a unique pre-session redirect in the observed evidence.
++- The repeated `CommandsDispatcher` calls immediately before the REST session checks are the closest same-window initiator visible in logs.
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..2cd3fa03bfb2febc3eb7d5d885da1c6dc2a215ee
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+@@ -0,0 +1,30 @@
++Relevant source excerpts
++========================
++
++1. /usr/share/fa/php/SuiteLoginSessionValidation.php
++
++- Lines 16-21 state that BusinessFlow's cookie is not available in this file because its path is `/BusinessFlow`, and that validating AFA plus FireFlow is considered sufficient.
++
++2. /usr/share/fa/php/ci/application/controllers/Environment.php
++
++- `getAFASessionInfo()` returns:
++  - `faSession`
++  - `faDomain`
++  - `phpSession`
++  - `isAdmin`
++  - `username`
++  - `authenticated`
++
++3. /usr/share/fa/php/ci/application/libraries/Algosec.php
++
++- Requests to `/fa/environment/getAFASessionInfo` are treated as read-only session requests.
++
++4. /usr/share/fa/php/utils.php
++
++- `getFireflowCookie()` extracts only `AFF_COOKIE`.
++- `checkFireFlowAuth()` validates FireFlow by calling `/FireFlow/SelfService/CheckAuthentication/?login=1` with the FireFlow cookie.
++
++5. /usr/share/fa/php/SSOLogin.php
++
++- `issueBFlowSSO()` sets the BusinessFlow cookie on path `/BusinessFlow`.
++- Separate SSO logic also supports setting FireFlow and BusinessFlow cookies, but this is an explicit SSO path, not the repeating poll pattern seen in the March 25 access logs.
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..5fbb0ee0f5dc2c15e0d8f49aa3ab60d56690346b
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+@@ -0,0 +1,32 @@
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts","workdir":"/root","login":false}
++{"cmd":"rg -n \"(FireFlow/api/session|getAFASessionInfo|bridge/refresh|SSOLogin|SuiteLoginSessionValidation|AlgosecSessionManager|ExtUtils)\" /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh)\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '200,280p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SuiteLoginSessionValidation.php | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/ci/application/controllers/Environment.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/ci/application/libraries/Algosec.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /usr/share/fireflow/var/log/fireflow.log*","workdir":"/root","login":false}
++{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /var/log/httpd/*20260325*","workdir":"/root","login":false}
++{"cmd":"rg -n \"function checkFireFlowAuth|getFireflowCookie|GetFireFlowAddress|AFF_COOKIE|FireFlow\" /usr/share/fa/php/utils.php /usr/share/fa/php/RequireHeaders.php /usr/share/fa/php/*.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/utils.php | sed -n '3180,3245p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '60,190p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"03:00:(00|02|05|11|15|23|43|44)|03:02:(23|24|40|59)|03:08:(13|14|38)|03:15:(05|10|23|43|44)\" /var/log/httpd/ssl_access_log-20260325","workdir":"/root","login":false}
++{"cmd":"rg -n \"FireFlowAffApi|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|/afa/php/ws.php|getAFASessionInfo|FireFlow/api/session\" /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '150,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/ws.inc.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"getAFASessionInfo|FireFlow/api/session|extendSession|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|isSessionAlive\" /usr/share/fa/php/JSlib1768164240","workdir":"/root","login":false}
++{"cmd":"find /usr/share/fa/php -maxdepth 2 -type f \\( -name 'FireFlowBridge.js' -o -name 'home.js' -o -name '*.js.php' \\) | sort | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/FireFlowBridge.js | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/home.js | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/is_session_active.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"businessflow|BusinessFlow|aff/api/internal|health_check|FireFlowAffApi|CommandsDispatcher\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/prod_stat.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '286,320p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/BusinessFlowAPI.php | sed -n '1,170p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"getAFASessionInfo -  result|SuiteLoginSessionValidation|FireFlow CheckAuthentication response object|User '.*' \\(domain|In SSO, going to login to a BusinessFlow session|Received cookie from BusinessFlow|FireFlow session validated successfully\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd | sed -n '1,120p'","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..e40685ddbbefb5a4b7544efd418e0e562c0507e0
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+@@ -0,0 +1,18 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
++  "task_id": "trace_businessflow_aff_entrypoint_v1",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Observed same-window evidence ties /FireFlow/api/session most closely to the shared suite localhost bridge/polling path around getAFASessionInfo, FireFlowAffApi/NoAuth/CommandsDispatcher, and ws.php calls. Allowed-source evidence did not isolate a distinct BusinessFlow-cookie branch as the direct initiator before FireFlow serves the AFF session.",
++  "returned_artifact_paths": [
++    "artifacts/correlation-timeline.txt",
++    "artifacts/source-excerpts.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If higher-confidence attribution is needed, inspect FireFlow-side source or request-level headers for FireFlowAffApi/NoAuth/CommandsDispatcher outside this observe-only PHP/log slice.",
++    "Capture a targeted same-window trace around SuiteLoginSessionValidation.php and FireFlowAffApi requests to distinguish shared suite polling from explicit post-login redirect behavior.",
++    "Restore or locate the missing baseline run summary if operator context from the parent run is required."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..55833ce912ef493d21e46dadf1bd782c14adec7e
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+@@ -0,0 +1,40 @@
++## Summary
++
++Observed evidence does not support a distinct BusinessFlow cookie-driven handoff as the initiator of `GET /FireFlow/api/session`.
++
++The strongest correlation is a shared suite polling path on localhost:
++
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- repeated `POST /afa/php/ws.php`
++
++This sequence appears in the same second on March 25, 2026 at `03:00:43-03:00:44`, `03:15:43-03:15:44`, and other repeating windows in `/var/log/httpd/ssl_access_log-20260325`.
++
++## Key findings
++
++1. `SuiteLoginSessionValidation.php` explicitly cannot read the BusinessFlow cookie and intentionally validates only AFA and FireFlow state.
++   Source: `/usr/share/fa/php/SuiteLoginSessionValidation.php`
++
++2. `getAFASessionInfo` is a read-only AFA session endpoint that returns `faSession`, `faDomain`, `phpSession`, `username`, and `authenticated`.
++   Source: `/usr/share/fa/php/ci/application/controllers/Environment.php`
++
++3. FireFlow validation on the AFA side is based on the FireFlow cookie alone via `checkFireFlowAuth()`, not on a BusinessFlow cookie branch.
++   Source: `/usr/share/fa/php/utils.php`
++
++4. BusinessFlow SSO does exist, but it is only visible in explicit SSO code paths where AFA sets a `/BusinessFlow` cookie.
++   Source: `/usr/share/fa/php/SSOLogin.php`, `/usr/share/fa/php/BusinessFlowAPI.php`
++
++5. The repeating access-log sequence around `/FireFlow/api/session` also includes `GET /BusinessFlow/shallow_health_check` and `GET /aff/api/internal/noauth/health/*`, which looks like appliance health/UI polling rather than a one-time BusinessFlow-auth redirect.
++
++## Assessment
++
++Most likely immediate caller for the observed AFF session checks is the shared suite UI/bridge polling loop, not a BusinessFlow-only cookie branch.
++
++BusinessFlow is still present in the same windows via health checks, but the allowed-source evidence here does not isolate a BusinessFlow-side entrypoint that directly triggers `/FireFlow/api/session` before the shared bridge/poller does.
++
++## Limits
++
++- The baseline summary file referenced by the request was not present at the stated path.
++- I did not find a readable local source file in the allowed PHP tree for `FireFlowAffApi/NoAuth/CommandsDispatcher`.
++- I did not find per-request cookie dumps in the allowed logs, so the initiator claim is necessarily based on timing and local-source behavior, not raw cookie capture.
+
+exec
+/bin/bash -c 'ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1 /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts' in /root succeeded in 0ms:
+/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1:
+total 164
+drwxr-xr-x  3 root root   4096 Mar 27 06:41 .
+drwxr-xr-x 21 root root   4096 Mar 27 06:39 ..
+drwxr-xr-x  2 root root     65 Mar 27 06:41 artifacts
+-rw-r--r--  1 root root 125865 Mar 27 06:41 codex-launch.log
+-rw-r--r--  1 root root   1870 Mar 27 06:38 codex-prompt.txt
+-rw-r--r--  1 root root   4647 Mar 27 06:41 commands.jsonl
+-rw-r--r--  1 root root   1665 Mar 27 06:38 delegated-task-request.json
+-rw-r--r--  1 root root   1278 Mar 27 06:41 delegated-task-result.json
+-rw-r--r--  1 root root   2450 Mar 27 06:41 findings.md
+-rwxr-xr-x  1 root root    759 Mar 27 06:38 run-delegated-codex.sh
+
+/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts:
+total 12
+drwxr-xr-x 2 root root   65 Mar 27 06:41 .
+drwxr-xr-x 3 root root 4096 Mar 27 06:41 ..
+-rw-r--r-- 1 root root 2437 Mar 27 06:41 correlation-timeline.txt
+-rw-r--r-- 1 root root 1137 Mar 27 06:41 source-excerpts.txt
+exec
+/bin/bash -c 'cat /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json' in /root succeeded in 0ms:
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
+  "task_id": "trace_businessflow_aff_entrypoint_v1",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Observed same-window evidence ties /FireFlow/api/session most closely to the shared suite localhost bridge/polling path around getAFASessionInfo, FireFlowAffApi/NoAuth/CommandsDispatcher, and ws.php calls. Allowed-source evidence did not isolate a distinct BusinessFlow-cookie branch as the direct initiator before FireFlow serves the AFF session.",
+  "returned_artifact_paths": [
+    "artifacts/correlation-timeline.txt",
+    "artifacts/source-excerpts.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If higher-confidence attribution is needed, inspect FireFlow-side source or request-level headers for FireFlowAffApi/NoAuth/CommandsDispatcher outside this observe-only PHP/log slice.",
+    "Capture a targeted same-window trace around SuiteLoginSessionValidation.php and FireFlowAffApi requests to distinguish shared suite polling from explicit post-login redirect behavior.",
+    "Restore or locate the missing baseline run summary if operator context from the parent run is required."
+  ]
+}
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c7ce65122f12ee3640c46c29d78581be23e90ab
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+@@ -0,0 +1,52 @@
++BusinessFlow/AFF correlation timeline
++====================================
++
++Window: 2026-03-25 03:15:05 through 03:15:44 -0400
++Source: /var/log/httpd/ssl_access_log-20260325
++
++03:15:05  GET  /fa/environment/isSessionAlive
++03:15:05  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:05  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:05  POST /fa/environment/getAFASessionInfo
++
++03:15:10  GET  /fa/environment/isSessionAlive
++03:15:10  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:10  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:10  POST /fa/environment/getAFASessionInfo
++
++03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:23  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:23  POST /FireFlow/api/session/extendSession?sessionId=574749ce7b6c9a05c430d3e81d7df85e&isFullSessionExtend=false
++03:15:23  GET  /aff/api/internal/noauth/health/shallow
++03:15:23  GET  /BusinessFlow/shallow_health_check
++
++03:15:43  GET  /
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  GET  /
++03:15:43  GET  /BusinessFlow/shallow_health_check
++03:15:43  GET  /aff/api/internal/noauth/health/shallow
++03:15:43  GET  /aff/api/internal/noauth/health/deep
++03:15:43  POST /fa/environment/getAFASessionInfo
++03:15:43  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:43  GET  /FireFlow/api/session
++03:15:43  GET  /BusinessFlow/deep_health_check
++03:15:44  POST /fa/environment/getAFASessionInfo
++03:15:44  POST /afa/external//session/extend?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:44  GET  /FireFlow/api/session
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:44  GET  /FireFlow/api/session
++
++Interpretation
++--------------
++
++- `/fa/environment/getAFASessionInfo` is part of the same local poll/bridge window as `/FireFlow/api/session`.
++- BusinessFlow appears in the same window through health checks, not through a unique pre-session redirect in the observed evidence.
++- The repeated `CommandsDispatcher` calls immediately before the REST session checks are the closest same-window initiator visible in logs.
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..2cd3fa03bfb2febc3eb7d5d885da1c6dc2a215ee
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+@@ -0,0 +1,30 @@
++Relevant source excerpts
++========================
++
++1. /usr/share/fa/php/SuiteLoginSessionValidation.php
++
++- Lines 16-21 state that BusinessFlow's cookie is not available in this file because its path is `/BusinessFlow`, and that validating AFA plus FireFlow is considered sufficient.
++
++2. /usr/share/fa/php/ci/application/controllers/Environment.php
++
++- `getAFASessionInfo()` returns:
++  - `faSession`
++  - `faDomain`
++  - `phpSession`
++  - `isAdmin`
++  - `username`
++  - `authenticated`
++
++3. /usr/share/fa/php/ci/application/libraries/Algosec.php
++
++- Requests to `/fa/environment/getAFASessionInfo` are treated as read-only session requests.
++
++4. /usr/share/fa/php/utils.php
++
++- `getFireflowCookie()` extracts only `AFF_COOKIE`.
++- `checkFireFlowAuth()` validates FireFlow by calling `/FireFlow/SelfService/CheckAuthentication/?login=1` with the FireFlow cookie.
++
++5. /usr/share/fa/php/SSOLogin.php
++
++- `issueBFlowSSO()` sets the BusinessFlow cookie on path `/BusinessFlow`.
++- Separate SSO logic also supports setting FireFlow and BusinessFlow cookies, but this is an explicit SSO path, not the repeating poll pattern seen in the March 25 access logs.
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..5fbb0ee0f5dc2c15e0d8f49aa3ab60d56690346b
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+@@ -0,0 +1,32 @@
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts","workdir":"/root","login":false}
++{"cmd":"rg -n \"(FireFlow/api/session|getAFASessionInfo|bridge/refresh|SSOLogin|SuiteLoginSessionValidation|AlgosecSessionManager|ExtUtils)\" /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh)\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '200,280p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SuiteLoginSessionValidation.php | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/ci/application/controllers/Environment.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/ci/application/libraries/Algosec.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /usr/share/fireflow/var/log/fireflow.log*","workdir":"/root","login":false}
++{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /var/log/httpd/*20260325*","workdir":"/root","login":false}
++{"cmd":"rg -n \"function checkFireFlowAuth|getFireflowCookie|GetFireFlowAddress|AFF_COOKIE|FireFlow\" /usr/share/fa/php/utils.php /usr/share/fa/php/RequireHeaders.php /usr/share/fa/php/*.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/utils.php | sed -n '3180,3245p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '60,190p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"03:00:(00|02|05|11|15|23|43|44)|03:02:(23|24|40|59)|03:08:(13|14|38)|03:15:(05|10|23|43|44)\" /var/log/httpd/ssl_access_log-20260325","workdir":"/root","login":false}
++{"cmd":"rg -n \"FireFlowAffApi|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|/afa/php/ws.php|getAFASessionInfo|FireFlow/api/session\" /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '150,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/ws.inc.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"getAFASessionInfo|FireFlow/api/session|extendSession|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|isSessionAlive\" /usr/share/fa/php/JSlib1768164240","workdir":"/root","login":false}
++{"cmd":"find /usr/share/fa/php -maxdepth 2 -type f \\( -name 'FireFlowBridge.js' -o -name 'home.js' -o -name '*.js.php' \\) | sort | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/FireFlowBridge.js | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/home.js | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/is_session_active.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"businessflow|BusinessFlow|aff/api/internal|health_check|FireFlowAffApi|CommandsDispatcher\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/prod_stat.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '286,320p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/BusinessFlowAPI.php | sed -n '1,170p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"getAFASessionInfo -  result|SuiteLoginSessionValidation|FireFlow CheckAuthentication response object|User '.*' \\(domain|In SSO, going to login to a BusinessFlow session|Received cookie from BusinessFlow|FireFlow session validated successfully\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd | sed -n '1,120p'","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..e40685ddbbefb5a4b7544efd418e0e562c0507e0
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+@@ -0,0 +1,18 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
++  "task_id": "trace_businessflow_aff_entrypoint_v1",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Observed same-window evidence ties /FireFlow/api/session most closely to the shared suite localhost bridge/polling path around getAFASessionInfo, FireFlowAffApi/NoAuth/CommandsDispatcher, and ws.php calls. Allowed-source evidence did not isolate a distinct BusinessFlow-cookie branch as the direct initiator before FireFlow serves the AFF session.",
++  "returned_artifact_paths": [
++    "artifacts/correlation-timeline.txt",
++    "artifacts/source-excerpts.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If higher-confidence attribution is needed, inspect FireFlow-side source or request-level headers for FireFlowAffApi/NoAuth/CommandsDispatcher outside this observe-only PHP/log slice.",
++    "Capture a targeted same-window trace around SuiteLoginSessionValidation.php and FireFlowAffApi requests to distinguish shared suite polling from explicit post-login redirect behavior.",
++    "Restore or locate the missing baseline run summary if operator context from the parent run is required."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..55833ce912ef493d21e46dadf1bd782c14adec7e
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+@@ -0,0 +1,40 @@
++## Summary
++
++Observed evidence does not support a distinct BusinessFlow cookie-driven handoff as the initiator of `GET /FireFlow/api/session`.
++
++The strongest correlation is a shared suite polling path on localhost:
++
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- repeated `POST /afa/php/ws.php`
++
++This sequence appears in the same second on March 25, 2026 at `03:00:43-03:00:44`, `03:15:43-03:15:44`, and other repeating windows in `/var/log/httpd/ssl_access_log-20260325`.
++
++## Key findings
++
++1. `SuiteLoginSessionValidation.php` explicitly cannot read the BusinessFlow cookie and intentionally validates only AFA and FireFlow state.
++   Source: `/usr/share/fa/php/SuiteLoginSessionValidation.php`
++
++2. `getAFASessionInfo` is a read-only AFA session endpoint that returns `faSession`, `faDomain`, `phpSession`, `username`, and `authenticated`.
++   Source: `/usr/share/fa/php/ci/application/controllers/Environment.php`
++
++3. FireFlow validation on the AFA side is based on the FireFlow cookie alone via `checkFireFlowAuth()`, not on a BusinessFlow cookie branch.
++   Source: `/usr/share/fa/php/utils.php`
++
++4. BusinessFlow SSO does exist, but it is only visible in explicit SSO code paths where AFA sets a `/BusinessFlow` cookie.
++   Source: `/usr/share/fa/php/SSOLogin.php`, `/usr/share/fa/php/BusinessFlowAPI.php`
++
++5. The repeating access-log sequence around `/FireFlow/api/session` also includes `GET /BusinessFlow/shallow_health_check` and `GET /aff/api/internal/noauth/health/*`, which looks like appliance health/UI polling rather than a one-time BusinessFlow-auth redirect.
++
++## Assessment
++
++Most likely immediate caller for the observed AFF session checks is the shared suite UI/bridge polling loop, not a BusinessFlow-only cookie branch.
++
++BusinessFlow is still present in the same windows via health checks, but the allowed-source evidence here does not isolate a BusinessFlow-side entrypoint that directly triggers `/FireFlow/api/session` before the shared bridge/poller does.
++
++## Limits
++
++- The baseline summary file referenced by the request was not present at the stated path.
++- I did not find a readable local source file in the allowed PHP tree for `FireFlowAffApi/NoAuth/CommandsDispatcher`.
++- I did not find per-request cookie dumps in the allowed logs, so the initiator claim is necessarily based on timing and local-source behavior, not raw cookie capture.
+
+codex
+Completed inside `/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1`.
+
+The delegated result concludes that the observed `/FireFlow/api/session` calls correlate most strongly with a shared localhost suite poll/bridge path around `getAFASessionInfo`, `FireFlowAffApi/NoAuth/CommandsDispatcher`, and `ws.php`, not with a distinct BusinessFlow-cookie branch. I also noted that the referenced baseline summary file was missing.
+
+Outputs written:
+- [delegated-task-result.json](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json)
+- [findings.md](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md)
+- [commands.jsonl](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl)
+- [correlation-timeline.txt](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt)
+- [source-excerpts.txt](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt)
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c7ce65122f12ee3640c46c29d78581be23e90ab
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt
+@@ -0,0 +1,52 @@
++BusinessFlow/AFF correlation timeline
++====================================
++
++Window: 2026-03-25 03:15:05 through 03:15:44 -0400
++Source: /var/log/httpd/ssl_access_log-20260325
++
++03:15:05  GET  /fa/environment/isSessionAlive
++03:15:05  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:05  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:05  POST /fa/environment/getAFASessionInfo
++
++03:15:10  GET  /fa/environment/isSessionAlive
++03:15:10  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:10  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:10  POST /fa/environment/getAFASessionInfo
++
++03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:23  GET  /FireFlow/api/session/validate?fireflowSessionOnly=true
++03:15:23  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:23  POST /FireFlow/api/session/extendSession?sessionId=574749ce7b6c9a05c430d3e81d7df85e&isFullSessionExtend=false
++03:15:23  GET  /aff/api/internal/noauth/health/shallow
++03:15:23  GET  /BusinessFlow/shallow_health_check
++
++03:15:43  GET  /
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  POST /afa/php/ws.php
++03:15:43  GET  /
++03:15:43  GET  /BusinessFlow/shallow_health_check
++03:15:43  GET  /aff/api/internal/noauth/health/shallow
++03:15:43  GET  /aff/api/internal/noauth/health/deep
++03:15:43  POST /fa/environment/getAFASessionInfo
++03:15:43  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:43  GET  /FireFlow/api/session
++03:15:43  GET  /BusinessFlow/deep_health_check
++03:15:44  POST /fa/environment/getAFASessionInfo
++03:15:44  POST /afa/external//session/extend?session=3v5voa7rn9p7qp7pl2vtgg8uvj&domain=0
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:44  GET  /FireFlow/api/session
++03:15:44  POST /afa/php/ws.php
++03:15:44  POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher
++03:15:44  GET  /FireFlow/api/session
++
++Interpretation
++--------------
++
++- `/fa/environment/getAFASessionInfo` is part of the same local poll/bridge window as `/FireFlow/api/session`.
++- BusinessFlow appears in the same window through health checks, not through a unique pre-session redirect in the observed evidence.
++- The repeated `CommandsDispatcher` calls immediately before the REST session checks are the closest same-window initiator visible in logs.
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..2cd3fa03bfb2febc3eb7d5d885da1c6dc2a215ee
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt
+@@ -0,0 +1,30 @@
++Relevant source excerpts
++========================
++
++1. /usr/share/fa/php/SuiteLoginSessionValidation.php
++
++- Lines 16-21 state that BusinessFlow's cookie is not available in this file because its path is `/BusinessFlow`, and that validating AFA plus FireFlow is considered sufficient.
++
++2. /usr/share/fa/php/ci/application/controllers/Environment.php
++
++- `getAFASessionInfo()` returns:
++  - `faSession`
++  - `faDomain`
++  - `phpSession`
++  - `isAdmin`
++  - `username`
++  - `authenticated`
++
++3. /usr/share/fa/php/ci/application/libraries/Algosec.php
++
++- Requests to `/fa/environment/getAFASessionInfo` are treated as read-only session requests.
++
++4. /usr/share/fa/php/utils.php
++
++- `getFireflowCookie()` extracts only `AFF_COOKIE`.
++- `checkFireFlowAuth()` validates FireFlow by calling `/FireFlow/SelfService/CheckAuthentication/?login=1` with the FireFlow cookie.
++
++5. /usr/share/fa/php/SSOLogin.php
++
++- `issueBFlowSSO()` sets the BusinessFlow cookie on path `/BusinessFlow`.
++- Separate SSO logic also supports setting FireFlow and BusinessFlow cookies, but this is an explicit SSO path, not the repeating poll pattern seen in the March 25 access logs.
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..5fbb0ee0f5dc2c15e0d8f49aa3ab60d56690346b
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl
+@@ -0,0 +1,32 @@
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"mkdir -p /root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts","workdir":"/root","login":false}
++{"cmd":"rg -n \"(FireFlow/api/session|getAFASessionInfo|bridge/refresh|SSOLogin|SuiteLoginSessionValidation|AlgosecSessionManager|ExtUtils)\" /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/FireFlow/api/session|/fa/environment/getAFASessionInfo|/afa/external//bridge/refresh)\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '200,280p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SuiteLoginSessionValidation.php | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/ci/application/controllers/Environment.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/ci/application/libraries/Algosec.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /usr/share/fireflow/var/log/fireflow.log*","workdir":"/root","login":false}
++{"cmd":"rg -n \"574749ce7b6c9a05c430d3e81d7df85e|kk4msqvndoc0c8lmjka8i93vj4|/FireFlow/api/session|getAFASessionInfo|bridge/refresh\" /var/log/httpd/*20260325*","workdir":"/root","login":false}
++{"cmd":"rg -n \"function checkFireFlowAuth|getFireflowCookie|GetFireFlowAddress|AFF_COOKIE|FireFlow\" /usr/share/fa/php/utils.php /usr/share/fa/php/RequireHeaders.php /usr/share/fa/php/*.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/utils.php | sed -n '3180,3245p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '60,190p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"03:00:(00|02|05|11|15|23|43|44)|03:02:(23|24|40|59)|03:08:(13|14|38)|03:15:(05|10|23|43|44)\" /var/log/httpd/ssl_access_log-20260325","workdir":"/root","login":false}
++{"cmd":"rg -n \"FireFlowAffApi|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|/afa/php/ws.php|getAFASessionInfo|FireFlow/api/session\" /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '150,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/ws.inc.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"getAFASessionInfo|FireFlow/api/session|extendSession|CommandsDispatcher|BusinessFlow/shallow_health_check|deep_health_check|isSessionAlive\" /usr/share/fa/php/JSlib1768164240","workdir":"/root","login":false}
++{"cmd":"find /usr/share/fa/php -maxdepth 2 -type f \\( -name 'FireFlowBridge.js' -o -name 'home.js' -o -name '*.js.php' \\) | sort | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/FireFlowBridge.js | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/JSlib1768164240/home.js | sed -n '1,260p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/is_session_active.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"businessflow|BusinessFlow|aff/api/internal|health_check|FireFlowAffApi|CommandsDispatcher\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/prod_stat.php | sed -n '1,180p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/SSOLogin.php | sed -n '286,320p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/BusinessFlowAPI.php | sed -n '1,170p'","workdir":"/root","login":false}
++{"cmd":"rg -n \"getAFASessionInfo -  result|SuiteLoginSessionValidation|FireFlow CheckAuthentication response object|User '.*' \\(domain|In SSO, going to login to a BusinessFlow session|Received cookie from BusinessFlow|FireFlow session validated successfully\" /var/log/httpd /usr/share/fireflow/var/log","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd | sed -n '1,120p'","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..e40685ddbbefb5a4b7544efd418e0e562c0507e0
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json
+@@ -0,0 +1,18 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "businessflow-aff-entrypoint-correlation-v1",
++  "task_id": "trace_businessflow_aff_entrypoint_v1",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Observed same-window evidence ties /FireFlow/api/session most closely to the shared suite localhost bridge/polling path around getAFASessionInfo, FireFlowAffApi/NoAuth/CommandsDispatcher, and ws.php calls. Allowed-source evidence did not isolate a distinct BusinessFlow-cookie branch as the direct initiator before FireFlow serves the AFF session.",
++  "returned_artifact_paths": [
++    "artifacts/correlation-timeline.txt",
++    "artifacts/source-excerpts.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If higher-confidence attribution is needed, inspect FireFlow-side source or request-level headers for FireFlowAffApi/NoAuth/CommandsDispatcher outside this observe-only PHP/log slice.",
++    "Capture a targeted same-window trace around SuiteLoginSessionValidation.php and FireFlowAffApi requests to distinguish shared suite polling from explicit post-login redirect behavior.",
++    "Restore or locate the missing baseline run summary if operator context from the parent run is required."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..55833ce912ef493d21e46dadf1bd782c14adec7e
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md
+@@ -0,0 +1,40 @@
++## Summary
++
++Observed evidence does not support a distinct BusinessFlow cookie-driven handoff as the initiator of `GET /FireFlow/api/session`.
++
++The strongest correlation is a shared suite polling path on localhost:
++
++- `POST /fa/environment/getAFASessionInfo`
++- `POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher`
++- `GET /FireFlow/api/session`
++- repeated `POST /afa/php/ws.php`
++
++This sequence appears in the same second on March 25, 2026 at `03:00:43-03:00:44`, `03:15:43-03:15:44`, and other repeating windows in `/var/log/httpd/ssl_access_log-20260325`.
++
++## Key findings
++
++1. `SuiteLoginSessionValidation.php` explicitly cannot read the BusinessFlow cookie and intentionally validates only AFA and FireFlow state.
++   Source: `/usr/share/fa/php/SuiteLoginSessionValidation.php`
++
++2. `getAFASessionInfo` is a read-only AFA session endpoint that returns `faSession`, `faDomain`, `phpSession`, `username`, and `authenticated`.
++   Source: `/usr/share/fa/php/ci/application/controllers/Environment.php`
++
++3. FireFlow validation on the AFA side is based on the FireFlow cookie alone via `checkFireFlowAuth()`, not on a BusinessFlow cookie branch.
++   Source: `/usr/share/fa/php/utils.php`
++
++4. BusinessFlow SSO does exist, but it is only visible in explicit SSO code paths where AFA sets a `/BusinessFlow` cookie.
++   Source: `/usr/share/fa/php/SSOLogin.php`, `/usr/share/fa/php/BusinessFlowAPI.php`
++
++5. The repeating access-log sequence around `/FireFlow/api/session` also includes `GET /BusinessFlow/shallow_health_check` and `GET /aff/api/internal/noauth/health/*`, which looks like appliance health/UI polling rather than a one-time BusinessFlow-auth redirect.
++
++## Assessment
++
++Most likely immediate caller for the observed AFF session checks is the shared suite UI/bridge polling loop, not a BusinessFlow-only cookie branch.
++
++BusinessFlow is still present in the same windows via health checks, but the allowed-source evidence here does not isolate a BusinessFlow-side entrypoint that directly triggers `/FireFlow/api/session` before the shared bridge/poller does.
++
++## Limits
++
++- The baseline summary file referenced by the request was not present at the stated path.
++- I did not find a readable local source file in the allowed PHP tree for `FireFlowAffApi/NoAuth/CommandsDispatcher`.
++- I did not find per-request cookie dumps in the allowed logs, so the initiator claim is necessarily based on timing and local-source behavior, not raw cookie capture.
+
+tokens used
+177,720
+Completed inside `/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1`.
+
+The delegated result concludes that the observed `/FireFlow/api/session` calls correlate most strongly with a shared localhost suite poll/bridge path around `getAFASessionInfo`, `FireFlowAffApi/NoAuth/CommandsDispatcher`, and `ws.php`, not with a distinct BusinessFlow-cookie branch. I also noted that the referenced baseline summary file was missing.
+
+Outputs written:
+- [delegated-task-result.json](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/delegated-task-result.json)
+- [findings.md](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/findings.md)
+- [commands.jsonl](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/commands.jsonl)
+- [correlation-timeline.txt](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/correlation-timeline.txt)
+- [source-excerpts.txt](/root/.pack-state/delegated-codex-runs/businessflow-aff-entrypoint-correlation-v1/artifacts/source-excerpts.txt)

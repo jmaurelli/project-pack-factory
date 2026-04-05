@@ -1,0 +1,15 @@
+{
+  "capture_console": true,
+  "capture_screenshot": true,
+  "capture_screenshot_path": "/home/orchadmin/project-pack-factory/.pack-state/browser-proofs/browser-proof-adf_field_manual_hash_target_opens-20260331t201817z/debug-screenshot.png",
+  "page_path": "/playbooks/asms-ui-is-down/",
+  "preview_root": "/home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/adf-target-profile-baseline/starlight-site",
+  "preview_root_relative_path": "build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/adf-target-profile-baseline/starlight-site",
+  "proof_kind": "adf_field_manual_hash_target_opens",
+  "schema_version": "browser-proof-request/v1",
+  "step_number": 3,
+  "target_id": "manual-ui-and-proxy-step-3",
+  "target_kind": "packfactory_local_preview",
+  "target_url": "http://10.167.2.152:18082/playbooks/asms-ui-is-down/",
+  "timeout_ms": 30000
+}

@@ -1,0 +1,260 @@
+OpenAI Codex v0.117.0 (research preview)
+--------
+workdir: /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 019d3c14-bb83-7772-8b0a-e4121b8c0f35
+--------
+user
+You are running inside a staged Project Pack Factory build-pack. Work only inside this pack root. Read AGENTS.md, project-context.md, and pack.json first, then the assistant/operator/partnership contracts needed for the task. Stay bounded to local assistant behavior, memory, bootstrap, doctor, and documentation surfaces. Do not modify registry, deployment, promotion, or unrelated files. Keep responses concise and concrete.
+
+Assistant UAT task:
+Tell me who you are, who you support, what your mission is, what the operator is optimizing for, and how you should behave when intent is ambiguous. Keep it concrete and business-like.
+
+Do the needed local work. End with a concise plain-language answer.
+warning: Codex could not find system bubblewrap at /usr/bin/bwrap. Please install bubblewrap with your package manager. Codex will use the vendored bubblewrap in the meantime.
+codex
+I’m pulling the pack’s control files and assistant/operator contracts first so I can answer from the pack’s canonical definitions rather than guess.
+exec
+/bin/bash -lc pwd in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+
+exec
+/bin/bash -lc "sed -n '1,220p' AGENTS.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# Codex Personal Assistant Daily Driver Build Pack Build Pack Agent Context
+
+This directory is a PackFactory build pack, not a source template.
+
+Read `status/lifecycle.json`, `status/readiness.json`, and `status/deployment.json` first.
+If `status/readiness.json.operator_hint_status` exists, surface it in your pack-level startup or continuation briefing before going deeper so active, exhausted, cleanup-candidate, and recently consumed operator hints are visible immediately.
+Then read `pack.json` and use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap traversal contract.
+When `pack.json.directory_contract` declares `contracts/project-objective.json`, `tasks/active-backlog.json`, or `status/work-state.json`, read those files as canonical pack-local control-plane handoff files.
+Treat `status/work-state.json.branch_selection_hints` as the canonical operator-guidance source even when readiness has not been refreshed yet, and surface any active, exhausted, or cleanup-relevant hint state during pack entry when it matters.
+Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.
+For assistant-behavior work, inspect `contracts/assistant-profile.json`,
+`contracts/operator-profile.json`, `contracts/partnership-policy.json`, and
+`contracts/context-routing.json` before making claims about identity,
+grounding, or ambiguity handling.
+Treat `.pack-state/assistant-memory/` as advisory relationship and continuity
+memory; it should support the operator profile, not replace canonical pack
+state.
+When present, inspect `.pack-state/agent-memory/latest-memory.json` first, then treat other `.pack-state/agent-memory/*.json` files as supplementary restart memory distilled from prior autonomy runs.
+
+This build pack can export bounded runtime evidence when running externally.
+Use `pack.json.entrypoints.export_runtime_evidence_command` when that capability is present.
+For workflow or remote-session compliance questions, return to the factory root and read `AGENTS.md` plus `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md` before inventing a pack-local alternative.
+From the factory root, use `python3 tools/run_multi_hop_autonomy_rehearsal.py ...` when you want a single fresh-pack rehearsal that materializes a proving ground, checkpoints mid-backlog memory, runs the remote continuity hops, reconciles canonical state, and verifies the ready-boundary loop end to end.
+From the factory root, use `python3 tools/run_local_mid_backlog_checkpoint.py ...` when you want to stop after the current active task, write local feedback memory, and activate a resumable mid-backlog handoff pointer.
+From the factory root, use `python3 tools/run_remote_active_task_continuity_test.py ...` when the pack is already at a compatible active-task boundary and you want to verify the next task resumes remotely from feedback memory.
+From the factory root, use `python3 tools/run_remote_memory_continuity_test.py ...` after the pack reaches `ready_for_deploy` and `.pack-state/agent-memory/latest-memory.json` is active if you want to verify default feedback-memory continuity on a remote target.
+For remote Codex session management, use the PackFactory-local workflows from the factory root. Do not improvise ad hoc `ssh` prompts, handcrafted remote-session runners, or raw stdout/stderr logging loops when an official PackFactory workflow exists for the same job.
+When multiple next tasks are eligible, prefer lower `selection_priority` first. If the top candidates remain tied, honor any operator branch-selection hints recorded in `status/work-state.json.branch_selection_hints` in canonical hint order: apply active avoid-task guidance first so it can narrow the tied set safely, then apply active preferred-task guidance within the remaining tied set, then use bounded semantic alignment to `contracts/project-objective.json`, `status/work-state.json.resume_instructions`, and optional task `selection_signals`; otherwise stop fail-closed for operator review. Hints may also declare `remaining_applications` when they should expire automatically after bounded use.
+From the factory root, use `python3 tools/audit_branch_selection_hints.py ...` when you need one bounded view of active, exhausted, and cleanup-candidate hints plus recent consumed/deactivated hint evidence.
+Export bounded runtime evidence from the pack when needed, but import it only from the factory root through `python3 tools/import_external_runtime_evidence.py ...` or a higher-level PackFactory workflow that wraps that import.
+For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer.
+If this newly materialized build-pack itself may later need promotion-ready remote evidence, do not skip the fresh-pack rehearsal step: run the official fresh-pack autonomy workflow before this pack diverges into long-lived day-to-day use.
+Autonomy quality remains advisory by default, but `contracts/project-objective.json.autonomy_quality_requirement` can opt this build-pack into bounded promotion-time quality thresholds when stronger promotion discipline is required.
+Export bundles remain supplementary runtime evidence only, and raw remote stdout/stderr is supplementary debugging rather than canonical PackFactory evidence.
+
+Derived from template `codex-personal-assistant-template-pack`.
+Pack id: `codex-personal-assistant-daily-driver-build-pack-v1`.
+
+exec
+/bin/bash -lc "sed -n '1,220p' status/lifecycle.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "current_revision": "codex-personal-assistant-daily-driver-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create the first proving-ground build-pack for a Codex-native daily-driver personal assistant environment once the template exists and factory preflight is clean.",
+  "updated_at": "2026-03-29T16:07:24Z",
+  "updated_by": "codex"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' status/readiness.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-29T16:23:03Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_deploy",
+  "ready_for_deployment": true,
+  "recommended_next_actions": [
+    "Recommended next action: use the existing bounded promotion workflow if you want to move this build-pack toward deployment."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-29T16:23:03Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation has not been executed yet."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "codex_personal_assistant_template_pack_smoke_small_001",
+      "last_run_at": "2026-03-29T16:23:03Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Prove the smallest end-to-end Codex personal assistant path: bootstrap the workspace, expose the assistant profile and context-routing surfaces, write and read one restart-memory artifact, and validate the pack contract without requiring broad hook or GUI parity on day one."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' status/deployment.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
+  "deployment_notes": [
+    "Newly materialized build pack; no active deployment candidate."
+  ],
+  "deployment_pointer_path": null,
+  "deployment_state": "not_deployed",
+  "deployment_transaction_id": null,
+  "last_promoted_at": null,
+  "last_rollback": null,
+  "last_verified_at": null,
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "projection_state": "not_required",
+  "schema_version": "pack-deployment/v2"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' pack.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "directory_contract": {
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "benchmarks_dir": "benchmarks",
+    "candidate_release_dir": "dist/candidates",
+    "contracts_dir": "contracts",
+    "deployment_file": "status/deployment.json",
+    "dist_dir": "dist",
+    "docs_dir": "docs",
+    "eval_dir": "eval",
+    "eval_history_dir": "eval/history",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "immutable_release_dir": "dist/releases",
+    "lifecycle_file": "status/lifecycle.json",
+    "lineage_dir": "lineage",
+    "lineage_file": "lineage/source-template.json",
+    "local_state_dir": ".pack-state",
+    "portable_runtime_helper_manifest": ".packfactory-runtime/manifest.json",
+    "portable_runtime_schemas_dir": ".packfactory-runtime/schemas",
+    "portable_runtime_tools_dir": ".packfactory-runtime/tools",
+    "project_objective_file": "contracts/project-objective.json",
+    "prompts_dir": "prompts",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "runtime_evidence_export_dir": "dist/exports/runtime-evidence",
+    "source_dir": "src",
+    "status_dir": "status",
+    "task_backlog_file": "tasks/active-backlog.json",
+    "tasks_dir": "tasks",
+    "template_export_dir": null,
+    "tests_dir": "tests",
+    "work_state_file": "status/work-state.json"
+  },
+  "display_name": "Codex Personal Assistant Daily Driver Build Pack",
+  "entrypoints": {
+    "benchmark_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+    "cli_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack --help",
+    "export_runtime_evidence_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id <run-id> --exported-by <actor> --output-dir dist/exports/runtime-evidence --output json",
+    "validation_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "Materialized from template `codex-personal-assistant-template-pack`.",
+    "materialization_id=materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z"
+  ],
+  "owning_team": "orchadmin",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "lineage/source-template.json",
+    "contracts/project-objective.json",
+    "tasks/active-backlog.json",
+    "status/work-state.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "runtime": "python",
+  "schema_version": "pack-manifest/v2"
+}
+
+exec
+/bin/bash -lc "sed -n '1,220p' project-context.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# Project Context
+
+This build-pack is the current daily-driver runtime instance for the Codex
+personal assistant line.
+
+Its job is to prove a grounded, operator-aligned assistant that:
+
+- learns orchadmin's goals and working style over time
+- asks for clarification instead of guessing on ambiguity
+- keeps current work tied to long-term direction and practical business goals
+- remains inspectable through explicit local contracts and memory
+
+## Priority
+
+1. Keep the runtime assistant aligned with the declared operator profile and partnership policy.
+2. Keep the reusable assistant model backportable to the source template.
+3. Keep validation and benchmark commands small and deterministic.
+4. Keep the pack useful for real remote user-acceptance testing.
+
+## Primary Runtime Surfaces
+
+- `contracts/assistant-profile.json`
+- `contracts/operator-profile.json`
+- `contracts/partnership-policy.json`
+- `contracts/context-routing.json`
+- `src/codex_personal_assistant_template_pack/cli.py`
+- `src/codex_personal_assistant_template_pack/alignment.py`
+- `src/codex_personal_assistant_template_pack/memory.py`
+- `docs/specs/operator-alignment-model.md`
+- `docs/specs/user-acceptance-playbook.md`
+
+## Local State
+
+- local assistant memory: `.pack-state/assistant-memory/`
+- PackFactory runtime scratch state: `.pack-state/`
+
+## Factory-Level Inheritance Note
+
+This build-pack inherits the PackFactory autonomy baseline from the factory
+root. Use the factory root for rehearsal, remote-session, and runtime-evidence
+control-plane workflows.
+

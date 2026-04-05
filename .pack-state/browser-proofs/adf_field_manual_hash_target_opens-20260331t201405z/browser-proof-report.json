@@ -1,0 +1,44 @@
+{
+  "schema_version": "browser-proof-report/v1",
+  "proof_kind": "adf_field_manual_hash_target_opens",
+  "target_kind": "packfactory_local_preview_url",
+  "recorded_at": "2026-03-31T20:14:05.698Z",
+  "target_url": "http://10.167.2.152:18082/playbooks/asms-ui-is-down/",
+  "served_from_root": "build-packs/algosec-diagnostic-framework-build-pack-v1/dist/candidates/adf-target-profile-baseline/starlight-site",
+  "provenance": {
+    "host_is_local": true,
+    "local_ip_addresses": [
+      "10.167.2.152",
+      "127.0.0.1",
+      "::1"
+    ],
+    "resolved_host": "10.167.2.152",
+    "resolved_ip_addresses": [
+      "10.167.2.152"
+    ]
+  },
+  "browser_runtime": {
+    "engine": "chromium",
+    "package_name": "playwright",
+    "package_version": "1.53.2",
+    "browser_install_root": "/home/orchadmin/project-pack-factory/.pack-state/browser-proof-runtime/playwright-browsers"
+  },
+  "checks": {
+    "step_target_id": "manual-ui-and-proxy-step-3",
+    "step_link_selector": "a[data-adf-manual-target=\"manual-ui-and-proxy-step-3\"]",
+    "step_link_found": false,
+    "step_link_href": "",
+    "expected_hash": "#manual-ui-and-proxy-step-3",
+    "final_hash": "",
+    "details_selector": "details#manual-ui-and-proxy-step-3[data-adf-manual-step=\"true\"]",
+    "details_open": false,
+    "command_count_text": "",
+    "expected_command_count": 7,
+    "observed_command_count": null,
+    "command_count_matches": false,
+    "page_title": ""
+  },
+  "status": "fail",
+  "failure_category": "host_dependency_missing",
+  "failure_detail": "browserType.launch: \n╔══════════════════════════════════════════════════════╗\n║ Host system is missing dependencies to run browsers. ║\n║ Please install them with the following command:      ║\n║                                                      ║\n║     sudo npx playwright install-deps                 ║\n║                                                      ║\n║ Alternatively, use apt:                              ║\n║     sudo apt-get install libatk1.0-0t64\\             ║\n║         libatk-bridge2.0-0t64\\                       ║\n║         libatspi2.0-0t64\\                            ║\n║         libxcomposite1\\                              ║\n║         libxdamage1\\                                 ║\n║         libxfixes3\\                                  ║\n║         libxrandr2\\                                  ║\n║         libgbm1\\                                     ║\n║         libasound2t64                                ║\n║                                                      ║\n║ <3 Playwright Team                                   ║\n╚══════════════════════════════════════════════════════╝"
+}

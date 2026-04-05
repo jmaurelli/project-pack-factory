@@ -1,0 +1,108 @@
+{
+  "active_task_id": null,
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 0,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 0
+    },
+    "status": "within_budget",
+    "summary": "State save recorded current canonical ADF pack state without running a new bounded autonomy loop."
+  },
+  "baseline_readiness_state": "ready_for_review",
+  "block_summary": null,
+  "completed_task_ids": [
+    "adopt_support_cockpit_direction",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs",
+    "prototype_starlight_publishing",
+    "formalize_shared_host_health_precheck_pack",
+    "prove_asms_ui_system_thinking_with_authenticated_flow",
+    "capture_asms_post_home_followups_before_subsystem_split",
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "rebuild_asms_ui_system_thinking_playbook",
+    "investigate_asms_ui_components_for_useful_work_checks",
+    "reframe_host_precheck_around_pressure_signals",
+    "clarify_adf_iteration_loop_completion_boundary",
+    "build_adf_autonomous_iteration_loop",
+    "deepen_asms_ui_service_command_packs",
+    "define_adf_checkpointed_sync_model",
+    "decouple_codex_runtime_from_target_lab_environment",
+    "map_asms_ui_subsystem_and_validate_core_scenarios",
+    "validate_asms_ui_dependency_order_experimentally",
+    "refine_support_cockpit_right_rail_layout",
+    "consider_horizontal_dependency_path_in_center_pane"
+  ],
+  "delta_summary": null,
+  "evidence_paths": [
+    "status/work-state.json",
+    "status/readiness.json",
+    "docs/specs/fireflow-internals-bounded-map-v1.md",
+    ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/fireflow-ticket-progression-hunt-v1/target-bundle/delegated-task-result.json"
+  ],
+  "final_readiness_state": "ready_for_review",
+  "generated_at": "2026-03-27T02:07:30Z",
+  "handoff_summary": [
+    "Canonical ADF state was saved on 2026-03-27 without starting a new bounded autonomy run.",
+    "Readiness remains `ready_for_review`; ready_for_deployment=false.",
+    "The current canonical next task is `deepen_dependency_aware_playbooks`.",
+    "FireFlow enablement on `10.167.2.150` is now anchored to `/usr/share/fireflow/local/sbin/fireflow_activation.sh isEnabled` rather than the discarded `fireflow_enable` heuristic.",
+    "The latest accepted FireFlow delegated slice showed the lab is enabled but effectively empty from a ticket-workflow perspective because retained logs reported `Total tickets in DB: 0`.",
+    "The next FireFlow seeding lead is `/home/afa/.fa/firewall_data.xml`, using visible firewall naming fields such as `name`, `display_name`, and VR-style child names as candidate tree inputs.",
+    "The current generated site already has 4 playbook pages, but the ADF content server is not currently running on `adf-dev`."
+  ],
+  "highest_risk_observation": "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary.",
+  "memory_id": "autonomy-feedback-adf-canonical-state-save-20260327",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Pack-local restart memory for the next bounded ADF session.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "canonical_state_integrity_not_passed"
+    ],
+    "confidence_level": "low",
+    "confidence_score": 0.35,
+    "expires_after_hours": 12,
+    "expires_at": "2026-03-27T14:07:30Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "Low-confidence active pack restart memory with 12h freshness window."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_trusting_runs_without_canonical_integrity",
+      "avoid_treating_empty_fireflow_lab_as_workflow_proof"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Avoid trusting autonomy memory from runs where canonical state integrity did not pass; rerun bounded validation first.",
+      "Do not treat FireFlow enablement alone as proof of real workflow coverage when the lab still shows zero tickets."
+    ]
+  },
+  "next_recommended_task_id": "deepen_dependency_aware_playbooks",
+  "operator_intervention_summary": null,
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: either publish the current 4 generated playbook pages on `adf-dev` or continue `deepen_dependency_aware_playbooks` with a seeded FireFlow request or deeper AFA report mapping.",
+  "resolved_block_summary": null,
+  "run_id": "adf-canonical-state-save-20260327",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+    "loop_events_path": null,
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-adf-algosec-lab-service-pack-refresh-20260326.json",
+    "run_summary_path": null
+  },
+  "summary": "This restart memory captures the current canonical ADF state after the FireFlow activation correction, the empty-ticket delegated slice, the firewall_data.xml ticket-input lead, and the current unpublished web-playbook count."
+}

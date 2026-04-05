@@ -1,0 +1,47 @@
+/var/log/httpd/ssl_access_log lines 109345-109357
+-------------------------------------------------
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 275
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 108
+127.0.0.1 - - [27/Mar/2026:00:00:43 -0400] "GET /aff/api/internal/noauth/health/deep HTTP/1.1" 200 120
+127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [27/Mar/2026:00:00:44 -0400] "POST /fa/server/connection/login HTTP/1.1" 200 94
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "GET /afa/external//config?session=n575jpek15o99ispded4d5smrv&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:50 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "GET /afa/external//config?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 3125
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:00:00:51 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+
+/usr/share/fireflow/var/log/fireflow.log lines 16602-16616
+----------------------------------------------------------
+[1312864] [e0974e9f0e] [2026-03-27 00:00:44,080] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: [username=Backup_user&password=********&domain=&fullInfo=true]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,605] [info   ]: [/lib/FireFlow/FABridge.pm::IssueFAServerLogin:588] Successful AFA login for Backup_user in the domain: []
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,607] [info   ]: [/lib/FireFlow/FABridge.pm::_issuePostToAfa:388] _issuePostToAfa will call /storeFireflowCookie
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [debug  ]: [/lib/FireFlow/FABridge.pm::IssueMetroCall:6229] Issue metro call, url=[https://localhost:443/afa/external/bridge/storeFireflowCookie], method=[post]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,608] [info   ]: [/lib/FireFlow/FABridge.pm::postRequest:183] RestClient post: [https://localhost:443/afa/external//bridge/storeFireflowCookie?domain=0&session=n575jpek15o99ispded4d5smrv?domain=0&session=n575jpek15]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,609] [debug  ]: [/lib/FireFlow/FABridge.pm::_print_request_body:212] RestClient post body: ["e0974e9f0ea56601ae9fa58f9d36984c"]
+[1312864] [e0974e9f0e] [2026-03-27 00:00:50,664] [info   ]: [/lib/RT/User_Vendor.pm::IsPassword:303] auth method AFA SUCCEEDED: Login successful
+
+/var/log/httpd/ssl_access_log lines 120017-120023
+-------------------------------------------------
+127.0.0.1 - - [27/Mar/2026:05:59:57 -0400] "POST /afa/external//bridge/refresh?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /fa/environment/getAFASessionInfo HTTP/1.1" 200 128
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/external//session/extend?domain=0&session=n575jpek15o99ispded4d5smrv HTTP/1.1" 200 -
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /FireFlow/FireFlowAffApi/NoAuth/CommandsDispatcher HTTP/1.1" 200 3070
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "GET /FireFlow/api/session HTTP/1.1" 200 49
+127.0.0.1 - - [27/Mar/2026:06:00:00 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+
+/var/log/httpd/ssl_access_log lines 94157-94165
+-----------------------------------------------
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?domain=0&session=uimmr6u9e8jesn20npbldjnk6k HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "GET /afa/external//config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /FireFlow/XML/CommandsDispatcher HTTP/1.1" 200 378
+127.0.0.1 - - [26/Mar/2026:15:15:47 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 372
+127.0.0.1 - - [26/Mar/2026:15:15:48 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 304

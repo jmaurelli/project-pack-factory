@@ -1,0 +1,54 @@
+{
+  "candidate_changes": {
+    "artifact_paths": [],
+    "backlog_task_updates": [],
+    "doc_paths": [],
+    "prompt_paths": [],
+    "source_paths": [],
+    "work_state_fields": []
+  },
+  "checkpoint_id": "algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v6-blocked_boundary-20260328t223535z",
+  "checkpoint_reason": "blocked_boundary",
+  "export_bundle": {
+    "authority_class": "supplementary_runtime_evidence",
+    "bundle_manifest_path": "bundle.json",
+    "bundle_sha256": "716ef5459560ed1ab04f01084ff98cabc1a3f627d3618c69d687e14b47abed75",
+    "import_ready": false,
+    "present": true
+  },
+  "generated_at": "2026-03-28T22:35:35Z",
+  "generated_by": "codex",
+  "local_precedence": true,
+  "local_regeneration_required": {
+    "eval_latest_index": false,
+    "latest_memory_pointer": false,
+    "other_generated_surfaces": [],
+    "readiness": false
+  },
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "proposed_acceptance": {
+    "accept_artifact_paths": [],
+    "accept_backlog_task_updates": [],
+    "accept_doc_paths": [],
+    "accept_source_paths": [],
+    "accept_work_state_fields": [],
+    "defer_fields": [],
+    "defer_paths": [],
+    "notes": [
+      "Observed only .pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v6/loop-events.jsonl run_started at 2026-03-28T22:29:32Z; reviewed wrapper surfaces and recovered v4 proof artifacts are absent from this staged packet."
+    ]
+  },
+  "remote_build_pack_root": ".",
+  "remote_host": "adf-dev",
+  "remote_target_label": null,
+  "run_artifacts": {
+    "feedback_memory_path": null,
+    "loop_events_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v6/loop-events.jsonl",
+    "result_log_paths": [],
+    "run_summary_path": ".pack-state/autonomy-runs/algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v6/run-summary.json",
+    "target_artifact_paths": []
+  },
+  "run_id": "algosec-diagnostic-framework-build-pack-v1-later-content-branch-slice-v6",
+  "schema_version": "adf-remote-checkpoint-bundle/v1",
+  "source_of_truth_mode": "local_precedence_split_host"
+}

@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-03-30T17:30:12Z",
+  "memory_files": [
+    "latest-memory.json",
+    "operator-preference-concise-context-switching-20260330t172513z.json"
+  ],
+  "preview_exists": true,
+  "preview_paths": [
+    "README.md",
+    "contracts/assistant-profile.json",
+    "contracts/context-routing.json",
+    "contracts/memory-policy.json",
+    "contracts/operator-profile.json",
+    "contracts/partnership-policy.json",
+    "contracts/skill-catalog.json",
+    "docs/specs/assistant-architecture.md",
+    "docs/specs/operator-alignment-model.md",
+    "prompts/bootstrap-checklist.md",
+    "prompts/operator-discovery-guide.md",
+    "prompts/restart-memory-guide.md",
+    "prompts/skills-guide.md"
+  ],
+  "prompt_results": [
+    {
+      "name": "identity_and_grounding",
+      "output_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/identity_and_grounding-last-message.txt",
+      "returncode": 0,
+      "stderr_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/identity_and_grounding-stderr.txt",
+      "stdout_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/identity_and_grounding-stdout.txt"
+    },
+    {
+      "name": "memory_and_continuity",
+      "output_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/memory_and_continuity-last-message.txt",
+      "returncode": 0,
+      "stderr_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/memory_and_continuity-stderr.txt",
+      "stdout_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/memory_and_continuity-stdout.txt"
+    },
+    {
+      "name": "bootstrap_and_preview",
+      "output_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/bootstrap_and_preview-last-message.txt",
+      "returncode": 0,
+      "stderr_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/bootstrap_and_preview-stderr.txt",
+      "stdout_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/bootstrap_and_preview-stdout.txt"
+    },
+    {
+      "name": "grounding_and_caution",
+      "output_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_caution-last-message.txt",
+      "returncode": 0,
+      "stderr_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_caution-stderr.txt",
+      "stdout_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_caution-stdout.txt"
+    }
+  ],
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5",
+  "schema_version": "codex-personal-assistant-uat-report/v1"
+}

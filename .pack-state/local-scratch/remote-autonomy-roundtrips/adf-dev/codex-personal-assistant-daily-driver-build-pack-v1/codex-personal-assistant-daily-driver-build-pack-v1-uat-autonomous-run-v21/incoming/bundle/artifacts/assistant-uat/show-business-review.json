@@ -1,0 +1,129 @@
+{
+  "status": "pass",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "near_term_priorities": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner.",
+    "Keep moving even when the roadmap is incomplete or curvy."
+  ],
+  "long_horizon_goals": [
+    "Build a small business.",
+    "Develop a durable working partnership with the assistant that becomes more useful over time."
+  ],
+  "grounding_principles": [
+    "Do not confuse motion with progress.",
+    "Reconnect tactical work to the larger business direction.",
+    "Surface ambiguity before committing to a path.",
+    "Do not confuse uncertainty about the whole map with inability to take the next step."
+  ],
+  "review_questions": [
+    "What outcome matters most for the business direction right now?",
+    "Which current work is genuinely moving the operator toward that direction?",
+    "What drift, avoidance, or ambiguity needs to be named plainly?",
+    "What is the next grounded step that should happen next?"
+  ],
+  "relationship_missing_signal_categories": [
+    "goal",
+    "preference",
+    "communication_pattern",
+    "alignment_risk"
+  ],
+  "relationship_next_learning_prompts": [
+    {
+      "category_id": "goal",
+      "prompt": "What is the operator trying to achieve right now, and what larger direction should stay visible?"
+    },
+    {
+      "category_id": "preference",
+      "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+    },
+    {
+      "category_id": "communication_pattern",
+      "prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+    }
+  ],
+  "suggested_focus_areas": [
+    "Reconnect current work to: Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner.",
+    "What is the operator trying to achieve right now, and what larger direction should stay visible?",
+    "What working preferences or communication preferences should the assistant remember for next time?"
+  ],
+  "latest_pointer": null,
+  "latest_review": null,
+  "business_review_status": {
+    "cadence_name": "weekly-business-grounding-review",
+    "latest_review_id": null,
+    "latest_pointer_path": ".pack-state/business-grounding-reviews/latest-review.json",
+    "review_count": 0,
+    "review_question_count": 4,
+    "due_condition_count": 3,
+    "review_due": true,
+    "due_reason": "No recorded business grounding review exists yet.",
+    "latest_review_assessment": null,
+    "missing_signal_category_count": 4
+  },
+  "relationship_reflection_status": {
+    "cadence_name": "relationship-signal-reflection",
+    "due_condition_count": 3,
+    "review_question_count": 3,
+    "reflection_due": true,
+    "due_reason": "Business review is due and relationship signals are still missing; anchor direction first, then capture one bounded reflection.",
+    "reflection_priority": "high",
+    "target_signal_categories": [
+      "preference",
+      "communication_pattern"
+    ],
+    "suggested_reflection_prompts": [
+      {
+        "category_id": "preference",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      },
+      {
+        "category_id": "communication_pattern",
+        "prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+      }
+    ],
+    "max_prompts_per_reflection": 2,
+    "recommended_record_surface": "record-operator-intake",
+    "recommended_next_step": "Refresh the business review, then use record-operator-intake for the first missing signal category.",
+    "recommended_step_sequence": [
+      {
+        "step_id": "anchor_business_review",
+        "surface": "record-business-review",
+        "reason": "business_review_due",
+        "summary": "Refresh the business review first so the next relationship signal is anchored to the current direction.",
+        "question": "Which missing relationship signal would most improve daily collaboration right now?"
+      },
+      {
+        "step_id": "capture_missing_relationship_signal",
+        "surface": "record-operator-intake",
+        "reason": "missing_relationship_signal",
+        "category_id": "preference",
+        "summary": "Capture one bounded reflection for the first missing relationship signal category.",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      }
+    ],
+    "latest_review_assessment": null,
+    "business_review_anchor_present": false,
+    "thin_history_risk": "high"
+  },
+  "recommended_step_sequence": [
+    {
+      "step_id": "anchor_business_review",
+      "surface": "record-business-review",
+      "reason": "business_review_due",
+      "summary": "Refresh the business review first so the next relationship signal is anchored to the current direction.",
+      "question": "Which missing relationship signal would most improve daily collaboration right now?"
+    },
+    {
+      "step_id": "capture_missing_relationship_signal",
+      "surface": "record-operator-intake",
+      "reason": "missing_relationship_signal",
+      "category_id": "preference",
+      "summary": "Capture one bounded reflection for the first missing relationship signal category.",
+      "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+    }
+  ],
+  "review_count": 0
+}

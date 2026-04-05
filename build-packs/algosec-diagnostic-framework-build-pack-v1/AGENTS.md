@@ -9,6 +9,21 @@ When `pack.json.directory_contract` declares `contracts/project-objective.json`,
 Treat `status/work-state.json.branch_selection_hints` as the canonical operator-guidance source even when readiness has not been refreshed yet, and surface any active, exhausted, or cleanup-relevant hint state during pack entry when it matters.
 Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.
 When present, inspect `.pack-state/agent-memory/latest-memory.json` first, then treat other `.pack-state/agent-memory/*.json` files as supplementary restart memory distilled from prior autonomy runs.
+For direct pack entry, treat
+`docs/specs/adf-local-vs-remote-execution-ownership-contract-v1.md` and
+`docs/specs/adf-three-node-autonomy-contract-v1.md` as the canonical ownership
+and topology references for this pack.
+
+Execution ownership for this pack:
+
+- Local PackFactory remains the canonical planner, state accepter, and durable
+  evidence owner
+- `adf-dev` is the default remote execution and review-surface worker
+- the AlgoSec target lab is the runtime evidence source
+- imported evidence preserved under `eval/history/` is the durable evidence
+  line for returned runtime proof
+- local scratch staging, pulled `incoming/` trees, and similar transport
+  surfaces are not canonical evidence by themselves
 
 This build pack can export bounded runtime evidence when running externally.
 Use `pack.json.entrypoints.export_runtime_evidence_command` when that capability is present.

@@ -1,0 +1,58 @@
+{
+  "artifact_paths": {
+    "creation_report": "templates/agent-native-project-initialization-smoke-template-pack/eval/history/create-template-agent-native-project-initialization-smoke-template-pack-20260401t132529z/template-creation-report.json",
+    "lifecycle_file": "templates/agent-native-project-initialization-smoke-template-pack/status/lifecycle.json",
+    "pack_manifest": "templates/agent-native-project-initialization-smoke-template-pack/pack.json",
+    "readiness_file": "templates/agent-native-project-initialization-smoke-template-pack/status/readiness.json",
+    "template_root": "templates/agent-native-project-initialization-smoke-template-pack"
+  },
+  "created_at": "2026-04-01T13:25:29Z",
+  "created_by": "codex",
+  "creation_id": "create-template-agent-native-project-initialization-smoke-template-pack-20260401t132529z",
+  "factory_mutations": {
+    "operation_log_updated": true,
+    "post_write_factory_validation": "pass",
+    "registry_updated": true
+  },
+  "next_recommended_actions": [
+    "Inspect the new template pack.",
+    "Run validate-project-pack inside the new template.",
+    "Run the initial smoke benchmark when ready.",
+    "Materialize the first build-pack proving ground for `Materialize a smoke build-pack that activates the declaration and proves the resulting manifests and startup surfaces.`."
+  ],
+  "planning_summary": {
+    "agent_native_project_profile_selection": {
+      "apply_to_derived_build_packs_by_default": true,
+      "profile_id": "packfactory_tracker_backed_agent_native",
+      "selection_reason": "This proving-ground line should declare the tracker-backed agent-native posture from initialization."
+    },
+    "capability_family": "factory_control_plane_proving_ground",
+    "delivery_shape": "application",
+    "expected_build_pack_variants": [
+      "agent-native declaration inherited into a build-pack",
+      "agent-native declaration forced off at materialization"
+    ],
+    "first_materialization_purpose": "Materialize a smoke build-pack that activates the declaration and proves the resulting manifests and startup surfaces.",
+    "initial_benchmark_intent": "Confirm the starter template validates and runs its smoke benchmark.",
+    "new_template_rationale": "Create a bounded proving-ground template for the new agent-native initialization declaration flow.",
+    "project_goal": "Prove the declaration-only agent-native initialization flow through template creation and build-pack materialization.",
+    "reuse_active_template": false
+  },
+  "resolved_agent_native_project_profile": {
+    "activation_state": "template_declared",
+    "apply_to_derived_build_packs_by_default": true,
+    "display_name": "PackFactory Tracker-Backed Agent-Native",
+    "profile_id": "packfactory_tracker_backed_agent_native",
+    "selection_origin": "template_selected",
+    "selection_reason": "This proving-ground line should declare the tracker-backed agent-native posture from initialization.",
+    "summary": "Declares that this line is meant to become agent-operable from its first real build-pack while keeping execution truth in the canonical objective/backlog/work-state tracker surfaces.",
+    "work_management_model": {
+      "canonical_tracker_mode": "objective_backlog_work_state",
+      "planner_mode": "tracker_backed_advisory_planning"
+    }
+  },
+  "scaffold_strategy": "minimal_python_text_pack",
+  "schema_version": "template-creation-report/v1",
+  "status": "created",
+  "template_pack_id": "agent-native-project-initialization-smoke-template-pack"
+}

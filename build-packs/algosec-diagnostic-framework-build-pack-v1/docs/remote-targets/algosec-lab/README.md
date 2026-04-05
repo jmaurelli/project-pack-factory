@@ -60,7 +60,10 @@ CLI commands:
 PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack target-preflight --project-root . --output json
 PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack target-heartbeat --project-root . --output json
 PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack target-shell-command --project-root . --command "hostname" --output json
+PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-support-baseline --project-root . --target-label algosec-lab --use-target-connection --output json
 ```
+
+That target-backed path now defaults to `dist/candidates/adf-target-profile-baseline/`.
 
 ## Historical Direct-Host Request
 

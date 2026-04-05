@@ -1,0 +1,12 @@
+{
+  "current_revision": "create-template-agent-native-project-initialization-smoke-template-pack-20260401t132529z",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "maintained",
+  "pack_id": "agent-native-project-initialization-smoke-template-pack",
+  "pack_kind": "template_pack",
+  "promotion_target": "none",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create a bounded proving-ground template for the new agent-native initialization declaration flow.",
+  "updated_at": "2026-04-01T13:25:29Z",
+  "updated_by": "codex"
+}

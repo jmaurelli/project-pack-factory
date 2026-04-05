@@ -1,0 +1,35 @@
+{
+  "factory_context_paths": [
+    "docs/specs/project-pack-factory/assistant-uat-scenarios/business-review-anchor-plus-communication-calibration.json",
+    "templates/codex-personal-assistant-template-pack/.pack-state/template-lineage-memory/template-lineage-memory-codex-personal-assistant-template-pack-20260331t171721z.json"
+  ],
+  "generated_at": "2026-03-31T17:20:19Z",
+  "improvement_id": "codex-personal-assistant-communication-pattern-calibration",
+  "operator_summary": "Recorded runtime-template parity `template_backported_and_lineage_refreshed` for `codex-personal-assistant-communication-pattern-calibration` from `codex-personal-assistant-daily-driver-build-pack-v1` to `codex-personal-assistant-template-pack`. Runtime paths: 4. Template paths: 4. Pending follow-up: none.",
+  "parity_status": "template_backported_and_lineage_refreshed",
+  "pending_follow_up": [],
+  "proof_paths": [
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t171636z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/eval/history/import-external-runtime-evidence-20260331t171636z/import-report.json"
+  ],
+  "recorded_by": "codex",
+  "report_id": "template-parity-codex-personal-assistant-communication-pattern-calibration-20260331t172019z",
+  "runtime_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "runtime_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+  "runtime_paths": [
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/alignment.py",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/cli.py",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/grounding.py",
+    "build-packs/codex-personal-assistant-daily-driver-build-pack-v1/src/codex_personal_assistant_template_pack/relationship_state.py"
+  ],
+  "schema_version": "template-parity-report/v1",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "source_template_root": "/home/orchadmin/project-pack-factory/templates/codex-personal-assistant-template-pack",
+  "summary": "Record the bounded business-review anchored communication-calibration flow now proved in the daily-driver runtime pack and backported into the Codex personal assistant template line.",
+  "template_paths": [
+    "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/alignment.py",
+    "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/cli.py",
+    "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/grounding.py",
+    "templates/codex-personal-assistant-template-pack/src/codex_personal_assistant_template_pack/relationship_state.py"
+  ]
+}

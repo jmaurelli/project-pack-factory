@@ -1,0 +1,82 @@
+{
+  "status": "pass",
+  "review_id": "2026-03-31-small-business-grounding-review",
+  "review_path": ".pack-state/business-grounding-reviews/2026-03-31-small-business-grounding-review.json",
+  "latest_pointer_path": ".pack-state/business-grounding-reviews/latest-review.json",
+  "replaced_existing": false,
+  "continuity_checkpoint": {
+    "status": "pass",
+    "memory_id": "continuity-2026-03-31-small-business-grounding-review",
+    "category": "goal",
+    "memory_path": ".pack-state/assistant-memory/continuity-2026-03-31-small-business-grounding-review.json",
+    "latest_pointer_path": ".pack-state/assistant-memory/latest-memory.json",
+    "replaced_existing": false
+  },
+  "closeout_distillation": {
+    "status": "pass",
+    "distillation_id": "closeout-review-2026-03-31-small-business-grounding-review",
+    "distillation_path": ".pack-state/session-distillation/closeout-review-2026-03-31-small-business-grounding-review.json",
+    "latest_pointer_path": ".pack-state/session-distillation/latest-distillation.json",
+    "replaced_existing": false,
+    "promoted_memory_id": null,
+    "classified_category": "goal",
+    "signal_strength": "session_observation",
+    "memory_result": null,
+    "promote_category": null,
+    "repeated_closeout_signal_count": 1,
+    "matching_rule": "same_category_and_assessment",
+    "source_memory_ids": [
+      "continuity-2026-03-31-small-business-grounding-review"
+    ]
+  },
+  "business_review_status": {
+    "cadence_name": "weekly-business-grounding-review",
+    "latest_review_id": "2026-03-31-small-business-grounding-review",
+    "latest_pointer_path": ".pack-state/business-grounding-reviews/latest-review.json",
+    "review_count": 1,
+    "review_question_count": 4,
+    "due_condition_count": 3,
+    "review_due": false,
+    "due_reason": "Recent business grounding review is available.",
+    "latest_review_assessment": "aligned",
+    "missing_signal_category_count": 3
+  },
+  "relationship_reflection_status": {
+    "cadence_name": "relationship-signal-reflection",
+    "due_condition_count": 3,
+    "review_question_count": 3,
+    "reflection_due": true,
+    "due_reason": "Relationship signals are still missing; capture one bounded reflection instead of assuming personalization.",
+    "reflection_priority": "high",
+    "target_signal_categories": [
+      "preference",
+      "communication_pattern"
+    ],
+    "suggested_reflection_prompts": [
+      {
+        "category_id": "preference",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      },
+      {
+        "category_id": "communication_pattern",
+        "prompt": "What recurring communication pattern would help the assistant work better with the operator?"
+      }
+    ],
+    "max_prompts_per_reflection": 2,
+    "recommended_record_surface": "record-operator-intake",
+    "recommended_next_step": "Use record-operator-intake to capture one bounded reflection for the first missing signal category.",
+    "recommended_step_sequence": [
+      {
+        "step_id": "capture_missing_relationship_signal",
+        "surface": "record-operator-intake",
+        "reason": "missing_relationship_signal",
+        "category_id": "preference",
+        "summary": "Capture one bounded reflection for the first missing relationship signal category.",
+        "prompt": "What working preferences or communication preferences should the assistant remember for next time?"
+      }
+    ],
+    "latest_review_assessment": "aligned",
+    "business_review_anchor_present": true,
+    "thin_history_risk": "medium"
+  }
+}

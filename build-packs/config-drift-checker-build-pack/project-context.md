@@ -22,6 +22,12 @@ This build-pack was materialized to support the following project goal:
 - `benchmarks/declarations/config-drift-checker-build-pack-smoke-small-001.json`
 - `eval/latest/index.json`
 
+## Optional Overlay Guidance
+
+This build-pack may carry an optional role/domain overlay for framing drift
+evidence. When one is selected, treat it as framing guidance only and prefer
+`AGENTS.md` plus `pack.json` for the concrete selected overlay.
+
 ## Pack-Local Fixtures
 
 - `tests/fixtures/no-drift-sample.json`

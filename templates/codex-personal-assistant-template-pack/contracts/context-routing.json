@@ -1,0 +1,122 @@
+{
+  "schema_version": "codex-personal-assistant-context-routing/v2",
+  "routes": [
+    {
+      "route_id": "identity",
+      "keywords": [
+        "identity",
+        "profile",
+        "assistant",
+        "persona"
+      ],
+      "summary": "Assistant identity, mission, and default behavior surfaces.",
+      "paths": [
+        "contracts/assistant-profile.json",
+        "AGENTS.md",
+        "project-context.md"
+      ]
+    },
+    {
+      "route_id": "goals",
+      "keywords": [
+        "operator",
+        "goals",
+        "priorities",
+        "grounded"
+      ],
+      "summary": "Structured operator goals, priorities, and grounding principles.",
+      "paths": [
+        "contracts/operator-profile.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md"
+      ]
+    },
+    {
+      "route_id": "operator_intake",
+      "keywords": [
+        "intake",
+        "onboard",
+        "learn",
+        "refine"
+      ],
+      "summary": "Operator intake prompts, inspectable intake artifacts, and bounded profile refinement.",
+      "paths": [
+        "contracts/operator-intake.json",
+        "docs/specs/operator-intake-model.md",
+        "prompts/operator-discovery-guide.md"
+      ]
+    },
+    {
+      "route_id": "partnership",
+      "keywords": [
+        "partner",
+        "alignment",
+        "business",
+        "ambiguity"
+      ],
+      "summary": "How the assistant should work with the operator, handle ambiguity, and surface drift.",
+      "paths": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md"
+      ]
+    },
+    {
+      "route_id": "memory",
+      "keywords": [
+        "memory",
+        "restart",
+        "continuity",
+        "adaptation"
+      ],
+      "summary": "Restart-memory policy plus the local pointer used for the latest memory artifact.",
+      "paths": [
+        "contracts/memory-policy.json",
+        "prompts/restart-memory-guide.md",
+        ".pack-state/assistant-memory/latest-memory.json"
+      ]
+    },
+    {
+      "route_id": "skills",
+      "keywords": [
+        "skills",
+        "capabilities",
+        "customization",
+        "tooling"
+      ],
+      "summary": "Assistant skills, how they are grouped, and where custom overlays belong.",
+      "paths": [
+        "contracts/skill-catalog.json",
+        "prompts/skills-guide.md"
+      ]
+    },
+    {
+      "route_id": "bootstrap",
+      "keywords": [
+        "bootstrap",
+        "install",
+        "setup",
+        "workspace"
+      ],
+      "summary": "Workspace bootstrap behavior and the first-run checklist.",
+      "paths": [
+        "prompts/bootstrap-checklist.md",
+        "README.md"
+      ]
+    },
+    {
+      "route_id": "health",
+      "keywords": [
+        "doctor",
+        "health",
+        "validation",
+        "readiness"
+      ],
+      "summary": "Pack health, validation state, and readiness evidence surfaces.",
+      "paths": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ]
+    }
+  ]
+}

@@ -34,7 +34,7 @@
     "Compare Apache-routed endpoints and local listener ports before moving into deeper service-specific diagnosis.",
     "Use the recorded config and log checkpoints for the top services before inferring broader platform issues."
   ],
-  "generated_at": "2026-03-27T10:32:46Z",
+  "generated_at": "2026-04-01T21:27:56Z",
   "inferred": {
     "priority_services": [
       {
@@ -134,6 +134,93 @@
       "total_services": 223
     }
   },
+  "operator_rows": [
+    {
+      "branch_if_fail": "Stop and save the shared layer map before widening.",
+      "branch_if_pass": "Use the guide to prepare escalation or a later boundary check.",
+      "customer_symptom": "ASMS Runtime Taxonomy Guide",
+      "entry_question": "What should I understand before or after escalation",
+      "first_action": "Start with the first check.",
+      "handoff_target": "escalate_or_review",
+      "handoff_target_type": "escalation_stop",
+      "next_page_or_next_service": "escalate_or_review",
+      "next_page_type": "escalation_stop",
+      "page_id": "asms-runtime-taxonomy",
+      "page_role": "deep_guide",
+      "page_type": "deep_guide",
+      "row_id": "asms-runtime-taxonomy-operator-row",
+      "service_name": "",
+      "use_this_when": "",
+      "what_to_save": [
+        "layer map",
+        "boundary notes",
+        "escalation context"
+      ]
+    }
+  ],
+  "page_records": [
+    {
+      "branch_if_fail": "Stop and save the shared layer map before widening.",
+      "branch_if_pass": "Use the guide to prepare escalation or a later boundary check.",
+      "decision_rule": "Use this guide when you need the shared layer map before returning to a symptom-entry or boundary-confirmation page.",
+      "entry_question": "What should I understand before or after escalation",
+      "handoff_target": "escalate_or_review",
+      "handoff_target_type": "escalation_stop",
+      "label": "ASMS Runtime Taxonomy Guide",
+      "operator_row_id": "asms-runtime-taxonomy-operator-row",
+      "page_id": "asms-runtime-taxonomy",
+      "page_role": "deep_guide",
+      "page_type": "deep_guide",
+      "purpose": "Explain the shared ASMS-runtime-first layers and how to move from symptom entry into deeper boundary checks.",
+      "route_kind": "deep_guide",
+      "routing": {
+        "from_page_id": "asms-runtime-taxonomy",
+        "from_page_type": "deep_guide",
+        "route_kind": "deep_guide",
+        "to_page_id": "escalate_or_review",
+        "to_page_type": "escalation_stop"
+      },
+      "source_domain_ids": [],
+      "steps": [
+        {
+          "action": "Review the ASMS entry, auth, application, shared runtime, and host evidence layers.",
+          "handoff_target": "escalate_or_review",
+          "handoff_target_type": "escalation_stop",
+          "next_page": "escalate_or_review",
+          "next_page_type": "escalation_stop",
+          "page_type": "deep_guide",
+          "route_kind": "deep_guide",
+          "step_id": "asms-runtime-taxonomy-step-1",
+          "step_label": "Step 1"
+        }
+      ],
+      "supporting_topics": [
+        "ASMS entry and edge",
+        "ASMS authentication and session",
+        "ASMS application services",
+        "Shared runtime and dependencies",
+        "Host integration and operating evidence"
+      ],
+      "what_to_save": [
+        "layer map",
+        "boundary notes",
+        "escalation context"
+      ]
+    }
+  ],
+  "page_routes": [
+    {
+      "from_page_id": "asms-runtime-taxonomy",
+      "from_page_type": "deep_guide",
+      "handoff_target": "escalate_or_review",
+      "operator_row_id": "asms-runtime-taxonomy-operator-row",
+      "page_role": "deep_guide",
+      "route_kind": "deep_guide",
+      "source_flow_id": null,
+      "to_page_id": "escalate_or_review",
+      "to_page_type": "escalation_stop"
+    }
+  ],
   "schema_version": "adf-support-baseline/v1",
   "service_paths": [],
   "support_domains": [],

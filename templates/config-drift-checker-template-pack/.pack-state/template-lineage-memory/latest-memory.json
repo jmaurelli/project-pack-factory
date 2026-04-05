@@ -1,11 +1,11 @@
 {
   "schema_version": "template-lineage-memory-pointer/v1",
-  "selected_generated_at": "2026-03-26T17:25:35Z",
-  "selected_memory_id": "template-lineage-memory-config-drift-checker-template-pack-20260326t172535z",
-  "selected_memory_path": ".pack-state/template-lineage-memory/template-lineage-memory-config-drift-checker-template-pack-20260326t172535z.json",
-  "selected_memory_sha256": "71128f5231128c7b953dff09be4b8d9618123fb0f237de7143eabc97a02b8878",
+  "selected_generated_at": "2026-04-01T13:28:40Z",
+  "selected_memory_id": "template-lineage-memory-config-drift-checker-template-pack-20260401t132840z",
+  "selected_memory_path": ".pack-state/template-lineage-memory/template-lineage-memory-config-drift-checker-template-pack-20260401t132840z.json",
+  "selected_memory_sha256": "1cd6bf5ea9464b08308f57a4ae24c799cfb7823f056351a68293a04071ee443a",
   "source_kind": "template_lineage_memory_refresh",
   "source_tool": "tools/refresh_template_lineage_memory.py",
   "template_id": "config-drift-checker-template-pack",
-  "updated_at": "2026-03-26T17:25:35Z"
+  "updated_at": "2026-04-01T13:28:40Z"
 }

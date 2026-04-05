@@ -1,0 +1,14 @@
+{
+  "active_benchmarks": [
+    {
+      "benchmark_id": "agent-native-project-initialization-smoke-template-pack-smoke-small-001",
+      "declaration_path": "benchmarks/declarations/agent-native-project-initialization-smoke-template-pack-smoke-small-001.json",
+      "objective": "Confirm the starter template validates and runs its smoke benchmark.",
+      "required_for_readiness": true
+    }
+  ],
+  "default_benchmark_id": "agent-native-project-initialization-smoke-template-pack-smoke-small-001",
+  "pack_id": "agent-native-project-initialization-smoke-template-pack",
+  "pack_kind": "template_pack",
+  "schema_version": "pack-benchmark-active-set/v1"
+}

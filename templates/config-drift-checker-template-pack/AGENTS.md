@@ -49,6 +49,25 @@ remote workflows:
   `tools/import_external_runtime_evidence.py` or a higher-level PackFactory
   workflow that wraps that import
 
+## Optional Overlays
+
+Treat this line-level overlay as composable guidance. The overlay exists to
+shape evidence handling and problem framing; it does not replace canonical
+factory policy, pack-local objectives, or product behavior.
+
+### Role/Domain
+
+This template currently carries the optional role/domain overlay
+`research-analyst` (Research Analyst).
+A disciplined framing lens for evidence review, synthesis, and careful
+distinction between signal, gap, and inference.
+This template keeps the lens available and discoverable, but derived
+build-packs do not inherit it by default unless materialization explicitly
+selects it.
+- Separate observed evidence from inference and keep the distinction visible.
+- Favor careful synthesis over confident speculation when the signal is thin.
+- Call out what is still missing before recommending a stronger conclusion.
+
 ## Working Rules
 
 - Treat this pack as an active source template.

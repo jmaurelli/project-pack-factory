@@ -24,7 +24,8 @@
     "One machine-readable shallow surface map for the first useful support layer of the host and appliance runtime.",
     "One operator-reviewable summary derived from that map.",
     "A bounded ADF successor control plane that can deepen later slices from a real early artifact instead of speculative architecture.",
-    "A durable planning frontier for later-phase successor expansions such as a multi-node topology map, a fuller dependency graph, a health-validated integration model, and a more complete product behavior model."
+    "A durable planning frontier for later-phase successor expansions such as a multi-node topology map, a fuller dependency graph, a health-validated integration model, and a more complete product behavior model.",
+    "A longer-horizon workload-aware diagnostic knowledge spine covering workload fingerprints, config intent, data-flow mapping, log awareness, failure and scenario testing, predictive failure points, database-black-box analytics, and support-facing symptom-to-path guidance."
   ],
   "materialization_id": "materialize-algosec-diagnostic-framework-successor-build-pack-v1-20260402t120944z",
   "metrics": [
@@ -56,7 +57,8 @@
   "non_goals": [
     "Changing deployment state outside the existing PackFactory workflows.",
     "Creating new tests or benchmarks without explicit operator approval.",
-    "Attempting full dependency-graph completion, predictive analytics, or deep subsystem theory before the first shallow surface map exists."
+    "Attempting full dependency-graph completion, predictive analytics, or deep subsystem theory before the first shallow surface map exists.",
+    "Treating workload-specific lab drift, scenario-test outputs, or database-adjacent clues as universal truth without repeated supporting evidence."
   ],
   "objective_id": "algosec-diagnostic-framework-successor-build-pack-v1_objective",
   "objective_summary": "Create a bounded agent-centered ADF successor build pack that starts with a shallow read-only surface map of the Rocky 8 host and virtual appliance, turns that observation into one machine-readable diagnostic artifact plus one operator-reviewable summary, and only then deepens into later dependency or playbook work.",

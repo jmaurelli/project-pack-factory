@@ -1,0 +1,1868 @@
+OpenAI Codex v0.116.0 (research preview)
+--------
+workdir: /root
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 019d2c4f-ac9b-7e81-9f3c-978bdfe465df
+--------
+user
+You are Codex CLI running on the target appliance for a bounded delegated ADF task.
+Read the delegated request JSON at `.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json`.
+Keep all output inside `.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1`.
+
+Rules:
+- Stay within the delegated scope and allowed targets from the request.
+- Do not modify files outside the delegated bundle root unless the request tier explicitly allows bounded lab changes.
+- Always write `delegated-task-result.json` even if blocked or partially complete.
+- Record the shell commands you ran in `commands.jsonl` as one JSON object per line.
+- Write a short operator-facing summary in `findings.md`.
+- Put any captured artifacts under `artifacts/`.
+- For `observe_only`, leave `intentional_mutations` as an empty array unless you truly changed the target.
+
+Required output files:
+- `.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json`
+- `.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl`
+- `.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md`
+- `.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/`
+
+Suggested result schema:
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "asms-home-shell-config-observe-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Short operator-facing result summary.",
+  "returned_artifact_paths": [
+    "artifacts/example.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "Optional next step."
+  ]
+}
+
+Begin by reading the request file and then complete the delegated slice.
+
+mcp startup: no servers
+codex
+I’m reading the delegated request first, then I’ll stay inside that bundle root and produce the required result, command log, findings, and any artifacts.
+exec
+/bin/bash -lc pwd in /rootexec
+/bin/bash -lc 'cat .pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json' in /rootcodex
+The appliance shell is dropping into an interactive menu on login shells. I’m switching to non-login commands so I can read the delegated request without touching the target state.
+exec
+/bin/bash -c pwd in /root succeeded in 0ms:
+/root
+exec
+/bin/bash -c 'cat /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json' in /root succeeded in 0ms:
+{
+  "allowed_targets": [
+    "/usr/share/fa/php",
+    "/etc/httpd/conf.d",
+    "/data/ms-metro",
+    "/var/log/httpd"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "asms-home-shell-config-observe-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md"
+  ],
+  "generated_at": "2026-03-26T22:41:43Z",
+  "generated_by": "orchadmin",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+exec
+/bin/bash -c 'ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1' in /root succeeded in 0ms:
+total 16
+drwxr-xr-x 3 root root  136 Mar 26 18:41 .
+drwxr-xr-x 6 root root  140 Mar 26 18:41 ..
+drwxr-xr-x 2 root root    6 Mar 26 18:41 artifacts
+-rw-r--r-- 1 root root 3526 Mar 26 18:42 codex-launch.log
+-rw-r--r-- 1 root root 1820 Mar 26 18:41 codex-prompt.txt
+-rw-r--r-- 1 root root 1488 Mar 26 18:41 delegated-task-request.json
+-rwxr-xr-x 1 root root  732 Mar 26 18:41 run-delegated-codex.sh
+ succeeded in 10.68s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+ succeeded in 10.82s:
+Please select a configuration item:
+
+1.  Configure IP address
+2.  Configure Time and Date
+3.  Configure DNS server
+4.  Change DNS domain name
+5.  Change Hostname
+6.  Change root password
+7.  Change afa password
+8.  Upgrade software
+9.  Reset AFA admin password
+10. Reset database password
+11. Configure NAS
+12. Install License
+13. HA/DR Setup
+14. Product and cloud configuration
+15. Distributed Architecture configuration
+16. Migrate ASMS units
+17. System Health
+18. Collect Logs
+codex
+I have the request. Next I’m tracing the PHP entrypoint and the config/read paths it touches, then I’ll correlate those reads with the Metro-backed config endpoints the request names.
+exec
+/bin/bash -c 'ls -la /usr/share/fa/php' in /root succeeded in 0ms:
+total 2224
+drwxr-x---. 13 afa  apache   8192 Feb  9 09:48 .
+drwxr-xr-x. 14 root root      171 Nov  7 15:33 ..
+drwxr-x---.  4 root apache     34 Nov  7 15:32 3rdParty
+-rw-r-----   1 root apache  16627 Jan 11 15:44 AlgosecLocateObject.php
+-rw-r-----   1 root apache  37245 Jan 11 15:44 AlgosecQuery.php
+-rw-r-----   1 root apache   9601 Jan 11 15:44 AlgosecSelectHg.php
+-rw-r-----   1 root apache  92074 Jan 11 15:44 AlgosecSession.php
+-rw-r-----   1 root apache   6934 Jan 11 15:44 AlgosecSessionManager.php
+-rw-r-----   1 root apache  11024 Jan 11 15:44 AlgosecTrustedRule.php
+-rw-r-----   1 root apache  27705 Jan 11 15:44 AlgosecTrustedTraffic.php
+-rw-r-----   1 root apache   8185 Jan 11 15:44 AnalyzeFinish.php
+-rw-r-----   1 root apache   2322 Jan 11 15:44 AnalyzeProgress.php
+-rw-r-----   1 root apache   1904 Jan 11 15:44 AnalyzeProgressBar.html
+-rw-r-----   1 root apache   1626 Jan 11 15:44 AnalyzeProgressMsgs.php
+-rw-r-----   1 root apache   6672 Jan 11 15:44 AnalyzeProgressRefresh.php
+-rw-r-----   1 root apache    811 Jan 11 15:44 AttUIDParser.php
+-rw-r-----   1 root apache  10209 Jan 11 15:44 AutoImplWait.php
+-rw-r-----   1 root apache  26143 Jan 11 15:44 Auto_Impl_License_Agreement.html
+-rw-r-----   1 root apache   6348 Jan 11 15:44 BusinessFlowAPI.php
+exec
+/bin/bash -c "rg -n \"home\\.php|GetConfigurationSettings|RestClient|/afa/config|/afa/api/v1/config|ConfigurationSettings|config\" /usr/share/fa/php -g '*.php'" in /root succeeded in 1ms:
+/usr/share/fa/php/Compare.php:171:		$arrReportsData = RestClient::getDeviceLastSuccessfulReport($reports[0]);
+/usr/share/fa/php/Compare.php:174:		$arrReportsData = RestClient::getDeviceLastSuccessfulReport($reports[1]);
+/usr/share/fa/php/Compare.php:182:			$arrReportsData = RestClient::getDeviceLastSuccessfulReport($r[0]->GetTreeName());
+/usr/share/fa/php/Compare.php:188:			$arrReportsData = RestClient::getDeviceLastSuccessfulReport($r[1]->GetTreeName());
+/usr/share/fa/php/Compare.php:241:		utils::RedirectUrl("home.php");
+/usr/share/fa/php/Compare.php:272:             alert('Please configure your browser to allow popups from this site, so you can see your comparison results.');
+/usr/share/fa/php/BusinessFlowAPI.php:37:        $sBflowHost = $AlgosecSession->m_configurationSettings['BUSINESSFLOW_ADDRESS'];
+/usr/share/fa/php/BusinessFlowAPI.php:38:        $sBflowProtocol = isset($AlgosecSession->m_configurationSettings['BUSINESSFLOW_PROTOCOL']) ? $AlgosecSession->m_configurationSettings['BUSINESSFLOW_PROTOCOL'] : 'https';
+/usr/share/fa/php/BusinessFlowAPI.php:87:		$sBflowHost = $AlgosecSession->m_configurationSettings['BUSINESSFLOW_ADDRESS'];
+/usr/share/fa/php/BusinessFlowAPI.php:88:		$sBflowProtocol = isset($AlgosecSession->m_configurationSettings['BUSINESSFLOW_PROTOCOL']) ? $AlgosecSession->m_configurationSettings['BUSINESSFLOW_PROTOCOL'] : 'https';
+/usr/share/fa/php/BusinessFlowAPI.php:158:            RestClient::reloadConfig();
+/usr/share/fa/php/BusinessFlowAPI.php:159:            $arrConfigData = RestClient::getAllConfig();
+/usr/share/fa/php/Topology.php:57:		$arrReportsData = RestClient::getDataByReport($reportName);
+/usr/share/fa/php/Topology.php:62:			$arrReportsData = RestClient::getDeviceLastSuccessfulReport($report->m_fwName);
+/usr/share/fa/php/Topology.php:73:		$arrReportsData = RestClient::getDeviceLastSuccessfulReport($fwName);
+/usr/share/fa/php/Topology.php:116:	RestClient::createSymbolicLink('firewalls', $reportName);
+/usr/share/fa/php/AutoImplWait.php:128:						if (!empty($_SESSION['AlgosecSession']->m_configurationSettings['Rule_Selection_Limit'])) {
+/usr/share/fa/php/AutoImplWait.php:129:							echo "maxRules = " . $_SESSION['AlgosecSession']->m_configurationSettings['Rule_Selection_Limit'] . ";";
+/usr/share/fa/php/TopbarMenu.php:14:		array_push($mainLinks, array( "text" => "Domains", "href" => "/afa/php/domains_mng_home.php" ));
+/usr/share/fa/php/TopbarMenu.php:38:			$settingsPage = (isset($AlgosecSession->m_configurationSettings['ADMINISTRATION_FILE']) ? $AlgosecSession->m_configurationSettings['ADMINISTRATION_FILE'] : ADMINISTRATION_FILE);
+exec
+/bin/bash -c 'find /etc/httpd/conf.d -maxdepth 1 -type f | sort' in /root succeeded in 0ms:
+/etc/httpd/conf.d/README
+/etc/httpd/conf.d/aff.conf
+/etc/httpd/conf.d/algosec-ms.ms-aad-azure-sensor.conf
+/etc/httpd/conf.d/algosec-ms.ms-aad-log-sensor.conf
+/etc/httpd/conf.d/algosec-ms.ms-algobot.conf
+/etc/httpd/conf.d/algosec-ms.ms-autodiscovery.conf
+/etc/httpd/conf.d/algosec-ms.ms-backuprestore.conf
+/etc/httpd/conf.d/algosec-ms.ms-batch-application.conf
+/etc/httpd/conf.d/algosec-ms.ms-bflow.conf
+/etc/httpd/conf.d/algosec-ms.ms-cloudflow-broker.conf
+/etc/httpd/conf.d/algosec-ms.ms-cloudlicensing.conf
+/etc/httpd/conf.d/algosec-ms.ms-configuration.conf
+/etc/httpd/conf.d/algosec-ms.ms-devicedriver-aws.conf
+/etc/httpd/conf.d/algosec-ms.ms-devicedriver-azure.conf
+/etc/httpd/conf.d/algosec-ms.ms-devicemanager.conf
+/etc/httpd/conf.d/algosec-ms.ms-genericdevice.conf
+/etc/httpd/conf.d/algosec-ms.ms-initial-plan.conf
+/etc/httpd/conf.d/algosec-ms.ms-mapDiagnostics.conf
+/etc/httpd/conf.d/algosec-ms.ms-metro.conf
+/etc/httpd/conf.d/algosec-ms.ms-multipush.conf
+codex
+I found the relevant codebase. Now I’m narrowing to the `home.php` bootstrap path, the session/config cache layer, the REST client methods behind `/afa/config` and `/afa/api/v1/config`, and recent Apache logs to separate first-shell requirements from background/supporting reads.
+exec
+/bin/bash -c "sed -n '1,260p' /usr/share/fa/php/home.php" in /root succeeded in 0ms:
+<?php
+/*---------------------------------------------------------------------------
+// This software is Copyright (c) 2015 AlgoSec Inc.
+//---------------------------------------------------------------------------
+*/
+
+$g_arrExecTimes['START_SCRIPT'] = microtime();
+require_once("RequireHeaders.php");
+require_once("AlgosecSession.php");
+require_once("inc/users_prefs.inc.php");
+require_once("inc/data_collection.inc.php");
+$userName  = '';
+$sessionId = '';
+
+
+//needed for licenes not to be red:
+$AlgosecSession = utils::SetSession();
+
+if (empty($AlgosecSession)) {
+    utils::PrintLog("Warning", "Could not find AlgosecSession");
+exec
+/bin/bash -c "sed -n '1200,1325p' /usr/share/fa/php/AlgosecSession.php" in /root succeeded in 0ms:
+                }
+
+                array_push($login_arg, "-t",$this->m_client_ip, $session_cookie);
+            }
+
+			// if domain name entered, append it to LOGIN arguments
+			if ( ($this->m_domain != NULL) && ($this->m_domain != '') ){
+				array_push($login_arg, $this->m_domain);
+			}
+            $output = utils::RunFaServer($loginMethod, "", "", "", "", "", $login_arg);
+
+            switch($output){
+                case 0:
+                    utils::PrintLog("Info", "Successful login for $this->m_userName");
+		            if (!utils::VerifySessionDirExists($this->m_sessionId)) {
+                    	$err = "Login Failed\n";
+                    	utils::PrintLog("Error", "Session dir does not exist after fa_server LOGIN for $this->m_userName, session=$this->m_sessionId"); 
+                    	break;
+		            }
+		            else {
+exec
+/bin/bash -c "sed -n '1,260p' /usr/share/fa/php/AlgosecSessionManager.php" in /root succeeded in 0ms:
+<?php
+
+class AlgosecSessionManager {
+
+	public static function executeLogin($username, $encryptedPassword, $domain, $impersonateUser = '') {
+
+		$username = (!empty($username) ? $username : '');
+		$encryptedPassword = (!empty($encryptedPassword) ? $encryptedPassword : '');
+		$domain   = (!empty($domain) ? $domain : '');
+		$impersonateUser = (!empty($impersonateUser) ? $impersonateUser : '');
+
+		$loginRequestDescription = "local login for user '${username}'";
+
+		if ($domain != '') {
+			$loginRequestDescription .= ", domain: '${domain}'";
+		}
+
+		if ($impersonateUser != '') {
+			$loginRequestDescription .= ", Impersonate user '${impersonateUser}'";
+		}
+exec
+/bin/bash -c 'ls -1 /var/log/httpd' in /root succeeded in 0ms:
+access_log
+error_log
+ssl_access_log
+ssl_access_log-20260222.gz
+ssl_access_log-20260227.gz
+ssl_access_log-20260304.gz
+ssl_access_log-20260310.gz
+ssl_access_log-20260315.gz
+ssl_access_log-20260320.gz
+ssl_access_log-20260325
+ssl_error_log
+ssl_request_log
+ssl_request_log-20260228.gz
+ssl_request_log-20260304.gz
+ssl_request_log-20260309.gz
+ssl_request_log-20260313.gz
+ssl_request_log-20260317.gz
+ssl_request_log-20260321.gz
+ssl_request_log-20260325
+exec
+/bin/bash -c "rg -n \"function getAllConfig|function getConfig\\(|function reloadConfig|class RestClient|/afa/config|/afa/api/v1/config\" /usr/share/fa/php /usr/share/fa/php/ci -g '*.php'" in /root succeeded in 0ms:
+/usr/share/fa/php/inc/rest-client.inc.php:16:class RestClient
+/usr/share/fa/php/inc/rest-client.inc.php:176:    public static function getConfig($param)
+/usr/share/fa/php/inc/rest-client.inc.php:190:    public static function getAllConfig()
+/usr/share/fa/php/inc/rest-client.inc.php:195:    public static function getAllConfigWithoutException()
+/usr/share/fa/php/inc/rest-client.inc.php:204:	public static function reloadConfig() {
+/usr/share/fa/php/inc/rest-client.inc.php:1952:} // class RestClient (END)
+exec
+/bin/bash -c "sed -n '160,235p' /usr/share/fa/php/inc/rest-client.inc.php" in /root succeeded in 0ms:
+    /*
+     * get configuration
+     * input:  parameter (optional)
+     * output: array (hash)
+     *
+     * throws exceptions
+     * 401-499 Pest_ClientError Exception
+     * 400	   Pest_BadRequest Exception
+     * 401	   Pest_Unauthorized Exception
+     * 403	   Pest_Forbidden Exception
+     * 404	   Pest_NotFound Exception
+     * 405	   Pest_MethodNotAllowed Exception
+     * 409	   Pest_Conflict Exception
+     * 410	   Pest_Gone Exception
+     * 422	   Pest_InvalidRecord Exception
+     */
+    public static function getConfig($param)
+    {
+        return self::getPest()->get('/config/' . $param . self::httpBuildQuery());
+    }
+exec
+/bin/bash -c "sed -n '1,260p' /usr/share/fa/php/inc/rest-client.inc.php" in /root succeeded in 0ms:
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+/*
+ * PHP Rest client
+ */
+/*-------------------------------------------------------------------------------------
+// This software is Copyright (c) 2016 AlgoSec
+//-------------------------------------------------------------------------------------
+*/
+
+/**
+ * RestClient
+ * This class communicates with Metro via REST/JSON API
+ *
+ */
+class RestClient
+{
+    private static $sSessionID;
+    private static $objPest;
+    private static $objPestBackupResore;
+exec
+/bin/bash -c "rg -n \"Alias /afa|ProxyPass .*/afa|/afa/api/v1/config|/afa/config|home.php\" /etc/httpd/conf.d /usr/share/fa/php -g '*.conf' -g '*.php'" in /root succeeded in 0ms:
+/etc/httpd/conf.d/art.conf:35:  ProxyPass https://localhost/afa/php/kibana_filter.php timeout=300
+/etc/httpd/conf.d/zzz_fa.conf:131:  ProxyPass http://localhost:8080/afa/api/v1 timeout=18000 retry=0
+/etc/httpd/conf.d/zzz_fa.conf:140:  ProxyPass http://localhost:8080/afa/api/v1 timeout=18000 retry=0
+/etc/httpd/conf.d/zzz_fa.conf:223:  ProxyPass http://localhost:8080/afa/swagger-resources timeout=18000 retry=0
+/etc/httpd/conf.d/zzz_fa.conf:228:  ProxyPass http://localhost:8080/afa/v2/api-docs timeout=18000 retry=0
+/etc/httpd/conf.d/zzz_fa.conf:256:  ProxyPass http://localhost:8080/afa/api/v1/seikan timeout=18000 retry=0
+/etc/httpd/conf.d/zzz_fa.conf:288:Alias /afa/icons "/usr/share/fa/data/icons"
+/etc/httpd/conf.d/zzz_fa.conf:289:Alias /afa "/home/afa/public_html/algosec"
+/usr/share/fa/php/Compare.php:241:		utils::RedirectUrl("home.php");
+/usr/share/fa/php/AlgosecSession.php:1143:			utils::RedirectUrl("/afa/php/home.php?redirect_reason=License_Problem");
+/usr/share/fa/php/TopbarMenu.php:14:		array_push($mainLinks, array( "text" => "Domains", "href" => "/afa/php/domains_mng_home.php" ));
+/usr/share/fa/php/SuiteLoginSessionValidation.php:111:        redirectOrRespond("/afa/php/home.php");
+/usr/share/fa/php/SuiteLoginSessionValidation.php:124:	redirectOrRespond("/afa/php/home.php");
+/usr/share/fa/php/home.php:26:utils::PrintLog("Info", '---- home.php ('.$sAFAVersion.') - Started ['.UNIQUE_REQUEST_ID.'] ----');
+/usr/share/fa/php/home.php:285:                    WriteError2Log(e, 'home.php::Algosec.modal.showFirstTimeGreeter()');
+/usr/share/fa/php/home.php:1423:utils::PrintLog("Info", '---- home.php ('.$sAFAVersion.') - Finished ['.UNIQUE_REQUEST_ID.'] '.$sExecTimeText.'----'."\n");
+/usr/share/fa/php/constants.php:266:define("FIREWALLS_REPORTS_FILE", "home.php");
+/usr/share/fa/php/constants.php:267:define("GROUPS_REPORTS_FILE", "home.php");
+/usr/share/fa/php/constants.php:277:define("MATRICES_REPORTS_FILE", "home.php");
+/usr/share/fa/php/constants.php:283:define("HOME_TAB_FILE", "home.php");
+exec
+/bin/bash -c 'rg -n "(/afa/php/home.php|/afa/config|/afa/api/v1/config)" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /var/log/httpd/access_log' in /root succeeded in 0ms:
+/var/log/httpd/ssl_access_log:20644:127.0.0.1 - - [25/Mar/2026:15:09:08 -0400] "HEAD /afa/api/v1/config/all/noauth HTTP/1.1" 200 -
+/var/log/httpd/ssl_access_log:21779:172.27.144.75 - - [25/Mar/2026:15:48:08 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:21842:172.27.144.75 - - [25/Mar/2026:15:48:26 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35711
+/var/log/httpd/ssl_access_log:22086:127.0.0.1 - - [25/Mar/2026:15:51:53 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:22126:127.0.0.1 - - [25/Mar/2026:15:52:05 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:22164:127.0.0.1 - - [25/Mar/2026:15:52:35 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:22276:127.0.0.1 - - [25/Mar/2026:15:52:50 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35707
+/var/log/httpd/ssl_access_log:22917:127.0.0.1 - - [25/Mar/2026:16:07:07 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:22999:127.0.0.1 - - [25/Mar/2026:16:08:15 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:23052:127.0.0.1 - - [25/Mar/2026:16:09:00 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:23148:127.0.0.1 - - [25/Mar/2026:16:09:09 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35713
+/var/log/httpd/ssl_access_log:26298:127.0.0.1 - - [25/Mar/2026:17:29:28 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:26396:127.0.0.1 - - [25/Mar/2026:17:29:38 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35714
+/var/log/httpd/ssl_access_log:26520:127.0.0.1 - - [25/Mar/2026:17:30:33 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:26630:127.0.0.1 - - [25/Mar/2026:17:30:43 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35705
+/var/log/httpd/ssl_access_log:27375:127.0.0.1 - - [25/Mar/2026:17:47:50 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:27418:127.0.0.1 - - [25/Mar/2026:17:47:56 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:27514:127.0.0.1 - - [25/Mar/2026:17:48:06 -0400] "GET /afa/php/home.php HTTP/1.1" 200 35710
+/var/log/httpd/ssl_access_log:27598:127.0.0.1 - - [25/Mar/2026:17:48:11 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+/var/log/httpd/ssl_access_log:27650:127.0.0.1 - - [25/Mar/2026:17:48:19 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+codex
+The code seam is clear: PHP’s `RestClient` talks directly to `http://127.0.0.1:8080/afa`, while Apache exposes `/afa` and `/afa/api/v1` externally. I’m checking the exact proxy mapping plus Metro-side config storage hints under `/data/ms-metro` to make the operator summary precise.
+exec
+/bin/bash -c "sed -n '120,170p' /etc/httpd/conf.d/zzz_fa.conf" in /root succeeded in 0ms:
+
+<IfModule mod_mime.c>
+	#AddType image/ico .ico
+	AddType image/x-icon .ico
+</IfModule>
+
+
+TraceEnable off
+
+# METRO external API
+<Location /afa/external>
+  ProxyPass http://localhost:8080/afa/api/v1 timeout=18000 retry=0
+  ProxyPassReverse http://localhost:8080/afa/api/v1
+  SSLRequireSSL
+
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css application/json application/javascript
+  </IfModule>
+</Location>
+<Location /afa/api/v1>
+exec
+/bin/bash -c "rg -n \"GetDevicesData\\(|LoadFirewallDisplayNameArray\\(|GetUserInfo\\(|BuildGenericDevicesJavaScriptArr\\(|getChangesTabUpgradeTime\\(|AreDomainsUsed|CanOpenArt\" /usr/share/fa/php/AlgosecSession.php /usr/share/fa/php/home.php /usr/share/fa/php/inc/rest-client.inc.php -g '*.php'" in /root succeeded in 0ms:
+/usr/share/fa/php/AlgosecSession.php:386:				$this->GetDevicesData();
+/usr/share/fa/php/AlgosecSession.php:474:	public function getChangesTabUpgradeTime()
+/usr/share/fa/php/AlgosecSession.php:731:	public function GetDevicesData() {
+/usr/share/fa/php/AlgosecSession.php:961:	public function CanOpenArt(){
+/usr/share/fa/php/AlgosecSession.php:2277:	public function BuildGenericDevicesJavaScriptArr($sDefaultKey='ID')
+/usr/share/fa/php/AlgosecSession.php:3061:	public function LoadFirewallDisplayNameArray()
+/usr/share/fa/php/home.php:70:$_SESSION['AlgosecSession']->GetDevicesData();
+/usr/share/fa/php/home.php:72:$_SESSION['AlgosecSession']->LoadFirewallDisplayNameArray(); // load display names of firewalls to the session
+/usr/share/fa/php/home.php:74:$sGenericDevicesJavaScriptArray = $AlgosecSession->BuildGenericDevicesJavaScriptArr();
+/usr/share/fa/php/home.php:83:$iChangesTabUpgradeTime = $AlgosecSession->getChangesTabUpgradeTime();
+/usr/share/fa/php/home.php:105:if (! $AlgosecSession->CanOpenArt())
+/usr/share/fa/php/home.php:235:    $arrUserInfo = RestClient::GetUserInfo();
+/usr/share/fa/php/inc/rest-client.inc.php:516:    public static function GetUserInfo($sUser = '', $arrParams = array())
+exec
+/bin/bash -c "awk '("'$4 >= "[26/Mar/2026:05:11:00" && $4 <= "[26/Mar/2026:05:12:10") && /'"\\/afa\\// {print}' /var/log/httpd/ssl_access_log | sed -n '1,200p'" in /root succeeded in 0ms:
+127.0.0.1 - - [26/Mar/2026:05:11:04 -0400] "GET /afa/external//config?domain=0&session=c44ua8jbnllfd5kkjesm0ec03j HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:05:11:04 -0400] "GET /afa/external//config?session=c44ua8jbnllfd5kkjesm0ec03j&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:05:11:04 -0400] "GET /afa/php/themes/default/css/algosec-sidebar.css?v=1768164271 HTTP/1.1" 200 127
+127.0.0.1 - - [26/Mar/2026:05:11:05 -0400] "GET /afa/php/commands.php?cmd=IS_SESSION_ACTIVE&extended=true HTTP/1.1" 200 27
+127.0.0.1 - - [26/Mar/2026:05:11:05 -0400] "GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW HTTP/1.1" 401 437
+127.0.0.1 - - [26/Mar/2026:05:11:05 -0400] "POST /afa/php/SuiteLoginSessionValidation.php?clean=false HTTP/1.1" 200 65
+127.0.0.1 - - [26/Mar/2026:05:11:05 -0400] "GET /afa/external//config/all/noauth?domain=0 HTTP/1.1" 200 282
+127.0.0.1 - - [26/Mar/2026:05:11:09 -0400] "POST /afa/external//bridge/storeFireflowCookie?domain=0&session=ombubgb9s3f9u33bv3jpfiihfj HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:05:11:09 -0400] "GET /afa/external//config?session=ombubgb9s3f9u33bv3jpfiihfj&domain=0 HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:05:11:09 -0400] "GET /afa/external//config?domain=0&session=ombubgb9s3f9u33bv3jpfiihfj HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:05:11:09 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 188
+127.0.0.1 - - [26/Mar/2026:05:11:10 -0400] "GET /afa/external//config?domain=0&session=ombubgb9s3f9u33bv3jpfiihfj HTTP/1.1" 200 3125
+127.0.0.1 - - [26/Mar/2026:05:11:10 -0400] "POST /afa/external//session/extend?session=ombubgb9s3f9u33bv3jpfiihfj&domain=0 HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:05:11:10 -0400] "POST /afa/php/commands.php HTTP/1.1" 200 370
+127.0.0.1 - - [26/Mar/2026:05:11:11 -0400] "POST /afa/php/ws.php HTTP/1.1" 200 3431
+127.0.0.1 - - [26/Mar/2026:05:11:11 -0400] "GET /afa/api/v1/license HTTP/1.1" 200 311
+127.0.0.1 - - [26/Mar/2026:05:11:12 -0400] "POST /afa/external//session/extend?domain=0&session=ombubgb9s3f9u33bv3jpfiihfj HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026:05:11:12 -0400] "GET /afa/php/SuiteLoginSessionValidation.php HTTP/1.1" 302 -
+127.0.0.1 - - [26/Mar/2026:05:11:12 -0400] "GET /afa/php/themes/algosec_01__1768164240/css/normalize.css HTTP/1.1" 200 2641
+127.0.0.1 - - [26/Mar/2026:05:11:12 -0400] "GET /afa/php/themes/algosec_01__1768164240/css/3rdParty/font-awesome/css/font-awesome.min.css HTTP/1.1" 200 6930
+exec
+/bin/bash -c "rg -n \"config|metro|ms-configuration|all/noauth|PRINT_TABLE_IN_NORMAL_VIEW\" /data/ms-metro /etc/httpd/conf.d -g '*'" in /root succeeded in 1ms:
+/etc/httpd/conf.d/algosec-ms.ms-configuration.conf:1:RewriteCond %{HTTP_HOST} ^ms-configuration$
+/etc/httpd/conf.d/php74-php.conf:44:    # Apache specific PHP configuration options
+/etc/httpd/conf.d/php74-php.conf:45:    # those can be override in each configured vhost
+/etc/httpd/conf.d/ssl.conf.09:47.old:10:##  All SSL configuration in this context applies both to
+/etc/httpd/conf.d/ssl.conf.09:47.old:42:# General setup for the virtual host, inherited from global configuration
+/etc/httpd/conf.d/ssl.conf.09:47.old:68:#   User agents such as web browsers are not configured for the user's
+/etc/httpd/conf.d/ssl.conf.09:47.old:76:#   The OpenSSL system profile is configured by default.  See
+/etc/httpd/conf.d/ssl.conf.09:47.old:86:#   can configure both in parallel (to also allow the use of DSA
+/etc/httpd/conf.d/ssl.conf.09:47.old:89:#   require an ECC certificate which can also be configured in
+/etc/httpd/conf.d/ssl.conf.09:47.old:96:#   you've both a RSA and a DSA private key you can configure
+/etc/httpd/conf.d/ssl.conf.09:47.old:98:#   ECC keys, when in use, can also be configured in parallel
+/etc/httpd/conf.d/ssl.conf.09:47.old:259:# of your apache configuration.
+/etc/httpd/conf.d/welcome.conf:2:# This configuration file enables the default "Welcome" page if there
+/etc/httpd/conf.d/rocky-snipolicy.conf:4:# certificate or key configuration. This overrides the hard-coded
+/etc/httpd/conf.d/zzz_fa.conf:242:<Location /v2/api-docs/swagger-config>
+/etc/httpd/conf.d/zzz_fa.conf:243:  ProxyPass http://localhost:8185/v2/api-docs/swagger-config timeout=18000 retry=0
+/etc/httpd/conf.d/zzz_fa.conf:244:  ProxyPassReverse http://localhost:8185/v2/api-docs/swagger-config
+/etc/httpd/conf.d/README:2:This directory holds configuration files for the Apache HTTP Server;
+/etc/httpd/conf.d/README:4:processed as httpd configuration files.  The directory is used in
+/etc/httpd/conf.d/README:6:configuration files necessary to load modules.
+exec
+/bin/bash -c "sed -n '720,790p' /usr/share/fa/php/AlgosecSession.php" in /root succeeded in 0ms:
+			$sId = $arrAttr['name']; 
+			unset($arrAttr['name']);
+			$arr[$sId] = $arrAttr;
+		}
+		if (!empty($arr) && is_array($arr)) {
+			ksort($arr);
+		}
+		return $arr;
+	}
+
+
+	public function GetDevicesData() {
+
+		$arrAllowedDevices = RestClient::getDevicesNoAuth();
+		if (empty($arrAllowedDevices)) {
+			utils::PrintLog("Error","Failed to fetch allowed firewalls");
+			return false;
+		}
+
+		$hJavaToPerl = array( 'treeName' => 'name', 'displayName' => 'fw_display_name',
+exec
+/bin/bash -c "sed -n '2260,2315p' /usr/share/fa/php/AlgosecSession.php" in /root succeeded in 0ms:
+
+				// add brand result to result array
+				if (count($brandResult)) {
+					$brandID = $device['attributes']['ID'];
+					$result[$brandID] = $brandResult;
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	* Builds JSON structure of the generic devices
+	*
+	* @return string of JSON
+	*/
+	public function BuildGenericDevicesJavaScriptArr($sDefaultKey='ID')
+	{
+		$arrDevices = $this->m_arrGenericDevicesData;
+exec
+/bin/bash -c 'cat /etc/httpd/conf.d/algosec-ms.ms-configuration.conf' in /root succeeded in 0ms:
+RewriteCond %{HTTP_HOST} ^ms-configuration$
+RewriteCond %{REMOTE_ADDR} ^127.0.0.1$
+RewriteRule ^/(.*)$ http://127.0.0.1:8185/$1 [P]
+
+exec
+/bin/bash -c "sed -n '3048,3095p' /usr/share/fa/php/AlgosecSession.php" in /root succeeded in 0ms:
+		{
+			$groupName = $groupData['name'];
+			$groups2members[$groupName] = array();
+
+			foreach ($groupData['children'] as $groupMemberData)
+			{
+				array_push($groups2members[$groupName], $groupMemberData['name']);
+			}
+		}
+
+		return $groups2members;
+	}
+
+	public function LoadFirewallDisplayNameArray()
+	{
+		if (empty($this->fwDisplayName)) {
+			$analyzeOut = utils::BuildAnalyzedList("");
+
+			$this->fwDisplayName = (isset($analyzeOut['fwDisplayName']) && is_array($analyzeOut['fwDisplayName'])) ? $analyzeOut['fwDisplayName'] : array();
+		}
+exec
+/bin/bash -c "sed -n '500,545p' /usr/share/fa/php/inc/rest-client.inc.php" in /root succeeded in 0ms:
+        */
+
+		$arrDefault = array(
+		);
+
+        $sUser = (empty($sUser) ? ($_SESSION['AlgosecSession']->m_userName) : $sUser);
+        $arrMergedParams = array_merge($arrDefault, $arrParams);
+        $sUser = urlExtendEncode($sUser);
+
+        return self::getPest()->get("/UsersInfo/allowedFirewalls/" . $sUser . self::httpBuildQuery($arrMergedParams));
+    }
+
+    /*
+    * Return User Info
+    * @param (array) - $arrParams - array of parameters to submit
+    */
+    public static function GetUserInfo($sUser = '', $arrParams = array())
+    {
+        /*
+        Get user info for user:
+exec
+/bin/bash -c "sed -n '210,250p' /usr/share/fa/php/SuiteLoginSessionValidation.php" in /root succeeded in 0ms:
+	}
+}
+
+function checkAfaAuth($AlgosecSession) {
+	utils::PrintLog("Info", "Going to validate AFA session...");
+
+	if (empty($AlgosecSession)) {
+		utils::PrintLog("Info", "AFA session not validated");
+		return null;
+	}
+
+	utils::PrintLog("Info", "AFA session validated successfully");
+	return array($AlgosecSession->m_userName, $AlgosecSession->GetDomainId());
+}
+
+function checkUsernamesMatch($username1, $username2) {
+	try {
+		$response = RestClient::getConfig('Case_Sensitive_Username');
+		$caseSensitiveUserName = (is_array($response) ? ($response['Case_Sensitive_Username'] ?? 'no') : $response);
+		return strcasecmp($caseSensitiveUserName, 'yes') ?
+exec
+/bin/bash -c 'rg -n "getDevicesNoAuth|UsersInfo/|allowedFirewalls|PRINT_TABLE_IN_NORMAL_VIEW" /usr/share/fa/php/inc/rest-client.inc.php' in /root succeeded in 0ms:
+412:    public static function getDevicesNoAuth()
+495:        curl http://localhost:8080/afa/UsersInfo/allowedFirewalls/<user_name>?session=<SESS_ID>
+498:        curl http://localhost:8080/afa/UsersInfo/allowedFirewalls/<user>?session=<SESS_ID>?profile=<standard/readonly/none>
+509:        return self::getPest()->get("/UsersInfo/allowedFirewalls/" . $sUser . self::httpBuildQuery($arrMergedParams));
+520:        curl http://localhost:8080/afa/UsersInfo/<user_name>?session=<SESS_ID>
+530:        return self::getPest()->get("/UsersInfo/" . $sUser . self::httpBuildQuery($arrMergedParams));
+578:        return self::getPest()->get('UsersInfo/isUserExist/' . urlExtendEncode($user) . self::httpBuildQuery(empty($domain) ? array() : array('domain' => $domain)));
+583:        return self::getPest()->get('UsersInfo/landing_page/' . urlExtendEncode($user) . self::httpBuildQuery(empty($domain) ? array() : array('domain' => $domain)));
+exec
+/bin/bash -c "rg -n \"GET /afa/api/v1/config\\?session=|GET /afa/api/v1/config/all/noauth\\?domain=0|GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|GET /afa/php/home.php\" /data/ms-metro/logs/localhost_access_log.txt | tail -n 80" in /root succeeded in 0ms:
+139350:127.0.0.1 [26/Mar/2026:17:18:14 -0400] [http-nio-0.0.0.0-8080-exec-2] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 2315 22124 -
+139450:127.0.0.1 [26/Mar/2026:17:20:35 -0400] [http-nio-0.0.0.0-8080-exec-3] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 1888 23010 -
+139476:127.0.0.1 [26/Mar/2026:17:23:07 -0400] [http-nio-0.0.0.0-8080-exec-2] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 482 1440 19806 -
+139477:127.0.0.1 [26/Mar/2026:17:23:07 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 482 1906 19822 -
+139479:127.0.0.1 [26/Mar/2026:17:23:14 -0400] [http-nio-0.0.0.0-8080-exec-1] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 3078 19834 -
+139481:127.0.0.1 [26/Mar/2026:17:23:14 -0400] [http-nio-0.0.0.0-8080-exec-3] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 1308 19844 -
+139614:127.0.0.1 [26/Mar/2026:17:28:08 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 482 1713 16812 -
+139615:127.0.0.1 [26/Mar/2026:17:28:08 -0400] [http-nio-0.0.0.0-8080-exec-5] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 482 1505 16828 -
+139626:127.0.0.1 [26/Mar/2026:17:28:13 -0400] [http-nio-0.0.0.0-8080-exec-2] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 124665 16858 -
+139628:127.0.0.1 [26/Mar/2026:17:28:14 -0400] [http-nio-0.0.0.0-8080-exec-6] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 1055 16874 -
+139785:127.0.0.1 [26/Mar/2026:17:33:08 -0400] [http-nio-0.0.0.0-8080-exec-1] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 482 1453 64446 -
+139786:127.0.0.1 [26/Mar/2026:17:33:08 -0400] [http-nio-0.0.0.0-8080-exec-9] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 482 761 64458 -
+139788:127.0.0.1 [26/Mar/2026:17:33:14 -0400] [http-nio-0.0.0.0-8080-exec-7] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 2306 64484 -
+139790:127.0.0.1 [26/Mar/2026:17:33:14 -0400] [http-nio-0.0.0.0-8080-exec-2] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 1685 64502 -
+139821:127.0.0.1 [26/Mar/2026:17:34:47 -0400] [http-nio-0.0.0.0-8080-exec-7] "GET /afa/api/v1/config?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 200 7948 2035 12044 -
+139934:127.0.0.1 [26/Mar/2026:17:38:07 -0400] [http-nio-0.0.0.0-8080-exec-1] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 482 1520 54174 -
+139935:127.0.0.1 [26/Mar/2026:17:38:07 -0400] [http-nio-0.0.0.0-8080-exec-6] "GET /afa/api/v1/config/all/noauth?domain=0 HTTP/1.1" 200 482 990 54190 -
+139936:127.0.0.1 [26/Mar/2026:17:38:13 -0400] [http-nio-0.0.0.0-8080-exec-10] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 5072 54202 -
+139938:127.0.0.1 [26/Mar/2026:17:38:13 -0400] [http-nio-0.0.0.0-8080-exec-7] "GET /afa/api/v1/config?session=uimmr6u9e8jesn20npbldjnk6k&domain=0 HTTP/1.1" 200 7948 2005 54218 -
+139988:127.0.0.1 [26/Mar/2026:17:39:48 -0400] [http-nio-0.0.0.0-8080-exec-8] "GET /afa/api/v1/config?session=87809vce36fj9169nbl6vuvm79&domain=0 HTTP/1.1" 200 7948 1929 57104 -
+exec
+/bin/bash -c "rg -n \"PRINT_TABLE_IN_NORMAL_VIEW|/afa/api/v1/config|/afa/external//config|external//config|config/all/noauth|session/extend\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php -g '*.js' -g '*.php'" in /root exited 1 in 53ms:
+
+codex
+I have enough to separate the layers, but I still want the exact point where login hydrates config into the PHP session. That will let me state whether the config fetch is a hard prerequisite before `home.php`, or only a same-minute follow-on read.
+exec
+/bin/bash -c "sed -n '4500,4565p' /usr/share/fa/php/utils.php" in /root succeeded in 0ms:
+
+    if ($error !== NULL && $error['type'] == E_ERROR) // you have to compare to 1, because for some strange reason it also sends warnings here
+    {
+        utils::PrintLog("Error", $error["message"], false, $error);
+        // for ajax requests
+        //ob_end_clean(); # try to purge content sent so far
+        header('HTTP/1.1 500 Internal Server Error - AFA');
+        header('X-Algosec-Error-Message: ' . str_replace(["\r\n", "\n", "\r"], ' ', $error["message"])); // what the IT engineer sees in firebug
+        header('X-Algosec-Error-UserDisplay: ' . "Please check browser console log for details"); // what the user sees in the dialog
+        //header('X-Algosec-Error-File: '.$error["file"].":".$error["line"]);
+        echo "\n"; // needed so that the response variable will reach client's firebug
+    }
+}
+
+function urlExtendEncode($str = '')
+{
+    $str = urlencode($str);
+    $str = str_replace('.', '%2E', $str);
+    $str = str_replace('-', '%2D', $str);
+    return $str;
+exec
+/bin/bash -c "rg -n \"function HandleConfigParams|HandleConfigParams\\(\" /usr/share/fa/php -g '*.php'" in /root succeeded in 0ms:
+/usr/share/fa/php/AlgosecSessionManager.php:67:			utils::HandleConfigParams($AlgosecSession);
+/usr/share/fa/php/utils.php:2482:    static function HandleConfigParams(&$AlgosecSession)
+exec
+/bin/bash -c "sed -n '400,430p' /usr/share/fa/php/inc/rest-client.inc.php" in /root succeeded in 0ms:
+            'groupID' => $groupID
+        );
+
+        $devices = self::getPest()->get('/getAllowedDevicesOfGroup' . self::httpBuildQuery($params));
+        return $devices;
+    }
+
+    public static function getDevice($treeName, $arrParams = array())
+    {
+        return self::getPest()->get("/device/$treeName" . self::httpBuildQuery($arrParams));
+    }
+
+    public static function getDevicesNoAuth()
+    {
+        try {
+            $hDevices = self::getPest()->get('/noauth/device/');
+            return $hDevices;
+        } catch (Exception $e) {
+            utils::PrintLog('Debug', $e->getMessage());
+        }
+exec
+/bin/bash -c "sed -n '1,80p' /data/ms-metro/conf/Catalina/localhost/afa.xml" in /root succeeded in 0ms:
+<Context docBase="/usr/share/fa/mslib/ms-metro.war" reloadable="false">
+        <JarScanner scanManifest="false"/>
+        <CookieProcessor className="org.apache.tomcat.util.http.Rfc6265CookieProcessor" />
+        <Resources cachingAllowed="true" cacheMaxSize="200000" />
+    </Context>
+codex
+The login bootstrap detail was where I expected, but I pulled the wrong slice of `utils.php` first. I’m correcting that and then I’ll write the delegated outputs inside the bundle root only.
+exec
+/bin/bash -c "sed -n '2470,2525p' /usr/share/fa/php/utils.php" in /root succeeded in 0ms:
+        }
+        return $found;
+    }
+
+    /**
+     * Register the the session TOKEN value, loads the configuration to the session adn
+     *  sets additional parameters
+     *
+     * @param  (object)  $AlgosecSession
+     *
+     * @return (void)
+     */
+    static function HandleConfigParams(&$AlgosecSession)
+    {
+        $AlgosecSession->GetConfigurationSettings();
+
+        $_SESSION["WEBGUI_SESSION_LENGTH"] = isset($AlgosecSession->m_configurationSettings['WEBGUI_SESSION_LENGTH']) ?
+            $AlgosecSession->m_configurationSettings['WEBGUI_SESSION_LENGTH'] : ((ini_get('session.gc_maxlifetime')) / 60);
+
+        if (!isset($_SESSION['db_decrypted_passwd'])) {
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '55,80p'" in /root succeeded in 0ms:
+    55			utils::PrintLog("Info", "starting login - ${loginRequestDescription}");
+    56		}
+    57	
+    58		private static function postLoginActions($loginRequestDescription, $AlgosecSession) {
+    59			// Note: we have an assumption here that the AFA session ID and PHPSESSID are identical!
+    60			$_SESSION['AlgosecSession'] =& $AlgosecSession;
+    61	
+    62			if ($AlgosecSession->IsSessionStarted()) {
+    63				// Generates Token key (CSRF protection) for AFA.
+    64				AlgosecSessionManager::GenerateNewRandomToken($AlgosecSession);
+    65	
+    66				// cache configuration into session memory (in php)
+    67				utils::HandleConfigParams($AlgosecSession);
+    68	
+    69				utils::PrintLog("Info", "login finished - ${loginRequestDescription}");
+    70			} else {
+    71				// clearing PHP cookie as it won't be used later.
+    72			    AlgosecSessionManager::destroyClientSession();
+    73	
+    74				utils::PrintLog("Warning", "login failed - ${loginRequestDescription}");
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/AlgosecSession.php | sed -n '1252,1285p'" in /root succeeded in 0ms:
+  1252		 * Reads configuration data into: $this->m_configurationSettings
+  1253		 *
+  1254		 * @return void
+  1255		 *
+  1256		 */
+  1257		public function GetConfigurationSettings()
+  1258		{
+  1259			try {
+  1260				$arrConfigData = RestClient::getAllConfig();
+  1261	
+  1262				// $arrConfigDatashould be defined in the returned output from the command.
+  1263				if (isset($arrConfigData) && is_array($arrConfigData)) {
+  1264	
+  1265					foreach ($arrConfigData as $key => $value)
+  1266					{
+  1267						// Prevent php engine to replace key with "." char to "_" char
+  1268						$this->m_configurationSettings[str_replace('_ALGODOT_', '.', $key)] = $value;
+  1269					}
+  1270	
+  1271					utils::PrintLog("Info", "Successfully fetched configuration data");
+exec
+/bin/bash -c "nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'" in /rootexec
+/bin/bash -c "nl -ba /usr/share/fa/php/home.php | sed -n '1,120p'" in /root succeeded in 0ms:
+    35	        }
+    36	    }
+    37	
+    38	    private static function getPestBackupRestore() {
+    39	
+    40	        # Fail the request if the MS was not started succesfully
+    41	        self::enableBackupRestoreMS();
+    42	
+    43	        if (self::$objPestBackupResore == null) {
+    44	            self::$objPestBackupResore = new PestJSON('http://ms-backuprestore');
+    45	            if (!empty($GLOBALS['IGNORE_PEST_EXCEPTIONS']) && is_object(self::$objPestBackupResore) && isset(self::$objPestBackupResore->throw_exceptions)) {
+    46	                self::$objPestBackupResore->throw_exceptions = false;
+    47	            }
+    48	        }
+    49	
+    50	        return self::$objPestBackupResore;
+    51	    }
+    52	
+    53		private static function getPest() {
+    54	        if (self::$objPest == null) {
+ succeeded in 0ms:
+     1	<?php
+     2	/*---------------------------------------------------------------------------
+     3	// This software is Copyright (c) 2015 AlgoSec Inc.
+     4	//---------------------------------------------------------------------------
+     5	*/
+     6	
+     7	$g_arrExecTimes['START_SCRIPT'] = microtime();
+     8	require_once("RequireHeaders.php");
+     9	require_once("AlgosecSession.php");
+    10	require_once("inc/users_prefs.inc.php");
+    11	require_once("inc/data_collection.inc.php");
+    12	$userName  = '';
+    13	$sessionId = '';
+    14	
+    15	
+    16	//needed for licenes not to be red:
+    17	$AlgosecSession = utils::SetSession();
+    18	
+    19	if (empty($AlgosecSession)) {
+    20	    utils::PrintLog("Warning", "Could not find AlgosecSession");
+codex
+I’m writing the delegated bundle outputs now. They’ll capture the command log, the operator-facing findings, a short evidence artifact, and the JSON result with no intentional mutations recorded.
+file update
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+ASMS first-shell config seam evidence
+====================================
+
+Code path
+---------
+1. Login/session bootstrap caches config before home shell:
+   - /usr/share/fa/php/AlgosecSessionManager.php:58-69
+   - /usr/share/fa/php/utils.php:2482-2490
+   - /usr/share/fa/php/AlgosecSession.php:1257-1278
+
+2. Metro REST base and config endpoints:
+   - /usr/share/fa/php/inc/rest-client.inc.php:53-56 -> PestJSON('http://127.0.0.1:8080/afa')
+   - /usr/share/fa/php/inc/rest-client.inc.php:176-205 -> /config/ and reload
+
+3. home.php uses cached config and same-request non-config reads:
+   - /usr/share/fa/php/home.php:54-67, 76-119
+   - /usr/share/fa/php/home.php:69-74 -> GetDevicesData(), ResetReportsDataConfig(), LoadFirewallDisplayNameArray()
+   - /usr/share/fa/php/home.php:235 -> RestClient::GetUserInfo()
+   - /usr/share/fa/php/inc/rest-client.inc.php:412-416 -> /noauth/device/
+   - /usr/share/fa/php/inc/rest-client.inc.php:516-530 -> /UsersInfo/<user>
+
+Apache/Tomcat mapping
+---------------------
+- /etc/httpd/conf.d/zzz_fa.conf maps external /afa/api/v1 to http://localhost:8080/afa/api/v1
+- /etc/httpd/conf.d/algosec-ms.ms-configuration.conf rewrites host ms-configuration from 127.0.0.1 to http://127.0.0.1:8185/
+- /data/ms-metro/conf/Catalina/localhost/afa.xml mounts the Metro WAR as the /afa Tomcat context
+
+Log correlation
+---------------
+Observed in /var/log/httpd/ssl_access_log on 2026-03-26 05:11-05:12:
+- 05:11:05 GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW -> 401
+- 05:11:05 GET /afa/external//config/all/noauth?domain=0 -> 200
+- 05:11:09 and 05:11:10 GET /afa/external//config?session=...&domain=0 -> 200
+- 05:11:12 GET /afa/php/SuiteLoginSessionValidation.php -> 302
+- 05:11:12 GET /afa/php/home.php -> 200
+
+Observed in /data/ms-metro/logs/localhost_access_log.txt repeatedly on 2026-03-26:
+- paired GET /afa/api/v1/config/all/noauth?domain=0 -> 200
+- followed by paired GET /afa/api/v1/config?session=...&domain=0 -> 200
+
+Observed in /var/log/httpd/ssl_access_log on 2026-03-25 19:20:54:
+- GET /afa/api/v1/config?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 200
+- GET /afa/config/?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 404
+
+Interpretation
+--------------
+- Backend PHP depends on Metro config via the internal Tomcat /afa context.
+- External /afa/api/v1/config is the Apache-exposed equivalent of that backend seam.
+- External /afa/config is not a valid Apache route on this appliance, so operator checks should use /afa/api/v1/config when validating from outside Apache/PHP.
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+Observed the direct PHP-to-Metro config seam behind the first usable ASMS home shell.
+
+Key findings:
+- PHP login bootstrap makes Metro config a hard prerequisite before `home.php`: `AlgosecSessionManager::postLoginActions()` calls `utils::HandleConfigParams()`, which calls `GetConfigurationSettings()`, which calls `RestClient::getAllConfig()`.
+- `RestClient` talks straight to Metro at `http://127.0.0.1:8080/afa`, so the PHP stack does not need Apache's external `/afa/api/v1/config` route for its own config hydration.
+- `home.php` primarily consumes already-cached `m_configurationSettings`; its same-request live reads are mostly non-config data such as `/noauth/device/`, `UsersInfo/<user>`, and local analyzed-list/session artifacts.
+- Apache exposes `/afa/api/v1` to the same Metro backend, but externally visible `/afa/config` is not mapped in Apache. A captured access-log pair on 2026-03-25 19:20:54 shows `/afa/api/v1/config?...` returning `200` while `/afa/config/?...` returns `404`.
+- Same-minute supporting traffic around successful shell entry includes unauthenticated or external-shell config probes such as `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW` (`401`) and `/afa/external//config/all/noauth` (`200`). Those appear adjacent to shell validation and suite framing, not as blockers for `home.php` itself.
+
+Assessment:
+- First-shell requirement: Metro config fetch via backend `GET /afa/api/v1/config?session=...&domain=...` during login/session bootstrap.
+- Supporting traffic in the same minute: `/afa/external//config/all/noauth`, `/afa/external//config?...`, `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW`, session-extend/license checks, and static asset loads.
+
+Artifacts:
+- `artifacts/seam-evidence.txt`
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+{
+  "schema_version": "adf-delegated-task-result/v1",
+  "delegation_run_id": "asms-home-shell-config-observe-v1",
+  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
+  "delegation_tier": "observe_only",
+  "status": "completed",
+  "summary": "Mapped the first usable ASMS home-shell config seam. PHP login bootstrap requires a Metro config fetch before home.php, using RestClient against http://127.0.0.1:8080/afa. Apache externally exposes the equivalent backend as /afa/api/v1/config, while /afa/config is not externally mapped and returned 404 in observed logs. Same-minute supporting traffic included external/noauth config probes and session-extension checks, but those did not appear to be the blocking dependency for home.php.",
+  "returned_artifact_paths": [
+    "artifacts/seam-evidence.txt"
+  ],
+  "intentional_mutations": [],
+  "follow_up_recommendations": [
+    "If you need to validate this seam actively, probe /afa/api/v1/config from the external side rather than /afa/config.",
+    "Correlate one successful SuiteLoginSessionValidation-to-home.php flow with Metro localhost_access_log.txt request IDs or session IDs to distinguish suite-frame config reads from direct AFA home-shell reads even more tightly."
+  ]
+}
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+{"cmd":"pwd","workdir":"/root","login":true}
+{"cmd":"cat .pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":true}
+{"cmd":"pwd","workdir":"/root","login":false}
+{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":false}
+{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1","workdir":"/root","login":false}
+{"cmd":"rg -n \"home\\.php|GetConfigurationSettings|RestClient|/afa/config|/afa/api/v1/config|ConfigurationSettings|config\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
+{"cmd":"ls -la /usr/share/fa/php","workdir":"/root","login":false}
+{"cmd":"find /etc/httpd/conf.d -maxdepth 1 -type f | sort","workdir":"/root","login":false}
+{"cmd":"sed -n '1,260p' /usr/share/fa/php/home.php","workdir":"/root","login":false}
+{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSessionManager.php","workdir":"/root","login":false}
+{"cmd":"sed -n '1200,1325p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"function getAllConfig|function getConfig\\(|function reloadConfig|class RestClient|/afa/config|/afa/api/v1/config\" /usr/share/fa/php /usr/share/fa/php/ci -g '*.php'","workdir":"/root","login":false}
+{"cmd":"ls -1 /var/log/httpd","workdir":"/root","login":false}
+{"cmd":"sed -n '1,260p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
+{"cmd":"sed -n '160,235p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"Alias /afa|ProxyPass .*/afa|/afa/api/v1/config|/afa/config|home.php\" /etc/httpd/conf.d /usr/share/fa/php -g '*.conf' -g '*.php'","workdir":"/root","login":false}
+{"cmd":"rg -n \"(/afa/php/home.php|/afa/config|/afa/api/v1/config)\" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /var/log/httpd/access_log","workdir":"/root","login":false}
+{"cmd":"sed -n '120,170p' /etc/httpd/conf.d/zzz_fa.conf","workdir":"/root","login":false}
+{"cmd":"rg -n \"config|metro|ms-configuration|all/noauth|PRINT_TABLE_IN_NORMAL_VIEW\" /data/ms-metro /etc/httpd/conf.d -g '*'","workdir":"/root","login":false}
+{"cmd":"rg -n \"GetDevicesData\\(|LoadFirewallDisplayNameArray\\(|GetUserInfo\\(|BuildGenericDevicesJavaScriptArr\\(|getChangesTabUpgradeTime\\(|AreDomainsUsed|CanOpenArt\" /usr/share/fa/php/AlgosecSession.php /usr/share/fa/php/home.php /usr/share/fa/php/inc/rest-client.inc.php -g '*.php'","workdir":"/root","login":false}
+{"cmd":"awk '($4 >= \"[26/Mar/2026:05:11:00\" && $4 <= \"[26/Mar/2026:05:12:10\") && /\\/afa\\// {print}' /var/log/httpd/ssl_access_log | sed -n '1,200p'","workdir":"/root","login":false}
+{"cmd":"sed -n '720,790p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
+{"cmd":"sed -n '2260,2315p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
+{"cmd":"sed -n '3048,3095p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
+{"cmd":"sed -n '500,545p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
+{"cmd":"cat /etc/httpd/conf.d/algosec-ms.ms-configuration.conf","workdir":"/root","login":false}
+{"cmd":"rg -n \"PRINT_TABLE_IN_NORMAL_VIEW|/afa/api/v1/config|/afa/external//config|external//config|config/all/noauth|session/extend\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php -g '*.js' -g '*.php'","workdir":"/root","login":false}
+{"cmd":"sed -n '210,250p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"getDevicesNoAuth|UsersInfo/|allowedFirewalls|PRINT_TABLE_IN_NORMAL_VIEW\" /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
+{"cmd":"rg -n \"GET /afa/api/v1/config\\?session=|GET /afa/api/v1/config/all/noauth\\?domain=0|GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|GET /afa/php/home.php\" /data/ms-metro/logs/localhost_access_log.txt | tail -n 80","workdir":"/root","login":false}
+{"cmd":"rg -n \"function HandleConfigParams|HandleConfigParams\\(\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
+{"cmd":"sed -n '4500,4565p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
+{"cmd":"sed -n '400,430p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
+{"cmd":"sed -n '1,80p' /data/ms-metro/conf/Catalina/localhost/afa.xml","workdir":"/root","login":false}
+{"cmd":"sed -n '2470,2525p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '1,120p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '55,80p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/AlgosecSession.php | sed -n '1252,1285p'","workdir":"/root","login":false}
+{"cmd":"nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'","workdir":"/root","login":false}
+apply_patch(auto_approved=true) exited 0 in 7ms:
+Success. Updated the following files:
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+A /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..95c87344c09cd27420de15b76d98bcc7382571e4
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+@@ -0,0 +1,49 @@
++ASMS first-shell config seam evidence
++====================================
++
++Code path
++---------
++1. Login/session bootstrap caches config before home shell:
++   - /usr/share/fa/php/AlgosecSessionManager.php:58-69
++   - /usr/share/fa/php/utils.php:2482-2490
++   - /usr/share/fa/php/AlgosecSession.php:1257-1278
++
++2. Metro REST base and config endpoints:
++   - /usr/share/fa/php/inc/rest-client.inc.php:53-56 -> PestJSON('http://127.0.0.1:8080/afa')
++   - /usr/share/fa/php/inc/rest-client.inc.php:176-205 -> /config/ and reload
++
++3. home.php uses cached config and same-request non-config reads:
++   - /usr/share/fa/php/home.php:54-67, 76-119
++   - /usr/share/fa/php/home.php:69-74 -> GetDevicesData(), ResetReportsDataConfig(), LoadFirewallDisplayNameArray()
++   - /usr/share/fa/php/home.php:235 -> RestClient::GetUserInfo()
++   - /usr/share/fa/php/inc/rest-client.inc.php:412-416 -> /noauth/device/
++   - /usr/share/fa/php/inc/rest-client.inc.php:516-530 -> /UsersInfo/<user>
++
++Apache/Tomcat mapping
++---------------------
++- /etc/httpd/conf.d/zzz_fa.conf maps external /afa/api/v1 to http://localhost:8080/afa/api/v1
++- /etc/httpd/conf.d/algosec-ms.ms-configuration.conf rewrites host ms-configuration from 127.0.0.1 to http://127.0.0.1:8185/
++- /data/ms-metro/conf/Catalina/localhost/afa.xml mounts the Metro WAR as the /afa Tomcat context
++
++Log correlation
++---------------
++Observed in /var/log/httpd/ssl_access_log on 2026-03-26 05:11-05:12:
++- 05:11:05 GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW -> 401
++- 05:11:05 GET /afa/external//config/all/noauth?domain=0 -> 200
++- 05:11:09 and 05:11:10 GET /afa/external//config?session=...&domain=0 -> 200
++- 05:11:12 GET /afa/php/SuiteLoginSessionValidation.php -> 302
++- 05:11:12 GET /afa/php/home.php -> 200
++
++Observed in /data/ms-metro/logs/localhost_access_log.txt repeatedly on 2026-03-26:
++- paired GET /afa/api/v1/config/all/noauth?domain=0 -> 200
++- followed by paired GET /afa/api/v1/config?session=...&domain=0 -> 200
++
++Observed in /var/log/httpd/ssl_access_log on 2026-03-25 19:20:54:
++- GET /afa/api/v1/config?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 200
++- GET /afa/config/?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 404
++
++Interpretation
++--------------
++- Backend PHP depends on Metro config via the internal Tomcat /afa context.
++- External /afa/api/v1/config is the Apache-exposed equivalent of that backend seam.
++- External /afa/config is not a valid Apache route on this appliance, so operator checks should use /afa/api/v1/config when validating from outside Apache/PHP.
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..74665d853cf9ebf83c4278cdca510cab7ec0aa73
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+@@ -0,0 +1,39 @@
++{"cmd":"pwd","workdir":"/root","login":true}
++{"cmd":"cat .pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":true}
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1","workdir":"/root","login":false}
++{"cmd":"rg -n \"home\\.php|GetConfigurationSettings|RestClient|/afa/config|/afa/api/v1/config|ConfigurationSettings|config\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -la /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"find /etc/httpd/conf.d -maxdepth 1 -type f | sort","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/home.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSessionManager.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1200,1325p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"function getAllConfig|function getConfig\\(|function reloadConfig|class RestClient|/afa/config|/afa/api/v1/config\" /usr/share/fa/php /usr/share/fa/php/ci -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '160,235p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"Alias /afa|ProxyPass .*/afa|/afa/api/v1/config|/afa/config|home.php\" /etc/httpd/conf.d /usr/share/fa/php -g '*.conf' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/afa/php/home.php|/afa/config|/afa/api/v1/config)\" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /var/log/httpd/access_log","workdir":"/root","login":false}
++{"cmd":"sed -n '120,170p' /etc/httpd/conf.d/zzz_fa.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"config|metro|ms-configuration|all/noauth|PRINT_TABLE_IN_NORMAL_VIEW\" /data/ms-metro /etc/httpd/conf.d -g '*'","workdir":"/root","login":false}
++{"cmd":"rg -n \"GetDevicesData\\(|LoadFirewallDisplayNameArray\\(|GetUserInfo\\(|BuildGenericDevicesJavaScriptArr\\(|getChangesTabUpgradeTime\\(|AreDomainsUsed|CanOpenArt\" /usr/share/fa/php/AlgosecSession.php /usr/share/fa/php/home.php /usr/share/fa/php/inc/rest-client.inc.php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"awk '($4 >= \"[26/Mar/2026:05:11:00\" && $4 <= \"[26/Mar/2026:05:12:10\") && /\\/afa\\// {print}' /var/log/httpd/ssl_access_log | sed -n '1,200p'","workdir":"/root","login":false}
++{"cmd":"sed -n '720,790p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '2260,2315p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '3048,3095p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '500,545p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"cat /etc/httpd/conf.d/algosec-ms.ms-configuration.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"PRINT_TABLE_IN_NORMAL_VIEW|/afa/api/v1/config|/afa/external//config|external//config|config/all/noauth|session/extend\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php -g '*.js' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '210,250p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"getDevicesNoAuth|UsersInfo/|allowedFirewalls|PRINT_TABLE_IN_NORMAL_VIEW\" /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"GET /afa/api/v1/config\\?session=|GET /afa/api/v1/config/all/noauth\\?domain=0|GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|GET /afa/php/home.php\" /data/ms-metro/logs/localhost_access_log.txt | tail -n 80","workdir":"/root","login":false}
++{"cmd":"rg -n \"function HandleConfigParams|HandleConfigParams\\(\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '4500,4565p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"sed -n '400,430p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,80p' /data/ms-metro/conf/Catalina/localhost/afa.xml","workdir":"/root","login":false}
++{"cmd":"sed -n '2470,2525p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '55,80p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSession.php | sed -n '1252,1285p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..092a9cb6297ef72b76293b8251b799a88382c7aa
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+@@ -0,0 +1,16 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-config-observe-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Mapped the first usable ASMS home-shell config seam. PHP login bootstrap requires a Metro config fetch before home.php, using RestClient against http://127.0.0.1:8080/afa. Apache externally exposes the equivalent backend as /afa/api/v1/config, while /afa/config is not externally mapped and returned 404 in observed logs. Same-minute supporting traffic included external/noauth config probes and session-extension checks, but those did not appear to be the blocking dependency for home.php.",
++  "returned_artifact_paths": [
++    "artifacts/seam-evidence.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If you need to validate this seam actively, probe /afa/api/v1/config from the external side rather than /afa/config.",
++    "Correlate one successful SuiteLoginSessionValidation-to-home.php flow with Metro localhost_access_log.txt request IDs or session IDs to distinguish suite-frame config reads from direct AFA home-shell reads even more tightly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc3aca5b370be50ccae1e56235810b0f1b0d9489
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+@@ -0,0 +1,15 @@
++Observed the direct PHP-to-Metro config seam behind the first usable ASMS home shell.
++
++Key findings:
++- PHP login bootstrap makes Metro config a hard prerequisite before `home.php`: `AlgosecSessionManager::postLoginActions()` calls `utils::HandleConfigParams()`, which calls `GetConfigurationSettings()`, which calls `RestClient::getAllConfig()`.
++- `RestClient` talks straight to Metro at `http://127.0.0.1:8080/afa`, so the PHP stack does not need Apache's external `/afa/api/v1/config` route for its own config hydration.
++- `home.php` primarily consumes already-cached `m_configurationSettings`; its same-request live reads are mostly non-config data such as `/noauth/device/`, `UsersInfo/<user>`, and local analyzed-list/session artifacts.
++- Apache exposes `/afa/api/v1` to the same Metro backend, but externally visible `/afa/config` is not mapped in Apache. A captured access-log pair on 2026-03-25 19:20:54 shows `/afa/api/v1/config?...` returning `200` while `/afa/config/?...` returns `404`.
++- Same-minute supporting traffic around successful shell entry includes unauthenticated or external-shell config probes such as `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW` (`401`) and `/afa/external//config/all/noauth` (`200`). Those appear adjacent to shell validation and suite framing, not as blockers for `home.php` itself.
++
++Assessment:
++- First-shell requirement: Metro config fetch via backend `GET /afa/api/v1/config?session=...&domain=...` during login/session bootstrap.
++- Supporting traffic in the same minute: `/afa/external//config/all/noauth`, `/afa/external//config?...`, `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW`, session-extend/license checks, and static asset loads.
++
++Artifacts:
++- `artifacts/seam-evidence.txt`
+
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..95c87344c09cd27420de15b76d98bcc7382571e4
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+@@ -0,0 +1,49 @@
++ASMS first-shell config seam evidence
++====================================
++
++Code path
++---------
++1. Login/session bootstrap caches config before home shell:
++   - /usr/share/fa/php/AlgosecSessionManager.php:58-69
++   - /usr/share/fa/php/utils.php:2482-2490
++   - /usr/share/fa/php/AlgosecSession.php:1257-1278
++
++2. Metro REST base and config endpoints:
++   - /usr/share/fa/php/inc/rest-client.inc.php:53-56 -> PestJSON('http://127.0.0.1:8080/afa')
++   - /usr/share/fa/php/inc/rest-client.inc.php:176-205 -> /config/ and reload
++
++3. home.php uses cached config and same-request non-config reads:
++   - /usr/share/fa/php/home.php:54-67, 76-119
++   - /usr/share/fa/php/home.php:69-74 -> GetDevicesData(), ResetReportsDataConfig(), LoadFirewallDisplayNameArray()
++   - /usr/share/fa/php/home.php:235 -> RestClient::GetUserInfo()
++   - /usr/share/fa/php/inc/rest-client.inc.php:412-416 -> /noauth/device/
++   - /usr/share/fa/php/inc/rest-client.inc.php:516-530 -> /UsersInfo/<user>
++
++Apache/Tomcat mapping
++---------------------
++- /etc/httpd/conf.d/zzz_fa.conf maps external /afa/api/v1 to http://localhost:8080/afa/api/v1
++- /etc/httpd/conf.d/algosec-ms.ms-configuration.conf rewrites host ms-configuration from 127.0.0.1 to http://127.0.0.1:8185/
++- /data/ms-metro/conf/Catalina/localhost/afa.xml mounts the Metro WAR as the /afa Tomcat context
++
++Log correlation
++---------------
++Observed in /var/log/httpd/ssl_access_log on 2026-03-26 05:11-05:12:
++- 05:11:05 GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW -> 401
++- 05:11:05 GET /afa/external//config/all/noauth?domain=0 -> 200
++- 05:11:09 and 05:11:10 GET /afa/external//config?session=...&domain=0 -> 200
++- 05:11:12 GET /afa/php/SuiteLoginSessionValidation.php -> 302
++- 05:11:12 GET /afa/php/home.php -> 200
++
++Observed in /data/ms-metro/logs/localhost_access_log.txt repeatedly on 2026-03-26:
++- paired GET /afa/api/v1/config/all/noauth?domain=0 -> 200
++- followed by paired GET /afa/api/v1/config?session=...&domain=0 -> 200
++
++Observed in /var/log/httpd/ssl_access_log on 2026-03-25 19:20:54:
++- GET /afa/api/v1/config?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 200
++- GET /afa/config/?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 404
++
++Interpretation
++--------------
++- Backend PHP depends on Metro config via the internal Tomcat /afa context.
++- External /afa/api/v1/config is the Apache-exposed equivalent of that backend seam.
++- External /afa/config is not a valid Apache route on this appliance, so operator checks should use /afa/api/v1/config when validating from outside Apache/PHP.
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..74665d853cf9ebf83c4278cdca510cab7ec0aa73
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+@@ -0,0 +1,39 @@
++{"cmd":"pwd","workdir":"/root","login":true}
++{"cmd":"cat .pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":true}
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1","workdir":"/root","login":false}
++{"cmd":"rg -n \"home\\.php|GetConfigurationSettings|RestClient|/afa/config|/afa/api/v1/config|ConfigurationSettings|config\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -la /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"find /etc/httpd/conf.d -maxdepth 1 -type f | sort","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/home.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSessionManager.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1200,1325p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"function getAllConfig|function getConfig\\(|function reloadConfig|class RestClient|/afa/config|/afa/api/v1/config\" /usr/share/fa/php /usr/share/fa/php/ci -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '160,235p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"Alias /afa|ProxyPass .*/afa|/afa/api/v1/config|/afa/config|home.php\" /etc/httpd/conf.d /usr/share/fa/php -g '*.conf' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/afa/php/home.php|/afa/config|/afa/api/v1/config)\" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /var/log/httpd/access_log","workdir":"/root","login":false}
++{"cmd":"sed -n '120,170p' /etc/httpd/conf.d/zzz_fa.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"config|metro|ms-configuration|all/noauth|PRINT_TABLE_IN_NORMAL_VIEW\" /data/ms-metro /etc/httpd/conf.d -g '*'","workdir":"/root","login":false}
++{"cmd":"rg -n \"GetDevicesData\\(|LoadFirewallDisplayNameArray\\(|GetUserInfo\\(|BuildGenericDevicesJavaScriptArr\\(|getChangesTabUpgradeTime\\(|AreDomainsUsed|CanOpenArt\" /usr/share/fa/php/AlgosecSession.php /usr/share/fa/php/home.php /usr/share/fa/php/inc/rest-client.inc.php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"awk '($4 >= \"[26/Mar/2026:05:11:00\" && $4 <= \"[26/Mar/2026:05:12:10\") && /\\/afa\\// {print}' /var/log/httpd/ssl_access_log | sed -n '1,200p'","workdir":"/root","login":false}
++{"cmd":"sed -n '720,790p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '2260,2315p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '3048,3095p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '500,545p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"cat /etc/httpd/conf.d/algosec-ms.ms-configuration.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"PRINT_TABLE_IN_NORMAL_VIEW|/afa/api/v1/config|/afa/external//config|external//config|config/all/noauth|session/extend\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php -g '*.js' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '210,250p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"getDevicesNoAuth|UsersInfo/|allowedFirewalls|PRINT_TABLE_IN_NORMAL_VIEW\" /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"GET /afa/api/v1/config\\?session=|GET /afa/api/v1/config/all/noauth\\?domain=0|GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|GET /afa/php/home.php\" /data/ms-metro/logs/localhost_access_log.txt | tail -n 80","workdir":"/root","login":false}
++{"cmd":"rg -n \"function HandleConfigParams|HandleConfigParams\\(\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '4500,4565p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"sed -n '400,430p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,80p' /data/ms-metro/conf/Catalina/localhost/afa.xml","workdir":"/root","login":false}
++{"cmd":"sed -n '2470,2525p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '55,80p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSession.php | sed -n '1252,1285p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..092a9cb6297ef72b76293b8251b799a88382c7aa
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+@@ -0,0 +1,16 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-config-observe-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Mapped the first usable ASMS home-shell config seam. PHP login bootstrap requires a Metro config fetch before home.php, using RestClient against http://127.0.0.1:8080/afa. Apache externally exposes the equivalent backend as /afa/api/v1/config, while /afa/config is not externally mapped and returned 404 in observed logs. Same-minute supporting traffic included external/noauth config probes and session-extension checks, but those did not appear to be the blocking dependency for home.php.",
++  "returned_artifact_paths": [
++    "artifacts/seam-evidence.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If you need to validate this seam actively, probe /afa/api/v1/config from the external side rather than /afa/config.",
++    "Correlate one successful SuiteLoginSessionValidation-to-home.php flow with Metro localhost_access_log.txt request IDs or session IDs to distinguish suite-frame config reads from direct AFA home-shell reads even more tightly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc3aca5b370be50ccae1e56235810b0f1b0d9489
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+@@ -0,0 +1,15 @@
++Observed the direct PHP-to-Metro config seam behind the first usable ASMS home shell.
++
++Key findings:
++- PHP login bootstrap makes Metro config a hard prerequisite before `home.php`: `AlgosecSessionManager::postLoginActions()` calls `utils::HandleConfigParams()`, which calls `GetConfigurationSettings()`, which calls `RestClient::getAllConfig()`.
++- `RestClient` talks straight to Metro at `http://127.0.0.1:8080/afa`, so the PHP stack does not need Apache's external `/afa/api/v1/config` route for its own config hydration.
++- `home.php` primarily consumes already-cached `m_configurationSettings`; its same-request live reads are mostly non-config data such as `/noauth/device/`, `UsersInfo/<user>`, and local analyzed-list/session artifacts.
++- Apache exposes `/afa/api/v1` to the same Metro backend, but externally visible `/afa/config` is not mapped in Apache. A captured access-log pair on 2026-03-25 19:20:54 shows `/afa/api/v1/config?...` returning `200` while `/afa/config/?...` returns `404`.
++- Same-minute supporting traffic around successful shell entry includes unauthenticated or external-shell config probes such as `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW` (`401`) and `/afa/external//config/all/noauth` (`200`). Those appear adjacent to shell validation and suite framing, not as blockers for `home.php` itself.
++
++Assessment:
++- First-shell requirement: Metro config fetch via backend `GET /afa/api/v1/config?session=...&domain=...` during login/session bootstrap.
++- Supporting traffic in the same minute: `/afa/external//config/all/noauth`, `/afa/external//config?...`, `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW`, session-extend/license checks, and static asset loads.
++
++Artifacts:
++- `artifacts/seam-evidence.txt`
+
+codex
+The delegated outputs are written. I’m doing a quick verification pass on the bundle files and JSON so I can close this cleanly.
+exec
+/bin/bash -c 'ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1 /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts' in /root succeeded in 0ms:
+/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1:
+total 160
+drwxr-xr-x 3 root root  4096 Mar 26 18:44 .
+drwxr-xr-x 6 root root   140 Mar 26 18:41 ..
+drwxr-xr-x 2 root root    31 Mar 26 18:44 artifacts
+-rw-r--r-- 1 root root 80539 Mar 26 18:44 codex-launch.log
+-rw-r--r-- 1 root root  1820 Mar 26 18:41 codex-prompt.txt
+-rw-r--r-- 1 root root  4993 Mar 26 18:44 commands.jsonl
+-rw-r--r-- 1 root root  1488 Mar 26 18:41 delegated-task-request.json
+-rw-r--r-- 1 root root  1244 Mar 26 18:44 delegated-task-result.json
+-rw-r--r-- 1 root root  1736 Mar 26 18:44 findings.md
+-rwxr-xr-x 1 root root   732 Mar 26 18:41 run-delegated-codex.sh
+
+/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts:
+total 8
+drwxr-xr-x 2 root root   31 Mar 26 18:44 .
+drwxr-xr-x 3 root root 4096 Mar 26 18:44 ..
+-rw-r--r-- 1 root root 2520 Mar 26 18:44 seam-evidence.txt
+exec
+/bin/bash -c "sed -n '1,200p' /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md" in /root succeeded in 0ms:
+Observed the direct PHP-to-Metro config seam behind the first usable ASMS home shell.
+
+Key findings:
+- PHP login bootstrap makes Metro config a hard prerequisite before `home.php`: `AlgosecSessionManager::postLoginActions()` calls `utils::HandleConfigParams()`, which calls `GetConfigurationSettings()`, which calls `RestClient::getAllConfig()`.
+- `RestClient` talks straight to Metro at `http://127.0.0.1:8080/afa`, so the PHP stack does not need Apache's external `/afa/api/v1/config` route for its own config hydration.
+- `home.php` primarily consumes already-cached `m_configurationSettings`; its same-request live reads are mostly non-config data such as `/noauth/device/`, `UsersInfo/<user>`, and local analyzed-list/session artifacts.
+- Apache exposes `/afa/api/v1` to the same Metro backend, but externally visible `/afa/config` is not mapped in Apache. A captured access-log pair on 2026-03-25 19:20:54 shows `/afa/api/v1/config?...` returning `200` while `/afa/config/?...` returns `404`.
+- Same-minute supporting traffic around successful shell entry includes unauthenticated or external-shell config probes such as `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW` (`401`) and `/afa/external//config/all/noauth` (`200`). Those appear adjacent to shell validation and suite framing, not as blockers for `home.php` itself.
+
+Assessment:
+- First-shell requirement: Metro config fetch via backend `GET /afa/api/v1/config?session=...&domain=...` during login/session bootstrap.
+- Supporting traffic in the same minute: `/afa/external//config/all/noauth`, `/afa/external//config?...`, `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW`, session-extend/license checks, and static asset loads.
+
+Artifacts:
+- `artifacts/seam-evidence.txt`
+exec
+/bin/bash -c 'python3 -m json.tool /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json >/dev/null && echo ok' in /root succeeded in 0ms:
+ok
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..95c87344c09cd27420de15b76d98bcc7382571e4
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+@@ -0,0 +1,49 @@
++ASMS first-shell config seam evidence
++====================================
++
++Code path
++---------
++1. Login/session bootstrap caches config before home shell:
++   - /usr/share/fa/php/AlgosecSessionManager.php:58-69
++   - /usr/share/fa/php/utils.php:2482-2490
++   - /usr/share/fa/php/AlgosecSession.php:1257-1278
++
++2. Metro REST base and config endpoints:
++   - /usr/share/fa/php/inc/rest-client.inc.php:53-56 -> PestJSON('http://127.0.0.1:8080/afa')
++   - /usr/share/fa/php/inc/rest-client.inc.php:176-205 -> /config/ and reload
++
++3. home.php uses cached config and same-request non-config reads:
++   - /usr/share/fa/php/home.php:54-67, 76-119
++   - /usr/share/fa/php/home.php:69-74 -> GetDevicesData(), ResetReportsDataConfig(), LoadFirewallDisplayNameArray()
++   - /usr/share/fa/php/home.php:235 -> RestClient::GetUserInfo()
++   - /usr/share/fa/php/inc/rest-client.inc.php:412-416 -> /noauth/device/
++   - /usr/share/fa/php/inc/rest-client.inc.php:516-530 -> /UsersInfo/<user>
++
++Apache/Tomcat mapping
++---------------------
++- /etc/httpd/conf.d/zzz_fa.conf maps external /afa/api/v1 to http://localhost:8080/afa/api/v1
++- /etc/httpd/conf.d/algosec-ms.ms-configuration.conf rewrites host ms-configuration from 127.0.0.1 to http://127.0.0.1:8185/
++- /data/ms-metro/conf/Catalina/localhost/afa.xml mounts the Metro WAR as the /afa Tomcat context
++
++Log correlation
++---------------
++Observed in /var/log/httpd/ssl_access_log on 2026-03-26 05:11-05:12:
++- 05:11:05 GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW -> 401
++- 05:11:05 GET /afa/external//config/all/noauth?domain=0 -> 200
++- 05:11:09 and 05:11:10 GET /afa/external//config?session=...&domain=0 -> 200
++- 05:11:12 GET /afa/php/SuiteLoginSessionValidation.php -> 302
++- 05:11:12 GET /afa/php/home.php -> 200
++
++Observed in /data/ms-metro/logs/localhost_access_log.txt repeatedly on 2026-03-26:
++- paired GET /afa/api/v1/config/all/noauth?domain=0 -> 200
++- followed by paired GET /afa/api/v1/config?session=...&domain=0 -> 200
++
++Observed in /var/log/httpd/ssl_access_log on 2026-03-25 19:20:54:
++- GET /afa/api/v1/config?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 200
++- GET /afa/config/?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 404
++
++Interpretation
++--------------
++- Backend PHP depends on Metro config via the internal Tomcat /afa context.
++- External /afa/api/v1/config is the Apache-exposed equivalent of that backend seam.
++- External /afa/config is not a valid Apache route on this appliance, so operator checks should use /afa/api/v1/config when validating from outside Apache/PHP.
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..74665d853cf9ebf83c4278cdca510cab7ec0aa73
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+@@ -0,0 +1,39 @@
++{"cmd":"pwd","workdir":"/root","login":true}
++{"cmd":"cat .pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":true}
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1","workdir":"/root","login":false}
++{"cmd":"rg -n \"home\\.php|GetConfigurationSettings|RestClient|/afa/config|/afa/api/v1/config|ConfigurationSettings|config\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -la /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"find /etc/httpd/conf.d -maxdepth 1 -type f | sort","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/home.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSessionManager.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1200,1325p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"function getAllConfig|function getConfig\\(|function reloadConfig|class RestClient|/afa/config|/afa/api/v1/config\" /usr/share/fa/php /usr/share/fa/php/ci -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '160,235p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"Alias /afa|ProxyPass .*/afa|/afa/api/v1/config|/afa/config|home.php\" /etc/httpd/conf.d /usr/share/fa/php -g '*.conf' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/afa/php/home.php|/afa/config|/afa/api/v1/config)\" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /var/log/httpd/access_log","workdir":"/root","login":false}
++{"cmd":"sed -n '120,170p' /etc/httpd/conf.d/zzz_fa.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"config|metro|ms-configuration|all/noauth|PRINT_TABLE_IN_NORMAL_VIEW\" /data/ms-metro /etc/httpd/conf.d -g '*'","workdir":"/root","login":false}
++{"cmd":"rg -n \"GetDevicesData\\(|LoadFirewallDisplayNameArray\\(|GetUserInfo\\(|BuildGenericDevicesJavaScriptArr\\(|getChangesTabUpgradeTime\\(|AreDomainsUsed|CanOpenArt\" /usr/share/fa/php/AlgosecSession.php /usr/share/fa/php/home.php /usr/share/fa/php/inc/rest-client.inc.php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"awk '($4 >= \"[26/Mar/2026:05:11:00\" && $4 <= \"[26/Mar/2026:05:12:10\") && /\\/afa\\// {print}' /var/log/httpd/ssl_access_log | sed -n '1,200p'","workdir":"/root","login":false}
++{"cmd":"sed -n '720,790p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '2260,2315p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '3048,3095p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '500,545p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"cat /etc/httpd/conf.d/algosec-ms.ms-configuration.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"PRINT_TABLE_IN_NORMAL_VIEW|/afa/api/v1/config|/afa/external//config|external//config|config/all/noauth|session/extend\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php -g '*.js' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '210,250p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"getDevicesNoAuth|UsersInfo/|allowedFirewalls|PRINT_TABLE_IN_NORMAL_VIEW\" /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"GET /afa/api/v1/config\\?session=|GET /afa/api/v1/config/all/noauth\\?domain=0|GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|GET /afa/php/home.php\" /data/ms-metro/logs/localhost_access_log.txt | tail -n 80","workdir":"/root","login":false}
++{"cmd":"rg -n \"function HandleConfigParams|HandleConfigParams\\(\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '4500,4565p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"sed -n '400,430p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,80p' /data/ms-metro/conf/Catalina/localhost/afa.xml","workdir":"/root","login":false}
++{"cmd":"sed -n '2470,2525p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '55,80p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSession.php | sed -n '1252,1285p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..092a9cb6297ef72b76293b8251b799a88382c7aa
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+@@ -0,0 +1,16 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-config-observe-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Mapped the first usable ASMS home-shell config seam. PHP login bootstrap requires a Metro config fetch before home.php, using RestClient against http://127.0.0.1:8080/afa. Apache externally exposes the equivalent backend as /afa/api/v1/config, while /afa/config is not externally mapped and returned 404 in observed logs. Same-minute supporting traffic included external/noauth config probes and session-extension checks, but those did not appear to be the blocking dependency for home.php.",
++  "returned_artifact_paths": [
++    "artifacts/seam-evidence.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If you need to validate this seam actively, probe /afa/api/v1/config from the external side rather than /afa/config.",
++    "Correlate one successful SuiteLoginSessionValidation-to-home.php flow with Metro localhost_access_log.txt request IDs or session IDs to distinguish suite-frame config reads from direct AFA home-shell reads even more tightly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc3aca5b370be50ccae1e56235810b0f1b0d9489
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+@@ -0,0 +1,15 @@
++Observed the direct PHP-to-Metro config seam behind the first usable ASMS home shell.
++
++Key findings:
++- PHP login bootstrap makes Metro config a hard prerequisite before `home.php`: `AlgosecSessionManager::postLoginActions()` calls `utils::HandleConfigParams()`, which calls `GetConfigurationSettings()`, which calls `RestClient::getAllConfig()`.
++- `RestClient` talks straight to Metro at `http://127.0.0.1:8080/afa`, so the PHP stack does not need Apache's external `/afa/api/v1/config` route for its own config hydration.
++- `home.php` primarily consumes already-cached `m_configurationSettings`; its same-request live reads are mostly non-config data such as `/noauth/device/`, `UsersInfo/<user>`, and local analyzed-list/session artifacts.
++- Apache exposes `/afa/api/v1` to the same Metro backend, but externally visible `/afa/config` is not mapped in Apache. A captured access-log pair on 2026-03-25 19:20:54 shows `/afa/api/v1/config?...` returning `200` while `/afa/config/?...` returns `404`.
++- Same-minute supporting traffic around successful shell entry includes unauthenticated or external-shell config probes such as `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW` (`401`) and `/afa/external//config/all/noauth` (`200`). Those appear adjacent to shell validation and suite framing, not as blockers for `home.php` itself.
++
++Assessment:
++- First-shell requirement: Metro config fetch via backend `GET /afa/api/v1/config?session=...&domain=...` during login/session bootstrap.
++- Supporting traffic in the same minute: `/afa/external//config/all/noauth`, `/afa/external//config?...`, `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW`, session-extend/license checks, and static asset loads.
++
++Artifacts:
++- `artifacts/seam-evidence.txt`
+
+codex
+I caught one gap: the verification commands also need to be in `commands.jsonl`. I’m appending those now and then the delegated slice is complete.
+file update
+M /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+@@ -39 +39,4 @@
+ {"cmd":"nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'","workdir":"/root","login":false}
++{"cmd":"python3 -m json.tool /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json >/dev/null && echo ok","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1 /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts","workdir":"/root","login":false}
++{"cmd":"sed -n '1,200p' /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md","workdir":"/root","login":false}
+apply_patch(auto_approved=true) exited 0 in 10ms:
+Success. Updated the following files:
+M /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..95c87344c09cd27420de15b76d98bcc7382571e4
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+@@ -0,0 +1,49 @@
++ASMS first-shell config seam evidence
++====================================
++
++Code path
++---------
++1. Login/session bootstrap caches config before home shell:
++   - /usr/share/fa/php/AlgosecSessionManager.php:58-69
++   - /usr/share/fa/php/utils.php:2482-2490
++   - /usr/share/fa/php/AlgosecSession.php:1257-1278
++
++2. Metro REST base and config endpoints:
++   - /usr/share/fa/php/inc/rest-client.inc.php:53-56 -> PestJSON('http://127.0.0.1:8080/afa')
++   - /usr/share/fa/php/inc/rest-client.inc.php:176-205 -> /config/ and reload
++
++3. home.php uses cached config and same-request non-config reads:
++   - /usr/share/fa/php/home.php:54-67, 76-119
++   - /usr/share/fa/php/home.php:69-74 -> GetDevicesData(), ResetReportsDataConfig(), LoadFirewallDisplayNameArray()
++   - /usr/share/fa/php/home.php:235 -> RestClient::GetUserInfo()
++   - /usr/share/fa/php/inc/rest-client.inc.php:412-416 -> /noauth/device/
++   - /usr/share/fa/php/inc/rest-client.inc.php:516-530 -> /UsersInfo/<user>
++
++Apache/Tomcat mapping
++---------------------
++- /etc/httpd/conf.d/zzz_fa.conf maps external /afa/api/v1 to http://localhost:8080/afa/api/v1
++- /etc/httpd/conf.d/algosec-ms.ms-configuration.conf rewrites host ms-configuration from 127.0.0.1 to http://127.0.0.1:8185/
++- /data/ms-metro/conf/Catalina/localhost/afa.xml mounts the Metro WAR as the /afa Tomcat context
++
++Log correlation
++---------------
++Observed in /var/log/httpd/ssl_access_log on 2026-03-26 05:11-05:12:
++- 05:11:05 GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW -> 401
++- 05:11:05 GET /afa/external//config/all/noauth?domain=0 -> 200
++- 05:11:09 and 05:11:10 GET /afa/external//config?session=...&domain=0 -> 200
++- 05:11:12 GET /afa/php/SuiteLoginSessionValidation.php -> 302
++- 05:11:12 GET /afa/php/home.php -> 200
++
++Observed in /data/ms-metro/logs/localhost_access_log.txt repeatedly on 2026-03-26:
++- paired GET /afa/api/v1/config/all/noauth?domain=0 -> 200
++- followed by paired GET /afa/api/v1/config?session=...&domain=0 -> 200
++
++Observed in /var/log/httpd/ssl_access_log on 2026-03-25 19:20:54:
++- GET /afa/api/v1/config?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 200
++- GET /afa/config/?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 404
++
++Interpretation
++--------------
++- Backend PHP depends on Metro config via the internal Tomcat /afa context.
++- External /afa/api/v1/config is the Apache-exposed equivalent of that backend seam.
++- External /afa/config is not a valid Apache route on this appliance, so operator checks should use /afa/api/v1/config when validating from outside Apache/PHP.
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..0c1e1a3c62dc5b95ff659b0b45ae6b76b51fcd14
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+@@ -0,0 +1,42 @@
++{"cmd":"pwd","workdir":"/root","login":true}
++{"cmd":"cat .pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":true}
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1","workdir":"/root","login":false}
++{"cmd":"rg -n \"home\\.php|GetConfigurationSettings|RestClient|/afa/config|/afa/api/v1/config|ConfigurationSettings|config\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -la /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"find /etc/httpd/conf.d -maxdepth 1 -type f | sort","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/home.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSessionManager.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1200,1325p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"function getAllConfig|function getConfig\\(|function reloadConfig|class RestClient|/afa/config|/afa/api/v1/config\" /usr/share/fa/php /usr/share/fa/php/ci -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '160,235p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"Alias /afa|ProxyPass .*/afa|/afa/api/v1/config|/afa/config|home.php\" /etc/httpd/conf.d /usr/share/fa/php -g '*.conf' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/afa/php/home.php|/afa/config|/afa/api/v1/config)\" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /var/log/httpd/access_log","workdir":"/root","login":false}
++{"cmd":"sed -n '120,170p' /etc/httpd/conf.d/zzz_fa.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"config|metro|ms-configuration|all/noauth|PRINT_TABLE_IN_NORMAL_VIEW\" /data/ms-metro /etc/httpd/conf.d -g '*'","workdir":"/root","login":false}
++{"cmd":"rg -n \"GetDevicesData\\(|LoadFirewallDisplayNameArray\\(|GetUserInfo\\(|BuildGenericDevicesJavaScriptArr\\(|getChangesTabUpgradeTime\\(|AreDomainsUsed|CanOpenArt\" /usr/share/fa/php/AlgosecSession.php /usr/share/fa/php/home.php /usr/share/fa/php/inc/rest-client.inc.php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"awk '($4 >= \"[26/Mar/2026:05:11:00\" && $4 <= \"[26/Mar/2026:05:12:10\") && /\\/afa\\// {print}' /var/log/httpd/ssl_access_log | sed -n '1,200p'","workdir":"/root","login":false}
++{"cmd":"sed -n '720,790p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '2260,2315p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '3048,3095p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '500,545p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"cat /etc/httpd/conf.d/algosec-ms.ms-configuration.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"PRINT_TABLE_IN_NORMAL_VIEW|/afa/api/v1/config|/afa/external//config|external//config|config/all/noauth|session/extend\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php -g '*.js' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '210,250p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"getDevicesNoAuth|UsersInfo/|allowedFirewalls|PRINT_TABLE_IN_NORMAL_VIEW\" /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"GET /afa/api/v1/config\\?session=|GET /afa/api/v1/config/all/noauth\\?domain=0|GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|GET /afa/php/home.php\" /data/ms-metro/logs/localhost_access_log.txt | tail -n 80","workdir":"/root","login":false}
++{"cmd":"rg -n \"function HandleConfigParams|HandleConfigParams\\(\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '4500,4565p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"sed -n '400,430p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,80p' /data/ms-metro/conf/Catalina/localhost/afa.xml","workdir":"/root","login":false}
++{"cmd":"sed -n '2470,2525p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '55,80p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSession.php | sed -n '1252,1285p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'","workdir":"/root","login":false}
++{"cmd":"python3 -m json.tool /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json >/dev/null && echo ok","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1 /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts","workdir":"/root","login":false}
++{"cmd":"sed -n '1,200p' /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..092a9cb6297ef72b76293b8251b799a88382c7aa
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+@@ -0,0 +1,16 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-config-observe-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Mapped the first usable ASMS home-shell config seam. PHP login bootstrap requires a Metro config fetch before home.php, using RestClient against http://127.0.0.1:8080/afa. Apache externally exposes the equivalent backend as /afa/api/v1/config, while /afa/config is not externally mapped and returned 404 in observed logs. Same-minute supporting traffic included external/noauth config probes and session-extension checks, but those did not appear to be the blocking dependency for home.php.",
++  "returned_artifact_paths": [
++    "artifacts/seam-evidence.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If you need to validate this seam actively, probe /afa/api/v1/config from the external side rather than /afa/config.",
++    "Correlate one successful SuiteLoginSessionValidation-to-home.php flow with Metro localhost_access_log.txt request IDs or session IDs to distinguish suite-frame config reads from direct AFA home-shell reads even more tightly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc3aca5b370be50ccae1e56235810b0f1b0d9489
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+@@ -0,0 +1,15 @@
++Observed the direct PHP-to-Metro config seam behind the first usable ASMS home shell.
++
++Key findings:
++- PHP login bootstrap makes Metro config a hard prerequisite before `home.php`: `AlgosecSessionManager::postLoginActions()` calls `utils::HandleConfigParams()`, which calls `GetConfigurationSettings()`, which calls `RestClient::getAllConfig()`.
++- `RestClient` talks straight to Metro at `http://127.0.0.1:8080/afa`, so the PHP stack does not need Apache's external `/afa/api/v1/config` route for its own config hydration.
++- `home.php` primarily consumes already-cached `m_configurationSettings`; its same-request live reads are mostly non-config data such as `/noauth/device/`, `UsersInfo/<user>`, and local analyzed-list/session artifacts.
++- Apache exposes `/afa/api/v1` to the same Metro backend, but externally visible `/afa/config` is not mapped in Apache. A captured access-log pair on 2026-03-25 19:20:54 shows `/afa/api/v1/config?...` returning `200` while `/afa/config/?...` returns `404`.
++- Same-minute supporting traffic around successful shell entry includes unauthenticated or external-shell config probes such as `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW` (`401`) and `/afa/external//config/all/noauth` (`200`). Those appear adjacent to shell validation and suite framing, not as blockers for `home.php` itself.
++
++Assessment:
++- First-shell requirement: Metro config fetch via backend `GET /afa/api/v1/config?session=...&domain=...` during login/session bootstrap.
++- Supporting traffic in the same minute: `/afa/external//config/all/noauth`, `/afa/external//config?...`, `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW`, session-extend/license checks, and static asset loads.
++
++Artifacts:
++- `artifacts/seam-evidence.txt`
+
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..95c87344c09cd27420de15b76d98bcc7382571e4
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+@@ -0,0 +1,49 @@
++ASMS first-shell config seam evidence
++====================================
++
++Code path
++---------
++1. Login/session bootstrap caches config before home shell:
++   - /usr/share/fa/php/AlgosecSessionManager.php:58-69
++   - /usr/share/fa/php/utils.php:2482-2490
++   - /usr/share/fa/php/AlgosecSession.php:1257-1278
++
++2. Metro REST base and config endpoints:
++   - /usr/share/fa/php/inc/rest-client.inc.php:53-56 -> PestJSON('http://127.0.0.1:8080/afa')
++   - /usr/share/fa/php/inc/rest-client.inc.php:176-205 -> /config/ and reload
++
++3. home.php uses cached config and same-request non-config reads:
++   - /usr/share/fa/php/home.php:54-67, 76-119
++   - /usr/share/fa/php/home.php:69-74 -> GetDevicesData(), ResetReportsDataConfig(), LoadFirewallDisplayNameArray()
++   - /usr/share/fa/php/home.php:235 -> RestClient::GetUserInfo()
++   - /usr/share/fa/php/inc/rest-client.inc.php:412-416 -> /noauth/device/
++   - /usr/share/fa/php/inc/rest-client.inc.php:516-530 -> /UsersInfo/<user>
++
++Apache/Tomcat mapping
++---------------------
++- /etc/httpd/conf.d/zzz_fa.conf maps external /afa/api/v1 to http://localhost:8080/afa/api/v1
++- /etc/httpd/conf.d/algosec-ms.ms-configuration.conf rewrites host ms-configuration from 127.0.0.1 to http://127.0.0.1:8185/
++- /data/ms-metro/conf/Catalina/localhost/afa.xml mounts the Metro WAR as the /afa Tomcat context
++
++Log correlation
++---------------
++Observed in /var/log/httpd/ssl_access_log on 2026-03-26 05:11-05:12:
++- 05:11:05 GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW -> 401
++- 05:11:05 GET /afa/external//config/all/noauth?domain=0 -> 200
++- 05:11:09 and 05:11:10 GET /afa/external//config?session=...&domain=0 -> 200
++- 05:11:12 GET /afa/php/SuiteLoginSessionValidation.php -> 302
++- 05:11:12 GET /afa/php/home.php -> 200
++
++Observed in /data/ms-metro/logs/localhost_access_log.txt repeatedly on 2026-03-26:
++- paired GET /afa/api/v1/config/all/noauth?domain=0 -> 200
++- followed by paired GET /afa/api/v1/config?session=...&domain=0 -> 200
++
++Observed in /var/log/httpd/ssl_access_log on 2026-03-25 19:20:54:
++- GET /afa/api/v1/config?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 200
++- GET /afa/config/?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 404
++
++Interpretation
++--------------
++- Backend PHP depends on Metro config via the internal Tomcat /afa context.
++- External /afa/api/v1/config is the Apache-exposed equivalent of that backend seam.
++- External /afa/config is not a valid Apache route on this appliance, so operator checks should use /afa/api/v1/config when validating from outside Apache/PHP.
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..0c1e1a3c62dc5b95ff659b0b45ae6b76b51fcd14
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+@@ -0,0 +1,42 @@
++{"cmd":"pwd","workdir":"/root","login":true}
++{"cmd":"cat .pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":true}
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1","workdir":"/root","login":false}
++{"cmd":"rg -n \"home\\.php|GetConfigurationSettings|RestClient|/afa/config|/afa/api/v1/config|ConfigurationSettings|config\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -la /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"find /etc/httpd/conf.d -maxdepth 1 -type f | sort","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/home.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSessionManager.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1200,1325p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"function getAllConfig|function getConfig\\(|function reloadConfig|class RestClient|/afa/config|/afa/api/v1/config\" /usr/share/fa/php /usr/share/fa/php/ci -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '160,235p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"Alias /afa|ProxyPass .*/afa|/afa/api/v1/config|/afa/config|home.php\" /etc/httpd/conf.d /usr/share/fa/php -g '*.conf' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/afa/php/home.php|/afa/config|/afa/api/v1/config)\" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /var/log/httpd/access_log","workdir":"/root","login":false}
++{"cmd":"sed -n '120,170p' /etc/httpd/conf.d/zzz_fa.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"config|metro|ms-configuration|all/noauth|PRINT_TABLE_IN_NORMAL_VIEW\" /data/ms-metro /etc/httpd/conf.d -g '*'","workdir":"/root","login":false}
++{"cmd":"rg -n \"GetDevicesData\\(|LoadFirewallDisplayNameArray\\(|GetUserInfo\\(|BuildGenericDevicesJavaScriptArr\\(|getChangesTabUpgradeTime\\(|AreDomainsUsed|CanOpenArt\" /usr/share/fa/php/AlgosecSession.php /usr/share/fa/php/home.php /usr/share/fa/php/inc/rest-client.inc.php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"awk '($4 >= \"[26/Mar/2026:05:11:00\" && $4 <= \"[26/Mar/2026:05:12:10\") && /\\/afa\\// {print}' /var/log/httpd/ssl_access_log | sed -n '1,200p'","workdir":"/root","login":false}
++{"cmd":"sed -n '720,790p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '2260,2315p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '3048,3095p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '500,545p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"cat /etc/httpd/conf.d/algosec-ms.ms-configuration.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"PRINT_TABLE_IN_NORMAL_VIEW|/afa/api/v1/config|/afa/external//config|external//config|config/all/noauth|session/extend\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php -g '*.js' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '210,250p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"getDevicesNoAuth|UsersInfo/|allowedFirewalls|PRINT_TABLE_IN_NORMAL_VIEW\" /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"GET /afa/api/v1/config\\?session=|GET /afa/api/v1/config/all/noauth\\?domain=0|GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|GET /afa/php/home.php\" /data/ms-metro/logs/localhost_access_log.txt | tail -n 80","workdir":"/root","login":false}
++{"cmd":"rg -n \"function HandleConfigParams|HandleConfigParams\\(\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '4500,4565p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"sed -n '400,430p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,80p' /data/ms-metro/conf/Catalina/localhost/afa.xml","workdir":"/root","login":false}
++{"cmd":"sed -n '2470,2525p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '55,80p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSession.php | sed -n '1252,1285p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'","workdir":"/root","login":false}
++{"cmd":"python3 -m json.tool /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json >/dev/null && echo ok","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1 /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts","workdir":"/root","login":false}
++{"cmd":"sed -n '1,200p' /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..092a9cb6297ef72b76293b8251b799a88382c7aa
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+@@ -0,0 +1,16 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-config-observe-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Mapped the first usable ASMS home-shell config seam. PHP login bootstrap requires a Metro config fetch before home.php, using RestClient against http://127.0.0.1:8080/afa. Apache externally exposes the equivalent backend as /afa/api/v1/config, while /afa/config is not externally mapped and returned 404 in observed logs. Same-minute supporting traffic included external/noauth config probes and session-extension checks, but those did not appear to be the blocking dependency for home.php.",
++  "returned_artifact_paths": [
++    "artifacts/seam-evidence.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If you need to validate this seam actively, probe /afa/api/v1/config from the external side rather than /afa/config.",
++    "Correlate one successful SuiteLoginSessionValidation-to-home.php flow with Metro localhost_access_log.txt request IDs or session IDs to distinguish suite-frame config reads from direct AFA home-shell reads even more tightly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc3aca5b370be50ccae1e56235810b0f1b0d9489
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+@@ -0,0 +1,15 @@
++Observed the direct PHP-to-Metro config seam behind the first usable ASMS home shell.
++
++Key findings:
++- PHP login bootstrap makes Metro config a hard prerequisite before `home.php`: `AlgosecSessionManager::postLoginActions()` calls `utils::HandleConfigParams()`, which calls `GetConfigurationSettings()`, which calls `RestClient::getAllConfig()`.
++- `RestClient` talks straight to Metro at `http://127.0.0.1:8080/afa`, so the PHP stack does not need Apache's external `/afa/api/v1/config` route for its own config hydration.
++- `home.php` primarily consumes already-cached `m_configurationSettings`; its same-request live reads are mostly non-config data such as `/noauth/device/`, `UsersInfo/<user>`, and local analyzed-list/session artifacts.
++- Apache exposes `/afa/api/v1` to the same Metro backend, but externally visible `/afa/config` is not mapped in Apache. A captured access-log pair on 2026-03-25 19:20:54 shows `/afa/api/v1/config?...` returning `200` while `/afa/config/?...` returns `404`.
++- Same-minute supporting traffic around successful shell entry includes unauthenticated or external-shell config probes such as `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW` (`401`) and `/afa/external//config/all/noauth` (`200`). Those appear adjacent to shell validation and suite framing, not as blockers for `home.php` itself.
++
++Assessment:
++- First-shell requirement: Metro config fetch via backend `GET /afa/api/v1/config?session=...&domain=...` during login/session bootstrap.
++- Supporting traffic in the same minute: `/afa/external//config/all/noauth`, `/afa/external//config?...`, `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW`, session-extend/license checks, and static asset loads.
++
++Artifacts:
++- `artifacts/seam-evidence.txt`
+
+codex
+Completed the delegated observe-only slice inside `/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1`.
+
+The result is in [delegated-task-result.json](/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json), with operator summary in [findings.md](/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md), command log in [commands.jsonl](/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl), and evidence in [seam-evidence.txt](/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt).
+
+Main conclusion: the first usable ASMS home shell depends on Metro config hydration during login bootstrap via PHP `RestClient` to `http://127.0.0.1:8080/afa`; Apache’s external equivalent is `/afa/api/v1/config`, while `/afa/config` is not externally mapped on this appliance and was observed returning `404`.
+file update:
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..95c87344c09cd27420de15b76d98bcc7382571e4
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt
+@@ -0,0 +1,49 @@
++ASMS first-shell config seam evidence
++====================================
++
++Code path
++---------
++1. Login/session bootstrap caches config before home shell:
++   - /usr/share/fa/php/AlgosecSessionManager.php:58-69
++   - /usr/share/fa/php/utils.php:2482-2490
++   - /usr/share/fa/php/AlgosecSession.php:1257-1278
++
++2. Metro REST base and config endpoints:
++   - /usr/share/fa/php/inc/rest-client.inc.php:53-56 -> PestJSON('http://127.0.0.1:8080/afa')
++   - /usr/share/fa/php/inc/rest-client.inc.php:176-205 -> /config/ and reload
++
++3. home.php uses cached config and same-request non-config reads:
++   - /usr/share/fa/php/home.php:54-67, 76-119
++   - /usr/share/fa/php/home.php:69-74 -> GetDevicesData(), ResetReportsDataConfig(), LoadFirewallDisplayNameArray()
++   - /usr/share/fa/php/home.php:235 -> RestClient::GetUserInfo()
++   - /usr/share/fa/php/inc/rest-client.inc.php:412-416 -> /noauth/device/
++   - /usr/share/fa/php/inc/rest-client.inc.php:516-530 -> /UsersInfo/<user>
++
++Apache/Tomcat mapping
++---------------------
++- /etc/httpd/conf.d/zzz_fa.conf maps external /afa/api/v1 to http://localhost:8080/afa/api/v1
++- /etc/httpd/conf.d/algosec-ms.ms-configuration.conf rewrites host ms-configuration from 127.0.0.1 to http://127.0.0.1:8185/
++- /data/ms-metro/conf/Catalina/localhost/afa.xml mounts the Metro WAR as the /afa Tomcat context
++
++Log correlation
++---------------
++Observed in /var/log/httpd/ssl_access_log on 2026-03-26 05:11-05:12:
++- 05:11:05 GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW -> 401
++- 05:11:05 GET /afa/external//config/all/noauth?domain=0 -> 200
++- 05:11:09 and 05:11:10 GET /afa/external//config?session=...&domain=0 -> 200
++- 05:11:12 GET /afa/php/SuiteLoginSessionValidation.php -> 302
++- 05:11:12 GET /afa/php/home.php -> 200
++
++Observed in /data/ms-metro/logs/localhost_access_log.txt repeatedly on 2026-03-26:
++- paired GET /afa/api/v1/config/all/noauth?domain=0 -> 200
++- followed by paired GET /afa/api/v1/config?session=...&domain=0 -> 200
++
++Observed in /var/log/httpd/ssl_access_log on 2026-03-25 19:20:54:
++- GET /afa/api/v1/config?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 200
++- GET /afa/config/?domain=0&session=kunijc3necr1gv03h61ved01u6 -> 404
++
++Interpretation
++--------------
++- Backend PHP depends on Metro config via the internal Tomcat /afa context.
++- External /afa/api/v1/config is the Apache-exposed equivalent of that backend seam.
++- External /afa/config is not a valid Apache route on this appliance, so operator checks should use /afa/api/v1/config when validating from outside Apache/PHP.
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..0c1e1a3c62dc5b95ff659b0b45ae6b76b51fcd14
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl
+@@ -0,0 +1,42 @@
++{"cmd":"pwd","workdir":"/root","login":true}
++{"cmd":"cat .pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":true}
++{"cmd":"pwd","workdir":"/root","login":false}
++{"cmd":"cat /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-request.json","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1","workdir":"/root","login":false}
++{"cmd":"rg -n \"home\\.php|GetConfigurationSettings|RestClient|/afa/config|/afa/api/v1/config|ConfigurationSettings|config\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -la /usr/share/fa/php","workdir":"/root","login":false}
++{"cmd":"find /etc/httpd/conf.d -maxdepth 1 -type f | sort","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/home.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/AlgosecSessionManager.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1200,1325p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"function getAllConfig|function getConfig\\(|function reloadConfig|class RestClient|/afa/config|/afa/api/v1/config\" /usr/share/fa/php /usr/share/fa/php/ci -g '*.php'","workdir":"/root","login":false}
++{"cmd":"ls -1 /var/log/httpd","workdir":"/root","login":false}
++{"cmd":"sed -n '1,260p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '160,235p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"Alias /afa|ProxyPass .*/afa|/afa/api/v1/config|/afa/config|home.php\" /etc/httpd/conf.d /usr/share/fa/php -g '*.conf' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"rg -n \"(/afa/php/home.php|/afa/config|/afa/api/v1/config)\" /var/log/httpd/ssl_access_log /var/log/httpd/ssl_access_log-20260325 /var/log/httpd/access_log","workdir":"/root","login":false}
++{"cmd":"sed -n '120,170p' /etc/httpd/conf.d/zzz_fa.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"config|metro|ms-configuration|all/noauth|PRINT_TABLE_IN_NORMAL_VIEW\" /data/ms-metro /etc/httpd/conf.d -g '*'","workdir":"/root","login":false}
++{"cmd":"rg -n \"GetDevicesData\\(|LoadFirewallDisplayNameArray\\(|GetUserInfo\\(|BuildGenericDevicesJavaScriptArr\\(|getChangesTabUpgradeTime\\(|AreDomainsUsed|CanOpenArt\" /usr/share/fa/php/AlgosecSession.php /usr/share/fa/php/home.php /usr/share/fa/php/inc/rest-client.inc.php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"awk '($4 >= \"[26/Mar/2026:05:11:00\" && $4 <= \"[26/Mar/2026:05:12:10\") && /\\/afa\\// {print}' /var/log/httpd/ssl_access_log | sed -n '1,200p'","workdir":"/root","login":false}
++{"cmd":"sed -n '720,790p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '2260,2315p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '3048,3095p' /usr/share/fa/php/AlgosecSession.php","workdir":"/root","login":false}
++{"cmd":"sed -n '500,545p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"cat /etc/httpd/conf.d/algosec-ms.ms-configuration.conf","workdir":"/root","login":false}
++{"cmd":"rg -n \"PRINT_TABLE_IN_NORMAL_VIEW|/afa/api/v1/config|/afa/external//config|external//config|config/all/noauth|session/extend\" /usr/share/fa/php/JSlib1768164240 /usr/share/fa/php -g '*.js' -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '210,250p' /usr/share/fa/php/SuiteLoginSessionValidation.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"getDevicesNoAuth|UsersInfo/|allowedFirewalls|PRINT_TABLE_IN_NORMAL_VIEW\" /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"rg -n \"GET /afa/api/v1/config\\?session=|GET /afa/api/v1/config/all/noauth\\?domain=0|GET /afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW|GET /afa/php/home.php\" /data/ms-metro/logs/localhost_access_log.txt | tail -n 80","workdir":"/root","login":false}
++{"cmd":"rg -n \"function HandleConfigParams|HandleConfigParams\\(\" /usr/share/fa/php -g '*.php'","workdir":"/root","login":false}
++{"cmd":"sed -n '4500,4565p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"sed -n '400,430p' /usr/share/fa/php/inc/rest-client.inc.php","workdir":"/root","login":false}
++{"cmd":"sed -n '1,80p' /data/ms-metro/conf/Catalina/localhost/afa.xml","workdir":"/root","login":false}
++{"cmd":"sed -n '2470,2525p' /usr/share/fa/php/utils.php","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/home.php | sed -n '1,120p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSessionManager.php | sed -n '55,80p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/AlgosecSession.php | sed -n '1252,1285p'","workdir":"/root","login":false}
++{"cmd":"nl -ba /usr/share/fa/php/inc/rest-client.inc.php | sed -n '35,60p;176,206p;412,430p;516,532p'","workdir":"/root","login":false}
++{"cmd":"python3 -m json.tool /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json >/dev/null && echo ok","workdir":"/root","login":false}
++{"cmd":"ls -la /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1 /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts","workdir":"/root","login":false}
++{"cmd":"sed -n '1,200p' /root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md","workdir":"/root","login":false}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..092a9cb6297ef72b76293b8251b799a88382c7aa
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json
+@@ -0,0 +1,16 @@
++{
++  "schema_version": "adf-delegated-task-result/v1",
++  "delegation_run_id": "asms-home-shell-config-observe-v1",
++  "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
++  "delegation_tier": "observe_only",
++  "status": "completed",
++  "summary": "Mapped the first usable ASMS home-shell config seam. PHP login bootstrap requires a Metro config fetch before home.php, using RestClient against http://127.0.0.1:8080/afa. Apache externally exposes the equivalent backend as /afa/api/v1/config, while /afa/config is not externally mapped and returned 404 in observed logs. Same-minute supporting traffic included external/noauth config probes and session-extension checks, but those did not appear to be the blocking dependency for home.php.",
++  "returned_artifact_paths": [
++    "artifacts/seam-evidence.txt"
++  ],
++  "intentional_mutations": [],
++  "follow_up_recommendations": [
++    "If you need to validate this seam actively, probe /afa/api/v1/config from the external side rather than /afa/config.",
++    "Correlate one successful SuiteLoginSessionValidation-to-home.php flow with Metro localhost_access_log.txt request IDs or session IDs to distinguish suite-frame config reads from direct AFA home-shell reads even more tightly."
++  ]
++}
+diff --git a//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc3aca5b370be50ccae1e56235810b0f1b0d9489
+--- /dev/null
++++ b//root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md
+@@ -0,0 +1,15 @@
++Observed the direct PHP-to-Metro config seam behind the first usable ASMS home shell.
++
++Key findings:
++- PHP login bootstrap makes Metro config a hard prerequisite before `home.php`: `AlgosecSessionManager::postLoginActions()` calls `utils::HandleConfigParams()`, which calls `GetConfigurationSettings()`, which calls `RestClient::getAllConfig()`.
++- `RestClient` talks straight to Metro at `http://127.0.0.1:8080/afa`, so the PHP stack does not need Apache's external `/afa/api/v1/config` route for its own config hydration.
++- `home.php` primarily consumes already-cached `m_configurationSettings`; its same-request live reads are mostly non-config data such as `/noauth/device/`, `UsersInfo/<user>`, and local analyzed-list/session artifacts.
++- Apache exposes `/afa/api/v1` to the same Metro backend, but externally visible `/afa/config` is not mapped in Apache. A captured access-log pair on 2026-03-25 19:20:54 shows `/afa/api/v1/config?...` returning `200` while `/afa/config/?...` returns `404`.
++- Same-minute supporting traffic around successful shell entry includes unauthenticated or external-shell config probes such as `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW` (`401`) and `/afa/external//config/all/noauth` (`200`). Those appear adjacent to shell validation and suite framing, not as blockers for `home.php` itself.
++
++Assessment:
++- First-shell requirement: Metro config fetch via backend `GET /afa/api/v1/config?session=...&domain=...` during login/session bootstrap.
++- Supporting traffic in the same minute: `/afa/external//config/all/noauth`, `/afa/external//config?...`, `/afa/api/v1/config/PRINT_TABLE_IN_NORMAL_VIEW`, session-extend/license checks, and static asset loads.
++
++Artifacts:
++- `artifacts/seam-evidence.txt`
+
+tokens used
+96,208
+Completed the delegated observe-only slice inside `/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1`.
+
+The result is in [delegated-task-result.json](/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/delegated-task-result.json), with operator summary in [findings.md](/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/findings.md), command log in [commands.jsonl](/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/commands.jsonl), and evidence in [seam-evidence.txt](/root/.pack-state/delegated-codex-runs/asms-home-shell-config-observe-v1/artifacts/seam-evidence.txt).
+
+Main conclusion: the first usable ASMS home shell depends on Metro config hydration during login bootstrap via PHP `RestClient` to `http://127.0.0.1:8080/afa`; Apache’s external equivalent is `/afa/api/v1/config`, while `/afa/config` is not externally mapped on this appliance and was observed returning `404`.

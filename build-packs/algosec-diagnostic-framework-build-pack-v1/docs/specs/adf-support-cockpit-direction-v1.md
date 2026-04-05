@@ -37,7 +37,7 @@ For the next implementation cycle:
 - preserve the sticky quick-jump behavior
 - keep collapsible checkpoint sections
 - keep command blocks and healthy-output references close together
-- keep the content plain, short, and explicit for junior support engineers
+- keep the content plain, short, and explicit for Tier 2 support engineers
 - use consistent Linux-standard terms across playbooks so engineers build a
   repeatable troubleshooting vocabulary
 - when a term may be unfamiliar, add a short plain-language clarification near

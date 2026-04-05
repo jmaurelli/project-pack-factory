@@ -1,0 +1,781 @@
+{
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "promotion_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "excluded_paths": [
+    ".pack-state/autonomy-runs",
+    ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke",
+    ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/assistant-uat",
+    ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/assistant-uat/identity_and_grounding-last-message.txt",
+    ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/assistant-uat/uat-report.json",
+    ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/loop-events.jsonl",
+    ".pack-state/autonomy-runs/export-helper-assistant-uat-smoke/run-summary.json",
+    "dist/exports/runtime-evidence",
+    "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z",
+    "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z/artifacts",
+    "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z/artifacts/assistant-uat",
+    "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z/artifacts/assistant-uat/identity_and_grounding-last-message.txt",
+    "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z/artifacts/assistant-uat/uat-report.json",
+    "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z/artifacts/loop-events.jsonl",
+    "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z/artifacts/run-summary.json",
+    "dist/exports/runtime-evidence/external-runtime-evidence-export-helper-assistant-uat-smoke-20260330T001111Z/bundle.json",
+    "eval/history",
+    "eval/history/import-external-runtime-evidence-20260330t000255z",
+    "eval/history/import-external-runtime-evidence-20260330t000255z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t000255z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t000255z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t000255z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v2.json",
+    "eval/history/import-external-runtime-evidence-20260330t000255z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t000255z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t000255z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t000255z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t001305z",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3.json",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/grounding_and_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/grounding_and_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/memory_and_continuity-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/memory_and_continuity-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t001305z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t001358z",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3.json",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/grounding_and_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/grounding_and_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/memory_and_continuity-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/memory_and_continuity-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t001358z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t174226z",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5.json",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/grounding_and_caution-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/grounding_and_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/grounding_and_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/grounding_and_doctor-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/memory_and_continuity-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/memory_and_continuity-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/memory_and_continuity-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t174226z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t183516z",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v6.json",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/bootstrap_and_preview-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/business_review_and_caution-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/business_review_and_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/business_review_and_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/identity_and_grounding-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/preference_strength_and_continuity-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/preference_strength_and_continuity-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/preference_strength_and_continuity-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t183516z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t185530z",
+    "eval/history/import-external-runtime-evidence-20260330t185530z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t185530z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t185530z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t185530z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v7.json",
+    "eval/history/import-external-runtime-evidence-20260330t185530z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t185530z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t185530z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t185530z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t191427z",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v8.json",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/alignment_surface-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/alignment_surface-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/alignment_surface-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/business_review_and_caution-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/business_review_and_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/business_review_and_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/identity_and_navigation-answer.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/identity_and_navigation-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/identity_and_navigation-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/identity_and_navigation-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-answer.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_check_and_fundamentals-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/navigation_guidance_status-answer.txt",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t191427z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t200209z",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v9.json",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/business-review-closeout-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/business_review_refresh-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/business_review_refresh-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/business_review_refresh-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/identity-and-continuity-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/identity_and_continuity-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/identity_and_continuity-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/identity_and_continuity-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/memory-selection-and-caution-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/memory_drilldown_and_caution-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/memory_drilldown_and_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/memory_drilldown_and_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t200209z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t203722z",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10.json",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/alignment-thin-history-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/alignment_and_history-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/alignment_and_history-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/alignment_and_history-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/carry_forward_caution-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/carry_forward_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/carry_forward_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/closeout_and_distillation-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/closeout_and_distillation-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/closeout_and_distillation-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t203722z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t205840z",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v11.json",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/reflection_caution-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/reflection_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/reflection_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/relationship-signal-next-step.json",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/relationship-signal-next-step.md",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260330t205840z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t120345z",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v12.json",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/reflection_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/reflection_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260331t120345z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t144944z",
+    "eval/history/import-external-runtime-evidence-20260331t144944z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260331t144944z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260331t144944z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260331t144944z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18.json",
+    "eval/history/import-external-runtime-evidence-20260331t144944z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260331t144944z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260331t144944z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260331t144944z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t145619z",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19.json",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/record_alignment_risk_reflection-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/reflection_caution-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/reflection_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/reflection_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/reflection_due_state-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260331t145619z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t162508z",
+    "eval/history/import-external-runtime-evidence-20260331t162508z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260331t162508z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260331t162508z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260331t162508z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v20.json",
+    "eval/history/import-external-runtime-evidence-20260331t162508z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260331t162508z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260331t162508z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260331t162508z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t164306z",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21.json",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_due_state-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_due_state-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_due_state-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/record_business_review_and_preference-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/record_business_review_and_preference-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/record_business_review_and_preference-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/show-alignment.json",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/show-business-review.json",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/show-preference-calibration.json",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260331t164306z/import-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t165720z",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/agent-memory",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v22.json",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_caution-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_caution-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_caution-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_due_state-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_due_state-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/preference_calibration_due_state-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/record_business_review_and_preference-last-message.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/record_business_review_and_preference-stderr.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/record_business_review_and_preference-stdout.txt",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/assistant-uat/uat-report.json",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/loop-events.jsonl",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/artifacts/run-summary.json",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/external-runtime-evidence/bundle.json",
+    "eval/history/import-external-runtime-evidence-20260331t165720z/import-report.json",
+    "eval/history/materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z",
+    "eval/history/materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z/materialization-report.json",
+    "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z",
+    "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/benchmark-result.json",
+    "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/pipeline-report.json",
+    "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/validation-result.json",
+    "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/verification-result.json",
+    "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-benchmark-20260329t161814z",
+    "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-benchmark-20260329t161814z/benchmark-result.json",
+    "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-validation-20260329t161748z",
+    "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-validation-20260329t161748z/validation-result.json",
+    "src/codex_personal_assistant_template_pack/__pycache__",
+    "src/codex_personal_assistant_template_pack/__pycache__/__init__.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/__main__.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/alignment.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/ambiguity.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/assistant_contracts.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/benchmark_smoke.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/cli.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/context_router.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/doctor.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/grounding.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/memory.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/operator_intake.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/profile.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/relationship_state.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/validate_project_pack.cpython-312.pyc",
+    "src/codex_personal_assistant_template_pack/__pycache__/workspace_bootstrap.cpython-312.pyc"
+  ],
+  "local_scratch_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch",
+  "local_staging_root": "/home/orchadmin/project-pack-factory/.pack-state/local-scratch/remote-autonomy-staging/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23",
+  "payload_entries": [
+    {
+      "relative_path": ".gitignore",
+      "sha256": "c3fae528d26966c94641ff9123a1cef4a42571bd3d7fcd49c82a381135407ef9",
+      "size_bytes": 79
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v10.json",
+      "sha256": "d3c65d67a2ecfb03a6c924201e4752f3b76e01c15903fb97a8dd2f6e71f84ee2",
+      "size_bytes": 6403
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v11.json",
+      "sha256": "421eff30826fa5227ba846b7e567d0866891ab673e5aa4afe32ac2a133fc5edb",
+      "size_bytes": 6493
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v12.json",
+      "sha256": "af8a4858234f6a02099c5144015daf1908a9e1a36c05c1adfb3b8fa47ccba8de",
+      "size_bytes": 6431
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v18.json",
+      "sha256": "b0b6338b92440593c6ef7461a084c15a5a0de9d653c007bcdc9a36ea21d5bc70",
+      "size_bytes": 7663
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19.json",
+      "sha256": "c95b5f5fc7cc03ceba1dc40a0bf49808078df07d16d854f018397cd7af0182a2",
+      "size_bytes": 9377
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v2.json",
+      "sha256": "7ef3afb7c90a4797b7773a33eb02ab5bb243493b5e243b3f519465392b967a87",
+      "size_bytes": 4705
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v20.json",
+      "sha256": "21142073c5309e33794b5fea9bde8659dbbdf9d3fd5065c528c5ebe84092714b",
+      "size_bytes": 7663
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21.json",
+      "sha256": "8e3fdcf4fd45559c8367008233fb0bfa8b8ad8b28739b3d2d9adef4745e5bcb4",
+      "size_bytes": 9377
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v22.json",
+      "sha256": "68a7d649f05c19e624bb2fb2481168a7e89cc80c9b63083adf36569d9bdaaf07",
+      "size_bytes": 6639
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3.json",
+      "sha256": "6d4bd27787ea279f93786c7e0516682ffbc049124f68df851163a2b0100fcfe8",
+      "size_bytes": 5486
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5.json",
+      "sha256": "ab371ccd5653673db215c8d3dc75ba9d8d586d4e4dffee02ac7dce9532db2c45",
+      "size_bytes": 6387
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v6.json",
+      "sha256": "88d6f9fc425ae8cf8ccfb1b2bc72343d7331af14cfd7ae2eaae291a8984136af",
+      "size_bytes": 6063
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v7.json",
+      "sha256": "09f6223b1b7ad9a8e5a90fc65d152d42ceca478e7c5d9c8d3f9a96ce91a60f59",
+      "size_bytes": 7267
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v8.json",
+      "sha256": "fa28668117fc681a1debe4796f5ca81f0675cd332de5182de5eb35cb38aa7e82",
+      "size_bytes": 8766
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v9.json",
+      "sha256": "b8af6509a83ec94b0476231486525bf5f9f2c2061e538f5a5f09e05df3f13892",
+      "size_bytes": 6300
+    },
+    {
+      "relative_path": ".pack-state/agent-memory/latest-memory.json",
+      "sha256": "44449a21626cb6df7cedb500ba5ddafbc6ff7be914476e6268f388c17402d305",
+      "size_bytes": 1154
+    },
+    {
+      "relative_path": ".packfactory-remote/request.json",
+      "sha256": "c26968cfd5d088167e9bdf1fb3dc7e3ec067d13b514ef2e659da9a3141f4ce78",
+      "size_bytes": 16285
+    },
+    {
+      "relative_path": ".packfactory-runtime/manifest.json",
+      "sha256": "d5397d29bb072f05736abe59b4ce82beb4334ab2b2d041ea54e274893764fe01",
+      "size_bytes": 3136
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory-pointer.schema.json",
+      "sha256": "01aaee509ff29c30f22c5929d3ec1cc84abff5c0f4d36dfc9bb6b6b66e3c5bf4",
+      "size_bytes": 2303
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-feedback-memory.schema.json",
+      "sha256": "ffa6014902a3d117af5e06e78dc6548be12395711e54a57e8c70dddd1b1047ad",
+      "size_bytes": 13853
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-loop-event.schema.json",
+      "sha256": "8c7427ea3199030ca8df7e6de55fbdbaa3ed5d9bc5251bad1d253a2247bc17a8",
+      "size_bytes": 4442
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/autonomy-run-summary.schema.json",
+      "sha256": "9a7dfadbe33cbf3bd3595c1ee3699bcc40494b3ce5dde25e7986181ab3160d44",
+      "size_bytes": 10512
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/eval-latest-index.schema.json",
+      "sha256": "c51959a6e627c26eeeb49f690e329a1b61a667a575775a2a5d5594afaa21b206",
+      "size_bytes": 1801
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/portable-runtime-helper-manifest.schema.json",
+      "sha256": "04d712f8830acb83ae57fb116ce7690d7b883f7de90662490d8a95f490c098e7",
+      "size_bytes": 1950
+    },
+    {
+      "relative_path": ".packfactory-runtime/schemas/readiness.schema.json",
+      "sha256": "603ef507f38c31dccd58f1977fd1671cc0742ea3f60e794015aa42c78533e236",
+      "size_bytes": 7295
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/factory_ops.py",
+      "sha256": "996649576ae33d259d60b853767af4faa7944014a540007b854fa36206eb7562",
+      "size_bytes": 18408
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/record_autonomy_run.py",
+      "sha256": "2568670ad36300d34310e4d09bb21895b67d1715914f3f3439f7d663f3411a6f",
+      "size_bytes": 52025
+    },
+    {
+      "relative_path": ".packfactory-runtime/tools/run_build_pack_readiness_eval.py",
+      "sha256": "89d7216125ba9b207ae2436fdb8396bbb7ae1f3c1329ae70e4dc2f6edee70372",
+      "size_bytes": 17585
+    },
+    {
+      "relative_path": "AGENTS.md",
+      "sha256": "c9e3aae3df81a727e54d3d544a7fe7b5a8582ffc1dcc79d37115b99b0c0eef57",
+      "size_bytes": 5579
+    },
+    {
+      "relative_path": "README.md",
+      "sha256": "16620ef68186741221d34cefeff507d0732a43a2c495013cb7640ef8444af482",
+      "size_bytes": 2158
+    },
+    {
+      "relative_path": "benchmarks/active-set.json",
+      "sha256": "8832c6ae61a5ca93a6aaa5d08a36d68247a6622ccc816bd2e9ac260202aff206",
+      "size_bytes": 795
+    },
+    {
+      "relative_path": "benchmarks/declarations/codex-personal-assistant-template-pack-smoke-small-001.json",
+      "sha256": "235b640059b05f3a99cfe0da6d5461b611a5224ff656ac161e1f7cf85ff43e87",
+      "size_bytes": 1465
+    },
+    {
+      "relative_path": "contracts/README.md",
+      "sha256": "2155da57cf4ce27874d44d72bcf88d99ae5942f302a5a7ac53ca10ec32d7c68e",
+      "size_bytes": 410
+    },
+    {
+      "relative_path": "contracts/assistant-profile.json",
+      "sha256": "5ea5a3b3388557275eecb3fa25abc6b515fa421f4822789ec21770bc60c146ae",
+      "size_bytes": 1599
+    },
+    {
+      "relative_path": "contracts/context-routing.json",
+      "sha256": "a78fe5e987eb0c33bb23aea680a027bf78ae135170be4a6d646b2a1c16c58c29",
+      "size_bytes": 2702
+    },
+    {
+      "relative_path": "contracts/memory-policy.json",
+      "sha256": "351492619d8e0bd390cda1cfe1d1f74e6ce7c20df34424ea0b5c5ebdfb916a88",
+      "size_bytes": 4168
+    },
+    {
+      "relative_path": "contracts/operator-intake.json",
+      "sha256": "67a1149cfae24a554c8b3a0d4b6a565b558cdc69e2d9cad29ec969efbc281cb9",
+      "size_bytes": 2056
+    },
+    {
+      "relative_path": "contracts/operator-profile.json",
+      "sha256": "09d3a626489ce83552b1e5b06adfd6c2f7a3203f5e294933f5d5dab15b7330af",
+      "size_bytes": 2929
+    },
+    {
+      "relative_path": "contracts/partnership-policy.json",
+      "sha256": "1511cd5338d9ebaa0bfb5f296d88d7fc3d6f2d13ce9c6f667c51aad4c35cfdc4",
+      "size_bytes": 5926
+    },
+    {
+      "relative_path": "contracts/project-objective.json",
+      "sha256": "cb8cd817cf7173a71b1d9c8805e64559aac8589006261ca551ff5e34e5b5490a",
+      "size_bytes": 5630
+    },
+    {
+      "relative_path": "contracts/skill-catalog.json",
+      "sha256": "3fd2319735d6b7f9e8302ff5b9da384726735211addb70588a43d48230d13d0f",
+      "size_bytes": 1507
+    },
+    {
+      "relative_path": "dist/candidates/codex-personal-assistant-daily-driver-build-pack-v1-r1/release.json",
+      "sha256": "9958f5b4828e15c6a5529ece0a65e2de59daadb289f99e07c1d7b89f4009134f",
+      "size_bytes": 582
+    },
+    {
+      "relative_path": "dist/releases/codex-personal-assistant-daily-driver-build-pack-v1-r1/release.json",
+      "sha256": "9958f5b4828e15c6a5529ece0a65e2de59daadb289f99e07c1d7b89f4009134f",
+      "size_bytes": 582
+    },
+    {
+      "relative_path": "docs/specs/README.md",
+      "sha256": "9bed0e15e3f2a3f92521d1d9828383125c76b376f0b8a84f877d956a9e39e1a4",
+      "size_bytes": 138
+    },
+    {
+      "relative_path": "docs/specs/assistant-architecture.md",
+      "sha256": "3a9f2e6066c2952ff4ea9392524fe29e5ad5b618de96c48836d811977efed78c",
+      "size_bytes": 2212
+    },
+    {
+      "relative_path": "docs/specs/operator-alignment-model.md",
+      "sha256": "07a14c644b91fb886eb237f45e3e0a2513a5f031829f4b2de336ca8e7a4f922a",
+      "size_bytes": 9320
+    },
+    {
+      "relative_path": "docs/specs/user-acceptance-playbook.md",
+      "sha256": "3fba39fd64ba65927aceccd313c85f0480da881c0fefc9af45b4752eac586409",
+      "size_bytes": 9051
+    },
+    {
+      "relative_path": "eval/latest/index.json",
+      "sha256": "9eab01cc7fda5dbe94af136d579859c421c9e9427477610563268f60bbd5509d",
+      "size_bytes": 745
+    },
+    {
+      "relative_path": "lineage/source-template.json",
+      "sha256": "72a1c0cc86b632c66a5f3ff9cf5ac7b83c853e81c2c9de39153f2208f77f976d",
+      "size_bytes": 699
+    },
+    {
+      "relative_path": "pack.json",
+      "sha256": "9da72c3d055ade7983f9d8a48e8e5613c0d68947a6b1c50acf63d58e4e7bfc85",
+      "size_bytes": 2900
+    },
+    {
+      "relative_path": "project-context.md",
+      "sha256": "7fa7663d706101aff9b51112094c9320a07ae8afd70212931f5c8a6169dff428",
+      "size_bytes": 1536
+    },
+    {
+      "relative_path": "prompts/README.md",
+      "sha256": "c2c4532141cec2a737fa40edff8e9abbc1f539646c122ee0df47007079a9137d",
+      "size_bytes": 240
+    },
+    {
+      "relative_path": "prompts/bootstrap-checklist.md",
+      "sha256": "b768628539f4ebe8ccb8726303239924bda1f240b4c320ee4b1c25768c983a53",
+      "size_bytes": 841
+    },
+    {
+      "relative_path": "prompts/operator-discovery-guide.md",
+      "sha256": "bf77e0cc3fb47aa8b13a0f0b71d09edfff982e6a7fc07fe217c5c51536bf5f35",
+      "size_bytes": 3907
+    },
+    {
+      "relative_path": "prompts/restart-memory-guide.md",
+      "sha256": "801656ec387372eb02bf93f553022bd125c2c0f7749398bc8a11de309b165a08",
+      "size_bytes": 989
+    },
+    {
+      "relative_path": "prompts/skills-guide.md",
+      "sha256": "c346491fa3cf8e2ed05a0b02582a7665c190f46d622cf8da19148d068423078f",
+      "size_bytes": 660
+    },
+    {
+      "relative_path": "pyproject.toml",
+      "sha256": "4a18cffc62665ab79d0778944d31a29b788e43251ead9b3896d812db59447ef7",
+      "size_bytes": 544
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/__init__.py",
+      "sha256": "275db6eef037d45d3d442592ddb24cb3cd1d6824c145d7610a5e4d786a37e09c",
+      "size_bytes": 536
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/__main__.py",
+      "sha256": "3d2438ae92f4746e9ffaa1f837b1fe803f6281091d1f31f8c95643716f257d9a",
+      "size_bytes": 80
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/alignment.py",
+      "sha256": "8f075f998b9e2902f28900c1cea90a6b3511f7a0bd884dcc1f6922906c481769",
+      "size_bytes": 6471
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/ambiguity.py",
+      "sha256": "74a976f6afa8deaa459656308deb0e455c8e39a56f8bbf9000a681078132088d",
+      "size_bytes": 3712
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/assistant_contracts.py",
+      "sha256": "3e09313d57df7ec8859ccae0fcb1502e66419371c1ceaa5e1b693056dd61bd84",
+      "size_bytes": 3359
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/benchmark_smoke.py",
+      "sha256": "839eacb00dc83bf778bdb55d649d7adedc510f0e0fd53f7561891b9cfb7c23b3",
+      "size_bytes": 43066
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/cli.py",
+      "sha256": "a623f002349c033abd72305bac732fd70e2471984699ba02bfce98eb7006a63e",
+      "size_bytes": 23041
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/context_router.py",
+      "sha256": "0e216790b210882d403bca97330770d5ec481a5705b5dfe925aaa0aaaefb4637",
+      "size_bytes": 2003
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/doctor.py",
+      "sha256": "c8448732f567e1689e00873c55590c30d52701acd1dd35813f32569b185501b0",
+      "size_bytes": 17365
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/grounding.py",
+      "sha256": "0927cb9393b13fc0fa835a8dc133c33278512d59ace1cd87ec1d07e04e633635",
+      "size_bytes": 59655
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/memory.py",
+      "sha256": "8a0608edc2ec3d1fae4ad93f6002ba1bf3192f045a3e323c515a2804ff95aa58",
+      "size_bytes": 24563
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/operator_intake.py",
+      "sha256": "eec5c329bae643564630ed96a559ce2d5a2befb0e5085e2eb9e14f383e93a2ae",
+      "size_bytes": 11214
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/profile.py",
+      "sha256": "ec97d749804a52540059750244a97869338bd8c40670b6267a6c168f3b02cf4a",
+      "size_bytes": 1590
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/relationship_state.py",
+      "sha256": "52fb9c686b89ab49f48434397d9b41023614eea238f97fca57934649b7bba454",
+      "size_bytes": 21542
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/validate_project_pack.py",
+      "sha256": "d1290088513d9a1a8076163ebd0d79c68daa21772d8ae0570b698cf031ddea77",
+      "size_bytes": 1414
+    },
+    {
+      "relative_path": "src/codex_personal_assistant_template_pack/workspace_bootstrap.py",
+      "sha256": "12961f66563b42d6b874e37145c471d55813268d5a7460ec23763acfbb07e754",
+      "size_bytes": 3638
+    },
+    {
+      "relative_path": "src/pack_export_runtime_evidence.py",
+      "sha256": "1a64d4075d56ef6aed1242e969d0c70c9211d13299bfb4bc44b8df89fd52ef9e",
+      "size_bytes": 12695
+    },
+    {
+      "relative_path": "status/deployment.json",
+      "sha256": "4f202ad1d931aab4e24b295c2d6f038c05b2f731b1f45e2d1d16249ad95d40de",
+      "size_bytes": 561
+    },
+    {
+      "relative_path": "status/lifecycle.json",
+      "sha256": "e6300ce65dbdf57939d7f349777c3c49756af6c12994e195ef969f4753309e1f",
+      "size_bytes": 551
+    },
+    {
+      "relative_path": "status/readiness.json",
+      "sha256": "ae89d8b2317c54e7d8747463aafed4901ee7e0e513036fe9d08d77f265287b17",
+      "size_bytes": 1515
+    },
+    {
+      "relative_path": "status/retirement.json",
+      "sha256": "f64e1c6d3c2277ae2ffdb9edd73cc5bf703057829c767ae8f5428847abd323d8",
+      "size_bytes": 488
+    },
+    {
+      "relative_path": "status/work-state.json",
+      "sha256": "2cff4451859d6e40e3120079e7f3b6ab67ac4d4c0dd9a67e64ac584dfd648dbc",
+      "size_bytes": 3310
+    },
+    {
+      "relative_path": "tasks/active-backlog.json",
+      "sha256": "f2c7ab4ecc8dd4cf56af34361080ad689560734528c9c124569b03f4697cee10",
+      "size_bytes": 33300
+    },
+    {
+      "relative_path": "tests/README.md",
+      "sha256": "49edefd89fd0a6dd98ecfd6774a32119d8db542b610e89d4b88e1ba585030edf",
+      "size_bytes": 114
+    }
+  ],
+  "payload_policy_version": "fresh-staging/v2",
+  "remote_export_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/dist/exports/runtime-evidence",
+  "remote_host": "adf-dev",
+  "remote_pack_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+  "remote_parent_dir": "~/packfactory-source__adf-dev__autonomous-build-packs",
+  "remote_run_dir": "~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23",
+  "remote_target_label": "adf-dev",
+  "remote_user": "adf",
+  "request_sha256": "c26968cfd5d088167e9bdf1fb3dc7e3ec067d13b514ef2e659da9a3141f4ce78",
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23",
+  "schema_version": "remote-execution-payload-manifest/v1",
+  "source_build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "source_build_pack_root": "/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+  "staged_at": "2026-03-31T17:12:02Z",
+  "staged_by": "codex",
+  "transport_mode": "rsync"
+}

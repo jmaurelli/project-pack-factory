@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-03-28T23:08:20Z",
+  "improvement_id": "remote-manifest-only-startup-stall-recovery-v1",
+  "operator_summary": "Proved autonomy improvement `remote-manifest-only-startup-stall-recovery-v1` from `algosec-diagnostic-framework-build-pack-v1`. Adopted surfaces: materializer_defaults. Pending surfaces: source_template_tracking.",
+  "proof_paths": [
+    "build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/adf-dev-reports-branch-slice-v1-manifest-only-recovery-proof-20260328.md"
+  ],
+  "recorded_by": "codex",
+  "report_id": "remote-manifest-only-startup-stall-recovery-v1-20260328t230820z",
+  "schema_version": "autonomy-improvement-promotion-report/v1",
+  "source_build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "source_template_id": "algosec-diagnostic-framework-template-pack",
+  "summary": "Pre-invocation remote startup stalls now preserve a manifest-only pull result plus recovery-remote-state snapshot instead of failing during pullback.",
+  "surface_records": [
+    {
+      "adoption_status": "adopted",
+      "inheritance_effect": "factory_default_for_new_build_packs",
+      "notes": [
+        "This is the main automatic inheritance path for future build-packs.",
+        "When an autonomy improvement lands here, newly materialized build-packs receive it by default."
+      ],
+      "surface_id": "materializer_defaults",
+      "target_paths": [
+        "tools/materialize_build_pack.py"
+      ]
+    },
+    {
+      "adoption_status": "pending",
+      "inheritance_effect": "template_source_tracking",
+      "notes": [
+        "This records whether the source template itself has been updated to describe or carry the improvement.",
+        "Pending here means the improvement may still be inherited through factory tooling without being reflected directly in the template source."
+      ],
+      "surface_id": "source_template_tracking",
+      "target_paths": [
+        "templates/algosec-diagnostic-framework-template-pack/AGENTS.md",
+        "templates/algosec-diagnostic-framework-template-pack/pack.json",
+        "templates/algosec-diagnostic-framework-template-pack/project-context.md"
+      ]
+    }
+  ]
+}

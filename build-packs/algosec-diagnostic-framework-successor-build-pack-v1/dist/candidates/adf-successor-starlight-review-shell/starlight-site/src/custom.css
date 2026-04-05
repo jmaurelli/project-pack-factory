@@ -1,0 +1,121 @@
+:root {
+  --adf-shell-border: color-mix(in srgb, var(--sl-color-gray-4), transparent 25%);
+  --adf-shell-panel: color-mix(in srgb, white 82%, var(--sl-color-accent-high) 18%);
+  --adf-shell-panel-secondary: color-mix(in srgb, white 90%, var(--sl-color-gray-6) 10%);
+  --adf-shell-text-soft: color-mix(in srgb, var(--sl-color-text) 68%, white 32%);
+}
+
+html {
+  --sl-content-width: 74rem;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #d7f0ef;
+  --sl-color-accent: #0f766e;
+  --sl-color-accent-high: #134e4a;
+  --sl-color-bg: #f6f7f4;
+  --sl-color-bg-nav: #f2f4ef;
+  --sl-color-bg-sidebar: #eef2ec;
+  --sl-color-hairline-light: #d7ddd4;
+  --sl-color-text: #13221d;
+  --sl-color-text-accent: #0f766e;
+}
+
+.main-pane {
+  width: min(100%, 74rem);
+}
+
+.sl-markdown-content h2 {
+  margin-top: 2.2rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--adf-shell-border);
+}
+
+.sl-markdown-content h3 {
+  margin-top: 1.2rem;
+}
+
+.adf-index-shell {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.adf-index-intro {
+  margin: 0;
+  color: var(--adf-shell-text-soft);
+  font-size: 1.02rem;
+}
+
+.adf-card-section {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.adf-card-section-label {
+  margin: 0;
+  color: var(--adf-shell-text-soft);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.adf-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.9rem;
+}
+
+.adf-card {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem 1.05rem;
+  background: var(--adf-shell-panel);
+  border: 1px solid var(--adf-shell-border);
+  border-radius: 0.9rem;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.adf-card:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--sl-color-accent) 55%, var(--adf-shell-border));
+  box-shadow: 0 8px 24px rgba(15, 118, 110, 0.08);
+}
+
+.adf-card-grid--secondary .adf-card {
+  background: var(--adf-shell-panel-secondary);
+}
+
+.adf-card strong {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.adf-card span:last-child {
+  color: var(--adf-shell-text-soft);
+  font-size: 0.93rem;
+}
+
+.adf-card-kicker {
+  color: var(--sl-color-text-accent);
+  font-size: 0.77rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.adf-note {
+  padding: 0.95rem 1rem;
+  border-left: 4px solid var(--sl-color-accent);
+  background: color-mix(in srgb, var(--adf-shell-panel) 82%, white 18%);
+  border-radius: 0.6rem;
+  color: var(--adf-shell-text-soft);
+}
+
+.sl-markdown-content table {
+  display: table;
+  width: 100%;
+}

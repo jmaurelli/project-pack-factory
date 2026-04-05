@@ -1,0 +1,33 @@
+{
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "generated_at": "2026-03-31T16:40:16Z",
+  "reason": "business-review anchored preference calibration plus stale assistant-UAT cleanup proof",
+  "remote_target_label": "adf-dev",
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21",
+  "scenario": {
+    "allow_contract_profile_refinement": false,
+    "allow_preview_bundle": false,
+    "expected_sidecar_artifacts": [],
+    "model_reasoning_effort": "low",
+    "prompts": [
+      {
+        "name": "preference_calibration_due_state",
+        "prompt": "Use the local show-business-review, show-preference-calibration, and show-alignment surfaces to tell me whether a business-review anchor is present, whether preference calibration is due, and which bounded write surface should be used next."
+      },
+      {
+        "name": "record_business_review_and_preference",
+        "prompt": "If the local business review is due, refresh it first with one grounded review tied to the operator's small-business direction. Then use the local record-preference-calibration surface to capture one bounded working preference without passing refine_profile_json and without modifying contracts/operator-profile.json. End by saying what changed."
+      },
+      {
+        "name": "preference_calibration_caution",
+        "prompt": "Use show-preference-calibration, show-relationship-state, and show-alignment to tell me what became stronger after that calibration and one real caution that still matters before claiming stronger personalization."
+      }
+    ],
+    "scenario_id": "business-review-anchor-plus-preference-calibration",
+    "schema_version": "assistant-uat-scenario/v1",
+    "session_preamble": "Stay bounded to local assistant behavior, memory, business review, preference calibration, relationship reflection, navigation guidance, bootstrap, doctor, and documentation surfaces. The goal of this scenario is to prove that preference calibration stays anchored to a current business review, remains inspectable, and does not mutate operator-profile contracts by default.",
+    "summary": "The business-review anchor plus preference-calibration flow on the staged Codex personal assistant daily-driver pack."
+  },
+  "scenario_source_path": "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/assistant-uat-scenarios/business-review-anchor-plus-preference-calibration.json",
+  "schema_version": "assistant-uat-request-scenario-manifest/v1"
+}

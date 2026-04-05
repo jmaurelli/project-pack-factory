@@ -1,0 +1,12 @@
+A business-review anchor is not present right now. The bounded surfaces all agree there is no recorded review yet: `show-business-review` reports `latest_review: null`, `review_count: 0`, and `business_review_anchor_present: false`, and `show-communication-calibration` also shows `latest_business_review_id: null`.
+
+Communication calibration is due, but it is not ready to write yet because the review anchor is missing. The calibration surface says `business_review_due: true`, `calibration_due: true`, and `calibration_ready: false`, with the reason that the business review needs to be refreshed first so communication patterns stay anchored to the current business direction.
+
+The next bounded write surface to use is `record-business-review`. After that, if you want to capture communication-pattern calibration specifically, the next write is `record-communication-calibration`. If you want the broader relationship-learning path instead, `show-alignment` and `show-business-review` both recommend `record-operator-intake` after the business review for the first missing signal category.
+
+I saved the three read-surface outputs under:
+[show-business-review.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23/assistant-uat/show-business-review.json)
+[show-communication-calibration.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23/assistant-uat/show-communication-calibration.json)
+[show-alignment.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v23/assistant-uat/show-alignment.json)
+
+No operator-profile contract was modified during this run.

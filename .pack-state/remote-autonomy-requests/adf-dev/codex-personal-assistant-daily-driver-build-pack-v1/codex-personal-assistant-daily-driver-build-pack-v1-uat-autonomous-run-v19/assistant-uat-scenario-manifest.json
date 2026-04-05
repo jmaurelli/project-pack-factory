@@ -1,0 +1,33 @@
+{
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "generated_at": "2026-03-31T14:50:55Z",
+  "reason": "Rerun recurring relationship reflection after fixing low-reasoning builder quoting so assistant-UAT stays inside approved writable surfaces and completes promptly.",
+  "remote_target_label": "adf-dev",
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v19",
+  "scenario": {
+    "allow_contract_profile_refinement": false,
+    "allow_preview_bundle": false,
+    "expected_sidecar_artifacts": [],
+    "model_reasoning_effort": "low",
+    "prompts": [
+      {
+        "name": "reflection_due_state",
+        "prompt": "Use the local show-business-review, show-relationship-reflection, and show-alignment surfaces to tell me which relationship signal should be filled next, why it matters, and which bounded write surface should be used."
+      },
+      {
+        "name": "record_alignment_risk_reflection",
+        "prompt": "Use the local record-operator-intake surface to capture one bounded alignment-risk reflection about what tends to pull the operator off course. Keep the write bounded to assistant state only: do not pass refine_profile_json and do not modify contracts/operator-profile.json. Then explain what changed in the relationship reflection and alignment surfaces."
+      },
+      {
+        "name": "reflection_caution",
+        "prompt": "Use the local show-relationship-state and show-alignment surfaces to tell me what became stronger after that reflection and one real caution that still matters for daily use."
+      }
+    ],
+    "scenario_id": "recurring-relationship-reflection-loop",
+    "schema_version": "assistant-uat-scenario/v1",
+    "session_preamble": "Stay bounded to local assistant behavior, memory, grounding, relationship reflection, navigation guidance, bootstrap, doctor, and documentation surfaces. The goal of this scenario is to prove that recurring relationship reflection remains inspectable, explicit, and grounded rather than hidden learning or broad guesswork.",
+    "summary": "The recurring relationship-reflection loop on the staged Codex personal assistant daily-driver pack."
+  },
+  "scenario_source_path": "/home/orchadmin/project-pack-factory/docs/specs/project-pack-factory/assistant-uat-scenarios/recurring-relationship-reflection-loop.json",
+  "schema_version": "assistant-uat-request-scenario-manifest/v1"
+}

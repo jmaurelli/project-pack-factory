@@ -1,0 +1,18 @@
+[Fri Mar 27 17:14:58.655787 2026] [core:warn] [pid 2592809] AH00114: Useless use of AllowOverride in line 5 of /etc/httpd/conf.d/keycloak.conf.
+[Fri Mar 27 17:14:58.656163 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'timeout=18000' for worker 'http://localhost:8080/afa/api/v1' because of worker sharing
+[Fri Mar 27 17:14:58.656172 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'retry=0' for worker 'http://localhost:8080/afa/api/v1' because of worker sharing
+[Fri Mar 27 17:14:58.656254 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'timeout=18000' for worker 'http://localhost:8185/swagger-ui/swagger-ui-bundle.js' because of worker sharing
+[Fri Mar 27 17:14:58.656262 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'retry=0' for worker 'http://localhost:8185/swagger-ui/swagger-ui-bundle.js' because of worker sharing
+[Fri Mar 27 17:14:58.656282 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'timeout=18000' for worker 'http://localhost:8185/swagger-ui/swagger-ui-standalone-preset.js' because of worker sharing
+[Fri Mar 27 17:14:58.656286 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'retry=0' for worker 'http://localhost:8185/swagger-ui/swagger-ui-standalone-preset.js' because of worker sharing
+[Fri Mar 27 17:14:58.656309 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'timeout=18000' for worker 'http://localhost:8185/swagger-resources' because of worker sharing
+[Fri Mar 27 17:14:58.656313 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'retry=0' for worker 'http://localhost:8185/swagger-resources' because of worker sharing
+[Fri Mar 27 17:14:58.656355 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'timeout=18000' for worker 'http://localhost:8185/v2/api-docs' because of worker sharing
+[Fri Mar 27 17:14:58.656359 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'retry=0' for worker 'http://localhost:8185/v2/api-docs' because of worker sharing
+[Fri Mar 27 17:14:58.656368 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'timeout=18000' for worker 'http://localhost:8185/v2/api-docs' because of worker sharing
+[Fri Mar 27 17:14:58.656372 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'retry=0' for worker 'http://localhost:8185/v2/api-docs' because of worker sharing
+[Fri Mar 27 17:14:58.656381 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'timeout=18000' for worker 'http://localhost:8080/afa/api/v1' because of worker sharing
+[Fri Mar 27 17:14:58.656385 2026] [proxy:warn] [pid 2592809] AH01146: Ignoring parameter 'retry=0' for worker 'http://localhost:8080/afa/api/v1' because of worker sharing
+[Fri Mar 27 17:14:58.656392 2026] [core:warn] [pid 2592809] AH00114: Useless use of AllowOverride in line 266 of /etc/httpd/conf.d/zzz_fa.conf.
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1. Set the 'ServerName' directive globally to suppress this message
+Syntax OK

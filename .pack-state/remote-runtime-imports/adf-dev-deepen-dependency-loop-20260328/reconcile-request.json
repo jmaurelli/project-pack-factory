@@ -1,0 +1,7 @@
+{
+  "schema_version": "imported-runtime-state-reconcile-request/v1",
+  "build_pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "import_report_path": "/home/orchadmin/project-pack-factory/build-packs/algosec-diagnostic-framework-build-pack-v1/eval/history/import-external-runtime-evidence-20260328t170559z/import-report.json",
+  "reconcile_reason": "Reconcile the bounded adf-dev remote autonomy loop run scoped to deepen_dependency_aware_playbooks so the current-task continuity result is reflected in local pack state.",
+  "reconciled_by": "codex"
+}

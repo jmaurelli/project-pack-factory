@@ -1,0 +1,27 @@
+{
+  "artifact_kind": "role_domain_overlay_proof",
+  "build_pack_id": "config-drift-checker-build-pack",
+  "generated_at": "2026-04-01T12:25:00Z",
+  "proof_id": "role-domain-overlay-proof-config-drift-checker-build-pack-20260401t122500z",
+  "runtime_code_changed": false,
+  "tests_changed": false,
+  "readiness_changed": false,
+  "deployment_changed": false,
+  "proof_scope": "instruction_surface_only",
+  "role_domain_template_id": "research-analyst",
+  "summary": "Applied the research-analyst role/domain overlay as a bounded framing-layer proof on the active config-drift-checker build-pack without changing runtime logic, test surfaces, readiness state, or deployment state.",
+  "touched_files": [
+    "pack.json",
+    "AGENTS.md",
+    "project-context.md"
+  ],
+  "supporting_evidence": [
+    "eval/latest/index.json",
+    "status/readiness.json",
+    "status/deployment.json"
+  ],
+  "validation_commands": [
+    "PYTHONPATH=src python3 -m config_drift_checker_build_pack validate-project-pack --project-root . --output json",
+    "PYTHONPATH=src python3 -m config_drift_checker_build_pack benchmark-smoke --project-root . --output json"
+  ]
+}

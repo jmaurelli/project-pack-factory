@@ -118,6 +118,36 @@ def _matching_distilled_lessons(
     return matched
 
 
+def _matching_template_parity_reports(*, factory_root: Path, template_id: str) -> tuple[list[dict[str, Any]], str | None]:
+    reports_root = factory_root / ".pack-state" / "template-parity-reports"
+    if not reports_root.exists():
+        return [], None
+
+    matched: list[dict[str, Any]] = []
+    latest_report_path: str | None = None
+    for report_path in sorted(reports_root.glob("*/parity-report.json")):
+        report = _load_object(report_path)
+        if report.get("source_template_id") != template_id:
+            continue
+        report_relative = relative_path(factory_root, report_path)
+        latest_report_path = report_relative
+        proof_paths = [
+            path
+            for path in report.get("proof_paths", [])
+            if isinstance(path, str)
+        ]
+        matched.append(
+            {
+                "report_id": report.get("report_id"),
+                "runtime_build_pack_id": report.get("runtime_build_pack_id"),
+                "parity_status": report.get("parity_status"),
+                "summary": report.get("summary"),
+                "proof_paths": proof_paths or [report_relative],
+            }
+        )
+    return matched, latest_report_path
+
+
 def refresh_template_lineage_memory(
     *,
     factory_root: Path,
@@ -166,8 +196,14 @@ def refresh_template_lineage_memory(
         latest_distillation_path=latest_distillation,
         build_pack_ids=set(source_build_pack_ids),
     )
+    template_parity_reports, latest_template_parity_report_path = _matching_template_parity_reports(
+        factory_root=factory_root,
+        template_id=template_id,
+    )
     if latest_distillation:
         relevant_artifact_paths.append(latest_distillation)
+    if latest_template_parity_report_path:
+        relevant_artifact_paths.append(latest_template_parity_report_path)
 
     capability_family = _capability_family(template.manifest)
     generated_at = isoformat_z(read_now())
@@ -184,6 +220,8 @@ def refresh_template_lineage_memory(
         )
     else:
         summary += " No factory-level distilled lessons intersect this template family yet."
+    if template_parity_reports:
+        summary += f" {len(template_parity_reports)} runtime-template parity report(s) now reference this template family."
 
     recommended_next_step = (
         "Use this template lineage memory when deciding whether the next proof should extend this template family or whether the lesson already belongs at the factory root."
@@ -207,6 +245,8 @@ def refresh_template_lineage_memory(
         "retired_build_pack_ids": sorted(retired_build_pack_ids),
         "distilled_lessons": distilled_lessons,
         "latest_distillation_report_path": latest_distillation,
+        "template_parity_reports": template_parity_reports,
+        "latest_template_parity_report_path": latest_template_parity_report_path,
         "recommended_next_step": recommended_next_step,
         "discovery_entrypoints": [
             "AGENTS.md",
@@ -222,10 +262,12 @@ def refresh_template_lineage_memory(
             "build_pack_count": len(source_build_pack_ids),
             "active_build_pack_count": len(active_build_pack_ids),
             "retired_build_pack_count": len(retired_build_pack_ids),
+            "template_parity_report_count": len(template_parity_reports),
         },
         "notes": [
             "This lineage memory is template-local advisory context, not canonical deployment or promotion truth.",
             "Use build-pack lineage plus proven factory artifacts to decide what this template family has already taught the factory.",
+            "Runtime-template parity reports capture whether reusable runtime behavior has actually been backported into the template source.",
             "When a repeated lesson becomes template-agnostic, prefer promoting it into factory-level autonomy memory and distillation artifacts instead of overfitting the template.",
         ],
     }

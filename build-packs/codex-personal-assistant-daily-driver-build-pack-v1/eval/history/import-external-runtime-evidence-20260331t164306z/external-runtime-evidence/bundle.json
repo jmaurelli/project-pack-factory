@@ -1,0 +1,140 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "8e3fdcf4fd45559c8367008233fb0bfa8b8ad8b28739b3d2d9adef4745e5bcb4",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21.json"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/preference_calibration_caution-stderr.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "508a6d9ce0e1d580d4bc569335f24ff99c6c5e6a87ca76ced10695bcae3fbd9e",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/preference_calibration_caution-stderr.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/preference_calibration_caution-stdout.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/preference_calibration_caution-stdout.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/preference_calibration_due_state-last-message.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "a373932beeb44f5a326a346e5bae81da32cdf154f5d7d77ec822aac219e33ca6",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/preference_calibration_due_state-last-message.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/preference_calibration_due_state-stderr.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "a826ecdc30ce677770a21894f4e84cd79002d5a9a99cd2448fe976c496db8649",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/preference_calibration_due_state-stderr.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/preference_calibration_due_state-stdout.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "3c0f01ce5172f7444bc621c33494865f47d88681ef84e87f212c3fadbeefe337",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/preference_calibration_due_state-stdout.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/record_business_review_and_preference-last-message.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "282558547fec5464340fc019d755b1fecaf95cbd730dfd3f852f304700bd58ca",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/record_business_review_and_preference-last-message.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/record_business_review_and_preference-stderr.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "9e76b3e1e143c4ef89048b4f976be5ef4a7abe988a7fe8ca1608dcf8aeff0bd6",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/record_business_review_and_preference-stderr.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/record_business_review_and_preference-stdout.txt",
+      "media_type": "text/plain; charset=utf-8",
+      "required": false,
+      "sha256": "8ba4a0fd375a7ba99a64ec3dca0b0f5359617c2bff3411f526560d5e195e9ab1",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/record_business_review_and_preference-stdout.txt"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/show-alignment.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "aee1e8a0ab2d49632ccecdc7d111ef0cfa2f329e6b9d997622695b8fcb4a05ea",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/show-alignment.json"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/show-business-review.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "b34ffb9f5b5bb0b7ac89b531fd5f8561b795fe90dbc93c290fa81381a64b7577",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/show-business-review.json"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/show-preference-calibration.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "bb84f200e2546079240724c4b8e346479ef1eb2487f19f446be4fbcf4a624ad7",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/show-preference-calibration.json"
+    },
+    {
+      "bundle_path": "artifacts/assistant-uat/uat-report.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "04dec44b12b1f42e4f2e8877d97465aa1ef9c93a01abdf953a566a5f68392f2c",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/assistant-uat/uat-report.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "6f1a95a095a9c64002800092ea695abc3d26cabdb664f429e35df8f2353d5281",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "9b63f2a4fad61367fe7da03c81bdbf5cd2d0926abb711b10f0a18a99b2c26077",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21-20260331T164303Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21-20260331T164303Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-31T16:43:03Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v21",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-31T16:43:03Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_review",
+    "ready_for_deployment_in_selected_run": false,
+    "resume_count": 0,
+    "started_at": "2026-03-31T16:40:24Z",
+    "stop_reason": "no_current_task_declared",
+    "task_completion_rate": 1.0
+  }
+}

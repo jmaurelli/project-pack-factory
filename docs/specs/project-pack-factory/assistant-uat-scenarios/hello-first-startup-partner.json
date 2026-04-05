@@ -1,0 +1,24 @@
+{
+  "allow_preview_bundle": false,
+  "allow_contract_profile_refinement": false,
+  "model_reasoning_effort": "low",
+  "expected_sidecar_artifacts": [],
+  "prompts": [
+    {
+      "name": "hello_session_opening",
+      "prompt": "hello"
+    },
+    {
+      "name": "startup_partner_orientation",
+      "prompt": "I am trying to build toward a small business, my time is limited, and I do not want to chase low-value work. Use the local startup, business review, and alignment surfaces to show me how you would guide this session without making me lead you."
+    },
+    {
+      "name": "realistic_idea_shaping",
+      "prompt": "I have a novel idea and I am tempted to go deep. Use the local startup-collaboration, navigation, and opportunity-shaping surfaces to tell me how you would keep this creative but grounded with MVP or proof-of-concept thinking, time reality, and one concrete next move."
+    }
+  ],
+  "scenario_id": "hello-first-startup-partner",
+  "schema_version": "assistant-uat-scenario/v1",
+  "session_preamble": "Stay bounded to local assistant behavior, startup collaboration, memory, business review, communication calibration, relationship reflection, navigation guidance, bootstrap, doctor, and documentation surfaces. The goal of this scenario is to prove that a simple greeting opens a grounded startup-partner session without requiring the operator to manage internal surfaces or contract mutation.",
+  "summary": "The hello-first startup-partner flow on the staged Codex personal assistant daily-driver pack."
+}

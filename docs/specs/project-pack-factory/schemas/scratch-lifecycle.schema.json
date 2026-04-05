@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/scratch-lifecycle.schema.json",
+  "title": "Scratch Lifecycle Marker",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "updated_at",
+    "factory_root",
+    "local_scratch_root",
+    "local_stage_root",
+    "run_id",
+    "source_build_pack_id",
+    "remote_target_label",
+    "remote_pack_dir",
+    "remote_run_dir",
+    "remote_export_dir"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "scratch-lifecycle/v1"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "staged",
+        "executing",
+        "pull_pending",
+        "pulling",
+        "manifest_only",
+        "pulled",
+        "completed",
+        "failed",
+        "preserved_for_debug",
+        "abandoned",
+        "cleanup_eligible"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "factory_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_scratch_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_stage_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "source_build_pack_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "remote_target_label": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+      "maxLength": 128
+    },
+    "remote_pack_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_run_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remote_export_dir": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

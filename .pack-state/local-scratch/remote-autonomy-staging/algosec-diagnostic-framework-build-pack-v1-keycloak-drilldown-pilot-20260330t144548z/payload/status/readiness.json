@@ -1,0 +1,49 @@
+{
+  "blocking_issues": [
+    "Highest risk: `canonical_state_integrity` did not run locally; confirm canonical state before trusting the run summary."
+  ],
+  "last_evaluated_at": "2026-03-29T19:36:33Z",
+  "operator_hint_status": {
+    "active_hint_ids": [],
+    "cleanup_candidate_hint_ids": [],
+    "exhausted_hint_ids": [],
+    "hint_count": 0,
+    "inactive_hint_ids": [],
+    "latest_audit_report_path": null,
+    "recent_consumed_hint_ids": [],
+    "recent_deactivated_hint_ids": []
+  },
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Recommended next action: keep `deepen_dependency_aware_playbooks` active, reuse the proven three-node helper path, and wait for a fresh sibling later-workflow marker such as `GET_MONITORING_CHANGES` or `GET_ANALYSIS_OPTIONS` before trying to preserve another sibling proof.",
+    "Pilot note: treat the current Keycloak-down condition on target `10.167.2.150` as a bounded validation opportunity for a reusable imported-module drilldown method, not as authorization to create a large family of Keycloak-specific playbooks.",
+    "Validation contract reminder: use `docs/specs/adf-imported-module-drilldown-pilot-v1.md` together with the existing ADF mapping and validation notes so any Keycloak follow-up stays evidence-first, general enough to reuse, and easy to abandon if the pilot does not pay off.",
+    "Planning note: the future remote-canonical ADF mode is now captured in `docs/specs/adf-remote-canonical-home-transition-spec-v1.md` and tracked by the pending task `define_remote_canonical_adf_home_transition`."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-algosec-diagnostic-framework-build-pack-v1-validation-20260326t145200z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-28T19:47:54Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation still passes after the recovered v3 shell-versus-Metro checkpoint was pulled through manifest recovery, imported canonically, and followed by the exporter/importer fix for checkpoint-declared delegated artifacts."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "algosec_diagnostic_framework_template_pack_smoke_small_001",
+      "last_run_at": "2026-03-28T19:47:54Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "The existing smoke benchmark still passes after the recovered v3 shell-versus-Metro checkpoint was pulled through manifest recovery, imported canonically, and followed by the exporter/importer fix for checkpoint-declared delegated artifacts."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}

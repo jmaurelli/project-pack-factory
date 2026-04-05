@@ -150,6 +150,244 @@ def _objective_id(pack_id: str) -> str:
     return f"{pack_id}_objective"
 
 
+AGENT_NATIVE_PROFILE_ID = "packfactory_tracker_backed_agent_native"
+AGENT_NATIVE_PROFILE_DISPLAY_NAME = "PackFactory Tracker-Backed Agent-Native"
+AGENT_NATIVE_PROFILE_SUMMARY = (
+    "Declares that this line is meant to become agent-operable from its first real "
+    "build-pack while keeping execution truth in the canonical objective/backlog/"
+    "work-state tracker surfaces."
+)
+AGENT_NATIVE_PROFILE_DECLARED_STATE = "template_declared"
+AGENT_NATIVE_PROFILE_ACTIVE_STATE = "build_pack_active"
+AGENT_NATIVE_TRACKER_MODE = "objective_backlog_work_state"
+AGENT_NATIVE_PLANNER_MODE = "tracker_backed_advisory_planning"
+
+
+def _agent_native_work_management_model() -> dict[str, str]:
+    return {
+        "canonical_tracker_mode": AGENT_NATIVE_TRACKER_MODE,
+        "planner_mode": AGENT_NATIVE_PLANNER_MODE,
+    }
+
+
+def _build_agent_native_project_profile(
+    *,
+    selection_origin: str,
+    selection_reason: str,
+    activation_state: str,
+    apply_to_derived_build_packs_by_default: bool,
+) -> dict[str, Any]:
+    return {
+        "profile_id": AGENT_NATIVE_PROFILE_ID,
+        "display_name": AGENT_NATIVE_PROFILE_DISPLAY_NAME,
+        "summary": AGENT_NATIVE_PROFILE_SUMMARY,
+        "selection_origin": selection_origin,
+        "selection_reason": selection_reason,
+        "activation_state": activation_state,
+        "apply_to_derived_build_packs_by_default": apply_to_derived_build_packs_by_default,
+        "work_management_model": _agent_native_work_management_model(),
+    }
+
+
+def _normalize_agent_native_project_profile(
+    profile: Any,
+    *,
+    context: str,
+    expected_activation_state: str,
+) -> dict[str, Any]:
+    if not isinstance(profile, dict):
+        raise ValueError(f"{context} must be an object when present")
+
+    profile_id = profile.get("profile_id")
+    if profile_id != AGENT_NATIVE_PROFILE_ID:
+        raise ValueError(f"{context}.profile_id must be {AGENT_NATIVE_PROFILE_ID}")
+    display_name = profile.get("display_name")
+    if display_name != AGENT_NATIVE_PROFILE_DISPLAY_NAME:
+        raise ValueError(f"{context}.display_name must be {AGENT_NATIVE_PROFILE_DISPLAY_NAME}")
+    summary = profile.get("summary")
+    if summary != AGENT_NATIVE_PROFILE_SUMMARY:
+        raise ValueError(f"{context}.summary must match the built-in agent-native profile summary")
+    selection_origin = profile.get("selection_origin")
+    if not isinstance(selection_origin, str) or not selection_origin.strip():
+        raise ValueError(f"{context}.selection_origin must be a non-empty string")
+    selection_reason = profile.get("selection_reason")
+    if not isinstance(selection_reason, str) or not selection_reason.strip():
+        raise ValueError(f"{context}.selection_reason must be a non-empty string")
+    activation_state = profile.get("activation_state")
+    if activation_state != expected_activation_state:
+        raise ValueError(f"{context}.activation_state must be {expected_activation_state}")
+    apply_to_derived = profile.get("apply_to_derived_build_packs_by_default")
+    if not isinstance(apply_to_derived, bool):
+        raise ValueError(
+            f"{context}.apply_to_derived_build_packs_by_default must be a boolean"
+        )
+    work_management_model = profile.get("work_management_model")
+    if not isinstance(work_management_model, dict):
+        raise ValueError(f"{context}.work_management_model must be an object")
+    if work_management_model.get("canonical_tracker_mode") != AGENT_NATIVE_TRACKER_MODE:
+        raise ValueError(
+            f"{context}.work_management_model.canonical_tracker_mode must be {AGENT_NATIVE_TRACKER_MODE}"
+        )
+    if work_management_model.get("planner_mode") != AGENT_NATIVE_PLANNER_MODE:
+        raise ValueError(
+            f"{context}.work_management_model.planner_mode must be {AGENT_NATIVE_PLANNER_MODE}"
+        )
+
+    return _build_agent_native_project_profile(
+        selection_origin=selection_origin.strip(),
+        selection_reason=selection_reason.strip(),
+        activation_state=expected_activation_state,
+        apply_to_derived_build_packs_by_default=apply_to_derived,
+    )
+
+
+def _template_agent_native_project_profile_lines(agent_native_project_profile: dict[str, Any] | None) -> list[str]:
+    if agent_native_project_profile is None:
+        return []
+    work_management_model = agent_native_project_profile["work_management_model"]
+    lines = [
+        "## Agent-Native Initialization",
+        "",
+        "This template declares a default agent-native posture for future derived build-packs.",
+        "It does not claim active pack-local tracker files here; build-pack materialization is where live activation can happen.",
+        f"Profile: `{agent_native_project_profile['profile_id']}` ({agent_native_project_profile['display_name']}).",
+        f"Activation state: `{agent_native_project_profile['activation_state']}`.",
+        (
+            "Work management model: "
+            f"`{work_management_model['canonical_tracker_mode']}` / "
+            f"`{work_management_model['planner_mode']}`."
+        ),
+        "When a derived build-pack activates this profile, discover tracker surfaces through `pack.json.directory_contract` and `pack.json.post_bootstrap_read_order`.",
+        (
+            "Default for derived build-packs: "
+            f"`{str(agent_native_project_profile['apply_to_derived_build_packs_by_default']).lower()}`."
+        ),
+    ]
+    lines.append("Treat this profile as declaration-only until a derived build-pack activates it.")
+    return lines
+
+
+def _build_pack_agent_native_project_profile_lines(
+    template_agent_native_project_profile: dict[str, Any] | None,
+    resolved_agent_native_project_profile: dict[str, Any] | None,
+    selection_mode: str | None,
+) -> list[str]:
+    if resolved_agent_native_project_profile is not None:
+        work_management_model = resolved_agent_native_project_profile["work_management_model"]
+        lines = [
+            "## Agent-Native Initialization",
+            "",
+            "This build pack is operating with the PackFactory tracker-backed agent-native profile active.",
+            "This profile is descriptive only; canonical tracker discovery still comes from `pack.json.directory_contract` and `pack.json.post_bootstrap_read_order`.",
+            f"Profile: `{resolved_agent_native_project_profile['profile_id']}` ({resolved_agent_native_project_profile['display_name']}).",
+            f"Activation state: `{resolved_agent_native_project_profile['activation_state']}`.",
+            (
+                "Work management model: "
+                f"`{work_management_model['canonical_tracker_mode']}` / "
+                f"`{work_management_model['planner_mode']}`."
+            ),
+            "Advisory planning does not override the canonical execution tracker.",
+        ]
+        if template_agent_native_project_profile is not None and selection_mode == "inherit_template_default":
+            lines.append("This active mode was inherited from the template declaration during materialization.")
+        return lines
+
+    if template_agent_native_project_profile is None:
+        return []
+
+    work_management_model = template_agent_native_project_profile["work_management_model"]
+    lines = [
+        "## Agent-Native Initialization",
+        "",
+        "The source template declared an agent-native project profile, but this build pack is not operating in that mode.",
+    ]
+    if selection_mode == "force_disabled":
+        lines.append("Materialization intentionally left the profile inactive for this build pack.")
+    else:
+        lines.append("No active profile was resolved during materialization.")
+    lines.extend(
+        [
+            (
+                "Template declaration: "
+                f"`{template_agent_native_project_profile['profile_id']}` "
+                f"({template_agent_native_project_profile['display_name']})."
+            ),
+            f"Template activation state: `{template_agent_native_project_profile['activation_state']}`.",
+            (
+                "Work management model declared by the template: "
+                f"`{work_management_model['canonical_tracker_mode']}` / "
+                f"`{work_management_model['planner_mode']}`."
+            ),
+            "If a future build-pack activates the profile, tracker discovery still comes from `pack.json.directory_contract` and `pack.json.post_bootstrap_read_order`.",
+        ]
+    )
+    lines.append("This section distinguishes declared intent from live build-pack activation.")
+    return lines
+
+
+def _build_pack_project_context_text(
+    *,
+    pack_id: str,
+    display_name: str,
+    source_template_id: str,
+    project_goal: str,
+    template_agent_native_project_profile: dict[str, Any] | None,
+    resolved_agent_native_project_profile: dict[str, Any] | None,
+    selection_mode: str | None,
+) -> str:
+    agent_native_lines = _build_pack_agent_native_project_profile_lines(
+        template_agent_native_project_profile,
+        resolved_agent_native_project_profile,
+        selection_mode,
+    )
+    agent_native_section = "\n".join(agent_native_lines)
+    return f"""# Project Context
+
+This build pack was materialized from template `{source_template_id}` and is the active runtime root for `{display_name}`.
+
+The project goal carried forward from the template is:
+
+- {project_goal}
+
+## Priority
+
+1. Keep the build-pack control plane authoritative.
+2. Keep validation and benchmark commands small and deterministic.
+3. Keep the pack easy for a fresh agent to inspect and continue.
+
+## Primary Runtime Surfaces
+
+- `pack.json`
+- `contracts/project-objective.json`
+- `tasks/active-backlog.json`
+- `status/work-state.json`
+- `status/readiness.json`
+- `benchmarks/active-set.json`
+- `eval/latest/index.json`
+
+## Local State
+
+- local scratch state: `.pack-state/`
+- optional feedback memory: `.pack-state/agent-memory/latest-memory.json`
+- optional template lineage memory: `.pack-state/template-lineage-memory/latest-memory.json`
+
+{agent_native_section}
+
+## Template Lineage Note
+
+The template remains the source-of-truth for reusable scaffold intent, but the build pack is the live control-plane instance.
+
+## Optional Overlays
+
+Treat `pack.json.personality_template` and `pack.json.role_domain_template` as composable guidance layers. They shape tone and framing, not canonical lifecycle, readiness, deployment, or tracker truth.
+
+## Derived From
+
+- Source template: `{source_template_id}`
+- Build pack: `{pack_id}`
+"""
+
+
 def _extract_project_goal(template_manifest: dict[str, Any], project_context_text: str) -> str | None:
     notes = template_manifest.get("notes", [])
     if isinstance(notes, list):
@@ -552,9 +790,17 @@ def _build_pack_agents_text(
     display_name: str,
     source_template_id: str,
     runtime_is_python: bool,
+    template_agent_native_project_profile: dict[str, Any] | None,
+    resolved_agent_native_project_profile: dict[str, Any] | None,
+    agent_native_project_profile_selection_mode: str | None,
     personality_template: dict[str, Any] | None,
     role_domain_template: dict[str, Any] | None,
 ) -> str:
+    agent_native_lines = _build_pack_agent_native_project_profile_lines(
+        template_agent_native_project_profile,
+        resolved_agent_native_project_profile,
+        agent_native_project_profile_selection_mode,
+    )
     lines = [
         f"# {display_name} Build Pack Agent Context",
         "",
@@ -565,9 +811,11 @@ def _build_pack_agents_text(
         "Then read `pack.json` and use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap traversal contract.",
         "When `pack.json.directory_contract` declares `contracts/project-objective.json`, `tasks/active-backlog.json`, or `status/work-state.json`, read those files as canonical pack-local control-plane handoff files.",
         "Treat `status/work-state.json.branch_selection_hints` as the canonical operator-guidance source even when readiness has not been refreshed yet, and surface any active, exhausted, or cleanup-relevant hint state during pack entry when it matters.",
-        "Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.",
+        "Treat `project-context.md` as build-pack-active guidance that was rewritten during materialization to distinguish template-declared intent from live mode.",
         "When present, inspect `.pack-state/agent-memory/latest-memory.json` first, then treat other `.pack-state/agent-memory/*.json` files as supplementary restart memory distilled from prior autonomy runs.",
     ]
+    if agent_native_lines:
+        lines.extend(["", *agent_native_lines])
     if runtime_is_python:
         lines.extend(
             [
@@ -837,6 +1085,86 @@ def _resolve_materialized_role_domain_template(
     )
 
 
+def _resolve_materialized_agent_native_project_profile(
+    template_manifest: dict[str, Any],
+    request: dict[str, Any],
+) -> tuple[str, dict[str, Any] | None, dict[str, Any] | None]:
+    selection = request.get("agent_native_project_profile_selection")
+    selection_mode = "inherit_template_default"
+    if selection is not None:
+        if not isinstance(selection, dict):
+            raise ValueError("agent_native_project_profile_selection must be an object when present")
+        raw_mode = selection.get("selection_mode")
+        if not isinstance(raw_mode, str) or not raw_mode.strip():
+            raise ValueError("agent_native_project_profile_selection.selection_mode must be a non-empty string")
+        selection_mode = raw_mode.strip()
+
+    template_profile = template_manifest.get("agent_native_project_profile")
+    normalized_template_profile = None
+    if template_profile is not None:
+        normalized_template_profile = _normalize_agent_native_project_profile(
+            template_profile,
+            context="template pack agent_native_project_profile",
+            expected_activation_state=AGENT_NATIVE_PROFILE_DECLARED_STATE,
+        )
+
+    if selection_mode == "inherit_template_default":
+        if normalized_template_profile is None:
+            return selection_mode, None, None
+        if normalized_template_profile.get("apply_to_derived_build_packs_by_default") is not True:
+            return selection_mode, None, normalized_template_profile
+        return (
+            selection_mode,
+            _build_agent_native_project_profile(
+                selection_origin="materialization_inherited_default",
+                selection_reason="Inherited the source template default agent-native project profile.",
+                activation_state=AGENT_NATIVE_PROFILE_ACTIVE_STATE,
+                apply_to_derived_build_packs_by_default=False,
+            ),
+            normalized_template_profile,
+        )
+
+    if selection_mode == "force_enabled":
+        if not isinstance(selection, dict):
+            raise ValueError("agent_native_project_profile_selection must be an object for force_enabled")
+        selection_reason = selection.get("selection_reason")
+        if not isinstance(selection_reason, str) or not selection_reason.strip():
+            raise ValueError(
+                "agent_native_project_profile_selection.selection_reason is required when selection_mode=force_enabled"
+            )
+        profile_id = selection.get("profile_id")
+        if profile_id != AGENT_NATIVE_PROFILE_ID:
+            raise ValueError(
+                "agent_native_project_profile_selection.profile_id must be "
+                f"{AGENT_NATIVE_PROFILE_ID} when selection_mode=force_enabled"
+            )
+        return (
+            selection_mode,
+            _build_agent_native_project_profile(
+                selection_origin="materialization_forced_enabled",
+                selection_reason=selection_reason.strip(),
+                activation_state=AGENT_NATIVE_PROFILE_ACTIVE_STATE,
+                apply_to_derived_build_packs_by_default=False,
+            ),
+            normalized_template_profile,
+        )
+
+    if selection_mode == "force_disabled":
+        if not isinstance(selection, dict):
+            raise ValueError("agent_native_project_profile_selection must be an object for force_disabled")
+        selection_reason = selection.get("selection_reason")
+        if not isinstance(selection_reason, str) or not selection_reason.strip():
+            raise ValueError(
+                "agent_native_project_profile_selection.selection_reason is required when selection_mode=force_disabled"
+            )
+        return selection_mode, None, normalized_template_profile
+
+    raise ValueError(
+        "agent_native_project_profile_selection.selection_mode must be one of "
+        "`inherit_template_default`, `force_enabled`, or `force_disabled`"
+    )
+
+
 def _synthesize_build_pack(
     *,
     factory_root: Path,
@@ -851,6 +1179,11 @@ def _synthesize_build_pack(
     template_readiness = _load_object(template_root / "status/readiness.json")
     template_active_set = _load_object(template_root / "benchmarks/active-set.json")
     project_context_text = _load_text(template_root / "project-context.md")
+    (
+        agent_native_project_profile_selection_mode,
+        resolved_agent_native_project_profile,
+        template_agent_native_project_profile,
+    ) = _resolve_materialized_agent_native_project_profile(template_manifest, request)
     runtime = str(template_manifest["runtime"])
     template_entrypoints = dict(template_manifest["entrypoints"])
     runtime_evidence_export_dir = None
@@ -876,6 +1209,18 @@ def _synthesize_build_pack(
         factory_root,
         template_manifest,
         request,
+    )
+    build_pack_project_context_text = _build_pack_project_context_text(
+        pack_id=pack_id,
+        display_name=display_name,
+        source_template_id=source_template_id,
+        project_goal=project_goal or _project_context_summary(
+            project_context_text,
+            f"Advance `{pack_id}` from materialized build-pack state to validated, benchmarked, deployment-ready state.",
+        ),
+        template_agent_native_project_profile=template_agent_native_project_profile,
+        resolved_agent_native_project_profile=resolved_agent_native_project_profile,
+        selection_mode=agent_native_project_profile_selection_mode,
     )
 
     pack_manifest = {
@@ -911,6 +1256,11 @@ def _synthesize_build_pack(
             f"materialization_id={materialization_id}",
         ],
     }
+    if resolved_agent_native_project_profile is not None:
+        pack_manifest["agent_native_project_profile"] = resolved_agent_native_project_profile
+        pack_manifest["notes"].append(
+            f"agent_native_project_profile_activation_state={resolved_agent_native_project_profile['activation_state']}"
+        )
     if resolved_personality_template is not None:
         pack_manifest["personality_template"] = _manifest_personality_template(resolved_personality_template)
         pack_manifest["notes"].append(
@@ -1231,12 +1581,16 @@ def _synthesize_build_pack(
         "deployment": deployment,
         "lineage": lineage,
         "eval_latest": eval_latest,
+        "project_context_text": build_pack_project_context_text,
         "project_objective": project_objective,
         "task_backlog": task_backlog,
         "work_state": work_state,
         "resolved_personality_template": _manifest_personality_template(resolved_personality_template),
+        "resolved_agent_native_project_profile": resolved_agent_native_project_profile,
         "resolved_role_domain_template": _manifest_role_domain_template(resolved_role_domain_template),
+        "template_agent_native_project_profile": template_agent_native_project_profile,
         "agent_personality_template": resolved_personality_template,
+        "agent_native_project_profile_selection_mode": agent_native_project_profile_selection_mode,
         "agent_role_domain_template": resolved_role_domain_template,
     }
 
@@ -1400,6 +1754,8 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         write_json(target_root / "tasks/active-backlog.json", state["task_backlog"])
         write_json(target_root / "lineage/source-template.json", state["lineage"])
         write_json(target_root / "eval/latest/index.json", state["eval_latest"])
+        write_text_path = target_root / "project-context.md"
+        write_text_path.write_text(state["project_context_text"], encoding="utf-8")
         runtime_is_python = state["pack_manifest"]["runtime"] == "python"
         write_text_path = target_root / "AGENTS.md"
         write_text_path.write_text(
@@ -1408,6 +1764,9 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                 display_name=display_name,
                 source_template_id=source_template_id,
                 runtime_is_python=runtime_is_python,
+                template_agent_native_project_profile=state["template_agent_native_project_profile"],
+                resolved_agent_native_project_profile=state["resolved_agent_native_project_profile"],
+                agent_native_project_profile_selection_mode=state["agent_native_project_profile_selection_mode"],
                 personality_template=state["agent_personality_template"],
                 role_domain_template=state["agent_role_domain_template"],
             ),
@@ -1445,6 +1804,10 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         if state["resolved_personality_template"] is not None:
             registry_entry["notes"].append(
                 f"personality_template_id={state['resolved_personality_template']['template_id']}"
+            )
+        if state["resolved_agent_native_project_profile"] is not None:
+            registry_entry["notes"].append(
+                f"agent_native_project_profile_activation_state={state['resolved_agent_native_project_profile']['activation_state']}"
             )
         if state["resolved_role_domain_template"] is not None:
             registry_entry["notes"].append(
@@ -1517,6 +1880,12 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                     "summary": "Wrote initial lifecycle, readiness, retirement, deployment, and work-state files.",
                 },
                 {
+                    "action_id": "rewrite_build_pack_project_context",
+                    "status": "completed",
+                    "target_path": f"{pack_root_relative}/project-context.md",
+                    "summary": "Rewrote the build-pack project context to distinguish template-declared intent from active build-pack mode.",
+                },
+                {
                     "action_id": "rewrite_build_pack_agents",
                     "status": "completed",
                     "target_path": f"{pack_root_relative}/AGENTS.md",
@@ -1563,6 +1932,7 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
                 f"{pack_root_relative}/{report_relative}",
                 f"{pack_root_relative}/eval/latest/index.json",
                 f"{pack_root_relative}/lineage/source-template.json",
+                f"{pack_root_relative}/project-context.md",
                 f"{pack_root_relative}/AGENTS.md",
                 *(
                     [
@@ -1576,6 +1946,8 @@ def materialize_build_pack(factory_root: Path, request: dict[str, Any]) -> dict[
         }
         if state["resolved_personality_template"] is not None:
             report["resolved_personality_template"] = state["resolved_personality_template"]
+        if state["resolved_agent_native_project_profile"] is not None:
+            report["resolved_agent_native_project_profile"] = state["resolved_agent_native_project_profile"]
         if state["resolved_role_domain_template"] is not None:
             report["resolved_role_domain_template"] = state["resolved_role_domain_template"]
 

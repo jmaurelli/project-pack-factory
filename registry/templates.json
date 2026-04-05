@@ -83,7 +83,8 @@
       "lifecycle_stage": "maintained",
       "notes": [
         "Created through the PackFactory template creation workflow.",
-        "creation_id=create-template-config-drift-checker-template-pack-20260322t202017z"
+        "creation_id=create-template-config-drift-checker-template-pack-20260322t202017z",
+        "role_domain_template_id=research-analyst"
       ],
       "pack_id": "config-drift-checker-template-pack",
       "pack_kind": "template_pack",
@@ -159,7 +160,8 @@
       "lifecycle_stage": "maintained",
       "notes": [
         "Created through the PackFactory template creation workflow.",
-        "creation_id=create-template-codex-personal-assistant-template-pack-20260329t160700z"
+        "creation_id=create-template-codex-personal-assistant-template-pack-20260329t160700z",
+        "role_domain_template_id=startup-operator"
       ],
       "pack_id": "codex-personal-assistant-template-pack",
       "pack_kind": "template_pack",
@@ -168,8 +170,46 @@
       "retired_at": null,
       "retirement_file": "status/retirement.json",
       "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_benchmark_ids": [
+        "agent-native-project-initialization-smoke-template-pack-smoke-small-001"
+      ],
+      "latest_eval_index": "templates/agent-native-project-initialization-smoke-template-pack/eval/latest/index.json",
+      "lifecycle_stage": "maintained",
+      "notes": [
+        "Created through the PackFactory template creation workflow.",
+        "creation_id=create-template-agent-native-project-initialization-smoke-template-pack-20260401t132529z"
+      ],
+      "pack_id": "agent-native-project-initialization-smoke-template-pack",
+      "pack_kind": "template_pack",
+      "pack_root": "templates/agent-native-project-initialization-smoke-template-pack",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
+    },
+    {
+      "active": true,
+      "active_benchmark_ids": [
+        "algosec-diagnostic-framework-successor-template-pack-smoke-small-001"
+      ],
+      "latest_eval_index": "templates/algosec-diagnostic-framework-successor-template-pack/eval/latest/index.json",
+      "lifecycle_stage": "maintained",
+      "notes": [
+        "Created through the PackFactory template creation workflow.",
+        "creation_id=create-template-algosec-diagnostic-framework-successor-template-pack-20260402t120921z"
+      ],
+      "pack_id": "algosec-diagnostic-framework-successor-template-pack",
+      "pack_kind": "template_pack",
+      "pack_root": "templates/algosec-diagnostic-framework-successor-template-pack",
+      "ready_for_deployment": false,
+      "retired_at": null,
+      "retirement_file": "status/retirement.json",
+      "retirement_state": "active"
     }
   ],
   "schema_version": "project-pack-factory-registry/v1",
-  "updated_at": "2026-03-29T16:07:00Z"
+  "updated_at": "2026-04-02T12:09:21Z"
 }

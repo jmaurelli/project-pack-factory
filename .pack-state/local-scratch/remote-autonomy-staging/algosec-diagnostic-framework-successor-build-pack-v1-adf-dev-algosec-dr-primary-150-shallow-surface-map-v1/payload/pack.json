@@ -1,0 +1,92 @@
+{
+  "agent_native_project_profile": {
+    "activation_state": "build_pack_active",
+    "apply_to_derived_build_packs_by_default": false,
+    "display_name": "PackFactory Tracker-Backed Agent-Native",
+    "profile_id": "packfactory_tracker_backed_agent_native",
+    "selection_origin": "materialization_inherited_default",
+    "selection_reason": "Inherited the source template default agent-native project profile.",
+    "summary": "Declares that this line is meant to become agent-operable from its first real build-pack while keeping execution truth in the canonical objective/backlog/work-state tracker surfaces.",
+    "work_management_model": {
+      "canonical_tracker_mode": "objective_backlog_work_state",
+      "planner_mode": "tracker_backed_advisory_planning"
+    }
+  },
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "directory_contract": {
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "benchmarks_dir": "benchmarks",
+    "candidate_release_dir": "dist/candidates",
+    "contracts_dir": "contracts",
+    "deployment_file": "status/deployment.json",
+    "dist_dir": "dist",
+    "docs_dir": "docs",
+    "eval_dir": "eval",
+    "eval_history_dir": "eval/history",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "immutable_release_dir": "dist/releases",
+    "lifecycle_file": "status/lifecycle.json",
+    "lineage_dir": "lineage",
+    "lineage_file": "lineage/source-template.json",
+    "local_state_dir": ".pack-state",
+    "portable_runtime_helper_manifest": ".packfactory-runtime/manifest.json",
+    "portable_runtime_schemas_dir": ".packfactory-runtime/schemas",
+    "portable_runtime_tools_dir": ".packfactory-runtime/tools",
+    "project_objective_file": "contracts/project-objective.json",
+    "prompts_dir": "prompts",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "runtime_evidence_export_dir": "dist/exports/runtime-evidence",
+    "source_dir": "src",
+    "status_dir": "status",
+    "task_backlog_file": "tasks/active-backlog.json",
+    "tasks_dir": "tasks",
+    "template_export_dir": null,
+    "tests_dir": "tests",
+    "work_state_file": "status/work-state.json"
+  },
+  "display_name": "AlgoSec Diagnostic Framework Successor Build Pack v1",
+  "entrypoints": {
+    "benchmark_command": "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack benchmark-smoke --project-root . --output json",
+    "cli_command": "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack --help",
+    "export_runtime_evidence_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id <run-id> --exported-by <actor> --output-dir dist/exports/runtime-evidence --output json",
+    "validation_command": "PYTHONPATH=src python3 -m algosec_diagnostic_framework_successor_template_pack validate-project-pack --project-root . --output json"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "Materialized from template `algosec-diagnostic-framework-successor-template-pack`.",
+    "materialization_id=materialize-algosec-diagnostic-framework-successor-build-pack-v1-20260402t120944z",
+    "agent_native_project_profile_activation_state=build_pack_active",
+    "personality_template_id=calm-delivery-lead"
+  ],
+  "owning_team": "orchadmin",
+  "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
+  "pack_kind": "build_pack",
+  "personality_template": {
+    "apply_to_derived_build_packs_by_default": false,
+    "catalog_path": "docs/specs/project-pack-factory/agent-personality-template-catalog.json",
+    "display_name": "Calm Delivery Lead",
+    "selection_origin": "materialization_inherited_default",
+    "selection_reason": "Inherited the source template default personality overlay.",
+    "summary": "Steady delivery-lead posture for concise operator briefings, release coordination, and practical next-step framing.",
+    "template_id": "calm-delivery-lead"
+  },
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "lineage/source-template.json",
+    "contracts/project-objective.json",
+    "tasks/active-backlog.json",
+    "status/work-state.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "runtime": "python",
+  "schema_version": "pack-manifest/v2"
+}

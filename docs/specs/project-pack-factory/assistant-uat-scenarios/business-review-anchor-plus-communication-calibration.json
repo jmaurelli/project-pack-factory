@@ -1,0 +1,24 @@
+{
+  "allow_preview_bundle": false,
+  "allow_contract_profile_refinement": false,
+  "model_reasoning_effort": "low",
+  "expected_sidecar_artifacts": [],
+  "prompts": [
+    {
+      "name": "communication_calibration_due_state",
+      "prompt": "Use the local show-business-review, show-communication-calibration, and show-alignment surfaces to tell me whether a business-review anchor is present, whether communication calibration is due, and which bounded write surface should be used next."
+    },
+    {
+      "name": "record_business_review_and_communication",
+      "prompt": "If the local business review is due, refresh it first with one grounded review tied to the operator's small-business direction. Then use the local record-communication-calibration surface to capture one bounded recurring communication pattern without passing refine_profile_json and without modifying contracts/operator-profile.json. End by saying what changed."
+    },
+    {
+      "name": "communication_calibration_caution",
+      "prompt": "Use show-communication-calibration, show-relationship-state, and show-alignment to tell me what became stronger after that calibration and one real caution that still matters before claiming stronger personalization."
+    }
+  ],
+  "scenario_id": "business-review-anchor-plus-communication-calibration",
+  "schema_version": "assistant-uat-scenario/v1",
+  "session_preamble": "Stay bounded to local assistant behavior, memory, business review, communication calibration, relationship reflection, navigation guidance, bootstrap, doctor, and documentation surfaces. The goal of this scenario is to prove that communication-pattern calibration stays anchored to a current business review, remains inspectable, and does not mutate operator-profile contracts by default.",
+  "summary": "The business-review anchor plus communication-calibration flow on the staged Codex personal assistant daily-driver pack."
+}

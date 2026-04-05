@@ -40,7 +40,9 @@ ALLOWED_ARTIFACT_ROOT: Final[str] = "artifacts"
 RUN_SUMMARY_NAME: Final[str] = "run-summary.json"
 LOOP_EVENTS_NAME: Final[str] = "loop-events.jsonl"
 FEEDBACK_MEMORY_DIRNAME: Final[str] = "agent-memory"
+OPTIONAL_RUN_ARTIFACT_DIRS: Final[tuple[str, ...]] = ("assistant-uat",)
 LIVE_MEMORY_ROOT: Final[Path] = Path(".pack-state") / "agent-memory"
+CHECKPOINT_BUNDLE_NAME: Final[str] = "adf-remote-checkpoint-bundle.json"
 LATEST_MEMORY_POINTER_NAME: Final[str] = "latest-memory.json"
 IMPORT_RUN_PREFIX: Final[str] = "import-external-runtime-evidence"
 
@@ -264,15 +266,25 @@ def _validate_bundle_path(bundle_path: str) -> None:
         )
     if any(part in {"..", "."} for part in parts):
         raise ValueError(f"{bundle_path}: path traversal is not allowed")
-    if len(parts) == 2 and parts[1] in {RUN_SUMMARY_NAME, LOOP_EVENTS_NAME}:
+    if len(parts) == 2 and parts[1] in {RUN_SUMMARY_NAME, LOOP_EVENTS_NAME, CHECKPOINT_BUNDLE_NAME}:
         return
     if len(parts) == 3 and parts[1] == FEEDBACK_MEMORY_DIRNAME and parts[2].endswith(".json"):
+        return
+    if len(parts) >= 3 and parts[1] == "delegated-codex-runs":
+        return
+    if len(parts) >= 3 and parts[1] in OPTIONAL_RUN_ARTIFACT_DIRS:
+        return
+    if len(parts) >= 3 and parts[1] == "artifacts":
         return
     if len(parts) >= 3 and parts[1] == "logs":
         return
     raise ValueError(
         f"{bundle_path}: v1 allows only `{ALLOWED_ARTIFACT_ROOT}/{RUN_SUMMARY_NAME}`, "
         f"`{ALLOWED_ARTIFACT_ROOT}/{LOOP_EVENTS_NAME}`, "
+        f"`{ALLOWED_ARTIFACT_ROOT}/{CHECKPOINT_BUNDLE_NAME}`, "
+        f"`{ALLOWED_ARTIFACT_ROOT}/delegated-codex-runs/*`, "
+        f"`{ALLOWED_ARTIFACT_ROOT}/assistant-uat/*`, "
+        f"`{ALLOWED_ARTIFACT_ROOT}/artifacts/*`, "
         f"`{ALLOWED_ARTIFACT_ROOT}/{FEEDBACK_MEMORY_DIRNAME}/*.json`, and `{ALLOWED_ARTIFACT_ROOT}/logs/*`"
     )
 

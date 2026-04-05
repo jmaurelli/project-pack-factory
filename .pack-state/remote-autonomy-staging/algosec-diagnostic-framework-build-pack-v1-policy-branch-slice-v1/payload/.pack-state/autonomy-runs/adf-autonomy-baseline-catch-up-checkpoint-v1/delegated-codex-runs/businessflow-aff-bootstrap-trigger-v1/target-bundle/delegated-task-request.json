@@ -1,0 +1,27 @@
+{
+  "allowed_targets": [
+    "/var/log/httpd",
+    "/usr/share/fa/php",
+    "/usr/share/fireflow/var/log"
+  ],
+  "baseline_run_summary_path": ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json",
+  "current_next_recommended_task_id": "investigate_asms_ui_components_for_useful_work_checks",
+  "delegation_run_id": "businessflow-aff-bootstrap-trigger-v1",
+  "delegation_tier": "observe_only",
+  "expected_outputs": [
+    "delegated-task-result.json",
+    "commands.jsonl",
+    "findings.md"
+  ],
+  "generated_at": "2026-03-27T10:58:01Z",
+  "generated_by": "adf-dev",
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "remote_runtime_host": "adf-dev",
+  "remote_target_label": "algosec-lab",
+  "run_id": "adf-autonomy-baseline-catch-up-checkpoint-v1",
+  "schema_version": "adf-delegated-task-request/v1",
+  "scope_summary": "Bounded observe-only target-local investigation of the external browser-visible request path that precedes the localhost AFF cookie-bootstrap window. Work backward from 27/Mar/2026 00:00:43-00:00:51 -0400 in Apache and FireFlow logs, where CommandsDispatcher, /FireFlow/api/session, /fa/server/connection/login, getAFASessionInfo, and storeFireflowCookie appear. Look for immediately preceding non-127.0.0.1 or browser-visible requests, especially /BusinessFlow/rest/v1/login, /BusinessFlow redirects, /algosec-ui/login, /seikan/login/setup, /afa/php/SuiteLoginSessionValidation.php, Keycloak token paths, or /afa/php/home.php. Use SSOLogin.php, BusinessFlowAPI.php, SuiteLoginSessionValidation.php, and utils.php only as supporting source hints. Preserve findings and artifacts only; do not intentionally modify target state.",
+  "target_bundle_root": ".pack-state/delegated-codex-runs/businessflow-aff-bootstrap-trigger-v1",
+  "task_id": "trace_businessflow_aff_bootstrap_trigger_v1",
+  "time_budget_seconds": 900
+}

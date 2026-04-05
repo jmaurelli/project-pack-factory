@@ -2,111 +2,230 @@
 
 ## Purpose
 
-This note defines the default language pattern for ADF diagnostic playbooks.
+This note defines how ADF should present diagnostic steps to frontline support
+engineers.
 
-The goal is not to turn the playbooks into training material. The goal is to
-give junior support engineers a repeatable Linux-style troubleshooting flow
-with plain language they can reuse with customers and teammates.
+The target reader is:
 
-## Why We Are Standardizing
+- working live with a customer over Teams or Zoom
+- using copy-paste CLI commands
+- often reading English as a second language
+- trying to triage quickly, not study architecture
 
-ADF playbooks should feel familiar to engineers who work with Linux systems and
-Linux-based applications.
+ADF should help the engineer do three things fast:
 
-The Linux ecosystem does not enforce one universal page-label standard, but the
-strong recurring pattern in enterprise Linux docs is:
+1. run the next command
+2. read the result
+3. decide whether to continue or switch to a narrower diagnosis
 
-- a stepwise procedure
-- a verification step
-- exact use of native tool terms from command output
+## Operator Context
 
-References:
+ADF playbooks are not training guides and not design documents.
 
-- Red Hat documentation repeatedly uses `Procedure` and `Verification` in
-  troubleshooting and configuration flows:
-  - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html-single/configuring_and_managing_linux_virtual_machines/index
-  - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html-single/security_hardening/security_hardening
-- Ubuntu Server documentation describes `How-to guides` as step-by-step guides
-  for common operational tasks:
-  - https://documentation.ubuntu.com/server/
-  - https://documentation.ubuntu.com/server/how-to/
-- `systemctl status` output uses exact field labels such as `Loaded`,
-  `Active`, and `Main PID`, so ADF should keep those terms unchanged in output
-  examples and verification guidance:
-  - https://man7.org/linux/man-pages/man1/systemctl.1.html
+Most support cases take more than one session. The first session is often a
+triage session:
 
-## Core ADF Flow
+- gather evidence
+- identify the likely failing area
+- record what was observed
+- continue offline research or lab reproduction later
 
-Each playbook step should follow this order:
+Because of that, the playbook language must stay explicit and operational.
+It should not introduce new concepts during the live session unless the concept
+is required to read the command output.
 
-1. `Check`
-2. `Run`
-3. `Verification`
-4. `Linux note` when needed
-5. `Known working example`
+## Core Presentation Pattern
 
-This keeps the flow stepwise and predictable.
+Use this order for frontline playbook steps:
+
+1. Step title
+2. Run
+3. Expected result
+4. Check output for
+5. If result is different
+6. Example
+
+This pattern is faster to scan than explanatory prose.
+
+## Step Title Rules
+
+Step titles should be short verb phrases.
+
+Use forms like:
+
+- `Check host pressure`
+- `Check Apache and login page`
+- `Check core services`
+- `Check if ASMS opens after login`
+
+Do not use step titles like:
+
+- `Decide whether this is still really GUI down`
+- `Start by confirming what the customer actually sees`
+- `Branch into the narrower failing workflow`
+
+Those phrases describe hidden reasoning instead of the operator action.
 
 ## Standard Labels
 
-Use these labels by default:
-
-- `Check`
-  Short plain-language step title.
-  Example: `Check Apache service`
+Use these labels by default for frontline pages:
 
 - `Run`
-  The exact command to run.
+- `Expected result`
+- `Check output for`
+- `If result is different`
+- `Example`
 
-- `Verification`
-  What the engineer should confirm in the output.
-  This replaces more casual variants like `Healthy signal` when we want a more
-  Linux-standard wording.
+These labels are short, literal, and easier for multilingual readers.
 
-- `Linux note`
-  A short explanation only when a Linux term may be unfamiliar.
-  Keep this to one or two short sentences.
+Avoid replacing them with softer or more abstract labels such as:
 
-- `Known working example`
-  A real or representative output example that shows what working output looks
-  like.
+- `Why this matters`
+- `When to use this`
+- `Stop rule`
+- `Avoid first`
+- `Operator note`
+- `Field note`
+- `Healthy signal`
+- `Useful work`
 
 ## Wording Rules
 
-- Keep sentences short and direct.
-- Prefer basic English over abstract technical phrasing.
-- Keep Linux terms consistent across all playbooks.
-- Reuse the same term every time for the same concept.
-- Keep native CLI labels exact when quoting or explaining command output.
-- Do not add long theory sections inside a playbook step.
+- Keep sentences short.
+- Use basic English.
+- Use literal service and route names.
+- Use the exact Linux or HTTP term when the command output uses it.
+- Prefer one instruction per sentence.
+- Prefer direct verbs: `check`, `run`, `save`, `restart`, `continue`.
+- Keep branching language explicit.
 
-## Linux Clarification Pattern
+## Operator Vocabulary Rule
 
-When a Linux concept may be unfamiliar, define it briefly in the `Linux note`
-section.
+In the main operator flow, prefer words that come from:
 
-Examples:
+- the customer complaint
+- the visible page or button label
+- the command output
+- the literal service, process, unit, file, or log name
 
-- `Memory pressure means the server is low on available memory. The server may slow down, use more swap, or kill a process.`
-- `Disk pressure means the filesystem is close to full. Services may fail to write logs, temp files, or runtime data.`
-- `Inode pressure means the server has too many files or directory entries. A filesystem can fail even when free disk space still exists.`
-- `OOM means Out Of Memory. Linux may kill a process to protect the server.`
+Avoid internal mapping words in the main flow unless support already uses them
+daily.
 
-## What To Avoid
+Examples to avoid in the frontline path:
 
-- do not switch between multiple labels for the same idea
-- do not alternate between `good`, `healthy`, `valid`, and `normal` unless the
-  distinction truly matters
-- do not replace native Linux output terms with softer paraphrases
-- do not turn a support step into a long technical lesson
+- `seam`
+- `boundary`
+- `taxonomy`
+- `later branch`
+- `useful work`
+- `module path`
+
+## Command Readability Rules
+
+Frontline commands should also be easy to scan.
+
+- Prefer human-readable flags when the tool supports them.
+- Prefer output that avoids mental unit conversion during a live session.
+- Prefer one readable command over a denser command that saves only a few characters.
+
+Use forms like:
+
+- `free -h`
+- `df -h`
+- `systemctl status httpd --no-pager`
+- `ps -p <pid> -o pid,etime,%cpu,%mem,cmd --cols 160`
+
+Avoid forms like:
+
+- `free -m` when `free -h` is enough for the decision
+- paged output that forces the engineer to scroll inside `less`
+- commands that require the engineer to translate bytes or kilobytes manually
+
+The main rule is simple:
+
+- if a flag makes the output easier for a support engineer to read quickly, use it by default
+
+Good examples:
+
+- `If httpd is not active, diagnose Apache/HTTPD.`
+- `If port 443 is missing, save the output and continue with Apache diagnosis.`
+- `If /afa/php/home.php appears, continue with shell or workflow diagnosis.`
+
+Weak examples:
+
+- `Stop at the UI edge.`
+- `Branch out of GUI down.`
+- `The path is no longer doing useful work.`
+- `The session crossed into a later content branch.`
+
+## Titles And Headings
+
+Frontline page titles and headings should also use support-visible language.
+
+Prefer:
+
+- `Use this when the page does not open`
+- `Check if login works`
+- `Check the Keycloak service`
+
+Avoid:
+
+- `Boundary confirmation`
+- `Imported-module drilldown`
+- `First usable shell`
+- `Metro-backed workflow`
+
+This rule also applies to quick-jump labels and other navigation wording.
+
+## Title Test
+
+Keep a title or heading only if:
+
+- it names the next action directly
+- it uses support-visible language
+- a support engineer could say it naturally on a live call
+
+If not, rewrite it or move it into a guide.
+
+## Branching Language
+
+Branching text should tell the engineer what the result means in plain support
+language.
+
+Prefer:
+
+- `If result is different: diagnose Apache/HTTPD.`
+- `If result is different: diagnose the failed service.`
+- `If result is different: continue with Reports diagnosis.`
+
+Avoid:
+
+- `Stop here.`
+- `Stop at this boundary.`
+- `Branch out.`
+- `Escalate the seam.`
+- `Treat this as the terminal node.`
+
+The engineer already understands that a different result changes the next step.
+ADF should name that next step directly.
+
+## Learning Content
+
+Frontline pages should not teach architecture during the live session.
+
+Optional Linux explanation is allowed only when needed to interpret command
+output, and it should stay outside the fastest reading path.
+
+If a concept is not required to read the current command result, do not explain
+it in the main operator flow.
 
 ## Current Application
 
-This standard should be applied first to:
+Apply this standard first to:
 
-- `Appliance UI is down`
+- `ASMS UI is down`
 
-Then extend to:
+Then carry the same style into:
 
 - `FireFlow Backend`
 - `Microservice Platform`

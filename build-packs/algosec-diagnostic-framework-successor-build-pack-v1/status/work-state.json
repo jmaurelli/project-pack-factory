@@ -38,13 +38,203 @@
     "strengthen_cross_node_directionality_proof",
     "capture_standalone_plus_ldu_role_separated_node_proofs",
     "capture_dr_primary_secondary_role_separated_node_proofs",
-    "derive_engineer_consumable_playbook_and_cookbook_views"
+    "derive_engineer_consumable_playbook_and_cookbook_views",
+    "add_collaborative_idea_log_surface",
+    "define_parallel_standalone_deepening_autonomy_loop_plan",
+    "execute_parallel_standalone_deepening_via_official_autonomy_loops",
+    "define_workload_aware_diagnostic_knowledge_spine",
+    "implement_bounded_successor_starlight_review_shell",
+    "provision_adf_dev_headless_browser_review_host_for_successor_shell"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Captured the first clean imported disaster-recovery proof pair for rebuilt DR primary `10.167.2.150` and DR secondary `10.167.2.153`, then wrote that primary-versus-secondary readout back into the successor planner without overwriting the earlier standalone-plus-LDU baseline.",
-  "last_outcome": "capture_dr_primary_secondary_role_separated_node_proofs",
-  "last_outcome_at": "2026-04-03T22:54:31Z",
+  "last_agent_action": "Applied the daily-reader grammar to the first real Starlight review pair by rewriting `Service State` and `Core Service Groups by Node Role` into cleaner template-quality examples, rebuilding the shell, publishing it to `adf-dev`, and verifying the live pages through the remote browser path.",
+  "last_outcome": "apply_daily_reader_grammar_to_first_review_pair",
+  "last_outcome_at": "2026-04-05T19:56:00Z",
   "last_validation_results": [
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/starlight_site.py",
+        "dist/candidates/adf-starlight-review-shell/starlight-site/src/content/docs/playbooks/service-state.md",
+        "dist/candidates/adf-starlight-review-shell/starlight-site/src/content/docs/cookbooks/core-service-groups-by-node-role.md",
+        "dist/candidates/adf-starlight-review-shell/starlight-site/dist/playbooks/service-state/index.html",
+        "dist/candidates/adf-starlight-review-shell/starlight-site/dist/cookbooks/core-service-groups-by-node-role/index.html",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-05T19:56:00Z",
+      "status": "pass",
+      "summary": "The first template-quality review pair now reflects the daily-reader grammar in real shell content. `Service State` stays narrow as a front-door filter with a cleaner bucket-and-branch flow, `Core Service Groups by Node Role` now reads as a quicker role-comparison field guide, the rebuilt shell is live on `adf-dev`, and remote browser proof confirmed the expected blocks while `On this page` stayed absent.",
+      "validation_id": "apply_daily_reader_grammar_to_first_review_pair"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-daily-reader-content-grammar-v1.md",
+        "docs/specs/adf-successor-starlight-review-shell-plan-v1.md",
+        "README.md",
+        "notes/idea-log.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-05T12:20:00Z",
+      "status": "pass",
+      "summary": "ADF successor now has an explicit daily-reader content grammar for support-facing pages. The reviewed contract fixes the page archetypes, section order, evidence-label discipline, and navigation restraint needed to help engineers who read all day build scan memory and use the shell consistently over repeated cases.",
+      "validation_id": "define_daily_reader_content_grammar_for_adf_pages"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-05T11:35:00Z",
+      "status": "pass",
+      "summary": "A bounded browser-review runtime now works on `adf-dev` without host-global package changes: a workspace-local Playwright install plus Playwright-managed Chromium launches successfully when paired with user-local Ubuntu shared libraries extracted under `~/packfactory-browser-review/system-libs`. The runtime proved page load against the existing older ADF Starlight route on `127.0.0.1:18082` and the new successor shell on `127.0.0.1:18083`, including the successor `Service State` page.",
+      "validation_id": "provision_adf_dev_headless_browser_review_host_for_successor_shell"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/starlight_site.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/serve_generated_content.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "pack.json",
+        "README.md",
+        "dist/candidates/adf-starlight-review-shell/starlight-site/package.json",
+        "dist/candidates/adf-starlight-review-shell/starlight-site/dist/index.html",
+        "notes/idea-log.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-05T11:27:58Z",
+      "status": "pass",
+      "summary": "The first bounded successor Starlight shell is now implemented locally as a separate review surface with six built routes at `dist/candidates/adf-starlight-review-shell/starlight-site`. The current working toolchain is Astro 6.1.3 plus `@astrojs/starlight` 0.38.2, the built shell serves from `dist/` on preview port `18083`, and the reviewed `Service State`, `Logs`, and `Core Service Groups by Node Role` pages now render as real static routes.",
+      "validation_id": "implement_bounded_successor_starlight_review_shell"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-site-map-and-wireframe-review-v1.md",
+        "docs/specs/adf-successor-starlight-review-shell-plan-v1.md",
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md",
+        "notes/idea-log.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-05T11:00:00Z",
+      "status": "pass",
+      "summary": "The successor review-only publication baseline now includes a concrete `Logs` page skeleton behind the `Service State` anchors, a clearer host-pressure-first rule for multiple-service failures, and reconciled memory references so route names in specs and restart surfaces agree on `/playbooks/` and `/cookbooks/`.",
+      "validation_id": "add_logs_page_skeleton_and_reconcile_route_names_after_swarm_review"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-site-map-and-wireframe-review-v1.md",
+        "docs/specs/adf-successor-starlight-review-shell-plan-v1.md",
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-05T10:52:58Z",
+      "status": "pass",
+      "summary": "The review-only successor shell specs now resolve the main skeleton issues from the swarm pass: top navigation has concrete `/playbooks/` and `/cookbooks/` routes, `Service State` branches land on real routes or `Logs` anchors, playbook pages no longer rely on subtitle coaching, and the first cookbook page now carries explicit evidence-state sections plus a practical role-matrix contract.",
+      "validation_id": "tighten_successor_site_map_and_page_skeletons_after_swarm_review"
+    },
+    {
+      "evidence_paths": [
+        "contracts/project-objective.json",
+        "docs/specs/adf-successor-workload-aware-diagnostic-knowledge-spine-v1.md",
+        "docs/specs/adf-successor-expansion-frontier-v1.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-04T14:02:00Z",
+      "status": "pass",
+      "summary": "The successor now carries a support-first long-horizon diagnostic knowledge spine that keeps symptom-to-path guidance, log awareness, failure and scenario testing, predictive failure points, data-flow mapping, state-store and database-black-box reasoning, and only later workload fingerprinting visible in the planner without replacing the current distributed next step.",
+      "validation_id": "define_workload_aware_diagnostic_knowledge_spine"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-standalone-deepening-calibration-review-v1.md",
+        "docs/remote-targets/algosec-lab-alt-132/target-connection-profile.json",
+        "docs/remote-targets/algosec-lab-alt-213/target-connection-profile.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-test-request-132.json",
+        "docs/remote-targets/adf-dev/remote-autonomy-second-node-test-request-213.json",
+        "eval/history/import-external-runtime-evidence-20260404t134215z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260404t134425z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260404t134927z/import-report.json",
+        "eval/history/import-external-runtime-evidence-20260404t135116z/import-report.json",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-04T13:54:58Z",
+      "status": "pass",
+      "summary": "The successor completed the parallel standalone-deepening lane for this wait-window with four `.150`-free imported standalone proofs from `10.167.2.192`, `10.167.2.177`, `10.167.2.132`, and `10.167.2.213`. The current review shows the AFF and session spine staying stable across all four nodes while provider ports, adjacent surfaces, and peer or polling clues drift by version line. The official continuity tools were also checked honestly and both failed closed on incompatible tracker boundaries rather than producing a misleading pass.",
+      "validation_id": "execute_parallel_standalone_deepening_via_official_autonomy_loops"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-parallel-standalone-deepening-autonomy-loop-plan-v1.md",
+        "README.md",
+        "project-context.md",
+        "status/readiness.json",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-04T12:56:46Z",
+      "status": "pass",
+      "summary": "The successor now carries a concrete parallel standalone-deepening plan that keeps the current DR-plus-LDU next step intact while defining how to keep enriching standalone runtime knowledge through official adf-dev roundtrips, bounded checkpoint and active-task continuity, and separate proving-ground autonomy exercises where useful.",
+      "validation_id": "define_parallel_standalone_deepening_autonomy_loop_plan"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-starlight-review-shell-plan-v1.md",
+        "docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md",
+        "docs/specs/adf-successor-site-map-and-wireframe-review-v1.md",
+        "README.md",
+        "notes/idea-log.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-04T12:05:00Z",
+      "status": "pass",
+      "summary": "The successor now carries a concrete review-only publication baseline: a bounded Starlight shell plan, a host-managed adf-dev browser-install plan, and a first site map plus wireframe-level page skeletons for `Service State` and `Core Service Groups by Node Role` before implementation begins.",
+      "validation_id": "capture_successor_review_shell_browser_host_and_site_map_plan"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-support-decision-support-under-pressure-v1.md",
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-04T01:34:00Z",
+      "status": "pass",
+      "summary": "The older support-decision framing note now matches the current reviewed successor model: playbooks are frontline technical triage paths, cookbook depth remains separate, the CLI `ms-*` dashboard is only a front-door filter, and the ASMS doc pack stays a subordinate guidance layer instead of defining playbook entry logic.",
+      "validation_id": "reconcile_support_framing_to_playbook_path_model"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/adf-successor-triage-playbook-path-model-v1.md",
+        "docs/specs/adf-successor-engineer-consumable-content-modes-v1.md",
+        "README.md",
+        "notes/idea-log.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-04T01:25:00Z",
+      "status": "pass",
+      "summary": "The successor now has an explicit frontline playbook-path model: start from validated technical paths, keep the CLI `ms-*` service dashboard as a narrow front-door filter, and move into Logs for real triage depth instead of coaching experienced engineers or flattening cookbook and playbook depth together.",
+      "validation_id": "capture_frontline_playbook_path_model"
+    },
+    {
+      "evidence_paths": [
+        "src/algosec_diagnostic_framework_successor_template_pack/idea_log.py",
+        "src/algosec_diagnostic_framework_successor_template_pack/cli.py",
+        "notes/idea-log.json",
+        "pack.json",
+        "AGENTS.md",
+        "README.md",
+        "docs/specs/adf-successor-collaborative-idea-log-v1.md",
+        "status/work-state.json",
+        "tasks/active-backlog.json"
+      ],
+      "recorded_at": "2026-04-04T00:22:50Z",
+      "status": "pass",
+      "summary": "The successor now has a bounded machine-readable idea-log surface under `notes/idea-log.json` plus CLI capture, review, and update commands. The first seeded note records the reused-IP and CM-cleanup behavioral idea as a collaborative successor note and now sits in `in_review` instead of being treated as backlog or restart-memory truth.",
+      "validation_id": "add_collaborative_idea_log_surface"
+    },
     {
       "evidence_paths": [
         "docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md",
@@ -706,17 +896,29 @@
   "pack_id": "algosec-diagnostic-framework-successor-build-pack-v1",
   "pending_task_ids": [
     "capture_disaster_recovery_plus_ldu_role_separated_node_proofs",
+    "activate_workload_aware_diagnostic_knowledge_spine",
     "capture_stacked_standalone_ldu_remote_agent_role_separated_proof"
   ],
   "resume_instructions": [
     "Read the objective, backlog, and work-state files before editing code.",
     "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Inspect `notes/idea-log.json` when the work touches successor-local ideas, behavioral notes, product observations, or cookbook candidates that are not active backlog items.",
+    "Use docs/specs/adf-successor-starlight-review-shell-plan-v1.md and docs/specs/adf-successor-site-map-and-wireframe-review-v1.md when reviewing or implementing successor-facing Starlight publication surfaces.",
+    "The first bounded successor shell now lives under `dist/candidates/adf-starlight-review-shell/starlight-site`; generate it with `generate-starlight-review-shell`, build it inside that site root with npm, and preview the built `dist/` output through `serve-starlight-review-shell` on port `18083` by default.",
+    "Treat `/playbooks/` and `/cookbooks/` as the current reviewed top-level publication routes, and treat `Service State` branch destinations as concrete `Logs` anchors rather than vague future pages.",
+    "Use the reviewed `/playbooks/logs/` skeleton with its four anchor sections before implementing the first shell, because `Service State` now depends on those anchors as real navigation destinations.",
+    "Keep the current local Starlight toolchain pinned to the working successor baseline until a deliberate review changes it: Astro 6.1.3 plus `@astrojs/starlight` 0.38.2.",
+    "Use docs/specs/adf-successor-adf-dev-headless-browser-host-plan-v1.md before trying to run headless browser tooling on adf-dev; the host already serves review pages on 10.167.2.151:18082 but still needs Chromium and Playwright provisioning.",
+    "The browser-host implementation task `provision_adf_dev_headless_browser_review_host_for_successor_shell` is now complete. The working runtime on `adf-dev` uses `~/packfactory-browser-review` with Playwright, Playwright-managed Chromium, and user-local extracted Ubuntu libraries under `~/packfactory-browser-review/system-libs` because `sudo` is password-gated there.",
     "Use the line-specific `diagnostic-systems-analyst` lens, the shallow-surface-map first-slice spec, and the remote-owned-runtime thin-local-return contract before implementing or refining discovery commands.",
     "Keep the first pass bounded to one canonical JSON map and derived engineer-facing Markdown views under dist/candidates/adf-shallow-surface-map-first-pass/.",
     "Use docs/specs/adf-successor-engineer-consumable-content-modes-v1.md plus docs/specs/adf-successor-support-decision-support-under-pressure-v1.md when shaping support-facing playbook versus cookbook content.",
-    "The standalone calibration set still matters as a baseline and spans `10.167.2.150`, `algosec-lab-alt-192`, and `algosec-lab-alt-177`, with the bounded readout in docs/specs/adf-successor-standalone-node-archetype-comparison-v1.md.",
+    "Use docs/specs/adf-successor-triage-playbook-path-model-v1.md as the current frontline contract: playbooks start from validated technical paths, the CLI `ms-*` service dashboard is only a narrow front-door filter, and real triage depth usually starts in Logs.",
+    "The historical standalone calibration baseline still lives in docs/specs/adf-successor-standalone-node-archetype-comparison-v1.md, while the current `.150`-free wait-window deepening pass is now recorded in docs/specs/adf-successor-standalone-deepening-calibration-review-v1.md across `10.167.2.192`, `10.167.2.177`, `10.167.2.132`, and `10.167.2.213`.",
     "The reusable second-node request shape and thin cross-node envelope contract now exist in docs/specs/adf-successor-second-node-request-shape-and-thin-cross-node-envelope-v1.md plus the adf-dev request templates; use those instead of inventing a one-off second-node workflow.",
     "Use docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md as the concrete widening plan: standalone nodes are calibration and archetype evidence first, while distributed labs are the first real topology and cross-node behavior layer.",
+    "Use docs/specs/adf-successor-workload-aware-diagnostic-knowledge-spine-v1.md as the current long-horizon map for support-facing symptom guidance, log awareness, scenario testing, predictive failure points, data flows, database-black-box analytics, and only later workload fingerprinting.",
+    "Treat every long-horizon spine layer as iterative and open-ended: a bounded first pass may complete, but the layer itself should be revised, enhanced, and revisited as new workloads, proofs, scenarios, and support learnings arrive.",
     "Treat adf-dev at 10.167.2.151 as the runtime host and support-facing publication surface, keep 10.167.2.150 as the target-evidence source, and remember that the current lab posture permits bounded exploratory breakage because labs are quickly redeployable.",
     "Do not require target-local Codex on additional nodes for the next phase; continue to run bounded node-local captures from adf-dev through node-specific read-only connection profiles.",
     "When extending the remote return path, keep mirrored run artifacts under `.pack-state/autonomy-runs/<run-id>/artifacts/` so the existing bounded export/import contract remains valid.",
@@ -726,6 +928,7 @@
     "Use docs/specs/adf-successor-first-standalone-plus-ldu-proof-review-v1.md as the bounded CM-versus-LDU readout before widening further.",
     "The first reviewed DR-only architecture is now also proven, with imported DR primary node `10.167.2.150` and DR secondary node `10.167.2.153` proofs under eval/history/import-external-runtime-evidence-20260403t225431z/ and eval/history/import-external-runtime-evidence-20260403t225328z/.",
     "Use docs/specs/adf-successor-first-dr-primary-secondary-proof-review-v1.md as the bounded DR-primary-versus-secondary readout before stacking additional DR roles.",
+    "Use docs/specs/adf-successor-parallel-standalone-deepening-autonomy-loop-plan-v1.md when the operator is still building the next distributed architecture but one or more stable standalone nodes are available for learning.",
     "Use docs/specs/adf-successor-thin-multi-node-topology-map-v1.md as the first honest topology surface before widening further.",
     "Use docs/specs/adf-successor-bounded-dependency-graph-v1.md as the current dependency readout before making stronger health or behavior claims.",
     "Use docs/specs/adf-successor-health-validated-integration-model-v1.md as the current health readout and docs/specs/adf-successor-bounded-product-behavior-model-v1.md as the current behavior readout before widening further.",
@@ -733,7 +936,13 @@
     "Use docs/specs/adf-successor-deeper-provider-health-proof-v1.md before making stronger AWS or Azure claims: the current proof still says the local driver-runtime surfaces are degraded on both nodes, not that cloud-side provider success or credentials are known.",
     "Use docs/specs/adf-successor-bounded-cross-node-directionality-proof-v1.md before making stronger cross-node claims: the current proof supports one observed CM-to-RA ingress clue and remote-agent-side refresh or broadcast-consumer hints, not a complete east-west orchestration map.",
     "The strongest next widening move is now `capture_disaster_recovery_plus_ldu_role_separated_node_proofs` after the operator adds the LDU layer onto the current DR shape.",
+    "The main parallel companion lane is now `execute_parallel_standalone_deepening_via_official_autonomy_loops` whenever stable standalone targets are available while the operator is still building the next DA type.",
+    "The next planner-visible support-knowledge horizon after the current architecture steps is `activate_workload_aware_diagnostic_knowledge_spine`, but it should not displace the current DR-plus-LDU next step unless the operator explicitly reprioritizes.",
+    "Use `run_local_mid_backlog_checkpoint.py` plus `run_remote_active_task_continuity_test.py` only when the current long-lived successor pack is at a compatible active-task boundary, and keep fresh-pack proving-ground exercises separate from runtime-truth claims about this pack.",
+    "Operational note from the standalone deepening pass on April 4, 2026: the active-task continuity tool failed closed because the pack currently has no `active_task_id`, and the ready-boundary memory continuity tool failed closed because `work-state.autonomy_state` is not `ready_for_deploy`.",
     "After that DR-plus-LDU proof, the next alternate architecture candidates remain `capture_stacked_standalone_ldu_remote_agent_role_separated_proof` and `high availability`.",
+    "Behavioral note recorded on April 4, 2026: in reusable lab deployments, if the central manager stays in place while a node IP is later reused for a different node role, that reused IP may need explicit cleanup on the central manager before reattachment behaves cleanly.",
+    "Keep the concrete `.150` CM and reused `.153` role-swap example in mind as an operational note, but do not treat CM-side rejection on reused `.153` as proven behavior until a bounded run isolates it from stale CM identity, role pinning, attach mismatch, or generic rebuild drift.",
     "Keep provider-side success, credential validity, sync freshness, and hidden east-west directionality as explicit non-claims unless later imported node-local proof actually closes them."
   ],
   "schema_version": "work-state/v1",

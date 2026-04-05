@@ -1,0 +1,31 @@
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "codex-personal-assistant-template-pack-smoke-small-001",
+      "checks": {
+        "bootstrap_workspace": "pass",
+        "doctor": "pass",
+        "read_memory": "pass",
+        "record_memory": "pass",
+        "route_context": "pass",
+        "show_profile": "pass",
+        "validation": "pass"
+      },
+      "doctor_errors": [],
+      "failed_checks": [],
+      "matched_route": "memory",
+      "memory_count_after_write": 1,
+      "project_root": "/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-daily-driver-build-pack-v1",
+      "status": "pass"
+    }
+  ],
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+  "mandatory_gate_ids": [
+    "codex_personal_assistant_template_pack_smoke_small_001"
+  ],
+  "returncode": 0,
+  "status": "pass",
+  "stderr": "",
+  "stdout": "{\n  \"status\": \"pass\",\n  \"project_root\": \"/home/orchadmin/project-pack-factory/build-packs/codex-personal-assistant-daily-driver-build-pack-v1\",\n  \"benchmark_id\": \"codex-personal-assistant-template-pack-smoke-small-001\",\n  \"checks\": {\n    \"validation\": \"pass\",\n    \"show_profile\": \"pass\",\n    \"route_context\": \"pass\",\n    \"record_memory\": \"pass\",\n    \"read_memory\": \"pass\",\n    \"bootstrap_workspace\": \"pass\",\n    \"doctor\": \"pass\"\n  },\n  \"failed_checks\": [],\n  \"matched_route\": \"memory\",\n  \"memory_count_after_write\": 1,\n  \"doctor_errors\": []\n}\n"
+}

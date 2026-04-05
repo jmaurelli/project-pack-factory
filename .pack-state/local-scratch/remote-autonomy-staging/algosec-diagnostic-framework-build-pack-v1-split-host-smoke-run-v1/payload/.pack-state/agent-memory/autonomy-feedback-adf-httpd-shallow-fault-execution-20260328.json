@@ -1,0 +1,111 @@
+{
+  "active_task_id": null,
+  "autonomy_budget": {
+    "limits": {
+      "max_elapsed_minutes": 30,
+      "max_escalation_count": 1,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "observed": {
+      "max_elapsed_minutes": 8,
+      "max_escalation_count": 0,
+      "max_failed_command_count": 0,
+      "max_step_count": 6
+    },
+    "status": "within_budget",
+    "summary": "Executed the first mutation-backed shallow-fault pass within the planned budget and restored the baseline cleanly."
+  },
+  "baseline_readiness_state": "ready_for_review",
+  "block_summary": null,
+  "completed_task_ids": [
+    "adopt_support_cockpit_direction",
+    "define_adf_artifact_model",
+    "implement_safe_runtime_collection",
+    "render_baseline_outputs",
+    "prototype_starlight_publishing",
+    "formalize_shared_host_health_precheck_pack",
+    "prove_asms_ui_system_thinking_with_authenticated_flow",
+    "capture_asms_post_home_followups_before_subsystem_split",
+    "capture_businessflow_and_fireflow_as_asms_operational_checkpoints",
+    "validate_frontline_playbook_with_small_trial_series",
+    "validate_frontline_asms_ui_shallow_healthy_path_trial",
+    "execute_httpd_shallow_fault_validation_trial",
+    "plan_controlled_fault_injection_playbook_validation",
+    "rebuild_asms_ui_system_thinking_playbook",
+    "investigate_asms_ui_components_for_useful_work_checks",
+    "reframe_host_precheck_around_pressure_signals",
+    "clarify_adf_iteration_loop_completion_boundary",
+    "build_adf_autonomous_iteration_loop",
+    "deepen_asms_ui_service_command_packs",
+    "define_adf_checkpointed_sync_model",
+    "decouple_codex_runtime_from_target_lab_environment",
+    "map_asms_ui_subsystem_and_validate_core_scenarios",
+    "validate_asms_ui_dependency_order_experimentally",
+    "refine_support_cockpit_right_rail_layout",
+    "consider_horizontal_dependency_path_in_center_pane"
+  ],
+  "delta_summary": "ADF now carries mutation-backed proof that a real lab-only httpd outage stops cleanly at the Apache or HTTPD edge boundary and recovers without needing deeper auth or module tracing.",
+  "evidence_paths": [
+    "docs/specs/adf-httpd-shallow-fault-validation-plan-v1.md",
+    "eval/history/asms-ui-httpd-shallow-fault-validation-20260328.md",
+    ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-execute_httpd_shallow_fault_validation_trial-20260328t161133z/target-bundle/delegated-task-result.json",
+    ".pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-execute_httpd_shallow_fault_validation_trial-20260328t161133z/target-bundle/findings.md",
+    "status/readiness.json",
+    "status/work-state.json"
+  ],
+  "final_readiness_state": "ready_for_review",
+  "generated_at": "2026-03-28T16:19:06Z",
+  "handoff_summary": [
+    "The first controlled shallow-fault validation for ASMS UI is down is now complete and passed.",
+    "During the stop window the accepted delegated observer stopped at the Apache or HTTPD edge boundary: httpd was inactive, listeners on 80 and 443 were absent, and both localhost UI probes failed with connection refused.",
+    "Rollback restored httpd, the HTTPS listeners, and both localhost UI entry probes to healthy.",
+    "The next move is to use this executed proof to tighten the canonical frontline playbook and decide whether another shallow service boundary is worth testing."
+  ],
+  "highest_risk_observation": "Highest risk: canonical_state_integrity still has not run locally, so keep treating this as bounded pack-local evidence rather than broader canonical host-state truth.",
+  "memory_id": "autonomy-feedback-adf-httpd-shallow-fault-execution-20260328",
+  "memory_tier": {
+    "status": "active",
+    "summary": "Pack-local restart memory for the completed httpd shallow-fault execution step.",
+    "tier": "restart_memory"
+  },
+  "memory_validity": {
+    "basis": [
+      "canonical_state_integrity_not_passed"
+    ],
+    "confidence_level": "low",
+    "confidence_score": 0.4,
+    "expires_after_hours": 12,
+    "expires_at": "2026-03-29T04:19:06Z",
+    "scope": "active_pack_restart",
+    "status": "active",
+    "summary": "Low-confidence active pack restart memory with 12h freshness window."
+  },
+  "negative_memory_summary": {
+    "avoidance_ids": [
+      "avoid_deep_auth_drift_during_httpd_fault_observer_pass",
+      "avoid_multi_service_faults_in_first_mutation_trial"
+    ],
+    "status": "observed",
+    "summary_lines": [
+      "Do not widen the httpd outage classification into auth/bootstrap or downstream modules when the HTTPS listener is already absent.",
+      "Do not combine the first shallow-fault proof with additional service mutations in the same run."
+    ]
+  },
+  "next_recommended_task_id": "deepen_dependency_aware_playbooks",
+  "operator_intervention_summary": null,
+  "pack_id": "algosec-diagnostic-framework-build-pack-v1",
+  "ready_for_deployment": false,
+  "recommended_next_action": "Recommended next action: use the completed httpd shallow-fault validation to tighten the frontline ASMS UI is down playbook and then decide whether another shallow service boundary is worth testing.",
+  "resolved_block_summary": null,
+  "run_id": "adf-httpd-shallow-fault-execution-20260328",
+  "schema_version": "autonomy-feedback-memory/v1",
+  "source_artifacts": {
+    "branch_selection_path": null,
+    "factory_validation_command": "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
+    "loop_events_path": null,
+    "previous_memory_path": ".pack-state/agent-memory/autonomy-feedback-adf-httpd-shallow-fault-plan-20260328.json",
+    "run_summary_path": null
+  },
+  "summary": "This restart memory captures the completed httpd shallow-fault validation and its clean rollback."
+}

@@ -1,0 +1,56 @@
+{
+  "artifact_manifest": [
+    {
+      "bundle_path": "artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1.json",
+      "media_type": "application/json",
+      "required": false,
+      "sha256": "16654f35547c8889de37690f80f5cc40dcfdb41d538d993d47169eeba6716074",
+      "source_pack_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1.json"
+    },
+    {
+      "bundle_path": "artifacts/loop-events.jsonl",
+      "media_type": "application/jsonl",
+      "required": false,
+      "sha256": "b08e41ad068a787ac4a428a02f958298753acc1eb8481f2974c9df18b4d4376e",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1/loop-events.jsonl"
+    },
+    {
+      "bundle_path": "artifacts/run-summary.json",
+      "media_type": "application/json",
+      "required": true,
+      "sha256": "56e761a92a3e961664818666801f2e6038f7f5190fac7e40e65db76de70574d2",
+      "source_pack_path": ".pack-state/autonomy-runs/codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1/run-summary.json"
+    }
+  ],
+  "authority_class": "supplementary_runtime_evidence",
+  "bundle_root": "dist/exports/runtime-evidence/external-runtime-evidence-codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1-20260329T162836Z",
+  "control_plane_mutations": {
+    "deployment_updated": false,
+    "eval_latest_updated": false,
+    "readiness_updated": false,
+    "registry_updated": false,
+    "release_artifacts_updated": false,
+    "work_state_updated": false
+  },
+  "export_id": "external-runtime-evidence-codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1-20260329T162836Z",
+  "exported_by": "codex",
+  "generated_at": "2026-03-29T16:28:36Z",
+  "pack_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1",
+  "pack_kind": "build_pack",
+  "run_id": "codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1",
+  "schema_version": "external-runtime-evidence-bundle/v1",
+  "source_runtime_roots": [
+    ".pack-state/autonomy-runs/codex-personal-assistant-remote-rehearsal-build-pack-v1-continuity-run-v1",
+    ".pack-state/agent-memory"
+  ],
+  "summary": {
+    "ended_at": "2026-03-29T16:28:36Z",
+    "escalation_count": 0,
+    "readiness_state_in_selected_run": "ready_for_deploy",
+    "ready_for_deployment_in_selected_run": true,
+    "resume_count": 1,
+    "started_at": "2026-03-29T16:28:36Z",
+    "stop_reason": "ready_for_deploy_boundary",
+    "task_completion_rate": 1.0
+  }
+}

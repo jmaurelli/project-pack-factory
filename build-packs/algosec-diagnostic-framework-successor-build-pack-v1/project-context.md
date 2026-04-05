@@ -114,6 +114,7 @@ The successor now also carries an explicit later-phase expansion frontier in:
 
 - `docs/specs/adf-successor-expansion-frontier-v1.md`
 - `docs/specs/adf-successor-standalone-node-review-and-distributed-lab-activation-plan-v1.md`
+- `docs/specs/adf-successor-workload-aware-diagnostic-knowledge-spine-v1.md`
 
 Those items are planner-visible but intentionally not active yet:
 
@@ -121,6 +122,21 @@ Those items are planner-visible but intentionally not active yet:
 2. derive a fuller dependency graph
 3. capture a health-validated integration model
 4. derive a more complete product behavior model
+
+The next longer-horizon support-knowledge layers are now visible too:
+
+1. symptom-to-path support models
+2. log-awareness modeling
+3. bounded failure and scenario testing
+4. failure-point prediction
+5. data-flow mapping
+6. state-store, queue, and database-black-box awareness
+7. config-intent mapping
+8. scenario-diff comparison
+9. confidence-scored support knowledge
+10. architecture overlays
+11. dependency confidence ladder
+12. workload fingerprinting
 
 For now, those remain downstream of `capture_second_node_node_local_proof` so
 the successor keeps widening from imported proof instead of jumping from a good
@@ -141,11 +157,8 @@ runtime owner, uses per-node read-only target-connection profiles, and treats
 the first additional standalone node proofs as calibration evidence rather than
 as distributed-topology truth.
 
-That calibration set now exists in a useful first form:
-
-- baseline `10.167.2.150` on `A33.10.240`
-- standalone sibling `10.167.2.192` on `A33.10.230`
-- standalone line-jump node `10.167.2.177` on `A33.20.120`
+That calibration set first existed in a useful historical form with the old
+baseline node plus `10.167.2.192` and `10.167.2.177`.
 
 The bounded archetype readout is recorded in:
 
@@ -154,6 +167,44 @@ The bounded archetype readout is recorded in:
 That matters because the successor can now separate stable standalone-node
 runtime roles from version-specific drift before any distributed-topology
 claims begin.
+
+That standalone lane has now been widened again in a `.150`-free pass while
+the operator rebuilds distributed labs. The current standalone deepening set
+for this wait-window is:
+
+- `10.167.2.192`
+- `10.167.2.177`
+- `10.167.2.132`
+- `10.167.2.213`
+
+The current bounded readout is now:
+
+- `docs/specs/adf-successor-standalone-deepening-calibration-review-v1.md`
+
+That matters because the successor now has four independent standalone proofs
+showing the same AFF and session spine plus repeating AWS or Azure degradation
+motifs, while still keeping topology and provider-side success fail-closed.
+
+The next longer-horizon knowledge spine is now also recorded in:
+
+- `docs/specs/adf-successor-workload-aware-diagnostic-knowledge-spine-v1.md`
+
+That matters because different standalone labs may reflect different
+customer-like workloads, custom settings, and partial feature usage. The
+successor now treats support-facing symptom guidance, log awareness, failure
+or scenario testing, predictive failure points, data flows, and
+database-black-box clues as earlier future layers, with workload
+fingerprinting intentionally pushed later instead of leading the sequence.
+
+Those layers are also intentionally open-ended. They should be treated as
+iterative diagnostic programs, not one-time completions:
+
+- first bounded pass
+- enhancement pass
+- revisit after new proofs, workloads, or scenarios
+
+That note matters because future agents should expect to circle back through
+these layers as the lab catalog and support knowledge base grow.
 
 The reviewed first distributed architecture to inspect is now also pinned:
 
@@ -317,6 +368,21 @@ stacked or alternate architectures. The strongest follow-on is:
   `capture_disaster_recovery_plus_ldu_role_separated_node_proofs`
 - then revisit stacked `standalone + LDU + remote agent` or move on to
   `high availability`
+
+The successor now also carries one explicit parallel work lane for times when
+the operator is still building the next distributed architecture and one or
+more stable standalone nodes are available.
+
+That plan is recorded in:
+
+- `docs/specs/adf-successor-parallel-standalone-deepening-autonomy-loop-plan-v1.md`
+
+It matters because the successor no longer has to idle while the next DA type
+is being assembled. The pack can keep enriching standalone runtime knowledge,
+packet quality, and engineer-facing derived artifacts through the official
+`adf-dev` request flow and bounded continuity tools, while still keeping
+`capture_disaster_recovery_plus_ldu_role_separated_node_proofs` as the main
+distributed next step.
 
 ## Optional Overlays
 

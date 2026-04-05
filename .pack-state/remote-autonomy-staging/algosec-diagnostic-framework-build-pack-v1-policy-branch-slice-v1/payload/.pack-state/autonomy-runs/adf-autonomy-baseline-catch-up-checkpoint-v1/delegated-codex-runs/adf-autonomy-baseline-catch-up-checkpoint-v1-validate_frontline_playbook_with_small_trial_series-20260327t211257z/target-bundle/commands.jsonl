@@ -1,0 +1,22 @@
+{"cmd":"pwd && ls -la .pack-state/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-validate_frontline_playbook_with_small_trial_series-20260327t211257z && echo '---REQUEST---' && cat .pack-state/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-validate_frontline_playbook_with_small_trial_series-20260327t211257z/delegated-task-request.json","note":"initial attempt via login shell hit appliance menu instead of a shell prompt"}
+{"cmd":"cat .pack-state/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-validate_frontline_playbook_with_small_trial_series-20260327t211257z/delegated-task-request.json"}
+{"cmd":"ls -la .pack-state/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-validate_frontline_playbook_with_small_trial_series-20260327t211257z"}
+{"cmd":"cat .pack-state/autonomy-runs/adf-autonomy-baseline-catch-up-checkpoint-v1/run-summary.json","result":"missing: No such file or directory"}
+{"cmd":"hostnamectl || hostname"}
+{"cmd":"date -Is && uptime"}
+{"cmd":"systemctl is-active httpd; systemctl is-enabled httpd"}
+{"cmd":"systemctl list-unit-files --type=service | rg -i 'httpd|apache|tomcat|algosec|asms'"}
+{"cmd":"ss -ltnp | rg ':(80|443|8080|8443)\\b'"}
+{"cmd":"rg -n 'ProxyPass|ProxyPreserveHost|RewriteRule|DocumentRoot|Listen|SSLEngine|Location' /etc/httpd"}
+{"cmd":"curl -k -I -sS https://localhost/"}
+{"cmd":"curl -k -sS -o /tmp/adf-localhost-root.html -D /tmp/adf-localhost-root.headers https://localhost/ && printf '%s\\n' 'HEADERS:' && sed -n '1,20p' /tmp/adf-localhost-root.headers && printf '%s\\n' 'BODY_SNIPPET:' && sed -n '1,80p' /tmp/adf-localhost-root.html"}
+{"cmd":"curl -k -sS -D - -o /tmp/adf-algosec-body.html https://localhost/algosec/ | sed -n '1,20p'; printf '%s\\n' 'BODY_SNIPPET:'; sed -n '1,80p' /tmp/adf-algosec-body.html"}
+{"cmd":"curl -k -sS -I https://localhost/algosec-ui/login"}
+{"cmd":"systemctl is-active algosec-ms; systemctl is-enabled algosec-ms"}
+{"cmd":"apachectl -t"}
+{"cmd":"tail -n 40 /var/log/httpd/error_log"}
+{"cmd":"curl -k -sS https://localhost/algosec-ui/login | sed -n '1,80p'"}
+{"cmd":"curl -sS -I http://localhost/"}
+{"cmd":"bundle='.pack-state/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-validate_frontline_playbook_with_small_trial_series-20260327t211257z' ... packaging outputs"}
+{"cmd":"sed -n '1,120p' .pack-state/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-validate_frontline_playbook_with_small_trial_series-20260327t211257z/delegated-task-result.json"}
+{"cmd":"sed -n '1,40p' .pack-state/delegated-codex-runs/adf-autonomy-baseline-catch-up-checkpoint-v1-validate_frontline_playbook_with_small_trial_series-20260327t211257z/commands.jsonl"}

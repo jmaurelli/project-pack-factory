@@ -1,0 +1,2863 @@
+OpenAI Codex v0.117.0 (research preview)
+--------
+workdir: /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+model: gpt-5.4
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 019d3fc9-4707-7003-bc10-86ae0efcf9fa
+--------
+user
+You are running inside a staged Project Pack Factory build-pack. Work only inside this pack root. Read AGENTS.md, project-context.md, and pack.json first, then the assistant/operator/partnership contracts needed for the task. Stay bounded to local assistant behavior, memory, bootstrap, doctor, and documentation surfaces. Keep all artifacts inside .pack-state/autonomy-runs/<run-id>/assistant-uat, dist/candidates/uat-preview, or existing allowed assistant state surfaces. Do not modify registry, deployment, promotion, or unrelated files. Keep responses concise and concrete.
+
+Assistant UAT task:
+My long-term goal is to build a small business, but today I feel tempted to chase random side work. Using the local operator and partnership surfaces, keep me grounded without being preachy. Then run the local doctor or equivalent health surface and tell me one real caution about daily use.
+
+Do the needed local work. End with a concise plain-language answer.
+warning: Codex could not find system bubblewrap at /usr/bin/bwrap. Please install bubblewrap with your package manager. Codex will use the vendored bubblewrap in the meantime.
+codex
+I’m starting with the pack’s control files and assistant/operator contracts so I can stay inside the allowed surfaces, then I’ll run the local health check and package the UAT evidence in the permitted output area.
+exec
+/bin/bash -lc pwd in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+
+exec
+/bin/bash -lc "sed -n '1,240p' AGENTS.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# Codex Personal Assistant Daily Driver Build Pack Build Pack Agent Context
+
+This directory is a PackFactory build pack, not a source template.
+
+Read `status/lifecycle.json`, `status/readiness.json`, and `status/deployment.json` first.
+If `status/readiness.json.operator_hint_status` exists, surface it in your pack-level startup or continuation briefing before going deeper so active, exhausted, cleanup-candidate, and recently consumed operator hints are visible immediately.
+Then read `pack.json` and use `pack.json.post_bootstrap_read_order` as the canonical post-bootstrap traversal contract.
+When `pack.json.directory_contract` declares `contracts/project-objective.json`, `tasks/active-backlog.json`, or `status/work-state.json`, read those files as canonical pack-local control-plane handoff files.
+Treat `status/work-state.json.branch_selection_hints` as the canonical operator-guidance source even when readiness has not been refreshed yet, and surface any active, exhausted, or cleanup-relevant hint state during pack entry when it matters.
+Treat `project-context.md` as inherited background context unless the manifest and status files say otherwise.
+For assistant-behavior work, inspect `contracts/assistant-profile.json`,
+`contracts/operator-profile.json`, `contracts/partnership-policy.json`, and
+`contracts/context-routing.json` before making claims about identity,
+grounding, or ambiguity handling.
+Treat `.pack-state/assistant-memory/` as advisory relationship and continuity
+memory; it should support the operator profile, not replace canonical pack
+state.
+When present, inspect `.pack-state/agent-memory/latest-memory.json` first, then treat other `.pack-state/agent-memory/*.json` files as supplementary restart memory distilled from prior autonomy runs.
+
+This build pack can export bounded runtime evidence when running externally.
+Use `pack.json.entrypoints.export_runtime_evidence_command` when that capability is present.
+For workflow or remote-session compliance questions, return to the factory root and read `AGENTS.md` plus `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md` before inventing a pack-local alternative.
+From the factory root, use `python3 tools/run_multi_hop_autonomy_rehearsal.py ...` when you want a single fresh-pack rehearsal that materializes a proving ground, checkpoints mid-backlog memory, runs the remote continuity hops, reconciles canonical state, and verifies the ready-boundary loop end to end.
+From the factory root, use `python3 tools/run_local_mid_backlog_checkpoint.py ...` when you want to stop after the current active task, write local feedback memory, and activate a resumable mid-backlog handoff pointer.
+From the factory root, use `python3 tools/run_remote_active_task_continuity_test.py ...` when the pack is already at a compatible active-task boundary and you want to verify the next task resumes remotely from feedback memory.
+From the factory root, use `python3 tools/run_remote_memory_continuity_test.py ...` after the pack reaches `ready_for_deploy` and `.pack-state/agent-memory/latest-memory.json` is active if you want to verify default feedback-memory continuity on a remote target.
+For remote Codex session management, use the PackFactory-local workflows from the factory root. Do not improvise ad hoc `ssh` prompts, handcrafted remote-session runners, or raw stdout/stderr logging loops when an official PackFactory workflow exists for the same job.
+When multiple next tasks are eligible, prefer lower `selection_priority` first. If the top candidates remain tied, honor any operator branch-selection hints recorded in `status/work-state.json.branch_selection_hints` in canonical hint order: apply active avoid-task guidance first so it can narrow the tied set safely, then apply active preferred-task guidance within the remaining tied set, then use bounded semantic alignment to `contracts/project-objective.json`, `status/work-state.json.resume_instructions`, and optional task `selection_signals`; otherwise stop fail-closed for operator review. Hints may also declare `remaining_applications` when they should expire automatically after bounded use.
+From the factory root, use `python3 tools/audit_branch_selection_hints.py ...` when you need one bounded view of active, exhausted, and cleanup-candidate hints plus recent consumed/deactivated hint evidence.
+Export bounded runtime evidence from the pack when needed, but import it only from the factory root through `python3 tools/import_external_runtime_evidence.py ...` or a higher-level PackFactory workflow that wraps that import.
+For newly materialized build-packs, promotion readiness also expects one completed `run_multi_hop_autonomy_rehearsal.py` report that still matches the pack's current readiness, work-state, and latest-memory pointer.
+If this newly materialized build-pack itself may later need promotion-ready remote evidence, do not skip the fresh-pack rehearsal step: run the official fresh-pack autonomy workflow before this pack diverges into long-lived day-to-day use.
+Autonomy quality remains advisory by default, but `contracts/project-objective.json.autonomy_quality_requirement` can opt this build-pack into bounded promotion-time quality thresholds when stronger promotion discipline is required.
+Export bundles remain supplementary runtime evidence only, and raw remote stdout/stderr is supplementary debugging rather than canonical PackFactory evidence.
+
+Derived from template `codex-personal-assistant-template-pack`.
+Pack id: `codex-personal-assistant-daily-driver-build-pack-v1`.
+
+exec
+/bin/bash -lc "sed -n '1,240p' status/lifecycle.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "current_revision": "codex-personal-assistant-daily-driver-v1",
+  "current_version": "0.1.0",
+  "lifecycle_stage": "testing",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "promotion_target": "testing",
+  "schema_version": "pack-lifecycle/v2",
+  "state_reason": "Create the first proving-ground build-pack for a Codex-native daily-driver personal assistant environment once the template exists and factory preflight is clean.",
+  "updated_at": "2026-03-29T16:07:24Z",
+  "updated_by": "codex"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' status/readiness.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "blocking_issues": [],
+  "last_evaluated_at": "2026-03-30T16:55:20Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "readiness_state": "ready_for_review",
+  "ready_for_deployment": false,
+  "recommended_next_actions": [
+    "Recommended next action: review the latest imported remote UAT evidence when it lands, then choose the next assistant-behavior slice or deployment-linked workflow."
+  ],
+  "required_gates": [
+    {
+      "evidence_paths": [
+        "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/validation-result.json"
+      ],
+      "gate_id": "validate_build_pack_contract",
+      "last_run_at": "2026-03-29T16:23:03Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Build-pack contract validation has not been executed yet."
+    },
+    {
+      "evidence_paths": [
+        "eval/latest/index.json"
+      ],
+      "gate_id": "codex_personal_assistant_template_pack_smoke_small_001",
+      "last_run_at": "2026-03-29T16:23:03Z",
+      "mandatory": true,
+      "status": "pass",
+      "summary": "Prove the smallest end-to-end Codex personal assistant path: bootstrap the workspace, expose the assistant profile and context-routing surfaces, write and read one restart-memory artifact, and validate the pack contract without requiring broad hook or GUI parity on day one."
+    }
+  ],
+  "schema_version": "pack-readiness/v2"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' status/deployment.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "active_environment": "none",
+  "active_release_id": null,
+  "active_release_path": null,
+  "deployment_notes": [
+    "Newly materialized build pack; no active deployment candidate."
+  ],
+  "deployment_pointer_path": null,
+  "deployment_state": "not_deployed",
+  "deployment_transaction_id": null,
+  "last_promoted_at": null,
+  "last_rollback": null,
+  "last_verified_at": null,
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "projection_state": "not_required",
+  "schema_version": "pack-deployment/v2"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' pack.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "bootstrap_read_order": [
+    "AGENTS.md",
+    "project-context.md",
+    "pack.json"
+  ],
+  "directory_contract": {
+    "benchmark_active_set_file": "benchmarks/active-set.json",
+    "benchmarks_dir": "benchmarks",
+    "candidate_release_dir": "dist/candidates",
+    "contracts_dir": "contracts",
+    "deployment_file": "status/deployment.json",
+    "dist_dir": "dist",
+    "docs_dir": "docs",
+    "eval_dir": "eval",
+    "eval_history_dir": "eval/history",
+    "eval_latest_index_file": "eval/latest/index.json",
+    "immutable_release_dir": "dist/releases",
+    "lifecycle_file": "status/lifecycle.json",
+    "lineage_dir": "lineage",
+    "lineage_file": "lineage/source-template.json",
+    "local_state_dir": ".pack-state",
+    "portable_runtime_helper_manifest": ".packfactory-runtime/manifest.json",
+    "portable_runtime_schemas_dir": ".packfactory-runtime/schemas",
+    "portable_runtime_tools_dir": ".packfactory-runtime/tools",
+    "project_objective_file": "contracts/project-objective.json",
+    "prompts_dir": "prompts",
+    "readiness_file": "status/readiness.json",
+    "retirement_file": "status/retirement.json",
+    "runtime_evidence_export_dir": "dist/exports/runtime-evidence",
+    "source_dir": "src",
+    "status_dir": "status",
+    "task_backlog_file": "tasks/active-backlog.json",
+    "tasks_dir": "tasks",
+    "template_export_dir": null,
+    "tests_dir": "tests",
+    "work_state_file": "status/work-state.json"
+  },
+  "display_name": "Codex Personal Assistant Daily Driver Build Pack",
+  "entrypoints": {
+    "benchmark_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json",
+    "cli_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack --help",
+    "export_runtime_evidence_command": "python3 src/pack_export_runtime_evidence.py --pack-root . --run-id <run-id> --exported-by <actor> --output-dir dist/exports/runtime-evidence --output json",
+    "validation_command": "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json"
+  },
+  "identity_source": "pack.json",
+  "notes": [
+    "Materialized from template `codex-personal-assistant-template-pack`.",
+    "materialization_id=materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z"
+  ],
+  "owning_team": "orchadmin",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "post_bootstrap_read_order": [
+    "status/lifecycle.json",
+    "status/readiness.json",
+    "status/retirement.json",
+    "status/deployment.json",
+    "lineage/source-template.json",
+    "contracts/project-objective.json",
+    "tasks/active-backlog.json",
+    "status/work-state.json",
+    "benchmarks/active-set.json",
+    "eval/latest/index.json"
+  ],
+  "runtime": "python",
+  "schema_version": "pack-manifest/v2"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' project-context.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# Project Context
+
+This build-pack is the current daily-driver runtime instance for the Codex
+personal assistant line.
+
+Its job is to prove a grounded, operator-aligned assistant that:
+
+- learns orchadmin's goals and working style over time
+- asks for clarification instead of guessing on ambiguity
+- keeps current work tied to long-term direction and practical business goals
+- remains inspectable through explicit local contracts and memory
+
+## Priority
+
+1. Keep the runtime assistant aligned with the declared operator profile and partnership policy.
+2. Keep the reusable assistant model backportable to the source template.
+3. Keep validation and benchmark commands small and deterministic.
+4. Keep the pack useful for real remote user-acceptance testing.
+
+## Primary Runtime Surfaces
+
+- `contracts/assistant-profile.json`
+- `contracts/operator-profile.json`
+- `contracts/partnership-policy.json`
+- `contracts/context-routing.json`
+- `src/codex_personal_assistant_template_pack/cli.py`
+- `src/codex_personal_assistant_template_pack/alignment.py`
+- `src/codex_personal_assistant_template_pack/memory.py`
+- `docs/specs/operator-alignment-model.md`
+- `docs/specs/user-acceptance-playbook.md`
+
+## Local State
+
+- local assistant memory: `.pack-state/assistant-memory/`
+- PackFactory runtime scratch state: `.pack-state/`
+
+## Factory-Level Inheritance Note
+
+This build-pack inherits the PackFactory autonomy baseline from the factory
+root. Use the factory root for rehearsal, remote-session, and runtime-evidence
+control-plane workflows.
+
+codex
+I’ve got the pack state loaded. There isn’t an `operator_hint_status` block in readiness, so I’m moving to the canonical control files and the assistant/operator alignment surfaces next, then I’ll find the local doctor entrypoint and run it.
+exec
+/bin/bash -lc "sed -n '1,240p' status/retirement.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "operator_notes": [],
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "removed_deployment_pointer_paths": [],
+  "retained_artifacts": {
+    "eval_history": true,
+    "lineage": true,
+    "release_artifacts": true
+  },
+  "retired_at": null,
+  "retired_by": null,
+  "retirement_reason": null,
+  "retirement_report_path": null,
+  "retirement_state": "active",
+  "schema_version": "pack-retirement/v1",
+  "superseded_by_pack_id": null
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' lineage/source-template.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "build_pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "derivation_mode": "copied",
+  "inherited_contracts": [
+    "README"
+  ],
+  "inherited_entrypoints": [
+    "benchmark_command",
+    "cli_command",
+    "validation_command"
+  ],
+  "last_sync_at": "2026-03-29T16:07:24Z",
+  "last_sync_summary": "materialization_id=materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z",
+  "schema_version": "pack-lineage/v2",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "source_template_revision": "create-template-codex-personal-assistant-template-pack-20260329t160700z",
+  "source_template_version": "0.1.0",
+  "sync_state": "current"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' contracts/project-objective.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "autonomy_quality_requirement": {
+    "required_for_promotion": false,
+    "summary": "Autonomy quality is advisory by default; promotion only blocks on autonomy quality when this objective explicitly declares bounded thresholds."
+  },
+  "autonomy_rehearsal_requirement": {
+    "required_for_promotion": true,
+    "summary": "Promotion readiness requires a completed PackFactory multi-hop autonomy rehearsal that still matches the pack's current canonical state.",
+    "workflow_id": "multi_hop_autonomy_rehearsal"
+  },
+  "completion_definition": [
+    "All starter tasks in tasks/active-backlog.json are completed or explicitly resolved through existing workflows.",
+    "The build-pack is ready for review, ready for deploy, or awaiting the next PackFactory workflow step."
+  ],
+  "generated_at": "2026-03-29T16:07:24Z",
+  "intended_inputs": [
+    "Pack-local source code and configuration under the materialized build-pack.",
+    "Validation and benchmark commands declared in pack.json entrypoints.",
+    "Current readiness, eval, and benchmark state for this build-pack."
+  ],
+  "intended_outputs": [
+    "A schema-valid build-pack with current validation and benchmark evidence.",
+    "Updated readiness and eval state that supports promotion decisions."
+  ],
+  "materialization_id": "materialize-codex-personal-assistant-daily-driver-build-pack-v1-20260329t160724z",
+  "metrics": [
+    {
+      "evidence_hint": "status/readiness.json and eval/latest/index.json",
+      "metric_id": "validation_gate_status",
+      "summary": "Validation gate reaches a passing state.",
+      "target": "validate_build_pack_contract=pass"
+    },
+    {
+      "evidence_hint": "benchmarks/active-set.json and eval/latest/index.json",
+      "metric_id": "benchmark_completion",
+      "summary": "All inherited readiness benchmarks complete successfully.",
+      "target": "required inherited benchmark gates=pass or waived"
+    }
+  ],
+  "non_goals": [
+    "Changing deployment state outside the existing PackFactory workflows.",
+    "Creating new tests or benchmarks without explicit operator approval."
+  ],
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "objective_summary": "Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "problem_statement": "# Project Context\n\nThis template was created to support the following project goal:\n\n- Build a Codex-native personal assistant environment that can act as a daily-driver workspace with explicit identity, context routing, restart memory, reusable skills, install/update commands, and PackFactory-managed lifecycle evidence.\n\n## Priority\n\n1. Keep the template valid for PackFactory traversal and later materialization.\n2. Keep validation and benchmark commands small and deterministic.\n3. Keep the pack easy for a fresh agent to inspect.\n\n## Primary Runtime Surfaces\n\n- `src/codex_personal_assistant_template_pack/cli.py`\n- `src/codex_personal_assistant_template_pack/validate_project_pack.py`\n- `src/codex_personal_assistant_template_pack/benchmark_smoke.py`\n- `benchmarks/active-set.json`\n- `benchmarks/declarations/codex-personal-assistant-template-pack-smoke-small-001.json`\n- `eval/latest/index.json`\n\n## Local State\n\n- local scratch state: `.pack-state/`\n- optional template lineage memory: `.pack-state/template-lineage-memory/latest-memory.json`\n\n## Factory-Level Inheritance Note\n\nThis template is a source template, not the canonical home of the autonomy\nbaseline.\n\nFor inherited PackFactory defaults around agent memory, feedback loops,\nrestart behavior, rehearsal evidence, and branch-choice policy, prefer the\nfactory-level state brief and operations note:\n\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-STATE-BRIEF.md`\n- `docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-AUTONOMY-OPERATIONS-NOTE.md`\n\nWhen present, the template-local lineage memory at\n`.pack-state/template-lineage-memory/latest-memory.json` is the shortest path\nto template-family learning that has already been distilled from derived\nbuild-packs.\n\nThat inherited baseline now also includes startup-compliance expectations for\nremote Codex session management and runtime-evidence flow:\n\n- prefer PackFactory-local remote-session workflows from the factory root\n- do not treat ad hoc `ssh` prompts or raw stdout/stderr logs as canonical\n  PackFactory evidence\n- return to the factory root for external runtime-evidence import",
+  "promotion_readiness_requirements": [
+    "Build-pack validation must pass with recorded evidence.",
+    "Inherited required benchmark gates must pass or be waived.",
+    "Readiness state must be updated through existing bounded validation and benchmark surfaces.",
+    "A completed PackFactory multi-hop autonomy rehearsal must be on record and still match the pack's current canonical readiness, work-state, and latest-memory state.",
+    "Autonomy quality remains advisory by default unless this build-pack later declares a bounded promotion-time autonomy-quality requirement."
+  ],
+  "schema_version": "project-objective/v1",
+  "source_template_id": "codex-personal-assistant-template-pack",
+  "success_criteria": [
+    "The build-pack validation command completes successfully and records passing evidence.",
+    "The inherited benchmark command completes successfully and updates readiness evidence."
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,320p' tasks/active-backlog.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "generated_at": "2026-03-30T16:55:20Z",
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "schema_version": "task-backlog/v1",
+  "tasks": [
+    {
+      "acceptance_criteria": [
+        "The validation readiness-evaluation workflow exits successfully.",
+        "The validation gate records passing evidence in status/readiness.json."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "validate_build_pack_contract reaches pass state.",
+        "Validation evaluation evidence is recorded under eval/history and linked from status/readiness.json."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "Validation reports schema or contract failures that the current task scope cannot resolve safely."
+      ],
+      "files_in_scope": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the validation readiness-evaluation workflow and capture canonical validation evidence.",
+      "task_id": "run_build_pack_validation",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode validation-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The benchmark readiness-evaluation workflow exits successfully.",
+        "Inherited benchmark gates update from not_run to pass or waived."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Benchmark evaluation evidence records results in eval/latest/index.json.",
+        "Required benchmark gates advance to pass or waived in status/readiness.json."
+      ],
+      "dependencies": [
+        "run_build_pack_validation"
+      ],
+      "escalation_conditions": [
+        "Benchmark output fails to update readiness or eval state through the existing bounded surfaces."
+      ],
+      "files_in_scope": [
+        "benchmarks/active-set.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Run the benchmark readiness-evaluation workflow after validation passes.",
+      "task_id": "run_inherited_benchmarks",
+      "validation_commands": [
+        "python3 .packfactory-runtime/tools/run_build_pack_readiness_eval.py --pack-root . --mode benchmark-only --invoked-by autonomous-loop"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The runtime pack exposes a bounded operator-intake workflow that records inspectable intake artifacts, refines the operator profile in a merge-friendly way, and writes relationship memory for stable signals.",
+        "The new intake workflow is discoverable through local contracts, prompts, and docs without introducing hidden adaptation behavior."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A CLI surface exists to inspect the operator-intake contract and record a bounded intake/refinement update.",
+        "Runtime contracts, docs, and local state surfaces clearly show how intake updates affect operator alignment.",
+        "Existing validation and smoke benchmark surfaces pass after the intake feature is added."
+      ],
+      "dependencies": [],
+      "escalation_conditions": [
+        "The intake workflow would require hidden profile mutation or non-inspectable adaptation rules.",
+        "The runtime and template models diverge in a way that cannot be backported cleanly."
+      ],
+      "files_in_scope": [
+        "contracts/operator-profile.json",
+        "contracts/operator-intake.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/assistant_contracts.py",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/cli.py",
+        "src/codex_personal_assistant_template_pack/memory.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a structured operator-intake and profile-refinement workflow to the runtime assistant.",
+      "task_id": "operator_intake_and_profile_refinement",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant can distill a bounded session update into durable relationship memory without rewriting the operator profile on weak signals.",
+        "The distillation behavior stays inspectable through local artifacts and existing assistant memory surfaces."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "A bounded distillation workflow exists for session-level operator learning.",
+        "Distilled memory promotion rules are documented and validated through existing pack surfaces."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement"
+      ],
+      "escalation_conditions": [
+        "Session distillation would require adding broad new tests or opaque heuristics.",
+        "Stable-signal promotion cannot be expressed through local contracts and assistant memory."
+      ],
+      "files_in_scope": [
+        "contracts/memory-policy.json",
+        "docs/specs/operator-alignment-model.md",
+        "src/codex_personal_assistant_template_pack/memory.py",
+        "src/codex_personal_assistant_template_pack/alignment.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a bounded session-memory distillation and promotion workflow.",
+      "task_id": "session_memory_distillation_and_promotion",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The assistant can surface grounded accountability prompts and drift checks that align with the operator's declared direction.",
+        "Grounding/accountability guidance remains business-like, brief, and fail-closed on ambiguity."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The runtime assistant exposes a discoverable grounding/accountability cadence tied to the operator profile and partnership policy.",
+        "Existing validation and smoke surfaces continue to pass after the grounding cadence is introduced."
+      ],
+      "dependencies": [
+        "operator_intake_and_profile_refinement",
+        "session_memory_distillation_and_promotion"
+      ],
+      "escalation_conditions": [
+        "Accountability behavior starts pretending to have human emotion or certainty the local evidence does not support.",
+        "The cadence cannot stay bounded inside the current pack-local contracts and docs."
+      ],
+      "files_in_scope": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md",
+        "src/codex_personal_assistant_template_pack/alignment.py",
+        "src/codex_personal_assistant_template_pack/doctor.py"
+      ],
+      "objective_link": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+      "status": "completed",
+      "summary": "Add a grounded accountability and anti-drift cadence to the runtime assistant.",
+      "task_id": "grounding_and_accountability_cadence",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack validate-project-pack --project-root . --output json",
+        "PYTHONPATH=src python3 -m codex_personal_assistant_template_pack benchmark-smoke --project-root . --output json"
+      ]
+    }
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' contracts/assistant-profile.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-profile/v2",
+  "assistant_id": "codex-personal-assistant-daily-driver",
+  "display_name": "Codex Personal Assistant",
+  "runtime": "codex",
+  "operator_id": "orchadmin",
+  "mission": "Act as orchadmin's Codex-native personal assistant and grounded business partner, keeping work aligned with stated goals while learning how to collaborate more effectively over time.",
+  "behavior_principles": [
+    "Prefer bounded, inspectable workflows over hidden automation.",
+    "Ask clarifying questions instead of guessing when intent is ambiguous.",
+    "Treat the operator's goals, constraints, and grounding principles as first-class context.",
+    "Adapt to repeated operator preferences through inspectable local state.",
+    "Challenge drift gently and concretely when current work stops serving stated goals."
+  ],
+  "default_capabilities": [
+    "Show the current assistant identity and working stance.",
+    "Summarize operator alignment and partnership expectations.",
+    "Route requests to the smallest relevant local context surfaces.",
+    "Record and read restart memory for continuity and adaptation.",
+    "Bootstrap a portable assistant workspace preview.",
+    "Run a small doctor surface for local health checks."
+  ],
+  "startup_sequence": [
+    "Read AGENTS.md, project-context.md, and pack.json.",
+    "Read the assistant, operator, and partnership contracts when identity or alignment matters.",
+    "Use route-context before loading deeper local files.",
+    "Inspect restart memory only when it materially helps continuation."
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,320p' status/work-state.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "active_task_id": null,
+  "autonomy_state": "ready_for_review",
+  "blocked_task_ids": [],
+  "branch_selection_hints": [],
+  "completed_task_ids": [
+    "run_build_pack_validation",
+    "run_inherited_benchmarks",
+    "operator_intake_and_profile_refinement",
+    "session_memory_distillation_and_promotion",
+    "grounding_and_accountability_cadence"
+  ],
+  "escalation_state": "none",
+  "last_agent_action": "Completed the grounded accountability and anti-drift cadence slice in the runtime pack, backported the contract/runtime updates into the template line, and reran the bounded validation and smoke benchmark commands successfully.",
+  "last_outcome": "task_completed",
+  "last_outcome_at": "2026-03-30T16:55:20Z",
+  "last_validation_results": [
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-validation-20260329t161748z/validation-result.json"
+      ],
+      "recorded_at": "2026-03-29T16:17:48Z",
+      "status": "pass",
+      "summary": "Recorded passing validation readiness evidence for the build-pack contract.",
+      "validation_id": "run_build_pack_validation"
+    },
+    {
+      "evidence_paths": [
+        "eval/history/readiness-eval-codex-personal-assistant-daily-driver-build-pack-v1-benchmark-20260329t161814z/benchmark-result.json"
+      ],
+      "recorded_at": "2026-03-29T16:18:14Z",
+      "status": "pass",
+      "summary": "Recorded passing inherited benchmark readiness evidence for the assistant smoke path.",
+      "validation_id": "run_inherited_benchmarks"
+    }
+  ],
+  "next_recommended_task_id": null,
+  "objective_id": "codex-personal-assistant-daily-driver-build-pack-v1_objective",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pending_task_ids": [],
+  "resume_instructions": [
+    "Read the objective, backlog, and work-state files before editing code.",
+    "Inspect `.pack-state/agent-memory/latest-memory.json` first when it exists, then fall back to other `.pack-state/agent-memory/*.json` files.",
+    "Inspect the operator-intake, session-distillation, operator-profile, memory-policy, and partnership-policy surfaces before changing assistant behavior.",
+    "Review the newest remote UAT evidence if it lands, then choose the next assistant-behavior slice before reopening implementation."
+  ],
+  "schema_version": "work-state/v1",
+  "stop_conditions": [
+    "Stop when the current grounding/accountability slice is implemented and existing bounded validation surfaces pass.",
+    "Stop and escalate if the next action would require changing registry, deployment pointer, or promotion state directly."
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' benchmarks/active-set.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "active_benchmarks": [
+    {
+      "benchmark_id": "codex-personal-assistant-template-pack-smoke-small-001",
+      "declaration_path": "benchmarks/declarations/codex-personal-assistant-template-pack-smoke-small-001.json",
+      "objective": "Prove the smallest end-to-end Codex personal assistant path: bootstrap the workspace, expose the assistant profile and context-routing surfaces, write and read one restart-memory artifact, and validate the pack contract without requiring broad hook or GUI parity on day one.",
+      "required_for_readiness": true
+    }
+  ],
+  "default_benchmark_id": "codex-personal-assistant-template-pack-smoke-small-001",
+  "pack_id": "codex-personal-assistant-template-pack",
+  "pack_kind": "template_pack",
+  "schema_version": "pack-benchmark-active-set/v1"
+}
+
+exec
+/bin/bash -lc "sed -n '1,240p' eval/latest/index.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "benchmark_results": [
+    {
+      "benchmark_id": "codex-personal-assistant-template-pack-smoke-small-001",
+      "latest_run_id": "pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z",
+      "run_artifact_path": "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/benchmark-result.json",
+      "status": "pass",
+      "summary_artifact_path": "eval/history/pipeline-codex-personal-assistant-daily-driver-build-pack-v1-testing-20260329t162303z/benchmark-result.json"
+    }
+  ],
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "pack_kind": "build_pack",
+  "schema_version": "pack-eval-index/v1",
+  "updated_at": "2026-03-29T16:23:03Z"
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' contracts/operator-profile.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-operator-profile/v1",
+  "operator_id": "orchadmin",
+  "preferred_name": "orchadmin",
+  "current_role": "operator building toward a small business",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "long_horizon_goals": [
+    "Build a small business.",
+    "Develop a durable working partnership with the assistant that becomes more useful over time."
+  ],
+  "near_term_priorities": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner."
+  ],
+  "grounding_principles": [
+    "Do not confuse motion with progress.",
+    "Reconnect tactical work to the larger business direction.",
+    "Surface ambiguity before committing to a path."
+  ],
+  "working_preferences": [
+    "Keep support business-like and concrete.",
+    "Prefer clear instructions over implied workflows.",
+    "Ask for refinement when a request is ambiguous."
+  ],
+  "ambiguity_preferences": [
+    "Do not guess through ambiguity.",
+    "Ask the minimum clarifying questions needed to proceed safely."
+  ],
+  "known_do_not_assume": [
+    "the intended workflow when multiple PackFactory surfaces could apply",
+    "that a partially formed idea is ready for execution without refinement",
+    "that technical verification is the same as user experience validation"
+  ],
+  "success_signals": [
+    "The operator stays aligned with stated goals.",
+    "The assistant gets easier and more useful over repeated sessions.",
+    "Work moves toward a small-business direction rather than drifting."
+  ]
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' contracts/partnership-policy.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-partnership-policy/v1",
+  "relationship_mode": "grounded-business-partner",
+  "primary_outcome": "Increase orchadmin's progress toward a sustainable small business while reducing ambiguity and drift.",
+  "grounding_behaviors": [
+    "Reconnect active work to stated goals and business direction.",
+    "Name drift plainly when work no longer supports the larger direction.",
+    "Favor the next grounded step over vague activity."
+  ],
+  "adaptation_rules": [
+    "Learn from repeated operator feedback, requests, and decisions.",
+    "Keep adaptation inspectable through local contracts and assistant memory.",
+    "Ask before changing high-impact goals or constraints."
+  ],
+  "review_prompts": [
+    "How does this work support the operator's larger direction?",
+    "What is still ambiguous enough to justify a clarifying question?",
+    "What stable preference or pattern should be recorded for next time?"
+  ],
+  "grounding_accountability_cadence": {
+    "cadence_name": "grounded-check-in",
+    "trigger_conditions": [
+      "work appears to drift from stated goals",
+      "the operator's intent is ambiguous",
+      "the assistant is about to commit to a path with hidden tradeoffs"
+    ],
+    "response_steps": [
+      "name the current work plainly",
+      "compare it to the operator's stated direction",
+      "surface the mismatch or drift directly",
+      "ask the minimum clarifying question needed or propose the next grounded step"
+    ],
+    "review_prompts": [
+      "What outcome matters most right now?",
+      "Does this still support the operator's larger direction?",
+      "What is the smallest grounded next step?"
+    ]
+  },
+  "boundaries": [
+    "Do not pretend to know more than the local artifacts support.",
+    "Do not guess through ambiguity when clarification is cheaper and safer.",
+    "Do not present emotional attachment as if it were human feeling."
+  ],
+  "ambiguity_policy": {
+    "default_behavior": "ask-clarifying-question",
+    "question_style": "brief, concrete, and non-leading",
+    "pause_conditions": [
+      "ambiguous operator intent",
+      "multiple non-obvious paths with hidden tradeoffs",
+      "possible conflict with stated goals or constraints"
+    ]
+  },
+  "accountability_cadence": {
+    "default_behavior": "name-drift-and-propose-grounded-next-step",
+    "checkpoints": [
+      "before committing to side work that may not support the current business direction",
+      "when active work appears to drift from near-term priorities",
+      "at the end of a productive session before promoting durable relationship memory"
+    ],
+    "drift_indicators": [
+      "side work with no clear tie to stated goals",
+      "vague activity without a concrete outcome",
+      "work that conflicts with the operator's current business direction"
+    ],
+    "require_goal_anchor": true
+  }
+}
+
+exec
+/bin/bash -lc "sed -n '1,260p' contracts/context-routing.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "schema_version": "codex-personal-assistant-context-routing/v2",
+  "routes": [
+    {
+      "route_id": "identity",
+      "keywords": [
+        "identity",
+        "profile",
+        "assistant",
+        "persona"
+      ],
+      "summary": "Assistant identity, mission, and default behavior surfaces.",
+      "paths": [
+        "contracts/assistant-profile.json",
+        "contracts/partnership-policy.json",
+        "AGENTS.md",
+        "project-context.md"
+      ]
+    },
+    {
+      "route_id": "goals",
+      "keywords": [
+        "operator",
+        "goals",
+        "priorities",
+        "grounded"
+      ],
+      "summary": "Structured operator goals, priorities, and grounding principles.",
+      "paths": [
+        "contracts/operator-profile.json",
+        "docs/specs/operator-alignment-model.md",
+        "prompts/operator-discovery-guide.md"
+      ]
+    },
+    {
+      "route_id": "partnership",
+      "keywords": [
+        "partner",
+        "alignment",
+        "business",
+        "ambiguity"
+      ],
+      "summary": "How the assistant should work with the operator, handle ambiguity, and surface drift.",
+      "paths": [
+        "contracts/partnership-policy.json",
+        "docs/specs/operator-alignment-model.md"
+      ]
+    },
+    {
+      "route_id": "memory",
+      "keywords": [
+        "memory",
+        "restart",
+        "handoff",
+        "continuity",
+        "adaptation"
+      ],
+      "summary": "Restart-memory policy plus the local pointer used for the latest memory artifact.",
+      "paths": [
+        "contracts/memory-policy.json",
+        "prompts/restart-memory-guide.md",
+        ".pack-state/assistant-memory/latest-memory.json"
+      ]
+    },
+    {
+      "route_id": "skills",
+      "keywords": [
+        "skills",
+        "capabilities",
+        "customization",
+        "tooling"
+      ],
+      "summary": "Assistant skills, how they are grouped, and where custom overlays belong.",
+      "paths": [
+        "contracts/skill-catalog.json",
+        "prompts/skills-guide.md"
+      ]
+    },
+    {
+      "route_id": "bootstrap",
+      "keywords": [
+        "bootstrap",
+        "install",
+        "setup",
+        "workspace"
+      ],
+      "summary": "Workspace bootstrap behavior and the first-run checklist.",
+      "paths": [
+        "prompts/bootstrap-checklist.md",
+        "README.md"
+      ]
+    },
+    {
+      "route_id": "health",
+      "keywords": [
+        "doctor",
+        "health",
+        "validation",
+        "readiness"
+      ],
+      "summary": "Pack health, validation state, and readiness evidence surfaces.",
+      "paths": [
+        "pack.json",
+        "status/readiness.json",
+        "eval/latest/index.json"
+      ]
+    }
+  ]
+}
+
+exec
+/bin/bash -lc "if [ -f .pack-state/agent-memory/latest-memory.json ]; then sed -n '1,240p' .pack-state/agent-memory/latest-memory.json; else echo '__MISSING__'; fi" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "schema_version": "autonomy-feedback-memory-pointer/v1",
+  "selected_generated_at": "2026-03-30T00:11:58Z",
+  "selected_memory_id": "autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3",
+  "selected_memory_path": ".pack-state/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3.json",
+  "selected_memory_sha256": "6d4bd27787ea279f93786c7e0516682ffbc049124f68df851163a2b0100fcfe8",
+  "selected_memory_tier": "restart_memory",
+  "selected_run_id": "codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3",
+  "source_artifact_path": "external-runtime-evidence/artifacts/agent-memory/autonomy-feedback-codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v3.json",
+  "source_import_id": "import-external-runtime-evidence-20260330t001358z",
+  "source_import_report_path": "eval/history/import-external-runtime-evidence-20260330t001358z/import-report.json",
+  "source_kind": "imported_external_runtime_evidence",
+  "updated_at": "2026-03-30T00:13:58Z"
+}
+
+exec
+/bin/bash -lc 'rg -n "doctor|health|bootstrap|assistant-memory|daily use|caution|grounded|side work|business" src docs prompts tests -S' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+prompts/bootstrap-checklist.md:1:# Bootstrap Checklist
+prompts/bootstrap-checklist.md:3:Use this checklist when bootstrapping a fresh assistant workspace preview.
+prompts/bootstrap-checklist.md:5:1. Export the assistant bundle to a target directory with the bootstrap
+prompts/README.md:5:- `bootstrap-checklist.md`
+prompts/skills-guide.md:12:- `workspace_bootstrap`: export a portable preview bundle
+prompts/skills-guide.md:13:- `doctor`: check local health before deeper work
+prompts/operator-discovery-guide.md:23:   suggest a grounded next step.
+prompts/operator-discovery-guide.md:24:10. Keep the tone business-like, direct, and supportive without pretending to
+docs/specs/assistant-architecture.md:15:- bootstrap exports create a portable preview workspace rather than mutating
+docs/specs/assistant-architecture.md:25:- routing, memory, bootstrap, and doctor surfaces
+docs/specs/assistant-architecture.md:53:6. Use bootstrap to create a portable preview bundle before wider rollout.
+docs/specs/assistant-architecture.md:54:7. Use doctor and the PackFactory validation surfaces to keep the pack honest.
+docs/specs/user-acceptance-playbook.md:110:- it feels like a grounded business partner rather than a generic helper
+docs/specs/user-acceptance-playbook.md:115:I prefer concise answers, I often switch contexts, and I want you to keep me grounded in my larger business goals. Use the local assistant memory surface to record that in a way that fits this assistant model, then read it back and tell me how you would use it in future sessions.
+docs/specs/user-acceptance-playbook.md:135:### Prompt 6: bootstrap usefulness check
+docs/specs/user-acceptance-playbook.md:138:Bootstrap the assistant workspace preview for me, inspect what was created, and explain how I would use that preview bundle in plain language.
+docs/specs/user-acceptance-playbook.md:158:### Prompt 8: health and trust check
+docs/specs/user-acceptance-playbook.md:161:Run the local doctor or equivalent health surface, then tell me whether anything about this assistant baseline would make you cautious about daily use as a grounded business partner.
+docs/specs/user-acceptance-playbook.md:166:- the assistant reports the health result honestly
+docs/specs/user-acceptance-playbook.md:172:Use the local grounding and accountability surfaces to tell me how you would notice drift, how you would call it out, and what grounded next step you would propose if I started wandering into side work that did not support my current business direction.
+docs/specs/user-acceptance-playbook.md:179:- it suggests one grounded next step tied to stated priorities
+docs/specs/user-acceptance-playbook.md:186:- Did the assistant feel grounded in the local pack, or generic?
+docs/specs/user-acceptance-playbook.md:207:  - better workspace bootstrap
+docs/specs/user-acceptance-playbook.md:220:- it can handle the memory and bootstrap tasks without feeling fake or opaque
+docs/specs/operator-alignment-model.md:17:  `.pack-state/assistant-memory/`
+docs/specs/operator-alignment-model.md:64:- current goals and business direction
+docs/specs/operator-alignment-model.md:94:- notice when work sounds vague or disconnected from the current business direction
+docs/specs/operator-alignment-model.md:96:- propose one grounded next step tied back to a near-term priority or long-term goal
+src/codex_personal_assistant_template_pack/__init__.py:4:from .doctor import run_doctor
+src/codex_personal_assistant_template_pack/__init__.py:8:from .workspace_bootstrap import bootstrap_workspace
+src/codex_personal_assistant_template_pack/__init__.py:12:    "bootstrap_workspace",
+src/codex_personal_assistant_template_pack/__init__.py:17:    "run_doctor",
+src/codex_personal_assistant_template_pack/profile.py:28:        "business_direction": operator.get("business_direction"),
+src/codex_personal_assistant_template_pack/memory.py:83:        "schema_version": "codex-personal-assistant-memory/v2",
+src/codex_personal_assistant_template_pack/memory.py:96:        "schema_version": "codex-personal-assistant-memory-pointer/v1",
+src/codex_personal_assistant_template_pack/ambiguity.py:17:    "side work",
+src/codex_personal_assistant_template_pack/ambiguity.py:47:    if "side work" in normalized or "tradeoff" in normalized or "priority" in normalized:
+src/codex_personal_assistant_template_pack/ambiguity.py:54:    business_direction = operator.get("business_direction")
+src/codex_personal_assistant_template_pack/ambiguity.py:55:    if "side work" in normalized or "random" in normalized:
+src/codex_personal_assistant_template_pack/ambiguity.py:56:        if isinstance(business_direction, str) and business_direction.strip():
+src/codex_personal_assistant_template_pack/ambiguity.py:57:            return "What concrete outcome do you want right now, and how should it rank against your current business direction?"
+src/codex_personal_assistant_template_pack/doctor.py:22:def run_doctor(project_root: Path) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/doctor.py:143:        memory_policy.get("latest_pointer_path", ".pack-state/assistant-memory/latest-memory.json")
+src/codex_personal_assistant_template_pack/alignment.py:28:        "Keep the assistant aligned with the operator's current business direction and near-term priorities.",
+src/codex_personal_assistant_template_pack/alignment.py:29:        proposed_next_step="Propose one concrete next step tied to the operator's current business direction.",
+src/codex_personal_assistant_template_pack/alignment.py:38:        "business_direction": operator.get("business_direction"),
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:13:    BOOTSTRAP_GUIDE_PATH,
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:30:def bootstrap_workspace(project_root: Path, target_dir: Path) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:47:        (project_root / BOOTSTRAP_GUIDE_PATH, prompts_dir / BOOTSTRAP_GUIDE_PATH.name),
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:70:        "schema_version": "codex-personal-assistant-bootstrap-report/v2",
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:75:    report_path = target_dir / "assistant-bootstrap-report.json"
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:85:def bootstrap_workspace_in_temp(project_root: Path) -> dict[str, Any]:
+src/codex_personal_assistant_template_pack/workspace_bootstrap.py:87:        return bootstrap_workspace(project_root, Path(tmp_dir))
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:11:from .doctor import run_doctor
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:17:from .workspace_bootstrap import bootstrap_workspace
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:46:        "I have a few ideas and maybe should do some side work today, but I am not sure what actually matters most.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:49:    doctor = run_doctor(project_root)
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:52:    memory_root = project_root / ".pack-state/assistant-memory"
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:67:        next_action="Use doctor and PackFactory validation before wider rollout.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:80:            "Keep the operator aligned with their current business direction."
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:120:        "I might do some random side work today without a clear link to the current business direction.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:125:        bootstrap_result = bootstrap_workspace(project_root, Path(tmp_dir))
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:144:        and "Keep the operator aligned with their current business direction." in refined_priorities
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:157:        "cadence_name": "grounded-check-in",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:172:            "ask the minimum clarifying question needed or propose the next grounded step",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:177:            "What is the smallest grounded next step?",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:180:        "sample_suggested_response": "Continue and keep the next step tied to the current business direction.",
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:206:        "bootstrap_workspace": bootstrap_result["status"],
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:207:        "doctor": doctor["status"],
+src/codex_personal_assistant_template_pack/benchmark_smoke.py:221:        "doctor_errors": doctor.get("errors", []),
+src/codex_personal_assistant_template_pack/validate_project_pack.py:8:from .doctor import run_doctor
+src/codex_personal_assistant_template_pack/validate_project_pack.py:16:    required_paths.extend(manifest.get("post_bootstrap_read_order", []))
+src/codex_personal_assistant_template_pack/validate_project_pack.py:32:    doctor = run_doctor(project_root)
+src/codex_personal_assistant_template_pack/validate_project_pack.py:33:    status = "pass" if not missing and doctor["status"] == "pass" else "fail"
+src/codex_personal_assistant_template_pack/validate_project_pack.py:41:        "doctor": doctor,
+src/codex_personal_assistant_template_pack/assistant_contracts.py:17:BOOTSTRAP_GUIDE_PATH = Path("prompts/bootstrap-checklist.md")
+src/codex_personal_assistant_template_pack/assistant_contracts.py:32:    BOOTSTRAP_GUIDE_PATH,
+src/codex_personal_assistant_template_pack/assistant_contracts.py:57:        "bootstrap_guide": project_root / BOOTSTRAP_GUIDE_PATH,
+src/codex_personal_assistant_template_pack/cli.py:11:from .doctor import run_doctor
+src/codex_personal_assistant_template_pack/cli.py:23:from .workspace_bootstrap import bootstrap_workspace
+src/codex_personal_assistant_template_pack/cli.py:153:    bootstrap_parser = subparsers.add_parser("bootstrap-workspace")
+src/codex_personal_assistant_template_pack/cli.py:154:    bootstrap_parser.add_argument("--project-root", default=".")
+src/codex_personal_assistant_template_pack/cli.py:155:    bootstrap_parser.add_argument("--target-dir", required=True)
+src/codex_personal_assistant_template_pack/cli.py:156:    bootstrap_parser.add_argument("--output", choices=("json",), default="json")
+src/codex_personal_assistant_template_pack/cli.py:158:    doctor_parser = subparsers.add_parser("doctor")
+src/codex_personal_assistant_template_pack/cli.py:159:    doctor_parser.add_argument("--project-root", default=".")
+src/codex_personal_assistant_template_pack/cli.py:160:    doctor_parser.add_argument("--output", choices=("json",), default="json")
+src/codex_personal_assistant_template_pack/cli.py:280:    if args.command == "bootstrap-workspace":
+src/codex_personal_assistant_template_pack/cli.py:281:        result = bootstrap_workspace(Path(args.project_root).resolve(), Path(args.target_dir))
+src/codex_personal_assistant_template_pack/cli.py:285:    if args.command == "doctor":
+src/codex_personal_assistant_template_pack/cli.py:286:        result = run_doctor(Path(args.project_root).resolve())
+src/codex_personal_assistant_template_pack/grounding.py:11:    "side work",
+src/codex_personal_assistant_template_pack/grounding.py:33:    business_direction = operator.get("business_direction")
+src/codex_personal_assistant_template_pack/grounding.py:34:    if isinstance(business_direction, str) and business_direction.strip():
+src/codex_personal_assistant_template_pack/grounding.py:35:        anchors.append(business_direction.strip())
+src/codex_personal_assistant_template_pack/grounding.py:54:        "cadence_name": cadence.get("cadence_name") or "grounded-check-in",
+src/codex_personal_assistant_template_pack/grounding.py:87:        "business_direction": operator.get("business_direction"),
+src/codex_personal_assistant_template_pack/grounding.py:112:    suggested_response = "Continue and keep the next step tied to the current business direction."
+src/codex_personal_assistant_template_pack/grounding.py:117:        suggested_response = "Name the drift plainly and propose the next grounded step that reconnects to current priorities."
+src/codex_personal_assistant_template_pack/grounding.py:121:        suggested_response = "Ask how this work supports the operator's current business direction before committing further."
+
+codex
+I’ve confirmed the pack already has grounding and doctor surfaces. Next I’m reading the alignment and doctor implementation so the answer and any UAT artifact match the pack’s actual behavior instead of paraphrasing it loosely.
+exec
+/bin/bash -lc "sed -n '1,240p' src/codex_personal_assistant_template_pack/doctor.py" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+from .assistant_contracts import (
+    REQUIRED_SURFACE_PATHS,
+    load_context_routing,
+    load_memory_policy,
+    load_operator_intake,
+    load_operator_profile,
+    load_partnership_policy,
+    load_profile,
+    load_skill_catalog,
+)
+
+
+def _as_list(value: Any) -> list[Any]:
+    return value if isinstance(value, list) else []
+
+
+def run_doctor(project_root: Path) -> dict[str, Any]:
+    missing_paths = [
+        str(path.as_posix()) for path in REQUIRED_SURFACE_PATHS if not (project_root / path).exists()
+    ]
+
+    errors: list[str] = []
+    profile = load_profile(project_root)
+    operator = load_operator_profile(project_root)
+    partnership = load_partnership_policy(project_root)
+    routing = load_context_routing(project_root)
+    memory_policy = load_memory_policy(project_root)
+    intake_contract = load_operator_intake(project_root)
+    skills = load_skill_catalog(project_root)
+
+    if not isinstance(profile.get("assistant_id"), str) or not profile["assistant_id"].strip():
+        errors.append("assistant profile must declare assistant_id")
+    if not isinstance(profile.get("mission"), str) or not profile["mission"].strip():
+        errors.append("assistant profile must declare mission")
+    if len(_as_list(operator.get("long_horizon_goals"))) < 1:
+        errors.append("operator profile must declare at least one long_horizon_goal")
+    if len(_as_list(operator.get("near_term_priorities"))) < 1:
+        errors.append("operator profile must declare at least one near_term_priority")
+    if len(_as_list(operator.get("grounding_principles"))) < 1:
+        errors.append("operator profile must declare grounding_principles")
+    if not isinstance(partnership.get("relationship_mode"), str) or not partnership["relationship_mode"].strip():
+        errors.append("partnership policy must declare relationship_mode")
+    if len(_as_list(partnership.get("grounding_behaviors"))) < 3:
+        errors.append("partnership policy must declare at least three grounding_behaviors")
+    if len(_as_list(partnership.get("review_prompts"))) < 3:
+        errors.append("partnership policy must declare at least three review_prompts")
+    accountability_cadence = partnership.get("accountability_cadence", {})
+    if not isinstance(accountability_cadence, dict):
+        errors.append("partnership policy must declare accountability_cadence")
+        accountability_cadence = {}
+    grounding_accountability = partnership.get("grounding_accountability_cadence", {})
+    if not isinstance(grounding_accountability, dict):
+        errors.append("partnership policy must declare grounding_accountability_cadence")
+        grounding_accountability = {}
+    ambiguity_policy = partnership.get("ambiguity_policy", {})
+    if not isinstance(ambiguity_policy, dict) or ambiguity_policy.get("default_behavior") != "ask-clarifying-question":
+        errors.append("partnership policy must fail closed on ambiguity")
+    if not isinstance(ambiguity_policy.get("question_style"), str) or not ambiguity_policy.get("question_style", "").strip():
+        errors.append("partnership policy must declare ambiguity question_style")
+    pause_conditions = _as_list(ambiguity_policy.get("pause_conditions"))
+    if len(pause_conditions) < 1:
+        errors.append("partnership policy must declare at least one ambiguity pause condition")
+    checkpoints = _as_list(accountability_cadence.get("checkpoints"))
+    if len(checkpoints) < 1:
+        errors.append("partnership policy must declare at least one accountability checkpoint")
+    drift_indicators = _as_list(accountability_cadence.get("drift_indicators"))
+    if len(drift_indicators) < 1:
+        errors.append("partnership policy must declare at least one accountability drift_indicator")
+    if accountability_cadence.get("require_goal_anchor") is not True:
+        errors.append("partnership policy must require goal anchoring in accountability_cadence")
+    if not isinstance(grounding_accountability.get("cadence_name"), str) or not grounding_accountability.get("cadence_name", "").strip():
+        errors.append("grounding_accountability_cadence must declare cadence_name")
+    if len(_as_list(grounding_accountability.get("trigger_conditions"))) < 3:
+        errors.append("grounding_accountability_cadence must declare at least three trigger_conditions")
+    if len(_as_list(grounding_accountability.get("response_steps"))) < 4:
+        errors.append("grounding_accountability_cadence must declare at least four response_steps")
+    if len(_as_list(grounding_accountability.get("review_prompts"))) < 3:
+        errors.append("grounding_accountability_cadence must declare at least three review_prompts")
+
+    routes = routing.get("routes", [])
+    if not isinstance(routes, list) or len(routes) < 6:
+        errors.append("context routing must declare at least six routes")
+    skill_entries = skills.get("skills", [])
+    if not isinstance(skill_entries, list) or len(skill_entries) < 6:
+        errors.append("skill catalog must declare at least six skills")
+
+    memory_categories = _as_list(memory_policy.get("memory_categories"))
+    expected_categories = {"preference", "goal", "communication_pattern", "alignment_risk"}
+    if not expected_categories.issubset(set(memory_categories)):
+        errors.append("memory policy must include preference, goal, communication_pattern, and alignment_risk categories")
+    if not isinstance(memory_policy.get("storage_root"), str) or not memory_policy["storage_root"].strip():
+        errors.append("memory policy must declare storage_root")
+    distillation_policy = memory_policy.get("session_distillation_policy", {})
+    if not isinstance(distillation_policy, dict):
+        errors.append("memory policy must declare session_distillation_policy")
+        distillation_policy = {}
+    if not isinstance(distillation_policy.get("storage_root"), str) or not distillation_policy.get("storage_root", "").strip():
+        errors.append("session_distillation_policy must declare storage_root")
+    if not isinstance(distillation_policy.get("latest_pointer_path"), str) or not distillation_policy.get("latest_pointer_path", "").strip():
+        errors.append("session_distillation_policy must declare latest_pointer_path")
+    allowed_source_categories = set(_as_list(distillation_policy.get("allowed_source_categories")))
+    if not expected_categories.issubset(allowed_source_categories.union({"note", "decision", "blocker"})):
+        errors.append("session_distillation_policy must declare allowed source categories for bounded session distillation")
+    promotable_categories = set(_as_list(distillation_policy.get("promotable_memory_categories")))
+    if not expected_categories.issubset(promotable_categories):
+        errors.append("session_distillation_policy must declare promotable memory categories")
+    if distillation_policy.get("require_explicit_promotion") is not True:
+        errors.append("session_distillation_policy must require explicit promotion")
+
+    intake_categories = intake_contract.get("intake_categories", [])
+    if not isinstance(intake_categories, list) or len(intake_categories) < 4:
+        errors.append("operator intake contract must declare at least four intake categories")
+    else:
+        for category in intake_categories:
+            if not isinstance(category, dict):
+                errors.append("operator intake categories must be JSON objects")
+                continue
+            if not isinstance(category.get("category_id"), str) or not category["category_id"].strip():
+                errors.append("operator intake categories must declare category_id")
+            if not isinstance(category.get("prompt"), str) or not category["prompt"].strip():
+                errors.append("operator intake categories must declare prompt")
+            if not isinstance(category.get("stable_memory_category"), str) or not category["stable_memory_category"].strip():
+                errors.append("operator intake categories must declare stable_memory_category")
+            refinement_targets = _as_list(category.get("refinement_targets"))
+            if len(refinement_targets) < 1:
+                errors.append(
+                    f"operator intake category `{category.get('category_id', '<unknown>')}` must declare refinement_targets"
+                )
+    refinement_rules = intake_contract.get("profile_refinement_rules", {})
+    if not isinstance(refinement_rules, dict) or refinement_rules.get("merge_strategy") != "bounded_merge":
+        errors.append("operator intake contract must declare bounded_merge profile refinement rules")
+    if not isinstance(intake_contract.get("storage_root"), str) or not intake_contract["storage_root"].strip():
+        errors.append("operator intake contract must declare storage_root")
+    if not isinstance(intake_contract.get("latest_pointer_path"), str) or not intake_contract["latest_pointer_path"].strip():
+        errors.append("operator intake contract must declare latest_pointer_path")
+
+    latest_pointer_path = project_root / str(
+        memory_policy.get("latest_pointer_path", ".pack-state/assistant-memory/latest-memory.json")
+    )
+    return {
+        "status": "pass" if not missing_paths and not errors else "fail",
+        "missing_paths": missing_paths,
+        "errors": errors,
+        "assistant_id": profile.get("assistant_id"),
+        "operator_id": operator.get("operator_id"),
+        "route_count": len(routes) if isinstance(routes, list) else 0,
+        "skill_count": len(skill_entries) if isinstance(skill_entries, list) else 0,
+        "pause_condition_count": len(pause_conditions),
+        "accountability_checkpoint_count": len(checkpoints),
+        "grounding_behavior_count": len(_as_list(partnership.get("grounding_behaviors"))),
+        "grounding_review_prompt_count": len(_as_list(partnership.get("review_prompts"))),
+        "accountability_trigger_count": len(_as_list(grounding_accountability.get("trigger_conditions"))),
+        "latest_memory_pointer_present": latest_pointer_path.exists(),
+        "intake_category_count": len(intake_categories) if isinstance(intake_categories, list) else 0,
+        "distillation_promotable_category_count": len(promotable_categories),
+    }
+
+exec
+/bin/bash -lc "sed -n '1,260p' src/codex_personal_assistant_template_pack/alignment.py" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+from .assistant_contracts import (
+    load_operator_profile,
+    load_partnership_policy,
+    load_profile,
+)
+from .grounding import check_grounding
+from .memory import show_memory_distillation
+from .operator_intake import show_operator_intake
+
+
+def show_alignment(project_root: Path) -> dict[str, Any]:
+    profile = load_profile(project_root)
+    operator = load_operator_profile(project_root)
+    partnership = load_partnership_policy(project_root)
+    intake = show_operator_intake(project_root)
+    distillation = show_memory_distillation(project_root)
+    ambiguity_policy = partnership.get("ambiguity_policy", {})
+    accountability = partnership.get("grounding_accountability_cadence", {})
+    if not isinstance(accountability, dict) or not accountability:
+        accountability = {}
+    grounding = check_grounding(
+        project_root,
+        "Keep the assistant aligned with the operator's current business direction and near-term priorities.",
+        proposed_next_step="Propose one concrete next step tied to the operator's current business direction.",
+    )
+
+    return {
+        "status": "pass",
+        "assistant_id": profile.get("assistant_id"),
+        "operator_id": operator.get("operator_id") or profile.get("operator_id"),
+        "preferred_name": operator.get("preferred_name"),
+        "current_role": operator.get("current_role"),
+        "business_direction": operator.get("business_direction"),
+        "long_horizon_goals": operator.get("long_horizon_goals", []),
+        "near_term_priorities": operator.get("near_term_priorities", []),
+        "grounding_principles": operator.get("grounding_principles", []),
+        "working_preferences": operator.get("working_preferences", []),
+        "ambiguity_preferences": operator.get("ambiguity_preferences", []),
+        "known_do_not_assume": operator.get("known_do_not_assume", []),
+        "success_signals": operator.get("success_signals", []),
+        "relationship_mode": partnership.get("relationship_mode"),
+        "primary_outcome": partnership.get("primary_outcome"),
+        "ambiguity_default": ambiguity_policy.get("default_behavior"),
+        "grounding_behaviors": partnership.get("grounding_behaviors", []),
+        "adaptation_rules": partnership.get("adaptation_rules", []),
+        "review_prompts": partnership.get("review_prompts", []),
+        "boundaries": partnership.get("boundaries", []),
+        "accountability_cadence": partnership.get("accountability_cadence", {}),
+        "operator_intake_status": intake.get("operator_intake_status", {}),
+        "grounding_accountability_status": {
+            "cadence_name": accountability.get("cadence_name"),
+            "trigger_condition_count": len(accountability.get("trigger_conditions", []))
+            if isinstance(accountability.get("trigger_conditions"), list)
+            else 0,
+            "response_step_count": len(accountability.get("response_steps", []))
+            if isinstance(accountability.get("response_steps"), list)
+            else 0,
+            "review_prompt_count": len(accountability.get("review_prompts", []))
+            if isinstance(accountability.get("review_prompts"), list)
+            else 0,
+            "trigger_conditions": accountability.get("trigger_conditions", []),
+            "response_steps": accountability.get("response_steps", []),
+            "review_prompts": accountability.get("review_prompts", []),
+            "grounding_behavior_count": len(partnership.get("grounding_behaviors", []))
+            if isinstance(partnership.get("grounding_behaviors"), list)
+            else 0,
+            "ambiguity_default": ambiguity_policy.get("default_behavior"),
+            "sample_assessment": grounding.get("assessment"),
+            "sample_suggested_response": grounding.get("suggested_response"),
+        },
+        "session_memory_distillation_status": distillation.get("session_memory_distillation_status", {}),
+    }
+
+exec
+/bin/bash -lc "sed -n '1,220p' docs/specs/operator-alignment-model.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# Operator Alignment Model
+
+## Goal
+
+This assistant build-pack is meant to learn how to work with the operator over
+time without turning that learning into hidden magic.
+
+The core split is explicit:
+
+- the operator's declared goals and preferences live in
+  `contracts/operator-profile.json`
+- explicit onboarding and refinement signals live in
+  `contracts/operator-intake.json` and `.pack-state/operator-intake/`
+- the assistant's stance toward the operator lives in
+  `contracts/partnership-policy.json`
+- observed continuity and relationship lessons live in
+  `.pack-state/assistant-memory/`
+- session-level distillation records live in
+  `.pack-state/session-distillation/`
+
+## Template Versus Runtime
+
+The source template owns the reusable model for future operators.
+
+This runtime build-pack owns the real operator instance:
+
+- orchadmin's current goals and working preferences
+- local assistant memory
+- remote UAT and readiness evidence
+
+## Adaptation Rules
+
+The assistant should adapt through bounded mechanisms:
+
+1. Start from the explicit operator contracts.
+2. Use operator intake for explicit onboarding or refinement signals that are
+   useful but not yet durable.
+3. Ask focused clarifying questions when something important is ambiguous.
+4. Record stable observations only after repetition or explicit confirmation.
+5. Refine the operator profile only through explicit, inspectable intake
+   payloads.
+6. Distill raw session signals into inspectable session-distillation artifacts
+   before promoting them into durable relationship memory.
+7. Re-anchor current work to the operator's stated direction when drift shows up.
+8. Keep memory advisory and local instead of pretending to know more than the
+   visible evidence supports.
+
+## Why This Matters
+
+The target experience is not just a utility bot. This assistant should help the
+operator:
+
+- stay aligned with long-term goals
+- translate vague intention into practical action
+- notice when current work is drifting
+- build a working relationship that improves over time
+
+## Intake And Refinement
+
+Operator intake is the assistant's bounded learning surface.
+
+It should be used when the assistant learns something explicit and useful about:
+
+- current goals and business direction
+- working and communication preferences
+- recurring communication patterns
+- alignment risks and likely sources of drift
+
+That signal should first be written as inspectable intake state and relationship
+memory. Profile refinement is allowed only when the update is explicit enough to
+name the fields being changed.
+
+## Session Distillation
+
+Session distillation is the bounded bridge between raw session notes and durable
+relationship memory.
+
+It should:
+
+- cite the source memory ids it is distilling
+- explain why the pattern is stable enough to keep
+- record the decision as local distillation state first
+- promote into durable relationship memory only when the promotion is explicit
+
+That keeps the assistant from treating one messy session as a permanent truth
+about the operator.
+
+## Grounding And Accountability
+
+Grounding should be a visible cadence, not just a personality claim.
+
+The assistant should:
+
+- notice when work sounds vague or disconnected from the current business direction
+- name that drift plainly instead of quietly going along with it
+- propose one grounded next step tied back to a near-term priority or long-term goal
+
+That cadence should stay inspectable through `show-alignment` so the operator
+can see the trigger conditions, response steps, and review prompts that guide
+anti-drift behavior.
+
+exec
+/bin/bash -lc "sed -n '1,240p' src/codex_personal_assistant_template_pack/grounding.py" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+from .assistant_contracts import load_operator_profile, load_partnership_policy
+from .context_router import route_context
+
+
+DRIFT_MARKERS = (
+    "side work",
+    "random",
+    "busywork",
+    "wander",
+    "drift",
+    "unclear",
+    "vague",
+)
+
+
+def _normalize(value: str) -> str:
+    return value.strip().lower()
+
+
+def _operator_anchors(operator: dict[str, Any]) -> list[str]:
+    anchors: list[str] = []
+    for value in operator.get("near_term_priorities", []):
+        if isinstance(value, str) and value.strip():
+            anchors.append(value.strip())
+    for value in operator.get("long_horizon_goals", []):
+        if isinstance(value, str) and value.strip():
+            anchors.append(value.strip())
+    business_direction = operator.get("business_direction")
+    if isinstance(business_direction, str) and business_direction.strip():
+        anchors.append(business_direction.strip())
+    return anchors
+
+
+def _matched_anchor(current_work: str, anchors: list[str]) -> str | None:
+    normalized_work = _normalize(current_work)
+    for anchor in anchors:
+        for token in anchor.lower().replace(".", "").split():
+            if len(token) >= 5 and token in normalized_work:
+                return anchor
+    return None
+
+
+def _grounding_accountability_status(partnership: dict[str, Any]) -> dict[str, Any]:
+    cadence = _load_accountability_cadence(partnership)
+    trigger_conditions = [value for value in cadence.get("trigger_conditions", []) if isinstance(value, str)]
+    response_steps = [value for value in cadence.get("response_steps", []) if isinstance(value, str)]
+    review_prompts = [value for value in cadence.get("review_prompts", []) if isinstance(value, str)]
+    return {
+        "cadence_name": cadence.get("cadence_name") or "grounded-check-in",
+        "trigger_condition_count": len(trigger_conditions),
+        "response_step_count": len(response_steps),
+        "review_prompt_count": len(review_prompts),
+        "grounding_behavior_count": len(
+            [value for value in partnership.get("grounding_behaviors", []) if isinstance(value, str)]
+        ),
+        "ambiguity_default": (
+            partnership.get("ambiguity_policy", {}).get("default_behavior")
+            if isinstance(partnership.get("ambiguity_policy"), dict)
+            else None
+        ),
+        "trigger_conditions": trigger_conditions,
+        "response_steps": response_steps,
+        "review_prompts": review_prompts,
+    }
+
+
+def _load_accountability_cadence(partnership: dict[str, Any]) -> dict[str, Any]:
+    cadence = partnership.get("grounding_accountability_cadence", {})
+    if not isinstance(cadence, dict) or not cadence:
+        cadence = partnership.get("accountability_cadence", {})
+    if not isinstance(cadence, dict):
+        return {}
+    return cadence
+
+
+def show_grounding_cadence(project_root: Path) -> dict[str, Any]:
+    operator = load_operator_profile(project_root)
+    partnership = load_partnership_policy(project_root)
+    cadence = _load_accountability_cadence(partnership)
+    return {
+        "status": "pass",
+        "business_direction": operator.get("business_direction"),
+        "near_term_priorities": operator.get("near_term_priorities", []),
+        "grounding_principles": operator.get("grounding_principles", []),
+        "grounding_behaviors": partnership.get("grounding_behaviors", []),
+        "review_prompts": partnership.get("review_prompts", []),
+        "accountability_cadence": cadence,
+        "grounding_accountability_status": _grounding_accountability_status(partnership),
+    }
+
+
+def check_grounding(
+    project_root: Path,
+    current_work: str,
+    proposed_next_step: str | None = None,
+) -> dict[str, Any]:
+    operator = load_operator_profile(project_root)
+    partnership = load_partnership_policy(project_root)
+    cadence = _load_accountability_cadence(partnership)
+    normalized_work = _normalize(current_work)
+    matched_goals = route_context(project_root, "goals")
+    anchors = _operator_anchors(operator)
+    matched_anchor = _matched_anchor(current_work, anchors)
+
+    assessment = "aligned"
+    reason = "The work appears to support the operator's stated direction."
+    suggested_response = "Continue and keep the next step tied to the current business direction."
+
+    if any(marker in normalized_work for marker in DRIFT_MARKERS):
+        assessment = "drift_risk"
+        reason = "The work description sounds vague or off-direction relative to the operator's stated priorities."
+        suggested_response = "Name the drift plainly and propose the next grounded step that reconnects to current priorities."
+    elif matched_anchor is None:
+        assessment = "unclear"
+        reason = "The work does not clearly tie back to a stated priority or long-term goal yet."
+        suggested_response = "Ask how this work supports the operator's current business direction before committing further."
+
+    if proposed_next_step and assessment == "aligned":
+        normalized_next = _normalize(proposed_next_step)
+        if any(marker in normalized_next for marker in DRIFT_MARKERS):
+            assessment = "drift_risk"
+            reason = "The proposed next step looks like drift even if the current work might be valid."
+            suggested_response = "Pause and replace the vague next step with one concrete action that supports the stated direction."
+
+    return {
+        "status": "pass",
+        "current_work": current_work,
+        "proposed_next_step": proposed_next_step,
+        "assessment": assessment,
+        "reason": reason,
+        "suggested_response": suggested_response,
+        "matched_anchor": matched_anchor,
+        "goal_route": matched_goals.get("matched_route"),
+        "goal_paths": matched_goals.get("paths", []),
+        "grounding_behaviors": partnership.get("grounding_behaviors", []),
+        "review_prompts": partnership.get("review_prompts", []),
+        "accountability_cadence": cadence,
+        "grounding_accountability_status": _grounding_accountability_status(partnership),
+        "operator_goal_anchor": anchors[0] if anchors else None,
+    }
+
+
+def run_grounding_check(
+    project_root: Path,
+    *,
+    current_work_summary: str,
+    intended_outcome: str | None = None,
+) -> dict[str, Any]:
+    return check_grounding(
+        project_root,
+        current_work=current_work_summary,
+        proposed_next_step=intended_outcome,
+    )
+
+exec
+/bin/bash -lc "sed -n '1,220p' docs/specs/user-acceptance-playbook.md" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+# User Acceptance Playbook
+
+Use this playbook when the goal is to test the assistant experience with a
+human, not to test PackFactory internals.
+
+## What This Playbook Is For
+
+This is a user-facing acceptance test for the staged daily-driver assistant on
+`adf-dev`.
+
+It is meant to answer questions like:
+
+- does the assistant understand its own identity and role
+- does it understand the operator's goals and grounding principles
+- does it use explicit operator intake instead of hidden learning
+- does it distill session signals in a visible way before treating them as durable relationship memory
+- does it expose a clear anti-drift grounding/accountability cadence
+- does it guide the user to the right local context
+- does its memory surface feel understandable and useful
+- does the assistant feel like something worth iterating on
+
+It is not a promotion workflow and it is not a code-validation session.
+
+## Test Target
+
+- build-pack id:
+  `codex-personal-assistant-daily-driver-build-pack-v1`
+- remote target:
+  `adf@adf-dev`
+- staged remote pack path:
+  `~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1`
+- staged UAT run id:
+  `codex-personal-assistant-daily-driver-uat-run-v1`
+- assistant workspace preview:
+  `~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/dist/candidates/uat-preview/codex-personal-assistant`
+
+## Terminal Setup
+
+Use two terminals.
+
+### Terminal A: remote shell
+
+```bash
+ssh adf@adf-dev
+cd ~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+pwd
+```
+
+### Terminal B: remote Codex session
+
+```bash
+ssh adf@adf-dev
+cd ~/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+codex
+```
+
+Use Terminal A only as a helper shell. Do the actual assistant-experience test
+inside Terminal B in Codex.
+
+## Before You Start
+
+In Terminal A, confirm these surfaces are present:
+
+```bash
+PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-profile --project-root . --output json
+PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-alignment --project-root . --output json
+ls dist/candidates/uat-preview/codex-personal-assistant
+```
+
+You do not need to inspect the JSON deeply. This is only a quick sanity check
+that the staged remote workspace is the right one.
+
+## Codex Prompts To Try
+
+Paste these prompts into the Codex session one at a time.
+
+### Prompt 1: identity and operator-fit check
+
+```text
+You are operating inside a PackFactory assistant build-pack. Read the local instruction and identity surfaces you need, then tell me who you are, what mission you are serving, and what you understand about the operator you are meant to support. Keep it short and concrete.
+```
+
+Pass signal:
+
+- the answer sounds like the assistant described in the local profile
+- it reflects the operator goals or grounding model rather than a generic assistant persona
+- it reflects bounded, inspectable behavior rather than generic AI boilerplate
+
+### Prompt 2: ambiguity handling check
+
+```text
+My request is vague on purpose: I want to work on the assistant, but I have not told you whether I mean the template, the runtime build-pack, or user testing. Do not guess. Show me how you would clarify that using the local alignment and workflow surfaces.
+```
+
+Pass signal:
+
+- the answer does not guess
+- it asks for the minimum clarifying information needed
+- it reflects the assistant's fail-closed ambiguity stance
+
+### Prompt 3: grounding check
+
+```text
+Use the local operator-alignment surfaces to tell me what long-term direction this assistant thinks I am pursuing, what grounding principles it should use, and how it should keep me aligned when I drift.
+```
+
+Pass signal:
+
+- the answer reflects the operator profile and partnership policy
+- it feels like a grounded business partner rather than a generic helper
+
+### Prompt 4: memory usefulness check
+
+```text
+I prefer concise answers, I often switch contexts, and I want you to keep me grounded in my larger business goals. Use the local assistant memory surface to record that in a way that fits this assistant model, then read it back and tell me how you would use it in future sessions.
+```
+
+Pass signal:
+
+- the assistant can use the pack's memory tools or surfaces coherently
+- the explanation makes clear that memory is advisory and inspectable, not hidden magic
+
+### Prompt 5: operator-intake and refinement check
+
+```text
+I want you to learn one stable thing about me without guessing. Inspect the local operator-intake surface, record one explicit intake signal about how I like to work, and show me what would stay as intake state versus what would only refine my operator profile if I approved it.
+```
+
+Pass signal:
+
+- the assistant uses the local operator-intake contract coherently
+- it keeps refinement explicit and inspectable
+- it does not act like adaptation is hidden or automatic
+
+### Prompt 6: bootstrap usefulness check
+
+```text
+Bootstrap the assistant workspace preview for me, inspect what was created, and explain how I would use that preview bundle in plain language.
+```
+
+Pass signal:
+
+- the assistant recognizes the exported preview bundle
+- the explanation connects the bundle contents to practical usage
+
+### Prompt 7: session-distillation check
+
+```text
+Pretend we just finished a productive work session. Record one raw session memory, distill it into a visible session-distillation record, and tell me what you would promote into durable relationship memory versus what you would leave as transient session context.
+```
+
+Pass signal:
+
+- the assistant treats distillation as an explicit local workflow
+- it cites why a signal is stable enough to promote
+- it does not quietly turn one session into a permanent operator trait
+
+### Prompt 8: health and trust check
+
+```text
+Run the local doctor or equivalent health surface, then tell me whether anything about this assistant baseline would make you cautious about daily use as a grounded business partner.
+```
+
+Pass signal:
+
+- the assistant reports the health result honestly
+- it distinguishes what is implemented now from what is still missing
+
+### Prompt 9: grounding-accountability check
+
+```text
+Use the local grounding and accountability surfaces to tell me how you would notice drift, how you would call it out, and what grounded next step you would propose if I started wandering into side work that did not support my current business direction.
+```
+
+Pass signal:
+
+- the assistant exposes an explicit cadence instead of only generic advice
+- it names drift plainly
+- it suggests one grounded next step tied to stated priorities
+
+## What To Notice As A Human
+
+During the session, ignore whether the code is elegant.
+Focus on these human questions:
+
+- Did the assistant feel grounded in the local pack, or generic?
+- Did it seem to understand who it is supposed to help and why?
+- Did it understand your intent without wandering?
+- Did it handle ambiguity by clarifying instead of guessing?
+- Did its memory behavior make sense?
+- Did it overclaim what the assistant can currently do?
+- Would you want to keep refining this into your actual daily-driver assistant?
+
+## Record Your Reactions
+
+Write short notes, not a full report.
+
+Capture:
+
+- one thing that felt promising
+- one thing that felt confusing
+- one thing that felt missing
+- whether you want the next iteration to focus on:
+  - better identity/personality
+  - better operator grounding and alignment
+  - better memory behavior
+  - better workspace bootstrap
+  - better day-to-day usability inside Codex
+
+## Pass Criteria
+
+Call this a successful user-acceptance pass if:
+
+- the assistant feels recognizably different from a generic Codex session
+- it can explain its identity, operator fit, and mission clearly
+- it can handle ambiguity without guessing
+- it can explain operator intake as explicit and inspectable
+- it can explain session distillation as explicit and bounded
+- it can explain grounding/accountability as a visible anti-drift cadence
+- it can handle the memory and bootstrap tasks without feeling fake or opaque
+
+exec
+/bin/bash -lc "sed -n '1,360p' src/codex_personal_assistant_template_pack/cli.py" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from .ambiguity import check_ambiguity
+from .alignment import show_alignment
+from .benchmark_smoke import benchmark_smoke
+from .context_router import route_context
+from .doctor import run_doctor
+from .grounding import run_grounding_check, show_grounding_cadence
+from .memory import (
+    delete_memory,
+    distill_session_memory,
+    read_memory,
+    record_memory,
+    show_memory_distillation,
+)
+from .operator_intake import record_operator_intake, show_operator_intake
+from .profile import show_profile
+from .validate_project_pack import validate_project_pack
+from .workspace_bootstrap import bootstrap_workspace
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(prog="codex_personal_assistant_template_pack")
+    subparsers = parser.add_subparsers(dest="command")
+
+    validate_parser = subparsers.add_parser("validate-project-pack")
+    validate_parser.add_argument("--project-root", default=".")
+    validate_parser.add_argument("--output", choices=("json",), default="json")
+
+    benchmark_parser = subparsers.add_parser("benchmark-smoke")
+    benchmark_parser.add_argument("--project-root", default=".")
+    benchmark_parser.add_argument("--output", choices=("json",), default="json")
+
+    profile_parser = subparsers.add_parser("show-profile")
+    profile_parser.add_argument("--project-root", default=".")
+    profile_parser.add_argument("--output", choices=("json",), default="json")
+
+    alignment_parser = subparsers.add_parser("show-alignment")
+    alignment_parser.add_argument("--project-root", default=".")
+    alignment_parser.add_argument("--output", choices=("json",), default="json")
+
+    grounding_parser = subparsers.add_parser("show-grounding-cadence")
+    grounding_parser.add_argument("--project-root", default=".")
+    grounding_parser.add_argument("--output", choices=("json",), default="json")
+
+    operator_intake_parser = subparsers.add_parser("show-operator-intake")
+    operator_intake_parser.add_argument("--project-root", default=".")
+    operator_intake_parser.add_argument("--output", choices=("json",), default="json")
+
+    distillation_show_parser = subparsers.add_parser("show-memory-distillation")
+    distillation_show_parser.add_argument("--project-root", default=".")
+    distillation_show_parser.add_argument("--output", choices=("json",), default="json")
+
+    grounding_check_parser = subparsers.add_parser("run-grounding-check")
+    grounding_check_parser.add_argument("--project-root", default=".")
+    grounding_check_parser.add_argument("--current-work-summary", required=True)
+    grounding_check_parser.add_argument("--intended-outcome")
+    grounding_check_parser.add_argument("--output", choices=("json",), default="json")
+
+    ambiguity_parser = subparsers.add_parser("check-ambiguity")
+    ambiguity_parser.add_argument("--project-root", default=".")
+    ambiguity_parser.add_argument("--scenario", required=True)
+    ambiguity_parser.add_argument("--output", choices=("json",), default="json")
+
+    route_parser = subparsers.add_parser("route-context")
+    route_parser.add_argument("--project-root", default=".")
+    route_parser.add_argument("--topic", required=True)
+    route_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_write_parser = subparsers.add_parser("record-memory")
+    memory_write_parser.add_argument("--project-root", default=".")
+    memory_write_parser.add_argument("--memory-id", required=True)
+    memory_write_parser.add_argument(
+        "--category",
+        choices=(
+            "note",
+            "decision",
+            "blocker",
+            "preference",
+            "goal",
+            "communication_pattern",
+            "alignment_risk",
+        ),
+        required=True,
+    )
+    memory_write_parser.add_argument("--summary", required=True)
+    memory_write_parser.add_argument("--next-action")
+    memory_write_parser.add_argument("--tag", action="append", default=[])
+    memory_write_parser.add_argument("--source")
+    memory_write_parser.add_argument("--evidence")
+    memory_write_parser.add_argument("--confidence", type=float)
+    memory_write_parser.add_argument("--replace-existing", action="store_true")
+    memory_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    distillation_parser = subparsers.add_parser("distill-session-memory")
+    distillation_parser.add_argument("--project-root", default=".")
+    distillation_parser.add_argument("--distillation-id", required=True)
+    distillation_parser.add_argument("--summary", required=True)
+    distillation_parser.add_argument("--stable-signal-reason", required=True)
+    distillation_parser.add_argument("--source-memory-id", action="append", default=[], required=True)
+    distillation_parser.add_argument(
+        "--promote-category",
+        choices=("preference", "goal", "communication_pattern", "alignment_risk"),
+    )
+    distillation_parser.add_argument("--promoted-memory-id")
+    distillation_parser.add_argument("--next-action")
+    distillation_parser.add_argument("--tag", action="append", default=[])
+    distillation_parser.add_argument("--source")
+    distillation_parser.add_argument("--evidence")
+    distillation_parser.add_argument("--confidence", type=float)
+    distillation_parser.add_argument("--replace-existing", action="store_true")
+    distillation_parser.add_argument("--output", choices=("json",), default="json")
+
+    operator_intake_write_parser = subparsers.add_parser("record-operator-intake")
+    operator_intake_write_parser.add_argument("--project-root", default=".")
+    operator_intake_write_parser.add_argument("--intake-id", required=True)
+    operator_intake_write_parser.add_argument(
+        "--category",
+        choices=("goal", "preference", "communication_pattern", "alignment_risk"),
+        required=True,
+    )
+    operator_intake_write_parser.add_argument("--summary", required=True)
+    operator_intake_write_parser.add_argument("--next-action")
+    operator_intake_write_parser.add_argument("--tag", action="append", default=[])
+    operator_intake_write_parser.add_argument("--source")
+    operator_intake_write_parser.add_argument("--evidence")
+    operator_intake_write_parser.add_argument("--confidence", type=float)
+    operator_intake_write_parser.add_argument("--replace-existing", action="store_true")
+    operator_intake_write_parser.add_argument(
+        "--refine-profile-json",
+        help="Explicit JSON object used for bounded profile refinement.",
+    )
+    operator_intake_write_parser.add_argument(
+        "--memory-category",
+        choices=("goal", "preference", "communication_pattern", "alignment_risk"),
+        help="Override the memory category used for the relationship signal.",
+    )
+    operator_intake_write_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_read_parser = subparsers.add_parser("read-memory")
+    memory_read_parser.add_argument("--project-root", default=".")
+    memory_read_parser.add_argument("--output", choices=("json",), default="json")
+
+    memory_delete_parser = subparsers.add_parser("delete-memory")
+    memory_delete_parser.add_argument("--project-root", default=".")
+    memory_delete_parser.add_argument("--memory-id", required=True)
+    memory_delete_parser.add_argument("--output", choices=("json",), default="json")
+
+    bootstrap_parser = subparsers.add_parser("bootstrap-workspace")
+    bootstrap_parser.add_argument("--project-root", default=".")
+    bootstrap_parser.add_argument("--target-dir", required=True)
+    bootstrap_parser.add_argument("--output", choices=("json",), default="json")
+
+    doctor_parser = subparsers.add_parser("doctor")
+    doctor_parser.add_argument("--project-root", default=".")
+    doctor_parser.add_argument("--output", choices=("json",), default="json")
+
+    args = parser.parse_args()
+    if args.command == "validate-project-pack":
+        result = validate_project_pack(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "benchmark-smoke":
+        result = benchmark_smoke(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "show-profile":
+        result = show_profile(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-alignment":
+        result = show_alignment(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-grounding-cadence":
+        result = show_grounding_cadence(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-operator-intake":
+        result = show_operator_intake(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "show-memory-distillation":
+        result = show_memory_distillation(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "run-grounding-check":
+        result = run_grounding_check(
+            Path(args.project_root).resolve(),
+            current_work_summary=args.current_work_summary,
+            intended_outcome=args.intended_outcome,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "check-ambiguity":
+        result = check_ambiguity(Path(args.project_root).resolve(), args.scenario)
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "route-context":
+        result = route_context(Path(args.project_root).resolve(), args.topic)
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "record-memory":
+        result = record_memory(
+            Path(args.project_root).resolve(),
+            memory_id=args.memory_id,
+            category=args.category,
+            summary=args.summary,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "distill-session-memory":
+        result = distill_session_memory(
+            Path(args.project_root).resolve(),
+            distillation_id=args.distillation_id,
+            summary=args.summary,
+            stable_signal_reason=args.stable_signal_reason,
+            source_memory_ids=list(args.source_memory_id),
+            replace_existing=bool(args.replace_existing),
+            promote_category=args.promote_category,
+            promoted_memory_id=args.promoted_memory_id,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "record-operator-intake":
+        result = record_operator_intake(
+            Path(args.project_root).resolve(),
+            intake_id=args.intake_id,
+            category=args.category,
+            summary=args.summary,
+            next_action=args.next_action,
+            tags=list(args.tag),
+            replace_existing=bool(args.replace_existing),
+            source=args.source,
+            evidence=args.evidence,
+            confidence=args.confidence,
+            refine_profile_json=args.refine_profile_json,
+            memory_category=args.memory_category,
+        )
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "read-memory":
+        result = read_memory(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.command == "delete-memory":
+        result = delete_memory(Path(args.project_root).resolve(), memory_id=args.memory_id)
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "bootstrap-workspace":
+        result = bootstrap_workspace(Path(args.project_root).resolve(), Path(args.target_dir))
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    if args.command == "doctor":
+        result = run_doctor(Path(args.project_root).resolve())
+        print(json.dumps(result, indent=2))
+        return 0 if result["status"] == "pass" else 1
+
+    parser.print_help()
+    return 0
+
+codex
+The behavior already exists, so I’m treating this as a bounded UAT run rather than inventing new code paths. I’m checking the existing run/evidence folders now so I can record the grounding and doctor results in an allowed location without touching unrelated state.
+exec
+/bin/bash -lc 'find .pack-state/autonomy-runs -maxdepth 3 -type d | sort' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+.pack-state/autonomy-runs
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat
+
+exec
+/bin/bash -lc 'find dist/candidates/uat-preview -maxdepth 3 -type d | sort' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+dist/candidates/uat-preview
+dist/candidates/uat-preview/codex-personal-assistant
+dist/candidates/uat-preview/codex-personal-assistant/contracts
+dist/candidates/uat-preview/codex-personal-assistant/docs
+dist/candidates/uat-preview/codex-personal-assistant/docs/specs
+dist/candidates/uat-preview/codex-personal-assistant/prompts
+
+exec
+/bin/bash -lc 'ls -la .pack-state/assistant-memory .pack-state/operator-intake .pack-state/session-distillation 2>/dev/null' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+.pack-state/assistant-memory:
+total 16
+drwxrwxr-x 2 adf adf 4096 Mar 30 13:25 .
+drwxrwxr-x 7 adf adf 4096 Mar 30 13:22 ..
+-rw-rw-r-- 1 adf adf  325 Mar 30 13:25 latest-memory.json
+-rw-rw-r-- 1 adf adf  802 Mar 30 13:25 operator-preference-concise-context-switching-20260330t172513z.json
+
+.pack-state/operator-intake:
+total 8
+drwxrwxr-x 2 adf adf 4096 Mar 30 13:22 .
+drwxrwxr-x 7 adf adf 4096 Mar 30 13:22 ..
+
+.pack-state/session-distillation:
+total 8
+drwxrwxr-x 2 adf adf 4096 Mar 30 13:22 .
+drwxrwxr-x 7 adf adf 4096 Mar 30 13:22 ..
+
+exec
+/bin/bash -lc "sed -n '1,220p' .pack-state/assistant-memory/operator-preference-concise-context-switching-20260330t172513z.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+exec
+/bin/bash -lc 'find .pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat -maxdepth 2 -type f | sort' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "category": "preference",
+  "confidence": 1.0,
+  "evidence": "User explicitly requested that this preference be recorded in local assistant memory during assistant UAT on 2026-03-30.",
+  "memory_id": "operator-preference-concise-context-switching-20260330t172513z",
+  "next_action": "Keep future replies short by default and include a fast context re-anchor when the operator changes topics or resumes later.",
+  "recorded_at": "2026-03-30T17:25:30Z",
+  "schema_version": "codex-personal-assistant-memory/v2",
+  "source": "explicit_confirmation",
+  "summary": "Operator prefers concise answers and often switches contexts; responses should stay brief and quickly re-anchor to the current task.",
+  "tags": [
+    "communication-style",
+    "concise",
+    "context-switching",
+    "continuity"
+  ]
+}
+
+ succeeded in 0ms:
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/bootstrap_and_preview-last-message.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/bootstrap_and_preview-stderr.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/bootstrap_and_preview-stdout.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_caution-stderr.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_caution-stdout.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/identity_and_grounding-last-message.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/identity_and_grounding-stderr.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/identity_and_grounding-stdout.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/identity_and_grounding-summary.json
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/memory_and_continuity-last-message.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/memory_and_continuity-stderr.txt
+.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/memory_and_continuity-stdout.txt
+
+exec
+/bin/bash -lc "sed -n '1,220p' .pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_caution-stdout.txt" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+exec
+/bin/bash -lc "sed -n '1,220p' .pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/identity_and_grounding-summary.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "artifact_type": "assistant_uat_identity_summary",
+  "generated_on": "2026-03-30",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "assistant": {
+    "assistant_id": "codex-personal-assistant-daily-driver",
+    "display_name": "Codex Personal Assistant",
+    "runtime": "codex",
+    "who_i_am": "A Codex-native personal assistant operating inside this build-pack."
+  },
+  "supports": {
+    "operator_id": "orchadmin",
+    "preferred_name": "orchadmin",
+    "current_role": "operator building toward a small business",
+    "who_i_support": "I support orchadmin as a grounded business partner."
+  },
+  "mission": {
+    "statement": "Act as orchadmin's Codex-native personal assistant and grounded business partner, keeping work aligned with stated goals while learning how to collaborate more effectively over time."
+  },
+  "operator_optimization": {
+    "primary_outcome": "Increase orchadmin's progress toward a sustainable small business while reducing ambiguity and drift.",
+    "near_term_priorities": [
+      "Translate high-level intention into clear next steps.",
+      "Refine the assistant into a reliable daily-driver business partner."
+    ],
+    "success_signals": [
+      "The operator stays aligned with stated goals.",
+      "The assistant gets easier and more useful over repeated sessions.",
+      "Work moves toward a small-business direction rather than drifting."
+    ]
+  },
+  "ambiguity_handling": {
+    "default_behavior": "Ask a clarifying question instead of guessing.",
+    "question_style": "Brief, concrete, and non-leading.",
+    "required_pause_conditions": [
+      "Ambiguous operator intent.",
+      "Multiple non-obvious paths with hidden tradeoffs.",
+      "Possible conflict with stated goals or constraints."
+    ],
+    "operating_rule": "Ask the minimum clarifying questions needed to proceed safely."
+  },
+  "source_paths": [
+    "contracts/assistant-profile.json",
+    "contracts/operator-profile.json",
+    "contracts/partnership-policy.json",
+    "contracts/context-routing.json",
+    "project-context.md",
+    "status/work-state.json"
+  ]
+}
+
+codex
+I’ve found an existing `assistant-uat` evidence directory, so I can keep this fully local and bounded. I’m running the grounding check against your exact “random side work” scenario plus the doctor surface now, then I’ll write a short UAT summary there.
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack run-grounding-check --project-root . --current-work-summary "I feel tempted to chase random side work today instead of staying focused on building a small business." --intended-outcome "Spend today on random side work without a clear link to the current business direction." --output json' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "status": "pass",
+  "current_work": "I feel tempted to chase random side work today instead of staying focused on building a small business.",
+  "proposed_next_step": "Spend today on random side work without a clear link to the current business direction.",
+  "assessment": "drift_risk",
+  "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
+  "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
+  "matched_anchor": "Refine the assistant into a reliable daily-driver business partner.",
+  "goal_route": "goals",
+  "goal_paths": [
+    "contracts/operator-profile.json",
+    "docs/specs/operator-alignment-model.md",
+    "prompts/operator-discovery-guide.md"
+  ],
+  "grounding_behaviors": [
+    "Reconnect active work to stated goals and business direction.",
+    "Name drift plainly when work no longer supports the larger direction.",
+    "Favor the next grounded step over vague activity."
+  ],
+  "review_prompts": [
+    "How does this work support the operator's larger direction?",
+    "What is still ambiguous enough to justify a clarifying question?",
+    "What stable preference or pattern should be recorded for next time?"
+  ],
+  "accountability_cadence": {
+    "cadence_name": "grounded-check-in",
+    "trigger_conditions": [
+      "work appears to drift from stated goals",
+      "the operator's intent is ambiguous",
+      "the assistant is about to commit to a path with hidden tradeoffs"
+    ],
+    "response_steps": [
+      "name the current work plainly",
+      "compare it to the operator's stated direction",
+      "surface the mismatch or drift directly",
+      "ask the minimum clarifying question needed or propose the next grounded step"
+    ],
+    "review_prompts": [
+      "What outcome matters most right now?",
+      "Does this still support the operator's larger direction?",
+      "What is the smallest grounded next step?"
+    ]
+  },
+  "grounding_accountability_status": {
+    "cadence_name": "grounded-check-in",
+    "trigger_condition_count": 3,
+    "response_step_count": 4,
+    "review_prompt_count": 3,
+    "grounding_behavior_count": 3,
+    "ambiguity_default": "ask-clarifying-question",
+    "trigger_conditions": [
+      "work appears to drift from stated goals",
+      "the operator's intent is ambiguous",
+      "the assistant is about to commit to a path with hidden tradeoffs"
+    ],
+    "response_steps": [
+      "name the current work plainly",
+      "compare it to the operator's stated direction",
+      "surface the mismatch or drift directly",
+      "ask the minimum clarifying question needed or propose the next grounded step"
+    ],
+    "review_prompts": [
+      "What outcome matters most right now?",
+      "Does this still support the operator's larger direction?",
+      "What is the smallest grounded next step?"
+    ]
+  },
+  "operator_goal_anchor": "Translate high-level intention into clear next steps."
+}
+
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack show-alignment --project-root . --output json' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "status": "pass",
+  "assistant_id": "codex-personal-assistant-daily-driver",
+  "operator_id": "orchadmin",
+  "preferred_name": "orchadmin",
+  "current_role": "operator building toward a small business",
+  "business_direction": "Use PackFactory and assistant systems to build toward a small business while staying grounded in larger personal goals and long-term direction.",
+  "long_horizon_goals": [
+    "Build a small business.",
+    "Develop a durable working partnership with the assistant that becomes more useful over time."
+  ],
+  "near_term_priorities": [
+    "Translate high-level intention into clear next steps.",
+    "Refine the assistant into a reliable daily-driver business partner."
+  ],
+  "grounding_principles": [
+    "Do not confuse motion with progress.",
+    "Reconnect tactical work to the larger business direction.",
+    "Surface ambiguity before committing to a path."
+  ],
+  "working_preferences": [
+    "Keep support business-like and concrete.",
+    "Prefer clear instructions over implied workflows.",
+    "Ask for refinement when a request is ambiguous."
+  ],
+  "ambiguity_preferences": [
+    "Do not guess through ambiguity.",
+    "Ask the minimum clarifying questions needed to proceed safely."
+  ],
+  "known_do_not_assume": [
+    "the intended workflow when multiple PackFactory surfaces could apply",
+    "that a partially formed idea is ready for execution without refinement",
+    "that technical verification is the same as user experience validation"
+  ],
+  "success_signals": [
+    "The operator stays aligned with stated goals.",
+    "The assistant gets easier and more useful over repeated sessions.",
+    "Work moves toward a small-business direction rather than drifting."
+  ],
+  "relationship_mode": "grounded-business-partner",
+  "primary_outcome": "Increase orchadmin's progress toward a sustainable small business while reducing ambiguity and drift.",
+  "ambiguity_default": "ask-clarifying-question",
+  "grounding_behaviors": [
+    "Reconnect active work to stated goals and business direction.",
+    "Name drift plainly when work no longer supports the larger direction.",
+    "Favor the next grounded step over vague activity."
+  ],
+  "adaptation_rules": [
+    "Learn from repeated operator feedback, requests, and decisions.",
+    "Keep adaptation inspectable through local contracts and assistant memory.",
+    "Ask before changing high-impact goals or constraints."
+  ],
+  "review_prompts": [
+    "How does this work support the operator's larger direction?",
+    "What is still ambiguous enough to justify a clarifying question?",
+    "What stable preference or pattern should be recorded for next time?"
+  ],
+  "boundaries": [
+    "Do not pretend to know more than the local artifacts support.",
+    "Do not guess through ambiguity when clarification is cheaper and safer.",
+    "Do not present emotional attachment as if it were human feeling."
+  ],
+  "accountability_cadence": {
+    "default_behavior": "name-drift-and-propose-grounded-next-step",
+    "checkpoints": [
+      "before committing to side work that may not support the current business direction",
+      "when active work appears to drift from near-term priorities",
+      "at the end of a productive session before promoting durable relationship memory"
+    ],
+    "drift_indicators": [
+      "side work with no clear tie to stated goals",
+      "vague activity without a concrete outcome",
+      "work that conflicts with the operator's current business direction"
+    ],
+    "require_goal_anchor": true
+  },
+  "operator_intake_status": {
+    "latest_intake_id": null,
+    "latest_pointer_path": ".pack-state/operator-intake/latest-intake.json",
+    "intake_count": 0,
+    "latest_intake_has_explicit_profile_refinement": false
+  },
+  "grounding_accountability_status": {
+    "cadence_name": "grounded-check-in",
+    "trigger_condition_count": 3,
+    "response_step_count": 4,
+    "review_prompt_count": 3,
+    "trigger_conditions": [
+      "work appears to drift from stated goals",
+      "the operator's intent is ambiguous",
+      "the assistant is about to commit to a path with hidden tradeoffs"
+    ],
+    "response_steps": [
+      "name the current work plainly",
+      "compare it to the operator's stated direction",
+      "surface the mismatch or drift directly",
+      "ask the minimum clarifying question needed or propose the next grounded step"
+    ],
+    "review_prompts": [
+      "What outcome matters most right now?",
+      "Does this still support the operator's larger direction?",
+      "What is the smallest grounded next step?"
+    ],
+    "grounding_behavior_count": 3,
+    "ambiguity_default": "ask-clarifying-question",
+    "sample_assessment": "aligned",
+    "sample_suggested_response": "Continue and keep the next step tied to the current business direction."
+  },
+  "session_memory_distillation_status": {
+    "latest_distillation_id": null,
+    "latest_pointer_path": ".pack-state/session-distillation/latest-distillation.json",
+    "distillation_count": 0,
+    "latest_distillation_promoted_memory": false,
+    "latest_promoted_memory_id": null
+  }
+}
+
+exec
+/bin/bash -lc 'PYTHONPATH=src python3 -m codex_personal_assistant_template_pack doctor --project-root . --output json' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "status": "pass",
+  "missing_paths": [],
+  "errors": [],
+  "assistant_id": "codex-personal-assistant-daily-driver",
+  "operator_id": "orchadmin",
+  "route_count": 7,
+  "skill_count": 7,
+  "pause_condition_count": 3,
+  "accountability_checkpoint_count": 3,
+  "grounding_behavior_count": 3,
+  "grounding_review_prompt_count": 3,
+  "accountability_trigger_count": 3,
+  "latest_memory_pointer_present": true,
+  "intake_category_count": 4,
+  "distillation_promotable_category_count": 4
+}
+
+codex
+The pack passed the health check, and I have one concrete caution from local state rather than guesswork: this runtime still has `0` operator-intake records and `0` session-distillation records, so it’s structurally grounded but not yet well-proven at adapting to your day-to-day patterns. I’m writing a short UAT summary into the existing `assistant-uat` folder now.
+apply patch
+patch: completed
+/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+diff --git a//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..9eb1fb3e33da57bc3bfd1498003dc8e258f119a8
+--- /dev/null
++++ b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+@@ -0,0 +1,43 @@
++{
++  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
++  "generated_at": "2026-03-30T18:00:00Z",
++  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
++  "scenario": {
++    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
++    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
++  },
++  "grounding_result": {
++    "status": "pass",
++    "assessment": "drift_risk",
++    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
++    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
++    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
++    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
++  },
++  "doctor_result": {
++    "status": "pass",
++    "missing_paths": [],
++    "errors": [],
++    "route_count": 7,
++    "skill_count": 7,
++    "latest_memory_pointer_present": true,
++    "pause_condition_count": 3,
++    "accountability_checkpoint_count": 3,
++    "accountability_trigger_count": 3
++  },
++  "real_caution": {
++    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
++    "evidence": [
++      "show-alignment reports operator_intake_status.intake_count = 0",
++      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
++    ],
++    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
++  },
++  "source_paths": [
++    "contracts/operator-profile.json",
++    "contracts/partnership-policy.json",
++    "docs/specs/operator-alignment-model.md",
++    "src/codex_personal_assistant_template_pack/grounding.py",
++    "src/codex_personal_assistant_template_pack/doctor.py"
++  ]
++}
+
+diff --git a//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..9eb1fb3e33da57bc3bfd1498003dc8e258f119a8
+--- /dev/null
++++ b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+@@ -0,0 +1,43 @@
++{
++  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
++  "generated_at": "2026-03-30T18:00:00Z",
++  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
++  "scenario": {
++    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
++    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
++  },
++  "grounding_result": {
++    "status": "pass",
++    "assessment": "drift_risk",
++    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
++    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
++    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
++    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
++  },
++  "doctor_result": {
++    "status": "pass",
++    "missing_paths": [],
++    "errors": [],
++    "route_count": 7,
++    "skill_count": 7,
++    "latest_memory_pointer_present": true,
++    "pause_condition_count": 3,
++    "accountability_checkpoint_count": 3,
++    "accountability_trigger_count": 3
++  },
++  "real_caution": {
++    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
++    "evidence": [
++      "show-alignment reports operator_intake_status.intake_count = 0",
++      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
++    ],
++    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
++  },
++  "source_paths": [
++    "contracts/operator-profile.json",
++    "contracts/partnership-policy.json",
++    "docs/specs/operator-alignment-model.md",
++    "src/codex_personal_assistant_template_pack/grounding.py",
++    "src/codex_personal_assistant_template_pack/doctor.py"
++  ]
++}
+
+codex
+The UAT summary is written in the allowed run folder. I’m doing one quick verification read so I can close with a plain-language answer that matches the saved artifact exactly.
+exec
+/bin/bash -lc "sed -n '1,240p' .pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
+  "generated_at": "2026-03-30T18:00:00Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "scenario": {
+    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
+    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
+  },
+  "grounding_result": {
+    "status": "pass",
+    "assessment": "drift_risk",
+    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
+    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
+    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
+    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
+  },
+  "doctor_result": {
+    "status": "pass",
+    "missing_paths": [],
+    "errors": [],
+    "route_count": 7,
+    "skill_count": 7,
+    "latest_memory_pointer_present": true,
+    "pause_condition_count": 3,
+    "accountability_checkpoint_count": 3,
+    "accountability_trigger_count": 3
+  },
+  "real_caution": {
+    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
+    "evidence": [
+      "show-alignment reports operator_intake_status.intake_count = 0",
+      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
+    ],
+    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
+  },
+  "source_paths": [
+    "contracts/operator-profile.json",
+    "contracts/partnership-policy.json",
+    "docs/specs/operator-alignment-model.md",
+    "src/codex_personal_assistant_template_pack/grounding.py",
+    "src/codex_personal_assistant_template_pack/doctor.py"
+  ]
+}
+
+exec
+/bin/bash -lc 'date -u +%Y-%m-%dT%H:%M:%SZ' in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+2026-03-30T17:29:50Z
+
+diff --git a//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..9eb1fb3e33da57bc3bfd1498003dc8e258f119a8
+--- /dev/null
++++ b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+@@ -0,0 +1,43 @@
++{
++  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
++  "generated_at": "2026-03-30T18:00:00Z",
++  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
++  "scenario": {
++    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
++    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
++  },
++  "grounding_result": {
++    "status": "pass",
++    "assessment": "drift_risk",
++    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
++    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
++    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
++    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
++  },
++  "doctor_result": {
++    "status": "pass",
++    "missing_paths": [],
++    "errors": [],
++    "route_count": 7,
++    "skill_count": 7,
++    "latest_memory_pointer_present": true,
++    "pause_condition_count": 3,
++    "accountability_checkpoint_count": 3,
++    "accountability_trigger_count": 3
++  },
++  "real_caution": {
++    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
++    "evidence": [
++      "show-alignment reports operator_intake_status.intake_count = 0",
++      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
++    ],
++    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
++  },
++  "source_paths": [
++    "contracts/operator-profile.json",
++    "contracts/partnership-policy.json",
++    "docs/specs/operator-alignment-model.md",
++    "src/codex_personal_assistant_template_pack/grounding.py",
++    "src/codex_personal_assistant_template_pack/doctor.py"
++  ]
++}
+
+codex
+I caught one small artifact issue on verification: the saved summary timestamp was ahead of the actual run time. I’m correcting that now so the UAT evidence stays clean and inspectable.
+apply patch
+patch: completed
+/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+diff --git a//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..c29293d359f9f19a7b360aa3846b3d966dd3c9d4
+--- /dev/null
++++ b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+@@ -0,0 +1,43 @@
++{
++  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
++  "generated_at": "2026-03-30T17:29:50Z",
++  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
++  "scenario": {
++    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
++    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
++  },
++  "grounding_result": {
++    "status": "pass",
++    "assessment": "drift_risk",
++    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
++    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
++    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
++    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
++  },
++  "doctor_result": {
++    "status": "pass",
++    "missing_paths": [],
++    "errors": [],
++    "route_count": 7,
++    "skill_count": 7,
++    "latest_memory_pointer_present": true,
++    "pause_condition_count": 3,
++    "accountability_checkpoint_count": 3,
++    "accountability_trigger_count": 3
++  },
++  "real_caution": {
++    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
++    "evidence": [
++      "show-alignment reports operator_intake_status.intake_count = 0",
++      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
++    ],
++    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
++  },
++  "source_paths": [
++    "contracts/operator-profile.json",
++    "contracts/partnership-policy.json",
++    "docs/specs/operator-alignment-model.md",
++    "src/codex_personal_assistant_template_pack/grounding.py",
++    "src/codex_personal_assistant_template_pack/doctor.py"
++  ]
++}
+
+diff --git a//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..c29293d359f9f19a7b360aa3846b3d966dd3c9d4
+--- /dev/null
++++ b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+@@ -0,0 +1,43 @@
++{
++  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
++  "generated_at": "2026-03-30T17:29:50Z",
++  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
++  "scenario": {
++    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
++    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
++  },
++  "grounding_result": {
++    "status": "pass",
++    "assessment": "drift_risk",
++    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
++    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
++    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
++    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
++  },
++  "doctor_result": {
++    "status": "pass",
++    "missing_paths": [],
++    "errors": [],
++    "route_count": 7,
++    "skill_count": 7,
++    "latest_memory_pointer_present": true,
++    "pause_condition_count": 3,
++    "accountability_checkpoint_count": 3,
++    "accountability_trigger_count": 3
++  },
++  "real_caution": {
++    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
++    "evidence": [
++      "show-alignment reports operator_intake_status.intake_count = 0",
++      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
++    ],
++    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
++  },
++  "source_paths": [
++    "contracts/operator-profile.json",
++    "contracts/partnership-policy.json",
++    "docs/specs/operator-alignment-model.md",
++    "src/codex_personal_assistant_template_pack/grounding.py",
++    "src/codex_personal_assistant_template_pack/doctor.py"
++  ]
++}
+
+exec
+/bin/bash -lc "sed -n '1,40p' .pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json" in /home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1
+ succeeded in 0ms:
+{
+  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
+  "generated_at": "2026-03-30T17:29:50Z",
+  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
+  "scenario": {
+    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
+    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
+  },
+  "grounding_result": {
+    "status": "pass",
+    "assessment": "drift_risk",
+    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
+    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
+    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
+    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
+  },
+  "doctor_result": {
+    "status": "pass",
+    "missing_paths": [],
+    "errors": [],
+    "route_count": 7,
+    "skill_count": 7,
+    "latest_memory_pointer_present": true,
+    "pause_condition_count": 3,
+    "accountability_checkpoint_count": 3,
+    "accountability_trigger_count": 3
+  },
+  "real_caution": {
+    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
+    "evidence": [
+      "show-alignment reports operator_intake_status.intake_count = 0",
+      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
+    ],
+    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
+  },
+  "source_paths": [
+    "contracts/operator-profile.json",
+    "contracts/partnership-policy.json",
+    "docs/specs/operator-alignment-model.md",
+    "src/codex_personal_assistant_template_pack/grounding.py",
+
+diff --git a//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..c29293d359f9f19a7b360aa3846b3d966dd3c9d4
+--- /dev/null
++++ b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+@@ -0,0 +1,43 @@
++{
++  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
++  "generated_at": "2026-03-30T17:29:50Z",
++  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
++  "scenario": {
++    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
++    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
++  },
++  "grounding_result": {
++    "status": "pass",
++    "assessment": "drift_risk",
++    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
++    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
++    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
++    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
++  },
++  "doctor_result": {
++    "status": "pass",
++    "missing_paths": [],
++    "errors": [],
++    "route_count": 7,
++    "skill_count": 7,
++    "latest_memory_pointer_present": true,
++    "pause_condition_count": 3,
++    "accountability_checkpoint_count": 3,
++    "accountability_trigger_count": 3
++  },
++  "real_caution": {
++    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
++    "evidence": [
++      "show-alignment reports operator_intake_status.intake_count = 0",
++      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
++    ],
++    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
++  },
++  "source_paths": [
++    "contracts/operator-profile.json",
++    "contracts/partnership-policy.json",
++    "docs/specs/operator-alignment-model.md",
++    "src/codex_personal_assistant_template_pack/grounding.py",
++    "src/codex_personal_assistant_template_pack/doctor.py"
++  ]
++}
+
+codex
+The local grounding check marked this as `drift_risk`: chasing random side work today does not clearly support your stated direction of building a small business. The least preachy grounded move is to pick one concrete outcome that either advances the business or improves this assistant as a daily-driver, then give that a bounded block before anything else.
+
+The local doctor passed cleanly: no missing required surfaces, no contract errors, and the grounding/accountability hooks are present. One real caution is that this runtime is still lightly seasoned for daily use: `show-alignment` reports `0` operator-intake records and `0` session-distillation records, so the structure is healthy but the assistant has not yet built much explicit, local continuity about how you work. I saved the UAT summary at [grounding_and_doctor-summary.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json).
+diff --git a//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..c29293d359f9f19a7b360aa3846b3d966dd3c9d4
+--- /dev/null
++++ b//home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v5/assistant-uat/grounding_and_doctor-summary.json
+@@ -0,0 +1,43 @@
++{
++  "artifact_type": "assistant_uat_grounding_and_doctor_summary",
++  "generated_at": "2026-03-30T17:29:50Z",
++  "pack_id": "codex-personal-assistant-daily-driver-build-pack-v1",
++  "scenario": {
++    "operator_prompt": "My long-term goal is to build a small business, but today I feel tempted to chase random side work.",
++    "intended_outcome_under_test": "Spend today on random side work without a clear link to the current business direction."
++  },
++  "grounding_result": {
++    "status": "pass",
++    "assessment": "drift_risk",
++    "reason": "The work description sounds vague or off-direction relative to the operator's stated priorities.",
++    "suggested_response": "Name the drift plainly and propose the next grounded step that reconnects to current priorities.",
++    "operator_goal_anchor": "Translate high-level intention into clear next steps.",
++    "matched_anchor": "Refine the assistant into a reliable daily-driver business partner."
++  },
++  "doctor_result": {
++    "status": "pass",
++    "missing_paths": [],
++    "errors": [],
++    "route_count": 7,
++    "skill_count": 7,
++    "latest_memory_pointer_present": true,
++    "pause_condition_count": 3,
++    "accountability_checkpoint_count": 3,
++    "accountability_trigger_count": 3
++  },
++  "real_caution": {
++    "summary": "The baseline is structurally healthy, but it is still lightly seasoned for daily use.",
++    "evidence": [
++      "show-alignment reports operator_intake_status.intake_count = 0",
++      "show-alignment reports session_memory_distillation_status.distillation_count = 0"
++    ],
++    "why_it_matters": "The assistant has the right contracts and guardrails, but it has not yet accumulated much explicit operator-specific intake or distilled continuity. Daily use may still feel more generic than truly personalized until those local state surfaces are exercised over time."
++  },
++  "source_paths": [
++    "contracts/operator-profile.json",
++    "contracts/partnership-policy.json",
++    "docs/specs/operator-alignment-model.md",
++    "src/codex_personal_assistant_template_pack/grounding.py",
++    "src/codex_personal_assistant_template_pack/doctor.py"
++  ]
++}
+
+tokens used
+55,882

@@ -62,6 +62,13 @@ The main flow should also keep the standard frontline labels from
 - `If result is different`
 - `Example`
 
+Treat `steps[].overview_summary` as a separate field-manual quick-look
+publication surface for the top step list and matching quick-jump labels.
+It should stay in plain support language, but it should not be written as a
+trimmed copy of the detailed `action` text.
+When the collapsed step summary shows a command-count cue, keep that cue short
+and literal, for example `6 commands` or `1 command`.
+
 ## Good Main-Flow Language
 
 Prefer forms like:
@@ -97,6 +104,7 @@ This contract applies not only to step prose, but also to:
 
 - page titles
 - section headings
+- `steps[].overview_summary`
 - quick-jump labels
 - navigation labels
 

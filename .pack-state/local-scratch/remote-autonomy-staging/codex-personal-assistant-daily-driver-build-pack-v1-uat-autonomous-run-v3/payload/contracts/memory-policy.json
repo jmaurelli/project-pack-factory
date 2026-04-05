@@ -1,0 +1,26 @@
+{
+  "schema_version": "codex-personal-assistant-memory-policy/v2",
+  "storage_root": ".pack-state/assistant-memory",
+  "latest_pointer_path": ".pack-state/assistant-memory/latest-memory.json",
+  "memory_categories": [
+    "note",
+    "decision",
+    "blocker",
+    "preference",
+    "goal",
+    "communication_pattern",
+    "alignment_risk"
+  ],
+  "required_fields": [
+    "memory_id",
+    "category",
+    "summary",
+    "recorded_at"
+  ],
+  "policy_notes": [
+    "Assistant memory is local restart state for continuity, not canonical lifecycle state.",
+    "Duplicate memory ids fail closed unless replace-existing is explicit.",
+    "The latest-memory pointer should reference only files under the declared storage root.",
+    "Use communication_pattern and alignment_risk categories to keep adaptation inspectable instead of hidden."
+  ]
+}

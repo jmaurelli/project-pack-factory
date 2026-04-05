@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-30T19:18:00Z",
+  "generated_at": "2026-04-01T15:21:59Z",
   "objective_id": "algosec-diagnostic-framework-build-pack-v1_objective",
   "pack_id": "algosec-diagnostic-framework-build-pack-v1",
   "schema_version": "task-backlog/v1",
@@ -34,7 +34,7 @@
         "src/algosec_diagnostic_framework_template_pack/starlight_prototypes.py"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "completed",
+      "status": "pending",
       "summary": "Adopt Support Cockpit as the selected Starlight publishing direction and drive the next implementation cycle through that chassis.",
       "task_id": "adopt_support_cockpit_direction",
       "validation_commands": [
@@ -64,7 +64,7 @@
         "src/algosec_diagnostic_framework_template_pack"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "completed",
+      "status": "pending",
       "summary": "Define the first bounded ADF artifact model for runtime evidence, service inventory, and baseline output.",
       "task_id": "define_adf_artifact_model",
       "validation_commands": [
@@ -94,7 +94,7 @@
         "src/pack_export_runtime_evidence.py"
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
-      "status": "completed",
+      "status": "pending",
       "summary": "Implement the first safe runtime evidence collection path for the controlled AlgoSec lab appliance.",
       "task_id": "implement_safe_runtime_collection",
       "validation_commands": [
@@ -755,7 +755,7 @@
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 100.019,
-      "status": "in_progress",
+      "status": "completed",
       "summary": "Build a bounded dependency map for the ASMS UI subsystem from lab evidence, then validate a small set of common failure scenarios against that map.",
       "task_id": "map_asms_ui_subsystem_and_validate_core_scenarios",
       "validation_commands": [
@@ -1482,12 +1482,127 @@
       ],
       "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
       "selection_priority": 100.0335,
-      "status": "pending",
+      "status": "completed",
       "summary": "Confirm that `ASMS Keycloak auth is down` adheres to the canonical boundary-playbook template before treating it as the migration reference for the remaining subsystem playbooks.",
       "task_id": "confirm_keycloak_boundary_playbook_adheres_to_canonical_template",
       "validation_commands": [
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json",
         "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "The overview step list in the field-manual playbook shell links to the matching in-page command sections instead of sending the operator to a missing route.",
+        "The fix works at least for the current `ASMS UI is down` proving-ground page and uses the shared field-manual renderer path instead of a one-off page patch.",
+        "ADF records the issue as a named planner item so future playbook-shell work treats overview-to-step navigation as part of operator usability rather than as a cosmetic detail."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "Clicking a top overview step in `ASMS UI is down` lands on the matching detailed command section instead of a 404 page.",
+        "The shared field-manual shell now emits page-local anchors for playbook overview links.",
+        "Support review can move between the summary list and the command body without losing context."
+      ],
+      "dependencies": [
+        "deepen_dependency_aware_playbooks"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if fixing the overview anchors requires page-specific markdown hacks instead of a shared field-manual renderer fix.",
+        "Stop and escalate if the router still treats page-local step links as missing routes after the generated playbook source is corrected."
+      ],
+      "files_in_scope": [
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.0336,
+      "status": "completed",
+      "summary": "Repair the field-manual overview-step links so `ASMS UI is down` and other shared-shell playbooks jump to the matching command sections instead of hitting a missing route.",
+      "task_id": "repair_field_manual_overview_anchor_navigation",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "ADF records one explicit planner task plus adjacent specification for separating top-level field-manual overview summaries from the fuller detailed step-action text.",
+        "The contract uses `ASMS UI is down` as the proving-ground example and defines overview summaries as short scan surfaces rather than recycled analytical step prose.",
+        "The next implementation pass can judge success against one named overview-summary contract instead of improvising one-off wording changes in the renderer."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "ADF has one named planner line for making overview-step wording concise, human-readable, and tied to the actual detailed step card.",
+        "The renderer and baseline generator can distinguish between quick-look overview text and detailed card-intro text.",
+        "Support review can judge the top step list as a real scan surface instead of as machine-derived prose."
+      ],
+      "dependencies": [
+        "deepen_dependency_aware_playbooks",
+        "realign_frontline_publication_contracts_to_flow_first_operator_workflow",
+        "repair_field_manual_overview_anchor_navigation"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if the change would require deleting richer backend step text instead of giving the renderer a cleaner published summary surface.",
+        "Stop and escalate if the implementation starts turning the field-manual shell into page-specific wording hacks instead of a shared contract-backed behavior."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-field-manual-overview-summary-contract-v1.md",
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/runtime_baseline.py",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.0337,
+      "status": "completed",
+      "summary": "Separate field-manual overview summaries from detailed step-action text so the top step list reads like concise support-friendly scan guidance instead of recycled analytical prose.",
+      "task_id": "separate_field_manual_overview_summaries_from_detailed_step_actions",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
+      ]
+    },
+    {
+      "acceptance_criteria": [
+        "If the support engineer clicks a field-manual overview step and the page jumps to a collapsed step card farther down the same page, the targeted step card opens automatically instead of staying collapsed.",
+        "Each collapsed field-manual step-card summary shows a short literal cue for how many commands are inside that step, for example `6 commands`.",
+        "The related field-manual, page-type, and support-language contracts are updated so step-link auto-open and command-count cues are treated as part of the canonical shell behavior, not as optional styling."
+      ],
+      "blocked_by": [],
+      "completion_signals": [
+        "The live preview lets the support engineer click a top step link and land on an already-open version of the matching detailed step card.",
+        "The collapsed step summaries set expectations with a visible per-step command count before the engineer opens the card.",
+        "ADF records the behavior in the relevant contracts so future shell refinements preserve it."
+      ],
+      "dependencies": [
+        "separate_field_manual_overview_summaries_from_detailed_step_actions",
+        "repair_field_manual_overview_anchor_navigation"
+      ],
+      "escalation_conditions": [
+        "Stop and escalate if auto-opening the targeted step would require abandoning the shared field-manual shell in favor of page-specific browser hacks.",
+        "Stop and escalate if the command-count cue would require hand-authoring per-page numbers instead of deriving them from the step command list."
+      ],
+      "files_in_scope": [
+        "docs/specs/adf-field-manual-overview-summary-contract-v1.md",
+        "docs/specs/adf-frontline-page-types-and-entry-contract-v1.md",
+        "docs/specs/adf-frontline-support-language-translation-contract-v1.md",
+        "src/algosec_diagnostic_framework_template_pack/starlight_site.py",
+        "tasks/active-backlog.json",
+        "status/work-state.json",
+        "status/readiness.json"
+      ],
+      "objective_link": "algosec-diagnostic-framework-build-pack-v1_objective",
+      "selection_priority": 100.0338,
+      "status": "completed",
+      "summary": "Tighten the field-manual shell so targeted step links auto-open the matching collapsed card and each collapsed step summary shows the per-step command count.",
+      "task_id": "tighten_field_manual_step_navigation_and_command_count_cues",
+      "validation_commands": [
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack generate-starlight-site --project-root . --output json",
+        "PYTHONPATH=src python3 -m algosec_diagnostic_framework_template_pack validate-project-pack --project-root . --output json"
       ]
     },
     {

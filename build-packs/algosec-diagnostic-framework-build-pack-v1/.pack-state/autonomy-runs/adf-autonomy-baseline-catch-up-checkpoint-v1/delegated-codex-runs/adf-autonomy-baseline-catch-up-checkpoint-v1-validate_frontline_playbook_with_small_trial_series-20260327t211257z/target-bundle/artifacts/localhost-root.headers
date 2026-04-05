@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Date: Fri, 27 Mar 2026 21:13:49 GMT
+Server: Apache
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Permitted-Cross-Domain-Policies: none
+Content-Security-Policy: font-src 'self' data:; img-src 'self' data:;frame-src 'self';
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Last-Modified: Fri, 07 Nov 2025 20:08:44 GMT
+ETag: "a4-64306bfa2d28b"
+Accept-Ranges: bytes
+Content-Length: 164
+Vary: Accept-Encoding
+Content-Type: text/html; charset=UTF-8
+

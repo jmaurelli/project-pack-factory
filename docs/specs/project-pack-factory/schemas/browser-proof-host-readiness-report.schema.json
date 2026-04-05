@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/project-pack-factory/browser-proof-host-readiness-report.schema.json",
+  "title": "Browser Proof Host Readiness Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "proof_kind",
+    "status",
+    "readiness_status",
+    "recorded_at",
+    "proof_report_path",
+    "proof_report_relative_path",
+    "proof_report_recorded_at",
+    "browser_binary_selection_source",
+    "browser_binary_kind",
+    "browser_revision",
+    "browser_version",
+    "browser_binary_path",
+    "browser_binary_relative_path",
+    "ldd_command",
+    "missing_shared_libraries",
+    "ldd_output_lines",
+    "preferred_rerun_request_path",
+    "preferred_rerun_request_relative_path",
+    "rerun_request_strategy",
+    "next_step_summary",
+    "artifacts",
+    "failure_summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "browser-proof-host-readiness-report/v1"
+    },
+    "proof_kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "readiness_status": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "missing_browser_executable",
+        "missing_host_dependencies",
+        "ldd_unavailable",
+        "inspection_error"
+      ]
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "proof_report_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proof_report_relative_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proof_report_recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "browser_binary_selection_source": {
+      "type": "string",
+      "enum": [
+        "proof_report_runtime_field",
+        "active_runtime"
+      ]
+    },
+    "browser_binary_kind": {
+      "type": "string",
+      "enum": [
+        "chromium",
+        "chromium-headless-shell",
+        "unknown"
+      ]
+    },
+    "browser_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "browser_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "browser_binary_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "browser_binary_relative_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ldd_command": {
+      "type": "string"
+    },
+    "missing_shared_libraries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "ldd_output_lines": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "preferred_rerun_request_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "preferred_rerun_request_relative_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rerun_request_strategy": {
+      "type": "string",
+      "enum": [
+        "reuse_preserved_validated_request",
+        "regenerate_equivalent_request"
+      ]
+    },
+    "next_step_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_path",
+        "report_relative_path"
+      ],
+      "properties": {
+        "report_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "report_relative_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "failure_summary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

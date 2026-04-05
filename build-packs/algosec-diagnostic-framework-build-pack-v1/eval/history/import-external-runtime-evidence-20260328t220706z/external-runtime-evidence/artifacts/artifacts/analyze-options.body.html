@@ -1,0 +1,27 @@
+
+	<p id="parSelectRiskProfiles">
+		<label for="SelectRiskProfiles">Select risk profile:</label>
+		<i class="fa fa-spinner fa-spin" id="SelectRiskProfilesSpinner"></i>
+		<select id="SelectRiskProfiles" name="risk_profile"><option value="Standard">Standard</option>
+<option value="Targa_Standard.xml" title="Targa_Standard.xml">Targa_Standard.xml</option>
+<option value="outbound_icmp.xml" title="outbound_icmp.xml">outbound_icmp.xml</option>
+</select>
+	</p>
+<p>
+	<input type="checkbox" name="is_avoid_notify" value="on" id="is_avoid_notify">
+	<label for="is_avoid_notify">Avoid e-mail notification</label>
+</p>
+
+<script type="text/javascript">
+//<![CDATA[
+g_sReportNeedsRefresh = "";
+var sSelectedRiskProfile = "Targa_Standard.xml";
+
+        try {
+            if (sSelectedRiskProfile != "") {
+                SelectOptionByValue(sSelectedRiskProfile, _ID("SelectRiskProfiles"));
+            }
+        }
+        catch(e){}
+//]]>
+</script>
