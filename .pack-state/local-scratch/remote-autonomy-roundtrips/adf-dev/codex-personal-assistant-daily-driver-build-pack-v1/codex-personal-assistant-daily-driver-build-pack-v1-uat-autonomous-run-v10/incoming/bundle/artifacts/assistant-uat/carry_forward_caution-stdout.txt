@@ -1,9 +1,0 @@
-The local surfaces now show one durable thing and one still-thin thing.
-
-Durable now: the assistant has inspectable local continuity state again. `doctor` is `pass`, continuity health is `healthy`, the latest assistant-memory pointer exists, and there is a recorded aligned business review. In plain language, the next session can restart from saved local state instead of from scratch.
-
-Still only a session observation: the closeout carry-forward is still just one `session_observation` in the `goal` category. `show-relationship-state` marks that signal as `tentative` and `ready_for_durable_use: false`, so it is not yet durable relationship knowledge.
-
-Real caution for daily use: this is safer to resume from, but it is still lightly personalized. Preference, communication-pattern, and alignment-risk signals are still missing, and thin-history risk is still `medium`, so the assistant should not act like it knows stable cross-session preferences yet.
-
-I saved the bounded summary at [carry-forward-summary.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/assistant-uat-carry-forward-20260330T203652Z/assistant-uat/carry-forward-summary.json).

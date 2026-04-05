@@ -1,7 +1,0 @@
-{
-  "build_pack_id": "json-health-checker-longer-backlog-build-pack-v3",
-  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-longer-backlog-build-pack-v3/json-health-checker-longer-backlog-build-pack-v3-active-task-continuity-run-v1/incoming/bundle/bundle.json",
-  "import_reason": "Factory-default active-task continuity import from canonical mid-backlog state.",
-  "imported_by": "codex",
-  "schema_version": "external-runtime-evidence-import-request/v1"
-}

@@ -1004,9 +1004,12 @@
       "files_in_scope": [
         "AGENTS.md",
         "README.md",
+        ".gitignore",
+        "tools/validate_factory.py",
         "tasks/active-backlog.json",
         "status/work-state.json",
         "contracts/project-objective.json",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BACKUP-AND-GIT-STRATEGY-TECH-SPEC.md",
         "registry/",
         "templates/",
         "build-packs/",
@@ -1016,7 +1019,7 @@
       ],
       "objective_link": "project_pack_factory_root_objective",
       "selection_priority": 4.47,
-      "status": "pending",
+      "status": "completed",
       "summary": "Define the PackFactory root backup strategy and git strategy, including what belongs in git, what needs separate backup, what stays local-only, and how to restore each class of state.",
       "task_id": "define_packfactory_backup_and_git_strategy",
       "validation_commands": [

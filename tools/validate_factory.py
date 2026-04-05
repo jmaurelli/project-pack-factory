@@ -82,11 +82,27 @@ AUTONOMY_PLANNING_LIST_PATH = Path("docs/specs/project-pack-factory/PROJECT-PACK
 TRANSIENT_SCRATCH_SPEC_PATH = Path(
     "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-TRANSIENT-LOCAL-SCRATCH-ROOT-AND-STAGING-LIFECYCLE-TECH-SPEC.md"
 )
+BACKUP_AND_GIT_STRATEGY_SPEC_PATH = Path(
+    "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BACKUP-AND-GIT-STRATEGY-TECH-SPEC.md"
+)
+ROOT_GITIGNORE_PATH = Path(".gitignore")
 MATERIALIZE_BUILD_PACK_TOOL_PATH = Path("tools/materialize_build_pack.py")
 PERSONALITY_TEMPLATE_CATALOG_PATH = Path("docs/specs/project-pack-factory/agent-personality-template-catalog.json")
 ROLE_DOMAIN_TEMPLATE_CATALOG_PATH = Path("docs/specs/project-pack-factory/agent-role-domain-template-catalog.json")
 ROLE_DOMAIN_TEMPLATE_CATALOG_PATH = Path("docs/specs/project-pack-factory/agent-role-domain-template-catalog.json")
 TOOL_COMMAND_PATTERN = re.compile(r"`python3 tools/([^`\s]+\.py)\b")
+REQUIRED_GITIGNORE_MARKERS = (
+    "apps/factory-dashboard/.astro/",
+    "apps/factory-dashboard/dist/",
+    "apps/factory-dashboard/node_modules/",
+    "requests/",
+    ".pack-state/browser-proof-runtime/",
+    ".pack-state/local-scratch/",
+    ".pack-state/remote-autonomy-staging/",
+    ".pack-state/remote-runtime-pulls/",
+    ".pack-state/tmp/",
+    ".pack-state/remote-autonomy-roundtrips/**/incoming/",
+)
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -192,6 +208,38 @@ def _load_text_if_present(path: Path, errors: list[str], *, label: str) -> str |
 
 def _extract_tool_script_names(text: str) -> set[str]:
     return {match.group(1) for match in TOOL_COMMAND_PATTERN.finditer(text)}
+
+
+def _validate_gitignore_boundary_sync(factory_root: Path, errors: list[str]) -> None:
+    gitignore_text = _load_text_if_present(factory_root / ROOT_GITIGNORE_PATH, errors, label="root gitignore")
+    backup_spec_text = _load_text_if_present(
+        factory_root / BACKUP_AND_GIT_STRATEGY_SPEC_PATH,
+        errors,
+        label="backup and git strategy spec",
+    )
+    if gitignore_text is None or backup_spec_text is None:
+        return
+
+    for marker in REQUIRED_GITIGNORE_MARKERS:
+        if marker not in gitignore_text:
+            errors.append(
+                f"{factory_root / ROOT_GITIGNORE_PATH}: transient git-boundary drift detected; missing ignore marker `{marker}`"
+            )
+
+    required_spec_markers = (
+        "`git_primary`",
+        "`separate_backup`",
+        "`transient_disposable`",
+        ".pack-state/local-scratch/",
+        ".pack-state/remote-autonomy-staging/",
+        ".pack-state/remote-runtime-pulls/",
+        ".pack-state/tmp/",
+    )
+    for marker in required_spec_markers:
+        if marker not in backup_spec_text:
+            errors.append(
+                f"{factory_root / BACKUP_AND_GIT_STRATEGY_SPEC_PATH}: backup-and-git strategy drift detected; missing marker `{marker}`"
+            )
 
 
 def _validate_instruction_surface_sync(factory_root: Path, errors: list[str]) -> None:
@@ -1730,6 +1778,7 @@ def validate_factory(factory_root: Path) -> dict[str, Any]:
     _validate_factory_root_autonomy_memory(factory_root, errors)
     _validate_personality_template_catalog(factory_root, errors)
     _validate_role_domain_template_catalog(factory_root, errors)
+    _validate_gitignore_boundary_sync(factory_root, errors)
     _validate_instruction_surface_sync(factory_root, errors)
     _validate_active_template_instruction_surface_sync(factory_root, registry_templates, errors)
 

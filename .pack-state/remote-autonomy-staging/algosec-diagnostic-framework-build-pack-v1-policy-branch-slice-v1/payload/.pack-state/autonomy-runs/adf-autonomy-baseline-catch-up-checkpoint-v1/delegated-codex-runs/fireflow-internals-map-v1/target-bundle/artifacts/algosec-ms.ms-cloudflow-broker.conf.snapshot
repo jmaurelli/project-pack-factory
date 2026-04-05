@@ -1,4 +1,0 @@
-RewriteCond %{HTTP_HOST} ^ms-cloudflow-broker$
-RewriteCond %{REMOTE_ADDR} ^127.0.0.1$
-RewriteRule ^/(.*)$ http://127.0.0.1:8111/$1 [P]
-

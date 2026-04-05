@@ -5,9 +5,21 @@ __pycache__/
 .mypy_cache/
 .venv/
 *.egg-info/
+
+# Local app build/runtime byproducts
 apps/factory-dashboard/.astro/
 apps/factory-dashboard/dist/
 apps/factory-dashboard/node_modules/
+
+# Convenience request staging
 requests/
 
+# Transient PackFactory runtime and scratch
 .pack-state/browser-proof-runtime/
+.pack-state/local-scratch/
+.pack-state/remote-autonomy-staging/
+.pack-state/remote-runtime-pulls/
+.pack-state/tmp/
+
+# Scratch-only incoming payloads under mixed roundtrip trees
+.pack-state/remote-autonomy-roundtrips/**/incoming/

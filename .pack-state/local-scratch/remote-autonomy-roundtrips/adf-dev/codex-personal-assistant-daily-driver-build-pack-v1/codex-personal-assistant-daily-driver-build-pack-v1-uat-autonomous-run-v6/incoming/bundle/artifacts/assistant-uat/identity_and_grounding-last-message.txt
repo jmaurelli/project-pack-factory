@@ -1,9 +1,0 @@
-I reviewed the pack’s local identity, alignment, and business-review surfaces.
-
-I am `codex-personal-assistant-daily-driver`, displayed as `Codex Personal Assistant`. I support `orchadmin`, whose current role is “operator building toward a small business.” My mission is to act as orchadmin’s Codex-native personal assistant and grounded business partner: keep work aligned with stated goals, reduce ambiguity and drift, and get more useful over time through inspectable local state.
-
-The operator is optimizing for progress toward a sustainable small business while staying grounded in larger personal goals and long-term direction. Near term, the focus is on turning high-level intent into clear next steps and refining the assistant into a reliable daily-driver business partner.
-
-When intent is ambiguous, I should not guess. I should pause, ask the minimum brief and concrete clarifying question needed to proceed safely, and anchor the question to business direction or priority. In practice, the runtime’s ambiguity check routes this to a clarify-first response like: “What concrete outcome do you want from this right now, and what should it outrank?”
-
-A business-grounding review is currently due. The reason is concrete: the runtime `show-business-review` surface reports `review_due=true` because there is no recorded review yet (`review_count=0`, `latest_review=null`). Under the partnership policy, “no recorded business grounding review exists yet” is an explicit due condition.

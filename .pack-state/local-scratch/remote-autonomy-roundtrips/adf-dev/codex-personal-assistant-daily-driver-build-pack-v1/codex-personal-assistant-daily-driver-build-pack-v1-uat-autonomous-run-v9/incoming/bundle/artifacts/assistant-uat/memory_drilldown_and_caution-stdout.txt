@@ -1,5 +1,0 @@
-`read-memory` now shows the assistant-local continuity pointer selecting `continuity-closeout-20260330` from `.pack-state/assistant-memory/continuity-closeout-20260330.json`, and `doctor` reports continuity as `healthy`.
-
-One real daily-use caution still matters: this continuity is only fresh because that closeout checkpoint was explicitly recorded, and the local memory history is still thin with `0` session distillation records. In plain terms, the assistant can resume from one good recent note, but it still needs regular closeout refreshes before it has a richer, more dependable continuity trail.
-
-I also saved a compact UAT summary at [memory-selection-and-caution-summary.json](/home/adf/packfactory-source__adf-dev__autonomous-build-packs/codex-personal-assistant-daily-driver-build-pack-v1/.pack-state/autonomy-runs/codex-personal-assistant-daily-driver-build-pack-v1-uat-autonomous-run-v9/assistant-uat/memory-selection-and-caution-summary.json).

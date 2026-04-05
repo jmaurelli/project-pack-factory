@@ -1,7 +1,0 @@
-{
-  "build_pack_id": "json-health-checker-memory-resume-build-pack-v2",
-  "bundle_manifest_path": "/home/orchadmin/project-pack-factory/.pack-state/remote-autonomy-roundtrips/adf-dev/json-health-checker-memory-resume-build-pack-v2/json-health-checker-memory-resume-run-v2/incoming/bundle/bundle.json",
-  "import_reason": "Live PackFactory memory-use and resume roundtrip import.",
-  "imported_by": "codex",
-  "schema_version": "external-runtime-evidence-import-request/v1"
-}

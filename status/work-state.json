@@ -26,13 +26,38 @@
     "define_adf_successor_shallow_surface_map_first_slice",
     "test_initial_adf_role_domain_lens",
     "prepare_adf_successor_creation_request",
-    "execute_adf_successor_template_creation"
+    "execute_adf_successor_template_creation",
+    "define_packfactory_backup_and_git_strategy"
   ],
   "escalation_state": "none",
-  "last_agent_action": "Executed the prepared ADF successor template-creation request, materialized the first successor build-pack, then tightened the new line around the ADF-specific diagnostic-systems-analyst lens and the shallow-surface-map first wave.",
-  "last_outcome": "execute_adf_successor_template_creation",
-  "last_outcome_at": "2026-04-02T12:35:00Z",
+  "last_agent_action": "Implemented the root backup-and-git strategy baseline by adding explicit transient ignore rules, teaching factory validation to enforce those git-boundary markers, and tightening the spec to name the enforced scratch paths.",
+  "last_outcome": "define_packfactory_backup_and_git_strategy",
+  "last_outcome_at": "2026-04-05T20:37:21Z",
   "last_validation_results": [
+    {
+      "evidence_paths": [
+        ".gitignore",
+        "tools/validate_factory.py",
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BACKUP-AND-GIT-STRATEGY-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-05T20:37:21Z",
+      "status": "pass",
+      "summary": "Implemented the root backup-and-git strategy baseline by adding ignore coverage for transient PackFactory scratch paths, adding validator checks that keep those ignore markers and the adjacent strategy spec aligned, and confirming the new root git-boundary enforcement introduced no fresh factory errors beyond the existing ADF successor validation failures.",
+      "validation_id": "define_packfactory_backup_and_git_strategy_implemented"
+    },
+    {
+      "evidence_paths": [
+        "docs/specs/project-pack-factory/PROJECT-PACK-FACTORY-BACKUP-AND-GIT-STRATEGY-TECH-SPEC.md",
+        "tasks/active-backlog.json",
+        "status/work-state.json"
+      ],
+      "recorded_at": "2026-04-05T20:29:34Z",
+      "status": "pass",
+      "summary": "Defined the PackFactory root backup and git strategy, including what belongs in git, what needs separate host-local backup, what remains transient, and bounded restore workflows for repo recovery and host-local operational recovery.",
+      "validation_id": "define_packfactory_backup_and_git_strategy"
+    },
     {
       "evidence_paths": [
         "templates/algosec-diagnostic-framework-successor-template-pack/eval/history/create-template-algosec-diagnostic-framework-successor-template-pack-20260402t120921z/template-creation-report.json",

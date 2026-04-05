@@ -1,9 +1,0 @@
-=== HEADERS ===
-HTTP/1.1 200 
-Content-Type: application/json
-Transfer-Encoding: chunked
-Date: Fri, 27 Mar 2026 10:15:01 GMT
-
-
-=== BODY ===
-{"valid":false,"message":{"code":"INVALID_SESSION_KEY","message":"The session key provided is invalid"}}
